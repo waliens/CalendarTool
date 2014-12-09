@@ -37,30 +37,30 @@ class Event extends AjaxController{
 		
 		$query = "SELECT ";
 		if(empty($requestData))
-			$query += "* ";
+			$query .= "* ";
 		else {
 			$flagFirst = true;
 			foreach ($requestData as $key => $value){
 				if(!$flagFirst)
-					$query += ", ";
+					$query .= ", ";
 				else
 					$flagFirst = false;
-				$query += $value;
+				$query .= $value;
 			}
 		}
 
-		$query += "FROM ".$table;
+		$query .= "FROM ".$table;
 		
 		if(!empty($infoData)){
 			$flagFirst = true;
-			$query += " WHERE ";
+			$query .= " WHERE ";
 			foreach ($infoData as $key => $value){
 				if(!$flagFirst)
-					$query += " AND ";
+					$query .= " AND ";
 				else 
 					$flagFirst = false;
 				
-				$query += $key." = ".$value;
+				$query .= $key." = ".$value;
 			}
 		}
 
