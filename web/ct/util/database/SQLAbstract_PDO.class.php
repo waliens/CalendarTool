@@ -18,7 +18,19 @@
 	class SQLAbstract_PDO extends SQLAbstract
 	{
 		private $pdo; /**< PDO object for querying the database */
-		private $error_info = array(0 => "", 1 => "", 2 => ""); /**< error info */
+		private $error_info; /**< error info */
+
+		/**
+		 * @brief Construct a SQLAbstract_PDO object 
+		 * The constructor is private because the class must be instantiated with the 
+		 * function SQLAbstract_PDO::buildByPDO and SQLAbstract_PDO::buildByConnectionInfo
+		 */
+		private function __construct()
+		{
+			$this->pdo = null;
+			$this->error_info = array(0 => "", 1 => "", 2 => "");
+		}
+
 		/**
 		 * @brief Initializes the SQLAbstract_PDO object with a initialized PDO object
 		 * @param[in] PDO $pdo The PDO object 
@@ -86,24 +98,24 @@
 			else 
 				$to_return = true;
 
-			$this->error_info = $stmt->errorInfo();
+			$this->error_info = $stmt->error_info();
 			
 			$stmt->closeCursor();
 			return $to_return;
 		}
 
 		/**
-		 * @copydoc SQLAbstract::errorCode
+		 * @copydoc SQLAbstract::error_code
 		 */
-		public function errorCode()
+		public function error_code()
 		{
 			return $this->error_info[0];
 		}
 
 		/**
-		 * @copydoc SQLAbstract::errorInfo
+		 * @copydoc SQLAbstract::error_info
 		 */
-		public function errorInfo()
+		public function error_info()
 		{
 			return $this->error_info;
 		}
@@ -119,15 +131,11 @@
 		}
 
 		/**
-		 * @brief Same behavior as the method PDO::quote()
-		 * @param[in] string $str            The string to escape
-		 * @param[in]        $parameter_type The type of parameter guven as argument
-		 * 
-		 * @return The quoted and escaped $str
+		 * @copydoc SQLAbstract::quote
 		 */
-		public function quote($str, $parameter_type = PDO::PARAM_STR)
+		public function quote($string)
 		{
-			return $this->pdo->quote($str, $parameter_type);
+			return $this->pdo->quote($string, PDO::PARAM_STR);
 		}
 
 		/** 
@@ -137,37 +145,44 @@
 		{
 			return $this->pdo->lastInsertId();
 		}
+	};
+
+
+		abstract public function execute_query($query, array $parameters = array());
+
+		/**
+		 * @brief Returns the last error's code
+		 * @retval int Error code of the last error
+		 */
+		abstract public function error_code();
+
+		/**
+		 * @brief Returns the last error's description
+		 * @retval array Error description of the last error
+		 */
+		abstract public function error_info();
 
 		/** 
-		 * @brief Return an anonymous function that quotes its string argument
-		 * @retval function Function that takes a string argument and returns it quoted
+		 * @brief Prepare a query
+		 * @param[in] string $query The query
+		 * @retval mixed An object allowing the query execution
 		 *
-		 * Examples :
-		 * @code
-		 * $str_array = array("param1", "param2", "param3");
-		 *
-		 * //  Array 
-		 * //  (
-		 * //	   [0] => param1
-		 * //	   [1] => param2
-		 * //	   [2] => param3
-		 * //  )
-		 *
-		 * print_r(array_map($sql->quote_fn(), $str_array)); 
-		 *  
-		 * //  Displays : 
-		 * //  Array 
-		 * //  (
-		 * //	   [0] => 'param1'
-		 * //	   [1] => 'param2'
-		 * //	   [2] => 'param3'
-		 * //  )
-		 * @endcode
+		 * @note This method should be prefered to SQLAbstract::execute_query when the same query has to be repeated several times because, in this situation, the query
+		 *    preparation speeds up the multiple querying
 		 */
-		public function quote_fn()
-		{
-			$that = $this; // workaround => passing just $this in the 'use' part of the anonymous function does not work
-			return (function ($string) use (&$that) { return $that->quote($string); });
-		}
-		
-	};
+		abstract public function prepare_query($query);
+
+		/**
+		 * @brief Return the id of the last inserted line
+		 * @retval string|int The last inserted row's id, -1 on error
+		 */
+		abstract public function last_insert_id();
+
+		/**
+		 * @brief Process the given string :
+		 *		- quote the string 
+		 *		- escape the special characters
+		 * @param string $string The string to process
+		 * @retval string The processed string
+		 */
+		abstract public function quote($string);
