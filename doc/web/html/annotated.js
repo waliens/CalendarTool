@@ -23,9 +23,11 @@ var annotated =
           [ "SG_Files", "classct_1_1util_1_1superglobals_1_1_s_g___files.html", "classct_1_1util_1_1superglobals_1_1_s_g___files" ],
           [ "SG_Get", "classct_1_1util_1_1superglobals_1_1_s_g___get.html", "classct_1_1util_1_1superglobals_1_1_s_g___get" ],
           [ "SG_Post", "classct_1_1util_1_1superglobals_1_1_s_g___post.html", "classct_1_1util_1_1superglobals_1_1_s_g___post" ],
+          [ "SG_Session", "classct_1_1util_1_1superglobals_1_1_s_g___session.html", "classct_1_1util_1_1superglobals_1_1_s_g___session" ],
           [ "Superglobal", "classct_1_1util_1_1superglobals_1_1_superglobal.html", "classct_1_1util_1_1superglobals_1_1_superglobal" ]
         ] ],
-        [ "Connection", "classct_1_1util_1_1_connection.html", "classct_1_1util_1_1_connection" ]
+        [ "Connection", "classct_1_1util_1_1_connection.html", "classct_1_1util_1_1_connection" ],
+        [ "Redirection", "classct_1_1util_1_1_redirection.html", "classct_1_1util_1_1_redirection" ]
       ] ]
     ] ]
 ];

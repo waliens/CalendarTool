@@ -6,5 +6,8 @@ var dir_836e60519e56e9ecf3a88fd802a70189 =
     [ "superglobals", "dir_159a404beabdfcf2c2628582241ef792.html", "dir_159a404beabdfcf2c2628582241ef792" ],
     [ "Connection.class.php", "_connection_8class_8php.html", [
       [ "Connection", "classct_1_1util_1_1_connection.html", "classct_1_1util_1_1_connection" ]
+    ] ],
+    [ "Redirection.class.php", "_redirection_8class_8php.html", [
+      [ "Redirection", "classct_1_1util_1_1_redirection.html", "classct_1_1util_1_1_redirection" ]
     ] ]
 ];

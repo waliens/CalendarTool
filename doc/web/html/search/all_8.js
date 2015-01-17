@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['ics',['ICS',['../classct_1_1util_1_1entry__point_1_1_i_c_s.html',1,'ct::util::entry_point']]],
-  ['ics_2eclass_2ephp',['ICS.class.php',['../_i_c_s_8class_8php.html',1,'']]],
-  ['insert',['insert',['../classct_1_1util_1_1database_1_1_s_q_l_abstract.html#ae9ae41c429f484035137903685ace34e',1,'ct::util::database::SQLAbstract']]],
-  ['is_5fconnected',['is_connected',['../classct_1_1util_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2',1,'ct::util::Connection']]],
-  ['isset',['isset',['../classct_1_1util_1_1superglobals_1_1_superglobal.html#a0c63ecc57c02156df76f650dffd472fb',1,'ct::util::superglobals::Superglobal']]]
+  ['get_5fabstract',['get_abstract',['../classct_1_1util_1_1mvc_1_1_model.html#a318e0cf28df09450ebaa71881010419d',1,'ct::util::mvc::Model']]],
+  ['get_5fcontroller',['get_controller',['../classct_1_1util_1_1entry__point_1_1_ajax.html#a979ac625f1efd2c2a1c4aec51dfbff50',1,'ct\util\entry_point\Ajax\get_controller()'],['../classct_1_1util_1_1entry__point_1_1_browser.html#a979ac625f1efd2c2a1c4aec51dfbff50',1,'ct\util\entry_point\Browser\get_controller()'],['../interfacect_1_1util_1_1entry__point_1_1_entry_point.html#a979ac625f1efd2c2a1c4aec51dfbff50',1,'ct\util\entry_point\EntryPoint\get_controller()'],['../classct_1_1util_1_1entry__point_1_1_i_c_s.html#a979ac625f1efd2c2a1c4aec51dfbff50',1,'ct\util\entry_point\ICS\get_controller()']]],
+  ['get_5fhandle',['get_handle',['../classct_1_1util_1_1database_1_1_database.html#a6a35fa4f120126369f472dfadee380ee',1,'ct::util::database::Database']]],
+  ['get_5finstance',['get_instance',['../classct_1_1util_1_1database_1_1_database.html#aeeb76432d095288ac056df22cca56d16',1,'ct::util::database::Database']]]
 ];

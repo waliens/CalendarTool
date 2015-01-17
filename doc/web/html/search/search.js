@@ -7,11 +7,12 @@
 
 var indexSectionsWithContent =
 {
-  0: "$_abcdegilmpqrstuv",
-  1: "abcdeims",
-  2: "abcdeims",
+  0: "$_abcdefgilmpqrstuv",
+  1: "abcdeimrs",
+  2: "abcdefimrs",
   3: "_bcdegilmpqrstuv",
-  4: "$cde"
+  4: "$cde",
+  5: "t"
 };
 
 var indexSectionNames =
@@ -20,7 +21,8 @@ var indexSectionNames =
   1: "classes",
   2: "files",
   3: "functions",
-  4: "variables"
+  4: "variables",
+  5: "pages"
 };
 
 function convertToId(search)

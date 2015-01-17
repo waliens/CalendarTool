@@ -10,7 +10,6 @@ var searchData=
   ['chk_5fnot_5fempty',['CHK_NOT_EMPTY',['../classct_1_1util_1_1superglobals_1_1_superglobal.html#a421305f9b8c3979c7ef87f07925b2fe5',1,'ct::util::superglobals::Superglobal']]],
   ['chk_5ftrim',['CHK_TRIM',['../classct_1_1util_1_1superglobals_1_1_superglobal.html#a78d7f030e413c391055f5a55d915e13b',1,'ct::util::superglobals::Superglobal']]],
   ['commit',['commit',['../classct_1_1util_1_1database_1_1_s_q_l_abstract.html#af5674c27d4a92f6228565010eacbb9cb',1,'ct::util::database::SQLAbstract']]],
-  ['connect',['connect',['../classct_1_1util_1_1_connection.html#a832440f5ca1d52fa2debf4c4a73323ec',1,'ct::util::Connection']]],
   ['connection',['Connection',['../classct_1_1util_1_1_connection.html',1,'ct::util']]],
   ['connection_2eclass_2ephp',['Connection.class.php',['../_connection_8class_8php.html',1,'']]],
   ['controller',['Controller',['../classct_1_1util_1_1mvc_1_1_controller.html',1,'ct::util::mvc']]],

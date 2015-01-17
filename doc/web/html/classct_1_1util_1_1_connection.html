@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('classct_1_1util_1_1_connection.html','
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,98 +112,36 @@ $(document).ready(function(){initNavTree('classct_1_1util_1_1_connection.html','
 </div><!--header-->
 <div class="contents">
 
-<p>A class for handling connection to the website.  
+<p>A class for handling an user connection and accessing information about the currently connected user.  
  <a href="classct_1_1util_1_1_connection.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a095c5d389db211932136b53f25f39685"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
-<tr class="memdesc:a095c5d389db211932136b53f25f39685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classct_1_1util_1_1_connection.html" title="A class for handling connection to the website. ">Connection</a> objects. <br/></td></tr>
+<tr class="memdesc:a095c5d389db211932136b53f25f39685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classct_1_1util_1_1_connection.html" title="A class for handling an user connection and accessing information about the currently connected user...">Connection</a> objects. <br/></td></tr>
 <tr class="separator:a095c5d389db211932136b53f25f39685"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0d0313a713f6caa332e53471a6e92bb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0d0313a713f6caa332e53471a6e92bb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>get_user</b> ()</td></tr>
-<tr class="separator:af0d0313a713f6caa332e53471a6e92bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e6d77a89379995b761cb9d6e734c0d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2">is_connected</a> ()</td></tr>
-<tr class="memdesc:a2e6d77a89379995b761cb9d6e734c0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the user is connected.  <a href="#a2e6d77a89379995b761cb9d6e734c0d2">More...</a><br/></td></tr>
 <tr class="separator:a2e6d77a89379995b761cb9d6e734c0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a832440f5ca1d52fa2debf4c4a73323ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#a832440f5ca1d52fa2debf4c4a73323ec">connect</a> ($login, $pass)</td></tr>
-<tr class="memdesc:a832440f5ca1d52fa2debf4c4a73323ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects the user.  <a href="#a832440f5ca1d52fa2debf4c4a73323ec">More...</a><br/></td></tr>
-<tr class="separator:a832440f5ca1d52fa2debf4c4a73323ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe175fcf658475bc56e9d6fa02bc88ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#abe175fcf658475bc56e9d6fa02bc88ec">disconnect</a> ()</td></tr>
-<tr class="memdesc:abe175fcf658475bc56e9d6fa02bc88ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect the current user.  <a href="#abe175fcf658475bc56e9d6fa02bc88ec">More...</a><br/></td></tr>
+<tr class="memitem:a72b5a7005064e37d0e9547e0ede76263"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263">is_root</a> ()</td></tr>
+<tr class="memdesc:a72b5a7005064e37d0e9547e0ede76263"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the user is connected as root.  <a href="#a72b5a7005064e37d0e9547e0ede76263">More...</a><br/></td></tr>
+<tr class="separator:a72b5a7005064e37d0e9547e0ede76263"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73111142777dd43189b53adcaffe5381"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#a73111142777dd43189b53adcaffe5381">user_id</a> ()</td></tr>
+<tr class="memdesc:a73111142777dd43189b53adcaffe5381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the ulg id of the currently connected user.  <a href="#a73111142777dd43189b53adcaffe5381">More...</a><br/></td></tr>
+<tr class="separator:a73111142777dd43189b53adcaffe5381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe175fcf658475bc56e9d6fa02bc88ec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe175fcf658475bc56e9d6fa02bc88ec"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#abe175fcf658475bc56e9d6fa02bc88ec">disconnect</a> ()</td></tr>
+<tr class="memdesc:abe175fcf658475bc56e9d6fa02bc88ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect the current user and redirect him to the ULg logout page. <br/></td></tr>
 <tr class="separator:abe175fcf658475bc56e9d6fa02bc88ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13e203faede9bdebff4bc0fc35323f58"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#a13e203faede9bdebff4bc0fc35323f58">userConnected</a> ()</td></tr>
-<tr class="memdesc:a13e203faede9bdebff4bc0fc35323f58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return information about the currently connected user.  <a href="#a13e203faede9bdebff4bc0fc35323f58">More...</a><br/></td></tr>
-<tr class="separator:a13e203faede9bdebff4bc0fc35323f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ec86bb53c84a9a54c832e76d193c141"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ec86bb53c84a9a54c832e76d193c141"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1util_1_1_connection.html#a9ec86bb53c84a9a54c832e76d193c141">disconnect_root</a> ()</td></tr>
+<tr class="memdesc:a9ec86bb53c84a9a54c832e76d193c141"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect the current user's root connection. <br/></td></tr>
+<tr class="separator:a9ec86bb53c84a9a54c832e76d193c141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A class for handling connection to the website. </p>
+<div class="textblock"><p>A class for handling an user connection and accessing information about the currently connected user. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>End the implementation of the constructor (needs a model) </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a832440f5ca1d52fa2debf4c4a73323ec"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">connect </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$login</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$pass</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Connects the user. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$login</td><td>The login of the user to connect </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$pass</td><td>???? </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">bool</td><td>True if the connection has succeeded, false otherwise </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="abe175fcf658475bc56e9d6fa02bc88ec"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">disconnect </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Disconnect the current user. </p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">bool</td><td>True if the user was successfully disconnected, false otherwise </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a2e6d77a89379995b761cb9d6e734c0d2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -215,23 +154,22 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Check whether the user is connected. </p>
+<p>Checks whether an user is already connected for the given session </p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">bool</td><td>True if the user is connected, false otherwise </td></tr>
+    <tr><td class="paramname">bool</td><td>True if an user is connected for the current session, false otherwise </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a13e203faede9bdebff4bc0fc35323f58"></a>
+<a class="anchor" id="a72b5a7005064e37d0e9547e0ede76263"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">userConnected </td>
+          <td class="memname">is_root </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -239,10 +177,33 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return information about the currently connected user. </p>
+<p>Check whether the user is connected as root. </p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">array</td><td>The user information </td></tr>
+    <tr><td class="paramname">bool</td><td>True if the user is connected as root, false otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a73111142777dd43189b53adcaffe5381"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">user_id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the ulg id of the currently connected user. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">string</td><td>the ulg id </td></tr>
   </table>
   </dd>
 </dl>
@@ -258,7 +219,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>ct</b></li><li class="navelem"><b>util</b></li><li class="navelem"><a class="el" href="classct_1_1util_1_1_connection.html">Connection</a></li>
-    <li class="footer">Generated on Sat Jan 17 2015 11:19:52 for CalendarTool by
+    <li class="footer">Generated on Sat Jan 17 2015 18:12:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

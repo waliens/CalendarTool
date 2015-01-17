@@ -1,9 +1,9 @@
 var classct_1_1util_1_1_connection =
 [
     [ "__construct", "classct_1_1util_1_1_connection.html#a095c5d389db211932136b53f25f39685", null ],
-    [ "connect", "classct_1_1util_1_1_connection.html#a832440f5ca1d52fa2debf4c4a73323ec", null ],
     [ "disconnect", "classct_1_1util_1_1_connection.html#abe175fcf658475bc56e9d6fa02bc88ec", null ],
-    [ "get_user", "classct_1_1util_1_1_connection.html#af0d0313a713f6caa332e53471a6e92bb", null ],
+    [ "disconnect_root", "classct_1_1util_1_1_connection.html#a9ec86bb53c84a9a54c832e76d193c141", null ],
     [ "is_connected", "classct_1_1util_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2", null ],
-    [ "userConnected", "classct_1_1util_1_1_connection.html#a13e203faede9bdebff4bc0fc35323f58", null ]
+    [ "is_root", "classct_1_1util_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263", null ],
+    [ "user_id", "classct_1_1util_1_1_connection.html#a73111142777dd43189b53adcaffe5381", null ]
 ];

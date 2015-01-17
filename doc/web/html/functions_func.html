@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -121,7 +122,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -137,10 +138,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>__construct()
 : <a class="el" href="classct_1_1util_1_1_connection.html#a095c5d389db211932136b53f25f39685">Connection</a>
 , <a class="el" href="classct_1_1util_1_1mvc_1_1_model.html#a095c5d389db211932136b53f25f39685">Model</a>
+, <a class="el" href="classct_1_1util_1_1_redirection.html#af8e0b4973827723e65906c95202d1f21">Redirection</a>
 , <a class="el" href="classct_1_1util_1_1superglobals_1_1_s_g___cookies.html#a095c5d389db211932136b53f25f39685">SG_Cookies</a>
 , <a class="el" href="classct_1_1util_1_1superglobals_1_1_s_g___files.html#a095c5d389db211932136b53f25f39685">SG_Files</a>
 , <a class="el" href="classct_1_1util_1_1superglobals_1_1_s_g___get.html#a095c5d389db211932136b53f25f39685">SG_Get</a>
 , <a class="el" href="classct_1_1util_1_1superglobals_1_1_s_g___post.html#a095c5d389db211932136b53f25f39685">SG_Post</a>
+, <a class="el" href="classct_1_1util_1_1superglobals_1_1_s_g___session.html#a095c5d389db211932136b53f25f39685">SG_Session</a>
 </li>
 </ul>
 
@@ -165,9 +168,6 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>commit()
 : <a class="el" href="classct_1_1util_1_1database_1_1_s_q_l_abstract.html#af5674c27d4a92f6228565010eacbb9cb">SQLAbstract</a>
 </li>
-<li>connect()
-: <a class="el" href="classct_1_1util_1_1_connection.html#a832440f5ca1d52fa2debf4c4a73323ec">Connection</a>
-</li>
 <li>count()
 : <a class="el" href="classct_1_1util_1_1database_1_1_s_q_l_abstract.html#a05065e9590d7928e48f1b0f39c478393">SQLAbstract</a>
 </li>
@@ -180,6 +180,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 </li>
 <li>disconnect()
 : <a class="el" href="classct_1_1util_1_1_connection.html#abe175fcf658475bc56e9d6fa02bc88ec">Connection</a>
+</li>
+<li>disconnect_root()
+: <a class="el" href="classct_1_1util_1_1_connection.html#a9ec86bb53c84a9a54c832e76d193c141">Connection</a>
 </li>
 <li>do_dump()
 : <a class="el" href="classct_1_1util_1_1database_1_1_s_q_l_abstract.html#a640036a4f2982d41e3a28fb3f5a8d2fa">SQLAbstract</a>
@@ -200,9 +203,6 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
-<li>empty()
-: <a class="el" href="classct_1_1util_1_1superglobals_1_1_superglobal.html#adfd64bbc296abda9fdd94395c6b5b6f6">Superglobal</a>
-</li>
 <li>error_code()
 : <a class="el" href="classct_1_1util_1_1database_1_1_s_q_l_abstract.html#a0cb70bee2a022b5feb36b17f6da8d5c9">SQLAbstract</a>
 , <a class="el" href="classct_1_1util_1_1database_1_1_s_q_l_abstract___p_d_o.html#a0cb70bee2a022b5feb36b17f6da8d5c9">SQLAbstract_PDO</a>
@@ -244,8 +244,14 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>is_connected()
 : <a class="el" href="classct_1_1util_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2">Connection</a>
 </li>
-<li>isset()
-: <a class="el" href="classct_1_1util_1_1superglobals_1_1_superglobal.html#a0c63ecc57c02156df76f650dffd472fb">Superglobal</a>
+<li>is_empty()
+: <a class="el" href="classct_1_1util_1_1superglobals_1_1_superglobal.html#a0b25ccb9268800ddc5bb2cc4028cd835">Superglobal</a>
+</li>
+<li>is_root()
+: <a class="el" href="classct_1_1util_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263">Connection</a>
+</li>
+<li>is_set()
+: <a class="el" href="classct_1_1util_1_1superglobals_1_1_superglobal.html#ac25ca2e2dd14511265fc16fa2fb87402">Superglobal</a>
 </li>
 </ul>
 
@@ -324,8 +330,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>update()
 : <a class="el" href="classct_1_1util_1_1database_1_1_s_q_l_abstract.html#ae44dccde336c9cf20170ff8a6eb06d78">SQLAbstract</a>
 </li>
-<li>userConnected()
-: <a class="el" href="classct_1_1util_1_1_connection.html#a13e203faede9bdebff4bc0fc35323f58">Connection</a>
+<li>user_id()
+: <a class="el" href="classct_1_1util_1_1_connection.html#a73111142777dd43189b53adcaffe5381">Connection</a>
 </li>
 </ul>
 
@@ -340,7 +346,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Jan 17 2015 11:19:52 for CalendarTool by
+    <li class="footer">Generated on Sat Jan 17 2015 18:12:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,4 +1,21 @@
 var searchData=
 [
-  ['transaction',['transaction',['../classct_1_1util_1_1database_1_1_s_q_l_abstract.html#a6f5e7602837a6f85fcb02751c073b181',1,'ct::util::database::SQLAbstract']]]
+  ['select',['select',['../classct_1_1util_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6',1,'ct::util::database::SQLAbstract']]],
+  ['set_5fdump_5fmode',['set_dump_mode',['../classct_1_1util_1_1database_1_1_s_q_l_abstract.html#a8dc0c0e58a3e2d53d8fa1be24988e958',1,'ct::util::database::SQLAbstract']]],
+  ['sg_5fcookies',['SG_Cookies',['../classct_1_1util_1_1superglobals_1_1_s_g___cookies.html',1,'ct::util::superglobals']]],
+  ['sg_5fcookies_2eclass_2ephp',['SG_Cookies.class.php',['../_s_g___cookies_8class_8php.html',1,'']]],
+  ['sg_5ffiles',['SG_Files',['../classct_1_1util_1_1superglobals_1_1_s_g___files.html',1,'ct::util::superglobals']]],
+  ['sg_5ffiles_2eclass_2ephp',['SG_Files.class.php',['../_s_g___files_8class_8php.html',1,'']]],
+  ['sg_5fget',['SG_Get',['../classct_1_1util_1_1superglobals_1_1_s_g___get.html',1,'ct::util::superglobals']]],
+  ['sg_5fget_2eclass_2ephp',['SG_Get.class.php',['../_s_g___get_8class_8php.html',1,'']]],
+  ['sg_5fpost',['SG_Post',['../classct_1_1util_1_1superglobals_1_1_s_g___post.html',1,'ct::util::superglobals']]],
+  ['sg_5fpost_2eclass_2ephp',['SG_Post.class.php',['../_s_g___post_8class_8php.html',1,'']]],
+  ['sg_5fsession',['SG_Session',['../classct_1_1util_1_1superglobals_1_1_s_g___session.html',1,'ct::util::superglobals']]],
+  ['sg_5fsession_2eclass_2ephp',['SG_Session.class.php',['../_s_g___session_8class_8php.html',1,'']]],
+  ['sqlabstract',['SQLAbstract',['../classct_1_1util_1_1database_1_1_s_q_l_abstract.html',1,'ct::util::database']]],
+  ['sqlabstract_2eclass_2ephp',['SQLAbstract.class.php',['../_s_q_l_abstract_8class_8php.html',1,'']]],
+  ['sqlabstract_5fpdo',['SQLAbstract_PDO',['../classct_1_1util_1_1database_1_1_s_q_l_abstract___p_d_o.html',1,'ct::util::database']]],
+  ['sqlabstract_5fpdo_2eclass_2ephp',['SQLAbstract_PDO.class.php',['../_s_q_l_abstract___p_d_o_8class_8php.html',1,'']]],
+  ['superglobal',['Superglobal',['../classct_1_1util_1_1superglobals_1_1_superglobal.html',1,'ct::util::superglobals']]],
+  ['superglobal_2eclass_2ephp',['Superglobal.class.php',['../_superglobal_8class_8php.html',1,'']]]
 ];
