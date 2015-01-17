@@ -8,9 +8,9 @@
 	 * \@todo Possibly move select, insert, count, delete and update to the abstract class as it doesn't require the usage of any database access API
 	 */
 
- 	namespace ct\util\database;
+	namespace ct\util\database;
 
- 	use \PDO;
+	use \PDO;
 
 	/**
 	 *	@class SQLAbstract
@@ -18,6 +18,11 @@
 	 *
 	 *	@authors Romain Mormont
 	 *	@date 09/08/2014
+	 *  @version 0.2
+	 *  Version 0.2 : 
+	 *    - adds a set of quote function
+	 *	  - adds function for locking tables 
+	 *	  - adds function for transaction
 	 */
 	abstract class SQLAbstract
 	{
@@ -31,38 +36,38 @@
 		 * @param[in] string $table        The table name
 		 * @param[in] string $where_clause A string containing the where clause 
 		 * @param[in] array  $column_names The names of the colmuns to select (array of strings). null means "*"
+		 * @param[in] array  $order_by     The names of the columns on which the results must be sorted (array of strings). null means no sorting.
+		 * @param[in] array  $group_by     The names of the columns on which the results must be grouped (array of strings). null means no grouping.
 		 * @param[in] int    $limit_first  The number of the first row to display
 		 * @param[in] int    $limit_nb     The number of rows to extract
- 		 * @param[in] array  $order_by     The names of the columns on which the results must be sorted (array of strings). null means no sorting.
- 		 * @param[in] array  $group_by     The names of the columns on which the results must be grouped (array of strings). null means no grouping.
- 		 *
- 		 * @retval array|bool An array containing the results of the query (each row is an array mapping the columns name with its value) or false on error.
- 		 * 
- 		 * @note The parameters must be correctly escaped 
- 		 * 
- 		 * Examples : 
- 		 * @code
- 		 * // sends "SELECT * FROM my_table;"
- 		 * $foo->select("my_table");
- 		 *
- 		 * // sends "SELECT col1, col2 FROM my_table;"
- 		 * $foo->select("my_table", null, array("col1", "col2"));
- 		 * 
- 		 * // sends "SELECT SUM(row1) AS sum_row1, row2 FROM my_table WHERE row3 > NOW() GROUP BY row2;"
- 		 * $foo->select("my_table", "row3 > NOW()", array("SUM(row1) AS sum_row1", "row2"), null, null, array(), array("row2"));
- 		 *
- 		 * // sends "SELECT * FROM table1 NATURAL JOIN table2;"
- 		 * $foo->select("table1 NATURAL JOIN table2");
- 		 * @endcode
- 		 * 
- 		 * @note If an error occurs, the error code and description can be obtained from the errorCode() and errorInfo() methods
+		 *
+		 * @retval array|bool An array containing the results of the query (each row is an array mapping the columns name with its value) or false on error.
+		 * 
+		 * @note The parameters must be correctly escaped 
+		 * 
+		 * Examples : 
+		 * @code
+		 * // sends "SELECT * FROM my_table;"
+		 * $foo->select("my_table");
+		 *
+		 * // sends "SELECT col1, col2 FROM my_table;"
+		 * $foo->select("my_table", null, array("col1", "col2"));
+		 * 
+		 * // sends "SELECT SUM(row1) AS sum_row1, row2 FROM my_table WHERE row3 > NOW() GROUP BY row2;"
+		 * $foo->select("my_table", "row3 > NOW()", array("SUM(row1) AS sum_row1", "row2"), null, null, array(), array("row2"));
+		 *
+		 * // sends "SELECT * FROM table1 NATURAL JOIN table2;"
+		 * $foo->select("table1 NATURAL JOIN table2");
+		 * @endcode
+		 * 
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
 		 */
-		public function select($table, $where_clause = null, array $column_names = null, $limit_first = null, 
-								$limit_nb = null, array $order_by = null, array $group_by = null)
+		public function select($table, $where_clause = null, array $column_names = null, array $order_by = null, 
+								array $group_by = null, $limit_first = null, $limit_nb = null)
 		{
 			if($column_names == null) $column_names = array();
 			if($order_by == null)	  $order_by = array();
-			if($group_by == null)  	  $group_by = array();
+			if($group_by == null) 	  $group_by = array();
 
 			$query = "SELECT ";
 
@@ -111,7 +116,7 @@
 		 * $foo->insert("my_table", array("col1" => "val1", "col2" => "val2"));
 		 * @endcode
 		 *
-		 * @note If an error occurs, the error code and description can be obtained from the errorCode() and errorInfo() methods
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
 		 */
 		public function insert($table, array $column_value_map)
 		{
@@ -138,7 +143,7 @@
 		 * $foo->delete("my_table", "col1 = val1 AND col2 < 10");
 		 * @endcode
 		 *
-		 * @note If an error occurs, the error code and description can be obtained from the errorCode() and errorInfo() methods
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
 		 */
 		public function delete($table, $where)
 		{
@@ -163,7 +168,7 @@
 		 * $foo->update("my_table", array("col1" => "val1", "col2" => "'val2'"), "col3 = val3");
 		 * @endcode
 		 *
-		 * @note If an error occurs, the error code and description can be obtained from the errorCode() and errorInfo() methods
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
 		 */
 		public function update($table, array $set, $where)
 		{
@@ -177,7 +182,7 @@
 			$query .= implode(", ", $set_final);
 			$query .= " WHERE ".$where.";";
 
- 			return $this->execute_query($query);
+			return $this->execute_query($query);
 		}
 
 		/**
@@ -198,7 +203,7 @@
 		 * $foo->count("my_table", "col1 = val1");
 		 * @endcode
 		 *
-		 * @note If an error occurs, the error code and description can be obtained from the errorCode() and errorInfo() methods
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
 		 */
 		public function count($table, $where = null)
 		{
@@ -235,7 +240,7 @@
 		 * $foo->procedure_call("proc1", array("arg1", "'arg2'"));
 		 * @endcode
 		 *
-		 * @note If an error occurs, the error code and description can be obtained from the errorCode() and errorInfo() methods
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
 		 */
 		public function procedure_call($procedure_name, array $arguments = array())
 		{
@@ -269,21 +274,21 @@
 		 * $foo->execute_query($query, $param);
 		 * @endcode
 		 *
-		 * @note If an error occurs, the error code and description can be obtained from the errorCode() and errorInfo() methods
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
 		 */
 		abstract public function execute_query($query, array $parameters = array());
 
 		/**
-		 * @brief Returns the last error code
+		 * @brief Returns the last error's code
 		 * @retval int Error code of the last error
 		 */
-		abstract public function errorCode();
+		abstract public function error_code();
 
 		/**
-		 * @brief Returns the last error description
+		 * @brief Returns the last error's description
 		 * @retval array Error description of the last error
 		 */
-		abstract public function errorInfo();
+		abstract public function error_info();
 
 		/** 
 		 * @brief Prepare a query
@@ -301,6 +306,34 @@
 		 */
 		abstract public function last_insert_id();
 
+		/**
+		 * @brief Process the given string :
+		 *		- quote the string 
+		 *		- escape the special characters
+		 * @param string $string The string to process
+		 * @retval string The processed string
+		 */
+		abstract public function quote($string);
+
+		/**
+		 * @brief Return a function receiving a string as argument and returning the quoted string
+		 * @retval function The quoting function		
+		 */
+		public function quote_fn()
+		{
+			$that = $this;
+			return function($string) use ($that) { return $that->quote($string); };
+		}
+
+		/**
+		 * @brief Returns an array containing the strings of the $strings array quoted 
+		 * @retval array The array of quoted strings
+		 */
+		public function quote_all(array $strings)
+		{
+			return array_map($this->quote_fn(), $strings);
+		}
+		
 		/** 
 		 * @brief Sets the dump mode 
 		 * @param $dump_mode Must be one of the following class constant :
@@ -314,7 +347,7 @@
 
 		/** 
 		 * @brief Returns a boolean if the queries must be dumped according to the dump mode
-	     * @return true if the queries must be dumped, false otherwise.
+		 * @return true if the queries must be dumped, false otherwise.
 		 */
 		protected function do_dump()
 		{
@@ -328,5 +361,52 @@
 		protected function dump($str)
 		{
 			echo $str."<br>";
+		}
+
+		/**
+		 * @brief Acquires the lock for tables given in the array
+		 * @param array $tables_lock Array of strings. Each string contains information about a table to lock and the type of lock
+		 * @retval bool True if the locks are acquired, false otherwise
+		 */
+		public function lock(array $tables_lock)
+		{
+			$query = "LOCK TABLES ".implode(",", $tables_lock).";";
+			return $this->execute_query($query);
+		}
+
+		/**
+		 * @brief Release all the locks acquired with lock
+		 * @retval bool True if the table were unlocked
+		 */
+		public function unlock()
+		{
+			return $this->execute_query("UNLOCK TABLES;");
+		}
+
+		/**
+		 * @brief Starts a transaction 
+		 * @retval bool True if the transaction was successfully started, false otherwise
+		 */
+		public function transaction()
+		{
+			return $this->execute_query("START TRANSACTIOn;");
+		}
+
+		/**
+		 * @brief Ends the current transaction and commit the set of queries
+		 * @retval bool True if the commit was successfully executed, false otherwise
+		 */
+		public function commit()
+		{
+			return $this->execute_query("COMMIT;");
+		}
+
+		/**
+		 * @brief Rollback the current transaction
+		 * @retval bool True if the rollback was successfully executed, false otherwise
+		 */
+		public function rollback()
+		{
+			return $this->execute_query("ROLLBACK;");
 		}
 	}
