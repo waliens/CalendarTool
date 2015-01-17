@@ -2,10 +2,10 @@
 
 	/** 
 	 * @file
-  	 * Holds the SQLAbstract_PDO class
+  	 * @brief Holds the SQLAbstract_PDO class
 	 */
 
-	namespace nhitec\sql;
+	namespace ct\util\database;
 
 	use \PDO;
 
