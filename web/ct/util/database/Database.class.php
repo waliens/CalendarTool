@@ -20,14 +20,13 @@
 
 		/** 
 		 * @brief Construct a Database object
+		 * @param[in] string $user The database username
+		 * @param[in] string $pass The user password
+		 * @param[in] string $host The ip address of the sql server
+		 * @param[in] string $db   The name of the database to be opened
 		 */
-		private function __construct()
+		private function __construct($user, $pass, $host, $db)
 		{
-			$user = "dilui";
-			$pass = "8Cfac9d9";
-			$host = "10.64.196.213";
-			$db   = "dilui";
-
 			$this->pdo = new PDO('mysql:host='.$host.';dbname='.$db, $user, $pass); 
 			$this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 		}
