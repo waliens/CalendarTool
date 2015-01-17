@@ -14,6 +14,7 @@
 	 *	@brief A class using pdo for implementing methods of the SQLAbstract class
 	 *	@authors Romain Mormont
 	 *	@date 09/08/2014
+	 *  @version 0.2
 	 */
 	class SQLAbstract_PDO extends SQLAbstract
 	{
@@ -146,43 +147,3 @@
 			return $this->pdo->lastInsertId();
 		}
 	};
-
-
-		abstract public function execute_query($query, array $parameters = array());
-
-		/**
-		 * @brief Returns the last error's code
-		 * @retval int Error code of the last error
-		 */
-		abstract public function error_code();
-
-		/**
-		 * @brief Returns the last error's description
-		 * @retval array Error description of the last error
-		 */
-		abstract public function error_info();
-
-		/** 
-		 * @brief Prepare a query
-		 * @param[in] string $query The query
-		 * @retval mixed An object allowing the query execution
-		 *
-		 * @note This method should be prefered to SQLAbstract::execute_query when the same query has to be repeated several times because, in this situation, the query
-		 *    preparation speeds up the multiple querying
-		 */
-		abstract public function prepare_query($query);
-
-		/**
-		 * @brief Return the id of the last inserted line
-		 * @retval string|int The last inserted row's id, -1 on error
-		 */
-		abstract public function last_insert_id();
-
-		/**
-		 * @brief Process the given string :
-		 *		- quote the string 
-		 *		- escape the special characters
-		 * @param string $string The string to process
-		 * @retval string The processed string
-		 */
-		abstract public function quote($string);
