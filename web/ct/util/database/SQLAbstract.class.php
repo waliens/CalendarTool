@@ -307,17 +307,39 @@
 		abstract public function last_insert_id();
 
 		/**
-		 * @brief Process the given string :
-		 *		- quote the string 
-		 *		- escape the special characters
-		 * @param string $string The string to process
-		 * @retval string The processed string
+		 * @brief Same behavior as the method PDO::quote()
+		 * @param[in] string $str            The string to escape
+		 * @param[in]        $parameter_type The type of parameter given as argument
+		 * 
+		 * @return The quoted and escaped $str
 		 */
 		abstract public function quote($string);
 
-		/**
-		 * @brief Return a function receiving a string as argument and returning the quoted string
-		 * @retval function The quoting function		
+		/** 
+		 * @brief Return an anonymous function that quotes its string argument
+		 * @retval function Function that takes a string argument and returns it quoted
+		 *
+		 * Examples :
+		 * @code
+		 * $str_array = array("param1", "param2", "param3");
+		 *
+		 * //  Array 
+		 * //  (
+		 * //	   [0] => param1
+		 * //	   [1] => param2
+		 * //	   [2] => param3
+		 * //  )
+		 *
+		 * print_r(array_map($sql->quote_fn(), $str_array)); 
+		 *  
+		 * //  Displays : 
+		 * //  Array 
+		 * //  (
+		 * //	   [0] => 'param1'
+		 * //	   [1] => 'param2'
+		 * //	   [2] => 'param3'
+		 * //  )
+		 * @endcode
 		 */
 		public function quote_fn()
 		{
@@ -336,7 +358,7 @@
 		
 		/** 
 		 * @brief Sets the dump mode 
-		 * @param $dump_mode Must be one of the following class constant :
+		 * @param[in] $dump_mode Must be one of the following class constant :
 		 *		- SQLAbstract::DUMP_MODE_DUMP_ALL : dump every query to the screen
 		 *		- SQLAbstract::DUMP_MODE_NO_DUMP : never dump any query to the screen
 		 */
@@ -365,7 +387,7 @@
 
 		/**
 		 * @brief Acquires the lock for tables given in the array
-		 * @param array $tables_lock Array of strings. Each string contains information about a table to lock and the type of lock
+		 * @param[in] array $tables_lock Array of strings. Each string contains information about a table to lock and the type of lock
 		 * @retval bool True if the locks are acquired, false otherwise
 		 */
 		public function lock(array $tables_lock)
