@@ -15,8 +15,8 @@
 	 */
 	abstract class Model
 	{
-		protected $pdo; // pdo object
-		protected $sql; // sql abstract object
+		protected $pdo; /**< pdo object */
+		protected $sql; /**< sql abstract object */
 
 		/**
 		 * Build a Model object
@@ -25,14 +25,13 @@
 		{
 			$this->pdo = Database::getInstance()->getHandle();
 			$this->sql = SQLAbstract_PDO::buildByPDO($this->pdo);
-			//$this->sql->setDumpMode();
 		}
 
 		/**
 		 * Return the sql abstract object
 		 * @retval SQLAbstract_PDO The sql abstract object
 		 */
-		public function get_abstract() 
+		protected function get_abstract() 
 		{
 			return $this->sql;
 		}

@@ -19,10 +19,6 @@
 	 *	@authors Romain Mormont
 	 *	@date 09/08/2014
 	 *  @version 0.2
-	 *  Version 0.2 : 
-	 *    - adds a set of quote function
-	 *	  - adds function for locking tables 
-	 *	  - adds function for transaction
 	 */
 	abstract class SQLAbstract
 	{
@@ -308,10 +304,8 @@
 
 		/**
 		 * @brief Same behavior as the method PDO::quote()
-		 * @param[in] string $str            The string to escape
-		 * @param[in]        $parameter_type The type of parameter given as argument
-		 * 
-		 * @return The quoted and escaped $str
+		 * @param[in] string $string         The string to escape
+		 * @return The quoted and escaped string
 		 */
 		abstract public function quote($string);
 
@@ -378,7 +372,7 @@
 
 		/**
 		 * @brief Dump the given string
-		 * @param[in] str The string to dump
+		 * @param[in] string $str The string to dump
 		 */
 		protected function dump($str)
 		{
@@ -413,7 +407,7 @@
 
 		/**
 		 * @brief Release all the locks acquired with lock
-		 * @retval bool True if the table were unlocked
+		 * @retval bool True if the tables were unlocked
 		 * @note Refer to SQLAbstract::lock for an example
 		 */
 		public function unlock()
