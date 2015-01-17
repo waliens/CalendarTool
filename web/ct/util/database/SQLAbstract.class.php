@@ -362,7 +362,7 @@
 		 *		- SQLAbstract::DUMP_MODE_DUMP_ALL : dump every query to the screen
 		 *		- SQLAbstract::DUMP_MODE_NO_DUMP : never dump any query to the screen
 		 */
-		public function setDumpMode($dump_mode = SQLAbstract::DUMP_MODE_DUMP_ALL)
+		public function set_dump_mode($dump_mode = SQLAbstract::DUMP_MODE_DUMP_ALL)
 		{
 			$this->dump_mode = $dump_mode;
 		}
@@ -389,6 +389,21 @@
 		 * @brief Acquires the lock for tables given in the array
 		 * @param[in] array $tables_lock Array of strings. Each string contains information about a table to lock and the type of lock
 		 * @retval bool True if the locks are acquired, false otherwise
+		 *
+		 * Example : 
+		 * @code
+		 * // lock the tables my_table and my_table2 respectively in READ and WRITE mode
+		 * $db->lock(array("my_table READ", "my_table2 WRITE");
+		 *
+		 * // mess around with my_table and my_table2 through the SQLAbstract object : 
+		 * $db->select("my_table", null, array("col1", "col2"));
+		 * // ...
+		 * $db->update("my_table2", array("col1" => "val1"), "Id = 18");
+		 * // ...
+		 * 
+		 * // finally unlock tables
+		 * $db->unlock();
+		 * @endcode
 		 */
 		public function lock(array $tables_lock)
 		{
@@ -399,6 +414,7 @@
 		/**
 		 * @brief Release all the locks acquired with lock
 		 * @retval bool True if the table were unlocked
+		 * @note Refer to SQLAbstract::lock for an example
 		 */
 		public function unlock()
 		{
@@ -408,15 +424,31 @@
 		/**
 		 * @brief Starts a transaction 
 		 * @retval bool True if the transaction was successfully started, false otherwise
+		 * 
+		 * Example :
+		 * @code
+		 * // initiate the transaction
+		 * $db->transaction();
+		 * 
+		 * // mess around with the database through the SQLAbstract object
+		 * // ...
+		 * 
+		 * // if an error occurs, one can rollback the transaction
+		 * if ($error_occurred) 
+		 *   $db->rollback();
+		 * else // if everything went fine, then one can commit
+		 *   $db->commit();	
+		 * @endcode
 		 */
 		public function transaction()
 		{
-			return $this->execute_query("START TRANSACTIOn;");
+			return $this->execute_query("START TRANSACTION;");
 		}
 
 		/**
 		 * @brief Ends the current transaction and commit the set of queries
 		 * @retval bool True if the commit was successfully executed, false otherwise
+		 * @note See SQLAbstract::transaction for an example
 		 */
 		public function commit()
 		{
@@ -426,6 +458,7 @@
 		/**
 		 * @brief Rollback the current transaction
 		 * @retval bool True if the rollback was successfully executed, false otherwise
+		 * @note See SQLAbstract::transaction for an example
 		 */
 		public function rollback()
 		{
