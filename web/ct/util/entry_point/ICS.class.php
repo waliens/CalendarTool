@@ -5,7 +5,7 @@
      * @brief ICS entry point (request from external calendar application)
      */
 
-    namespace util\entry_point;
+    namespace ct\util\entry_point;
     
     /**
      * @class ICS

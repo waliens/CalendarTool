@@ -5,7 +5,7 @@
      * @brief Ajax entry point
      */
 
-    namespace util\entry_point;
+    namespace ct\util\entry_point;
     
     /**
      * @class Ajax
