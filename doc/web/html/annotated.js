@@ -18,6 +18,13 @@ var annotated =
           [ "Controller", "classct_1_1util_1_1mvc_1_1_controller.html", null ],
           [ "Model", "classct_1_1util_1_1mvc_1_1_model.html", "classct_1_1util_1_1mvc_1_1_model" ]
         ] ],
+        [ "superglobals", null, [
+          [ "SG_Cookies", "classct_1_1util_1_1superglobals_1_1_s_g___cookies.html", "classct_1_1util_1_1superglobals_1_1_s_g___cookies" ],
+          [ "SG_Files", "classct_1_1util_1_1superglobals_1_1_s_g___files.html", "classct_1_1util_1_1superglobals_1_1_s_g___files" ],
+          [ "SG_Get", "classct_1_1util_1_1superglobals_1_1_s_g___get.html", "classct_1_1util_1_1superglobals_1_1_s_g___get" ],
+          [ "SG_Post", "classct_1_1util_1_1superglobals_1_1_s_g___post.html", "classct_1_1util_1_1superglobals_1_1_s_g___post" ],
+          [ "Superglobal", "classct_1_1util_1_1superglobals_1_1_superglobal.html", "classct_1_1util_1_1superglobals_1_1_superglobal" ]
+        ] ],
         [ "Connection", "classct_1_1util_1_1_connection.html", "classct_1_1util_1_1_connection" ]
       ] ]
     ] ]

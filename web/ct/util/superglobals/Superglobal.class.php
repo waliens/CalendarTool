@@ -19,16 +19,16 @@
 	abstract class Superglobal
 	{
 		// Error constants 
-		const ERR_NOT_SET = -1; /**< Error : key doesn't exist */
-		const ERR_CALLBACK = -2; /**< Error : callback predicate returned false */
-		const ERR_EMPTY = -3; /**< Eror : value is "empty" */
+		const ERR_NOT_SET = -1; /**< @brief Error : key doesn't exist */
+		const ERR_CALLBACK = -2; /**< @brief Error : callback predicate returned false */
+		const ERR_EMPTY = -3; /**< @brief Eror : value is "empty" */
 
 		// Checking type constants : they can be combine with |
-		const CHK_NONE = 0; /**< Can be used in order to check the callback only */
-		const CHK_ISSET = 1; /**< Only check if the key exists */
-		const CHK_NOT_EMPTY = 2; /**< Only check if the value is empty (no isset) */
-		const CHK_TRIM = 6; /**< Only check if the trimmed value is empty (no isset) */
-		const CHK_ALL = CHK_TRIM | CHK_ISSET; /**< Perform the isset|trim|empty check */
+		const CHK_NONE = 0; /**< @brief Can be used in order to check the callback only */
+		const CHK_ISSET = 1; /**< @brief Only check if the key exists */
+		const CHK_NOT_EMPTY = 2; /**< @brief Only check if the value is empty (no isset) */
+		const CHK_TRIM = 6; /**< @brief Only check if the trimmed value is empty (no isset) */
+		const CHK_ALL = CHK_TRIM | CHK_ISSET; /**< @brief Perform the isset|trim|empty check */
 
 		// data members
 		protected $superglobal; /**< A reference to the superglobal array */
