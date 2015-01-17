@@ -22,13 +22,14 @@
 		const ERR_NOT_SET = -1; /**< @brief Error : key doesn't exist */
 		const ERR_CALLBACK = -2; /**< @brief Error : callback predicate returned false */
 		const ERR_EMPTY = -3; /**< @brief Eror : value is "empty" */
+		const ERR_OK = 1; /**< @brief No error */
 
 		// Checking type constants : they can be combine with |
 		const CHK_NONE = 0; /**< @brief Can be used in order to check the callback only */
 		const CHK_ISSET = 1; /**< @brief Only check if the key exists */
 		const CHK_NOT_EMPTY = 2; /**< @brief Only check if the value is empty (no isset) */
 		const CHK_TRIM = 6; /**< @brief Only check if the trimmed value is empty (no isset) */
-		const CHK_ALL = CHK_TRIM | CHK_ISSET; /**< @brief Perform the isset|trim|empty check */
+		const CHK_ALL = 7; /**< @brief Perform the isset|trim|empty check */
 
 		// data members
 		protected $superglobal; /**< A reference to the superglobal array */
@@ -39,7 +40,7 @@
 		 * @param[in] int      $chk 	 Define the type of check to perform (see below) (default: null => CHK_ISSET | CHK_NOT_EMPTY)
 		 * @param[in] function $callback A predicate taking the value associated with the key as argument and returning
 		 * true if this value is valid, false otherwise (default: null => callback not evaluated)
-		 * @retval int The negative error code specifying which check has failed (see ERR_* class constants) if it has failed, 1 otherwise
+		 * @retval int The negative error code specifying which check has failed (see ERR_* class negative constants) if it has failed, ERR_OK otherwise
 		 * 
 		 * The CHK_* flags should be used for the $chk parameter. Moreover, they can be combined with the "|" operator to specify 
 		 * combination of checks.
@@ -57,7 +58,7 @@
 				$chk = Superglobal::CHK_ISSET | Superglobal::CHK_NOT_EMPTY;
 
 			// check isset
-			if($this->do_isset($chk) && !$this->isset($key))
+			if($this->do_isset($chk) && !$this->is_set($key))
 				return Superglobal::ERR_NOT_SET;
 
 			// store the value
@@ -68,7 +69,7 @@
 				$value = \trim($value);
 
 			// check emptiness
-			if($this->do_not_empty($chk) && $this->empty($value))
+			if($this->do_not_empty($chk) && $this->is_empty($value))
 				return Superglobal::ERR_EMPTY;
 
 			// apply callback
@@ -83,7 +84,7 @@
 		 * @param mixed $value A reference to the value to check
 		 * @retval bool True if the value is empty, false otherwise
 		 */
-		protected function empty(&$value) 
+		protected function is_empty(&$value) 
 		{
 			return empty($value);
 		}
@@ -93,9 +94,9 @@
 		 * @param[in] string $key The superglobal array key
 		 * @retval bool True if the key is set, false otherwise
 		 */
-		protected function isset($key)
+		protected function is_set($key)
 		{
-			return \isset($this->superglobal[$key]);
+			return isset($this->superglobal[$key]);
 		}
 
 		/**
