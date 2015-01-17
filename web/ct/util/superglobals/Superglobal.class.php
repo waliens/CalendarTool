@@ -31,7 +31,7 @@
 		const CHK_ALL = CHK_TRIM | CHK_ISSET; /**< Perform the isset|trim|empty check */
 
 		// data members
-		private $superglobal; /**< A reference to the superglobal array */
+		protected $superglobal; /**< A reference to the superglobal array */
 
 		/**
 		 * @brief Perform a check on the given key in the superglobal
