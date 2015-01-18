@@ -5,7 +5,7 @@
      * @brief Entry point interface 
      */
 
-    namespace ct\util\entry_point;
+    namespace util\entry_point;
 
     /**
      * @interface EntryPoint

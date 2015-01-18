@@ -5,7 +5,7 @@
 	 * @brief Contain te Superglobal class.
 	 */
 
-	namespace ct\util\superglobals;
+	namespace util\superglobals;
 
 	/**
 	 * @class Superglobal

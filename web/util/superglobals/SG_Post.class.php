@@ -5,7 +5,7 @@
 	 * @brief Contains the class SG_Post
 	 */
 
-	namespace ct\util\superglobals;
+	namespace util\superglobals;
 
 	/**
 	 * @class SG_Post

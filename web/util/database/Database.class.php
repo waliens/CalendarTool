@@ -5,7 +5,7 @@
 	 * @brief Database singleton class
 	 */
 
-	namespace ct\util\database;
+	namespace util\database;
 
 	use \PDO;
 

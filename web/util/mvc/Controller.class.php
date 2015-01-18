@@ -5,7 +5,7 @@
 	 * @brief Controller class
 	 */
 
-	namespace ct\util\mvc;
+	namespace util\mvc;
 
 	/**
 	 * @class Controller 

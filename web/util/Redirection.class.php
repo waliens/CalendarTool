@@ -5,7 +5,7 @@
 	 * @brief Contain the Redirection class
 	 */
 
-	namespace ct\util;
+	namespace util;
 
 	/**
 	 * @class Redirection 

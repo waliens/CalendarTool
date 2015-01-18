@@ -5,12 +5,12 @@
 	 * @brief Connection class
 	 */
 
-	namespace ct\util;
+	namespace util;
 
-	use ct\util\superglobals\Superglobal as Superglobal;
-	use ct\util\superglobals\SG_Session as SG_Session;
+	use util\superglobals\Superglobal as Superglobal;
+	use util\superglobals\SG_Session as SG_Session;
 
-	use ct\util\Redirection as Redirection;
+	use util\Redirection as Redirection;
 
 	/**
 	 * @class Connection

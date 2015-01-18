@@ -5,9 +5,9 @@
 	 * @brief Superclass of any model
 	 */
 
-	namespace ct\util\mvc;
+	namespace util\mvc;
 	
-	use ct\util\database\SQLAbstract_PDO as SQLAbstract_PDO;
+	use util\database\SQLAbstract_PDO as SQLAbstract_PDO;
 
 	/**
 	 * @class Model

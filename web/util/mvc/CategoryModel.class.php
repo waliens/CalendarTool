@@ -5,7 +5,7 @@
 	 * @brief Superclass of any category controller
 	 */
 
-	namespace ct\util\mvc;
+	namespace util\mvc;
 
 	/**
 	 * @class CategoryModel

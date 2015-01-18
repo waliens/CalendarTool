@@ -2,16 +2,16 @@
 
     /**
      * @file 
-     * @brief Browser entry point
+     * @brief Ajax entry point
      */
 
-    namespace ct\util\entry_point;
+    namespace util\entry_point;
     
     /**
-     * @class Browser
+     * @class Ajax
      * @brief This class must be implemented by any request handler
      */
-    class Browser implements EntryPoint
+    class Ajax implements EntryPoint
     {
         /**
          * @copydoc EntryPoint::get_controller

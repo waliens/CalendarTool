@@ -5,7 +5,7 @@
 	 * @brief Contains the class SG_Session
 	 */
 
-	namespace ct\util\superglobals;
+	namespace util\superglobals;
 
 	require_once("functions.php");
 

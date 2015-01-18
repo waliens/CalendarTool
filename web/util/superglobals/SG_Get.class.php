@@ -5,7 +5,7 @@
 	 * @brief Contains the class SG_Get
 	 */
 
-	namespace ct\util\superglobals;
+	namespace util\superglobals;
 
 	/**
 	 * @class SG_Get

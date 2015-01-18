@@ -5,7 +5,7 @@
   	 * @brief Holds the SQLAbstract_PDO class
 	 */
 
-	namespace ct\util\database;
+	namespace util\database;
 
 	use \PDO;
 

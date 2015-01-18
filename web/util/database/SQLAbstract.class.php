@@ -8,7 +8,7 @@
 	 * \@todo Possibly move select, insert, count, delete and update to the abstract class as it doesn't require the usage of any database access API
 	 */
 
-	namespace ct\util\database;
+	namespace util\database;
 
 	use \PDO;
 
