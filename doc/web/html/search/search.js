@@ -12,7 +12,7 @@ var indexSectionsWithContent =
   2: "abcdefimrs",
   3: "_bcdegilmpqrstuv",
   4: "$cde",
-  5: "t"
+  5: "rt"
 };
 
 var indexSectionNames =
