@@ -89,7 +89,7 @@
 
 			if(!$result)
 			{
-				$stmt->closeCursor();
+				$this->closeCursor($stmt);
 				return false;
 			}
 
@@ -99,9 +99,8 @@
 			else 
 				$to_return = true;
 
-			$this->error_info = $stmt->error_info();
-			
-			$stmt->closeCursor();
+			$this->closeCursor($stmt);
+
 			return $to_return;
 		}
 
@@ -124,7 +123,7 @@
 		/** 
 		 * @copydoc SQLAbstract::prepare_query
 		 * 
-		 * @note The method returns a PDOStatement object on which the method PDOStatement::execute can be called to execute the query
+		 * @note The method returns a PDO::PDOStatement object on which the method PDO::PDOStatement::execute can be called to execute the query
 		 */
 		public function prepare_query($query)
 		{
@@ -145,5 +144,21 @@
 		public function last_insert_id()
 		{
 			return $this->pdo->lastInsertId();
+		}
+
+		/**
+		 * @brief Destroy the cursor associated with the given statement
+		 * @param[in] PDO::PDOStatement $stmt The statement of which the cursor must be closed
+		 * @param[in] bool $extract_error True if the error must be extracted before closing the cursor, false otherwise 
+		 */
+		private function closeCursor(&$stmt, $extract_error=true)
+		{
+			if(!$stmt)
+				return;
+
+			if($extract_error)
+				$this->error_info = $stmt->error_info();
+	
+			$stmt->closeCursor();
 		}
 	};
