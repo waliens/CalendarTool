@@ -1,5 +1,8 @@
 
 CREATE DATABASE IF NOT EXISTS calendar_tool 
+CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+USE calendar_tool;
 
 -- 
 -- Tables containing user informations
@@ -97,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `file`
 
 CREATE TABLE IF NOT EXISTS `global_event`
 (
-	`Id_Gobal_Event` int(11) NOT NULL,
+	`Id_Global_Event` int(11) NOT NULL,
 	`ULg_Identifier` varchar(20) NOT NULL,
 	`Name_Short` varchar(255) NOT NULL,
 	`Name_Long` varchar(255) NOT NULL,
@@ -112,35 +115,34 @@ CREATE TABLE IF NOT EXISTS `global_event`
 	`Language` enum('EN','FR') NOT NULL,
 	`Acad_Start_Year` year NOT NULL,
 	FOREIGN KEY(`Id_Owner`) REFERENCES `faculty_staff_member`(`Id_Faculty_Member`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Gobal_Event`),
-	CONSTRAINT OneCoursePerYear UNIQUE (`Id_Course`, `Acad_Start_Year`)
+	PRIMARY KEY(`Id_Global_Event`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `global_event_subscription`
 (
-	`Id_Gobal_Event` int(11) NOT NULL,
+	`Id_Global_Event` int(11) NOT NULL,
 	`Id_Student` int(11) NOT NULL,
-	FOREIGN KEY(`Id_Gobal_Event`) REFERENCES `global_event`(`Id_Gobal_Event`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Student`) REFERENCES `student`(`Id_Student`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Gobal_Event`, `Id_Student`)
+	PRIMARY KEY(`Id_Global_Event`, `Id_Student`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `global_event_pathways`
+CREATE TABLE IF NOT EXISTS `global_event_pathway`
 (
 	`Id_Global_Event` int(11) NOT NULL,
 	`Id_Pathway` varchar(20) NOT NULL,
 	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_Gobal_Event`) REFERENCES `global_event`(`Id_Gobal_Event`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Global_Event`, `Id_Pathway`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `global_event_file`
 (
 	`Id_File` int(11) NOT NULL,
-	`Id_Gobal_Event` int(11) NOT NULL, 
+	`Id_Global_Event` int(11) NOT NULL, 
 	FOREIGN KEY(`Id_File`) REFERENCES `file`(`Id_File`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_Gobal_Event`) REFERENCES `global_event`(`Id_Gobal_Event`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_File`, `Id_Gobal_Event`)
+	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_File`, `Id_Global_Event`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `teaching_role`
@@ -153,13 +155,13 @@ CREATE TABLE IF NOT EXISTS `teaching_role`
 
 CREATE TABLE IF NOT EXISTS `teaching_team_member`
 (
-	`Id_Gobal_Event` int(11) NOT NULL, 
+	`Id_Global_Event` int(11) NOT NULL, 
 	`Id_User` int(11) NOT NULL, 
 	`Id_Role` int(11) NOT NULL,
-	FOREIGN KEY(`Id_Gobal_Event`) REFERENCES `global_event`(`Id_Gobal_Event`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_Role`) REFERENCES `teaching_role`(`Id_Role`) ON DELETE CASCADE
-	PRIMARY KEY(`Id_Gobal_Event`, `Id_User`)
+	FOREIGN KEY(`Id_Role`) REFERENCES `teaching_role`(`Id_Role`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Global_Event`, `Id_User`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `event_category`
@@ -245,8 +247,7 @@ CREATE TABLE IF NOT EXISTS `sub_event`
 (
 	`Id_Event` int(11) NOT NULL,
 	`Id_Global_Event` int(11) NOT NULL,
-	FOREIGN KEY(`Id_Gobal_Event`) REFERENCES `global_event`(`Id_Gobal_Event`) ON DELETE CASCADE,
-
+	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `favorite_event`
@@ -310,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `independent_event`
 	`Id_Event` int(11) NOT NULL,
 	`Id_Owner` int(11) NOT NULL,
 	`Public` boolean NOT NULL,
-	FOREIGN KEY(`Id_Event`) REFERENCES `academic_event`(`Id_Academic_Event`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Event`) REFERENCES `academic_event`(`Id_Event`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Owner`) REFERENCES `faculty_staff_member`(`Id_Faculty_Member`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Event`)
 ) ENGINE=InnoDB;
@@ -340,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `modification_request`
 	`Id_Request` int(11) NOT NULL,
 	`Id_Event` int(11) NOT NULL,
 	`Id_Sender` int(11) NOT NULL,
-	`Status` enum(`sent`, `accepted`, `cancelled`, `refused`) NOT NULL,
+	`Status` enum('sent', 'accepted', 'cancelled', 'refused') NOT NULL,
 	`Description` text NOT NULL,
 	PRIMARY KEY(`Id_Request`),
 	FOREIGN KEY(`Id_Event`) REFERENCES `event`(`Id_Event`) ON DELETE CASCADE,
@@ -359,7 +360,7 @@ CREATE TABLE IF NOT EXISTS `modification`
 (
 	`Id_Request` int(11) NOT NULL,
 	`Id_Target` int(11) NOT NULL, 
-	`Proposition` text NOT NULL
+	`Proposition` text NOT NULL,
 	FOREIGN KEY(`Id_Request`) REFERENCES `modification_request`(`Id_Request`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Target`) REFERENCES `modification_target`(`Id_Target`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Request`, `Id_Target`)
@@ -370,7 +371,7 @@ CREATE TABLE IF NOT EXISTS `modification`
 -- Mobile 
 --
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `mobile_event_update`
+CREATE TABLE IF NOT EXISTS `mobile_event_update`
 (
 	`Id_Event` int(11) NOT NULL,
 	`Id_User` int(11) NOT NULL,
@@ -384,7 +385,7 @@ CREATE TABLE IF NOT EXISTS IF NOT EXISTS `mobile_event_update`
 -- Event export
 -- 
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `event_export`
+CREATE TABLE IF NOT EXISTS `event_export`
 (
 	`Id_Export` int(11) NOT NULL,
 	`User_Hash` varchar(255) NOT NULL,
@@ -393,14 +394,14 @@ CREATE TABLE IF NOT EXISTS IF NOT EXISTS `event_export`
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `filter`
+CREATE TABLE IF NOT EXISTS `filter`
 (
 	`Id_Filter` int(11) NOT NULL,
 	`Name` varchar(255) NOT NULL,
 	PRIMARY KEY(`Id_Filter`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `export_filter`
+CREATE TABLE IF NOT EXISTS `export_filter`
 (
 	`Id_Filter` int(11) NOT NULL,
 	`Id_Export` int(11) NOT NULL,
@@ -414,7 +415,7 @@ CREATE TABLE IF NOT EXISTS IF NOT EXISTS `export_filter`
 -- ULg
 --
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_pathway`
+CREATE TABLE IF NOT EXISTS `ulg_pathway`
 (
 	`Id_Pathway` varchar(20) NOT NULL,
 	`Name_Short` varchar(255) NOT NULL,
@@ -422,7 +423,7 @@ CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_pathway`
 	PRIMARY KEY(`Id_Pathway`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_student`
+CREATE TABLE IF NOT EXISTS `ulg_student`
 (
 	`Id_ULg_Student` varchar(10) NOT NULL,
 	`Id_Pathway` varchar(20) NOT NULL,
@@ -430,7 +431,7 @@ CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_student`
 	PRIMARY KEY(`Id_ULg_Student`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_course`
+CREATE TABLE IF NOT EXISTS `ulg_course`
 (
 	`Id_Course` varchar(15) NOT NULL,
 	`Name_Short` varchar(255) NOT NULL,
@@ -443,7 +444,7 @@ CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_course`
 	PRIMARY KEY(`Id_Course`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_fac_staff`
+CREATE TABLE IF NOT EXISTS `ulg_fac_staff`
 (
 	`Id_ULg_Fac_Staff` varchar(10) NOT NULL,
 	`Name` varchar(255),
@@ -451,7 +452,7 @@ CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_fac_staff`
 	PRIMARY KEY(`Id_ULg_Fac_Staff`) 
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS `ulg_course_team_member`
+CREATE TABLE IF NOT EXISTS `ulg_course_team_member`
 (
 	`Id_ULg_Fac_Staff` varchar(10) NOT NULL,
 	`Id_Course` varchar(15) NOT NULL,
