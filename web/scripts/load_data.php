@@ -11,18 +11,76 @@
 	 */
 
 	// inclusions
-	require_once("../util/database/Database.class.php");
-	require_once("../util/database/SQLAbstract.class.php");
-	require_once("../util/database/SQLAbstract_PDO.class.php");
+	require_once("web/util/database/Database.class.php");
+	require_once("web/util/database/SQLAbstract.class.php");
+	require_once("web/util/database/SQLAbstract_PDO.class.php");
 
-	require_once("../functions.php");
+	require_once("web/functions.php");
 
 	// namespace
-	use ct/util/database/Database as Database;
-	use ct/util/database/SQLAbstract_PDO as SQLAbs;
+	use ct\util\database\Database as Database;
+	use ct\util\database\SQLAbstract_PDO as SQLAbs;
 
 	// functions 
+	/**
+	 * @fn
+	 * @brief Creates an array that maps the values indexed by the column index (indexing a string) and a subarray containing the rows
+	 * of which the value index by column were the same (the $column_index field is removed).
+	 * @param[in] array  $array  The array to modify
+	 * @param[in] string $column_index The column index
+	 * @retval array The reshaped array. If the array does not contain the index $column, the initial array is returned.
+	 * @note The relative order in the subarrays might not be preserved
+	 */
+	function common_regroup($array, $column_index)
+	{
+		if(empty($array))
+			return array();
+
+		// extract keys of the array
+		$all_keys = array_keys($array[0]);
+		$keys_to_extract = array_diff($all_keys, array($column_index));
+
+		// check whether the key exists in the array
+		if(count($keys_to_extract) === count($all_keys))
+			return $array;
+
+		// sort the initial array on $column
+		usort($array, ct\rows_compare_fn($column_index, "strcmp"));
+
+		$curr_value = "";
+		$curr_subarray = array();
+		$ret_array = array();
+
+		// create the subarrays
+		foreach ($array as $row) 
+		{
+			if($curr_value !== $row[$column_index]) // next subarray
+			{
+				if(!empty($curr_value)) // not the first subarray
+					$ret_array[$curr_value] = $curr_subarray;
+				
+				$curr_value = $row[$column_index];
+				$curr_subarray = array();
+			}
+
+			// add one new row to the subarray
+			$subarray_row = array();
+
+			foreach ($keys_to_extract as $key) 
+				$subarray_row[$key] = $row[$key];
+
+			if(!empty($subarray_row))
+				$curr_subarray[] = $subarray_row;
+		}
+
+		// add last subarray
+		$ret_array[$curr_value] = $curr_subarray;
+	
+		return $ret_array;
+	}
+
 	/** 
+	 * @fn
 	 * @brief Read a formatted file into an array
 	 * @param[in] string $file Filename
 	 * @param[in] string $sep  The string separating the fields in the file
@@ -62,7 +120,7 @@
 			$curr_row = array();
 			
 			// insert the current element at the right index
-			foreach($j = 0; $j < $n_indexes; ++$j)
+			for($j = 0; $j < $n_indexes; ++$j)
 				$curr_row[$indexes[$j]] = $exploded_row[$j];
 
 			// add row in the array to be returned
@@ -250,6 +308,6 @@
 	}
 
 	// database connection
-	$db = new Database("", "", "localhost", "calendar_tool");
-	$sql_abs = SQLAbs::buildByPDO($db->get_handle());
+	//$db = new Database("", "", "localhost", "calendar_tool");
+	//S$sql_abs = SQLAbs::buildByPDO($db->get_handle());
 
