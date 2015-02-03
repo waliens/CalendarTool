@@ -26,40 +26,46 @@
 	 * @fn
 	 * @brief Creates an array that maps the values indexed by the column index (indexing a string) and a subarray containing the rows
 	 * of which the value index by column were the same (the $column_index field is removed).
-	 * @param[in] array  $array  The array to modify
-	 * @param[in] string $column_index The column index
+	 * @param[in] array $array  	      The array to modify
+	 * @param[in] array $constant_columns The indexes of the columns containing repeated values
 	 * @retval array The reshaped array. If the array does not contain the index $column, the initial array is returned.
 	 * @note The relative order in the subarrays might not be preserved
 	 */
-	function common_regroup($array, $column_index)
+	function common_regroup(array $array, array $constant_columns)
 	{
 		if(empty($array))
 			return array();
 
 		// extract keys of the array
 		$all_keys = array_keys($array[0]);
-		$keys_to_extract = array_diff($all_keys, array($column_index));
+		$keys_to_extract = array_diff($all_keys, $constant_columns);
 
 		// check whether the key exists in the array
 		if(count($keys_to_extract) === count($all_keys))
 			return $array;
 
 		// sort the initial array on $column
-		usort($array, ct\rows_compare_fn($column_index, "strcmp"));
+		usort($array, ct\rows_compare_fn($constant_columns[0], "strcmp"));
 
-		$curr_value = "";
+		$curr_constants = array(0 => "");
 		$curr_subarray = array();
 		$ret_array = array();
 
 		// create the subarrays
 		foreach ($array as $row) 
 		{
-			if($curr_value !== $row[$column_index]) // next subarray
+			$row_constants = ct\subarray($row, $constant_columns);
+
+			if(ct\first($curr_constants) !== ct\first($row_constants)) // next subarray
 			{
-				if(!empty($curr_value)) // not the first subarray
-					$ret_array[$curr_value] = $curr_subarray;
-				
-				$curr_value = $row[$column_index];
+				if(!isset($curr_constants[0])) // not the first subarray
+				{
+					$new_row = $curr_constants;
+					$new_row['varying'] = $curr_subarray;
+					$ret_array[] = $new_row;
+				}
+
+				$curr_constants = $row_constants;
 				$curr_subarray = array();
 			}
 
@@ -74,7 +80,9 @@
 		}
 
 		// add last subarray
-		$ret_array[$curr_value] = $curr_subarray;
+		$last_row = $curr_constants;
+		$last_row['varying'] = $curr_subarray;
+		$ret_array[] = $last_row;
 	
 		return $ret_array;
 	}
@@ -265,17 +273,15 @@
 	 * @brief Insert the students into the database
 	 * @param[in] SQLAbstract_PDO $sql_abs 				 The sql abstract object
 	 * @param[in] array 		  $student_courses_info  List of courses followed by a student (ulg id and pathway)
+	 * @param[in] bool 			  $shuffle 				 True for shuffling students courses and pathways
 	 * @retval True on success, false on error
 	 */
-	function insert_students(SQLAbs $sql_abs, array &$student_courses_info)
+	function insert_students(SQLAbs $sql_abs, array &$student_courses_info, $shuffle=false)
 	{
-		$students_info = ct\array_columns($student_courses_info, array("code_ae", "id_ulg"));
+		$students_info = common_regroup($student_courses_info, array("id_ulg", "code_ae"));
 
-		// sort by student id
-		usort($student_info, ct\rows_compare_fn("id_ulg", "strcmp"));
-
-		// insert student data into the database
-		$curr_id = ""; // contains the id of the last inserted student
+		if($shuffle)
+			ct\shuffle_rows($students_info, array("code_cours", "code_ae"));
 
 		// prepare insertion query 
 		$query = "INSERT INTO ulg_student VALUES (?, ?);";
