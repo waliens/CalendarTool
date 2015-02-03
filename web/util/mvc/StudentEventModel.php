@@ -11,7 +11,7 @@ class StudentEventModel extends EventModel{
 
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields,  array("id_Owner"));
+		$this->fields = array_merge($this->fields,  array("id_Owner" => "int"));
 		$this->table = $this->table." JOIN Student_Event";
 
 	}

@@ -23,7 +23,7 @@ class EventModel extends Model{
 	
 	function __construct() {
 		parent::__construct();
-		$this->fields = array("id_event", "name", "description", "id_recurence", "place", "id_category");
+		$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int");
 		$this->table = "Event";
 	}
 	/**
@@ -33,21 +33,23 @@ class EventModel extends Model{
 	 * @param array String $requestData the requested data for the event $id (empty = all)
 	 * @retval string return the JSON representation of the event
 	 */
-	private public function getData($table = "Event", array $infoData = array(), array $requestData = array()){
+	private public function getData($table = null, array $infoData = null, array $requestData = null){
 		$pdo = SQLAbstract_PDO::buildByPDO($db->get_handle());
-		
+		if($table == NULL)
+			$table = "Event";
+
 		//Build WHERE clause
-		if(!empty($infoData)){
-			$flagFirst = true;
-			$where = "";
+		//TODO ensure translation between key in php and rows in DB
+		if(isset($infoData) && !empty($infoData)){
+			$ar = array();
+			$i = 0;
+			
 			foreach ($infoData as $key => $value){
-				if(!$flagFirst)
-					$where .= " AND ";
-				else 
-					$flagFirst = false;
-				
-				$where .= $key." = ".$value;
+				$ar[$i] = $key." = `".$value."`";
+				$i++;
 			}
+			
+			$where = implode(" AND ", $ar);
 		}
 
 		$data = $pdo->select($table, $where, $requestData);
@@ -61,8 +63,11 @@ class EventModel extends Model{
 	 * @param $infoData what we know about the event
 	 * @retval Json string of the event(s) -1 if error
 	 */
-	function getData (array $infoData = array(),  array $requestedData = array()){		
-		if(empty($requestedData))
+	public function getData (array $infoData = null,  array $requestedData = null){	
+		if($infoData == null)
+			$infoData = array();
+		
+		if($requestedData ==  null)
 			return getData($this->table, $infoData);
 		
 		$request = checkParams($requestedData, false);
@@ -77,17 +82,17 @@ class EventModel extends Model{
 	 */
 	function checkParams($ar, $key){
 		if($key)
-			$intersect = "array_intersect_key_val";
+			$intersect = "array_intersect_key";
 		else
-			$intersect = "array_intersect";
+			$intersect = "array_intersect_key_val";
 		
 		return $intersect($ar, $this->fields);
 		
 	}
-	private function array_intersect_key_val($array, $keyArray){
+	private function array_intersect_key_val($array, $keyArray){ //$array est un tableau dont on cherche a savoir quelles sont les valeurs en commun avec les clés de $keyarray
 		$retval = array();
 		foreach($array as $key => $value){
-			if(array_key_exists($key, $keyArray))
+			if(array_key_exists($value, $keyArray))
 				$retval[$key] = $value;
 		}
 		return $retval;
@@ -100,13 +105,33 @@ class EventModel extends Model{
 	 * @param array $data The data provide by the user
 	 * @retval -1 if an error occurs
 	 */
-	function createEvent($data){
-		//Check input type
+	public function createEvent($data){
+
 		$datas = checkParams($type, $data, true);
-		foreach($datas as $key => $value){ 
-			//TODO
-			
+		if(!checkIntegrity($datas))
+			return -1;
+	}
+	
+	/**
+	 * 
+	 * @brief Check the data integrity and format the texts area to suitables ones
+	 * @param array $data the data provide by the user (note the array is suppose to be complete after a check by the  controller)
+	 * @retval false if there is a problem with the data integrity true otherwise
+	 */
+	private function checkIntegrity($data){
+		foreach($data as $key => $value){
+			if($this->fields[$key] == "int"  && !is_int($value) )
+				return false;
+			elseif($this->fields[$key] == "bool" && !is_int($value)){
+				if(abs($value) > 1)
+					return false;
+			}
+			elseif($this->fields[$key] == "text"){
+				$data[$key] = htmlEntities($value, ENT_QUOTES);
+				$data[$key] = nl2br($data[$key]);
+			}
+				
 		}
-		
+		return true;
 	}
 }

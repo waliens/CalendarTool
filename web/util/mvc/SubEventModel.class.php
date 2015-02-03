@@ -12,7 +12,7 @@ class SubEventModel extends AcademicEventModel{
 	
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields, array("id_GlobalEvent"));
+		$this->fields = array_merge($this->fields, array("id_GlobalEvent" => "int"));
 		$this->table = $this->table." JOIN Sub_Event";
 	
 	}
