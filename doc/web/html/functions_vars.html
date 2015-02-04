@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -82,6 +83,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions_vars.html"><span>Variables</span></a></li>
     </ul>
   </div>
+  <div id="navrow4" class="tabs3">
+    <ul class="tablist">
+      <li><a href="#index_$"><span>$</span></a></li>
+      <li><a href="#index_c"><span>c</span></a></li>
+      <li><a href="#index_d"><span>d</span></a></li>
+      <li><a href="#index_e"><span>e</span></a></li>
+      <li class="current"><a href="#index_p"><span>p</span></a></li>
+    </ul>
+  </div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -102,7 +112,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,9 +122,65 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </div>
 
 <div class="contents">
-&#160;<ul>
+&#160;
+
+<h3><a class="anchor" id="index_$"></a>- $ -</h3><ul>
+<li>$categ_col_name
+: <a class="el" href="classutil_1_1mvc_1_1_category_model.html#a066e6a4d47b28441996e8906dd85dc88">CategoryModel</a>
+</li>
+<li>$category_table
+: <a class="el" href="classutil_1_1mvc_1_1_category_model.html#a65b50279a0e27be269f2183c0b290339">CategoryModel</a>
+</li>
+<li>$connection
+: <a class="el" href="classutil_1_1mvc_1_1_controller.html#a0d9c79b9b86b3f5891c6d3892f12c6a0">Controller</a>
+</li>
+<li>$domain
+: <a class="el" href="classutil_1_1_u_r_l.html#aef9cf198312d2f89238a8e8e2f0f67f3">URL</a>
+</li>
+<li>$id_col_name
+: <a class="el" href="classutil_1_1mvc_1_1_category_model.html#a0f01f8fcd5a7652a7bb6877e082e92fc">CategoryModel</a>
+</li>
+<li>$input_data
+: <a class="el" href="classutil_1_1mvc_1_1_ajax_controller.html#a6533a3606e58291459e9dfec2ad7da21">AjaxController</a>
+</li>
+<li>$input_json
+: <a class="el" href="classutil_1_1mvc_1_1_ajax_controller.html#a3bbb0e03b7e172c3b2d0bc20cd3a95c4">AjaxController</a>
+</li>
+<li>$other_col_name
+: <a class="el" href="classutil_1_1mvc_1_1_category_model.html#af1c3e1bd64765960c6a91c65c5334e99">CategoryModel</a>
+</li>
+<li>$output_data
+: <a class="el" href="classutil_1_1mvc_1_1_ajax_controller.html#af358b79d7c9b5ada37888782295bf941">AjaxController</a>
+</li>
+<li>$params
+: <a class="el" href="classutil_1_1_u_r_l.html#afe68e6fbe7acfbffc0af0c84a1996466">URL</a>
+</li>
 <li>$pdo
 : <a class="el" href="classutil_1_1mvc_1_1_model.html#a5766efd703cef0e00bfc06b3f3acbe0e">Model</a>
+</li>
+<li>$protocol
+: <a class="el" href="classutil_1_1_u_r_l.html#ac01bf1cf041487498864d054b991f570">URL</a>
+</li>
+<li>$ressource
+: <a class="el" href="classutil_1_1_u_r_l.html#a2f16c70c99d2935e6c107f154ecb1d2a">URL</a>
+</li>
+<li>$sg_cookies
+: <a class="el" href="classutil_1_1mvc_1_1_controller.html#a01aabcb76a1fe5ce893299b7fb7e1176">Controller</a>
+</li>
+<li>$sg_files
+: <a class="el" href="classutil_1_1mvc_1_1_controller.html#aba6f831a338105256d11eb8ccb808513">Controller</a>
+</li>
+<li>$sg_get
+: <a class="el" href="classutil_1_1mvc_1_1_controller.html#abd16454076b912134ffa210241c337ee">Controller</a>
+</li>
+<li>$sg_post
+: <a class="el" href="classutil_1_1mvc_1_1_controller.html#ad1401d6ad9ad856502136bebc42fadcf">Controller</a>
+</li>
+<li>$sg_session
+: <a class="el" href="classutil_1_1mvc_1_1_controller.html#a9e36c7e150ea56858ea0086b7f1303ec">Controller</a>
+</li>
+<li>$smarty
+: <a class="el" href="classutil_1_1mvc_1_1_controller.html#ac3ae29e9ccbb2006fa26fd9eb2c12117">Controller</a>
 </li>
 <li>$sql
 : <a class="el" href="classutil_1_1mvc_1_1_model.html#a047170d6020a882807665812a27e2525">Model</a>
@@ -122,6 +188,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>$superglobal
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a88a8ba097fdca3d32429af9868b6aa6e">Superglobal</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>CHK_ALL
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#ab470e80d06e872a2247dbe15dd32cea9">Superglobal</a>
 </li>
@@ -137,12 +207,20 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>CHK_TRIM
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a78d7f030e413c391055f5a55d915e13b">Superglobal</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>DUMP_MODE_DUMP_ALL
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#abebc05efc87154ccedcec67bcafc2a56">SQLAbstract</a>
 </li>
 <li>DUMP_MODE_NO_DUMP
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a6f5010c658108d96a322924dee3b9fe4">SQLAbstract</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
 <li>ERR_CALLBACK
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a2708d9d20869bd07331881ba2785035d">Superglobal</a>
 </li>
@@ -156,12 +234,34 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a6cea95a761c9a002a0be0ca748011167">Superglobal</a>
 </li>
 </ul>
+
+
+<h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
+<li>PROTOCOL_FTP
+: <a class="el" href="classutil_1_1_u_r_l.html#a7b1e28491ef8e12b305f585a01dc56b3">URL</a>
+</li>
+<li>PROTOCOL_HTTP
+: <a class="el" href="classutil_1_1_u_r_l.html#a74eb546a6a6bf1c0c22e6d7338e9feb3">URL</a>
+</li>
+<li>PROTOCOL_HTTPS
+: <a class="el" href="classutil_1_1_u_r_l.html#ac6ffd0c3d32172dce59fc8e26aa3ad24">URL</a>
+</li>
+<li>PROTOCOL_NONE
+: <a class="el" href="classutil_1_1_u_r_l.html#a2c1d25b6ca39e148cf9044a1e655c1d2">URL</a>
+</li>
+<li>PROTOCOL_SFTP
+: <a class="el" href="classutil_1_1_u_r_l.html#a85d16a880991bd88ab617852fc6cdcbf">URL</a>
+</li>
+<li>PROTOCOL_SVN
+: <a class="el" href="classutil_1_1_u_r_l.html#a8ed92037d8627cdd7401646ef48aadbe">URL</a>
+</li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Feb 4 2015 10:24:59 for CalendarTool by
+    <li class="footer">Generated on Thu Feb 5 2015 00:53:54 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

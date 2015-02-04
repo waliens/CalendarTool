@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['quote',['quote',['../classutil_1_1database_1_1_s_q_l_abstract.html#ab0de61372611c058fe76c1a341691182',1,'util\database\SQLAbstract\quote()'],['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#ab0de61372611c058fe76c1a341691182',1,'util\database\SQLAbstract_PDO\quote()']]],
-  ['quote_5fall',['quote_all',['../classutil_1_1database_1_1_s_q_l_abstract.html#a0981338c1b985794260fd6a0e27208c6',1,'util::database::SQLAbstract']]],
-  ['quote_5ffn',['quote_fn',['../classutil_1_1database_1_1_s_q_l_abstract.html#a478f6fd3da7fa9ee1ec738076f3239fe',1,'util::database::SQLAbstract']]]
+  ['last_5finsert_5fid',['last_insert_id',['../classutil_1_1database_1_1_s_q_l_abstract.html#addadc2022e9fe02f49da4f7672fb6819',1,'util\database\SQLAbstract\last_insert_id()'],['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#addadc2022e9fe02f49da4f7672fb6819',1,'util\database\SQLAbstract_PDO\last_insert_id()']]],
+  ['lock',['lock',['../classutil_1_1database_1_1_s_q_l_abstract.html#ad9cef27070234089790beb72cab82d6e',1,'util::database::SQLAbstract']]]
 ];

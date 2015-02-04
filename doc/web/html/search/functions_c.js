@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rollback',['rollback',['../classutil_1_1database_1_1_s_q_l_abstract.html#afa549adf79e3f8c09fe8f903dd5fbfa7',1,'util::database::SQLAbstract']]]
+  ['move_5ffile',['move_file',['../classutil_1_1superglobals_1_1_s_g___files.html#a2dcb7ddcd4ff42911184431b6c349305',1,'util::superglobals::SG_Files']]]
 ];

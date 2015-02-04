@@ -7,22 +7,24 @@
 
 var indexSectionsWithContent =
 {
-  0: "$_abcdefgilmpqrstuv",
-  1: "abcdeimrs",
-  2: "abcdefilmrs",
-  3: "_bcdefgilmpqrstuv",
-  4: "$cde",
-  5: "rt"
+  0: "$_abcdefghijlmpqrstuv",
+  1: "abcdeimrsu",
+  2: "c",
+  3: "abcdefilmrsu",
+  4: "_abcdefghijlmpqrstuv",
+  5: "$cdep",
+  6: "rt"
 };
 
 var indexSectionNames =
 {
   0: "all",
   1: "classes",
-  2: "files",
-  3: "functions",
-  4: "variables",
-  5: "pages"
+  2: "namespaces",
+  3: "files",
+  4: "functions",
+  5: "variables",
+  6: "pages"
 };
 
 function convertToId(search)

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['quote',['quote',['../classutil_1_1database_1_1_s_q_l_abstract.html#ab0de61372611c058fe76c1a341691182',1,'util\database\SQLAbstract\quote()'],['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#ab0de61372611c058fe76c1a341691182',1,'util\database\SQLAbstract_PDO\quote()']]],
-  ['quote_5fall',['quote_all',['../classutil_1_1database_1_1_s_q_l_abstract.html#a0981338c1b985794260fd6a0e27208c6',1,'util::database::SQLAbstract']]],
-  ['quote_5ffn',['quote_fn',['../classutil_1_1database_1_1_s_q_l_abstract.html#a478f6fd3da7fa9ee1ec738076f3239fe',1,'util::database::SQLAbstract']]]
+  ['model',['Model',['../classutil_1_1mvc_1_1_model.html',1,'util::mvc']]],
+  ['model_2eclass_2ephp',['Model.class.php',['../_model_8class_8php.html',1,'']]],
+  ['move_5ffile',['move_file',['../classutil_1_1superglobals_1_1_s_g___files.html#a2dcb7ddcd4ff42911184431b6c349305',1,'util::superglobals::SG_Files']]]
 ];

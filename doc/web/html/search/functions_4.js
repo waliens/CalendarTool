@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['error_5fcode',['error_code',['../classutil_1_1database_1_1_s_q_l_abstract.html#a0cb70bee2a022b5feb36b17f6da8d5c9',1,'util\database\SQLAbstract\error_code()'],['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#a0cb70bee2a022b5feb36b17f6da8d5c9',1,'util\database\SQLAbstract_PDO\error_code()']]],
-  ['error_5finfo',['error_info',['../classutil_1_1database_1_1_s_q_l_abstract.html#ac8f7e84858176aa9327fdf8e63bc05ed',1,'util\database\SQLAbstract\error_info()'],['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#ac8f7e84858176aa9327fdf8e63bc05ed',1,'util\database\SQLAbstract_PDO\error_info()']]],
-  ['execute_5fquery',['execute_query',['../classutil_1_1database_1_1_s_q_l_abstract.html#a0500ef1cc62855e928abbdb7e62324a1',1,'util\database\SQLAbstract\execute_query()'],['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#a0500ef1cc62855e928abbdb7e62324a1',1,'util\database\SQLAbstract_PDO\execute_query()']]]
+  ['delete',['delete',['../classutil_1_1database_1_1_s_q_l_abstract.html#a7d14a9de8bac5dd9b5cfec163e448157',1,'util::database::SQLAbstract']]],
+  ['delete_5fitem',['delete_item',['../classutil_1_1mvc_1_1_category_model.html#a3b15a7cc0aff00624e65a362cd02ced0',1,'util::mvc::CategoryModel']]],
+  ['disconnect',['disconnect',['../classct_1_1_connection.html#abe175fcf658475bc56e9d6fa02bc88ec',1,'ct::Connection']]],
+  ['disconnect_5froot',['disconnect_root',['../classct_1_1_connection.html#a9ec86bb53c84a9a54c832e76d193c141',1,'ct::Connection']]],
+  ['do_5fdump',['do_dump',['../classutil_1_1database_1_1_s_q_l_abstract.html#a640036a4f2982d41e3a28fb3f5a8d2fa',1,'util::database::SQLAbstract']]],
+  ['do_5fisset',['do_isset',['../classutil_1_1superglobals_1_1_superglobal.html#a0dec24285e3b159dc71e00d376d77066',1,'util::superglobals::Superglobal']]],
+  ['do_5fnot_5fempty',['do_not_empty',['../classutil_1_1superglobals_1_1_superglobal.html#aa1b74131db9eea087795386e77cdef3f',1,'util::superglobals::Superglobal']]],
+  ['do_5ftrim',['do_trim',['../classutil_1_1superglobals_1_1_superglobal.html#a6b306754d68b1daba28159eb56358d18',1,'util::superglobals::Superglobal']]],
+  ['dump',['dump',['../classutil_1_1database_1_1_s_q_l_abstract.html#a6b53e03f7badf3105a7dca81d0722c3c',1,'util::database::SQLAbstract']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['ends_5fwith',['ends_with',['../namespacect.html#a0560953594825b2431dc3cea5c6b066a',1,'ct']]],
   ['entrypoint',['EntryPoint',['../interfaceutil_1_1entry__point_1_1_entry_point.html',1,'util::entry_point']]],
   ['entrypoint_2eclass_2ephp',['EntryPoint.class.php',['../_entry_point_8class_8php.html',1,'']]],
   ['err_5fcallback',['ERR_CALLBACK',['../classutil_1_1superglobals_1_1_superglobal.html#a2708d9d20869bd07331881ba2785035d',1,'util::superglobals::Superglobal']]],
