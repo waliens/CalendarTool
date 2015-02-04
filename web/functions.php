@@ -5,6 +5,10 @@
 	 * @brief Contains a set of useful standalone functions
 	 */
 
+	/**
+	 * @namespace ct
+	 * @brief Namespace for the classes specific for the calendar tool application
+	 */
 	namespace ct;
 
 	/**
@@ -146,14 +150,10 @@
 	 */
 	function autoload($class)
 	{
-		$os = get_OS();
-		print_r($os);
-
 		if(!preg_match("#Smarty#", $class))
-			if($os === "LINUX")
-				include_once(preg_replace("#\\\\#", "/", $class).".class.php");
-			else
-				include_once($class);
+			include_once(preg_replace("#\\\\#", "/", $class).".class.php");
+		else
+			include_once("util\Smarty\Smarty.class.php");
 	}
 
 	/**
@@ -167,5 +167,40 @@
 	    $return = array();
 	    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
 	    return $return;
+	}	
+
+	/**
+	 * @brief Checks whether the string starts with a given string
+	 * @param[in] string $haystack The string to check
+	 * @param[in] string $needle   The prefix to check for
+	 * @retval bool True if $needle is a prefix of $haystack, false otherwise
+	 */
+	function starts_with($haystack, $needle)
+	{
+		return strstr($haystack, $needle) === $haystack;
 	}
-	
+
+	/**
+	 * @brief Checks whether the string ends with a given string
+	 * @param[in] string $haystack The string to check
+	 * @param[in] string $needle   The suffix to check for
+	 * @retval bool True if $needle is a suffix of $haystack, false otherwise
+	 */
+	function ends_with($haystack, $needle)
+	{
+		return strpos($haystack, $needle) === (strlen($haystack) - strlen($needle));
+	}
+
+	/**
+	 * @brief Return an array composed of which the elements are the key and value of $array's elements
+	 * glued with $glue
+	 * @param[in] array  $array The input array
+	 * @param[in] string $glue  The glue string
+	 * @retval array The output array containing the glued key-value
+	 */
+	function array_key_val_merge(array &$array, $glue="")
+	{
+		$out_array = array();
+		array_walk($array, function(&$val, $key) use (&$out_array, $glue) { $out_array[] = $key.$glue.$val; });
+		return $out_array;
+	}
