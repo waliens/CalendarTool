@@ -11,8 +11,16 @@
 	 * @class BrowserController
 	 * @brief A base class for any controller that is made for handling requests from the browser
 	 */
-	class BrowserController
+	abstract class BrowserController
 	{
+		/**
+		 * @brief Construct the BrowserController object
+		 */
+		public function __construct()
+		{
+			parent::__construct();
+		}
+
 		/**
 		 * @copydoc Controller::get_output
 		 */
