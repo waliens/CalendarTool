@@ -134,6 +134,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae9ae41c429f484035137903685ace34e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae9ae41c429f484035137903685ace34e">insert</a> ($table, array $column_value_map)</td></tr>
 <tr class="memdesc:ae9ae41c429f484035137903685ace34e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending an insert query to the database.  <a href="#ae9ae41c429f484035137903685ace34e">More...</a><br/></td></tr>
 <tr class="separator:ae9ae41c429f484035137903685ace34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bb81036f69a5a88a69564370318e69d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a9bb81036f69a5a88a69564370318e69d">insert_batch</a> ($table, array $values, array $columns=null)</td></tr>
+<tr class="memdesc:a9bb81036f69a5a88a69564370318e69d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending an insert query to the database in order to insert multiple rows at once.  <a href="#a9bb81036f69a5a88a69564370318e69d">More...</a><br/></td></tr>
+<tr class="separator:a9bb81036f69a5a88a69564370318e69d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d14a9de8bac5dd9b5cfec163e448157"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a7d14a9de8bac5dd9b5cfec163e448157">delete</a> ($table, $where)</td></tr>
 <tr class="memdesc:a7d14a9de8bac5dd9b5cfec163e448157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a delete query to the database.  <a href="#a7d14a9de8bac5dd9b5cfec163e448157">More...</a><br/></td></tr>
 <tr class="separator:a7d14a9de8bac5dd9b5cfec163e448157"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -558,6 +561,54 @@ Protected Member Functions</h2></td></tr>
 <div class="line">$foo-&gt;insert(<span class="stringliteral">&quot;my_table&quot;</span>, array(<span class="stringliteral">&quot;col1&quot;</span> =&gt; <span class="stringliteral">&quot;val1&quot;</span>, <span class="stringliteral">&quot;col2&quot;</span> =&gt; <span class="stringliteral">&quot;val2&quot;</span>));</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>If an error occurs, the error code and description can be obtained from the <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a0cb70bee2a022b5feb36b17f6da8d5c9" title="Returns the last error&#39;s code. ">error_code()</a> and <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ac8f7e84858176aa9327fdf8e63bc05ed" title="Returns the last error&#39;s description. ">error_info()</a> methods </dd></dl>
 
+</div>
+</div>
+<a class="anchor" id="a9bb81036f69a5a88a69564370318e69d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">insert_batch </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$columns</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Method for sending an insert query to the database in order to insert multiple rows at once. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$table</td><td>The table in which the rows must be inserted </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$values</td><td>A multidimensionnal array of which the subarrays (rows) are the values </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$columns</td><td>The columns in which the values must be inserted (optionnal) to insert as new rows. The values must be ordered in the same way as in $columns</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The values are should not be escaped</dd></dl>
+<p>Example : </p>
+<div class="fragment"><div class="line"><span class="comment">// sends &quot;INSERT INTO my_table(col1, col2) VALUES(&#39;val1&#39;, &#39;val2&#39;), (&#39;val1bis&#39;, &#39;val2bis&#39;);&quot;</span></div>
+<div class="line">$columns = array(<span class="stringliteral">&#39;col1&#39;</span>, <span class="stringliteral">&#39;col2&#39;</span>);</div>
+<div class="line">$values  = array(array(<span class="stringliteral">&#39;val1&#39;</span>, <span class="stringliteral">&#39;val2&#39;</span>), array(<span class="stringliteral">&#39;val1bis&#39;</span>, <span class="stringliteral">&#39;val2bis&#39;</span>));</div>
+<div class="line">$foo-&gt;insert_batch(<span class="stringliteral">&quot;my_table&quot;</span>, $columns, $values);</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="addadc2022e9fe02f49da4f7672fb6819"></a>
@@ -1110,7 +1161,7 @@ Protected Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>database</b></li><li class="navelem"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html">SQLAbstract</a></li>
-    <li class="footer">Generated on Sun Jan 18 2015 14:40:57 for CalendarTool by
+    <li class="footer">Generated on Wed Feb 4 2015 10:24:59 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

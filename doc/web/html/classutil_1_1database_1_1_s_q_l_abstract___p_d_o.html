@@ -152,6 +152,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae9ae41c429f484035137903685ace34e inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae9ae41c429f484035137903685ace34e">insert</a> ($table, array $column_value_map)</td></tr>
 <tr class="memdesc:ae9ae41c429f484035137903685ace34e inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending an insert query to the database.  <a href="#ae9ae41c429f484035137903685ace34e">More...</a><br/></td></tr>
 <tr class="separator:ae9ae41c429f484035137903685ace34e inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bb81036f69a5a88a69564370318e69d inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a9bb81036f69a5a88a69564370318e69d">insert_batch</a> ($table, array $values, array $columns=null)</td></tr>
+<tr class="memdesc:a9bb81036f69a5a88a69564370318e69d inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending an insert query to the database in order to insert multiple rows at once.  <a href="#a9bb81036f69a5a88a69564370318e69d">More...</a><br/></td></tr>
+<tr class="separator:a9bb81036f69a5a88a69564370318e69d inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d14a9de8bac5dd9b5cfec163e448157 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a7d14a9de8bac5dd9b5cfec163e448157">delete</a> ($table, $where)</td></tr>
 <tr class="memdesc:a7d14a9de8bac5dd9b5cfec163e448157 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a delete query to the database.  <a href="#a7d14a9de8bac5dd9b5cfec163e448157">More...</a><br/></td></tr>
 <tr class="separator:a7d14a9de8bac5dd9b5cfec163e448157 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -502,7 +505,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This method should be prefered to <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a0500ef1cc62855e928abbdb7e62324a1" title="Method for sending a user-defined query to the database. ">SQLAbstract::execute_query</a> when the same query has to be repeated several times because, in this situation, the query preparation speeds up the multiple querying</dd>
 <dd>
-The method returns a PDOStatement object on which the method PDOStatement::execute can be called to execute the query </dd></dl>
+The method returns a PDO::PDOStatement object on which the method PDO::PDOStatement::execute can be called to execute the query </dd></dl>
 
 </div>
 </div>
@@ -540,7 +543,7 @@ The method returns a PDOStatement object on which the method PDOStatement::execu
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>database</b></li><li class="navelem"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html">SQLAbstract_PDO</a></li>
-    <li class="footer">Generated on Sun Jan 18 2015 14:40:57 for CalendarTool by
+    <li class="footer">Generated on Wed Feb 4 2015 10:24:59 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
