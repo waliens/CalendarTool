@@ -15,8 +15,8 @@
 	/**
 	 * @class Connection
 	 * @brief A class for handling an user connection and accessing information about the currently connected user
-	 * @todo End the implementation of the constructor (needs a model)
 	 * @note This class encapsulates the security logic related to the user authentication and disconnection
+	 * @todo End the implementation of the constructor (needs a model)
 	 */
 	class Connection
 	{
