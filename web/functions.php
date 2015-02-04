@@ -99,7 +99,7 @@
 
 	/**
 	 * @brief Return the first element of the array
-	 * @param[in] array The array
+	 * @param[in] array $array The array
 	 * @retval mixed The first element
 	 * @note The function set the internal pointer of the array to its first element
 	 */

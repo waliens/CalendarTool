@@ -9,7 +9,9 @@
 
 	/**
 	 * @class CategoryModel
-	 * @brief Base class for category model. A set of categories is a list of items contained in a table
+	 * @brief Base class for category model. 
+	 *
+	 * A set of categories is a list of items contained in a table
 	 * of the database that can be given to the user in a drop down list for instance (can be colors, jobs,...). 
 	 * A category is identified by its key and defined by its name and possible some other attributes.
 	 * This class provides methods for accessing, editing and interacting with these items. 
@@ -90,7 +92,7 @@
 
 		/**
 		 * @brief Deletes an item from the category list
-		 * @param[in] array $item_ir The item id values (in the same order as in the $id_col_name given at construction)
+		 * @param[in] array $item_id The item id values (in the same order as in the $id_col_name given at construction)
 		 * @retval bool True if the data was deleted successfully, false otherwise
 		 */
 		public function delete_item($item_id)
@@ -113,7 +115,7 @@
 
 		/**
 		 * @brief Return a where clause to use for a SQL query (i.e. col_key1=?, col_key2=?,... or col_key1=val1, col_key2=val2,...)
-		 * @param[in] array $item_ir The item_id data to insert in the where clause (null for a prepared query => question marks instead of values) 
+		 * @param[in] array $item_id The item_id data to insert in the where clause (null for a prepared query => question marks instead of values) 
 		 * @return string The where clause
 		 */
 		protected function get_where_key_clause($item_id=null)
