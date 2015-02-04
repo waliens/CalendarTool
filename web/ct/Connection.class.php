@@ -5,7 +5,7 @@
 	 * @brief Connection class
 	 */
 
-	namespace util;
+	namespace ct;
 
 	use util\superglobals\Superglobal as Superglobal;
 	use util\superglobals\SG_Session as SG_Session;
@@ -20,12 +20,24 @@
 	 */
 	class Connection
 	{
+		private static $instance = null; /**< Singleton instance of the class */
 		private $sess; /**< @brief : a SG_Session object */
+
+		/**
+		 * @brief Return the singleton instance of the Connection class
+		 * @retval Connection The instance of Connection
+		 */
+		public static function get_instance()
+		{
+			if(self::$instance == null)
+				self::$instance = new Connection();
+			return self::$instance;
+		}
 
 		/**
 		 * @brief Construct a Connection objects
 		 */
-		public function __construct()
+		private function __construct()
 		{
 			$this->sess = new SG_Session();
 
