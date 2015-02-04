@@ -157,7 +157,7 @@
 				return;
 
 			if($extract_error)
-				$this->error_info = $stmt->error_info();
+				$this->error_info = $stmt->errorInfo();
 	
 			$stmt->closeCursor();
 		}
