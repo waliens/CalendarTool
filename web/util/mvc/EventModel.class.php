@@ -5,7 +5,7 @@
  * @brief Event ControllerClass
  */
 
-namespace ct\util\mvc;
+namespace util\mvc;
 
 
 /**
@@ -14,7 +14,7 @@ namespace ct\util\mvc;
  */
 use nhitec\sql\SQLAbstract_PDO;
 
-use ct\util\database\Database;
+use util\database\Database;
 
 class EventModel extends Model{
 		
@@ -31,6 +31,7 @@ class EventModel extends Model{
 	 * @param String $tables tables to find the event (default Event)
 	 * @param array String $infoData the data to identify the event
 	 * @param array String $requestData the requested data for the event $id (empty = all)
+	 * @todo ensure translation between key in php and rows in DB
 	 * @retval string return the JSON representation of the event
 	 */
 	private public function getData($table = null, array $infoData = null, array $requestData = null){
@@ -39,7 +40,6 @@ class EventModel extends Model{
 			$table = "Event";
 
 		//Build WHERE clause
-		//TODO ensure translation between key in php and rows in DB
 		if(isset($infoData) && !empty($infoData)){
 			$ar = array();
 			$i = 0;
@@ -52,7 +52,7 @@ class EventModel extends Model{
 			$where = implode(" AND ", $ar);
 		}
 
-		$data = $pdo->select($table, $where, $requestData);
+		$data = $sql->select($table, $where, $requestData);
 		return json_encode($data);
 	}
 	
@@ -80,7 +80,7 @@ class EventModel extends Model{
 	 * @param boolean $key Check key (if not check values)
 	 * @retval return the array without invalids params
 	 */
-	function checkParams($ar, $key){
+	private function checkParams($ar, $key){
 		if($key)
 			$intersect = "array_intersect_key";
 		else
@@ -102,7 +102,7 @@ class EventModel extends Model{
 	/**
 	 * 
 	 * @brief Create an event and put it into the DB
-	 * @param array $data The data provide by the user
+	 * @param array $data The data provide by the user after being checked and complete by the controller
 	 * @retval -1 if an error occurs
 	 */
 	public function createEvent($data){
@@ -110,6 +110,8 @@ class EventModel extends Model{
 		$datas = checkParams($type, $data, true);
 		if(!checkIntegrity($datas))
 			return -1;
+		
+		return $sql->insert($this->table, $datas);
 	}
 	
 	/**
@@ -134,4 +136,28 @@ class EventModel extends Model{
 		}
 		return true;
 	}
+	
+	/**
+	 * 
+	 * @brief Update event(s) (specify by $from) data to the those specify by $to
+	 * @param array $from array of elements that allow us to identy target event(s)
+	 * @param array $to new data to put in the bdd 
+	 * @retval -1 if an error occurs
+	 */
+	public function modifyEvent($from, $to){
+		$data = checkParams($to, true);
+		if(!checkIntegrity($data))
+			return -1;
+		$where = checkParams($from, true);
+		
+		$whereClause = array();
+		$i = 0;
+		foreach($where as $key => $value){
+			$whereClause[i] = $key ." = `".$value."`";
+		}
+		
+		return $sql->update($this->table, $data, implode(" AND ", $whereClause));
+		
+	}
+	
 }

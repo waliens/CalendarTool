@@ -5,7 +5,7 @@
  * @brief Event ControllerClass
  */
 
-namespace ct\util\mvc;
+namespace util\mvc;
 
 
 /**
