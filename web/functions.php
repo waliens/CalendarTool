@@ -153,7 +153,7 @@
 		if(!preg_match("#Smarty#", $class))
 			include_once(preg_replace("#\\\\#", "/", $class).".class.php");
 		else
-			include_once("util\Smarty\Smarty.class.php");
+			include_once("util\Smarty\libs\Smarty.class.php");
 	}
 
 	/**

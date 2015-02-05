@@ -39,23 +39,23 @@
 		 */
 		private function __construct()
 		{
-			$this->sess = new SG_Session();
+			// $this->sess = new SG_Session();
 
-			$ulg_id = $this->extract_ulg_id_from_http();
+			// $ulg_id = $this->extract_ulg_id_from_http();
 			
-			if(!$this->is_connected()) // no previous connection
-				$this->connect($ulg_id);
-			else if($this->user_id() !== $ulg_id) // previous ulg id doesn't match the current
-				$this->disconnect();
-			else
-			{
-				$this->connect($ulg_id);
+			// if(!$this->is_connected()) // no previous connection
+			// 	$this->connect($ulg_id);
+			// else if($this->user_id() !== $ulg_id) // previous ulg id doesn't match the current
+			// 	$this->disconnect();
+			// else
+			// {
+			// 	$this->connect($ulg_id);
 
-				if(/* attemp to connect to root and valid ids*/)
-					$this->connect_root(/* root id */);
-				elseif(/* invalid password */)
-					$this->disconnect_root();
-			}
+			// 	if(/* attemp to connect to root and valid ids*/)
+			// 		$this->connect_root(/* root id */);
+			// 	elseif(/* invalid password */)
+			// 		$this->disconnect_root();
+			// }
 		}
 
 		/**

@@ -9,6 +9,10 @@
     
     use util\superglobals\SG_Get;
 
+    use ct\controllers\browser\ProfilePageController;
+    use ct\controllers\browser\LoginPageController;
+    use ct\controllers\browser\CalendarPageController;
+
     /**
      * @class Browser
      * @brief This class must be implemented by any request handler
@@ -29,10 +33,12 @@
          */
         public function get_controller()
         {
-            if(!$this->spg_get->check("page"))
-                $_GET['page'] = "";
+            if($this->spg_get->check("page") < 0)
+                $page = "";
+            else
+                $page = $_GET['page'];
 
-            switch($_GET['page'])
+            switch($page)
             {
             case "profile":
                 return new ProfilePageController();
