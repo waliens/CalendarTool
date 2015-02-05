@@ -13,9 +13,15 @@ var annotated =
         [ "ICS", "classutil_1_1entry__point_1_1_i_c_s.html", "classutil_1_1entry__point_1_1_i_c_s" ]
       ] ],
       [ "mvc", null, [
+        [ "AcademicEventModel", "classutil_1_1mvc_1_1_academic_event_model.html", "classutil_1_1mvc_1_1_academic_event_model" ],
         [ "CategoryModel", "classutil_1_1mvc_1_1_category_model.html", null ],
         [ "Controller", "classutil_1_1mvc_1_1_controller.html", null ],
-        [ "Model", "classutil_1_1mvc_1_1_model.html", "classutil_1_1mvc_1_1_model" ]
+        [ "Event", "classutil_1_1mvc_1_1_event.html", "classutil_1_1mvc_1_1_event" ],
+        [ "EventModel", "classutil_1_1mvc_1_1_event_model.html", "classutil_1_1mvc_1_1_event_model" ],
+        [ "IndependentEventModel", "classutil_1_1mvc_1_1_independent_event_model.html", "classutil_1_1mvc_1_1_independent_event_model" ],
+        [ "Model", "classutil_1_1mvc_1_1_model.html", "classutil_1_1mvc_1_1_model" ],
+        [ "StudentEventModel", "classutil_1_1mvc_1_1_student_event_model.html", "classutil_1_1mvc_1_1_student_event_model" ],
+        [ "SubEventModel", "classutil_1_1mvc_1_1_sub_event_model.html", "classutil_1_1mvc_1_1_sub_event_model" ]
       ] ],
       [ "superglobals", null, [
         [ "SG_Cookies", "classutil_1_1superglobals_1_1_s_g___cookies.html", "classutil_1_1superglobals_1_1_s_g___cookies" ],
