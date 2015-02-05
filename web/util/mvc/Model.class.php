@@ -16,11 +16,11 @@
 	 */
 	abstract class Model
 	{
-		protected $pdo; /**< pdo object */
-		protected $sql; /**< sql abstract object */
+		protected $pdo; /**< @brief pdo object */
+		protected $sql; /**< @brief sql abstract object */
 
 		/**
-		 * Build a Model object
+		 * @brief Build a Model object
 		 */
 		public function __construct()
 		{
@@ -29,7 +29,7 @@
 		}
 
 		/**
-		 * Return the sql abstract object
+		 * @brief Return the sql abstract object
 		 * @retval SQLAbstract_PDO The sql abstract object
 		 */
 		protected function get_abstract() 

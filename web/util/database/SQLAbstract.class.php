@@ -22,10 +22,10 @@
 	 */
 	abstract class SQLAbstract
 	{
-		const DUMP_MODE_DUMP_ALL = 1;/**< For dumping all queries to the screen */
-		const DUMP_MODE_NO_DUMP = 2;/**< For never dumping any query */
+		const DUMP_MODE_DUMP_ALL = 1;/**< @brief For dumping all queries to the screen */
+		const DUMP_MODE_NO_DUMP = 2;/**< @brief For never dumping any query */
 
-		private $dump_mode = self::DUMP_MODE_NO_DUMP;/**< Keeps the dump mode */
+		private $dump_mode = self::DUMP_MODE_NO_DUMP;/**< @brief Keeps the dump mode */
 
 		/** 
 		 * @brief Method for sending a select query to the database 

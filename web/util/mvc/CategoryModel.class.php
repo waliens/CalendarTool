@@ -18,10 +18,10 @@
 	 */ 
 	abstract class CategoryModel extends Model
 	{
-		protected $category_table; /**< The name of the table containing the categories */
-		protected $id_col_name; /**< An array containing the name of the columns composing the table key */
-		protected $categ_col_name; /**< A string containing the name of the tablr column containing the category name */
-		protected $other_col_name; /**< An array containing the name of the other columns of the database */
+		protected $category_table; /**< @brief The name of the table containing the categories */
+		protected $id_col_name; /**< @brief An array containing the name of the columns composing the table key */
+		protected $categ_col_name; /**< @brief A string containing the name of the tablr column containing the category name */
+		protected $other_col_name; /**< @brief An array containing the name of the other columns of the database */
 
 		/**
 		 * @brief Constructs a category model

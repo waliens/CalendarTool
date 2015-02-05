@@ -20,7 +20,7 @@
 	 */
 	class Connection
 	{
-		private static $instance = null; /**< Singleton instance of the class */
+		private static $instance = null; /**< @brief Singleton instance of the class */
 		private $sess; /**< @brief : a SG_Session object */
 
 		/**

@@ -11,11 +11,11 @@
 	 * @class AjaxController
 	 * @brief A base class for any controller which is supposed to handle ajax request
 	 */
-	abstract class AjaxController 
+	abstract class AjaxController extends Controller
 	{
-		protected $input_data; /**< Array containing input data converted from a JSON string (array is left empty there was no input data) */ 
-		protected $input_json; /**< String containing the json string given as input (empty string if there was no input JSON) */
-		protected $output_data; /**< Array where to store the data to send back as JSON to the client */
+		protected $input_data; /**< @brief Array containing input data converted from a JSON string (array is left empty there was no input data) */ 
+		protected $input_json; /**< @brief String containing the json string given as input (empty string if there was no input JSON) */
+		protected $output_data; /**< @brief Array where to store the data to send back as JSON to the client */
 		
 		/**
 		 * @brief Constructs the AjaxController object

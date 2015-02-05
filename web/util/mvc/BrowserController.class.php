@@ -11,7 +11,7 @@
 	 * @class BrowserController
 	 * @brief A base class for any controller that is made for handling requests from the browser
 	 */
-	abstract class BrowserController
+	abstract class BrowserController extends Controller
 	{
 		/**
 		 * @brief Construct the BrowserController object
