@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['url',['URL',['../classutil_1_1_u_r_l.html',1,'util']]]
+  ['redirection',['Redirection',['../classutil_1_1_redirection.html',1,'util']]]
 ];

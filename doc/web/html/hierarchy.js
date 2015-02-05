@@ -1,9 +1,14 @@
 var hierarchy =
 [
-    [ "AjaxController", "classutil_1_1mvc_1_1_ajax_controller.html", null ],
-    [ "BrowserController", "classutil_1_1mvc_1_1_browser_controller.html", null ],
     [ "Connection", "classct_1_1_connection.html", null ],
-    [ "Controller", "classutil_1_1mvc_1_1_controller.html", null ],
+    [ "Controller", "classutil_1_1mvc_1_1_controller.html", [
+      [ "AjaxController", "classutil_1_1mvc_1_1_ajax_controller.html", null ],
+      [ "BrowserController", "classutil_1_1mvc_1_1_browser_controller.html", [
+        [ "CalendarPageController", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html", null ],
+        [ "LoginPageController", "classct_1_1controllers_1_1browser_1_1_login_page_controller.html", null ],
+        [ "ProfilePageController", "classct_1_1controllers_1_1browser_1_1_profile_page_controller.html", null ]
+      ] ]
+    ] ],
     [ "Database", "classutil_1_1database_1_1_database.html", null ],
     [ "EntryPoint", "interfaceutil_1_1entry__point_1_1_entry_point.html", [
       [ "Ajax", "classutil_1_1entry__point_1_1_ajax.html", null ],

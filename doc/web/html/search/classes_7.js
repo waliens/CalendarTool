@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['redirection',['Redirection',['../classutil_1_1_redirection.html',1,'util']]]
+  ['model',['Model',['../classutil_1_1mvc_1_1_model.html',1,'util::mvc']]]
 ];
