@@ -5,10 +5,6 @@
 	 * @brief Contains a set of useful standalone functions
 	 */
 
-	/**
-	 * @namespace ct
-	 * @brief Namespace for the classes specific for the calendar tool application
-	 */
 	namespace ct;
 
 	/**

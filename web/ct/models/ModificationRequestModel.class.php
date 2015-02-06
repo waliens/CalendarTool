@@ -5,10 +5,6 @@
 	 * @brief Contains the ModificationRequestModel
 	 */
 
-	/**
-	 * @namespace ct\models
-	 * @brief Namespace for the models of the CalendarTool
-	 */
 	namespace ct\models;
 
 	use util\mvc\Model;

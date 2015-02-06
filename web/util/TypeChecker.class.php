@@ -44,6 +44,10 @@
 			$this->set_type($type);
 		}
 
+		/**
+		 * @brief Set the type of the checker
+		 * @param[in] string $type The string representation of the type
+		 */
 		public function set_type($type)
 		{
 			if(!TypeChecker::valid_type($type))
@@ -182,7 +186,7 @@
 		 * @param[in]  mixed  $data 	  The data to valid
 		 * @retval int An error code (among TypeChecker::ERROR_*) if the data does not match the type, 0 otherwise
 		 */
-		public function valid_data($data, &$error_desc)
+		public function valid_data($data)
 		{
 			switch($this->get_type())
 			{
