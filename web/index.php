@@ -2,7 +2,12 @@
 
 	namespace ct;
 
-	header('Content-Type: text/html; charset=utf-8');
+	// init autoloading
+	spl_autoload_register("ct\autoload");
+
+	use util\entry_point\Browser;
+	use util\entry_point\Ajax;
+	use ct\Connection;
 
 	// set include path to the path of the index.php file
 	set_include_path(dirname(__FILE__));
@@ -10,11 +15,28 @@
 	// various includes 
 	require_once("functions.php");
 
-	// init autoloading
-	spl_autoload_register("ct\autoload");
+	$connection = Connection::get_instance();
 
-	use util\entry_point\Browser;
+	if(!$connection->is_connected()) // check if user is connected
+	{
+		header("HTTP/1.1 401 Unauthorized");
+		exit();
+	}
 
-	$browser = new Browser();
+	header('Content-Type: text/html; charset=utf-8');
 
-	echo $browser->get_controller()->get_output();
+	if(!isset($_GET['src']) || empty($_GET['src']))
+		$src = "browser";
+	else
+		$src = $_GET['src'];
+
+	switch($src)
+	{
+	case "ajax": 
+		$entry_point = new Ajax();
+		break;
+	default: 
+		$entry_point = new Browser();
+	}
+
+	echo $entry_point->get_controller()->get_output();
