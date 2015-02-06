@@ -471,3 +471,78 @@ CREATE TABLE IF NOT EXISTS `ulg_has_course`
 	FOREIGN KEY(`Id_Course`) REFERENCES `ulg_course`(`Id_Course`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_ULg_Student`, `Id_Course`)
 ) ENGINE=InnoDB;
+
+--
+-- Procedures
+--
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_academic`( IN  `event_id` INT( 11 ) , OUT `type_ok` BOOLEAN )
+    READS SQL DATA
+    COMMENT 'Checks whether an event is an academic event'
+SELECT 
+EXISTS (
+
+SELECT * 
+FROM  `academic_event` 
+WHERE  `Id_Event` = event_id
+)
+INTO type_ok$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_date_range`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
+    NO SQL
+    COMMENT 'Checks whether an event is a date range event'
+SELECT 
+	EXISTS( SELECT * 
+           	FROM `date_range_event` 
+           	WHERE `Id_Event` = event_id ) INTO type_ok$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_deadline`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
+    READS SQL DATA
+    COMMENT 'Checks whether an event is a deadline event'
+SELECT 
+	EXISTS( SELECT * 
+           	FROM `deadline_event` 
+           	WHERE `Id_Event` = event_id ) INTO type_ok$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_indep_event`( IN  `event_id` INT( 11 ) , OUT `type_ok` BOOLEAN )
+    READS SQL DATA
+    COMMENT 'Checks whether an event is a independent event'
+SELECT 
+EXISTS (
+
+SELECT * 
+FROM  `independent_event` 
+WHERE  `Id_Event` = event_id
+)
+INTO type_ok$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_student`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
+    READS SQL DATA
+    COMMENT 'Checks whether an event is a student event'
+SELECT 
+	EXISTS( SELECT * 
+           	FROM `student_event` 
+           	WHERE `Id_Event` = event_id ) INTO type_ok$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_sub_event`( IN  `event_id` INT( 11 ) , OUT `type_ok` BOOLEAN )
+    READS SQL DATA
+    COMMENT 'Checks whether an event is a subevent'
+SELECT 
+EXISTS (
+
+SELECT * 
+FROM  `sub_event` 
+WHERE  `Id_Event` = event_id
+)
+INTO type_ok$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_time_range`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
+    READS SQL DATA
+    COMMENT 'Checks whether an event is a time range event'
+SELECT 
+	EXISTS( SELECT * 
+           	FROM `time_range_event`
+           	WHERE `Id_Event` = event_id  ) INTO type_ok$$
+
+DELIMITER ;
