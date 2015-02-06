@@ -11,7 +11,7 @@ USE calendar_tool;
 
 CREATE TABLE IF NOT EXISTS `user`
 (
-	`Id_User` int(11) NOT NULL,
+	`Id_User` int(11) NOT NULL AUTO_INCREMENT,
 	`Id_ULg` varchar(20) NOT NULL,
 	`Name` varchar(255) NOT NULL,
 	`Surname` varchar(255) NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `schedule_access`
 
 CREATE TABLE IF NOT EXISTS `activity`
 (
-	`Id_Activity` int(11) NOT NULL,
+	`Id_Activity` int(11) NOT NULL AUTO_INCREMENT,
 	`Action` text NOT NULL,
 	`Id_User` int(11), 
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `activity`
 
 CREATE TABLE IF NOT EXISTS `superuser`
 (
-	`Id_Superuser` int(11) NOT NULL,
+	`Id_Superuser` int(11) NOT NULL AUTO_INCREMENT,
 	`Login` varchar(255) NOT NULL,
 	`Password` varchar(255) NOT NULL, ## must be hashed and salted
 	PRIMARY KEY(`Id_Superuser`)
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `superuser`
 
 CREATE TABLE IF NOT EXISTS `file`
 (
-	`Id_File` int(11) NOT NULL,
+	`Id_File` int(11) NOT NULL AUTO_INCREMENT,
 	`Filepath` varchar(255) NOT NULL,
 	`Id_User` int(11) NOT NULL,
 	`Name` varchar(255),
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `file`
 
 CREATE TABLE IF NOT EXISTS `global_event`
 (
-	`Id_Global_Event` int(11) NOT NULL,
+	`Id_Global_Event` int(11) NOT NULL AUTO_INCREMENT,
 	`ULg_Identifier` varchar(20) NOT NULL,
 	`Name_Short` varchar(255) NOT NULL,
 	`Name_Long` varchar(255) NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `global_event_file`
 
 CREATE TABLE IF NOT EXISTS `teaching_role`
 (
-	`Id_Role` int(11) NOT NULL,
+	`Id_Role` int(11) NOT NULL AUTO_INCREMENT,
 	`Role` varchar(255) NOT NULL, 
 	`Description` text NOT NULL,
 	PRIMARY KEY(`Id_Role`)
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `teaching_team_member`
 
 CREATE TABLE IF NOT EXISTS `event_category`
 (
-	`Id_Category` int(11) NOT NULL,
+	`Id_Category` int(11) NOT NULL AUTO_INCREMENT,
 	`Name` varchar(255) NOT NULL,
 	`Color` varchar(7) NOT NULL,
 	`Description` text NOT NULL,
@@ -193,14 +193,14 @@ CREATE TABLE IF NOT EXISTS `student_event_category`
 
 CREATE TABLE IF NOT EXISTS `recurrence_category`
 (	
-	`Id_Recur_Category` int(11) NOT NULL,
+	`Id_Recur_Category` int(11) NOT NULL AUTO_INCREMENT,
 	`Recur_Category` varchar(255) NOT NULL,
 	PRIMARY KEY(`Id_Recur_Category`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `recurrence`
 (
-	`Id_Recurrence` int(11) NOT NULL,
+	`Id_Recurrence` int(11) NOT NULL AUTO_INCREMENT,
 	`Id_Recur_Category` int(11) NOT NULL,
 	FOREIGN KEY(`Id_Recur_Category`) REFERENCES `recurrence_category`(`Id_Recur_Category`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Recurrence`)
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `recurrence`
 
 CREATE TABLE IF NOT EXISTS `event`
 (
-	`Id_Event` int(11) NOT NULL,
+	`Id_Event` int(11) NOT NULL AUTO_INCREMENTv,
 	`Name` varchar(255) NOT NULL,
 	`Description` text NOT NULL, 
 	`Id_Recurrence` int(11),
@@ -340,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `academic_event_file`
 
 CREATE TABLE IF NOT EXISTS `modification_request`
 (
-	`Id_Request` int(11) NOT NULL,
+	`Id_Request` int(11) NOT NULL AUTO_INCREMENT,
 	`Id_Event` int(11) NOT NULL,
 	`Id_Sender` int(11) NOT NULL,
 	`Status` enum('sent', 'accepted', 'cancelled', 'refused') NOT NULL,
@@ -352,7 +352,7 @@ CREATE TABLE IF NOT EXISTS `modification_request`
 
 CREATE TABLE IF NOT EXISTS `modification_target`
 (
-	`Id_Target` int(11) NOT NULL,
+	`Id_Target` int(11) NOT NULL AUTO_INCREMENT, 
 	`Name` varchar(255) NOT NULL,
 	`Type` varchar(255) NOT NULL,
 	PRIMARY KEY(`Id_Target`)
@@ -389,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `mobile_event_update`
 
 CREATE TABLE IF NOT EXISTS `event_export`
 (
-	`Id_Export` int(11) NOT NULL,
+	`Id_Export` int(11) NOT NULL AUTO_INCREMENT,
 	`User_Hash` varchar(255) NOT NULL,
 	`Id_User` int(11) NOT NULL,
 	PRIMARY KEY(`Id_Export`),
@@ -398,7 +398,7 @@ CREATE TABLE IF NOT EXISTS `event_export`
 
 CREATE TABLE IF NOT EXISTS `filter`
 (
-	`Id_Filter` int(11) NOT NULL,
+	`Id_Filter` int(11) NOT NULL AUTO_INCREMENT,
 	`Name` varchar(255) NOT NULL,
 	PRIMARY KEY(`Id_Filter`)
 ) ENGINE=InnoDB;
