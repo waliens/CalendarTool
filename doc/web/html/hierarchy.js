@@ -16,6 +16,10 @@ var hierarchy =
       [ "ICS", "classutil_1_1entry__point_1_1_i_c_s.html", null ]
     ] ],
     [ "Model", "classutil_1_1mvc_1_1_model.html", [
+      [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", null ],
+      [ "PathwayModel", "classct_1_1models_1_1_pathway_model.html", null ],
+      [ "RootModel", "classct_1_1models_1_1_root_model.html", null ],
+      [ "UserModel", "classct_1_1models_1_1_user_model.html", null ],
       [ "CategoryModel", "classutil_1_1mvc_1_1_category_model.html", null ]
     ] ],
     [ "Redirection", "classutil_1_1_redirection.html", null ],
@@ -29,5 +33,6 @@ var hierarchy =
       [ "SG_Post", "classutil_1_1superglobals_1_1_s_g___post.html", null ],
       [ "SG_Session", "classutil_1_1superglobals_1_1_s_g___session.html", null ]
     ] ],
+    [ "TypeChecker", "classutil_1_1_type_checker.html", null ],
     [ "URL", "classutil_1_1_u_r_l.html", null ]
 ];

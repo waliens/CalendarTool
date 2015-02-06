@@ -19,6 +19,7 @@ var classutil_1_1database_1_1_s_q_l_abstract =
     [ "quote_fn", "classutil_1_1database_1_1_s_q_l_abstract.html#a478f6fd3da7fa9ee1ec738076f3239fe", null ],
     [ "rollback", "classutil_1_1database_1_1_s_q_l_abstract.html#afa549adf79e3f8c09fe8f903dd5fbfa7", null ],
     [ "select", "classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6", null ],
+    [ "select_one", "classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568", null ],
     [ "set_dump_mode", "classutil_1_1database_1_1_s_q_l_abstract.html#a8dc0c0e58a3e2d53d8fa1be24988e958", null ],
     [ "transaction", "classutil_1_1database_1_1_s_q_l_abstract.html#a6f5e7602837a6f85fcb02751c073b181", null ],
     [ "unlock", "classutil_1_1database_1_1_s_q_l_abstract.html#afb061ecbff1e66db62b9eddfea6e915f", null ],

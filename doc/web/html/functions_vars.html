@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -89,7 +88,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
-      <li class="current"><a href="#index_p"><span>p</span></a></li>
+      <li><a href="#index_p"><span>p</span></a></li>
+      <li><a href="#index_r"><span>r</span></a></li>
+      <li class="current"><a href="#index_t"><span>t</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -112,7 +113,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -233,6 +234,18 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>ERR_OK
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a6cea95a761c9a002a0be0ca748011167">Superglobal</a>
 </li>
+<li>ERROR_NOT_IN_ENUM
+: <a class="el" href="classutil_1_1_type_checker.html#adf3f2936810a843aedc9b416bb4108ef">TypeChecker</a>
+</li>
+<li>ERROR_NOT_IN_SET
+: <a class="el" href="classutil_1_1_type_checker.html#abc232b517af07f7555a9469225ccb7e2">TypeChecker</a>
+</li>
+<li>ERROR_NOT_NUMERIC
+: <a class="el" href="classutil_1_1_type_checker.html#af233e19ed6a9e804d4dae2face5a7f42">TypeChecker</a>
+</li>
+<li>ERROR_REGEX_NO_MATCH
+: <a class="el" href="classutil_1_1_type_checker.html#ab9dbfc6187ae595e0400dd2f4847a8a1">TypeChecker</a>
+</li>
 </ul>
 
 
@@ -256,12 +269,56 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="classutil_1_1_u_r_l.html#a8ed92037d8627cdd7401646ef48aadbe">URL</a>
 </li>
 </ul>
+
+
+<h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>REGEX_TYPE
+: <a class="el" href="classutil_1_1_type_checker.html#a45943906171d388e20c4b13b437d397c">TypeChecker</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>TYPE_BOOL
+: <a class="el" href="classutil_1_1_type_checker.html#a2008e61ac981f88cf7a8218c600077f5">TypeChecker</a>
+</li>
+<li>TYPE_CHAR
+: <a class="el" href="classutil_1_1_type_checker.html#a015168405ecd475597a9211761798efb">TypeChecker</a>
+</li>
+<li>TYPE_ENUM
+: <a class="el" href="classutil_1_1_type_checker.html#a680dcb4933c5c24249d06e7d83bfb08d">TypeChecker</a>
+</li>
+<li>TYPE_EREG
+: <a class="el" href="classutil_1_1_type_checker.html#ac41846afbd051e499ad22491486c9364">TypeChecker</a>
+</li>
+<li>TYPE_FILE
+: <a class="el" href="classutil_1_1_type_checker.html#a6e21fe27fed935d13d258f1b38282e08">TypeChecker</a>
+</li>
+<li>TYPE_INT
+: <a class="el" href="classutil_1_1_type_checker.html#a99c083a2611abba224ce8a0aa7c7885d">TypeChecker</a>
+</li>
+<li>TYPE_SET
+: <a class="el" href="classutil_1_1_type_checker.html#a57e6a25b79785db81e3452d1c6bf28f3">TypeChecker</a>
+</li>
+<li>TYPE_SMALLINT
+: <a class="el" href="classutil_1_1_type_checker.html#a6d1301ce093c68bf776825985ded6935">TypeChecker</a>
+</li>
+<li>TYPE_TEXT
+: <a class="el" href="classutil_1_1_type_checker.html#ae1fdaa7ba3f181a024bf1a6506dd169c">TypeChecker</a>
+</li>
+<li>TYPE_TINYINT
+: <a class="el" href="classutil_1_1_type_checker.html#af61478fc2ca284288613e78deeb1e34b">TypeChecker</a>
+</li>
+<li>TYPE_VARCHAR
+: <a class="el" href="classutil_1_1_type_checker.html#a18b4920bacde6f9e12a386f4a0fcde8f">TypeChecker</a>
+</li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Feb 5 2015 11:24:01 for CalendarTool by
+    <li class="footer">Generated on Sat Feb 7 2015 00:23:29 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -96,7 +95,7 @@ $(document).ready(function(){initNavTree('classutil_1_1database_1_1_s_q_l_abstra
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -132,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad0e21a3c98ae9f8d8f1f69cc5753bec6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6">select</a> ($table, $where_clause=null, array $column_names=null, array $order_by=null, array $group_by=null, $limit_first=null, $limit_nb=null)</td></tr>
 <tr class="memdesc:ad0e21a3c98ae9f8d8f1f69cc5753bec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a select query to the database.  <a href="#ad0e21a3c98ae9f8d8f1f69cc5753bec6">More...</a><br/></td></tr>
 <tr class="separator:ad0e21a3c98ae9f8d8f1f69cc5753bec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63a959b340077023870b5bcd4f5c568"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568">select_one</a> ($table, $where_clause, array $column_names=null, array $order_by=null, array $group_by=null, $limit_first=null, $limit_nb=null)</td></tr>
+<tr class="memdesc:ae63a959b340077023870b5bcd4f5c568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a select query to the database and extracting only the first result.  <a href="#ae63a959b340077023870b5bcd4f5c568">More...</a><br/></td></tr>
+<tr class="separator:ae63a959b340077023870b5bcd4f5c568"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9ae41c429f484035137903685ace34e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae9ae41c429f484035137903685ace34e">insert</a> ($table, array $column_value_map)</td></tr>
 <tr class="memdesc:ae9ae41c429f484035137903685ace34e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending an insert query to the database.  <a href="#ae9ae41c429f484035137903685ace34e">More...</a><br/></td></tr>
 <tr class="separator:ae9ae41c429f484035137903685ace34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -990,6 +992,85 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae63a959b340077023870b5bcd4f5c568"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">select_one </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$where_clause</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$column_names</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$order_by</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$group_by</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$limit_first</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$limit_nb</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Method for sending a select query to the database and extracting only the first result. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$table</td><td>The table name </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$where_clause</td><td>A string containing the where clause </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$column_names</td><td>The names of the colmuns to select (array of strings). null means "*" </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$order_by</td><td>The names of the columns on which the results must be sorted (array of strings). null means no sorting. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$group_by</td><td>The names of the columns on which the results must be grouped (array of strings). null means no grouping. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$limit_first</td><td>The number of the first row to display </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$limit_nb</td><td>The number of rows to extract</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array|bool</td><td>The row extracted from the query result (mapping the column names with the value), an empty array if there was no result or false on error. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The parameters must be correctly escaped </dd>
+<dd>
+If an error occurs, the error code and description can be obtained from the <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a0cb70bee2a022b5feb36b17f6da8d5c9" title="Returns the last error&#39;s code. ">error_code()</a> and <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ac8f7e84858176aa9327fdf8e63bc05ed" title="Returns the last error&#39;s description. ">error_info()</a> methods </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a8dc0c0e58a3e2d53d8fa1be24988e958"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1139,7 +1220,7 @@ Protected Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>database</b></li><li class="navelem"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html">SQLAbstract</a></li>
-    <li class="footer">Generated on Thu Feb 5 2015 11:24:01 for CalendarTool by
+    <li class="footer">Generated on Sat Feb 7 2015 00:23:28 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

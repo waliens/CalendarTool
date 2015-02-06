@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -127,7 +126,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -211,6 +210,10 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html#a095c5d389db211932136b53f25f39685">CalendarPageController</a>
 , <a class="el" href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html#a095c5d389db211932136b53f25f39685">LoginPageController</a>
 , <a class="el" href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html#a095c5d389db211932136b53f25f39685">ProfilePageController</a>
+, <a class="el" href="classct_1_1models_1_1_modification_request_model.html#a095c5d389db211932136b53f25f39685">ModificationRequestModel</a>
+, <a class="el" href="classct_1_1models_1_1_pathway_model.html#a095c5d389db211932136b53f25f39685">PathwayModel</a>
+, <a class="el" href="classct_1_1models_1_1_root_model.html#a095c5d389db211932136b53f25f39685">RootModel</a>
+, <a class="el" href="classct_1_1models_1_1_user_model.html#a095c5d389db211932136b53f25f39685">UserModel</a>
 , <a class="el" href="classutil_1_1entry__point_1_1_browser.html#a095c5d389db211932136b53f25f39685">Browser</a>
 , <a class="el" href="classutil_1_1mvc_1_1_ajax_controller.html#a095c5d389db211932136b53f25f39685">AjaxController</a>
 , <a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#a095c5d389db211932136b53f25f39685">BrowserController</a>
@@ -223,6 +226,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 , <a class="el" href="classutil_1_1superglobals_1_1_s_g___get.html#a095c5d389db211932136b53f25f39685">SG_Get</a>
 , <a class="el" href="classutil_1_1superglobals_1_1_s_g___post.html#a095c5d389db211932136b53f25f39685">SG_Post</a>
 , <a class="el" href="classutil_1_1superglobals_1_1_s_g___session.html#a095c5d389db211932136b53f25f39685">SG_Session</a>
+, <a class="el" href="classutil_1_1_type_checker.html#ac395571e7767c80119b30cf2e5087c59">TypeChecker</a>
 </li>
 </ul>
 
@@ -243,6 +247,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>add_ressource_path()
 : <a class="el" href="classutil_1_1_u_r_l.html#a8e897aad2d2026c32dd7c4148bb7a519">URL</a>
 </li>
+<li>add_root_user()
+: <a class="el" href="classct_1_1models_1_1_root_model.html#a2fb0dab9bea534502ecad38adc88a382">RootModel</a>
+</li>
 <li>array2json()
 : <a class="el" href="classutil_1_1mvc_1_1_ajax_controller.html#a59ab378dfe3164c3e7218dde628aa529">AjaxController</a>
 </li>
@@ -262,6 +269,15 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>check()
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a24c36c616c849529b7aeefdfdad519c6">Superglobal</a>
+</li>
+<li>check_modification_request_data()
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#adeb0d8531cb1538ad3312b977ef72b07">ModificationRequestModel</a>
+</li>
+<li>check_root_auth()
+: <a class="el" href="classct_1_1models_1_1_root_model.html#adcb9e9ab6b274dd4c532335872c7a1be">RootModel</a>
+</li>
+<li>check_ulg_id()
+: <a class="el" href="classct_1_1models_1_1_user_model.html#ab20e5c3734429070bed9e8dcd60aa859">UserModel</a>
 </li>
 <li>check_upload()
 : <a class="el" href="classutil_1_1superglobals_1_1_s_g___files.html#aef1310bfb32abb0585a85a0f1e5cc159">SG_Files</a>
@@ -286,6 +302,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>count()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a05065e9590d7928e48f1b0f39c478393">SQLAbstract</a>
+</li>
+<li>create_user()
+: <a class="el" href="classct_1_1models_1_1_user_model.html#a57ee1f54860607f96170336561011936">UserModel</a>
 </li>
 </ul>
 
@@ -348,6 +367,18 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ac8f7e84858176aa9327fdf8e63bc05ed">SQLAbstract</a>
 , <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#ac8f7e84858176aa9327fdf8e63bc05ed">SQLAbstract_PDO</a>
 </li>
+<li>ERROR_NOT_IN_ENUM
+: <a class="el" href="classutil_1_1_type_checker.html#adf3f2936810a843aedc9b416bb4108ef">TypeChecker</a>
+</li>
+<li>ERROR_NOT_IN_SET
+: <a class="el" href="classutil_1_1_type_checker.html#abc232b517af07f7555a9469225ccb7e2">TypeChecker</a>
+</li>
+<li>ERROR_NOT_NUMERIC
+: <a class="el" href="classutil_1_1_type_checker.html#af233e19ed6a9e804d4dae2face5a7f42">TypeChecker</a>
+</li>
+<li>ERROR_REGEX_NO_MATCH
+: <a class="el" href="classutil_1_1_type_checker.html#ab9dbfc6187ae595e0400dd2f4847a8a1">TypeChecker</a>
+</li>
 <li>execute_query()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a0500ef1cc62855e928abbdb7e62324a1">SQLAbstract</a>
 , <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#a0500ef1cc62855e928abbdb7e62324a1">SQLAbstract_PDO</a>
@@ -399,9 +430,15 @@ $(document).ready(function(){initNavTree('functions.html','');});
 , <a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#aa6c3f8688f804de4f1af8a462fffb922">BrowserController</a>
 , <a class="el" href="classutil_1_1mvc_1_1_controller.html#aa6c3f8688f804de4f1af8a462fffb922">Controller</a>
 </li>
+<li>get_parameters()
+: <a class="el" href="classutil_1_1_type_checker.html#a8d88519ce8f2e7298a2751599bf472c9">TypeChecker</a>
+</li>
 <li>get_starter()
 : <a class="el" href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72">LoginPageController</a>
 , <a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72">BrowserController</a>
+</li>
+<li>get_type()
+: <a class="el" href="classutil_1_1_type_checker.html#ab5be4c3d74f109176ef57e753ebd4918">TypeChecker</a>
 </li>
 <li>get_url()
 : <a class="el" href="classutil_1_1_u_r_l.html#aca2d797bae46792426a69aeb1ac4e0ae">URL</a>
@@ -438,6 +475,12 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>is_set()
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#ac25ca2e2dd14511265fc16fa2fb87402">Superglobal</a>
 </li>
+<li>is_student_id()
+: <a class="el" href="classct_1_1models_1_1_user_model.html#a8193854aea603c8ab15af10fa5f5942f">UserModel</a>
+</li>
+<li>is_valid_password()
+: <a class="el" href="classct_1_1models_1_1_root_model.html#a72b298a76eddc327074fe6928e96de9e">RootModel</a>
+</li>
 </ul>
 
 
@@ -467,6 +510,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
+<li>pathway_exists()
+: <a class="el" href="classct_1_1models_1_1_pathway_model.html#a182a66be0e420ea31cd180e9d89f2bb5">PathwayModel</a>
+</li>
 <li>perform_action()
 : <a class="el" href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html#a9bca36b8a8e8c0a1918ef0be04a63148">CalendarPageController</a>
 , <a class="el" href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html#a9bca36b8a8e8c0a1918ef0be04a63148">LoginPageController</a>
@@ -516,6 +562,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>REGEX_TYPE
+: <a class="el" href="classutil_1_1_type_checker.html#a45943906171d388e20c4b13b437d397c">TypeChecker</a>
+</li>
 <li>rollback()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#afa549adf79e3f8c09fe8f903dd5fbfa7">SQLAbstract</a>
 </li>
@@ -526,11 +575,17 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>select()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6">SQLAbstract</a>
 </li>
+<li>select_one()
+: <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568">SQLAbstract</a>
+</li>
 <li>set_domain_name()
 : <a class="el" href="classutil_1_1_u_r_l.html#a3dacfb5f6029aa9c4504f9be98819310">URL</a>
 </li>
 <li>set_dump_mode()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a8dc0c0e58a3e2d53d8fa1be24988e958">SQLAbstract</a>
+</li>
+<li>set_type()
+: <a class="el" href="classutil_1_1_type_checker.html#a424a47491438d0e72cc283f9c8b0c16a">TypeChecker</a>
 </li>
 </ul>
 
@@ -538,6 +593,42 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>transaction()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a6f5e7602837a6f85fcb02751c073b181">SQLAbstract</a>
+</li>
+<li>transfer_pathway()
+: <a class="el" href="classct_1_1models_1_1_pathway_model.html#acae128addc58c0410d3c5d4ffadfc7e2">PathwayModel</a>
+</li>
+<li>TYPE_BOOL
+: <a class="el" href="classutil_1_1_type_checker.html#a2008e61ac981f88cf7a8218c600077f5">TypeChecker</a>
+</li>
+<li>TYPE_CHAR
+: <a class="el" href="classutil_1_1_type_checker.html#a015168405ecd475597a9211761798efb">TypeChecker</a>
+</li>
+<li>TYPE_ENUM
+: <a class="el" href="classutil_1_1_type_checker.html#a680dcb4933c5c24249d06e7d83bfb08d">TypeChecker</a>
+</li>
+<li>TYPE_EREG
+: <a class="el" href="classutil_1_1_type_checker.html#ac41846afbd051e499ad22491486c9364">TypeChecker</a>
+</li>
+<li>TYPE_FILE
+: <a class="el" href="classutil_1_1_type_checker.html#a6e21fe27fed935d13d258f1b38282e08">TypeChecker</a>
+</li>
+<li>TYPE_INT
+: <a class="el" href="classutil_1_1_type_checker.html#a99c083a2611abba224ce8a0aa7c7885d">TypeChecker</a>
+</li>
+<li>TYPE_SET
+: <a class="el" href="classutil_1_1_type_checker.html#a57e6a25b79785db81e3452d1c6bf28f3">TypeChecker</a>
+</li>
+<li>TYPE_SMALLINT
+: <a class="el" href="classutil_1_1_type_checker.html#a6d1301ce093c68bf776825985ded6935">TypeChecker</a>
+</li>
+<li>TYPE_TEXT
+: <a class="el" href="classutil_1_1_type_checker.html#ae1fdaa7ba3f181a024bf1a6506dd169c">TypeChecker</a>
+</li>
+<li>TYPE_TINYINT
+: <a class="el" href="classutil_1_1_type_checker.html#af61478fc2ca284288613e78deeb1e34b">TypeChecker</a>
+</li>
+<li>TYPE_VARCHAR
+: <a class="el" href="classutil_1_1_type_checker.html#a18b4920bacde6f9e12a386f4a0fcde8f">TypeChecker</a>
 </li>
 </ul>
 
@@ -549,6 +640,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>update()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae44dccde336c9cf20170ff8a6eb06d78">SQLAbstract</a>
 </li>
+<li>user_exists()
+: <a class="el" href="classct_1_1models_1_1_user_model.html#a74c70a4a8fdeb2f2c497c08dc7529e2a">UserModel</a>
+</li>
 <li>user_id()
 : <a class="el" href="classct_1_1_connection.html#a73111142777dd43189b53adcaffe5381">Connection</a>
 </li>
@@ -556,6 +650,12 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
+<li>valid_data()
+: <a class="el" href="classutil_1_1_type_checker.html#abdd56c3d20487afbdcb8ec3511e46e8e">TypeChecker</a>
+</li>
+<li>valid_type()
+: <a class="el" href="classutil_1_1_type_checker.html#a959fee7b9ca7b44af35f85dd7df270c7">TypeChecker</a>
+</li>
 <li>value()
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#ad57b7892cb0ff5a8492c266366323a3e">Superglobal</a>
 </li>
@@ -565,7 +665,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Feb 5 2015 11:24:01 for CalendarTool by
+    <li class="footer">Generated on Sat Feb 7 2015 00:23:29 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

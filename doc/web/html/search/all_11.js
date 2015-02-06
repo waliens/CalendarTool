@@ -1,9 +1,10 @@
 var searchData=
 [
   ['select',['select',['../classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6',1,'util::database::SQLAbstract']]],
-  ['session_5fstarted',['session_started',['../namespacect.html#aa30eb49b40eca5f97fca4489601ef721',1,'ct']]],
+  ['select_5fone',['select_one',['../classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568',1,'util::database::SQLAbstract']]],
   ['set_5fdomain_5fname',['set_domain_name',['../classutil_1_1_u_r_l.html#a3dacfb5f6029aa9c4504f9be98819310',1,'util::URL']]],
   ['set_5fdump_5fmode',['set_dump_mode',['../classutil_1_1database_1_1_s_q_l_abstract.html#a8dc0c0e58a3e2d53d8fa1be24988e958',1,'util::database::SQLAbstract']]],
+  ['set_5ftype',['set_type',['../classutil_1_1_type_checker.html#a424a47491438d0e72cc283f9c8b0c16a',1,'util::TypeChecker']]],
   ['sg_5fcookies',['SG_Cookies',['../classutil_1_1superglobals_1_1_s_g___cookies.html',1,'util::superglobals']]],
   ['sg_5fcookies_2eclass_2ephp',['SG_Cookies.class.php',['../_s_g___cookies_8class_8php.html',1,'']]],
   ['sg_5ffiles',['SG_Files',['../classutil_1_1superglobals_1_1_s_g___files.html',1,'util::superglobals']]],
@@ -14,13 +15,10 @@ var searchData=
   ['sg_5fpost_2eclass_2ephp',['SG_Post.class.php',['../_s_g___post_8class_8php.html',1,'']]],
   ['sg_5fsession',['SG_Session',['../classutil_1_1superglobals_1_1_s_g___session.html',1,'util::superglobals']]],
   ['sg_5fsession_2eclass_2ephp',['SG_Session.class.php',['../_s_g___session_8class_8php.html',1,'']]],
-  ['shuffle_5frows',['shuffle_rows',['../namespacect.html#acc0a4178577b6e70e8886c525b10a394',1,'ct']]],
   ['sqlabstract',['SQLAbstract',['../classutil_1_1database_1_1_s_q_l_abstract.html',1,'util::database']]],
   ['sqlabstract_2eclass_2ephp',['SQLAbstract.class.php',['../_s_q_l_abstract_8class_8php.html',1,'']]],
   ['sqlabstract_5fpdo',['SQLAbstract_PDO',['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html',1,'util::database']]],
   ['sqlabstract_5fpdo_2eclass_2ephp',['SQLAbstract_PDO.class.php',['../_s_q_l_abstract___p_d_o_8class_8php.html',1,'']]],
-  ['starts_5fwith',['starts_with',['../namespacect.html#a8a6ac3da789387d2f6ea57a541dbc47e',1,'ct']]],
-  ['subarray',['subarray',['../namespacect.html#ad2d9ea488b13c0296fd356911439ccbf',1,'ct']]],
   ['superglobal',['Superglobal',['../classutil_1_1superglobals_1_1_superglobal.html',1,'util::superglobals']]],
   ['superglobal_2eclass_2ephp',['Superglobal.class.php',['../_superglobal_8class_8php.html',1,'']]]
 ];

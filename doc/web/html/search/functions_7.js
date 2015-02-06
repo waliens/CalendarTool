@@ -10,9 +10,10 @@ var searchData=
   ['get_5finstance',['get_instance',['../classct_1_1_connection.html#aeeb76432d095288ac056df22cca56d16',1,'ct\Connection\get_instance()'],['../classutil_1_1database_1_1_database.html#aeeb76432d095288ac056df22cca56d16',1,'util\database\Database\get_instance()']]],
   ['get_5fitem',['get_item',['../classutil_1_1mvc_1_1_category_model.html#a7eed8be48b18148b9a3b3643daae28f0',1,'util::mvc::CategoryModel']]],
   ['get_5fitems',['get_items',['../classutil_1_1mvc_1_1_category_model.html#a63e91ce3cdf2e9c22e1c3c89c5905712',1,'util::mvc::CategoryModel']]],
-  ['get_5fos',['get_OS',['../namespacect.html#a931519592e0b89c57e82a2b1d259d2d9',1,'ct']]],
   ['get_5foutput',['get_output',['../classutil_1_1mvc_1_1_ajax_controller.html#aa6c3f8688f804de4f1af8a462fffb922',1,'util\mvc\AjaxController\get_output()'],['../classutil_1_1mvc_1_1_browser_controller.html#aa6c3f8688f804de4f1af8a462fffb922',1,'util\mvc\BrowserController\get_output()'],['../classutil_1_1mvc_1_1_controller.html#aa6c3f8688f804de4f1af8a462fffb922',1,'util\mvc\Controller\get_output()']]],
+  ['get_5fparameters',['get_parameters',['../classutil_1_1_type_checker.html#a8d88519ce8f2e7298a2751599bf472c9',1,'util::TypeChecker']]],
   ['get_5fstarter',['get_starter',['../classct_1_1controllers_1_1browser_1_1_login_page_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72',1,'ct\controllers\browser\LoginPageController\get_starter()'],['../classutil_1_1mvc_1_1_browser_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72',1,'util\mvc\BrowserController\get_starter()']]],
+  ['get_5ftype',['get_type',['../classutil_1_1_type_checker.html#ab5be4c3d74f109176ef57e753ebd4918',1,'util::TypeChecker']]],
   ['get_5furl',['get_url',['../classutil_1_1_u_r_l.html#aca2d797bae46792426a69aeb1ac4e0ae',1,'util::URL']]],
   ['get_5fwhere_5fkey_5fclause',['get_where_key_clause',['../classutil_1_1mvc_1_1_category_model.html#a2a05109bd845fc4845cfeabc0c260882',1,'util::mvc::CategoryModel']]]
 ];

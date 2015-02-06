@@ -5,6 +5,9 @@ var searchData=
   ['categorymodel',['CategoryModel',['../classutil_1_1mvc_1_1_category_model.html',1,'util::mvc']]],
   ['categorymodel_2eclass_2ephp',['CategoryModel.class.php',['../_category_model_8class_8php.html',1,'']]],
   ['check',['check',['../classutil_1_1superglobals_1_1_superglobal.html#a24c36c616c849529b7aeefdfdad519c6',1,'util::superglobals::Superglobal']]],
+  ['check_5fmodification_5frequest_5fdata',['check_modification_request_data',['../classct_1_1models_1_1_modification_request_model.html#adeb0d8531cb1538ad3312b977ef72b07',1,'ct::models::ModificationRequestModel']]],
+  ['check_5froot_5fauth',['check_root_auth',['../classct_1_1models_1_1_root_model.html#adcb9e9ab6b274dd4c532335872c7a1be',1,'ct::models::RootModel']]],
+  ['check_5fulg_5fid',['check_ulg_id',['../classct_1_1models_1_1_user_model.html#ab20e5c3734429070bed9e8dcd60aa859',1,'ct::models::UserModel']]],
   ['check_5fupload',['check_upload',['../classutil_1_1superglobals_1_1_s_g___files.html#aef1310bfb32abb0585a85a0f1e5cc159',1,'util::superglobals::SG_Files']]],
   ['chk_5fall',['CHK_ALL',['../classutil_1_1superglobals_1_1_superglobal.html#ab470e80d06e872a2247dbe15dd32cea9',1,'util::superglobals::Superglobal']]],
   ['chk_5fisset',['CHK_ISSET',['../classutil_1_1superglobals_1_1_superglobal.html#ae0dc2fa64b63c12a61fbdc3893ad4cfb',1,'util::superglobals::Superglobal']]],
@@ -18,5 +21,5 @@ var searchData=
   ['controller',['Controller',['../classutil_1_1mvc_1_1_controller.html',1,'util::mvc']]],
   ['controller_2eclass_2ephp',['Controller.class.php',['../_controller_8class_8php.html',1,'']]],
   ['count',['count',['../classutil_1_1database_1_1_s_q_l_abstract.html#a05065e9590d7928e48f1b0f39c478393',1,'util::database::SQLAbstract']]],
-  ['ct',['ct',['../namespacect.html',1,'']]]
+  ['create_5fuser',['create_user',['../classct_1_1models_1_1_user_model.html#a57ee1f54860607f96170336561011936',1,'ct::models::UserModel']]]
 ];

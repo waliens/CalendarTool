@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -96,7 +95,7 @@ $(document).ready(function(){initNavTree('classutil_1_1database_1_1_s_q_l_abstra
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -150,6 +149,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad0e21a3c98ae9f8d8f1f69cc5753bec6 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6">select</a> ($table, $where_clause=null, array $column_names=null, array $order_by=null, array $group_by=null, $limit_first=null, $limit_nb=null)</td></tr>
 <tr class="memdesc:ad0e21a3c98ae9f8d8f1f69cc5753bec6 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a select query to the database.  <a href="#ad0e21a3c98ae9f8d8f1f69cc5753bec6">More...</a><br/></td></tr>
 <tr class="separator:ad0e21a3c98ae9f8d8f1f69cc5753bec6 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63a959b340077023870b5bcd4f5c568 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568">select_one</a> ($table, $where_clause, array $column_names=null, array $order_by=null, array $group_by=null, $limit_first=null, $limit_nb=null)</td></tr>
+<tr class="memdesc:ae63a959b340077023870b5bcd4f5c568 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a select query to the database and extracting only the first result.  <a href="#ae63a959b340077023870b5bcd4f5c568">More...</a><br/></td></tr>
+<tr class="separator:ae63a959b340077023870b5bcd4f5c568 inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9ae41c429f484035137903685ace34e inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae9ae41c429f484035137903685ace34e">insert</a> ($table, array $column_value_map)</td></tr>
 <tr class="memdesc:ae9ae41c429f484035137903685ace34e inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending an insert query to the database.  <a href="#ae9ae41c429f484035137903685ace34e">More...</a><br/></td></tr>
 <tr class="separator:ae9ae41c429f484035137903685ace34e inherit pub_methods_classutil_1_1database_1_1_s_q_l_abstract"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -548,7 +550,7 @@ The method returns a PDO::PDOStatement object on which the method PDO::PDOStatem
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>database</b></li><li class="navelem"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html">SQLAbstract_PDO</a></li>
-    <li class="footer">Generated on Thu Feb 5 2015 11:24:01 for CalendarTool by
+    <li class="footer">Generated on Sat Feb 7 2015 00:23:28 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -11,5 +11,7 @@ var searchData=
   ['is_5fconnected',['is_connected',['../classct_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2',1,'ct::Connection']]],
   ['is_5fempty',['is_empty',['../classutil_1_1superglobals_1_1_superglobal.html#a0b25ccb9268800ddc5bb2cc4028cd835',1,'util::superglobals::Superglobal']]],
   ['is_5froot',['is_root',['../classct_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263',1,'ct::Connection']]],
-  ['is_5fset',['is_set',['../classutil_1_1superglobals_1_1_superglobal.html#ac25ca2e2dd14511265fc16fa2fb87402',1,'util::superglobals::Superglobal']]]
+  ['is_5fset',['is_set',['../classutil_1_1superglobals_1_1_superglobal.html#ac25ca2e2dd14511265fc16fa2fb87402',1,'util::superglobals::Superglobal']]],
+  ['is_5fstudent_5fid',['is_student_id',['../classct_1_1models_1_1_user_model.html#a8193854aea603c8ab15af10fa5f5942f',1,'ct::models::UserModel']]],
+  ['is_5fvalid_5fpassword',['is_valid_password',['../classct_1_1models_1_1_root_model.html#a72b298a76eddc327074fe6928e96de9e',1,'ct::models::RootModel']]]
 ];

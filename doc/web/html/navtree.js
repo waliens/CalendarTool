@@ -4,13 +4,6 @@ var NAVTREE =
     [ "README", "md__d_1__documents__bit_bucket__calendar_tool_web__r_e_a_d_m_e.html", null ],
     [ "README", "md__d_1__documents__bit_bucket__calendar_tool_web_scripts__r_e_a_d_m_e.html", null ],
     [ "Todo List", "todo.html", null ],
-    [ "Namespaces", null, [
-      [ "Namespace List", "namespaces.html", "namespaces" ],
-      [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
-        [ "Functions", "namespacemembers_func.html", null ]
-      ] ]
-    ] ],
     [ "Data Structures", null, [
       [ "Data Structures", "annotated.html", "annotated" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -33,7 +26,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-".html"
+".html",
+"functions_8php.html#a7575b8254e22eb72ceff74028c187046"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

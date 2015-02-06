@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['url_2eclass_2ephp',['URL.class.php',['../_u_r_l_8class_8php.html',1,'']]]
+  ['typechecker_2eclass_2ephp',['TypeChecker.class.php',['../_type_checker_8class_8php.html',1,'']]]
 ];
