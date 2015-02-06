@@ -97,6 +97,35 @@
 			return $this->execute_query($query);
 		}
 
+		/** 
+		 * @brief Method for sending a select query to the database and extracting only the first result
+		 * @param[in] string $table        The table name
+		 * @param[in] string $where_clause A string containing the where clause 
+		 * @param[in] array  $column_names The names of the colmuns to select (array of strings). null means "*"
+		 * @param[in] array  $order_by     The names of the columns on which the results must be sorted (array of strings). null means no sorting.
+		 * @param[in] array  $group_by     The names of the columns on which the results must be grouped (array of strings). null means no grouping.
+		 * @param[in] int    $limit_first  The number of the first row to display
+		 * @param[in] int    $limit_nb     The number of rows to extract
+		 *
+		 * @retval array|bool The row extracted from the query result (mapping the column names with the value), an empty array if there was no result
+		 * or false on error.
+		 * @note The parameters must be correctly escaped 
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
+		 */
+		public function select_one($table, $where_clause, array $column_names = null, array $order_by = null, 
+									array $group_by = null, $limit_first = null, $limit_nb = null)
+		{
+			$result = $this->select($table, $where_clause, $column_names, $order_by, $group_by, $limit_first, $limit_nb);
+
+			if(!is_array($result))
+				return false;
+
+			if(empty($result))
+				return array();
+
+			return $result[0];
+		}
+
 		/**
 		 * @brief Method for sending an insert query to the database
 		 * @param[in] string $table            The table name
