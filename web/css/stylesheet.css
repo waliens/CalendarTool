@@ -85,3 +85,35 @@ width: 100%;
 .marg-top-40{
 	margin-top:40px;
 	}
+	
+.margin-left-10{
+	margin-left:10px;
+	}
+	
+.float-left{
+	float:left;
+	margin-right:40px;
+	}
+	
+.float-left:last-of-type{
+	margin-right:0;
+	}
+	
+#user-optional-courses .checkbox, #user-mandatory-courses .checkbox{
+	margin-top:0;
+	} 
+	
+.min-width-80{
+	min-width:80px;
+	}
+.width-30{
+	width:30px;
+	}
+	
+.common_text{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+font-size: 14px;
+line-height: 1.42857143;
+color: #333;
+font-weight:100;
+	}

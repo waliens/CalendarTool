@@ -8,12 +8,12 @@
 <link rel="stylesheet" href"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
 <!-- Added css -->
-<link rel="stylesheet" href="css\stylesheet.css">
+<link rel="stylesheet" href="..\css\stylesheet.css">
 
 <!-- Custom styles for this template -->
-<link href="css\jumbotron.css" rel="stylesheet">
+<link href="..\css\jumbotron.css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="icon" href="imgs/myulg.ico">
+<link rel="icon" href="..\imgs\myulg.ico">
 <title>MyULG Calendar Tool</title>
 </head>
 
@@ -26,8 +26,8 @@
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li><a href="#">Calendrier</a></li>
-        <li class="active"><a href="#profile">Profile</a></li>
-        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
+        <li><a href="#profile">Profile</a></li>
+        <li class="active dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Demandes d'accès au calendrier</a></li>
             <li class="divider"></li>
@@ -47,43 +47,25 @@
 <div class="container marg-top-40">
   <div class="panel panel-primary width-70 center marg-bot-40">
     <div class="panel-heading">
-      <h3 class="panel-title text-center">Profile</h3>
+      <h3 class="panel-title text-center">Export Statique</h3>
     </div>
     <div class="panel-body">
-      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Student</span></p>
-      <p><span class="text-info text-bold">Nom: </span><span id="user-name"><!--USERNAME--></span></p>
-      <p><span class="text-info text-bold">Pathway: </span><span id="user-pathway"><!--PATHWAY--></span></p>
-    </div>
-  </div>
-  <div class="panel-group width-70 center" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default">
-      <div class="panel-heading" role="tab" id="headingOne">
-        <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Mes cours </a> </h4>
-      </div>
-      <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-        <table class="table" id="user-mandatory-courses">
-        <tr><td class="min-width-80">Course ID</td><td>Title</td></tr>
-          <!--FILLED BY AJAX WITH LIST MANDATORY COURSES-->
+      <table class="table" id="user-mandatory-courses">
+        <tr><td colspan="2">Filtrer par:</td></tr>
+         <tr><td class="width-30"><input type="checkbox" id="all_events_filter"></td><td>Tous les événements</td></tr> 
+         <tr><td class="width-30"><input type="checkbox" id="date_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par date</td></tr>
+         <tr><td class="width-30"><input type="checkbox" id="course_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par course</td></tr>
+         <tr><td class="width-30"><input type="checkbox" id="event_type_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par type d'événement</td></tr>
+         <tr><td class="width-30"><input type="checkbox" id="session_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par session</td></tr>
+         <tr><td class="width-30"><input type="checkbox" id="professor_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par professeur</td></tr>     
         </table>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading" role="tab" id="headingTwo">
-        <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> Cours Optionnels </a> </h4>
-      </div>
-      <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-        <table class="table" id="user-optional-courses">
-        <tr><td class="min-width-80">Course ID</td><td>Title</td><td class="text-center">Sélectionner</td></tr>
-          <!--FILLED BY AJAX WITH LIST OPTIONAL COURSES-->
-        </table>
-      </div>
     </div>
   </div>
 </div>
 <!-- /.container -->
 <div id="footer"> Copyright &copy; <script>document.write(new Date().getFullYear())</script> SEGI - Université de Liège </div>
-<!-- Optional Course Alert -->
-<div class="modal fade" id="optional_course_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Filter Alert -->
+<div class="modal fade" id="filter_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -91,11 +73,10 @@
         <h4 class="modal-title" id="myModalLabel"><!--ALERT TITLE--></h4>
       </div>
       <div class="modal-body">
-        <p><!--ALERT CONTENT--></p>
+        <!--ALERT CONTENT-->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Sauver</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
       </div>
     </div>
   </div>
@@ -103,10 +84,14 @@
 <!-- Bootstrap core JavaScript
     ================================================== --> 
 <!-- Placed at the end of the document so the pages load faster --> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+ 
 <!-- Latest compiled and minified JavaScript --> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
 <!-- added js --> 
-<script src="js\student_profile.js"></script>
+<script src="..\js\static_export.js"></script>
+<!--date picker js and css-->
+<link rel="stylesheet" media="screen" type="text/css" href="../css/dhtmlxcalendar.css" />
+<script type="text/javascript" src="../js/dhtmlxcalendar.js"></script>
 </body>
 </html>
