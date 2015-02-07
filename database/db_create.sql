@@ -353,7 +353,6 @@ CREATE TABLE IF NOT EXISTS `modification_request`
 CREATE TABLE IF NOT EXISTS `modification_target`
 (
 	`Id_Target` int(11) NOT NULL AUTO_INCREMENT, 
-	`Table` varchar(255) NOT NULL,
 	`Name` varchar(255) NOT NULL,
 	`Type` varchar(255) NOT NULL,
 	PRIMARY KEY(`Id_Target`)
@@ -363,7 +362,6 @@ CREATE TABLE IF NOT EXISTS `modification`
 (
 	`Id_Request` int(11) NOT NULL,
 	`Id_Target` int(11) NOT NULL, 
-	`Operation` enum('add', 'delete', 'update') NOT NULL DEFAULT 'update',
 	`Proposition` text NOT NULL,
 	FOREIGN KEY(`Id_Request`) REFERENCES `modification_request`(`Id_Request`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Target`) REFERENCES `modification_target`(`Id_Target`) ON DELETE CASCADE,
