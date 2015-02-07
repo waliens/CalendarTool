@@ -202,3 +202,22 @@
 		array_walk($array, function(&$val, $key) use (&$out_array, $glue) { $out_array[] = $key.$glue.$val; });
 		return $out_array;
 	}
+
+	/**
+	 * @brief Checks whether the given date is valid (i.e. it is not a 30th of February for instance)
+	 * @param[in] string $date The string containing a date in the SQL format (YYYY-MM-DD)
+	 * @retval bool True if the date is valide, false otherwise
+	 * @note The date can be contained in a wider string containing other items than a date 
+	 */
+	function date_exists($date)
+	{
+		$matches = array();
+
+		if(!preg_match("#([0-9]{4})-([0-9]{2})-([0-9]{2})#", $date))
+			return false;
+
+		if(!empty($matches))
+			return false;
+
+		return checkdate($matches[2], $matches[3], $matches[1]);
+	}
