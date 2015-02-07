@@ -21,6 +21,7 @@
 		private $req_status; /**< @brief Array containing the possible status for a request */
 		private $targets; /**< @brief Array containing the possible modification targets' information */
 		private $type_checker; /**< @brief A TypeChecker object */
+		private $event_mod;
 
 		/**
 		 * @brief Construct the ModificationRequestModel object
@@ -31,6 +32,7 @@
 			$this->req_status = array('sent', 'accepted', 'cancelled', 'refused');
 			$this->type_checker = new TypeChecker();
 			$this->populate_targets();
+			$this->event_mod = new EventModel();
 		}
 
 		/**
@@ -72,10 +74,8 @@
 		{
 			$error_desc = array();
 
-			$event_mod = new EventModele();
-
 			// event should exist
-			if(!is_int($data['event']) || !$event_mod->event_exists($data['event']))
+			if(!is_int($data['event']) || !$this->event_mod->event_exists($data['event']))
 				$error_desc['event'] = "Cet événement n'existe pas";
  
  			// no check for the status -> set by the model according to the action
@@ -96,10 +96,11 @@
  				if(!$this->type_checker->valid_data($target['proposition'])) // check proposition string
  				{
  					$error_desc['targets'] = "Au moins une modification demandée est impossible";
- 					break,
+ 					break;
  				}
 
-
+ 				if(!$this->check_proposition_array($target['target_id'], $data['event'], $target['proposition']))
+ 					$error_desc['targets'] = "Au moins une modification demandée est impossible";
  			}
 
 			return empty($error_desc);
@@ -125,16 +126,38 @@
 				return (count($proposition) == 2) 
 						&& ct\date_exists($proposition['start']) 
 						&& ct\date_exists($proposition['end']);
-
 			
 			case "change_date":
+				$event = $this->event_mod->get_event_temporal_data($event_id);
+
+				if($event['Type'] !== EventModel::TEMP_DATE_RANGE_EVENT) // only date_range can be modified with change_date
+					return false;
+
+				if(!ct\date_exists($proposition['date']))
+					return false;
+
+				if($proposition['what'] === "start")
+					return ct\date_cmp($proposition['date'], $event['End']) < 0;
+				else return ct\date_cmp($event['Start'], $proposition['date']) < 0;
+
 			case "change_time":
+
+				if($event['Type'] === EventModel::TEMP_DATE_RANGE_EVENT) // date_range cannot be modified with change_time
+					return false;
+
+				if(!ct\date_exists($proposition['time']))
+					return false;
+
+				if($event['Type'] === EventModel::TEMP_DEADLINE_EVENT)
+					return true;
+
+				if($proposition['what'] === "start")
+					return ct\date_cmp($proposition['date'], $event['End']) < 0;
+				else return ct\date_cmp($event['Start'], $proposition['date']) < 0;
 
 			default:
 				return false;
 			}
-
-			return true;
 		}
 
 
@@ -162,7 +185,7 @@
 		 * 3. to_time_range : an array ('start' => $start_datetime, 'end' => $end_datetime)
 		 * 4. to_deadline   : a string indicating the new datetime
 		 * 5. change_date   : an array ('what' => ("start"|"end"), 'date' => $new_date)
-		 * 6. change_time   : an array ('what' => ("start"|"end"|"deadline"), 'date' => $new_date)
+		 * 6. change_time   : an array ('what' => ("start"|"end"|"deadline"), 'time' => $new_datetime)
 		 * 
 		 */
 		public function insert_modification_request(array $data)

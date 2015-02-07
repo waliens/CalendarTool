@@ -221,3 +221,14 @@
 
 		return checkdate($matches[2], $matches[3], $matches[1]);
 	}
+
+	/** 
+	 * @brief Compare two datetime  
+	 * @param[in] string $date1 First datetime
+	 * @param[in] string $date2 Second datetime
+	 * @retval int A value < 0 if $date1 < $date2, > 0 if $date1 > $date2 and 0 if the datetime are equal
+	 */
+	function date_cmp($date1, $date2)
+	{
+		return strtotime($date1) < strtotime($date2);
+	}
