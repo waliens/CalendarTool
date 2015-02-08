@@ -117,3 +117,40 @@ line-height: 1.42857143;
 color: #333;
 font-weight:100;
 	}
+	
+.padding-6-55{
+	padding:6px 55px;
+	}
+
+.div-32{
+	width:32px;
+	height:32px;
+	overflow:hidden;
+	}
+
+.edit, .delete{
+	background-repeat: no-repeat;
+	width:32px;
+	height:32px;
+	cursor:pointer;
+	display:inline-block;
+	}
+	
+.delete{
+	background:url("../imgs/delete-icon.png") 0 0;
+	}
+
+.delete:hover{
+	background:url("../imgs/delete-icon.png") -32px 0;
+	}	
+.edit{
+	background:url("../imgs/edit-icon.png") 0 0;
+	}
+	
+.edit:hover{
+	background:url("../imgs/edit-icon.png") -32px 0;
+	}
+
+a{
+cursor:pointer;	
+	}
