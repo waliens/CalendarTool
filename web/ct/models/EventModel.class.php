@@ -107,16 +107,20 @@
 		/** 
 		 * @brief Checks if the given event exists
 		 * @param[in] int $event_id The event id
+		 * @param[in] int   $lock_mode	 One of the Model LOCKMODE_* class constant 
 		 * @retval bool True if the event exists, false otherwise
+		 * @note A read lock on the event table might be acquired (according to the lock_mode) 
 		 */
-		public function event_exists($event_id)
+		public function event_exists($event_id, $lock_mode=Model::LOCKMODE_NO_LOCK)
 		{
-			return $this->sql->count("event", "Id_Event = ".$this->sql->quote($event_id)) > 0;
+			if($this->do_lock())
+			$ret = $this->sql->count("event", "Id_Event = ".$this->sql->quote($event_id)) > 0;
 		}
 
 		/**
 		 * @brief Returns the temporal data of the given event
 		 * @param[in] int $event_id The identifier of the event
+		 * @param[in] int   $lock_mode	 One of the Model LOCKMODE_* class constant 
 		 * @retval array Array containing the temporal data (empty array means that the event does not exist)
 		 * @note The array contains a field 'Type' of which the value is one of the TEMP_* class constant. This 
 		 * field identify the temporal type of the event
@@ -128,8 +132,11 @@
 		 *  <li>date_range : array('Start' => date, 'End' => date, 'Type' => ...)</li>
 		 * </ul>
 		 */
-		public function get_event_temporal_data($event_id)
+		public function get_event_temporal_data($event_id, $lock_mode=Model::LOCKMODE_NO_LOCK)
 		{
+			if($this->do_lock($lock_mode))
+				$this->sql->lock(array("time_range_event READ", "date_range_event READ", "deadline_event READ"));
+
 			$query  =  "SELECT Start, End, 'time_range' AS Type FROM `time_range_event` WHERE Id_Event = ? 
 						UNION ALL
 						SELECT Start, End, 'date_range' AS Type FROM `date_range_event` WHERE Id_Event = ?
@@ -137,6 +144,9 @@
 						SELECT '' AS Start, `Limit` AS End, 'deadline' AS Type FROM `deadline_event` WHERE Id_Event = ?";
 
 		 	$event = $this->execute_query($query, array($event_id, $event_id, $event_id));
+
+		 	if($this->do_unlock())
+				$this->sql->unlock();
 
 		 	if(empty($event))
 		 		return array();

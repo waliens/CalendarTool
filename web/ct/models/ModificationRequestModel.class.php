@@ -63,19 +63,22 @@
 		/**
 		 * @brief Checks the integrity of the data of a modification request and cleans it if necessary
 		 * @param[in]  array $data 		 An array containing the data to check 
-		 * @param[out] array $error_desc Contains an error description for each field which wasn't valid
+		 * @param[out] array $error_desc Contains an error description for each field that wasn't valid
+		 * @param[in]  int   $lock_mode	 One of the Model LOCKMODE_* class constant 
 		 * @retval bool True if the data were correctly formatted, false otherwise
 		 *
 		 * @note The $data array should be structured as for the insert_modification_request function
 		 * @note The formatting of error desc is the same as the data array 
 		 * @note This function might access the following tables : event, modification_target
 		 */
-		public function check_modification_request_data(array &$data, array &$error_desc)
+		public function check_modification_request_data(array &$data, array &$error_desc, $lock_mode=Model::LOCKMODE_NO_LOCK)
 		{
 			$error_desc = array();
+			// set the lock mod for the model function call
+			$sub_lock_mode = $this->get_sub_lockmode($lock_mode);
 
 			// event should exist
-			if(!is_int($data['event']) || !$this->event_mod->event_exists($data['event']))
+			if(!is_int($data['event']) || !$this->event_mod->event_exists($data['event'], $sub_lock_mode))
 				$error_desc['event'] = "Cet événement n'existe pas";
  
  			// no check for the status -> set by the model according to the action
@@ -99,9 +102,12 @@
  					break;
  				}
 
- 				if(!$this->check_proposition_array($target['target_id'], $data['event'], $target['proposition']))
+ 				if(!$this->check_proposition_array($target['target_id'], $data['event'], $target['proposition'], $sub_lock_mode))
  					$error_desc['targets'] = "Au moins une modification demandée est impossible";
  			}
+
+ 			if($this->do_unlock($lock_mode))
+ 				$this->sql->unlock();
 
 			return empty($error_desc);
 		}
@@ -111,58 +117,94 @@
 		 * @param[in] int   $target_id   The id of the target
 		 * @param[in] int   $event_id    The id of the event to modify
 		 * @param[in] mixed $proposition The proposition (see insert_modification_request for the formatting)
+		 * @param[in] int   $lock_mode	 One of the Model LOCKMODE_* class constant 
 		 * @retval bool True if the proposition is valid, false otherwise
+		 * @note If no_lock is false then read locks are acquired on the tables date_range_event, time_range_event and
+		 * deadline_event.
 		 */
-		private function check_proposition_array($target_id, $event_id, $proposition)
+		private function check_proposition_array($target_id, $event_id, $proposition, $lock_mode=Model::LOCKMODE_NO_LOCK)
 		{
+			$valid;
 			// should check if the date exists and if the start and end ordered properly
 			switch($this->targets[$target_id]['Name'])
 			{
 			case "to_deadline": 
-				return ct\date_exists($proposition);
+				$valid = ct\date_exists($proposition);
+				break;
 
 			case "to_time_range":
 			case "to_date_range":
-				return (count($proposition) == 2) 
+				$valid = (count($proposition) == 2) 
 						&& ct\date_exists($proposition['start']) 
 						&& ct\date_exists($proposition['end']);
-			
+				break;
+
 			case "change_date":
-				$event = $this->event_mod->get_event_temporal_data($event_id);
+
+				$event = $this->event_mod->get_event_temporal_data($event_id, $sub_lock_mode);
 
 				if($event['Type'] !== EventModel::TEMP_DATE_RANGE_EVENT) // only date_range can be modified with change_date
-					return false;
+				{	
+					$valid = false;
+					break;
+				}
 
 				if(!ct\date_exists($proposition['date']))
-					return false;
+				{
+					$valid = false;
+					break;
+				}
 
 				if($proposition['what'] === "start")
-					return ct\date_cmp($proposition['date'], $event['End']) < 0;
-				else return ct\date_cmp($event['Start'], $proposition['date']) < 0;
+					$valid = ct\date_cmp($proposition['date'], $event['End']) < 0;
+				else $valid = ct\date_cmp($event['Start'], $proposition['date']) < 0;
+
+				break;
 
 			case "change_time":
 
+				$event = $this->event_mod->get_event_temporal_data($event_id, $sub_lock_mode);
+
 				if($event['Type'] === EventModel::TEMP_DATE_RANGE_EVENT) // date_range cannot be modified with change_time
-					return false;
+				{
+					$valid = false;
+					break;
+				}
 
 				if(!ct\date_exists($proposition['time']))
-					return false;
+				{
+					$valid = false;
+					break;
+				}
 
 				if($event['Type'] === EventModel::TEMP_DEADLINE_EVENT)
-					return true;
+				{
+					$valid = true;
+					break;
+				}
 
 				if($proposition['what'] === "start")
-					return ct\date_cmp($proposition['date'], $event['End']) < 0;
-				else return ct\date_cmp($event['Start'], $proposition['date']) < 0;
+					$valid = ct\date_cmp($proposition['date'], $event['End']) < 0;
+				else $valid = ct\date_cmp($event['Start'], $proposition['date']) < 0;
+
+				break;
 
 			default:
-				return false;
+				$valid = false;
 			}
+
+			if($this->do_unlock($lock_mode))
+				$this->sql->unlock();
+
+			return $valid;
 		}
 
 
 		/**
-		 * @brief Insert the  
+		 * @brief Insert a new modification request into the database
+		 * @param[in]  array $data 		 The modification request data
+		 * @param[out] array $error_desc Contains an error description for each field that wasn't valid
+		 * @param[in]  int   $lock_mode	 One of the Model LOCKMODE_* class constant 
 		 *
 		 * @note The $data array should be structured as follows :
 		 * <ul>
@@ -188,7 +230,7 @@
 		 * 6. change_time   : an array ('what' => ("start"|"end"|"deadline"), 'time' => $new_datetime)
 		 * 
 		 */
-		public function insert_modification_request(array $data)
+		public function insert_modification_request(array $data, $lock_mode=Model::LOCKMODE_NO_LOCK)
 		{
 
 		}
