@@ -120,10 +120,53 @@
 			$query = "INSERT INTO ".$table."(".implode(", ", array_keys($column_value_map)).") 
 					       VALUES (".implode(", ", array_values($column_value_map)).");";
 
+			echo $query;
 			return $this->execute_query($query);
 		}
 
+		/**
+		 * @brief Method for sending an insert query to the database in order to insert multiple rows at once
+		 * @param[in] string $table   The table in which the rows must be inserted
+		 * @param[in] array  $values  A multidimensionnal array of which the subarrays (rows) are the values
+		 * @param[in] array  $columns The columns in which the values must be inserted (optionnal)
+		 * to insert as new rows. The values must be ordered in the same way as in $columns
+		 * 
+		 * @note The values are should not be escaped
+		 * 
+		 * Example :
+		 * @code
+		 * // sends "INSERT INTO my_table(col1, col2) VALUES('val1', 'val2'), ('val1bis', 'val2bis');"
+		 * $columns = array('col1', 'col2');
+		 * $values  = array(array('val1', 'val2'), array('val1bis', 'val2bis'));
+		 * $foo->insert_batch("my_table", $columns, $values);
+		 * @endcode
+		 */
+		public function insert_batch($table, array $values, array $columns = null)
+		{
+			if($columns == null)
+				$query = "INSERT INTO ".$table." VALUES ";
+			else
+				$query = "INSERT INTO ".$table."(".implode(", ", $columns).") VALUES ";
 
+			$col_count = ($columns != null ? count($columns) : (empty($values) ? 0 : count($values[0])));
+			$qmark_str_array = array_fill(0, count($values), "(".implode(",", array_fill(0, $col_count, "?")).")");
+			$data_array = $this->array_flatten($values);
+			return $this->execute_query($query.implode(",", $qmark_str_array).";", $data_array);
+		}
+
+		/**
+		 * @brief Flatten an multidimensionnal array
+		 * @param[in] array $array The array to flatten
+		 * @retval array The flattened array
+		 * @note Taken from 'too much php' post on stackoverflow (url: http://goo.gl/UUCMTp)
+		 */
+		private function array_flatten(array $array)
+		{
+		    $return = array();
+		    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
+		    return $return;
+		}
+		
 		/**
 		 * @brief Method for sending a delete query to the database
 		 * @param[in] string $table The table name

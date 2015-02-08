@@ -7,11 +7,12 @@
 
 	namespace util\mvc;
 	
+	use util\database\Database as Database;
 	use util\database\SQLAbstract_PDO as SQLAbstract_PDO;
 
 	/**
 	 * @class Model
-	 * @brief Base class for model
+	 * @brief Base class for models
 	 */
 	abstract class Model
 	{
@@ -23,7 +24,7 @@
 		 */
 		public function __construct()
 		{
-			$this->pdo = Database::getInstance()->getHandle();
+			$this->pdo = Database::get_instance()->get_handle();
 			$this->sql = SQLAbstract_PDO::buildByPDO($this->pdo);
 		}
 

@@ -1,6 +1,7 @@
 
 CREATE DATABASE IF NOT EXISTS calendar_tool 
-CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+	DEFAULT CHARACTER SET utf8
+	DEFAULT COLLATE utf8_general_ci;
 
 USE calendar_tool;
 
@@ -122,6 +123,7 @@ CREATE TABLE IF NOT EXISTS `global_event_subscription`
 (
 	`Id_Global_Event` int(11) NOT NULL,
 	`Id_Student` int(11) NOT NULL,
+	`Free_Student` boolean NOT NULL,
 	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Student`) REFERENCES `student`(`Id_Student`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Global_Event`, `Id_Student`)
@@ -459,4 +461,13 @@ CREATE TABLE IF NOT EXISTS `ulg_course_team_member`
 	FOREIGN KEY(`Id_ULg_Fac_Staff`) REFERENCES `ulg_fac_staff`(`Id_ULg_Fac_Staff`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Course`) REFERENCES `ulg_course`(`Id_Course`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_ULg_Fac_Staff`, `Id_Course`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `ulg_has_course`
+(
+	`Id_ULg_Student` varchar(10) NOT NULL,
+	`Id_Course` varchar(15) NOT NULL,
+	FOREIGN KEY(`Id_ULg_Student`) REFERENCES `ulg_student`(`Id_ULg_Student`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Course`) REFERENCES `ulg_course`(`Id_Course`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_ULg_Student`, `Id_Course`)
 ) ENGINE=InnoDB;

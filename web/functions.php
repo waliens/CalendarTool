@@ -5,10 +5,13 @@
 	 * @brief Contains a set of useful standalone functions
 	 */
 
+	/**
+	 * @namespace ct
+	 * @brief Namespace for the classes specific for the calendar tool application
+	 */
 	namespace ct;
 
 	/**
-	 * @fn
 	 * @brief Checks whether a session was started (session_start())
 	 * @retval bool True if the session was started, false otherwise
 	 */
@@ -18,7 +21,6 @@
 	}
 
 	/**
-	 * @fn
 	 * @brief Return an array composed of the given column of the input array
 	 * @param[in] array $array The array from which the column will be extracted
 	 * @param[in] array $keys  The keys to extract from $array (must be array keys)
@@ -60,7 +62,6 @@
 	}
 
 	/**
-	 * @fn
 	 * @brief Return a function for comparing two subarrays of an array based on the given subarray's index
 	 * @param[in] string   $index  The index on which to compare the subarrays
 	 * @param[in] function $cmp_fn A comparison function for comparing the element indexed by $index
@@ -98,7 +99,7 @@
 
 	/**
 	 * @brief Return the first element of the array
-	 * @param[in] array The array
+	 * @param[in] array $array The array
 	 * @retval mixed The first element
 	 * @note The function set the internal pointer of the array to its first element
 	 */
@@ -119,7 +120,7 @@
 		if(empty($array))
 			return array();
 
-		$non_shuffled = array_diff(array_keys($array[0]), $columns);
+		$non_shuffled = array_diff(array_keys(first($array)), $columns);
 
 		$to_shuffle = array_columns($array, $columns);
 		$not_to_shuffle = array_columns($array, $non_shuffled);
@@ -127,4 +128,79 @@
 		shuffle($to_shuffle);
 
 		return array_concat($to_shuffle, $not_to_shuffle);
+	}
+
+	/**
+	 * @brief Determine on which os runs the script
+	 * @retval string a string indicating the OS (among "WIN", "UNIX", "OSX" and "UNKNOWN")
+	 */
+	function get_OS()
+	{
+		if(!!stristr(PHP_OS, 'DAR'))
+			return "OSX";
+		elseif(!!stristr(PHP_OS, 'WIN'))
+		 	return "WIN";
+        elseif(!!stristr(PHP_OS, 'LINUX')) 
+        	return "UNIX";
+        else return "UNKNOWN";
+	}
+
+	/**
+	 * Custom autoload function for spl autoloading
+	 */
+	function autoload($class)
+	{
+		if(!preg_match("#Smarty#", $class))
+			include_once(preg_replace("#\\\\#", "/", $class).".class.php");
+		else
+			include_once("util\Smarty\Smarty.class.php");
+	}
+
+	/**
+	 * @brief Flatten an multidimensionnal array
+	 * @param[in] array $array The array to flatten
+	 * @retval The flattened array
+	 * @note Taken from 'too much php' post on stackoverflow (url: http://goo.gl/UUCMTp)
+	 */
+	function array_flatten(array $array)
+	{
+	    $return = array();
+	    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
+	    return $return;
+	}	
+
+	/**
+	 * @brief Checks whether the string starts with a given string
+	 * @param[in] string $haystack The string to check
+	 * @param[in] string $needle   The prefix to check for
+	 * @retval bool True if $needle is a prefix of $haystack, false otherwise
+	 */
+	function starts_with($haystack, $needle)
+	{
+		return strstr($haystack, $needle) === $haystack;
+	}
+
+	/**
+	 * @brief Checks whether the string ends with a given string
+	 * @param[in] string $haystack The string to check
+	 * @param[in] string $needle   The suffix to check for
+	 * @retval bool True if $needle is a suffix of $haystack, false otherwise
+	 */
+	function ends_with($haystack, $needle)
+	{
+		return strpos($haystack, $needle) === (strlen($haystack) - strlen($needle));
+	}
+
+	/**
+	 * @brief Return an array composed of which the elements are the key and value of $array's elements
+	 * glued with $glue
+	 * @param[in] array  $array The input array
+	 * @param[in] string $glue  The glue string
+	 * @retval array The output array containing the glued key-value
+	 */
+	function array_key_val_merge(array &$array, $glue="")
+	{
+		$out_array = array();
+		array_walk($array, function(&$val, $key) use (&$out_array, $glue) { $out_array[] = $key.$glue.$val; });
+		return $out_array;
 	}

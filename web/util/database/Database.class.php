@@ -20,15 +20,18 @@
 
 		/** 
 		 * @brief Construct a Database object
-		 * @param[in] string $user The database username
-		 * @param[in] string $pass The user password
-		 * @param[in] string $host The ip address of the sql server
-		 * @param[in] string $db   The name of the database to be opened
 		 */
-		private function __construct($user, $pass, $host, $db)
+		private function __construct()
 		{
+			$user = "root";
+			$pass = "";
+			$host = "localhost";
+			$db   = "calendar_tool";
+
 			$this->pdo = new PDO('mysql:host='.$host.';dbname='.$db, $user, $pass); 
 			$this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+			$stmt = $this->pdo->query("SET NAMES utf8;");
+			$stmt->closeCursor();
 		}
 
 		/**

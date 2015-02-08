@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -93,7 +94,7 @@ $(document).ready(function(){initNavTree('load__data_8php.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -104,7 +105,8 @@ $(document).ready(function(){initNavTree('load__data_8php.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">load_data.php File Reference</div>  </div>
 </div><!--header-->
@@ -115,11 +117,11 @@ $(document).ready(function(){initNavTree('load__data_8php.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac81b59e31ea7c7a688df4995c8d57cbe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac81b59e31ea7c7a688df4995c8d57cbe"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>common_regroup</b> (array $array, array $constant_columns)</td></tr>
+<tr class="memitem:ac81b59e31ea7c7a688df4995c8d57cbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#ac81b59e31ea7c7a688df4995c8d57cbe">common_regroup</a> (array $array, array $constant_columns)</td></tr>
+<tr class="memdesc:ac81b59e31ea7c7a688df4995c8d57cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an array that maps the values indexed by the column index (indexing a string) and a subarray containing the rows of which the value index by column were the same (the $column_index field is removed).  <a href="#ac81b59e31ea7c7a688df4995c8d57cbe">More...</a><br/></td></tr>
 <tr class="separator:ac81b59e31ea7c7a688df4995c8d57cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6f047a6a0802065740b4904b340ac73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6f047a6a0802065740b4904b340ac73"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>file_into_array</b> ($file, $sep=&quot;\t&quot;)</td></tr>
+<tr class="memitem:ae6f047a6a0802065740b4904b340ac73"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#ae6f047a6a0802065740b4904b340ac73">file_into_array</a> ($file, $sep=&quot;\t&quot;)</td></tr>
+<tr class="memdesc:ae6f047a6a0802065740b4904b340ac73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a formatted file into an array.  <a href="#ae6f047a6a0802065740b4904b340ac73">More...</a><br/></td></tr>
 <tr class="separator:ae6f047a6a0802065740b4904b340ac73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36653d3ffae584451635f562005a1156"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#a36653d3ffae584451635f562005a1156">insert_courses</a> (SQLAbs $sql_abs)</td></tr>
 <tr class="memdesc:a36653d3ffae584451635f562005a1156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert the courses into the course table in the database.  <a href="#a36653d3ffae584451635f562005a1156">More...</a><br/></td></tr>
@@ -127,12 +129,21 @@ Functions</h2></td></tr>
 <tr class="memitem:aca7a0fa7069c2139412a61dbd3419aa9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#aca7a0fa7069c2139412a61dbd3419aa9">insert_pathways</a> (SQLAbs $sql_abs)</td></tr>
 <tr class="memdesc:aca7a0fa7069c2139412a61dbd3419aa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert the pathways into the pathway table in the database.  <a href="#aca7a0fa7069c2139412a61dbd3419aa9">More...</a><br/></td></tr>
 <tr class="separator:aca7a0fa7069c2139412a61dbd3419aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab74a38e9bf168751bc7aecf84c7475cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#ab74a38e9bf168751bc7aecf84c7475cc">insert_teachers</a> (SQLAbs $sql_abs, array &amp;$teachers_courses_info)</td></tr>
-<tr class="memdesc:ab74a38e9bf168751bc7aecf84c7475cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert the teachers into the database.  <a href="#ab74a38e9bf168751bc7aecf84c7475cc">More...</a><br/></td></tr>
-<tr class="separator:ab74a38e9bf168751bc7aecf84c7475cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7095cdd8226b189ef062e3d2b749a651"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#a7095cdd8226b189ef062e3d2b749a651">insert_students</a> (SQLAbs $sql_abs, array &amp;$student_courses_info, $shuffle=false)</td></tr>
-<tr class="memdesc:a7095cdd8226b189ef062e3d2b749a651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert the students into the database.  <a href="#a7095cdd8226b189ef062e3d2b749a651">More...</a><br/></td></tr>
-<tr class="separator:a7095cdd8226b189ef062e3d2b749a651"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9c974552769a52dc129012440e6b9a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#aa9c974552769a52dc129012440e6b9a7">insert_teachers</a> (SQLAbs $sql_abs)</td></tr>
+<tr class="memdesc:aa9c974552769a52dc129012440e6b9a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert the teachers into the database.  <a href="#aa9c974552769a52dc129012440e6b9a7">More...</a><br/></td></tr>
+<tr class="separator:aa9c974552769a52dc129012440e6b9a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c7c8b1e49bc2fcb174f9c188f608dcc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="load__data_8php.html#a4c7c8b1e49bc2fcb174f9c188f608dcc">insert_students</a> (SQLAbs $sql_abs, $shuffle=false)</td></tr>
+<tr class="memdesc:a4c7c8b1e49bc2fcb174f9c188f608dcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert the students into the database.  <a href="#a4c7c8b1e49bc2fcb174f9c188f608dcc">More...</a><br/></td></tr>
+<tr class="separator:a4c7c8b1e49bc2fcb174f9c188f608dcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a1fa3127fc82f96b1436d871ef02be319"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1fa3127fc82f96b1436d871ef02be319"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$db</b> = Database::get_instance()</td></tr>
+<tr class="separator:a1fa3127fc82f96b1436d871ef02be319"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae487b09e1ed79a78e51ef6e8a6744617"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae487b09e1ed79a78e51ef6e8a6744617"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$sql_abs</b> = SQLAbs::buildByPDO($db-&gt;get_handle())</td></tr>
+<tr class="separator:ae487b09e1ed79a78e51ef6e8a6744617"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This script loads the content of the file downloaded from the ulg server into the database The files must be named as follows : </p>
@@ -143,6 +154,89 @@ Functions</h2></td></tr>
 <li>seqform.txt : information about pathways </li>
 </ul>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ac81b59e31ea7c7a688df4995c8d57cbe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">common_regroup </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$array</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$constant_columns</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates an array that maps the values indexed by the column index (indexing a string) and a subarray containing the rows of which the value index by column were the same (the $column_index field is removed). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$array</td><td>The array to modify </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$constant_columns</td><td>The indexes of the columns containing repeated values </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>The reshaped array. If the array does not contain the index $column, the initial array is returned. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The relative order in the subarrays might not be preserved </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae6f047a6a0802065740b4904b340ac73"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">file_into_array </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$sep</em> = <code>&quot;\t&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read a formatted file into an array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$file</td><td>Filename </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$sep</td><td>The string separating the fields in the file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>The array on success, null on error The file's first line must contain the name of the fields separated by $sep and the other lines containes the fields' values to insert into each row of the array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a36653d3ffae584451635f562005a1156"></a>
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +255,6 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramtype">SQLAbstract_PDO</td><td class="paramname">$sql_abs</td><td>The sql abstract object </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramtype"></td><td class="paramname">array&amp;</td><td>$courses_data The courses data (formatted as in the cours.txt file) </td></tr>
   </table>
   </dd>
 </dl>
@@ -204,7 +297,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7095cdd8226b189ef062e3d2b749a651"></a>
+<a class="anchor" id="a4c7c8b1e49bc2fcb174f9c188f608dcc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -213,12 +306,6 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">SQLAbs&#160;</td>
           <td class="paramname"><em>$sql_abs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">array &amp;&#160;</td>
-          <td class="paramname"><em>$student_courses_info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -238,7 +325,6 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramtype">SQLAbstract_PDO</td><td class="paramname">$sql_abs</td><td>The sql abstract object </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$student_courses_info</td><td>List of courses followed by a student (ulg id and pathway) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramtype">bool</td><td class="paramname">$shuffle</td><td>True for shuffling students courses and pathways </td></tr>
   </table>
   </dd>
@@ -249,10 +335,11 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>Must be called when the ulg_course and ulg_pathway tables were properly initialized </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ab74a38e9bf168751bc7aecf84c7475cc"></a>
+<a class="anchor" id="aa9c974552769a52dc129012440e6b9a7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -260,18 +347,8 @@ Functions</h2></td></tr>
           <td class="memname">insert_teachers </td>
           <td>(</td>
           <td class="paramtype">SQLAbs&#160;</td>
-          <td class="paramname"><em>$sql_abs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>$sql_abs</em>)</td><td></td>
           <td></td>
-          <td class="paramtype">array &amp;&#160;</td>
-          <td class="paramname"><em>$teachers_courses_info</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -280,7 +357,6 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramtype">SQLAbstract_PDO</td><td class="paramname">$sql_abs</td><td>The sql abstract object </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$teachers_courses_info</td><td>List of courses given by a teacher (id, name, surname) </td></tr>
   </table>
   </dd>
 </dl>
@@ -290,6 +366,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>Must be called after that the ulg_course table was properly set </dd></dl>
 
 </div>
 </div>
@@ -299,7 +376,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_562abdcd8625d4bf7bad2fe6fe01354c.html">web</a></li><li class="navelem"><a class="el" href="dir_6ec701a83ed9c8b4e5c10613b22dabe2.html">scripts</a></li><li class="navelem"><a class="el" href="load__data_8php.html">load_data.php</a></li>
-    <li class="footer">Generated on Wed Feb 4 2015 10:35:11 for CalendarTool by
+    <li class="footer">Generated on Thu Feb 5 2015 13:29:32 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_category_model.ht
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -105,12 +106,16 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_category_model.ht
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">CategoryModel Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Base class for category model. Categories can be decomposed into various element.  
+<p>Base class for category model.  
  <a href="classutil_1_1mvc_1_1_category_model.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for CategoryModel:</div>
@@ -118,18 +123,56 @@ Inheritance diagram for CategoryModel:</div>
  <div class="center">
   <img src="classutil_1_1mvc_1_1_category_model.png" usemap="#CategoryModel_map" alt=""/>
   <map id="CategoryModel_map" name="CategoryModel_map">
-<area href="classutil_1_1mvc_1_1_model.html" title="Base class for model. " alt="Model" shape="rect" coords="0,0,99,24"/>
+<area href="classutil_1_1mvc_1_1_model.html" title="Base class for models. " alt="Model" shape="rect" coords="0,0,99,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a33b7f64483ba4c9edfc329de442a2d5d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a33b7f64483ba4c9edfc329de442a2d5d">__construct</a> ($table_name, array $id_col_name, $categ_col_name, array $other_col_name=null)</td></tr>
+<tr class="memdesc:a33b7f64483ba4c9edfc329de442a2d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a category model.  <a href="#a33b7f64483ba4c9edfc329de442a2d5d">More...</a><br/></td></tr>
+<tr class="separator:a33b7f64483ba4c9edfc329de442a2d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63e91ce3cdf2e9c22e1c3c89c5905712"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a63e91ce3cdf2e9c22e1c3c89c5905712">get_items</a> ()</td></tr>
+<tr class="memdesc:a63e91ce3cdf2e9c22e1c3c89c5905712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the list of categories.  <a href="#a63e91ce3cdf2e9c22e1c3c89c5905712">More...</a><br/></td></tr>
+<tr class="separator:a63e91ce3cdf2e9c22e1c3c89c5905712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eed8be48b18148b9a3b3643daae28f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a7eed8be48b18148b9a3b3643daae28f0">get_item</a> (array $item_id)</td></tr>
+<tr class="memdesc:a7eed8be48b18148b9a3b3643daae28f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return one categories identifier by the item_id.  <a href="#a7eed8be48b18148b9a3b3643daae28f0">More...</a><br/></td></tr>
+<tr class="separator:a7eed8be48b18148b9a3b3643daae28f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22df638ccbf73a2f68a4c4a29d71bac2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a22df638ccbf73a2f68a4c4a29d71bac2">add_item</a> ($item, $no_key=true)</td></tr>
+<tr class="memdesc:a22df638ccbf73a2f68a4c4a29d71bac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an item in the category table.  <a href="#a22df638ccbf73a2f68a4c4a29d71bac2">More...</a><br/></td></tr>
+<tr class="separator:a22df638ccbf73a2f68a4c4a29d71bac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b15a7cc0aff00624e65a362cd02ced0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a3b15a7cc0aff00624e65a362cd02ced0">delete_item</a> ($item_id)</td></tr>
+<tr class="memdesc:a3b15a7cc0aff00624e65a362cd02ced0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an item from the category list.  <a href="#a3b15a7cc0aff00624e65a362cd02ced0">More...</a><br/></td></tr>
+<tr class="separator:a3b15a7cc0aff00624e65a362cd02ced0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
 <tr class="separator:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a835e5c8e4b8d7c2165a00df753200871"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a835e5c8e4b8d7c2165a00df753200871">get_columns_string</a> ($id_first=false)</td></tr>
+<tr class="memdesc:a835e5c8e4b8d7c2165a00df753200871"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string containing the columns' names of the table for using it in a sql query.  <a href="#a835e5c8e4b8d7c2165a00df753200871">More...</a><br/></td></tr>
+<tr class="separator:a835e5c8e4b8d7c2165a00df753200871"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a05109bd845fc4845cfeabc0c260882"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a2a05109bd845fc4845cfeabc0c260882">get_where_key_clause</a> ($item_id=null)</td></tr>
+<tr class="memdesc:a2a05109bd845fc4845cfeabc0c260882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a where clause to use for a SQL query (i.e. col_key1=?, col_key2=?,... or col_key1=val1, col_key2=val2,...)  <a href="#a2a05109bd845fc4845cfeabc0c260882">More...</a><br/></td></tr>
+<tr class="separator:a2a05109bd845fc4845cfeabc0c260882"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48eadab31962fee110b8cc5715c96b1c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a48eadab31962fee110b8cc5715c96b1c">get_columns</a> ()</td></tr>
+<tr class="memdesc:a48eadab31962fee110b8cc5715c96b1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an array containing the columns of the table containing the category.  <a href="#a48eadab31962fee110b8cc5715c96b1c">More...</a><br/></td></tr>
+<tr class="separator:a48eadab31962fee110b8cc5715c96b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
 <tr class="memitem:a318e0cf28df09450ebaa71881010419d inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a318e0cf28df09450ebaa71881010419d">get_abstract</a> ()</td></tr>
 <tr class="separator:a318e0cf28df09450ebaa71881010419d inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a65b50279a0e27be269f2183c0b290339"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a65b50279a0e27be269f2183c0b290339">$category_table</a></td></tr>
+<tr class="separator:a65b50279a0e27be269f2183c0b290339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f01f8fcd5a7652a7bb6877e082e92fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a0f01f8fcd5a7652a7bb6877e082e92fc">$id_col_name</a></td></tr>
+<tr class="separator:a0f01f8fcd5a7652a7bb6877e082e92fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a066e6a4d47b28441996e8906dd85dc88"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a066e6a4d47b28441996e8906dd85dc88">$categ_col_name</a></td></tr>
+<tr class="separator:a066e6a4d47b28441996e8906dd85dc88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1c3e1bd64765960c6a91c65c5334e99"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#af1c3e1bd64765960c6a91c65c5334e99">$other_col_name</a></td></tr>
+<tr class="separator:af1c3e1bd64765960c6a91c65c5334e99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
 <tr class="memitem:a5766efd703cef0e00bfc06b3f3acbe0e inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a5766efd703cef0e00bfc06b3f3acbe0e">$pdo</a></td></tr>
 <tr class="separator:a5766efd703cef0e00bfc06b3f3acbe0e inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,8 +180,373 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525 inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base class for category model. Categories can be decomposed into various element. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<div class="textblock"><p>Base class for category model. </p>
+<p>A set of categories is a list of items contained in a table of the database that can be given to the user in a drop down list for instance (can be colors, jobs,...). A category is identified by its key and defined by its name and possible some other attributes. This class provides methods for accessing, editing and interacting with these items. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a33b7f64483ba4c9edfc329de442a2d5d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__construct </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_col_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$categ_col_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$other_col_name</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a category model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$table_name</td><td>The name of the table containing the categories </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_col_name</td><td>Array containing the name of the table columns composing the key of table </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$categ_col_name</td><td>The name of the table column containing the name of the category </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$other_col_name</td><td>The name of the other field describing a categort </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a22df638ccbf73a2f68a4c4a29d71bac2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">add_item </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$no_key</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add an item in the category table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$item</td><td>The data necessary to insert the item </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">bool</td><td class="paramname">$no_key</td><td>True if the key can be guessed by the database server, false if it is provided at the end of the item array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True if the data was inserted successfully, false otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The data must sorted in array as follows : name of the categ, other columns' values (in the same order as the in the $other_col_name array given at construction), key values (if $no_key is false and ordered as in the $id_col_name array given at construction) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3b15a7cc0aff00624e65a362cd02ced0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delete_item </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$item_id</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deletes an item from the category list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$item_id</td><td>The item id values (in the same order as in the $id_col_name given at construction) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True if the data was deleted successfully, false otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a48eadab31962fee110b8cc5715c96b1c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_columns </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an array containing the columns of the table containing the category. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>An array of string containing the columns' names </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The columns' names are ordered as follows : categ_name, keys columns' names, other columns' names </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a835e5c8e4b8d7c2165a00df753200871"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_columns_string </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$id_first</em> = <code>false</code>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a string containing the columns' names of the table for using it in a sql query. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">bool</td><td class="paramname">$id_first</td><td>True if the id column name must the first in the string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">string</td><td>The string containing the comma-separated columns' names </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a7eed8be48b18148b9a3b3643daae28f0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_item </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$item_id</em>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return one categories identifier by the item_id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$item_id</td><td>The key identifying the item. The values must be ordred in the same fashion as the column in the id_col_name array given to the constructor </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>An array containing the the </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a63e91ce3cdf2e9c22e1c3c89c5905712"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_items </td>
+          <td>(</td>
+          <td class="paramname">)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the list of categories. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>Mutli-dimensionnal array of which each subarray is a category. The first item of a subarray is the name of the category and the last columns contains the keys. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a2a05109bd845fc4845cfeabc0c260882"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_where_key_clause </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$item_id</em> = <code>null</code>)</td><td></td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a where clause to use for a SQL query (i.e. col_key1=?, col_key2=?,... or col_key1=val1, col_key2=val2,...) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$item_id</td><td>The item_id data to insert in the where clause (null for a prepared query =&gt; question marks instead of values) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string The where clause </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Field Documentation</h2>
+<a class="anchor" id="a066e6a4d47b28441996e8906dd85dc88"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$categ_col_name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A string containing the name of the tablr column containing the category name </p>
+
+</div>
+</div>
+<a class="anchor" id="a65b50279a0e27be269f2183c0b290339"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$category_table</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The name of the table containing the categories </p>
+
+</div>
+</div>
+<a class="anchor" id="a0f01f8fcd5a7652a7bb6877e082e92fc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$id_col_name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>An array containing the name of the columns composing the table key </p>
+
+</div>
+</div>
+<a class="anchor" id="af1c3e1bd64765960c6a91c65c5334e99"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">$other_col_name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>An array containing the name of the other columns of the database </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/opt/lampp/htdocs/git/calendartool/web/util/mvc/<a class="el" href="_category_model_8class_8php.html">CategoryModel.class.php</a></li>
 </ul>
 </div><!-- contents -->
@@ -147,7 +555,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>mvc</b></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_category_model.html">CategoryModel</a></li>
-    <li class="footer">Generated on Wed Feb 4 2015 10:35:11 for CalendarTool by
+    <li class="footer">Generated on Thu Feb 5 2015 13:29:32 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

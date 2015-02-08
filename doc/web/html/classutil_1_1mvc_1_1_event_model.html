@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_event_model.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -118,7 +119,7 @@ Inheritance diagram for EventModel:</div>
  <div class="center">
   <img src="classutil_1_1mvc_1_1_event_model.png" usemap="#EventModel_map" alt=""/>
   <map id="EventModel_map" name="EventModel_map">
-<area href="classutil_1_1mvc_1_1_model.html" title="Base class for model. " alt="Model" shape="rect" coords="158,0,306,24"/>
+<area href="classutil_1_1mvc_1_1_model.html" title="Base class for models. " alt="Model" shape="rect" coords="158,0,306,24"/>
 <area href="classutil_1_1mvc_1_1_academic_event_model.html" title="Describe the AcademicEvent. " alt="AcademicEventModel" shape="rect" coords="79,112,227,136"/>
 <area href="classutil_1_1mvc_1_1_student_event_model.html" title="Describe the AcademicEvent. " alt="StudentEventModel" shape="rect" coords="237,112,385,136"/>
 <area href="classutil_1_1mvc_1_1_independent_event_model.html" title="Describe the SubEvents. " alt="IndependentEventModel" shape="rect" coords="0,168,148,192"/>
@@ -134,12 +135,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a45f5376b9e1614a49a8dbf223c4d9b1a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_event_model.html#a45f5376b9e1614a49a8dbf223c4d9b1a">getData</a> (array $infoData=null, array $requestedData=null)</td></tr>
 <tr class="memdesc:a45f5376b9e1614a49a8dbf223c4d9b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an event from the bdd (this function check the args)  <a href="#a45f5376b9e1614a49a8dbf223c4d9b1a">More...</a><br/></td></tr>
 <tr class="separator:a45f5376b9e1614a49a8dbf223c4d9b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab309ee155c33d3e03c0b3bac3bcaf04"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_event_model.html#aab309ee155c33d3e03c0b3bac3bcaf04">checkParams</a> ($ar, $key)</td></tr>
-<tr class="memdesc:aab309ee155c33d3e03c0b3bac3bcaf04"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if the params given in input correspond to the type  <a href="#aab309ee155c33d3e03c0b3bac3bcaf04">More...</a><br/></td></tr>
-<tr class="separator:aab309ee155c33d3e03c0b3bac3bcaf04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3974fa71afcb3e2c4511fa23d4e87a96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_event_model.html#a3974fa71afcb3e2c4511fa23d4e87a96">createEvent</a> ($data)</td></tr>
 <tr class="memdesc:a3974fa71afcb3e2c4511fa23d4e87a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an event and put it into the DB.  <a href="#a3974fa71afcb3e2c4511fa23d4e87a96">More...</a><br/></td></tr>
 <tr class="separator:a3974fa71afcb3e2c4511fa23d4e87a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79b1911f719fb86a7df212340e1f55ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_event_model.html#a79b1911f719fb86a7df212340e1f55ab">modifyEvent</a> ($from, $to)</td></tr>
+<tr class="memdesc:a79b1911f719fb86a7df212340e1f55ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update event(s) (specify by $from) data to the those specify by $to.  <a href="#a79b1911f719fb86a7df212340e1f55ab">More...</a><br/></td></tr>
+<tr class="separator:a79b1911f719fb86a7df212340e1f55ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
 <tr class="separator:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,47 +166,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a318e0cf28df09450ebaa71881010419d inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aab309ee155c33d3e03c0b3bac3bcaf04"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">checkParams </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$ar</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$key</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>check if the params given in input correspond to the type </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$ar</td><td>Parameters array </td></tr>
-    <tr><td class="paramtype">boolean</td><td class="paramname">$key</td><td>Check key (if not check values) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">return</td><td>the array without invalids params </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a3974fa71afcb3e2c4511fa23d4e87a96"></a>
 <div class="memitem">
 <div class="memproto">
@@ -327,6 +287,47 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a79b1911f719fb86a7df212340e1f55ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">modifyEvent </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$from</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$to</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update event(s) (specify by $from) data to the those specify by $to. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$from</td><td>array of elements that allow us to identy target event(s) </td></tr>
+    <tr><td class="paramtype">array</td><td class="paramname">$to</td><td>new data to put in the bdd </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">-1</td><td>if an error occurs </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/opt/lampp/htdocs/git/calendartool/web/util/mvc/<a class="el" href="_event_model_8class_8php.html">EventModel.class.php</a></li>
 </ul>
@@ -336,7 +337,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>mvc</b></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_event_model.html">EventModel</a></li>
-    <li class="footer">Generated on Wed Feb 4 2015 10:35:11 for CalendarTool by
+    <li class="footer">Generated on Thu Feb 5 2015 13:29:32 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.4 </li>
   </ul>

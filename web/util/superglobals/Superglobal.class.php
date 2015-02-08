@@ -21,7 +21,7 @@
 		// Error constants 
 		const ERR_NOT_SET = -1; /**< @brief Error : key doesn't exist */
 		const ERR_CALLBACK = -2; /**< @brief Error : callback predicate returned false */
-		const ERR_EMPTY = -3; /**< @brief Eror : value is "empty" */
+		const ERR_EMPTY = -3; /**< @brief Error : value is "empty" */
 		const ERR_OK = 1; /**< @brief No error */
 
 		// Checking type constants : they can be combine with |

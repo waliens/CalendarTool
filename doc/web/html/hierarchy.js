@@ -1,9 +1,10 @@
 var hierarchy =
 [
-    [ "AjaxController", null, [
+    [ "AjaxController", "classutil_1_1mvc_1_1_ajax_controller.html", [
       [ "Event", "classutil_1_1mvc_1_1_event.html", null ]
     ] ],
-    [ "Connection", "classutil_1_1_connection.html", null ],
+    [ "BrowserController", "classutil_1_1mvc_1_1_browser_controller.html", null ],
+    [ "Connection", "classct_1_1_connection.html", null ],
     [ "Controller", "classutil_1_1mvc_1_1_controller.html", null ],
     [ "Database", "classutil_1_1database_1_1_database.html", null ],
     [ "EntryPoint", "interfaceutil_1_1entry__point_1_1_entry_point.html", [
@@ -31,5 +32,6 @@ var hierarchy =
       [ "SG_Get", "classutil_1_1superglobals_1_1_s_g___get.html", null ],
       [ "SG_Post", "classutil_1_1superglobals_1_1_s_g___post.html", null ],
       [ "SG_Session", "classutil_1_1superglobals_1_1_s_g___session.html", null ]
-    ] ]
+    ] ],
+    [ "URL", "classutil_1_1_u_r_l.html", null ]
 ];

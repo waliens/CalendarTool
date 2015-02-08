@@ -1,6 +1,5 @@
 var classct_1_1_connection =
 [
-    [ "__construct", "classct_1_1_connection.html#a095c5d389db211932136b53f25f39685", null ],
     [ "disconnect", "classct_1_1_connection.html#abe175fcf658475bc56e9d6fa02bc88ec", null ],
     [ "disconnect_root", "classct_1_1_connection.html#a9ec86bb53c84a9a54c832e76d193c141", null ],
     [ "is_connected", "classct_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2", null ],

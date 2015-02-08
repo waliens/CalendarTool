@@ -4,6 +4,13 @@ var NAVTREE =
     [ "README", "md__opt_lampp_htdocs_git_calendartool_web__r_e_a_d_m_e.html", null ],
     [ "README", "md__opt_lampp_htdocs_git_calendartool_web_scripts__r_e_a_d_m_e.html", null ],
     [ "Todo List", "todo.html", null ],
+    [ "Namespaces", null, [
+      [ "Namespace List", "namespaces.html", "namespaces" ],
+      [ "Namespace Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ]
+      ] ]
+    ] ],
     [ "Data Structures", null, [
       [ "Data Structures", "annotated.html", "annotated" ],
       [ "Data Structure Index", "classes.html", null ],
