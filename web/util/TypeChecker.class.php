@@ -36,15 +36,6 @@
 		private $parameters = null; /**< @brief Type unquoted parameters */
 
 		/**
-		 * @brief Builds a TypeChecker object based on a type string
-		 * @param[in] string $type The type string
-		 */
-		public function __construct($type)
-		{
-			$this->set_type($type);
-		}
-
-		/**
 		 * @brief Set the type of the checker
 		 * @param[in] string $type The string representation of the type
 		 */

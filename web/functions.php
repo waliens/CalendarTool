@@ -232,27 +232,3 @@
 	{
 		return strtotime($date1) < strtotime($date2);
 	}
-
-	/**
-	 * @brief Concatenate array horizontally
-	 */
-	function array_concat($arr1, $arr2)
-	{
-		if(count($arr1) != count($arr2))
-			return false;
-
-		return array_map(function($item1, $item2) 
-						 {
-							if(is_array($item1) && is_array($item2))
-								$ret = array_merge($item1, $item2);
-							elseif(is_array($item1) && !is_array($item2))
-								$ret = array_merge($item1, array($item2));
-							elseif(is_array($item2))
-								$ret = array_merge(array($item1), $item2);
-							else
-								$ret = array($item1, $item2);
-
-							return $ret;
-						 }, 
-						 $arr1, $arr2);
-	} 

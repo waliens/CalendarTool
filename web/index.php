@@ -2,6 +2,12 @@
 
 	namespace ct;
 
+	// set include path to the path of the index.php file
+	set_include_path(dirname(__FILE__));
+
+	// various includes 
+	require_once("functions.php");
+
 	// init autoloading
 	spl_autoload_register("ct\autoload");
 
@@ -9,19 +15,13 @@
 	use util\entry_point\Ajax;
 	use ct\Connection;
 
-	// set include path to the path of the index.php file
-	set_include_path(dirname(__FILE__));
+	// $connection = Connection::get_instance();
 
-	// various includes 
-	require_once("functions.php");
-
-	$connection = Connection::get_instance();
-
-	if(!$connection->is_connected()) // check if user is connected
-	{
-		header("HTTP/1.1 401 Unauthorized");
-		exit();
-	}
+	// if(!$connection->is_connected()) // check if user is connected
+	// {
+	// 	header("HTTP/1.1 401 Unauthorized");
+	// 	exit();
+	// }
 
 	header('Content-Type: text/html; charset=utf-8');
 

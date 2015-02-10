@@ -7,7 +7,7 @@
 
 	namespace ct\models;
 
-	require_once("function.php");
+	include_once("functions.php");
 
 	use util\mvc\Model;
 	use util\TypeChecker;
@@ -410,7 +410,7 @@
 							) as owned_event";
 	
 				$req_ids = $this->sql->execute_query($query, array($id, $id));
-			default return null;
+			default: return null;
 			}				
 
 			// get the formatted modif request
