@@ -165,4 +165,60 @@
 
 		 	return $event;
 		}
+
+		/**
+		 * @brief Change the type of the given event. The new type will be a 
+		 * @param[in] int $event The event id
+		 * @retval True on success, false on error
+		 */
+		public function reset_time_type_deadline($event, $datetime)
+		{
+			$success = $this->delete_time_type($event);
+
+			// insert the new deadline data
+			$insert_date = array("Id_Event" => $target['event'], "Limit" => $target['proposition']);
+			$success &= $this->sql->insert("deadline_event", $this->quote_all($insert_date));
+		}
+
+		/**
+		 * @brief Change the type of the given event. The new type will be a 
+		 * @param[in] int $event The event id
+		 * @retval True on success, false on error
+		 */
+		public function reset_time_type_time_range($event, $start, $end)
+		{
+			$success = $this->delete_time_type($event);
+			
+			// insert the new time_range data
+			$insert_date = array("Id_Event" => $target['event'], "Start" => $start, "End" => $end);
+			$success &= $this->sql->insert("time_range_event", $this->quote_all($insert_date));
+		}
+
+		/**
+		 * @brief Change the type of the given event. The new type will be a 
+		 * @param[in] int $event The event id
+		 * @retval True on success, false on error
+		 */
+		public function reset_time_type_date_range($event, $start, $end)
+		{
+			$success = $this->delete_time_type($event);
+			
+			// insert the new date_range event data
+			$insert_date = array("Id_Event" => $target['event'], "Start" => $start, "End" => $end);
+			$success &= $this->sql->insert("date_range_event", $this->quote_all($insert_date));
+		}
+
+		/**
+		 * @brief Delete the event temporal type of the given event
+		 * @param[in] int $event The event id
+		 * @retval bool True on success, false on error
+		 */
+		private function delete_time_type($event)
+		{
+			$quoted_event = $this->sql->quote($event);
+			$success = $this->sql->delete("time_range_event", "Id_Event = ".$quoted_event);
+			$success &= $this->sql->delete("date_range_event", "Id_Event = ".$quoted_event);
+			$success &= $this->sql->delete("deadline_event", "Id_Event = ".$quoted_event);
+			return $success;
+		}
 	}

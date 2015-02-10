@@ -21,7 +21,16 @@
 		private $req_status; /**< @brief Array containing the possible status for a request */
 		private $targets; /**< @brief Array containing the possible modification targets' information */
 		private $type_checker; /**< @brief A TypeChecker object */
-		private $event_mod;
+		private $event_mod; /**< @brief An event model */
+
+		const STATUS_SENT = "sent"; /**< @brief Status string constant : sent */
+		const STATUS_ACCEPTED = "accepted"; /**< @brief Status string constant : accepted */
+		const STATUS_CANCELLED = "cancelled"; /**< @brief Status string constant : cancelled */
+		const STATUS_REFUSED = "refused"; /**< @brief Status string constant : refused */
+ 
+		const SELECT_BY_EVENT = 0; /**< Selection method for selecting request : by event */
+		const SELECT_BY_USER = 1; /**< Selection method for selecting request : by user */
+		const SELECT_BY_SENDER = 2; /**< Selection method for selecting request : by sender */
 
 		/**
 		 * @brief Construct the ModificationRequestModel object
@@ -232,6 +241,393 @@
 		 */
 		public function insert_modification_request(array $data, $lock_mode=Model::LOCKMODE_NO_LOCK)
 		{
+			// post request
+			$request_data = array("Id_Event" => $data['event'], 
+								  "Id_Sender" => $data['sender'],
+								  "Description" => $data['description'],
+								  "Status" => self::STATUS_SENT);
 
+			$success = true; // true if no error occurred
+			$this->sql->transaction();
+
+			$success &= !$this->sql->insert("modification_request", $this->sql->quote_all($request_data));
+			
+			if($success)
+			{
+				// post targets
+				$req_id = $this->sql->last_insert_id();
+				$targets = array_map(array($this, "format_target_str"), $data['targets']);
+				$targets = array_map(function ($target) use ($req_id) { return array_merge(array($req_id), $target); });
+				
+				$success &= $this->sql->insert_batch("modification", $targets, array("Id_Request", "Id_Target", "Proposition"));
+			}
+
+			if(!$success)
+				$this->sql->rollback();
+			else
+				$this->sql->commit();
+
+			return $success;
+		}
+
+		/**
+		 * @brief Convert a target array representation to its string representation (as in the db)
+		 * @param[in] array $target The target data (see function insert_modification_request for array structure)
+		 * @retval array An array containing the target id at index 0 and the target string at index 1
+		 */ 
+		private function format_target_str(array $target)
+		{
+			switch($this->targets[$target['target']]['Name'])
+			{
+			case "place":
+				return $target;
+			case "to_deadline": 
+			case "to_time_range":
+			case "to_date_range":
+				return array($target['target'], "start:".$target['start'].",end:".$target['end']);
+			case "change_date":
+				return array($target['target'], $target['what'].":".$target['date']);
+			case "change_time":
+				return array($target['target'], $target['what'].":".$target['time']);
+			default: 
+				return null;
+			}
+		}
+
+		/**
+		 * @brief Convert a target extracted from the database to its array representation 
+		 * @param[in] array $target An array containing the target (Id_Target, Proposition, Name (Target name))
+		 * @retval array An array structured as a row of the targets array (see insert_modification_request), null on error
+		 * @note in addition to the fields target and propsotion is added the field name referring to the target 
+		 */ 
+		private function format_target_arr(array $target)
+		{
+			// target id 
+			$ret = array("target" => $target['Id_Target'], "name" => $target['Name']);
+
+			if($this->targets[$target['Id_Target']]['Name'] === "place") // place modification
+			{
+				$ret['proposition'] = $target['Proposition'];
+				return $ret;
+			}
+
+			// regex matched targets : so get the regex
+			$this->type_checker->set_type($this->targets[$target['Id_Target']]['Type']);
+			$regex = $this->type_checker->get_parameters()[0];
+
+			// find the matches
+			$matches = array();
+			preg_match("#".$regex."#", $target['Proposition'], $matches);
+
+			// fill the array 
+			switch($this->targets[$target['Id_Target']]['Name'])
+			{
+			case "to_deadline": 
+				$ret['proposition'] = $matches[1];
+				break;
+			case "to_time_range":
+			case "to_date_range":
+				$ret['proposition'] = array("start" => $matches[1], "end" => $matches[2]);
+				break;
+			case "change_date":
+				$ret['proposition'] = array("what" => $matches[1], "date" => $matches[2]);
+				break;
+			case "change_time":
+				$ret['proposition'] = array("what" => $matches[1], "time" => $matches[2]);
+				break;
+			default: 
+				return null;
+			}
+
+			return $ret;
+		}
+
+		/**
+		 * @brief Return the data of the modification request having the given id
+		 * @param[in] The modification request id
+		 * @retval array An array structured as the $data array of the insert_modification_request function
+		 * @note In addition of the index present in the $data array of the insert_modification_request function,
+		 * some fields status and request are added containing respectively the status of the request and the request
+		 * id.
+		 */
+		public function get_modification_request($req_id)
+		{
+			$this->sql->lock(array("modification_request READ"), "modification READ");
+
+			// get request
+			$request = $this->sql->select_one("modification_request", 
+											  "Id_Request = ".$this->sql->quote($req_id), 
+											  array("Id_Request AS request", 
+											  		"Id_Event AS event",
+											  		"Id_Sender AS sender", 
+											  		"Description AS description",
+											  		"Status AS status"));
+
+			if(empty($request))
+				return array();
+
+			// get modif
+			$query  =  "SELECT * FROM 
+						( SELECT Id_Target, Proposition FROM modification WHERE Id_Request = ? ) as modif 
+						NATURAL JOIN 
+						( SELECT Id_Target, Name FROM modification_target ) as targets;";
+
+			$targets = $this->sql->execute_query($query, array($req_id));
+			$request['targets'] = array_map(array($this, "format_target_arr"), $targets);
+
+			return $request;
+		}
+
+		/**
+		 * @brief Selects a set of modification requests with the given criterion
+		 * @param[in] int $method The criterion (one of the class SELECT_* constant)  
+		 * @param[in] int $id     The id corresponding to the criterion
+		 * @retval A multidimensionnal array of which each row corresponds to a request and is
+		 * structured as the array returned by the get_modification_request function. Return
+		 * null on error.
+		 */
+		public function get_modification_requests($method, $id)
+		{
+			// get the ids of the modification request to get
+			switch($method)
+			{
+			case self::SELECT_BY_SENDER:
+				$req_ids = $this->sql->select("modification_request", 
+											  "Id_Sender = ".$this->sql->quote($id), 
+											  array("Id_Request"));
+			case self::SELECT_BY_EVENT:
+				$req_ids = $this->sql->select("modification_request",
+											  "Id_Event = ".$this->sql->quote($id),
+											  array("Id_Request"));
+			case self::SELECT_BY_USER:
+				$query  =  "SELECT Id_Request FROM modification_request
+							NATURAL JOIN
+							(
+							    SELECT Id_Event FROM `independent_event` WHERE Id_Owner = ?
+							    UNION
+							    SELECT Id_Event FROM sub_event NATURAL JOIN 
+							    ( SELECT Id_Global_Event FROM global_event WHERE Id_Owner = ? ) AS glob
+							) as owned_event";
+	
+				$req_ids = $this->sql->execute_query($query, array($id, $id));
+			default return null;
+			}				
+
+			// get the formatted modif request
+			$ret_array = array();
+
+			foreach($req_ids as $req)
+				$ret_array[] = $this->get_modification_request($req['Id_Request']);
+			
+			return $ret_array;
+		}
+
+		/**
+		 * Update the status of a request to the new status
+		 * @param[in] int 	 $req_id 	 The request identifier 
+		 * @param[in] string $new_status The new status (one of the STATUS_* class constant)
+		 * @retval bool True on success, false on error
+		 */
+		public function update_request_status($req_id, $new_status)
+		{
+			if(!$this->valid_status($new_status))
+				return false;
+
+			$update_data = $this->sql->quote_all(array("Status" => $new_status));
+			return $this->sql->update("modification_request", $update_data, "Id_Request = ".$this->sql->quote($req_id));
+		}
+
+		/**
+		 * @brief Checks whether the given request status is valid
+		 * @param[in] string $status The status string to check
+		 * @retval bool True if the string is ok, false otherwise
+		 */
+		private function valid_status($status)
+		{
+			return preg_match("#^(accepted|sent|refused|cancelled)$#", $status);
+		}
+
+		/**
+		 * @brief Apply the given modification request (modifies the related event)
+		 * @param[in] int $req_id The request identifier
+		 * @retval bool True on success, false on error
+		 */
+		public function apply_modification($req_id)
+		{
+			$this->sql->transaction();
+			$request_data = $this->get_modification_request($req_id);
+
+			if(empty($request_data)) // modif request not found
+			{
+				$this->sql->rollback();
+				return false;
+			}
+
+			$success = true;
+			foreach($request_data['targets'] as $target)
+			{
+				switch($target['name'])
+				{
+				case "place":
+					$success &= apply_place($request_data, $target);
+					break;
+				case "to_deadline":
+					$success &= apply_to_deadline($reques_data, $target);
+					break;
+				case "to_time_range":
+					$success &= apply_to_time_range($request_data, $target);
+					break;
+				case "to_date_range":
+					$success &= apply_to_date_range($request_data, $target);
+					break;
+				case "change_time":
+					$success &= apply_change_time($request_data, $target);
+					break;
+				case "change_date":
+					$success &= apply_change_date($request_data, $target);
+					break;
+				default:
+					$success = false;
+				}
+			}
+
+			// set the status to 'accepted'
+			$success &= $this->update_request_status(self::STATUS_ACCEPTED);
+
+			if($success)
+				$this->sql->commit();
+			else
+				$this->sql->rollback();
+
+			return $success;
+		}
+		
+		/**
+		 * @brief Apply the given 'to_deadline' modification request (modifies the related event)
+		 * @param[in] array $request The request data (as returned from the get_modification_request)
+		 * @param[in] array $target  The modification data (indexes : target, proposition (an array), name).
+		 * @retval bool True on success, false on error
+		 * @note The proposition array must be structured as a row of the targets index of the data array in the 
+		 * insert_modification_request function. 
+		 * @note The field proposition must be an array structured as in the case of a 'to_deadline' request in
+		 * the insert_modification_request function 
+		 */
+		private function apply_to_deadline(array &$request, array $target)
+		{
+			return $this->event_mod->reset_time_type_deadline($request['event'], $target['proposition']);
+		}
+		
+		/**
+		 * @brief Apply the given 'to_date_range' modification request (modifies the related event)
+		 * @param[in] array $request The request data (as returned from the get_modification_request)
+		 * @param[in] array $target  The modification data (indexes : target, proposition (an array), name).
+		 * @retval bool True on success, false on error
+		 * @note The proposition array must be structured as a row of the targets index of the data array in the 
+		 * insert_modification_request function. 
+		 * @note The field proposition must be an array structured as in the case of a 'to_date_range' request in
+		 * the insert_modification_request function 
+		 */
+		private function apply_to_date_range(array &$request, array $target)
+		{
+			return $this->event_mod->reset_time_type_date_range($request['event'], 
+																$target['proposition']['start'],
+																$target['proposition']['end']);
+		}
+		
+		/**
+		 * @brief Apply the given 'to_time_range' modification request (modifies the related event)
+		 * @param[in] array $request The request data (as returned from the get_modification_request)
+		 * @param[in] array $target  The modification data (indexes : target, proposition (an array), name).
+		 * @retval bool True on success, false on error
+		 * @note The proposition array must be structured as a row of the targets index of the data array in the 
+		 * insert_modification_request function. 
+		 * @note The field proposition must be an array structured as in the case of a 'to_time_range' request in
+		 * the insert_modification_request function 
+		 */
+		private function apply_to_time_range(array &$request, array $target)
+		{
+			return $this->event_mod->reset_time_type_time_range($request['event'], 
+																$target['proposition']['start'],
+																$target['proposition']['end']);
+		}
+		
+		/**
+		 * @brief Apply the given 'change_time' modification request (modifies the related event)
+		 * @param[in] array $request The request data (as returned from the get_modification_request)
+		 * @param[in] array $target  The modification data (indexes : target, proposition (an array), name).
+		 * @retval bool True on success, false on error
+		 * @note The proposition array must be structured as a row of the targets index of the data array in the 
+		 * insert_modification_request function. 
+		 * @note The field proposition must be an array structured as in the case of a 'change_time' request in
+		 * the insert_modification_request function 
+		 */
+		private function apply_change_time(array &$request, array $target)
+		{	
+			switch($target['proposition']['what'])
+			{
+			case "start":
+				$update_array = array("Start" => $target['proposition']['time']);
+				$table = "time_range_event";
+				break;
+			case "end":
+				$update_array = array("End" => $target['proposition']['time']);
+				$table = "time_range_event";
+				break;
+			case "deadline":
+				$update_array = array("Limit" => $target['proposition']['time']);
+				$table = "deadline_event";
+				break;
+			default: return false;
+			}
+			
+			// sql where clause
+			$where = "Id_Event = ".$this->sql->quote($request['event']);
+
+			return $this->sql->update($table, $this->sql->quote_all($update_array), $where);
+		} 
+		
+		/**
+		 * @brief Apply the given 'change_date'  request (modifies the related event)
+		 * @param[in] array $request The request data (as returned from the get_modification_request)
+		 * @param[in] array $target  The modification data (indexes : target, proposition (an array), name).
+		 * @retval bool True on success, false on error
+		 * @note The proposition array must be structured as a row of the targets index of the data array in the 
+		 * insert_modification_request function. 
+		 * @note The field proposition must be an array structured as in the case of a 'change_date' request in
+		 * the insert_modification_request function 
+		 */
+		private function apply_change_date(array &$request, array $target)
+		{
+			switch($target['proposition']['what'])
+			{
+			case "start":
+				$update_array = array("Start" => $target['proposition']['date']);
+				break;
+			case "end":
+				$update_array = array("End" => $target['proposition']['date']);
+				break;
+			default: return false;
+			}
+
+			// SQL where clause 
+			$where = "Id_Event = ".$this->sql->quote($request['event']);
+
+			return $this->sql->update($table, $this->sql->quote_all($update_array), $where);
+		}
+		
+		/**
+		 * @brief Apply the given 'place' modification request (modifies the related event)
+		 * @param[in] array $request The request data (as returned from the get_modification_request)
+		 * @param[in] array $target  The modification data (indexes : target, proposition (an array), name).
+		 * @retval bool True on success, false on error
+		 * @note The proposition array must be structured as a row of the targets index of the data array in the 
+		 * insert_modification_request function. 
+		 * @note The field proposition must be an array structured as in the case of a 'place' request in
+		 * the insert_modification_request function 
+		 */
+		private function apply_place(array &$request, array $target)
+		{
+			$update_data = array("Place" => $target['proposition']);
+			return $this->sql->update("event", $update_data, "Id_Event = ".$this->sql->quote($request['event']));
 		}
 	}
