@@ -1,1 +1,1 @@
-{"events":[{"id":"id1", "name":"Lorem ipsum dolorem sit amet"},{"id":"id2", "name":"name2"},{"id":"id3", "name":"Aenean lacinia arcu in est auctor"}]}
+{"events":[{"id":"id1", "name":"Lorem ipsum dolorem sit amet", "recurrence":"true"},{"id":"id2", "name":"name2", "recurrence":"false"},{"id":"id3", "name":"Aenean lacinia arcu in est auctor", "recurrence":"true"}]}

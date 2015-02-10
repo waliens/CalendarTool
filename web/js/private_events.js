@@ -5,6 +5,7 @@ $(document).ready(function() {
 		dataType : "json",
 		type : 'GET',
 		url : "all_private_events.json",
+		//url: "src='ajax'&req=7"
 		async : true,
 		success : function(data, status) {
 			var private_events=data.events;
@@ -28,6 +29,12 @@ function addEvent(item){
 	var edit_icon=document.createElement('a');
 	edit_icon.className="edit";
 	delete_icon.className="delete";
+	//link the delete icon to the delete alert
+	delete_icon.setAttribute("data-toggle","modal");
+	delete_icon.setAttribute("data-target","#delete_alert");
+	delete_icon.setAttribute("event-id",item.id);
+	delete_icon.setAttribute("event-name",item.name);
+	delete_icon.setAttribute("recurrence",item.recurrence);
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
 	var div_container2=document.createElement("div");
@@ -43,7 +50,29 @@ function addEvent(item){
 	cell3.appendChild(div_container2);
 	}
 	
-//when the bean is clicked a deletion alert is invoked
-$(".delete").click(function(){
-	
+//populate delete private event alert
+$('#delete_alert').on('show.bs.modal', function (event) {
+	var private_event = $(event.relatedTarget);
+	var recurrence = private_event.attr("recurrence");
+	$("#delete_alert .modal-body").html("Êtes-vous sûr de vouloir supprimer l'événement <span class='text-bold'>"+private_event.attr("event-name")+"</span>");
+	$("#delete_confirm").attr("event-id",private_event.prop("id"));
+});
+
+//send delete to server and update the GUI
+$("#delete_confirm").click(function(){
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "private_events.html?src='ajax'&req=8",
+		data:$("#delete_confirm").attr("event-id"),
+		async : true,
+		success : function(data, status) {
+			var event_id=$("#delete_confirm").attr("event-id");
+			$("a[id="+event_id+"]").parent().parent().remove();
+		},
+		error : function(data, status, errors) {
+			// Inserire un messagio di errore
+		}
 	});
+	});
+
