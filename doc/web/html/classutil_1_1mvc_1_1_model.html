@@ -107,6 +107,7 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_model.html','');}
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Data Fields</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
@@ -122,11 +123,12 @@ Inheritance diagram for Model:</div>
  <div class="center">
   <img src="classutil_1_1mvc_1_1_model.png" usemap="#Model_map" alt=""/>
   <map id="Model_map" name="Model_map">
-<area href="classct_1_1models_1_1_modification_request_model.html" title="Class for handling database queries related to modification requests. " alt="ModificationRequestModel" shape="rect" coords="0,56,160,80"/>
-<area href="classct_1_1models_1_1_pathway_model.html" title="A class for handling database queries related to pathways. " alt="PathwayModel" shape="rect" coords="170,56,330,80"/>
-<area href="classct_1_1models_1_1_root_model.html" title="Class for handling root user related database queries or data processing. " alt="RootModel" shape="rect" coords="340,56,500,80"/>
-<area href="classct_1_1models_1_1_user_model.html" title="A class for handling all user related database queries. " alt="UserModel" shape="rect" coords="510,56,670,80"/>
-<area href="classutil_1_1mvc_1_1_category_model.html" title="Base class for category model. " alt="CategoryModel" shape="rect" coords="680,56,840,80"/>
+<area href="classct_1_1models_1_1_event_model.html" title="A class for handling event related database queries. " alt="EventModel" shape="rect" coords="0,56,160,80"/>
+<area href="classct_1_1models_1_1_modification_request_model.html" title="Class for handling database queries related to modification requests. " alt="ModificationRequestModel" shape="rect" coords="170,56,330,80"/>
+<area href="classct_1_1models_1_1_pathway_model.html" title="A class for handling database queries related to pathways. " alt="PathwayModel" shape="rect" coords="340,56,500,80"/>
+<area href="classct_1_1models_1_1_root_model.html" title="Class for handling root user related database queries or data processing. " alt="RootModel" shape="rect" coords="510,56,670,80"/>
+<area href="classct_1_1models_1_1_user_model.html" title="A class for handling all user related database queries. " alt="UserModel" shape="rect" coords="680,56,840,80"/>
+<area href="classutil_1_1mvc_1_1_category_model.html" title="Base class for category model. " alt="CategoryModel" shape="rect" coords="850,56,1010,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -137,11 +139,35 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a095c5d389db211932136b53f25f39685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a <a class="el" href="classutil_1_1mvc_1_1_model.html" title="Base class for models. ">Model</a> object. <br/></td></tr>
 <tr class="separator:a095c5d389db211932136b53f25f39685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a3f82f023849a9c79819a7ff774811a4f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f82f023849a9c79819a7ff774811a4f"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a3f82f023849a9c79819a7ff774811a4f">LOCKMODE_NO_LOCK</a> = 1</td></tr>
+<tr class="memdesc:a3f82f023849a9c79819a7ff774811a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock behaviour : no lock must be acquired. <br/></td></tr>
+<tr class="separator:a3f82f023849a9c79819a7ff774811a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f77863b7fb8bb22ed23164165dd04b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f77863b7fb8bb22ed23164165dd04b1"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a4f77863b7fb8bb22ed23164165dd04b1">LOCKMODE_LOCK</a> = 2</td></tr>
+<tr class="memdesc:a4f77863b7fb8bb22ed23164165dd04b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock behaviour : only acquire the lock (no unlock) <br/></td></tr>
+<tr class="separator:a4f77863b7fb8bb22ed23164165dd04b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a756ee4e586711ddb7a2c0c6ee268c8f6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a756ee4e586711ddb7a2c0c6ee268c8f6"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a756ee4e586711ddb7a2c0c6ee268c8f6">LOCKMODE_UNLOCK</a> = 3</td></tr>
+<tr class="memdesc:a756ee4e586711ddb7a2c0c6ee268c8f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock behaviour : acquire the lock and then unlock. <br/></td></tr>
+<tr class="separator:a756ee4e586711ddb7a2c0c6ee268c8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a318e0cf28df09450ebaa71881010419d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a318e0cf28df09450ebaa71881010419d">get_abstract</a> ()</td></tr>
 <tr class="memdesc:a318e0cf28df09450ebaa71881010419d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the sql abstract object.  <a href="#a318e0cf28df09450ebaa71881010419d">More...</a><br/></td></tr>
 <tr class="separator:a318e0cf28df09450ebaa71881010419d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab17eeb05b8f5b5dbfc803837b641f31a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#ab17eeb05b8f5b5dbfc803837b641f31a">do_unlock</a> ($lock_mode)</td></tr>
+<tr class="memdesc:ab17eeb05b8f5b5dbfc803837b641f31a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given lock behavior implies a unlock.  <a href="#ab17eeb05b8f5b5dbfc803837b641f31a">More...</a><br/></td></tr>
+<tr class="separator:ab17eeb05b8f5b5dbfc803837b641f31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab15bff56ea5576f92bd7c71700644e69"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#ab15bff56ea5576f92bd7c71700644e69">do_lock</a> ($lock_mode)</td></tr>
+<tr class="memdesc:ab15bff56ea5576f92bd7c71700644e69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given lock behavior implies a lock.  <a href="#ab15bff56ea5576f92bd7c71700644e69">More...</a><br/></td></tr>
+<tr class="separator:ab15bff56ea5576f92bd7c71700644e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e45b8a35f69bda98eb7d1689c694fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a47e45b8a35f69bda98eb7d1689c694fa">get_sub_lockmode</a> ($lock_mode)</td></tr>
+<tr class="memdesc:a47e45b8a35f69bda98eb7d1689c694fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the unlock can only be performed when the complete set of operation was performed, then a function that receives a LOCKMODE_UNLOCK lock mode and call other function that should acquire lock cannot propagate this lock mode to these function. This function returns the lock mode that should be propagated these functions.  <a href="#a47e45b8a35f69bda98eb7d1689c694fa">More...</a><br/></td></tr>
+<tr class="separator:a47e45b8a35f69bda98eb7d1689c694fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -157,6 +183,82 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for models. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ab15bff56ea5576f92bd7c71700644e69"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_lock </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lock_mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if the given lock behavior implies a lock. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$lock_mode</td><td>One of the LOCKMODE_* class constant </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True if a lock must be performed, false otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab17eeb05b8f5b5dbfc803837b641f31a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_unlock </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lock_mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if the given lock behavior implies a unlock. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$lock_mode</td><td>One of the LOCKMODE_* class constant </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True if an unlock must be performed, false otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a318e0cf28df09450ebaa71881010419d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -188,6 +290,44 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a47e45b8a35f69bda98eb7d1689c694fa"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_sub_lockmode </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lock_mode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>As the unlock can only be performed when the complete set of operation was performed, then a function that receives a LOCKMODE_UNLOCK lock mode and call other function that should acquire lock cannot propagate this lock mode to these function. This function returns the lock mode that should be propagated these functions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$lock_mode</td><td>One of the LOCKMODE_* class constant </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">int::$lock_mode</td><td>The lock_mode to propagate </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Documents/BitBucket/CalendarTool/web/util/mvc/<a class="el" href="_model_8class_8php.html">Model.class.php</a></li>
 </ul>
@@ -197,7 +337,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>mvc</b></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></li>
-    <li class="footer">Generated on Sat Feb 7 2015 00:23:28 for CalendarTool by
+    <li class="footer">Generated on Wed Feb 11 2015 01:19:17 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -10,5 +10,6 @@ var searchData=
   ['ajax_2eclass_2ephp',['Ajax.class.php',['../_ajax_8class_8php.html',1,'']]],
   ['ajaxcontroller',['AjaxController',['../classutil_1_1mvc_1_1_ajax_controller.html',1,'util::mvc']]],
   ['ajaxcontroller_2eclass_2ephp',['AjaxController.class.php',['../_ajax_controller_8class_8php.html',1,'']]],
+  ['apply_5fmodification',['apply_modification',['../classct_1_1models_1_1_modification_request_model.html#aa5a360fc70c418b713cbb43bfbfb036f',1,'ct::models::ModificationRequestModel']]],
   ['array2json',['array2json',['../classutil_1_1mvc_1_1_ajax_controller.html#a59ab378dfe3164c3e7218dde628aa529',1,'util::mvc::AjaxController']]]
 ];

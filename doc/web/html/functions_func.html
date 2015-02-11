@@ -142,6 +142,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html#a095c5d389db211932136b53f25f39685">CalendarPageController</a>
 , <a class="el" href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html#a095c5d389db211932136b53f25f39685">LoginPageController</a>
 , <a class="el" href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html#a095c5d389db211932136b53f25f39685">ProfilePageController</a>
+, <a class="el" href="classct_1_1models_1_1_event_model.html#a095c5d389db211932136b53f25f39685">EventModel</a>
+, <a class="el" href="classct_1_1models_1_1_global_event_model.html#a095c5d389db211932136b53f25f39685">GlobalEventModel</a>
 , <a class="el" href="classct_1_1models_1_1_modification_request_model.html#a095c5d389db211932136b53f25f39685">ModificationRequestModel</a>
 , <a class="el" href="classct_1_1models_1_1_pathway_model.html#a095c5d389db211932136b53f25f39685">PathwayModel</a>
 , <a class="el" href="classct_1_1models_1_1_root_model.html#a095c5d389db211932136b53f25f39685">RootModel</a>
@@ -158,7 +160,6 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 , <a class="el" href="classutil_1_1superglobals_1_1_s_g___get.html#a095c5d389db211932136b53f25f39685">SG_Get</a>
 , <a class="el" href="classutil_1_1superglobals_1_1_s_g___post.html#a095c5d389db211932136b53f25f39685">SG_Post</a>
 , <a class="el" href="classutil_1_1superglobals_1_1_s_g___session.html#a095c5d389db211932136b53f25f39685">SG_Session</a>
-, <a class="el" href="classutil_1_1_type_checker.html#ac395571e7767c80119b30cf2e5087c59">TypeChecker</a>
 </li>
 </ul>
 
@@ -182,6 +183,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>add_root_user()
 : <a class="el" href="classct_1_1models_1_1_root_model.html#a2fb0dab9bea534502ecad38adc88a382">RootModel</a>
 </li>
+<li>apply_modification()
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#aa5a360fc70c418b713cbb43bfbfb036f">ModificationRequestModel</a>
+</li>
 <li>array2json()
 : <a class="el" href="classutil_1_1mvc_1_1_ajax_controller.html#a59ab378dfe3164c3e7218dde628aa529">AjaxController</a>
 </li>
@@ -203,7 +207,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a24c36c616c849529b7aeefdfdad519c6">Superglobal</a>
 </li>
 <li>check_modification_request_data()
-: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#adeb0d8531cb1538ad3312b977ef72b07">ModificationRequestModel</a>
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#a8ccc5faa82d1b71660c04f50b5b718f5">ModificationRequestModel</a>
 </li>
 <li>check_root_auth()
 : <a class="el" href="classct_1_1models_1_1_root_model.html#adcb9e9ab6b274dd4c532335872c7a1be">RootModel</a>
@@ -219,6 +223,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 </li>
 <li>count()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a05065e9590d7928e48f1b0f39c478393">SQLAbstract</a>
+</li>
+<li>create_global_event()
+: <a class="el" href="classct_1_1models_1_1_global_event_model.html#ad2fc9e4b1d27b5a3f3965a3bb5b111a7">GlobalEventModel</a>
 </li>
 <li>create_user()
 : <a class="el" href="classct_1_1models_1_1_user_model.html#a57ee1f54860607f96170336561011936">UserModel</a>
@@ -245,11 +252,17 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>do_isset()
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a0dec24285e3b159dc71e00d376d77066">Superglobal</a>
 </li>
+<li>do_lock()
+: <a class="el" href="classutil_1_1mvc_1_1_model.html#ab15bff56ea5576f92bd7c71700644e69">Model</a>
+</li>
 <li>do_not_empty()
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#aa1b74131db9eea087795386e77cdef3f">Superglobal</a>
 </li>
 <li>do_trim()
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a6b306754d68b1daba28159eb56358d18">Superglobal</a>
+</li>
+<li>do_unlock()
+: <a class="el" href="classutil_1_1mvc_1_1_model.html#ab17eeb05b8f5b5dbfc803837b641f31a">Model</a>
 </li>
 <li>dump()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a6b53e03f7badf3105a7dca81d0722c3c">SQLAbstract</a>
@@ -265,6 +278,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>error_info()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ac8f7e84858176aa9327fdf8e63bc05ed">SQLAbstract</a>
 , <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html#ac8f7e84858176aa9327fdf8e63bc05ed">SQLAbstract_PDO</a>
+</li>
+<li>event_exists()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#a784457eb70466550795acf8a141b0434">EventModel</a>
 </li>
 <li>execute_query()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a0500ef1cc62855e928abbdb7e62324a1">SQLAbstract</a>
@@ -295,6 +311,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 , <a class="el" href="interfaceutil_1_1entry__point_1_1_entry_point.html#a979ac625f1efd2c2a1c4aec51dfbff50">EntryPoint</a>
 , <a class="el" href="classutil_1_1entry__point_1_1_i_c_s.html#a979ac625f1efd2c2a1c4aec51dfbff50">ICS</a>
 </li>
+<li>get_event_temporal_data()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#a6eaa44ff762127a7ee3d81dd69cff1d8">EventModel</a>
+</li>
 <li>get_footer()
 : <a class="el" href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html#a3658f6c15c7cf0c195fd3a24c878b16a">LoginPageController</a>
 , <a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#a3658f6c15c7cf0c195fd3a24c878b16a">BrowserController</a>
@@ -312,6 +331,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>get_items()
 : <a class="el" href="classutil_1_1mvc_1_1_category_model.html#a63e91ce3cdf2e9c22e1c3c89c5905712">CategoryModel</a>
 </li>
+<li>get_modification_request()
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#ae4b55730c647a6797aede6819b232b8e">ModificationRequestModel</a>
+</li>
+<li>get_modification_requests()
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#a532a3fe9ce3ef52da1a77f0cc98e8238">ModificationRequestModel</a>
+</li>
 <li>get_output()
 : <a class="el" href="classutil_1_1mvc_1_1_ajax_controller.html#aa6c3f8688f804de4f1af8a462fffb922">AjaxController</a>
 , <a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#aa6c3f8688f804de4f1af8a462fffb922">BrowserController</a>
@@ -323,6 +348,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>get_starter()
 : <a class="el" href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72">LoginPageController</a>
 , <a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72">BrowserController</a>
+</li>
+<li>get_sub_lockmode()
+: <a class="el" href="classutil_1_1mvc_1_1_model.html#a47e45b8a35f69bda98eb7d1689c694fa">Model</a>
+</li>
+<li>get_targets()
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#ace817061c7896f32a9bcc918038ca4d1">ModificationRequestModel</a>
 </li>
 <li>get_type()
 : <a class="el" href="classutil_1_1_type_checker.html#ab5be4c3d74f109176ef57e753ebd4918">TypeChecker</a>
@@ -350,11 +381,29 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>insert_batch()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a9bb81036f69a5a88a69564370318e69d">SQLAbstract</a>
 </li>
+<li>insert_modification_request()
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#ac7ea5e6527c80db4127603f13143b291">ModificationRequestModel</a>
+</li>
+<li>is_academic_event()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#a460294fbcdf85474d0c5d2aed543f278">EventModel</a>
+</li>
 <li>is_connected()
 : <a class="el" href="classct_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2">Connection</a>
 </li>
+<li>is_date_range_event()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#ab16438e34529ac81e5f09301002d4b26">EventModel</a>
+</li>
+<li>is_deadline_event()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#aec01e6977f30d0ae57fed18ee622ca96">EventModel</a>
+</li>
 <li>is_empty()
 : <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a0b25ccb9268800ddc5bb2cc4028cd835">Superglobal</a>
+</li>
+<li>is_independent_event()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#abccade0a7a9f78907afe399235554f0f">EventModel</a>
+</li>
+<li>is_private_event()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#acbebecd8fa4a619608b590cb7a1d9ee7">EventModel</a>
 </li>
 <li>is_root()
 : <a class="el" href="classct_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263">Connection</a>
@@ -364,6 +413,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 </li>
 <li>is_student_id()
 : <a class="el" href="classct_1_1models_1_1_user_model.html#a8193854aea603c8ab15af10fa5f5942f">UserModel</a>
+</li>
+<li>is_sub_event()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#a55c136184349273f2c2b17d87a3c3ba5">EventModel</a>
+</li>
+<li>is_time_range_event()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#acf9873878dd634b3e83c08ce88b4da49">EventModel</a>
 </li>
 <li>is_valid_password()
 : <a class="el" href="classct_1_1models_1_1_root_model.html#a72b298a76eddc327074fe6928e96de9e">RootModel</a>
@@ -431,6 +486,15 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>reset_time_type_date_range()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#a6055387fe644f2747cdc65d4ff2b2fad">EventModel</a>
+</li>
+<li>reset_time_type_deadline()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#a87e86e6f158d30ab9c11a53307e9c266">EventModel</a>
+</li>
+<li>reset_time_type_time_range()
+: <a class="el" href="classct_1_1models_1_1_event_model.html#ada3a75b8ca6ed0429ccbe9cd948cf126">EventModel</a>
+</li>
 <li>rollback()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#afa549adf79e3f8c09fe8f903dd5fbfa7">SQLAbstract</a>
 </li>
@@ -473,6 +537,15 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>update()
 : <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae44dccde336c9cf20170ff8a6eb06d78">SQLAbstract</a>
 </li>
+<li>update_global_event_non_ulg_data()
+: <a class="el" href="classct_1_1models_1_1_global_event_model.html#ae8f56963658010f8214ab13ad4fe7df8">GlobalEventModel</a>
+</li>
+<li>update_global_event_ulg_data()
+: <a class="el" href="classct_1_1models_1_1_global_event_model.html#adb83161f5c4295dd5c981bcceb22e2ec">GlobalEventModel</a>
+</li>
+<li>update_request_status()
+: <a class="el" href="classct_1_1models_1_1_modification_request_model.html#a1205073da3837d804b950340d89d5543">ModificationRequestModel</a>
+</li>
 <li>user_exists()
 : <a class="el" href="classct_1_1models_1_1_user_model.html#a74c70a4a8fdeb2f2c497c08dc7529e2a">UserModel</a>
 </li>
@@ -498,7 +571,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Feb 7 2015 00:23:29 for CalendarTool by
+    <li class="footer">Generated on Wed Feb 11 2015 01:19:17 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

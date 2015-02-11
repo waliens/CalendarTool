@@ -1,6 +1,5 @@
 var classutil_1_1_type_checker =
 [
-    [ "__construct", "classutil_1_1_type_checker.html#ac395571e7767c80119b30cf2e5087c59", null ],
     [ "get_parameters", "classutil_1_1_type_checker.html#a8d88519ce8f2e7298a2751599bf472c9", null ],
     [ "get_type", "classutil_1_1_type_checker.html#ab5be4c3d74f109176ef57e753ebd4918", null ],
     [ "set_type", "classutil_1_1_type_checker.html#a424a47491438d0e72cc283f9c8b0c16a", null ],

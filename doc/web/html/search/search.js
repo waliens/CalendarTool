@@ -8,10 +8,10 @@
 var indexSectionsWithContent =
 {
   0: "$_abcdefghijlmpqrstuv",
-  1: "abcdeilmprstu",
-  2: "abcdefilmprstu",
+  1: "abcdegilmprstu",
+  2: "abcdefgilmprstu",
   3: "_abcdefghijlmpqrstuv",
-  4: "$cdeprt",
+  4: "$cdelprst",
   5: "rt"
 };
 

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['redirection',['Redirection',['../classutil_1_1_redirection.html',1,'util']]],
-  ['rootmodel',['RootModel',['../classct_1_1models_1_1_root_model.html',1,'ct::models']]]
+  ['pathwaymodel',['PathwayModel',['../classct_1_1models_1_1_pathway_model.html',1,'ct::models']]],
+  ['profilepagecontroller',['ProfilePageController',['../classct_1_1controllers_1_1browser_1_1_profile_page_controller.html',1,'ct::controllers::browser']]]
 ];

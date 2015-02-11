@@ -212,7 +212,6 @@
 		/**
 		 * @brief Insert a new modification request into the database
 		 * @param[in]  array $data 		 The modification request data
-		 * @param[out] array $error_desc Contains an error description for each field that wasn't valid
 		 * @param[in]  int   $lock_mode	 One of the Model LOCKMODE_* class constant 
 		 *
 		 * @note The $data array should be structured as follows :
@@ -344,7 +343,7 @@
 
 		/**
 		 * @brief Return the data of the modification request having the given id
-		 * @param[in] The modification request id
+		 * @param[in] int $req_id The modification request id
 		 * @retval array An array structured as the $data array of the insert_modification_request function
 		 * @note In addition of the index present in the $data array of the insert_modification_request function,
 		 * some fields status and request are added containing respectively the status of the request and the request
@@ -423,7 +422,7 @@
 		}
 
 		/**
-		 * Update the status of a request to the new status
+		 * @brief Update the status of a request to the new status
 		 * @param[in] int 	 $req_id 	 The request identifier 
 		 * @param[in] string $new_status The new status (one of the STATUS_* class constant)
 		 * @retval bool True on success, false on error

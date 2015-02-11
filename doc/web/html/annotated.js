@@ -9,6 +9,8 @@ var annotated =
         ] ]
       ] ],
       [ "models", null, [
+        [ "EventModel", "classct_1_1models_1_1_event_model.html", "classct_1_1models_1_1_event_model" ],
+        [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", "classct_1_1models_1_1_global_event_model" ],
         [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", "classct_1_1models_1_1_modification_request_model" ],
         [ "PathwayModel", "classct_1_1models_1_1_pathway_model.html", "classct_1_1models_1_1_pathway_model" ],
         [ "RootModel", "classct_1_1models_1_1_root_model.html", "classct_1_1models_1_1_root_model" ],

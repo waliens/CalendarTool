@@ -6,5 +6,6 @@ var searchData=
   ['add_5fprotocol',['add_protocol',['../classutil_1_1_u_r_l.html#ac6be0812cd64825d8ef2d052e51918e8',1,'util::URL']]],
   ['add_5fressource_5fpath',['add_ressource_path',['../classutil_1_1_u_r_l.html#a8e897aad2d2026c32dd7c4148bb7a519',1,'util::URL']]],
   ['add_5froot_5fuser',['add_root_user',['../classct_1_1models_1_1_root_model.html#a2fb0dab9bea534502ecad38adc88a382',1,'ct::models::RootModel']]],
+  ['apply_5fmodification',['apply_modification',['../classct_1_1models_1_1_modification_request_model.html#aa5a360fc70c418b713cbb43bfbfb036f',1,'ct::models::ModificationRequestModel']]],
   ['array2json',['array2json',['../classutil_1_1mvc_1_1_ajax_controller.html#a59ab378dfe3164c3e7218dde628aa529',1,'util::mvc::AjaxController']]]
 ];

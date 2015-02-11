@@ -169,6 +169,7 @@
 		/**
 		 * @brief Change the type of the given event. The new type will be a 
 		 * @param[in] int $event The event id
+		 * @param[in] string $datetime The start datetime
 		 * @retval True on success, false on error
 		 */
 		public function reset_time_type_deadline($event, $datetime)
@@ -183,6 +184,8 @@
 		/**
 		 * @brief Change the type of the given event. The new type will be a 
 		 * @param[in] int $event The event id
+		 * @param[in] string $start The start datetime
+		 * @param[in] string $end The end datetime
 		 * @retval True on success, false on error
 		 */
 		public function reset_time_type_time_range($event, $start, $end)
@@ -197,6 +200,8 @@
 		/**
 		 * @brief Change the type of the given event. The new type will be a 
 		 * @param[in] int $event The event id
+		 * @param[in] string $start The start date
+		 * @param[in] string $end The end date
 		 * @retval True on success, false on error
 		 */
 		public function reset_time_type_date_range($event, $start, $end)

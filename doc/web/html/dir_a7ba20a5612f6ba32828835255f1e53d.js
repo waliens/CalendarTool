@@ -1,5 +1,11 @@
 var dir_a7ba20a5612f6ba32828835255f1e53d =
 [
+    [ "EventModel.class.php", "_event_model_8class_8php.html", [
+      [ "EventModel", "classct_1_1models_1_1_event_model.html", "classct_1_1models_1_1_event_model" ]
+    ] ],
+    [ "GlobalEventModel.class.php", "_global_event_model_8class_8php.html", [
+      [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", "classct_1_1models_1_1_global_event_model" ]
+    ] ],
     [ "ModificationRequestModel.class.php", "_modification_request_model_8class_8php.html", [
       [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", "classct_1_1models_1_1_modification_request_model" ]
     ] ],

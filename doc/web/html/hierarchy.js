@@ -15,7 +15,9 @@ var hierarchy =
       [ "Browser", "classutil_1_1entry__point_1_1_browser.html", null ],
       [ "ICS", "classutil_1_1entry__point_1_1_i_c_s.html", null ]
     ] ],
+    [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", null ],
     [ "Model", "classutil_1_1mvc_1_1_model.html", [
+      [ "EventModel", "classct_1_1models_1_1_event_model.html", null ],
       [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", null ],
       [ "PathwayModel", "classct_1_1models_1_1_pathway_model.html", null ],
       [ "RootModel", "classct_1_1models_1_1_root_model.html", null ],
