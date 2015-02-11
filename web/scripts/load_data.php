@@ -150,8 +150,8 @@
 		foreach($courses_data as $course)
 		{
 			$success &= $stmt->execute(array($course['code_cours'],
-											 $course['lib_cours_complet'],
 											 $course['lib_cours'],
+											 $course['lib_cours_complet'],
 											 $course['hr_th'],
 											 $course['hr_pr'],
 											 $course['hr_st'],

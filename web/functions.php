@@ -232,3 +232,12 @@
 	{
 		return strtotime($date1) < strtotime($date2);
 	}
+
+	/**
+	 * @brief Return the year starting the current academic year
+	 * @retval int The starting academic year
+	 */
+	function get_academic_year()
+	{
+		return date("n") < 9 || date("j") < 12 ? date("Y") - 1 : date("Y");
+	}
