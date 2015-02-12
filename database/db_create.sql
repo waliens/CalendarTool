@@ -116,7 +116,8 @@ CREATE TABLE IF NOT EXISTS `global_event`
 	`Language` enum('EN','FR') NOT NULL,
 	`Acad_Start_Year` year NOT NULL,
 	FOREIGN KEY(`Id_Owner`) REFERENCES `faculty_staff_member`(`Id_Faculty_Member`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Global_Event`)
+	PRIMARY KEY(`Id_Global_Event`),
+	CONSTRAINT course_year UNIQUE (ULg_Identifier, Acad_Start_Year)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `global_event_subscription`
