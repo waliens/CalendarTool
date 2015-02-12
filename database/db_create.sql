@@ -151,7 +151,8 @@ CREATE TABLE IF NOT EXISTS `global_event_file`
 CREATE TABLE IF NOT EXISTS `teaching_role`
 (
 	`Id_Role` int(11) NOT NULL AUTO_INCREMENT,
-	`Role` varchar(255) NOT NULL, 
+	`Role_EN` varchar(255) NOT NULL, 
+	`Role_FR` varchar(255) NOT NULL,
 	`Description` text NOT NULL,
 	PRIMARY KEY(`Id_Role`)
 ) ENGINE=InnoDB;
