@@ -42,9 +42,7 @@
 		 */
 		public function global_event_exists($course_id, $acad_year)
 		{
-			return $this->sql->count("global_event",
-									 "ULg_Identifier = ".$this->sql->quote($course_id).
-									 " AND Acad_Start_Year = ".$this->sql->quote($acad_year)) > 0;
+			return $this->sql->count("global_event", $this->get_where_clause($course_id, )) > 0;
 		}
 
 		/**
@@ -215,10 +213,188 @@
 			return $lang === self::LANG_FR || $lang === self::LANG_EN;
 		}
 
-		public function get_global_event($glob_id)
+		/**
+		 * @brief Get the data of a global event
+		 * @param[in] array $id_data The data identifying the global event
+		 * @retval array An array containing the data, an empty array if the event wasn't found
+		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the
+		 * id_data array
+		 * @note The returned array will contain the given keys :
+		 * <ul>
+		 * 	<li>id: the global event id</li>
+		 * 	<li>ulg_id: the course ulg id</li>
+		 * 	<li>name_short : the short name</li>
+		 * 	<li>name_long : name_long</li>
+		 * 	<li>owner_name: the owners id</li>
+		 * 	<li>owner_surname : the owner surname</li>
+		 * 	<li>period : the string identifying the period of the year at which the course take place</li>
+		 * 	<li>desc : the global event description</li>
+		 * 	<li>feedback : the global event feedback</li>
+		 * 	<li>wk_th : theoritical workload </li>
+		 * 	<li>wk_pr : practical workload</li>
+		 * 	<li>wk_au : auxiliary workload</li>
+		 * 	<li>wk_st : ??? workload</li>
+		 * 	<li>lang : the language ('FR' or 'EN')</li>
+		 * 	<li>acad_year  : a string containing the academic year ("YYYY-YYYY", "2014-2015")</li>
+		 * </ul>
+		 */
+		public function get_global_event(array $id_data)
 		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
 
+			if($id_glob < 0)
+				return array();
+
+			$query  =  "SELECT Id_Global_Event AS id, ULg_Identifier AS ulg_id, Name_Short AS name_short,
+							   Name_Long AS name_long, owner_name, owner_surname, Period AS period, 
+							   Description AS `desc`, Feedback AS feedback, Workload_Th AS wk_th,
+							   Workload_Pr AS wk_pr, Workload_Au AS wk_au, Workload_St AS wk_st,
+							   Language AS lang, CONCAT(Acad_Start_Year, '-', Acad_Start_Year + 1) AS acad_year
+						FROM 
+						( SELECT * FROM global_event WHERE Id_Global_Event = ? ) AS glob
+						NATURAL JOIN
+						( SELECT Name AS owner_name, Surname AS owner_surname, Id_User AS Id_Owner FROM user ) as owner;";
+
+			$result = $this->sql->execute_query($query, array($id_glob));
+
+			return empty($result) ? array() : $result[0];
 		}
 
-		public function 
+		/**
+		 * @brief Return the global event id corresponding the given id data
+		 * @param[in] array $id_data An array containing the data for identifying the global event
+		 * @retval int The global event id, -1 on error
+		 * @note The id_data array must contain either only one 'id' key mapping the global event id
+		 * or two keys, 'ulg_id' and 'year', respectively the course ulg id and the year starting the 
+		 * academic year of the course
+		 */
+		public function get_global_event_id(array $id_data)
+		{
+			if(array_key_exists('id', $id_data))
+				return is_int($id_data['id']) && $id_data['id'] > 0 ? $id_data['id'] : -1;
+
+			$where = $this->get_where_clause($id_data['ulg_id'], $id_data['year']);
+			$id = $this->sql->select_one("global_event", $where, array("Id_Global_Event"));
+
+			return empty($id['Id_Global_Event']) ? -1 : $id['Id_Global_Event'];
+		}
+
+		/**
+		 * @brief Constructs the where clause for a sql queries containing to select an global event with
+		 * the course ulg identifier and a year (year starting the academic year)
+		 * @param[in] string $course_id The course ulg id
+		 * @param[in] int    $acad_year The academic year
+		 * @retval string The where clause
+		 */
+		private function get_where_clause($course_id, $acad_year)
+		{
+			return "ULg_Identifier = ".$this->sql->quote($course_id)." AND Acad_Start_Year = ".$this->sql->quote($acad_year);
+		}
+
+		/**
+		 * @brief Return the teaching team of the given global_event
+		 * @param[in] array  $id_data An array containing the data for identifying the global event
+		 * @param[in] string $lang    The language in which the role name must be (optionnal, default : FR)
+		 * @retval array An array of which each row is an array containing the informations of one team member
+		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the $id_data array
+		 * @note The rows are structured as follows :
+		 * <ul>
+		 * 	<li>name : the team member name</li>
+		 *  <li>surname : the team member surname</li>
+		 *  <li>role : its role in the given language</li>
+		 *  <li>desc : the role description</li>
+		 * </ul> 
+		 */
+		public function get_teaching_team(array $id_data, $lang = self::LANG_FR)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return array();
+
+			// get the teaching team
+			$columns = array("Name AS name", "Surname AS surname", "Description as desc");
+
+			if($lang === self::LANG_FR)
+				$columns[] = "Role_FR AS role";
+			else
+				$columns[] = "Role_EN AS role";
+
+			return $this->sql->select("teaching_team_member", 
+									  "Id_Global_Event = ".$this->sql->quote($id_glob), 
+									  $columns);
+		}
+
+		/**
+		 * @brief Return the list of student that have subscribed to the event
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @retval array Array of which the rows contains the data about a student
+		 * that has subscribed for the given lesson
+		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the
+		 * $id_data array
+		 * @note The rows' structure is the following : 
+		 * <ul>
+		 * 	<li>id : the user id</li>
+		 *  <li>ulg_id : the user ulg_id</li>
+		 *  <li>surname : the user surname</li>
+		 *  <li>name : the user name</li>
+		 *  <li>free_student : 1 if the student is a free student, 0 otherwise</li>
+		 * </ul> 
+		 */
+		public function get_subscribed_student(array $id_data)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return array();
+
+			// get the students
+			$query  =  "SELECT Id_User AS id, Id_ULg AS ulg_id, Name AS name, 
+							   Surname AS surname, Free_Student AS free_student
+						FROM user NATURAL JOIN 
+						( SELECT Id_Student AS Id_User, Free_Student 
+						  FROM global_event_subscription 
+						  WHERE Id_Global_Event = ? ) AS studs;";
+
+			$studs = $this->sql->execute_query($query, array($id_glob));
+
+			return empty($studs) ? array() : $studs[0];
+		}
+
+		/**
+		 * @brief Return the list of pathways that are associated with the given global event
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @retval array Array of which the rows contains the data about a pathway
+		 * that has subscribed for the given lesson
+		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the
+		 * $id_data array
+		 * @note The rows' structure is the following : 
+		 * <ul>
+		 * 	<li>id : a string containing the pathway id</li>
+		 *  <li>name_long : the pathway long name</li>
+		 *  <li>name_short : the pathway short name</li>
+		 * </ul> 
+		 */
+		public function get_global_event_pathways(array $id_data)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return array();
+
+			// get the students
+			$query  =  "SELECT Id_Pathway AS id, Name_Long AS name_long, Name_Short AS name_short
+						FROM pathway NATURAL JOIN 
+						( SELECT Id_Pathway 
+						  FROM global_event_pathway 
+						  WHERE Id_Global_Event = ? ) AS paths;";
+
+			$paths = $this->sql->execute_query($query, array($id_glob));
+
+			return empty($paths) ? array() : $paths[0];
+		}
 	}
