@@ -39,8 +39,8 @@
 		 */
 		private function __construct()
 		{
-			// $this->sess = new SG_Session();
-
+			$this->sess = new SG_Session();
+			$this->connect("u220236", 2);
 			// $ulg_id = $this->extract_ulg_id_from_http();
 			
 			// if(!$this->is_connected()) // no previous connection
@@ -95,21 +95,34 @@
  		 * @brief Return the ulg id of the currently connected user
  		 * @retval string the ulg id 
  		 */
+		public function user_ulg_id()
+		{
+			if(!$this->is_connected())
+				throw new \Exception("User not connected");
+		
+			return $this->sess->value("ulg_id");
+		}
+
+		/**
+ 		 * @brief Return the user id of the currently connected user
+ 		 * @retval string the user id 
+ 		 */
 		public function user_id()
 		{
 			if(!$this->is_connected())
-				throw new Exception("User not connected");
+				throw new \Exception("User not connected");
 		
-			return $this->sess->value("ulg_id");
+			return $this->sess->value("user_id");
 		}
 
 		/**
 		 * @brief Connects the user
 		 * @param[in] string $ulg_id The login of the user to connect
 		 */
-		private function connect($ulg_id)
+		private function connect($ulg_id, $user_id)
 		{
 			$_SESSION['ulg_id'] = $ulg_id;
+			$_SESSION['user_id'] = $user_id;
 		}
 
 		/**
