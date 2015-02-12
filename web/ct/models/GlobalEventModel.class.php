@@ -397,4 +397,34 @@
 
 			return empty($paths) ? array() : $paths[0];
 		}
+
+		/**
+		 * @brief Deletes a global event from the database
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @retval bool True on success, false on error
+		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the
+		 * $id_data array
+		 */
+		public function delete_global_event(array $id_data)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$quoted_id = $this->sql->quote($id_glob);
+			$success = true;
+
+			$this->sql->transaction;
+
+			$success &= $this->sql->delete("global_event", "Id_Global_Event = ".$quoted_id);
+			
+			if($success)
+				$this->sql->commit();
+			else
+				$this->sql->rollback();
+
+			return $success;
+		}
 	}
