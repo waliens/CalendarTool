@@ -142,7 +142,7 @@
 	}
 
 	/**
-	 * Custom autoload function for spl autoloading
+	 * @brief Custom autoload function for spl autoloading
 	 */
 	function autoload($class)
 	{

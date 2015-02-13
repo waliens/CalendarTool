@@ -23,7 +23,15 @@
 		const LANG_FR = "FR"; /**< @brief Language constant : french */
 		const LANG_EN = "EN"; /**< @brief Language constant : english */
 
-		const ROLE_ID_PROFESSOR = 1; /**< @brief Rold id : 1 */
+		const ROLE_ID_PROFESSOR = 1; /**< @brief Role id : professor */
+		const ROLE_ID_TA = 2; /**< @brief Role id : teaching assistant */
+		const ROLE_ID_TS = 3; /**< @brief Role id : teaching student */
+
+		const GET_BY_IDS = 1; /**< @brief Way of getting a list of global events : by global event ids */
+		const GET_BY_OWNER = 2; /**< @brief Way of getting a list of global events : by owner id */
+		const GET_BY_STUDENT = 3; /**< @brief Way of getting a list of global events : by student id (global event to which the student is subscribed) */
+		const GET_BY_PATHWAYS = 4; /**< @brief Way of getting a list of global events :  by pathways */
+		const GET_BY_TEAM_MEMBER = 5; /**< @brief Way of getting a list of global events : by team member id */
 
 		/**
 		 * @brief Constructs a GlobalEventObject
@@ -35,14 +43,14 @@
 		}
 
 		/**
-		 * Checks if the given global event exists
+		 * @brief Checks if the given global event exists
 		 * @param[in] string $course_id The course ulg id
 		 * @param[in] int    $acad_year The academic year
 		 * @retval bool True if the global event exists, false otherwise
 		 */
 		public function global_event_exists($course_id, $acad_year)
 		{
-			return $this->sql->count("global_event", $this->get_where_clause($course_id, )) > 0;
+			return $this->sql->count("global_event", $this->get_where_clause($course_id, $acad_year)) > 0;
 		}
 
 		/**
@@ -63,7 +71,6 @@
 			$success = true;
 
 			$this->sql->transaction();
-			$this->sql->set_dump_mode();
 
 			// transfer course ulg data
 			$query  =  "INSERT INTO global_event(ULg_Identifier, Name_Short, Name_Long, 
@@ -77,7 +84,6 @@
 			$success &= $this->sql->execute_query($query, array($acad_year, $user_id, $course_id));
 
 			$glob_event_id = $this->sql->last_insert_id();
-			echo $glob_event_id."<br>";
 
 			if(!$success || $glob_event_id === 0) 
 			{			
@@ -399,6 +405,47 @@
 		}
 
 		/**
+		 * @brief Get the files associated with the event
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @retval array Array of which the rows contains the data about a file
+		 * that has subscribed for the given lesson
+		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the
+		 * $id_data array
+		 * @note The rows' structure is the following : 
+		 * <ul>
+		 * 	<li>id : file id</li>
+		 *  <li>path : the filepath</li>
+		 *  <li>id_owner : id of the user that owns the file</li>
+		 *  <li>f_owner_name : name of the file owner</li>
+		 *  <li>f_owner_surname : surname of the file owner</li>
+		 *  <li>filename : name of the file</li>
+		 *  <li>name_short : the pathway short name</li>
+		 * </ul> 
+		 */
+		public function get_global_event_files(array $id_data)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return array();
+
+			// get the files
+			$query  =  "SELECT Id_File AS id, Filepath AS `path`, Id_User AS id_owner, f_owner_name, f_owner_surname,
+							   Name AS filename 
+						FROM 
+						( SELECT Id_User, Name AS f_owner_name, Surname AS f_owner_surname FROM user ) as users
+						NATURAL JOIN
+						( SELECT * FROM global_event_file WHERE Id_Global_Event = ? ) as ids_files
+						NATURAL JOIN 
+						file";
+
+			$files = $this->sql->execute_query($query, array($id_glob));
+
+			return empty($files) ? array() : $files[0];
+		}
+
+		/**
 		 * @brief Deletes a global event from the database
 		 * @param[in] array $id_data The data for identifying the global event
 		 * @retval bool True on success, false on error
@@ -416,7 +463,7 @@
 			$quoted_id = $this->sql->quote($id_glob);
 			$success = true;
 
-			$this->sql->transaction;
+			$this->sql->transaction();
 
 			$success &= $this->sql->delete("global_event", "Id_Global_Event = ".$quoted_id);
 			
@@ -426,5 +473,265 @@
 				$this->sql->rollback();
 
 			return $success;
+		}
+
+		/**
+		 * @brief Get all the data related to the given global event (global event itself + teaching team, students, pathways, files)
+		 * @param[in] array  $id_data The data for identifying the global event
+		 * @param[in] string $lang    The language in which the data must be 
+		 * @retval array An array containing the data
+		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the
+		 * $id_data array
+		 * @note The array is structured as the one returned from the get_global_event function but some new fields are added :
+		 * <ul>
+		 * 	<li>pathways : the pathways associated with the event</li>
+		 *  <li>files : the fukes associated with the event</li>
+		 *  <li>students : the student that are registered for the event</li>
+		 *  <li>team : the teaching team</li>
+		 * </ul>
+		 */
+		public function get_whole_global_event(array $id_data, $lang = self::LANG_FR)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$id_data_int = array('id' => $id_glob);
+
+			$global_event = $this->get_global_event($id_data_int);
+
+			if(empty($global_event))
+				return array();
+
+			$global_event['pathways'] = $this->get_global_event_pathways($id_data_int);
+			$global_event['files'] = $this->get_global_event_files($id_data_int);
+			$global_event['students'] = $this->get_subscribed_student($id_data_int);
+			$global_event['team'] = $this->get_teaching_team($id_data_int, $lang);
+
+			return $global_event;
+		}
+
+		/**
+		 * @brief Return the global events selected with the given GET_* method and the given identifier
+		 * @param[in] int 	$method 	The GET_* method
+		 * @param[in] mixed $identifier The identifier associated with the GET_* method
+		 * @retval An multidimensionnal array of which each row corresponds to a global event and is structured as 
+		 * the array returned by the get_global_event function
+		 * @note For the method GET_BY_IDS, the identifier can either be an array of integers (the indexes) or an 
+		 * array of which the sub_arrays have the structure of the id_data array as in the get_global_event_id function
+		 */
+		public function get_global_events($method, $identifier)
+		{
+			if($method !== self::GET_BY_IDS)
+				$ids = $this->get_global_ids($method, $identifier);
+			else
+				$ids = $identifier;
+
+			return $this->get_global_event_by_ids($ids);
+		}
+
+		/**
+		 * @brief Returns an array of global event id corresponding to the given identifier for a given GET_* method
+		 * @param[in] int 	$method 	The GET_* method
+		 * @param[in] mixed $identifier The identifier associated with the GET_* method (except GET_BY_IDS)
+		 * @retval array An array containing the integer global event ids
+		 */
+		private function get_global_ids($method, $identifier)
+		{
+			$quoted_id = $this->sql->quote($identifier);
+
+			switch($method)
+			{
+			case self::GET_BY_OWNER:
+				$ids = $this->sql->select("global_event", "Id_Owner = ".$quoted_id, array("Id_Global_Event"));
+			case self::GET_BY_STUDENT:
+				$ids = $this->sql->select("global_event_subscription", "Id_Student = ".$quoted_id, array("Id_Global_Event"));
+			case self::GET_BY_PATHWAYS:
+				$ids = $this->sql->select("global_event_pathway", "Id_Pathway = ".$quoted_id, array("Id_Global_Event"));
+			case self::GET_BY_TEAM_MEMBER:
+				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, array("Id_Global_Event"));
+			}
+			// the select returns a multidimensionnal array -> need to flatten it
+			return \ct\array_flatten($ids);
+		}
+
+		/**
+		 * @brief Returns an array of global events for the given ids
+		 * @param[in] array $ids The array of ids (can be either integers or id_data array, see get_global_event_id function)
+		 * @retval An multidimensionnal array of which each row corresponds to a global event and is structured as 
+		 * the array returned by the get_global_event function
+		 */
+		public function get_global_event_by_ids(array $ids)
+		{
+			$global_events = array();
+
+			foreach($ids as $id)
+			{
+				if(!is_array($id))
+					$id = array("id" => $id);
+
+				$glb = $this->get_global_event($id);
+
+				if(!empty($glb))
+					$global_events[] = $glb;
+			}
+
+			return $global_events;
+		}
+
+		/**
+		 * @brief
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in]
+		 * @retval bool True on success, false on error 
+		 */
+		public function delete_subscription(array $id_data, $student_id)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$where = "Id_Global_Event = ".$this->sql->quote($id_glob).
+					 " AND Id_Student = ".$this->sql->quote($student_id);
+
+			return $this->sql->delete("global_event_subscription", $where);
+		}
+
+		/**
+		 * @brief Add a subscription to the given student id
+		 * @param[in] array $id_data      The data for identifying the global event
+		 * @param[in] int   $student_id   The student id
+		 * @param[in] bool  $free_student True if the student is a free student (optional, default: true)
+		 * @param[in] int   $year  		  The year starting the acad. year for which the subscription must be added (optional, default: current acad year)
+		 * @retval bool True on success, false on error
+		 * @note The function checks whether the student has a pathway that can take this course
+		 * @note The given year should be the same as the one of the given global event
+		 */
+		public function add_subscription(array $id_data, $student_id, $free_student=null, $year=null)
+		{
+			if($free_student == null) $free_student = true;
+			if($year == null) 		  $year = \ct\get_academic_year();
+
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			// insert the subscription only if the student has one of the global event's pathway for the given year
+			$query  =  "INSERT INTO global_event_subscription(Id_Global_Event, Id_Student, Free_Student)
+						SELECT Id_Global_Event, Id_Student, ? AS free 
+						FROM 
+						( SELECT Id_Pathway, Id_Student FROM student_pathway WHERE Id_Student = ? AND Acad_Start_Year = ? ) as stud_path 
+						NATURAL JOIN
+						( SELECT * FROM global_event_pathway WHERE Id_Global_Event = ? ) AS glob_path;";
+
+			$param_array = array($free_student, $student_id, $year, $glob_id);
+
+			return $this->sql->execute_query($query, $param_array) 
+					&& !empty($this->sql->last_insert_id());
+		}
+
+		/**
+		 * @brief 
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in]
+		 * @retval bool True on success, false on error
+		 */
+		public function add_file(array $id_data, $file_id)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+		}
+
+		/**
+		 * @brief 
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in]
+		 * @retval bool True on success, false on error
+		 */
+		public function delete_file(array $id_data, $file_id)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+		}
+
+		/**
+		 * @brief 
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in]
+		 * @retval bool True on success, false on error
+		 */
+		public function add_pathway(array $id_data, )
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+		}
+
+		/**
+		 * @brief Delete a pathway for the given global event
+		 * @param[in] array  $id_data    The data for identifying the global event
+		 * @param[in] string $pathway_id The pathway id
+		 * @retval bool True on success, false on error
+		 */
+		public function delete_pathway(array $id_data, $pathway_id)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$where = "Id_Global_Event = ".$this->sql->quote($id_glob).
+					 " AND Id_Pathway = ".$this->sql->quote($pathway_id);
+			return $this->sql->delete("global_event_pathway", $where);
+		}
+
+		/**
+		 * @brief 
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in]
+		 * @retval bool True on success, false on error
+		 */
+		public function add_team_member(array $id_data, $pathway_id)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+		}
+
+		/**
+		 * @brief Delete a team member from the given global event's team
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in] int   $user_id The user identifier
+		 * @retval bool True on success, false on error
+		 */
+		public function delete_team_member(array $id_data, $user_id)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$where = "Id_Global_Event = ".$this->sql->quote($id_glob).
+					 " AND Id_User = ".$this->sql->quote($user_id);
+			return $this->sql->delete("teaching_team_member", $where);
 		}
 	}
