@@ -170,13 +170,36 @@
             <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info" aria-expanded="false" aria-controls="subevents_info">Sousévénements</a> </h4>
           </div>
           <div id="subevents_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-              <!--FILLED BY AJAX WITH LIST INDEPENDENT EVENTS-->
+              <!--FILLED BY AJAX WITH LIST SUBEVENTS-->
+          </div>
+        </div>
+         <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#event_team" aria-expanded="false" aria-controls="event_team">Équipe</a> </h4>
+          </div>
+          <div id="event_team" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+              <!--FILLED BY AJAX WITH LIST EVENT TEAM-->
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- SubEvent Panel -->
+<div class="modal fade" id="subevent_panel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="subevent_title"><!--SUBEVENT TITLE--></h4>
+      </div>
+      <div class="modal-body" id="subevent_panel_body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Bootstrap core JavaScript
     ================================================== --> 
 <!-- Placed at the end of the document so the pages load faster --> 

@@ -130,6 +130,7 @@ $('#event_info').on('show.bs.modal', function (event) {
 			var eventEnd=data.end;
 			var eventPathway=data.pathway;
 			var subevents=data.subevents;
+			var team=data.team;
 			//populate global event info
 			$("#event-title").text(eventName);
 			$("#event-details").text(eventDescription);
@@ -156,17 +157,32 @@ $('#event_info').on('show.bs.modal', function (event) {
 				var row=subeventsTable.insertRow(-1);
 				var cell1=row.insertCell(0);
 				var cell2=row.insertCell(1);
-				cell1.innerHTML=subevents[i].code;
+				var subevent_tag=document.createElement('a');
+				subevent_tag.innerHTML = subevents[i].code;
+				subevent_tag.setAttribute("subevent-id",subevents[i].code);
+				//link the event link to the event info pane
+				subevent_tag.setAttribute("data-toggle","modal");
+				subevent_tag.setAttribute("data-target","#subevent_panel");
+				cell1.appendChild(subevent_tag);
 				cell2.innerHTML=subevents[i].lib_cours_complet;
 				}
 			$("#subevents_info").html(subeventsTable);
+			//populate team info
+			var teamTable=document.createElement("table");
+			teamTable.className="table";
+			for(var i=0;i<team.length;i++){
+				var row=teamTable.insertRow(-1);
+				var cell1=row.insertCell(0);
+				cell1.innerHTML=team[i].name;
+				cell1.setAttribute("team-id",team[i].id)
+				}
+			$("#event_team").html(teamTable);
 		},
 		error : function(data, status, errors) {
 			// Inserire un messagio di errore
 		}
 	});
 	});
-	
 	
 	
 /*var event_id=data.id;
