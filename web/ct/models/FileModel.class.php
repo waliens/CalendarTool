@@ -35,13 +35,20 @@
 		}
 
 		/**
-		 * @brief
-		 * @param[in]
-		 * @retval
+		 * @brief Delete a file from the file table in the database (and delete the actual file)
+		 * @param[in] int $fid The file id
+		 * @retval bool True on success false on error
+		 * @note If the mysql app does not support cascade delete and that the file id is used
+		 * in another table, this entry must be deleted before calling this function
 		 */
 		public function delete_file($fid)
 		{
+			$file_data = $this->sql->select_one("file", "Id_File = ".$this->sql->quote($fid));
 
+			if(file_exists($file_data['Filepath']) && !unlink($file_data['Filepath']))
+				return false;
+
+			return $this->sql->delete("file", "Id_File = ".$this->sql->quote($fid));
 		}
 
 		/**
@@ -83,13 +90,51 @@
 		}
 
 		/**
-		 * @brief
-		 * @param[in]
-		 * @retval
+		 * @brief Move the file having the given id to the new path
+		 * @param[in] int 	   $fid 	 The file id
+		 * @param[in] new_path $new_path The complete path where the file must be moved (including filename)
+		 * @retval bool True on success, false on error
+		 * @note The file extension in $new_path must be the same than the one of the file having the given file id
 		 */
-		public function move_file($fid, $)
+		public function move_file($fid, $new_path)
 		{
+			if(empty($new_path))
+				return false;
 
+			$file = $this->sql->select_one("file", "Id_File = ".$this->sql->quote($fid));
+
+			$new_name = \basename($new_path);
+
+			// check extension 
+			if($this->extract_extension($file['Name']) !== $this->extract_extension($new_name))
+				return false;
+
+			$new_comp_path = $this->add_root_to_path($new_path);
+
+			// move the file
+			if(!rename($file['Filepath'], $new_comp_path))
+				return false;
+
+			// update database file entry
+			$update_array = array("Filepath" => $new_comp_path,
+								  "Name" => $new_name);
+
+			return $this->sql->update("file", $this->sql->quote_all($update_array), "Id_File = ".$this->sql->quote($fid));
+		}
+
+		/**
+		 * @brief Extract the file extension from the filepath
+		 * @param[in] string $filepath The file path
+		 * @retval string The extension, an empty string if nothing was found
+		 */
+		private function extract_extension($filepath)
+		{
+			$matches = array();
+
+			if(!preg_match("#.*\.([a-z0-9]+)$#", $filepath, $matches))
+				return "";
+
+			return $matches[1];
 		}
 
 		/**
@@ -116,10 +161,10 @@
 			$matches = array();
 
 			// match the mime type string
-			if(!preg_match("#^([a-z]+)(?:/([a-z]+))?$#", $mime, $matches))
+			if(!preg_match("#^([a-z]+)(?:/([a-z0-9]+))?$#", $mime, $matches))
 				return false;
 
-			switch($matches[1])
+			switch($matches[1]) // check the first part of the mime_type
 			{
 			case "application":
 			case "video":
@@ -127,7 +172,7 @@
 			case "image":
 			case "text":
 
-				switch($matches[2])
+				switch($matches[2]) // modify the second part so that we can use it as a file extension
 				{
 				case "javascript": $matches[2] = "js"; break;
 				case "plain": $matches[2] = "txt"; break;
