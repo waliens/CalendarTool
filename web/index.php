@@ -16,3 +16,4 @@ header('Content-Type: text/html; charset=utf-8');
 	$test = new EventModel();
 	$data = array("id_event" => 1, "name" => "e1", "description" => "ceci est un event");
 	$test->createEvent($data);
+	

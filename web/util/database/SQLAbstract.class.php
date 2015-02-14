@@ -120,7 +120,6 @@
 			$query = "INSERT INTO ".$table."(".implode(", ", array_keys($column_value_map)).") 
 					       VALUES (".implode(", ", array_values($column_value_map)).");";
 
-			echo $query;
 			return $this->execute_query($query);
 		}
 

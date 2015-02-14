@@ -24,9 +24,9 @@ class EventModel extends Model{
 	
 	function __construct() {
 		parent::__construct();
-		$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int");
+		$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
 		$this->table = "event";
-		$this->translate = array("id_event" => "Id_Event", "name" => "Name", "description" => "Description", "id_recurence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category");
+		$this->translate = array("id_event" => "Id_Event", "name" => "Name", "description" => "Description", "id_recurence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End");
 	}
 	
 	/**
@@ -54,6 +54,7 @@ class EventModel extends Model{
 		if($table == NULL)
 			$table = "Event";
 
+		
 		//Build WHERE clause
 		if(isset($infoData) && !empty($infoData)){
 			$ar = array();
@@ -68,7 +69,7 @@ class EventModel extends Model{
 		}
 
 		$data = $this->sql->select($table, $where, $requestData);
-		return json_encode($data);
+		return $data;
 	}
 	
 	/**
@@ -76,11 +77,29 @@ class EventModel extends Model{
 	 * @param $type type of event
 	 * @param $requestedData what we want to obtain (nothing for *)
 	 * @param $infoData what we know about the event
+	 * @param $dateType the type of event concerning the date (Date|Deadline|TimeRange)
 	 * @retval Json string of the event(s) -1 if error
 	 */
-	public function getEvent (array $infoData = null,  array $requestedData = null){	
+	public function getEvent (array $infoData = null,  array $requestedData = null, $dateType = NULL){	
 		if($infoData == null)
 			$infoData = array();
+		
+		$table = $this->table;
+		
+		if(isset($dateType)){
+			switch($dateType){
+				case "Date":
+					$table = $table ." JOIN date_range_event";
+					break;
+				case "Deadline":
+					$table = $table ." JOIN deadline_event";
+					break;
+				case "TimeRange":
+					$table = $table . " JOIN time_range_event";
+					break;
+					
+			}
+		}
 		
 		
 		$info = $this->checkParams($infoData, false);
@@ -118,11 +137,10 @@ class EventModel extends Model{
 					$arr[$key] = htmlEntities($value, ENT_QUOTES);
 					$arr[$key] = nl2br($arr[$key]);
 				}
+				elseif($this->fields[$key] == "date"){
+					//TODO
+				}
 			
-			}
-			foreach($this->fields as $key => $value){ //Not sure this is useful
-				if(!isset($arr[$key]))
-					$arr[$key] = "";
 			}
 					
 		}
@@ -164,10 +182,7 @@ class EventModel extends Model{
 		$datas = $this->checkParams($data, true, true);
 		if($datas == -1)
 			return -1;
-		
-		foreach($datas as $key => $value){
-			echo $key." = ".$value."<br>";
-				}
+
 		return $this->sql->insert($this->table, $datas);
 	}
 
@@ -195,5 +210,46 @@ class EventModel extends Model{
 		return $this->sql->update($this->table, $data, implode(" AND ", $whereClause));
 		
 	}
+	/**
+	 * @brief 
+	 * @param int $id the id of the event
+	 * @param string $type the type of event (Date|Deadline|TimeRange)
+	 * @param DateTime $start the start of the event (or the deadline)
+	 * @param DateTime $end the end of the event 
+	 * @param boolean $update if it's already set to an other value
+	 * @retval SQL_abstract return code
+	 */
+	public function setDate($id, $type, $start, $end = NULL, $update = false){
+		switch($type){
+			case "Date":
+				$data = array();
+				$data["Id_event"] = $id;
+				$data["Start"] = $start->format("Y-m-d");
+				$data["End"] = $start->format("Y-m-d");
+				$table = "date_range_event";
+				break;
+			case "Deadline":
+				$data = array();
+				$data["Id_event"] = $id;
+				$data["Limit"] = $start->format("Y-m-d H:i:s");
+				$table = "deadline_event";
+				break;
+			case "TimeRange":
+				$data = array();
+				$data["Id_event"] = $id;
+				$data["Start"] = $start->format("Y-m-d H:i:s");
+				$data["End"] = $start->format("Y-m-d H:i:s");
+				$table = "time_range_event";
+				break;
+			default:
+				return -1;
+				break;	
+		}
+		if($update)
+			return $this->sql->update($table, $data, array("Id_event" => $id));
+		else
+			return $this->sql->insert($table, $data);
+	}
+	
 	
 }
