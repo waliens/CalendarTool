@@ -10,6 +10,7 @@
 	require_once("functions.php");
 
 	use util\mvc\Model;
+	use ct\models\FileModel;
 	use ct\Connection;
 
 	/**
@@ -19,6 +20,7 @@
 	class GlobalEventModel extends Model
 	{
 		private $connection; /**< @brief The connection object */
+		private $file_model; /**< @brief A file model object */
 
 		const LANG_FR = "FR"; /**< @brief Language constant : french */
 		const LANG_EN = "EN"; /**< @brief Language constant : english */
@@ -40,6 +42,7 @@
 		{
 			parent::__construct();
 			$this->connection = Connection::get_instance();
+			$this->file_model = new FileModel();
 		}
 
 		/**
@@ -637,24 +640,72 @@
 		}
 
 		/**
-		 * @brief 
-		 * @param[in] array $id_data The data for identifying the global event
-		 * @param[in]
+		 * @brief Add a new file and associate it to the global event
+		 * @param[in] array  $id_data The data for identifying the global event
+		 * @param[in] string $spf_key The key of the uploaded file data in the $_FILES superglobal
+		 * @param[in] int    $user    The id of the user that should be the owner of the file
 		 * @retval bool True on success, false on error
+		 * @note The file updload data should be located in the $_FILES superglobal 
 		 */
-		public function add_file(array $id_data, $file_id)
+		public function add_file(array $id_data, $spf_key, $user=null)
 		{
 			// extract global event id
 			$id_glob = $this->get_global_event_id($id_data);
 
 			if($id_glob < 0)
 				return false;
+
+			$this->sql->transaction();
+
+			// get file data
+			$path = $this->get_global_event_filepath(array("id" => $glob_id));
+			$fid = $this->file_model->add_file($path, $spf_key, $user);
+			$success = $fid !== 0;
+
+			if($success)
+			{
+				// insert the global event/file association
+				$insert_array = array("Id_Global_Event" => $glob_id,
+									  "Id_File" => $fid);
+
+				$success &= $this->sql->insert("global_event_file", $this->sql->quote_all($insert_array));
+			}
+
+			if($success)
+				$this->sql->commit();
+			else
+				$this->sql->rollback();
+
+			return $success;
 		}
 
 		/**
-		 * @brief 
+		 * @brief Return the path in which to store a file associated with the given global event
+		 * @param[in] int $id_glob The global event id
+		 * @retval string The path, false on error
+		 */
+		private function get_global_event_filepath($id_glob)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$columns = array("ULg_Identifier", "Acad_Start_Year");
+			$where = "Id_Global_Event = ".$this->sql->quote($id_glob);
+			$global_event = $this->sql->select_one("global_event", $where, $columns);
+
+			if(empty($global_event))
+				return false;
+
+			return "global_events/".$global_event['Acad_Start_Year']."/".$global_event['ULg_Identifier'];
+		}
+
+		/**
+		 * @brief Delete a file associated with a global event
 		 * @param[in] array $id_data The data for identifying the global event
-		 * @param[in]
+		 * @param[in] int   $file_id The id of the file to delete
 		 * @retval bool True on success, false on error
 		 */
 		public function delete_file(array $id_data, $file_id)
@@ -664,15 +715,32 @@
 
 			if($id_glob < 0)
 				return false;
+
+			$this->sql->transaction();
+
+			// delete the file/global event association
+			$where = "Id_Global_Event = ".$this->sql->quote($id_glob).
+					 " AND Id_File = ".$this->sql->quote($file_id);
+			$success = $this->sql->delete("global_event_file", $where);
+
+			// delete the actual file
+			$success &= $this->file_model->delete_file($file_id);
+
+			if(!$success)
+				$this->sql->rollback();
+			else
+				$this->sql->commit();
+
+			return $success;
 		}
 
 		/**
-		 * @brief 
-		 * @param[in] array $id_data The data for identifying the global event
-		 * @param[in]
+		 * @brief Add a pathway to the current global event
+		 * @param[in] array  $id_data    The data for identifying the global event
+		 * @param[in] string $pathway_id The id of the pathway to add
 		 * @retval bool True on success, false on error
 		 */
-		public function add_pathway(array $id_data, )
+		public function add_pathway(array $id_data, $pathway_id)
 		{
 			// extract global event id
 			$id_glob = $this->get_global_event_id($id_data);
@@ -680,6 +748,9 @@
 			if($id_glob < 0)
 				return false;
 
+			$insert_array = array("Id_Global_Event" => $glob_id,
+								  "Id_Pathway" => $pathway_id);
+			return $this->sql->insert("global_event_pathway", $this->sql->quote_all($insert_array));
 		}
 
 		/**
@@ -702,18 +773,27 @@
 		}
 
 		/**
-		 * @brief 
+		 * @brief Add a member in the team of the given global event
 		 * @param[in] array $id_data The data for identifying the global event
-		 * @param[in]
-		 * @retval bool True on success, false on error
+		 * @param[in] int   $role_id One of the class ROLE_ID_* constant 
+		 * @param[in] int   $user_id The user to get the role in the team (optionnal, default: currently connected user)
+ 		 * @retval bool True on success, false on error
 		 */
-		public function add_team_member(array $id_data, $pathway_id)
+		public function add_team_member(array $id_data, $role_id, $user_id=null)
 		{
+			if($user_id == null) $user_id = $this->connection->user_id();
+
 			// extract global event id
 			$id_glob = $this->get_global_event_id($id_data);
 
 			if($id_glob < 0)
 				return false;
+
+			$insert_data = array("Id_User" => $user_id,
+								 "Id_Global_Event" => $id_glob,
+								 "Id_Role" => $role_id);
+
+			return $this->sql->insert("teaching_team_member", $this->sql->quote_all($insert_array));
 		}
 
 		/**
