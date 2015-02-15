@@ -50,7 +50,29 @@
 <!-- /.container -->
 
 <div id="footer"> Copyright &copy; <script>document.write(new Date().getFullYear())</script> SEGI - Université de Liège </div>
-
+<!-- Event Info -->
+<div class="modal fade" id="event_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="event-title"><!--EVENT TITLE--></h4>
+    </div>
+    <!--modal body-->
+    <div>
+      <!-- Table -->
+      <table class="table">
+        <tr><td class="text-bold width-80">Quand</td><td id="event_time"></td></tr>
+        <tr><td class="text-bold width-80">Où</td><td id="event_place"></td></tr>
+        <tr><td class="text-bold width-80">Professeur</td><td id="event_owner"></td></tr>
+        <tr><td class="text-bold width-80">Plus info</td><td id="event_details"></td></tr>
+      </table>
+    </div>
+    <div class="modal-footer text-center" id="add_note_btn">
+        <button type="button" class="btn btn-primary">Ajouter note</button>
+      </div>
+  </div>
+</div>
 <!-- Bootstrap core JavaScript
     ================================================== --> 
 <!-- Placed at the end of the document so the pages load faster --> 
