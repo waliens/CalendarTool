@@ -30,7 +30,7 @@ class Event extends Controller{
 	 */
 	public function instantiateModel($type){
 		switch($type){
-			case "Indepenent":
+			case "Independent":
 				return new IndependentEventModel();
 				break;
 			case "Academic":

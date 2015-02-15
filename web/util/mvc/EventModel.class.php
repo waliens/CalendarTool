@@ -251,5 +251,34 @@ class EventModel extends Model{
 			return $this->sql->insert($table, $data);
 	}
 	
+	public function getEventFromIds($ids = null, $dateType = null){
+		if($ids == null)
+			$ids = array();
+		
+		if(empty($ids))
+			return -1;
+		
+		$id = 'Id_Event = ';
+		$id = $id.implode(" OR Id_Event = ", $ids);
+		
+		$table = $this->table;
+		if(isset($dateType)){
+			switch($dateType){
+				case "Date":
+					$table = $table ." JOIN date_range_event";
+					break;
+				case "Deadline":
+					$table = $table ." JOIN deadline_event";
+					break;
+				case "TimeRange":
+					$table = $table . " JOIN time_range_event";
+					break;
+						
+			}
+		}
+		
+		return $this->sql->select($table, $id);
+		
+	}
 	
 }
