@@ -21,9 +21,7 @@
 		 */
 		public function __construct(array $ids)
 		{
-			$this->prof_ids = array_unique(array_filter($ids, 
-														function($row) { return is_int($row) && $row > 0; }), 
-										   SORT_NUMERIC);
+			$this->prof_ids = array_unique(array_filter($ids, "\ct\is_positive_integer", SORT_NUMERIC);
 		}
 
 		/**
