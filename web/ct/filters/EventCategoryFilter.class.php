@@ -7,6 +7,8 @@
 
 	namespace ct\filters;
 
+	require_once("functions.php");
+
 	/**
 	 * @class EventCategoryFilter
 	 * @brief A class for filtering events based on their categories
@@ -21,7 +23,7 @@
 		 */
 		public function __construct(array $ids)
 		{
-			$this->ids = array_unique(array_filter($ids, "\ct\is_positive_integer", SORT_NUMERIC);
+			$this->ids = array_unique(array_filter($ids, "\ct\is_positive_integer"), SORT_NUMERIC);
 		}
 
 		/**
