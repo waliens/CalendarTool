@@ -241,3 +241,34 @@
 	{
 		return date("n") < 9 || date("j") < 12 ? date("Y") - 1 : date("Y");
 	}
+
+	/**
+	 * @brief Function for converting a sql date(time) to a french date format
+	 * @param[in] string $sql_date The sql date(time)
+	 * @param[in] string $sep 	   The separator to place between the date elements
+	 * @retval string The formatted date(time)
+	 */ 
+	function date_sql2fr($sql_date, $sep="/")
+	{
+		$matches = array();
+
+		if(!preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})(.*)#", $sql_date, $matches))
+			return $sql_date;
+
+		return $matches[3].$sep.$matches[2].$sep.$matches[1].$matches[4];
+	}
+
+	/** 
+	 * @brief Function for converting a french formatted date(time) in the sql date(time) format
+	 * @param[in] string $fr_date The fr date(time)
+	 * @retval string The formatted date(time)
+	 */
+	function date_fr2sql($fr_date)
+	{
+		$matches = array();
+
+		if(!preg_match("#^([0-9]{2})[/-]([0-9]{2})[/-]([0-9]{4})(.*)#", $fr_date, $matches))
+			return $sql_date;
+
+		return $matches[3]."-".$matches[2]."-".$matches[1].$matches[4];
+	}
