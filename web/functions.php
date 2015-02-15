@@ -272,3 +272,12 @@
 
 		return $matches[3]."-".$matches[2]."-".$matches[1].$matches[4];
 	}
+
+	/**
+	 * @brief Check whether the argument is a positive integer differenet from 0
+	 * @retval bool True if $int is an integer > 0, false otherwise 
+	 */
+	function is_positive_integers($int)
+	{
+		return is_int($int) && $int > 0;
+	}
