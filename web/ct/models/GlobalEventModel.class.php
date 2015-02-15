@@ -544,17 +544,18 @@
 		private function get_global_ids($method, $identifier)
 		{
 			$quoted_id = $this->sql->quote($identifier);
+			$column = array("Id_Global_Event");
 
 			switch($method)
 			{
 			case self::GET_BY_OWNER:
-				$ids = $this->sql->select("global_event", "Id_Owner = ".$quoted_id, array("Id_Global_Event"));
+				$ids = $this->sql->select("global_event", "Id_Owner = ".$quoted_id, $column);
 			case self::GET_BY_STUDENT:
-				$ids = $this->sql->select("global_event_subscription", "Id_Student = ".$quoted_id, array("Id_Global_Event"));
+				$ids = $this->sql->select("global_event_subscription", "Id_Student = ".$quoted_id, $column);
 			case self::GET_BY_PATHWAYS:
-				$ids = $this->sql->select("global_event_pathway", "Id_Pathway = ".$quoted_id, array("Id_Global_Event"));
+				$ids = $this->sql->select("global_event_pathway", "Id_Pathway = ".$quoted_id, $column);
 			case self::GET_BY_TEAM_MEMBER:
-				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, array("Id_Global_Event"));
+				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, $column);
 			}
 			// the select returns a multidimensionnal array -> need to flatten it
 			return \ct\array_flatten($ids);
