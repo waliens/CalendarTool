@@ -46,4 +46,14 @@
 			return $this->sql->count("pathway", "Id_Pathway = ".$this->sql->quote($pathway_id)) > 0;
 		}
 
+		/**
+		 * @brief Checks the validity of a pathway string (its format)
+		 * @param[in] string $pathway The pathway to check
+		 * @retval bool True if the pathway is valid, false otherwise
+		 * @note The function does not check if the pathway exists in the database
+		 */
+		public static function valid_pathway($pathway)
+		{
+			return preg_match("#^[A-Z]{6}[0-9]{6}$#", $pathway);
+		}
 	};
