@@ -7,6 +7,8 @@
 
 	namespace ct\filters;
 
+	require_once("functions.php");
+	
 	/**
 	 * @class DateTimeFilter
 	 * @brief A class for filtering base on time intervals
