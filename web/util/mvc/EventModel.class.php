@@ -19,13 +19,17 @@ use util\database\Database;
 class EventModel extends Model{
 		
 	protected $fields;
+	protected $fields_event;
 	protected $table;
 	protected $translate;
 	
 	function __construct() {
 		parent::__construct();
+		
 		$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
-		$this->table = "event";
+		$this->fields_event = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
+		$this->table = array();
+		$this->table[0] = "event";
 		$this->translate = array("id_event" => "Id_Event", "name" => "Name", "description" => "Description", "id_recurence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End");
 	}
 	
@@ -49,10 +53,8 @@ class EventModel extends Model{
 	 * @param array String $requestData the requested data for the event $id (empty = all)
 	 * @retval string return the JSON representation of the event
 	 */
-	private  function getData($table = null, array $infoData = null, array $requestData = null){
+	private  function getData($table, array $infoData = null, array $requestData = null){
 		$pdo = SQLAbstract_PDO::buildByPDO($db->get_handle());
-		if($table == NULL)
-			$table = "Event";
 
 		
 		//Build WHERE clause
@@ -84,7 +86,8 @@ class EventModel extends Model{
 		if($infoData == null)
 			$infoData = array();
 		
-		$table = $this->table;
+		$table = implode(" JOIN ", $this->table);
+		
 		
 		if(isset($dateType)){
 			switch($dateType){
@@ -182,8 +185,10 @@ class EventModel extends Model{
 		$datas = $this->checkParams($data, true, true);
 		if($datas == -1)
 			return -1;
+		
+		$datas = array_intersect_key($datas, $this->fields_event);
 
-		return $this->sql->insert($this->table, $datas);
+		return $this->sql->insert($this->table[0], $datas);
 	}
 
 	
@@ -204,7 +209,11 @@ class EventModel extends Model{
 		$whereClause = array();
 		$i = 0;
 		foreach($where as $key => $value){
-			$whereClause[i] = $key ." = `".$value."`";
+			if($key = "Id_Event")
+				$whereClause[i] = "event.". $key ." = `".$value."`"; //removing ambiguity
+			else
+				$whereClause[i] = $key ." = `".$value."`";
+			$i++;
 		}
 		
 		return $this->sql->update($this->table, $data, implode(" AND ", $whereClause));
@@ -258,10 +267,12 @@ class EventModel extends Model{
 		if(empty($ids))
 			return -1;
 		
+		$table = implode(" JOIN ", $this->table);
+		
+		
 		$id = 'Id_Event = ';
 		$id = $id.implode(" OR Id_Event = ", $ids);
 		
-		$table = $this->table;
 		if(isset($dateType)){
 			switch($dateType){
 				case "Date":
