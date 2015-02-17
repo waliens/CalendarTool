@@ -18,6 +18,7 @@
 		 * @retval string The sql query 
 		 * @note The returned sql query should be directly executable and it should be possible to embed it
 		 * in another query (also, as it could be embedded, it should be as efficient as possible)
+		 * @note The query should return a table with one 'Id_Event' column containing the events
 		 */
 		public function get_sql_query();
 
