@@ -48,7 +48,7 @@ body {
 /*footer*/
 #footer{
 position: absolute;
-bottom: 30px;
+margin: 20px 0;
 font-size: 12px;
 font-weight: bold;
 line-height: 20px;
@@ -167,4 +167,17 @@ cursor:pointer;
 .box{
 	border: 1px solid #aaa;
 padding: 5px;
+	}
+	
+.vertical-middle{
+	vertical-align:middle;
+	}
+	
+.float-left-10padright{
+	float:left;
+	padding-right:10px;
+	}
+	
+.hidden{
+	display:none;
 	}
