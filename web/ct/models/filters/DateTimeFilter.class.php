@@ -13,7 +13,7 @@
 	 * @class DateTimeFilter
 	 * @brief A class for filtering base on time intervals
 	 */
-	class DateTimeFilter
+	class DateTimeFilter implements EventFilter
 	{
 		private $start; /**< @brief Contains the datetime (SQL format) */
 		private $end; /**< @brief Contains the end datetime (SQL format) when the mode is self::MODE_BETWEEN, null otherwise */
@@ -106,5 +106,56 @@
 		public function get_end()
 		{
 			return $this->end;
+		}
+
+		/**
+		 * @brief Create the where clause for the filter's sql query 
+		 * @retval array An array containing the where clauses for the three types of events 
+		 * @note The array contains two items indexed as follows :
+		 * <ul> 
+		 *  <li>'range' : where clause for selecting from the (time|date)_range_event</li>
+		 *  <li>'deadline' : where clause for selecting from the deadline_event table</li>
+		 * </ul>
+		 * @todo find a way to implement quoting elegantly
+		 */
+		private function get_where_clauses()
+		{
+			// quote the date(time) string
+			$q_start = quote($this->start);
+			$q_end = $this->is_between() ? quote($this->end) : "";
+			
+			switch ($this->mode) 
+			{
+				case self::MODE_BEFORE:
+					return array("range" => "Start <= ".$q_start." OR End <= ".$q_start,
+								 "deadline" => "`Limit` <= ".$q_start);
+				case self::MODE_AFTER:
+					return array("range" => "Start >= ".$q_start." OR End >= ".$q_start,
+								 "deadline" => "`Limit` >= ".$q_start);
+				case self::MODE_BETWEEN:
+					return array("range" => "(Start >= ".$q_start." AND Start <= ".$q_end") OR (End >= ".$q_start." AND End =< ".$q_end.")",
+								 "deadline" => "`Limit` >= ".$q_start." AND `Limit` <= ".$q_end);
+			}
+		}
+
+		/**
+		 * @copydoc EventFilter::get_sql_query
+		 */
+		public function get_sql_query()
+		{
+			$where_clauses = $this->get_where_clauses();
+			return "( SELECT Id_Event FROM date_range_event WHERE ".$where_clauses['range']." )
+					UNION
+					( SELECT Id_Event FROM time_range_event WHERE ".$where_clauses['range']." )
+					UNION
+					( SELECT Id_Event FROM deadline_event WHERE ".$where_clauses['deadline']." )";
+		}
+
+		/**
+		 * @copydoc EventFilter::get_table_alias
+		 */
+		public function get_table_alias()
+		{
+			return "f_datetime_events";
 		}
 	}

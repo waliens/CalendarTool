@@ -13,9 +13,9 @@
 	 * @class PathwayFilter
 	 * @brief A class for filtering events for some pathways
 	 */
-	class PathwayFilter
+	class PathwayFilter implements EventFilter
 	{
-		private $pathways; /**< @brief The list of pathways to keep */
+		private $pathways; /**< @brief The list of pathways to keep (array of strings) */
 
 		/**
 		 * @brief Construct a PathwayFilter object with a set of pathways to keep
@@ -35,5 +35,23 @@
 		public function get_pathways()
 		{
 			return $this->pathways;
+		}
+		
+		/**
+		 * @copydoc EventFilter::get_sql_query
+		 * @todo find an appropriate quoting mechanism
+		 */
+		public function get_sql_query()
+		{
+			$q_pathways = quote_all($this->pathways);
+			return "SELECT DISTINCT Id_Event FROM academic_event_pathway WHERE Id_Pathway IN (".implode(", ", $q_pathways).")"; 
+		}
+
+		/**
+		 * @copydoc EventFilter::get_table_alias
+		 */
+		public function get_table_alias()
+		{
+			return "f_pathway_events";
 		}
 	}

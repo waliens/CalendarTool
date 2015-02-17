@@ -11,7 +11,7 @@
 	 * @class EventTypeFilter
 	 * @brief A class for filtering event according to their type (student, academic,...) 
 	 */
-	class EventTypeFilter
+	class EventTypeFilter implements EventFilter
 	{
 		public $types; /**< @brief The mask containing the event type to keep */
 
@@ -49,7 +49,7 @@
 		 */
 		public function do_keep($type)
 		{
-			return $this->valid_mask($type) && ($this->types & $type);
+			return $this->valid_mask($type) && ($this->types === $type);
 		}
 
 		/** 
@@ -59,6 +59,40 @@
 		 */
 		public function do_exclude($type)
 		{
-			return !$this->do_keep($type);
+			return !$this->do_keep($type) && !($this->types & $type);
+		}
+		
+		/**
+		 * @copydoc EventFilter::get_sql_query
+		 */
+		public function get_sql_query()
+		{
+			$queries = array();
+
+			if($this->type === self::TYPE_ALL)
+				trigger_error("The event type filter should only be used if it has a category of event to filter (thus other than TYPE_ALL)", E_USER_WARNING);
+
+			if($this->do_keep(self::TYPE_ACADEMIC))
+				$queries[] = "( SELECT Id_Event FROM academic_event)";
+			else
+			{
+				if($this->do_keep(self::TYPE_SUB_EVENT))
+					$queries[] = "( SELECT Id_Event FROM sub_event ) ";
+				if($this->do_keep(self::TYPE_INDEPENDENT))
+					$queries[] = "( SELECT Id_Event FROM independent_event ) ";
+			}
+
+			if($this->do_keep(self::TYPE_STUDENT))
+				$queries[] = "( SELECT Id_Event FROM student_event ) ";
+
+			return implode("\nUNION\n", $queries);
+ 		}
+
+		/**
+		 * @copydoc EventFilter::get_table_alias
+		 */
+		public function get_table_alias()
+		{
+			return "f_type_events";
 		}
 	}

@@ -13,7 +13,7 @@
 	 * @class EventCategoryFilter
 	 * @brief A class for filtering events based on their categories
 	 */
-	class EventCategoryModel
+	class EventCategoryFilter implements EventFilter
 	{
 		private $ids; /**< @brief The categories' ids that the filter has to keep */
 
@@ -33,5 +33,21 @@
 		public function get_ids()
 		{
 			return $this->ids;
+		}
+
+		/**
+		 * @copydoc EventFilter::get_sql_query
+		 */
+		public function get_sql_query()
+		{
+			return "SELECT Id_Event FROM event WHERE Id_Category IN (".implode(", ", $this->ids).")";
+		}
+
+		/**
+		 * @copydoc EventFilter::get_table_alias
+		 */
+		public function get_table_alias()
+		{
+			return "f_categ_events";
 		}
 	}

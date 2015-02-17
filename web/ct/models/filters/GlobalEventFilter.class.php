@@ -13,7 +13,7 @@
 	 * @class GlobalEventFilter
 	 * @brief A class for representing a filter on global events
 	 */
-	class GlobalEventFilter
+	class GlobalEventFilter implements EventFilter
 	{
 		private $ge_ids; /**< @brief The global event ids to filter on (array of integers)*/ 
 
@@ -88,5 +88,21 @@
 		public function get_ids()
 		{
 			return $this->ge_ids;
+		}
+		
+		/**
+		 * @copydoc EventFilter::get_sql_query
+		 */
+		public function get_sql_query()
+		{
+			return "SELECT Id_Event FROM sub_event WHERE Id_Global_Event IN (".implode(", ", $this->ge_ids).")";
+		}
+
+		/**
+		 * @copydoc EventFilter::get_table_alias
+		 */
+		public function get_table_alias()
+		{
+			return "f_glob_events";
 		}
 	}
