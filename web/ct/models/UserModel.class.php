@@ -98,6 +98,17 @@
 		}
 
 		/**
+		 * @brief Return the user id associated with the given ulg id
+		 * @param[in] string $ulg_id The ulg id
+		 * @retval int The user id, -1 on error
+		 */
+		public function get_user_id_by_ulg_id($ulg_id)
+		{
+			$user = $this->sql->select_one("user", "Id_ULg = ".$this->sql->quote($ulg_id));
+			return !empty($user) ? $user['Id_User'] : -1;
+		}
+
+		/**
 		 * @brief Checks whether the user having the given ulg id exists in the user table
 		 * @param[in] string $user_ulg_id The ulg id of the user
 		 * @retval bool True if the user exists, false otherwise

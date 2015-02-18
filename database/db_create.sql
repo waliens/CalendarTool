@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS `user`
 	`Id_ULg` varchar(20) NOT NULL,
 	`Name` varchar(255) NOT NULL,
 	`Surname` varchar(255) NOT NULL,
-	PRIMARY KEY(`Id_User`)
+	PRIMARY KEY(`Id_User`), 
+	CONSTRAINT ulg_id_unique UNIQUE (Id_ULg)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `student`
