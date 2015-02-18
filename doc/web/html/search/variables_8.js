@@ -1,17 +1,9 @@
 var searchData=
 [
-  ['temp_5fdate_5frange',['TEMP_DATE_RANGE',['../classct_1_1models_1_1_event_model.html#a3e91bcab11e179d142782abe1fb169d3',1,'ct::models::EventModel']]],
-  ['temp_5fdeadline',['TEMP_DEADLINE',['../classct_1_1models_1_1_event_model.html#ac1f7d06ac945e26d95fea3105d7db361',1,'ct::models::EventModel']]],
-  ['temp_5ftime_5frange',['TEMP_TIME_RANGE',['../classct_1_1models_1_1_event_model.html#aa863376939c0e39fa68c478679023a2d',1,'ct::models::EventModel']]],
-  ['type_5fbool',['TYPE_BOOL',['../classutil_1_1_type_checker.html#a2008e61ac981f88cf7a8218c600077f5',1,'util::TypeChecker']]],
-  ['type_5fchar',['TYPE_CHAR',['../classutil_1_1_type_checker.html#a015168405ecd475597a9211761798efb',1,'util::TypeChecker']]],
-  ['type_5fenum',['TYPE_ENUM',['../classutil_1_1_type_checker.html#a680dcb4933c5c24249d06e7d83bfb08d',1,'util::TypeChecker']]],
-  ['type_5fereg',['TYPE_EREG',['../classutil_1_1_type_checker.html#ac41846afbd051e499ad22491486c9364',1,'util::TypeChecker']]],
-  ['type_5ffile',['TYPE_FILE',['../classutil_1_1_type_checker.html#a6e21fe27fed935d13d258f1b38282e08',1,'util::TypeChecker']]],
-  ['type_5fint',['TYPE_INT',['../classutil_1_1_type_checker.html#a99c083a2611abba224ce8a0aa7c7885d',1,'util::TypeChecker']]],
-  ['type_5fset',['TYPE_SET',['../classutil_1_1_type_checker.html#a57e6a25b79785db81e3452d1c6bf28f3',1,'util::TypeChecker']]],
-  ['type_5fsmallint',['TYPE_SMALLINT',['../classutil_1_1_type_checker.html#a6d1301ce093c68bf776825985ded6935',1,'util::TypeChecker']]],
-  ['type_5ftext',['TYPE_TEXT',['../classutil_1_1_type_checker.html#ae1fdaa7ba3f181a024bf1a6506dd169c',1,'util::TypeChecker']]],
-  ['type_5ftinyint',['TYPE_TINYINT',['../classutil_1_1_type_checker.html#af61478fc2ca284288613e78deeb1e34b',1,'util::TypeChecker']]],
-  ['type_5fvarchar',['TYPE_VARCHAR',['../classutil_1_1_type_checker.html#a18b4920bacde6f9e12a386f4a0fcde8f',1,'util::TypeChecker']]]
+  ['protocol_5fftp',['PROTOCOL_FTP',['../classutil_1_1_u_r_l.html#a7b1e28491ef8e12b305f585a01dc56b3',1,'util::URL']]],
+  ['protocol_5fhttp',['PROTOCOL_HTTP',['../classutil_1_1_u_r_l.html#a74eb546a6a6bf1c0c22e6d7338e9feb3',1,'util::URL']]],
+  ['protocol_5fhttps',['PROTOCOL_HTTPS',['../classutil_1_1_u_r_l.html#ac6ffd0c3d32172dce59fc8e26aa3ad24',1,'util::URL']]],
+  ['protocol_5fnone',['PROTOCOL_NONE',['../classutil_1_1_u_r_l.html#a2c1d25b6ca39e148cf9044a1e655c1d2',1,'util::URL']]],
+  ['protocol_5fsftp',['PROTOCOL_SFTP',['../classutil_1_1_u_r_l.html#a85d16a880991bd88ab617852fc6cdcbf',1,'util::URL']]],
+  ['protocol_5fsvn',['PROTOCOL_SVN',['../classutil_1_1_u_r_l.html#a8ed92037d8627cdd7401646ef48aadbe',1,'util::URL']]]
 ];

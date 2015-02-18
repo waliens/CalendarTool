@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['select_5fby_5fevent',['SELECT_BY_EVENT',['../classct_1_1models_1_1_modification_request_model.html#a6e62710a70b0b77f6544565ff8c26d9a',1,'ct::models::ModificationRequestModel']]],
-  ['select_5fby_5fsender',['SELECT_BY_SENDER',['../classct_1_1models_1_1_modification_request_model.html#a8495909f26a9fcfe6d119677a651878f',1,'ct::models::ModificationRequestModel']]],
-  ['select_5fby_5fuser',['SELECT_BY_USER',['../classct_1_1models_1_1_modification_request_model.html#a3b3a0052f404ab3d00fb91d6cfe01711',1,'ct::models::ModificationRequestModel']]],
-  ['status_5faccepted',['STATUS_ACCEPTED',['../classct_1_1models_1_1_modification_request_model.html#a6f80c53f025dbcfa3b742820a5f472c8',1,'ct::models::ModificationRequestModel']]],
-  ['status_5fcancelled',['STATUS_CANCELLED',['../classct_1_1models_1_1_modification_request_model.html#a0e22a60db07645715da9995e43076bba',1,'ct::models::ModificationRequestModel']]],
-  ['status_5frefused',['STATUS_REFUSED',['../classct_1_1models_1_1_modification_request_model.html#aa25a7729a5d70def79d5519811fefbea',1,'ct::models::ModificationRequestModel']]],
-  ['status_5fsent',['STATUS_SENT',['../classct_1_1models_1_1_modification_request_model.html#aae72d31bfbec2b0724b39d73462853fe',1,'ct::models::ModificationRequestModel']]]
+  ['mode_5fafter',['MODE_AFTER',['../classct_1_1models_1_1filters_1_1_date_time_filter.html#a58422df7c09be01a8d1076e9b78a789f',1,'ct::models::filters::DateTimeFilter']]],
+  ['mode_5fand',['MODE_AND',['../classct_1_1models_1_1_filter_collection_model.html#af025910ba09221caf13e44f0c692eef6',1,'ct::models::FilterCollectionModel']]],
+  ['mode_5fbefore',['MODE_BEFORE',['../classct_1_1models_1_1filters_1_1_date_time_filter.html#ad755463551d95c628c9aac12849a55e2',1,'ct::models::filters::DateTimeFilter']]],
+  ['mode_5fbetween',['MODE_BETWEEN',['../classct_1_1models_1_1filters_1_1_date_time_filter.html#a4dca1c36e385844a7b93b60de443e849',1,'ct::models::filters::DateTimeFilter']]],
+  ['mode_5for',['MODE_OR',['../classct_1_1models_1_1_filter_collection_model.html#ab49dca059116c6fd3e4ef8686d446b78',1,'ct::models::FilterCollectionModel']]]
 ];

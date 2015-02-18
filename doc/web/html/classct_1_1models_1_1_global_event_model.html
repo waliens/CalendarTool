@@ -115,6 +115,15 @@ $(document).ready(function(){initNavTree('classct_1_1models_1_1_global_event_mod
 
 <p>A class for handling global event related database queries.  
  <a href="classct_1_1models_1_1_global_event_model.html#details">More...</a></p>
+<div class="dynheader">
+Inheritance diagram for GlobalEventModel:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classct_1_1models_1_1_global_event_model.png" usemap="#GlobalEventModel_map" alt=""/>
+  <map id="GlobalEventModel_map" name="GlobalEventModel_map">
+<area href="classutil_1_1mvc_1_1_model.html" title="Base class for models. " alt="Model" shape="rect" coords="0,0,115,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -122,6 +131,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
 <tr class="memdesc:a095c5d389db211932136b53f25f39685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a GlobalEventObject. <br/></td></tr>
 <tr class="separator:a095c5d389db211932136b53f25f39685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d7d7d977718929065f124acab418120"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a3d7d7d977718929065f124acab418120">global_event_exists</a> ($course_id, $acad_year)</td></tr>
+<tr class="memdesc:a3d7d7d977718929065f124acab418120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the given global event exists.  <a href="#a3d7d7d977718929065f124acab418120">More...</a><br/></td></tr>
+<tr class="separator:a3d7d7d977718929065f124acab418120"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2fc9e4b1d27b5a3f3965a3bb5b111a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ad2fc9e4b1d27b5a3f3965a3bb5b111a7">create_global_event</a> ($course_id, $user_id=null, $acad_year=null)</td></tr>
 <tr class="memdesc:ad2fc9e4b1d27b5a3f3965a3bb5b111a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a global event for with the given course id.  <a href="#ad2fc9e4b1d27b5a3f3965a3bb5b111a7">More...</a><br/></td></tr>
 <tr class="separator:ad2fc9e4b1d27b5a3f3965a3bb5b111a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +143,65 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae8f56963658010f8214ab13ad4fe7df8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ae8f56963658010f8214ab13ad4fe7df8">update_global_event_non_ulg_data</a> ($id_glob, $data)</td></tr>
 <tr class="memdesc:ae8f56963658010f8214ab13ad4fe7df8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the standalone data of a global event.  <a href="#ae8f56963658010f8214ab13ad4fe7df8">More...</a><br/></td></tr>
 <tr class="separator:ae8f56963658010f8214ab13ad4fe7df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40f55c41f5510059d83fd9e49292c73b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a40f55c41f5510059d83fd9e49292c73b">get_global_event</a> (array $id_data)</td></tr>
+<tr class="memdesc:a40f55c41f5510059d83fd9e49292c73b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the data of a global event.  <a href="#a40f55c41f5510059d83fd9e49292c73b">More...</a><br/></td></tr>
+<tr class="separator:a40f55c41f5510059d83fd9e49292c73b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5721e63fdcacf7d3cb8f92a595eddf8f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f">get_global_event_id</a> (array $id_data)</td></tr>
+<tr class="memdesc:a5721e63fdcacf7d3cb8f92a595eddf8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the global event id corresponding the given id data.  <a href="#a5721e63fdcacf7d3cb8f92a595eddf8f">More...</a><br/></td></tr>
+<tr class="separator:a5721e63fdcacf7d3cb8f92a595eddf8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3b3ca6dbf9c5bf828e15c78961995da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ad3b3ca6dbf9c5bf828e15c78961995da">get_teaching_team</a> (array $id_data, $lang=self::LANG_FR)</td></tr>
+<tr class="memdesc:ad3b3ca6dbf9c5bf828e15c78961995da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the teaching team of the given global_event.  <a href="#ad3b3ca6dbf9c5bf828e15c78961995da">More...</a><br/></td></tr>
+<tr class="separator:ad3b3ca6dbf9c5bf828e15c78961995da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b3e4ecc0f009e29e4df789a37403ca9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a8b3e4ecc0f009e29e4df789a37403ca9">get_subscribed_student</a> (array $id_data)</td></tr>
+<tr class="memdesc:a8b3e4ecc0f009e29e4df789a37403ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the list of student that have subscribed to the event.  <a href="#a8b3e4ecc0f009e29e4df789a37403ca9">More...</a><br/></td></tr>
+<tr class="separator:a8b3e4ecc0f009e29e4df789a37403ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f1f9c986db9bf119d8367a380a27f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a17f1f9c986db9bf119d8367a380a27f9">get_global_event_pathways</a> (array $id_data)</td></tr>
+<tr class="memdesc:a17f1f9c986db9bf119d8367a380a27f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the list of pathways that are associated with the given global event.  <a href="#a17f1f9c986db9bf119d8367a380a27f9">More...</a><br/></td></tr>
+<tr class="separator:a17f1f9c986db9bf119d8367a380a27f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3659f8c635886ec683417d7a107db926"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a3659f8c635886ec683417d7a107db926">get_global_event_files</a> (array $id_data)</td></tr>
+<tr class="memdesc:a3659f8c635886ec683417d7a107db926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the files associated with the event.  <a href="#a3659f8c635886ec683417d7a107db926">More...</a><br/></td></tr>
+<tr class="separator:a3659f8c635886ec683417d7a107db926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aee48c19421f4a5d4390a3066b051d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a5aee48c19421f4a5d4390a3066b051d9">delete_global_event</a> (array $id_data)</td></tr>
+<tr class="memdesc:a5aee48c19421f4a5d4390a3066b051d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes a global event from the database.  <a href="#a5aee48c19421f4a5d4390a3066b051d9">More...</a><br/></td></tr>
+<tr class="separator:a5aee48c19421f4a5d4390a3066b051d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae22e083e821fd712c23b734e772ed1e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ae22e083e821fd712c23b734e772ed1e7">get_whole_global_event</a> (array $id_data, $lang=self::LANG_FR)</td></tr>
+<tr class="memdesc:ae22e083e821fd712c23b734e772ed1e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the data related to the given global event (global event itself + teaching team, students, pathways, files)  <a href="#ae22e083e821fd712c23b734e772ed1e7">More...</a><br/></td></tr>
+<tr class="separator:ae22e083e821fd712c23b734e772ed1e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42702972d2d8355a3f19e350b583afca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a42702972d2d8355a3f19e350b583afca">get_global_events</a> ($method, $identifier)</td></tr>
+<tr class="memdesc:a42702972d2d8355a3f19e350b583afca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the global events selected with the given GET_* method and the given identifier.  <a href="#a42702972d2d8355a3f19e350b583afca">More...</a><br/></td></tr>
+<tr class="separator:a42702972d2d8355a3f19e350b583afca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58c01816a78a559ea69de55e365ba77d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a58c01816a78a559ea69de55e365ba77d">get_global_event_by_ids</a> (array $ids)</td></tr>
+<tr class="memdesc:a58c01816a78a559ea69de55e365ba77d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an array of global events for the given ids.  <a href="#a58c01816a78a559ea69de55e365ba77d">More...</a><br/></td></tr>
+<tr class="separator:a58c01816a78a559ea69de55e365ba77d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a368510a00e1d78705c2e80a3ce0b88fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a368510a00e1d78705c2e80a3ce0b88fa">delete_subscription</a> (array $id_data, $student_id)</td></tr>
+<tr class="memdesc:a368510a00e1d78705c2e80a3ce0b88fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete the subscription of the given student to the given global event.  <a href="#a368510a00e1d78705c2e80a3ce0b88fa">More...</a><br/></td></tr>
+<tr class="separator:a368510a00e1d78705c2e80a3ce0b88fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cebe2056d638d02531be1d891845903"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a7cebe2056d638d02531be1d891845903">add_subscription</a> (array $id_data, $student_id, $free_student=null, $year=null)</td></tr>
+<tr class="memdesc:a7cebe2056d638d02531be1d891845903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a subscription to the given student id.  <a href="#a7cebe2056d638d02531be1d891845903">More...</a><br/></td></tr>
+<tr class="separator:a7cebe2056d638d02531be1d891845903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab886c88a7b7070969f467c3a58470819"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ab886c88a7b7070969f467c3a58470819">add_file</a> (array $id_data, $spf_key, $user=null)</td></tr>
+<tr class="memdesc:ab886c88a7b7070969f467c3a58470819"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new file and associate it to the global event.  <a href="#ab886c88a7b7070969f467c3a58470819">More...</a><br/></td></tr>
+<tr class="separator:ab886c88a7b7070969f467c3a58470819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ba7e2ca7daa3869699f5040c4a9047e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a7ba7e2ca7daa3869699f5040c4a9047e">delete_file</a> (array $id_data, $file_id)</td></tr>
+<tr class="memdesc:a7ba7e2ca7daa3869699f5040c4a9047e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete a file associated with a global event.  <a href="#a7ba7e2ca7daa3869699f5040c4a9047e">More...</a><br/></td></tr>
+<tr class="separator:a7ba7e2ca7daa3869699f5040c4a9047e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2381f23124a5ad9fe5487984e3be758e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a2381f23124a5ad9fe5487984e3be758e">add_pathway</a> (array $id_data, $pathway_id)</td></tr>
+<tr class="memdesc:a2381f23124a5ad9fe5487984e3be758e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a pathway to the current global event.  <a href="#a2381f23124a5ad9fe5487984e3be758e">More...</a><br/></td></tr>
+<tr class="separator:a2381f23124a5ad9fe5487984e3be758e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c452e5f9683133a442824538e883e03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a6c452e5f9683133a442824538e883e03">delete_pathway</a> (array $id_data, $pathway_id)</td></tr>
+<tr class="memdesc:a6c452e5f9683133a442824538e883e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete a pathway for the given global event.  <a href="#a6c452e5f9683133a442824538e883e03">More...</a><br/></td></tr>
+<tr class="separator:a6c452e5f9683133a442824538e883e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d6c84005718e7c1d23cdbb1464e81f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a4d6c84005718e7c1d23cdbb1464e81f7">add_team_member</a> (array $id_data, $role_id, $user_id=null)</td></tr>
+<tr class="memdesc:a4d6c84005718e7c1d23cdbb1464e81f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a member in the team of the given global event.  <a href="#a4d6c84005718e7c1d23cdbb1464e81f7">More...</a><br/></td></tr>
+<tr class="separator:a4d6c84005718e7c1d23cdbb1464e81f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73215ac92d95f5e4a04311c9a67172de"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a73215ac92d95f5e4a04311c9a67172de">delete_team_member</a> (array $id_data, $user_id)</td></tr>
+<tr class="memdesc:a73215ac92d95f5e4a04311c9a67172de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete a team member from the given global event's team.  <a href="#a73215ac92d95f5e4a04311c9a67172de">More...</a><br/></td></tr>
+<tr class="separator:a73215ac92d95f5e4a04311c9a67172de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
+<tr class="memitem:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a095c5d389db211932136b53f25f39685"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
+<tr class="memdesc:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a <a class="el" href="classutil_1_1mvc_1_1_model.html" title="Base class for models. ">Model</a> object. <br/></td></tr>
+<tr class="separator:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -142,10 +213,276 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a51377c0b8308b740805cdb68e13969a6">LANG_EN</a> = &quot;EN&quot;</td></tr>
 <tr class="memdesc:a51377c0b8308b740805cdb68e13969a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Language constant : english. <br/></td></tr>
 <tr class="separator:a51377c0b8308b740805cdb68e13969a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac884c6c76caf5cae4821997562e86321"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac884c6c76caf5cae4821997562e86321"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ac884c6c76caf5cae4821997562e86321">ROLE_ID_PROFESSOR</a> = 1</td></tr>
+<tr class="memdesc:ac884c6c76caf5cae4821997562e86321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Role id : professor. <br/></td></tr>
+<tr class="separator:ac884c6c76caf5cae4821997562e86321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a218621cb9323129d02ab9a932b923c2c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a218621cb9323129d02ab9a932b923c2c"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a218621cb9323129d02ab9a932b923c2c">ROLE_ID_TA</a> = 2</td></tr>
+<tr class="memdesc:a218621cb9323129d02ab9a932b923c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Role id : teaching assistant. <br/></td></tr>
+<tr class="separator:a218621cb9323129d02ab9a932b923c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69fb554d0d0eeca52e9b495b5a4f778a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a69fb554d0d0eeca52e9b495b5a4f778a"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a69fb554d0d0eeca52e9b495b5a4f778a">ROLE_ID_TS</a> = 3</td></tr>
+<tr class="memdesc:a69fb554d0d0eeca52e9b495b5a4f778a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Role id : teaching student. <br/></td></tr>
+<tr class="separator:a69fb554d0d0eeca52e9b495b5a4f778a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c88563351f1e0dbe58044b54b602e93"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c88563351f1e0dbe58044b54b602e93"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a9c88563351f1e0dbe58044b54b602e93">GET_BY_IDS</a> = 1</td></tr>
+<tr class="memdesc:a9c88563351f1e0dbe58044b54b602e93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Way of getting a list of global events : by global event ids. <br/></td></tr>
+<tr class="separator:a9c88563351f1e0dbe58044b54b602e93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35f98816744c63b60f4b3baf7de3c341"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35f98816744c63b60f4b3baf7de3c341"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#a35f98816744c63b60f4b3baf7de3c341">GET_BY_OWNER</a> = 2</td></tr>
+<tr class="memdesc:a35f98816744c63b60f4b3baf7de3c341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Way of getting a list of global events : by owner id. <br/></td></tr>
+<tr class="separator:a35f98816744c63b60f4b3baf7de3c341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ee04c540f21e773332d9a2fd814f29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1ee04c540f21e773332d9a2fd814f29"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ab1ee04c540f21e773332d9a2fd814f29">GET_BY_STUDENT</a> = 3</td></tr>
+<tr class="memdesc:ab1ee04c540f21e773332d9a2fd814f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Way of getting a list of global events : by student id (global event to which the student is subscribed) <br/></td></tr>
+<tr class="separator:ab1ee04c540f21e773332d9a2fd814f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9258fcf5317141d7c6197051ac9bb37"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab9258fcf5317141d7c6197051ac9bb37"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ab9258fcf5317141d7c6197051ac9bb37">GET_BY_PATHWAYS</a> = 4</td></tr>
+<tr class="memdesc:ab9258fcf5317141d7c6197051ac9bb37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Way of getting a list of global events : by pathways. <br/></td></tr>
+<tr class="separator:ab9258fcf5317141d7c6197051ac9bb37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad31816ebea7b61df1d4372fea0c659b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad31816ebea7b61df1d4372fea0c659b3"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_global_event_model.html#ad31816ebea7b61df1d4372fea0c659b3">GET_BY_TEAM_MEMBER</a> = 5</td></tr>
+<tr class="memdesc:ad31816ebea7b61df1d4372fea0c659b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Way of getting a list of global events : by team member id. <br/></td></tr>
+<tr class="separator:ad31816ebea7b61df1d4372fea0c659b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Data Fields inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
+<tr class="memitem:a3f82f023849a9c79819a7ff774811a4f inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f82f023849a9c79819a7ff774811a4f"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a3f82f023849a9c79819a7ff774811a4f">LOCKMODE_NO_LOCK</a> = 1</td></tr>
+<tr class="memdesc:a3f82f023849a9c79819a7ff774811a4f inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock behaviour : no lock must be acquired. <br/></td></tr>
+<tr class="separator:a3f82f023849a9c79819a7ff774811a4f inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f77863b7fb8bb22ed23164165dd04b1 inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f77863b7fb8bb22ed23164165dd04b1"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a4f77863b7fb8bb22ed23164165dd04b1">LOCKMODE_LOCK</a> = 2</td></tr>
+<tr class="memdesc:a4f77863b7fb8bb22ed23164165dd04b1 inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock behaviour : only acquire the lock (no unlock) <br/></td></tr>
+<tr class="separator:a4f77863b7fb8bb22ed23164165dd04b1 inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a756ee4e586711ddb7a2c0c6ee268c8f6 inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a756ee4e586711ddb7a2c0c6ee268c8f6"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a756ee4e586711ddb7a2c0c6ee268c8f6">LOCKMODE_UNLOCK</a> = 3</td></tr>
+<tr class="memdesc:a756ee4e586711ddb7a2c0c6ee268c8f6 inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock behaviour : acquire the lock and then unlock. <br/></td></tr>
+<tr class="separator:a756ee4e586711ddb7a2c0c6ee268c8f6 inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
+<tr class="memitem:a318e0cf28df09450ebaa71881010419d inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a318e0cf28df09450ebaa71881010419d">get_abstract</a> ()</td></tr>
+<tr class="memdesc:a318e0cf28df09450ebaa71881010419d inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the sql abstract object.  <a href="#a318e0cf28df09450ebaa71881010419d">More...</a><br/></td></tr>
+<tr class="separator:a318e0cf28df09450ebaa71881010419d inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab17eeb05b8f5b5dbfc803837b641f31a inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#ab17eeb05b8f5b5dbfc803837b641f31a">do_unlock</a> ($lock_mode)</td></tr>
+<tr class="memdesc:ab17eeb05b8f5b5dbfc803837b641f31a inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given lock behavior implies a unlock.  <a href="#ab17eeb05b8f5b5dbfc803837b641f31a">More...</a><br/></td></tr>
+<tr class="separator:ab17eeb05b8f5b5dbfc803837b641f31a inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab15bff56ea5576f92bd7c71700644e69 inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#ab15bff56ea5576f92bd7c71700644e69">do_lock</a> ($lock_mode)</td></tr>
+<tr class="memdesc:ab15bff56ea5576f92bd7c71700644e69 inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given lock behavior implies a lock.  <a href="#ab15bff56ea5576f92bd7c71700644e69">More...</a><br/></td></tr>
+<tr class="separator:ab15bff56ea5576f92bd7c71700644e69 inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e45b8a35f69bda98eb7d1689c694fa inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a47e45b8a35f69bda98eb7d1689c694fa">get_sub_lockmode</a> ($lock_mode)</td></tr>
+<tr class="memdesc:a47e45b8a35f69bda98eb7d1689c694fa inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the unlock can only be performed when the complete set of operation was performed, then a function that receives a LOCKMODE_UNLOCK lock mode and call other function that should acquire lock cannot propagate this lock mode to these function. This function returns the lock mode that should be propagated these functions.  <a href="#a47e45b8a35f69bda98eb7d1689c694fa">More...</a><br/></td></tr>
+<tr class="separator:a47e45b8a35f69bda98eb7d1689c694fa inherit pro_methods_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
+<tr class="memitem:a5766efd703cef0e00bfc06b3f3acbe0e inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5766efd703cef0e00bfc06b3f3acbe0e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a5766efd703cef0e00bfc06b3f3acbe0e">$pdo</a></td></tr>
+<tr class="memdesc:a5766efd703cef0e00bfc06b3f3acbe0e inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">pdo object <br/></td></tr>
+<tr class="separator:a5766efd703cef0e00bfc06b3f3acbe0e inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a047170d6020a882807665812a27e2525 inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a047170d6020a882807665812a27e2525"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a047170d6020a882807665812a27e2525">$sql</a></td></tr>
+<tr class="memdesc:a047170d6020a882807665812a27e2525 inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight">sql abstract object <br/></td></tr>
+<tr class="separator:a047170d6020a882807665812a27e2525 inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for handling global event related database queries. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ab886c88a7b7070969f467c3a58470819"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">add_file </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$spf_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$user</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a new file and associate it to the global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$spf_key</td><td>The key of the uploaded file data in the $_FILES superglobal </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$user</td><td>The id of the user that should be the owner of the file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The file updload data should be located in the $_FILES superglobal </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2381f23124a5ad9fe5487984e3be758e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">add_pathway </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$pathway_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a pathway to the current global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$pathway_id</td><td>The id of the pathway to add </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a7cebe2056d638d02531be1d891845903"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">add_subscription </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$student_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$free_student</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$year</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a subscription to the given student id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$student_id</td><td>The student id </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">bool</td><td class="paramname">$free_student</td><td>True if the student is a free student (optional, default: true) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$year</td><td>The year starting the acad. year for which the subscription must be added (optional, default: current acad year) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The function checks whether the student has a pathway that can take this course </dd>
+<dd>
+The given year should be the same as the one of the given global event </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4d6c84005718e7c1d23cdbb1464e81f7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">add_team_member </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$role_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$user_id</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a member in the team of the given global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$role_id</td><td>One of the class ROLE_ID_* constant </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$user_id</td><td>The user to get the role in the team (optionnal, default: currently connected user) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ad2fc9e4b1d27b5a3f3965a3bb5b111a7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -188,6 +525,653 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a7ba7e2ca7daa3869699f5040c4a9047e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delete_file </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$file_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delete a file associated with a global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$file_id</td><td>The id of the file to delete </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5aee48c19421f4a5d4390a3066b051d9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delete_global_event </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deletes a global event from the database. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>See <a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f" title="Return the global event id corresponding the given id data. ">GlobalEventModel::get_global_event_id</a> function for details about the structure of the $id_data array </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6c452e5f9683133a442824538e883e03"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delete_pathway </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$pathway_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delete a pathway for the given global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$pathway_id</td><td>The pathway id </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a368510a00e1d78705c2e80a3ce0b88fa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delete_subscription </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$student_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delete the subscription of the given student to the given global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$student_id</td><td>The student identifier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a73215ac92d95f5e4a04311c9a67172de"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delete_team_member </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$user_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delete a team member from the given global event's team. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$user_id</td><td>The user identifier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True on success, false on error </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a40f55c41f5510059d83fd9e49292c73b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_global_event </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the data of a global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data identifying the global event </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>An array containing the data, an empty array if the event wasn't found </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>See <a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f" title="Return the global event id corresponding the given id data. ">GlobalEventModel::get_global_event_id</a> function for details about the structure of the id_data array </dd>
+<dd>
+The returned array will contain the given keys : <ul>
+<li>
+id: the global event id </li>
+<li>
+ulg_id: the course ulg id </li>
+<li>
+name_short : the short name </li>
+<li>
+name_long : name_long </li>
+<li>
+owner_name: the owners id </li>
+<li>
+owner_surname : the owner surname </li>
+<li>
+period : the string identifying the period of the year at which the course take place </li>
+<li>
+desc : the global event description </li>
+<li>
+feedback : the global event feedback </li>
+<li>
+wk_th : theoritical workload  </li>
+<li>
+wk_pr : practical workload </li>
+<li>
+wk_au : auxiliary workload </li>
+<li>
+wk_st : ??? workload </li>
+<li>
+lang : the language ('FR' or 'EN') </li>
+<li>
+acad_year : a string containing the academic year ("YYYY-YYYY", "2014-2015") </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a58c01816a78a559ea69de55e365ba77d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_global_event_by_ids </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$ids</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an array of global events for the given ids. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$ids</td><td>The array of ids (can be either integers or id_data array, see get_global_event_id function) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">An</td><td>multidimensionnal array of which each row corresponds to a global event and is structured as the array returned by the get_global_event function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a3659f8c635886ec683417d7a107db926"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_global_event_files </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the files associated with the event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>Array of which the rows contains the data about a file that has subscribed for the given lesson </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>See <a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f" title="Return the global event id corresponding the given id data. ">GlobalEventModel::get_global_event_id</a> function for details about the structure of the $id_data array </dd>
+<dd>
+The rows' structure is the following : <ul>
+<li>
+id : file id </li>
+<li>
+path : the filepath </li>
+<li>
+id_owner : id of the user that owns the file </li>
+<li>
+f_owner_name : name of the file owner </li>
+<li>
+f_owner_surname : surname of the file owner </li>
+<li>
+filename : name of the file </li>
+<li>
+name_short : the pathway short name </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5721e63fdcacf7d3cb8f92a595eddf8f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_global_event_id </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the global event id corresponding the given id data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>An array containing the data for identifying the global event </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">int</td><td>The global event id, -1 on error </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The id_data array must contain either only one 'id' key mapping the global event id or two keys, 'ulg_id' and 'year', respectively the course ulg id and the year starting the academic year of the course </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a17f1f9c986db9bf119d8367a380a27f9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_global_event_pathways </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the list of pathways that are associated with the given global event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>Array of which the rows contains the data about a pathway that has subscribed for the given lesson </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>See <a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f" title="Return the global event id corresponding the given id data. ">GlobalEventModel::get_global_event_id</a> function for details about the structure of the $id_data array </dd>
+<dd>
+The rows' structure is the following : <ul>
+<li>
+id : a string containing the pathway id </li>
+<li>
+name_long : the pathway long name </li>
+<li>
+name_short : the pathway short name </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a42702972d2d8355a3f19e350b583afca"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_global_events </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$method</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$identifier</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the global events selected with the given GET_* method and the given identifier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$method</td><td>The GET_* method </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">mixed</td><td class="paramname">$identifier</td><td>The identifier associated with the GET_* method </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">An</td><td>multidimensionnal array of which each row corresponds to a global event and is structured as the array returned by the get_global_event function </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>For the method GET_BY_IDS, the identifier can either be an array of integers (the indexes) or an array of which the sub_arrays have the structure of the id_data array as in the get_global_event_id function </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8b3e4ecc0f009e29e4df789a37403ca9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_subscribed_student </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the list of student that have subscribed to the event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>Array of which the rows contains the data about a student that has subscribed for the given lesson </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>See <a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f" title="Return the global event id corresponding the given id data. ">GlobalEventModel::get_global_event_id</a> function for details about the structure of the $id_data array </dd>
+<dd>
+The rows' structure is the following : <ul>
+<li>
+id : the user id </li>
+<li>
+ulg_id : the user ulg_id </li>
+<li>
+surname : the user surname </li>
+<li>
+name : the user name </li>
+<li>
+free_student : 1 if the student is a free student, 0 otherwise </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad3b3ca6dbf9c5bf828e15c78961995da"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_teaching_team </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lang</em> = <code>self::LANG_FR</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the teaching team of the given global_event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>An array containing the data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$lang</td><td>The language in which the role name must be (optionnal, default : FR) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>An array of which each row is an array containing the informations of one team member </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>See <a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f" title="Return the global event id corresponding the given id data. ">GlobalEventModel::get_global_event_id</a> function for details about the structure of the $id_data array </dd>
+<dd>
+The rows are structured as follows : <ul>
+<li>
+name : the team member name </li>
+<li>
+surname : the team member surname </li>
+<li>
+role : its role in the given language </li>
+<li>
+desc : the role description </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae22e083e821fd712c23b734e772ed1e7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_whole_global_event </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$id_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lang</em> = <code>self::LANG_FR</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get all the data related to the given global event (global event itself + teaching team, students, pathways, files) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_data</td><td>The data for identifying the global event </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$lang</td><td>The language in which the data must be </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>An array containing the data </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>See <a class="el" href="classct_1_1models_1_1_global_event_model.html#a5721e63fdcacf7d3cb8f92a595eddf8f" title="Return the global event id corresponding the given id data. ">GlobalEventModel::get_global_event_id</a> function for details about the structure of the $id_data array </dd>
+<dd>
+The array is structured as the one returned from the get_global_event function but some new fields are added : <ul>
+<li>
+pathways : the pathways associated with the event </li>
+<li>
+files : the fukes associated with the event </li>
+<li>
+students : the student that are registered for the event </li>
+<li>
+team : the teaching team </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3d7d7d977718929065f124acab418120"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">global_event_exists </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$course_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$acad_year</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the given global event exists. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$course_id</td><td>The course ulg id </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$acad_year</td><td>The academic year </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">bool</td><td>True if the global event exists, false otherwise </td></tr>
   </table>
   </dd>
 </dl>
@@ -283,7 +1267,7 @@ lang : one of the LANG_* class constant </li>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>ct</b></li><li class="navelem"><b>models</b></li><li class="navelem"><a class="el" href="classct_1_1models_1_1_global_event_model.html">GlobalEventModel</a></li>
-    <li class="footer">Generated on Wed Feb 11 2015 01:19:17 for CalendarTool by
+    <li class="footer">Generated on Wed Feb 18 2015 00:50:19 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -9,11 +9,23 @@ var annotated =
         ] ]
       ] ],
       [ "models", null, [
+        [ "filters", null, [
+          [ "DateTimeFilter", "classct_1_1models_1_1filters_1_1_date_time_filter.html", "classct_1_1models_1_1filters_1_1_date_time_filter" ],
+          [ "EventCategoryFilter", "classct_1_1models_1_1filters_1_1_event_category_filter.html", "classct_1_1models_1_1filters_1_1_event_category_filter" ],
+          [ "EventFilter", "interfacect_1_1models_1_1filters_1_1_event_filter.html", "interfacect_1_1models_1_1filters_1_1_event_filter" ],
+          [ "EventTypeFilter", "classct_1_1models_1_1filters_1_1_event_type_filter.html", "classct_1_1models_1_1filters_1_1_event_type_filter" ],
+          [ "GlobalEventFilter", "classct_1_1models_1_1filters_1_1_global_event_filter.html", "classct_1_1models_1_1filters_1_1_global_event_filter" ],
+          [ "PathwayFilter", "classct_1_1models_1_1filters_1_1_pathway_filter.html", "classct_1_1models_1_1filters_1_1_pathway_filter" ],
+          [ "ProfessorFilter", "classct_1_1models_1_1filters_1_1_professor_filter.html", "classct_1_1models_1_1filters_1_1_professor_filter" ]
+        ] ],
         [ "EventModel", "classct_1_1models_1_1_event_model.html", "classct_1_1models_1_1_event_model" ],
+        [ "FileModel", "classct_1_1models_1_1_file_model.html", "classct_1_1models_1_1_file_model" ],
+        [ "FilterCollectionModel", "classct_1_1models_1_1_filter_collection_model.html", "classct_1_1models_1_1_filter_collection_model" ],
         [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", "classct_1_1models_1_1_global_event_model" ],
         [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", "classct_1_1models_1_1_modification_request_model" ],
         [ "PathwayModel", "classct_1_1models_1_1_pathway_model.html", "classct_1_1models_1_1_pathway_model" ],
         [ "RootModel", "classct_1_1models_1_1_root_model.html", "classct_1_1models_1_1_root_model" ],
+        [ "TeachingRoleModel", "classct_1_1models_1_1_teaching_role_model.html", "classct_1_1models_1_1_teaching_role_model" ],
         [ "UserModel", "classct_1_1models_1_1_user_model.html", "classct_1_1models_1_1_user_model" ]
       ] ],
       [ "Connection", "classct_1_1_connection.html", "classct_1_1_connection" ]

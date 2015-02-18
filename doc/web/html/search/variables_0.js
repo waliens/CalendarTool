@@ -20,5 +20,6 @@ var searchData=
   ['_24sg_5fsession',['$sg_session',['../classutil_1_1mvc_1_1_controller.html#a9e36c7e150ea56858ea0086b7f1303ec',1,'util::mvc::Controller']]],
   ['_24smarty',['$smarty',['../classutil_1_1mvc_1_1_controller.html#ac3ae29e9ccbb2006fa26fd9eb2c12117',1,'util::mvc::Controller']]],
   ['_24sql',['$sql',['../classutil_1_1mvc_1_1_model.html#a047170d6020a882807665812a27e2525',1,'util::mvc::Model']]],
-  ['_24superglobal',['$superglobal',['../classutil_1_1superglobals_1_1_superglobal.html#a88a8ba097fdca3d32429af9868b6aa6e',1,'util::superglobals::Superglobal']]]
+  ['_24superglobal',['$superglobal',['../classutil_1_1superglobals_1_1_superglobal.html#a88a8ba097fdca3d32429af9868b6aa6e',1,'util::superglobals::Superglobal']]],
+  ['_24types',['$types',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#a92d70a97331cc6fc0a79d9da50895be8',1,'ct::models::filters::EventTypeFilter']]]
 ];

@@ -15,14 +15,26 @@ var hierarchy =
       [ "Browser", "classutil_1_1entry__point_1_1_browser.html", null ],
       [ "ICS", "classutil_1_1entry__point_1_1_i_c_s.html", null ]
     ] ],
-    [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", null ],
+    [ "EventFilter", "interfacect_1_1models_1_1filters_1_1_event_filter.html", [
+      [ "DateTimeFilter", "classct_1_1models_1_1filters_1_1_date_time_filter.html", null ],
+      [ "EventCategoryFilter", "classct_1_1models_1_1filters_1_1_event_category_filter.html", null ],
+      [ "EventTypeFilter", "classct_1_1models_1_1filters_1_1_event_type_filter.html", null ],
+      [ "GlobalEventFilter", "classct_1_1models_1_1filters_1_1_global_event_filter.html", null ],
+      [ "PathwayFilter", "classct_1_1models_1_1filters_1_1_pathway_filter.html", null ],
+      [ "ProfessorFilter", "classct_1_1models_1_1filters_1_1_professor_filter.html", null ]
+    ] ],
     [ "Model", "classutil_1_1mvc_1_1_model.html", [
       [ "EventModel", "classct_1_1models_1_1_event_model.html", null ],
+      [ "FileModel", "classct_1_1models_1_1_file_model.html", null ],
+      [ "FilterCollectionModel", "classct_1_1models_1_1_filter_collection_model.html", null ],
+      [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", null ],
       [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", null ],
       [ "PathwayModel", "classct_1_1models_1_1_pathway_model.html", null ],
       [ "RootModel", "classct_1_1models_1_1_root_model.html", null ],
       [ "UserModel", "classct_1_1models_1_1_user_model.html", null ],
-      [ "CategoryModel", "classutil_1_1mvc_1_1_category_model.html", null ]
+      [ "CategoryModel", "classutil_1_1mvc_1_1_category_model.html", [
+        [ "TeachingRoleModel", "classct_1_1models_1_1_teaching_role_model.html", null ]
+      ] ]
     ] ],
     [ "Redirection", "classutil_1_1_redirection.html", null ],
     [ "SQLAbstract", "classutil_1_1database_1_1_s_q_l_abstract.html", [
