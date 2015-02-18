@@ -16,7 +16,7 @@ class IndependentEventModel extends AcademicEventModel{
 	function __construct(){
 		parent::__construct();
 		$this->fields = array_merge($this->fields, array("id_owner" => "int", "public" => "bool"));
-		$this->fields_ind = array("id_event" => "int", "id_owner" => "int", "public" => "bool");
+		$this->fields_ind = array("Id_Event" => "int", "Id_Owner" => "int", "Public" => "bool");
 		$this->translate = array_merge($this->translate, array("id_owner" => "Id_Owner", "Public" => "Public"));
 		$this->table = $this->table[2]= "independent_event";
 	
@@ -38,8 +38,9 @@ class IndependentEventModel extends AcademicEventModel{
 	
 	
 		$datas = array_intersect_key($datas, $this->fields_ind);
-	
-		return $ret && $this->sql->insert($this->table[2], $datas);
+		$this->sql->insert($this->table[2], $datas);
+		$ret[2] = $this->sql->error_info();
+		return $ret;
 	}
 	
 }

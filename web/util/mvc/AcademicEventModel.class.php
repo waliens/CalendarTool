@@ -1,4 +1,3 @@
-
 <?php
 
 namespace util\mvc;
@@ -17,7 +16,7 @@ class AcademicEventModel extends EventModel{
 	function __construct(){
 		parent::__construct();
 		$this->fields = array_merge($this->fields, array("feedback" => "text", "workload" => "int", "practical_details" => "text"));
-		$this->fields_ac = array("id_event" => "int", "feedback" => "text", "workload" => "int", "practical_details" => "text");
+		$this->fields_ac = array("Id_Event" => "int", "Feedback" => "text", "Workload" => "int", "Practical_Details" => "text");
 		
 		$this->table[1] = "academic_event";
 		$this->translate = array_merge($this->translate, array("feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details"));
@@ -31,7 +30,8 @@ class AcademicEventModel extends EventModel{
 	 */
 	public function createEvent($data){
 		$datas = $data;
-		$ret = parent::createEvent($datas);
+		$ret = array();
+		$ret[0] = parent::createEvent($datas);
 	
 		$datas = $this->checkParams($data, true, true);
 		if($datas == -1)
@@ -40,7 +40,9 @@ class AcademicEventModel extends EventModel{
 	
 		$datas = array_intersect_key($datas, $this->fields_ac);
 	
-		return $ret && $this->sql->insert($this->table[1], $datas);
+		$this->sql->insert($this->table[1], $datas);
+		$ret[1] = $this->sql->error_info();
+		return $ret;
 	}
 }
 

@@ -12,9 +12,9 @@ namespace util\mvc;
  * @class Event
  * @brief Class for getting event from D
  */
-use nhitec\sql\SQLAbstract_PDO;
 
 use util\database\Database;
+use util\database\SQLAbstract_PDO;
 
 class EventModel extends Model{
 		
@@ -27,7 +27,7 @@ class EventModel extends Model{
 		parent::__construct();
 		
 		$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
-		$this->fields_event = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
+		$this->fields_event = array("Id_Event" => "int", "Name" => "text", "Description" => "text", "Id_Recurence" => "int", "Place" => "text", "Id_Category" => "int");
 		$this->table = array();
 		$this->table[0] = "event";
 		$this->translate = array("id_event" => "Id_Event", "name" => "Name", "description" => "Description", "id_recurence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End");
@@ -53,25 +53,25 @@ class EventModel extends Model{
 	 * @param array String $requestData the requested data for the event $id (empty = all)
 	 * @retval string return the JSON representation of the event
 	 */
-	private  function getData($table, array $infoData = null, array $requestData = null){
-		$pdo = SQLAbstract_PDO::buildByPDO($db->get_handle());
+	protected  function getData($table, array $infoData = null, array $requestData = null){
 
-		
 		//Build WHERE clause
-		if(isset($infoData) && !empty($infoData)){
+		if($infoData != null && !empty($infoData)){
 			$ar = array();
 			$i = 0;
 			
-			foreach ($infoData as $key => $value){
-				$ar[$i] = $key." = `".$value."`";
+		
+			foreach($infoData as $key => $value){
+				$ar[$i] = $key." = '".$value."'";
 				$i++;
 			}
 			
 			$where = implode(" AND ", $ar);
+		
+			$data = $this->sql->select($table, $where, $requestData);
+			return $data;
 		}
 
-		$data = $this->sql->select($table, $where, $requestData);
-		return $data;
 	}
 	
 	/**
@@ -105,12 +105,12 @@ class EventModel extends Model{
 		}
 		
 		
-		$info = $this->checkParams($infoData, false);
+		$info = $this->checkParams($infoData, true);
 		if($requestedData ==  null)
-			return $this->getData($this->table, $info);
-		
-		$request = $this->checkParams($requestedData, false);
-		return getData($this->table, $info, $request);
+			return $this->getData($table, $info);
+	
+		$request = $this->checkParams($requestedData, false);		
+		return $this->getData($table, $info, $request);
 	}
 	
 	/** 
@@ -120,13 +120,12 @@ class EventModel extends Model{
 	 * @param boolean $cintegrity Check integrity
 	 * @retval return the array without invalids params (-1 if prooblem during cintegrity)
 	 */
-	private function checkParams($ar, $ckey, $cintegrity = false){
+	protected function checkParams($ar, $ckey, $cintegrity = false){
 		if($ckey)
-			$intersect = "array_intersect_key";
+			$arr = array_intersect_key($ar, $this->fields);
 		else
-			$intersect = "$this->array_intersect_key_val";
+			$arr = $this->array_intersect_key_val($ar, $this->fields);
 		
-		$arr = $intersect($ar, $this->fields);
 		
 		if($cintegrity){
 			foreach($arr as $key => $value){
@@ -139,6 +138,7 @@ class EventModel extends Model{
 				elseif($this->fields[$key] == "text"){
 					$arr[$key] = htmlEntities($value, ENT_QUOTES);
 					$arr[$key] = nl2br($arr[$key]);
+					$arr[$key] = "'".$arr[$key]."'";
 				}
 				elseif($this->fields[$key] == "date"){
 					//TODO
@@ -157,18 +157,19 @@ class EventModel extends Model{
 		}
 		else{
 			foreach($arr as $key => $value){
-				if(isset($this->translate[$key]))
-					$ret[$key] = $this->translate[$key];
+				if(isset($this->translate[$value]))
+					$ret[$key] = $this->translate[$value];
 			}
 		}
 		return $ret;
 		
 	}
-	private function array_intersect_key_val($array, $keyArray){ //$array est un tableau dont on cherche a savoir quelles sont les valeurs en commun avec les clés de $keyarray
+	protected function array_intersect_key_val($array, $keyArray){ //$array est un tableau dont on cherche a savoir quelles sont les valeurs en commun avec les clés de $keyarray
 		$retval = array();
 		foreach($array as $key => $value){
-			if(array_key_exists($value, $keyArray))
+			if(array_key_exists($value, $keyArray)){
 				$retval[$key] = $value;
+			}
 		}
 		return $retval;
 	}
@@ -188,10 +189,10 @@ class EventModel extends Model{
 		
 		$datas = array_intersect_key($datas, $this->fields_event);
 
-		return $this->sql->insert($this->table[0], $datas);
+		$this->sql->insert($this->table[0], $datas);
+		return $this->sql->error_info();
 	}
 
-	
 	/**
 	 * 
 	 * @brief Update event(s) (specify by $from) data to the those specify by $to
@@ -200,24 +201,25 @@ class EventModel extends Model{
 	 * @retval -1 if an error occurs
 	 */
 	public function modifyEvent($from, $to){
+		$table = implode(" JOIN ", $this->table);
+		
 		$data = $this->checkParams($to, true, true);
 		if($data == -1)
 			return -1;
-		$where = checkParams($from, true);
-		
+		$where = $this->checkParams($from, true);
 		
 		$whereClause = array();
 		$i = 0;
 		foreach($where as $key => $value){
-			if($key = "Id_Event")
-				$whereClause[i] = "event.". $key ." = `".$value."`"; //removing ambiguity
+			if($key == "Id_Event")
+				$whereClause[$i] = "event.". $key ." = ".$value.""; //removing ambiguity
 			else
-				$whereClause[i] = $key ." = `".$value."`";
+				$whereClause[$i] = $key ." = ".$value."";
 			$i++;
 		}
 		
-		return $this->sql->update($this->table, $data, implode(" AND ", $whereClause));
-		
+		$this->sql->update($table, $data, implode(" AND ", $whereClause));
+		return $this->sql->error_info();
 	}
 	/**
 	 * @brief 
@@ -254,10 +256,16 @@ class EventModel extends Model{
 				return -1;
 				break;	
 		}
-		if($update)
-			return $this->sql->update($table, $data, array("Id_event" => $id));
+		if($update){
+			if(!is_int($id))
+				return -1;
+			$this->sql->update($table, $data, "Id_Event=".$id);
+
+		}
 		else
-			return $this->sql->insert($table, $data);
+			$this->sql->insert($table, $data);
+		
+		return $this->sql->error_info();
 	}
 	
 	public function getEventFromIds($ids = null, $dateType = null){
@@ -270,8 +278,8 @@ class EventModel extends Model{
 		$table = implode(" JOIN ", $this->table);
 		
 		
-		$id = 'Id_Event = ';
-		$id = $id.implode(" OR Id_Event = ", $ids);
+		$id = 'event.Id_Event = ';
+		$id = $id.implode(" OR event.Id_Event = ", $ids);
 		
 		if(isset($dateType)){
 			switch($dateType){
