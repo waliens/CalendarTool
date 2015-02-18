@@ -31,6 +31,8 @@
 		/**
 		 * @brief Return the singleton instance of the Connection class
 		 * @retval Connection The instance of Connection
+		 * @note The instantiation can trigger a 401 HTTP error if the server issuing the request is invalid
+		 * @note The instantiation redirect the user to the logout page if the authentication fails
 		 */
 		public static function get_instance()
 		{
@@ -41,6 +43,10 @@
 
 		/**
 		 * @brief Construct a Connection objects
+		 * @note Trigger a 401 HTTP error if the server issuing the request is not the ULg SSO
+		 * @note Redirect the user to the ulg logout page if the authentication fails
+		 * 
+		 * @todo enable proper server checking and authentication 
 		 */
 		private function __construct()
 		{
