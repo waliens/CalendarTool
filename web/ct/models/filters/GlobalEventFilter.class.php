@@ -5,7 +5,7 @@
 	 * @brief Contains the GlobalEventFilter class
 	 */
 
-	namespace ct\filters;
+	namespace ct\models\filters;
 
 	use ct\models\GlobalEventModel;
 

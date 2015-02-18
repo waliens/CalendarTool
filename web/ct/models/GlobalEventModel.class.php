@@ -586,9 +586,9 @@
 		}
 
 		/**
-		 * @brief
-		 * @param[in] array $id_data The data for identifying the global event
-		 * @param[in]
+		 * @brief Delete the subscription of the given student to the given global event
+		 * @param[in] array $id_data    The data for identifying the global event
+		 * @param[in] int   $student_id The student identifier
 		 * @retval bool True on success, false on error 
 		 */
 		public function delete_subscription(array $id_data, $student_id)

@@ -5,7 +5,7 @@
 	 * @brief Contains the EventCategoryFilter class
 	 */
 
-	namespace ct\filters;
+	namespace ct\models\filters;
 
 	require_once("functions.php");
 

@@ -5,7 +5,7 @@
  	 * @brief Contains the EventTypeFilter class
 	 */
 
-	namespace ct\filters;
+	namespace ct\models\filters;
 
 	/**
 	 * @class EventTypeFilter

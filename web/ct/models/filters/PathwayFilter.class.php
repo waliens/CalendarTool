@@ -5,7 +5,7 @@
 	 * @brief Contains the PathwayFilter class
 	 */
 
-	namespace ct\filters;
+	namespace ct\models\filters;
 
 	use ct\models\PathwayModel;
 
@@ -19,7 +19,7 @@
 
 		/**
 		 * @brief Construct a PathwayFilter object with a set of pathways to keep
-		 * @param array Array containing the ids of the pathways
+		 * @param[in] array $pathways Array containing the ids of the pathways
 		 */
 		public function __construct(array $pathways)
 		{

@@ -94,7 +94,7 @@
 
 		/**
 		 * @brief Add filter to the object
-		 * @param[in] EventFilter The filter
+		 * @param[in] EventFilter $filter The filter
 		 * @note If a filter of the given type was already added, it is discarded
 		 */
 		public function add_filter(EventFilter $filter)
