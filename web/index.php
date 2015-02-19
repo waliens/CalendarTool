@@ -15,13 +15,7 @@
 	use util\entry_point\Ajax;
 	use ct\Connection;
 
-	// $connection = Connection::get_instance();
-
-	// if(!$connection->is_connected()) // check if user is connected
-	// {
-	// 	header("HTTP/1.1 401 Unauthorized");
-	// 	exit();
-	// }
+	$connection = Connection::get_instance();
 
 	header('Content-Type: text/html; charset=utf-8');
 
