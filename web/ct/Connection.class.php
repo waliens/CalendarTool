@@ -54,10 +54,7 @@
 			$this->user_mod = new UserModel();
 
 			// set the http headers variables
-			//$this->extract_http_headers();
-
-			$this->host = "";
-			$this->remote_user = "s123336";
+			$this->extract_http_headers();
 
 			// check host
 			if(!$this->check_host()) // host different from the reverse proxy 
@@ -67,9 +64,9 @@
 			}
 
 			if(!$this->is_connected()) // no previous connection
-				$this->connect($ulg_id);
-			else if($this->user_ulg_id() !== $ulg_id) // previous ulg id doesn't match the current
-				$this->disconnect();
+				$this->connect($this->remote_user);
+			else if($this->user_ulg_id() !== $this->remote_user || !$this->user_mod->user_exists($this->user_id())) 
+				$this->disconnect(); // previous ulg id doesn't match the current or user does not exists
 		}
 
 		/**
@@ -110,7 +107,6 @@
  		public function check_for_root_data()
  		{
  			$sg_post = new SG_Post();
-
  			return $sg_post->check("root_login") == Superglobal::ERR_OK 
  					&& $sg_post->check("root_pass") == Superglobal::ERR_OK;
  		}
@@ -176,7 +172,7 @@
 		private function connect($ulg_id)
 		{
 			$_SESSION['ulg_id'] = $ulg_id;
-			
+
 			// try to create an user if necessary
 			if(!$this->user_mod->user_exists($ulg_id) && !$this->user_mod->create_user($ulg_id))
 				$this->disconnect();
