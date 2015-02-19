@@ -27,6 +27,23 @@
 		}
 
 		/**
+		 * @brief Get the id of the root user having the given authentication data
+		 * @param[in] string $login The login
+		 * @param[in] string $pass  The password
+		 * @retval int The id of the root user, -1 if none was found
+		 */
+		public function get_root_id($login, $pass)
+		{
+			$logins = $this->sql->select("superuser", "Login = ".$this->sql->quote($login));
+
+			foreach($logins as $login)
+				if($this->psl['crypt/hash']->check($pass, $login['Password']))
+					return $login['Id_Superuser'];
+
+			return -1;
+		}
+
+		/**
 		 * @brief Check if the given login and pass match a root user in the database
 		 * @param[in] string $login The login
 		 * @param[in] string $pass  The password
@@ -34,16 +51,7 @@
 		 */
 		public function check_root_auth($login, $pass)
 		{
-			$logins = $this->sql->select("superuser", "Login = ".$this->sql->quote($login));
-
-			if(empty($login))
-				return false;
-
-			foreach($logins as $login)
-				if($this->psl['crypt/hash']->check($pass, $login['Password']))
-					return true;
-
-			return false;
+			return $this->check_root_auth($login, $pass) !== -1;
 		}
 
 		/**

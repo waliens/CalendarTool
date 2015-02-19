@@ -40,16 +40,14 @@
 			if(!UserModel::check_ulg_id($user_ulg_id))
 				return false;
 
-			$this->sql->lock(array("user WRITE"));
-
 			$success = true;
+
+			$this->sql->transaction(); 
 
 			if(!$this->user_exists($user_ulg_id)) // check if an entry exists already in the user table
 			{
 			 	if(UserModel::is_student_id($user_ulg_id)) // checks if the user is a student or a faculty member
 			 	{
-			 		$this->sql->lock(array("ulg_student READ", "student WRITE"));
-
 			 		// get student data
 			 		$student = $this->sql->select_one("ulg_student", "Id_ULg_Student = ".$this->sql->quote($user_ulg_id));
 
@@ -59,24 +57,36 @@
 			 							  "Surname" => "");
 			 		$success &= $this->sql->insert("user", $this->sql->quote_all($student_data));
 
+			 		$student_id = $this->sql->last_insert_id();
+			 		
 			 		// insert student
 			 		$query1 =  "INSERT INTO `student`(Id_Student, Mobile_User) SELECT Id_User, 0 FROM `user` WHERE Id_ULg = ?;";
 			 		$success &= $this->sql->execute_query($query1, array($user_ulg_id));
 
+					
 			 		// check if the pathway should be inserted
-			 		$this->sql->lock(array("pathway WRITE", "ulg_pathway READ"));
-
 			 		if(!$pathway_model->pathway_exists($student['Id_Pathway']))
 			 			$success &= $pathway_model->transfer_pathway($student['Id_Pathway']);
-
+			 		
 			 		// insert student pathway
-			 		$query2 =  "INSERT INTO `student_pathway`(Id_Student, Id_Pathway, Acad_Start_Year) SELECT Id_User, ?, get_acad_year() FROM `user` WHERE Id_ULg = ?;";
-			 		$success &= $this->sql->execute_query($query2, array($student['Id_Pathway'], $user_ulg_id));
+			 		$query2 =  "INSERT INTO `student_pathway`(Id_Student, Id_Pathway, Acad_Start_Year) SELECT Id_User, ?, ? FROM `user` WHERE Id_ULg = ?;";
+			 		$success &= $this->sql->execute_query($query2, array($student['Id_Pathway'], \ct\get_academic_year(), $user_ulg_id));
+
+			 		// add subscription for the courses followed by the student
+			 		$query3 =  "INSERT INTO `global_event_subscription`(Id_Student, Id_Global_Event)
+			 					SELECT ? AS stud, Id_Global_Event 
+			 					FROM
+			 					( SELECT Id_Global_Event, ULg_Identifier AS Id_Course 
+			 					  FROM global_event 
+			 					  WHERE Acad_Start_Year = ? ) AS glob_events
+			 					NATURAL JOIN 
+			 					( SELECT Id_Course 
+		 					  	  FROM ulg_has_course 
+		 					  	  WHERE Id_ULg_Student = ? ) AS courses_of_student;";
+					$success &= $this->sql->execute_query($query3, array($student_id, \ct\get_academic_year(), $user_ulg_id));
 			 	}
 			 	else 
 			 	{
-			 		$this->sql->lock(array("ulg_fac_staff READ", "faculty_staff_member WRITE"));
-
 			 		// get fac. staff. member data
 			 		$fac_mem = $this->sql->select_one("ulg_fac_staff", "Id_ULg_Fac_Staff = ".$this->sql->quote($user_ulg_id));
 
@@ -92,9 +102,23 @@
 			 	} 
 			}
 
-			$this->sql->unlock();
+			if($success)
+				$this->sql->commit();
+			else
+				$this->sql->rollback();
 
 			return $success;
+		}
+
+		/**
+		 * @brief Return the user id associated with the given ulg id
+		 * @param[in] string $ulg_id The ulg id
+		 * @retval int The user id, -1 on error
+		 */
+		public function get_user_id_by_ulg_id($ulg_id)
+		{
+			$user = $this->sql->select_one("user", "Id_ULg = ".$this->sql->quote($ulg_id));
+			return !empty($user) ? $user['Id_User'] : -1;
 		}
 
 		/**
@@ -104,7 +128,7 @@
 		 */
 		public function user_exists($user_ulg_id)
 		{
-			return $this->sql->count("user", "Id_ULg = ".$this->sql->quote()) > 0;
+			return $this->sql->count("user", "Id_ULg = ".$this->sql->quote($user_ulg_id)) > 0;
 		}
 
 		/**
@@ -124,6 +148,6 @@
 		 */
 		public static function is_student_id($ulg_id)
 		{
-			return ct\starts_with($ulg_id, "s");
+			return \ct\starts_with($ulg_id, "s");
 		}
 	}

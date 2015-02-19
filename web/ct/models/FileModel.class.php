@@ -60,12 +60,12 @@
 		 */
 		public function add_file($path, $spf_key, $user=null)
 		{
-			if($user == null) $user = ;
+			if($user == null) $user = $connection->user_id();
 
 			if(!$this->sg_file->check_upload($spf_key))
 				return 0;
 
-			$name = $this->sg_file->name($spf_key)); 
+			$name = $this->sg_file->name($spf_key); 
 			if(!preg_match("#^.+\.[a-z]+$#", $name))
 				$name .= ".".$this->extract_extension_from_mime($spf_key);
 

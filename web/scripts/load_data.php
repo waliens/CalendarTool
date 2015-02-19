@@ -226,6 +226,9 @@
 		// load teacher data from file into the array
 		$teachers_courses_info = file_into_array("scripts\\ulg_data\\enseignant.txt");
 
+		// lowercase the ulg id
+		$teachers_courses_info = ct\array_col_map($teachers_courses_info, "strtolower", "idulg_ens");
+
 		$teachers_info = common_regroup($teachers_courses_info, array("idulg_ens", "nom_ens", "prenom_ens"));
 
 		$success = true; // false if an error occurred
@@ -268,6 +271,9 @@
 	{
 		// load cursus data into an array
 		$student_courses_info = array_unique(file_into_array("scripts\\ulg_data\\cursus.txt"), SORT_REGULAR);
+
+		// lowercase the ulg_id
+		$student_courses_info = ct\array_col_map($student_courses_info, "strtolower", "id_ulg");
 
 		$students_info = common_regroup($student_courses_info, array("id_ulg", "code_ae"));
 

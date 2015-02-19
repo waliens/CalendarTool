@@ -63,10 +63,11 @@
 		 * @param[in] int    $acad_year The academic year for which the course must be created (optional, default: current acad year)
 		 * @retval bool True on success, false on error
 		 */
-		public function create_global_event($course_id, $user_id = null, $acad_year=null)
+		public function create_global_event($course_id, $user_id = null, $acad_year=null, $lang=null)
 		{
 			if($user_id == null) $user_id = $this->connection->user_id();
 			if($acad_year == null) $acad_year = \ct\get_academic_year();
+			if($lang == null) $lang = self::LANG_FR;
 
 			if(!checkdate(1, 1, $acad_year)) // check whether the year is valid
 				return false;
@@ -79,12 +80,12 @@
 			$query  =  "INSERT INTO global_event(ULg_Identifier, Name_Short, Name_Long, 
 												 Period, Workload_Th, Workload_Pr, 
 												 Workload_Au, Workload_St, Acad_Start_Year, 
-												 Id_Owner)
+												 Id_Owner, Language)
 						SELECT Id_Course, Name_Short, Name_Long, Period, 
-								Hr_Th, Hr_Pr, Hr_Au , Hr_St, ? AS Year, ? AS Owner
+								Hr_Th, Hr_Pr, Hr_Au , Hr_St, ? AS Year, ? AS Owner, ? AS Lang
 						FROM ulg_course WHERE Id_Course = ?;";
 
-			$success &= $this->sql->execute_query($query, array($acad_year, $user_id, $course_id));
+			$success &= $this->sql->execute_query($query, array($acad_year, $user_id, $lang, $course_id));
 
 			$glob_event_id = $this->sql->last_insert_id();
 
@@ -172,11 +173,17 @@
 
 		/**
 		 * @brief Update the data of the global event taken from the ulg database
-		 * @param[in] int $id_glob Identifier of the global event
+		 * @param[in] array $id_data Identifier of the global event
 		 * @retval bool True on success, false on error
 		 */
-		public function update_global_event_ulg_data($id_glob)
+		public function update_global_event_ulg_data(array $id_data)
 		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
 			$query  =  "UPDATE global_event(Name_Short, Name_Long, Period, Workload_Th, 
 											Workload_Pr, Workload_Au, Workload_St)
 						FROM 
@@ -188,24 +195,35 @@
 
 		/**
 		 * @brief Update the standalone data of a global event 
-		 * @param[in] int   $id_glob Identifier of the global event
+		 * @param[in] array $id_data Identifier of the global event
 		 * @param[in] array $data 	 The data to update 
 		 * @retval bool True on success, false on error
 		 * @note The structure of the data array is the following :
 		 * <ul>
 		 *  <li>desc : a string containing the description</li>
 		 *  <li>feedback : a string containing the feedback </li>
-		 *  <li>lang : one of the LANG_* class constant</li>
+		 *  <li>lang : one of the LANG_* class constant (optional)</li>
 		 * </ul>
 		 */
-		public function update_global_event_non_ulg_data($id_glob, $data)
+		public function update_global_event_non_ulg_data(array $id_data, $data)
 		{
-			if(!$this->valid_lang($data['lang']))
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
 				return false;
 
 			$update_array = array("Description" => $data['desc'],
-								  "Feedback" => $data['feedback'],
-								  "Language" => $data['lang']);
+								  "Feedback" => $data['feedback']);
+
+			// check if the language must be updated
+			if(isset($data['lang']))
+			{
+				if($this->valid_lang($data['lang']))
+					$update_array['Language'] = $data['lang'];
+				else
+					return false;
+			}
 
 			return $this->sql->update("global_event", 
 									  $this->sql->quote_all($update_array), 
@@ -281,8 +299,8 @@
 		public function get_global_event_id(array $id_data)
 		{
 			if(array_key_exists('id', $id_data))
-				return is_int($id_data['id']) && $id_data['id'] > 0 ? $id_data['id'] : -1;
-
+				return is_numeric($id_data['id']) && $id_data['id'] > 0 ? $id_data['id'] : -1;
+			
 			$where = $this->get_where_clause($id_data['ulg_id'], $id_data['year']);
 			$id = $this->sql->select_one("global_event", $where, array("Id_Global_Event"));
 
@@ -324,16 +342,19 @@
 				return array();
 
 			// get the teaching team
-			$columns = array("Name AS name", "Surname AS surname", "Description as desc");
-
+			// select the language
 			if($lang === self::LANG_FR)
-				$columns[] = "Role_FR AS role";
+				$lang_col = "Role_FR AS role";
 			else
-				$columns[] = "Role_EN AS role";
+				$lang_col = "Role_EN AS role";
 
-			return $this->sql->select("teaching_team_member", 
-									  "Id_Global_Event = ".$this->sql->quote($id_glob), 
-									  $columns);
+			$query  =  "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Description as `desc`
+						FROM  user NATURAL JOIN
+						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ? ) AS ttm
+						NATURAL JOIN 
+						( SELECT Id_Role, ".$lang_col.", Description FROM teaching_role ) AS roles";
+
+			return $this->sql->execute_query($query, array($id_glob));
 		}
 
 		/**
@@ -368,9 +389,7 @@
 						  FROM global_event_subscription 
 						  WHERE Id_Global_Event = ? ) AS studs;";
 
-			$studs = $this->sql->execute_query($query, array($id_glob));
-
-			return empty($studs) ? array() : $studs[0];
+			return $this->sql->execute_query($query, array($id_glob));
 		}
 
 		/**
@@ -402,9 +421,7 @@
 						  FROM global_event_pathway 
 						  WHERE Id_Global_Event = ? ) AS paths;";
 
-			$paths = $this->sql->execute_query($query, array($id_glob));
-
-			return empty($paths) ? array() : $paths[0];
+			return $this->sql->execute_query($query, array($id_glob));
 		}
 
 		/**
@@ -481,7 +498,7 @@
 		/**
 		 * @brief Get all the data related to the given global event (global event itself + teaching team, students, pathways, files)
 		 * @param[in] array  $id_data The data for identifying the global event
-		 * @param[in] string $lang    The language in which the data must be 
+		 * @param[in] string $lang    The language in which the data must be (optional, default: the one of the global event)
 		 * @retval array An array containing the data
 		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the
 		 * $id_data array
@@ -493,13 +510,13 @@
 		 *  <li>team : the teaching team</li>
 		 * </ul>
 		 */
-		public function get_whole_global_event(array $id_data, $lang = self::LANG_FR)
+		public function get_whole_global_event(array $id_data, $lang = null)
 		{
 			// extract global event id
 			$id_glob = $this->get_global_event_id($id_data);
 
 			if($id_glob < 0)
-				return false;
+				return array();
 
 			$id_data_int = array('id' => $id_glob);
 
@@ -507,11 +524,11 @@
 
 			if(empty($global_event))
 				return array();
-
+			
 			$global_event['pathways'] = $this->get_global_event_pathways($id_data_int);
 			$global_event['files'] = $this->get_global_event_files($id_data_int);
 			$global_event['students'] = $this->get_subscribed_student($id_data_int);
-			$global_event['team'] = $this->get_teaching_team($id_data_int, $lang);
+			$global_event['team'] = $this->get_teaching_team($id_data_int, $lang == null ? $global_event['lang'] : $lang);
 
 			return $global_event;
 		}
@@ -636,8 +653,11 @@
 
 			$param_array = array($free_student, $student_id, $year, $glob_id);
 
+			// use the last inserted id to check whether the subscriptions were added
+			$id = $this->sql->last_insert_id();
+
 			return $this->sql->execute_query($query, $param_array) 
-					&& !empty($this->sql->last_insert_id());
+					&& !empty($id);
 		}
 
 		/**
