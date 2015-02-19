@@ -5,8 +5,7 @@
  * @brief Event ControllerClass
  */
 
-namespace util\mvc;
-
+namespace ct\model;
 
 /**
  * @class Event
@@ -14,7 +13,6 @@ namespace util\mvc;
  */
 
 use util\database\Database;
-use util\database\SQLAbstract_PDO;
 
 class EventModel extends Model{
 		

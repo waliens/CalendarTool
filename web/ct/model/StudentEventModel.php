@@ -1,7 +1,5 @@
 <?php
-namespace util\mvc;
-
-use util\mvc\EventModel;
+namespace ct\model;
 
 /**
  * @brief Describe the AcademicEvent

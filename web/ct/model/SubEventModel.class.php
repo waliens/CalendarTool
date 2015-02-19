@@ -1,8 +1,7 @@
 <?php
 
-namespace util\mvc;
+namespace ct\model;
 
-use util\mvc\EventModel;
 
 /**
  * @brief Describe the SubEvents
