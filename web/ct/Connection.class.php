@@ -65,7 +65,7 @@
 
 			if(!$this->is_connected()) // no previous connection
 				$this->connect($this->remote_user);
-			else if($this->user_ulg_id() !== $this->remote_user || !$this->user_mod->user_exists($this->user_id())) 
+			else if($this->user_ulg_id() !== $this->remote_user || !$this->user_mod->user_exists($this->user_ulg_id())) 
 				$this->disconnect(); // previous ulg id doesn't match the current or user does not exists
 		}
 
