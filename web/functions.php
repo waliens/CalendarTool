@@ -281,3 +281,22 @@
 	{
 		return is_int($int) && $int > 0;
 	}
+
+	/**
+	 * @brief Return the given multi-dimensionnal array from which the column having the given index
+	 * was modified with the given callback function
+	 * @param[in] array    $array  		The array to modify
+	 * @param[in] function $callback    The callback function to apply to the column
+	 * @param[in] string   $column_name The column to modify
+	 * @retval The modified array
+	 */
+	function array_col_map(array& $array, $callback, $column_name)
+	{
+		$fn = function($row) use ($callback, $column_name) 
+			  {
+			  	$row[$column_name] = $callback($row[$column_name]);
+			  	return $row;
+			  };
+
+		return array_map($fn, $array); 
+	}
