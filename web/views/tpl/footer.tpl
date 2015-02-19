@@ -1,4 +1,5 @@
 		<div id="footer"> Copyright &copy; <script>document.write(new Date().getFullYear())</script> SEGI - Université de Liège </div>
+		{$popups}
 		<!-- Bootstrap core JavaScript
 		    ================================================== --> 
 		<!-- Placed at the end of the document so the pages load faster --> 
