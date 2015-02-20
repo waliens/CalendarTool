@@ -78,12 +78,19 @@ width: 100%;
 	font-weight:bold;
 	}
 	
+.text-underline{
+	text-decoration:underline;
+	}
+	
 .marg-bot-40{
 	margin-bottom:40px;
 	}
 	
 .marg-top-40{
 	margin-top:40px;
+	}
+.marging-10-0{
+	margin:10px 0;
 	}
 	
 .margin-left-10{
@@ -170,7 +177,7 @@ padding: 5px;
 	}
 	
 .vertical-middle{
-	vertical-align:middle;
+	vertical-align:middle !important;
 	}
 	
 .float-left-10padright{
