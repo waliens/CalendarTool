@@ -93,7 +93,6 @@
 				$query .= "LIMIT ".$limit_first.", ".$limit_nb;
 
 			$query .= ";";
-
 			return $this->execute_query($query);
 		}
 
@@ -248,7 +247,7 @@
 
 			$query .= implode(", ", $set_final);
 			$query .= " WHERE ".$where.";";
-
+			
 			return $this->execute_query($query);
 		}
 
