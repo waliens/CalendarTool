@@ -95,7 +95,7 @@
 
 	/**
 	 * @brief Return the first element of the array
-	 * @param[in] array The array
+	 * @param[in] array $array The array
 	 * @retval mixed The first element
 	 * @note The function set the internal pointer of the array to its first element
 	 */
@@ -142,18 +142,16 @@
 	}
 
 	/**
-	 * Custom autoload function for spl autoloading
+	 * @brief Custom autoload function for spl autoloading
 	 */
 	function autoload($class)
 	{
-		$os = get_OS();
-		print_r($os);
-
-		if(!preg_match("#Smarty#", $class))
-			if($os === "LINUX")
-				include_once(preg_replace("#\\\\#", "/", $class).".class.php");
-			else
-				include_once($class);
+		if(preg_match("#Smarty#", $class))
+			include_once("util/Smarty/libs/Smarty.class.php");
+		elseif(preg_match("#phpSec#", $class))
+			include_once("util/".preg_replace("#\\\\#", "/", $class).".class.php");
+		else
+			include_once(preg_replace("#\\\\#", "/", $class).".class.php");
 	}
 
 	/**
@@ -167,5 +165,138 @@
 	    $return = array();
 	    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
 	    return $return;
+	}	
+
+	/**
+	 * @brief Checks whether the string starts with a given string
+	 * @param[in] string $haystack The string to check
+	 * @param[in] string $needle   The prefix to check for
+	 * @retval bool True if $needle is a prefix of $haystack, false otherwise
+	 */
+	function starts_with($haystack, $needle)
+	{
+		return strstr($haystack, $needle) === $haystack;
 	}
-	
+
+	/**
+	 * @brief Checks whether the string ends with a given string
+	 * @param[in] string $haystack The string to check
+	 * @param[in] string $needle   The suffix to check for
+	 * @retval bool True if $needle is a suffix of $haystack, false otherwise
+	 */
+	function ends_with($haystack, $needle)
+	{
+		return strpos($haystack, $needle) === (strlen($haystack) - strlen($needle));
+	}
+
+	/**
+	 * @brief Return an array composed of which the elements are the key and value of $array's elements
+	 * glued with $glue
+	 * @param[in] array  $array The input array
+	 * @param[in] string $glue  The glue string
+	 * @retval array The output array containing the glued key-value
+	 */
+	function array_key_val_merge(array &$array, $glue="")
+	{
+		$out_array = array();
+		array_walk($array, function(&$val, $key) use (&$out_array, $glue) { $out_array[] = $key.$glue.$val; });
+		return $out_array;
+	}
+
+	/**
+	 * @brief Checks whether the given date is valid (i.e. it is not a 30th of February for instance)
+	 * @param[in] string $date The string containing a date in the SQL format (YYYY-MM-DD)
+	 * @retval bool True if the date is valide, false otherwise
+	 * @note The date can be contained in a wider string containing other items than a date 
+	 */
+	function date_exists($date)
+	{
+		$matches = array();
+
+		if(!preg_match("#([0-9]{4})-([0-9]{2})-([0-9]{2})#", $date))
+			return false;
+
+		if(!empty($matches))
+			return false;
+
+		return checkdate($matches[2], $matches[3], $matches[1]);
+	}
+
+	/** 
+	 * @brief Compare two datetime  
+	 * @param[in] string $date1 First datetime
+	 * @param[in] string $date2 Second datetime
+	 * @retval int A value < 0 if $date1 < $date2, > 0 if $date1 > $date2 and 0 if the datetime are equal
+	 */
+	function date_cmp($date1, $date2)
+	{
+		return strtotime($date1) < strtotime($date2);
+	}
+
+	/**
+	 * @brief Return the year starting the current academic year
+	 * @retval int The starting academic year
+	 */
+	function get_academic_year()
+	{
+		return date("n") < 9 || date("j") < 12 ? date("Y") - 1 : date("Y");
+	}
+
+	/**
+	 * @brief Function for converting a sql date(time) to a french date format
+	 * @param[in] string $sql_date The sql date(time)
+	 * @param[in] string $sep 	   The separator to place between the date elements
+	 * @retval string The formatted date(time)
+	 */ 
+	function date_sql2fr($sql_date, $sep="/")
+	{
+		$matches = array();
+
+		if(!preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})(.*)#", $sql_date, $matches))
+			return $sql_date;
+
+		return $matches[3].$sep.$matches[2].$sep.$matches[1].$matches[4];
+	}
+
+	/** 
+	 * @brief Function for converting a french formatted date(time) in the sql date(time) format
+	 * @param[in] string $fr_date The fr date(time)
+	 * @retval string The formatted date(time)
+	 */
+	function date_fr2sql($fr_date)
+	{
+		$matches = array();
+
+		if(!preg_match("#^([0-9]{2})[/-]([0-9]{2})[/-]([0-9]{4})(.*)#", $fr_date, $matches))
+			return $sql_date;
+
+		return $matches[3]."-".$matches[2]."-".$matches[1].$matches[4];
+	}
+
+	/**
+	 * @brief Check whether the argument is a positive integer differenet from 0
+	 * @retval bool True if $int is an integer > 0, false otherwise 
+	 */
+	function is_positive_integers($int)
+	{
+		return is_int($int) && $int > 0;
+	}
+
+	/**
+	 * @brief Return the given multi-dimensionnal array from which the column having the given index
+	 * was modified with the given callback function
+	 * @param[in] array    $array  		The array to modify
+	 * @param[in] function $callback    The callback function to apply to the column
+	 * @param[in] string   $column_name The column to modify
+	 * @retval The modified array
+	 */
+	function array_col_map(array& $array, $callback, $column_name)
+	{
+		$fn = function($row) use ($callback, $column_name) 
+			  {
+			  	$row[$column_name] = $callback($row[$column_name]);
+			  	return $row;
+			  };
+
+		return array_map($fn, $array); 
+	}

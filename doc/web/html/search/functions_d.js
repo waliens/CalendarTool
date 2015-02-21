@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['select',['select',['../classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6',1,'util::database::SQLAbstract']]],
-  ['set_5fdump_5fmode',['set_dump_mode',['../classutil_1_1database_1_1_s_q_l_abstract.html#a8dc0c0e58a3e2d53d8fa1be24988e958',1,'util::database::SQLAbstract']]]
+  ['name',['name',['../classutil_1_1superglobals_1_1_s_g___files.html#a6828dc2ae7a77f29be3b988ddd8fb7f6',1,'util::superglobals::SG_Files']]]
 ];

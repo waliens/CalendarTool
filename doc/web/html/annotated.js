@@ -1,5 +1,35 @@
 var annotated =
 [
+    [ "ct", null, [
+      [ "controllers", null, [
+        [ "browser", null, [
+          [ "CalendarPageController", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller" ],
+          [ "LoginPageController", "classct_1_1controllers_1_1browser_1_1_login_page_controller.html", "classct_1_1controllers_1_1browser_1_1_login_page_controller" ],
+          [ "ProfilePageController", "classct_1_1controllers_1_1browser_1_1_profile_page_controller.html", "classct_1_1controllers_1_1browser_1_1_profile_page_controller" ]
+        ] ]
+      ] ],
+      [ "models", null, [
+        [ "filters", null, [
+          [ "DateTimeFilter", "classct_1_1models_1_1filters_1_1_date_time_filter.html", "classct_1_1models_1_1filters_1_1_date_time_filter" ],
+          [ "EventCategoryFilter", "classct_1_1models_1_1filters_1_1_event_category_filter.html", "classct_1_1models_1_1filters_1_1_event_category_filter" ],
+          [ "EventFilter", "interfacect_1_1models_1_1filters_1_1_event_filter.html", "interfacect_1_1models_1_1filters_1_1_event_filter" ],
+          [ "EventTypeFilter", "classct_1_1models_1_1filters_1_1_event_type_filter.html", "classct_1_1models_1_1filters_1_1_event_type_filter" ],
+          [ "GlobalEventFilter", "classct_1_1models_1_1filters_1_1_global_event_filter.html", "classct_1_1models_1_1filters_1_1_global_event_filter" ],
+          [ "PathwayFilter", "classct_1_1models_1_1filters_1_1_pathway_filter.html", "classct_1_1models_1_1filters_1_1_pathway_filter" ],
+          [ "ProfessorFilter", "classct_1_1models_1_1filters_1_1_professor_filter.html", "classct_1_1models_1_1filters_1_1_professor_filter" ]
+        ] ],
+        [ "EventModel", "classct_1_1models_1_1_event_model.html", "classct_1_1models_1_1_event_model" ],
+        [ "FileModel", "classct_1_1models_1_1_file_model.html", "classct_1_1models_1_1_file_model" ],
+        [ "FilterCollectionModel", "classct_1_1models_1_1_filter_collection_model.html", "classct_1_1models_1_1_filter_collection_model" ],
+        [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", "classct_1_1models_1_1_global_event_model" ],
+        [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", "classct_1_1models_1_1_modification_request_model" ],
+        [ "PathwayModel", "classct_1_1models_1_1_pathway_model.html", "classct_1_1models_1_1_pathway_model" ],
+        [ "RootModel", "classct_1_1models_1_1_root_model.html", "classct_1_1models_1_1_root_model" ],
+        [ "TeachingRoleModel", "classct_1_1models_1_1_teaching_role_model.html", "classct_1_1models_1_1_teaching_role_model" ],
+        [ "UserModel", "classct_1_1models_1_1_user_model.html", "classct_1_1models_1_1_user_model" ]
+      ] ],
+      [ "Connection", "classct_1_1_connection.html", "classct_1_1_connection" ]
+    ] ],
     [ "util", null, [
       [ "database", null, [
         [ "Database", "classutil_1_1database_1_1_database.html", "classutil_1_1database_1_1_database" ],
@@ -13,8 +43,10 @@ var annotated =
         [ "ICS", "classutil_1_1entry__point_1_1_i_c_s.html", "classutil_1_1entry__point_1_1_i_c_s" ]
       ] ],
       [ "mvc", null, [
-        [ "CategoryModel", "classutil_1_1mvc_1_1_category_model.html", null ],
-        [ "Controller", "classutil_1_1mvc_1_1_controller.html", null ],
+        [ "AjaxController", "classutil_1_1mvc_1_1_ajax_controller.html", "classutil_1_1mvc_1_1_ajax_controller" ],
+        [ "BrowserController", "classutil_1_1mvc_1_1_browser_controller.html", "classutil_1_1mvc_1_1_browser_controller" ],
+        [ "CategoryModel", "classutil_1_1mvc_1_1_category_model.html", "classutil_1_1mvc_1_1_category_model" ],
+        [ "Controller", "classutil_1_1mvc_1_1_controller.html", "classutil_1_1mvc_1_1_controller" ],
         [ "Model", "classutil_1_1mvc_1_1_model.html", "classutil_1_1mvc_1_1_model" ]
       ] ],
       [ "superglobals", null, [
@@ -25,7 +57,8 @@ var annotated =
         [ "SG_Session", "classutil_1_1superglobals_1_1_s_g___session.html", "classutil_1_1superglobals_1_1_s_g___session" ],
         [ "Superglobal", "classutil_1_1superglobals_1_1_superglobal.html", "classutil_1_1superglobals_1_1_superglobal" ]
       ] ],
-      [ "Connection", "classutil_1_1_connection.html", "classutil_1_1_connection" ],
-      [ "Redirection", "classutil_1_1_redirection.html", "classutil_1_1_redirection" ]
+      [ "Redirection", "classutil_1_1_redirection.html", "classutil_1_1_redirection" ],
+      [ "TypeChecker", "classutil_1_1_type_checker.html", "classutil_1_1_type_checker" ],
+      [ "URL", "classutil_1_1_u_r_l.html", "classutil_1_1_u_r_l" ]
     ] ]
 ];

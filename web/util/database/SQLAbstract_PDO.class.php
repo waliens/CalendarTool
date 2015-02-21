@@ -18,8 +18,8 @@
 	 */
 	class SQLAbstract_PDO extends SQLAbstract
 	{
-		private $pdo; /**< PDO object for querying the database */
-		private $error_info; /**< error info */
+		private $pdo; /**< @brief PDO object for querying the database */
+		private $error_info; /**< @brief error info */
 
 		/**
 		 * @brief Construct a SQLAbstract_PDO object 

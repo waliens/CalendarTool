@@ -16,5 +16,5 @@
         /**
          * @brief Return the controller for handling the current request based on the request parameters
          */
-        protected function get_controller();
+        function get_controller();
     };
