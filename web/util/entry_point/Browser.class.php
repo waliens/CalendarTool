@@ -9,9 +9,13 @@
     
     use util\superglobals\SG_Get;
 
-    use ct\controllers\browser\ProfilePageController;
-    use ct\controllers\browser\LoginPageController;
+    use ct\controllers\browser\StudentProfileController;
+    use ct\controllers\browser\StaticExportController;
+    use ct\controllers\browser\PrivateEventsController;
     use ct\controllers\browser\CalendarPageController;
+    use ct\controllers\browser\ProfessorProfileController;
+
+    use ct\Connection;
 
     /**
      * @class Browser
@@ -38,12 +42,21 @@
             else
                 $page = $_GET['page'];
 
+            $connection = Connection::get_instance();
+
             switch($page)
             {
             case "profile":
-                return new ProfilePageController();
-            case "login":
-                return new LoginPageController();
+
+                if($connection->user_is_student())
+                    return new StudentProfileController();
+                else
+                    return new ProfessorProfileController();
+
+            case "static_export":
+                return new StaticExportController();
+            case "private_events":
+                return new PrivateEventsController();
             default:
                 return new CalendarPageController();
             }
