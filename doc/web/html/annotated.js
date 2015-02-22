@@ -5,7 +5,11 @@ var annotated =
         [ "browser", null, [
           [ "CalendarPageController", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller" ],
           [ "LoginPageController", "classct_1_1controllers_1_1browser_1_1_login_page_controller.html", "classct_1_1controllers_1_1browser_1_1_login_page_controller" ],
-          [ "ProfilePageController", "classct_1_1controllers_1_1browser_1_1_profile_page_controller.html", "classct_1_1controllers_1_1browser_1_1_profile_page_controller" ]
+          [ "PrivateEventsController", "classct_1_1controllers_1_1browser_1_1_private_events_controller.html", "classct_1_1controllers_1_1browser_1_1_private_events_controller" ],
+          [ "ProfessorProfileController", "classct_1_1controllers_1_1browser_1_1_professor_profile_controller.html", "classct_1_1controllers_1_1browser_1_1_professor_profile_controller" ],
+          [ "ProfilePageController", "classct_1_1controllers_1_1browser_1_1_profile_page_controller.html", "classct_1_1controllers_1_1browser_1_1_profile_page_controller" ],
+          [ "StaticExportController", "classct_1_1controllers_1_1browser_1_1_static_export_controller.html", "classct_1_1controllers_1_1browser_1_1_static_export_controller" ],
+          [ "StudentProfileController", "classct_1_1controllers_1_1browser_1_1_student_profile_controller.html", "classct_1_1controllers_1_1browser_1_1_student_profile_controller" ]
         ] ]
       ] ],
       [ "models", null, [
@@ -17,6 +21,9 @@ var annotated =
           [ "GlobalEventFilter", "classct_1_1models_1_1filters_1_1_global_event_filter.html", "classct_1_1models_1_1filters_1_1_global_event_filter" ],
           [ "PathwayFilter", "classct_1_1models_1_1filters_1_1_pathway_filter.html", "classct_1_1models_1_1filters_1_1_pathway_filter" ],
           [ "ProfessorFilter", "classct_1_1models_1_1filters_1_1_professor_filter.html", "classct_1_1models_1_1filters_1_1_professor_filter" ]
+        ] ],
+        [ "notifiers", null, [
+          [ "Notifier", "classct_1_1models_1_1notifiers_1_1_notifier.html", "classct_1_1models_1_1notifiers_1_1_notifier" ]
         ] ],
         [ "EventModel", "classct_1_1models_1_1_event_model.html", "classct_1_1models_1_1_event_model" ],
         [ "FileModel", "classct_1_1models_1_1_file_model.html", "classct_1_1models_1_1_file_model" ],
@@ -57,6 +64,7 @@ var annotated =
         [ "SG_Session", "classutil_1_1superglobals_1_1_s_g___session.html", "classutil_1_1superglobals_1_1_s_g___session" ],
         [ "Superglobal", "classutil_1_1superglobals_1_1_superglobal.html", "classutil_1_1superglobals_1_1_superglobal" ]
       ] ],
+      [ "Mail", "classutil_1_1_mail.html", "classutil_1_1_mail" ],
       [ "Redirection", "classutil_1_1_redirection.html", "classutil_1_1_redirection" ],
       [ "TypeChecker", "classutil_1_1_type_checker.html", "classutil_1_1_type_checker" ],
       [ "URL", "classutil_1_1_u_r_l.html", "classutil_1_1_u_r_l" ]

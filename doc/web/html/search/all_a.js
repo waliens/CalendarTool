@@ -15,6 +15,7 @@ var searchData=
   ['is_5fbetween',['is_between',['../classct_1_1models_1_1filters_1_1_date_time_filter.html#a02f2265755c9b0b7e76762c09137ac00',1,'ct::models::filters::DateTimeFilter']]],
   ['is_5fconjunctive',['is_conjunctive',['../classct_1_1models_1_1_filter_collection_model.html#abd0f22c0c136362b113da581b9c298bb',1,'ct::models::FilterCollectionModel']]],
   ['is_5fconnected',['is_connected',['../classct_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2',1,'ct::Connection']]],
+  ['is_5fconnected_5fas_5froot',['is_connected_as_root',['../classct_1_1_connection.html#a7d7b1a8e1d7defb228ee8b29c14bcd94',1,'ct::Connection']]],
   ['is_5fdate_5frange_5fevent',['is_date_range_event',['../classct_1_1models_1_1_event_model.html#ab16438e34529ac81e5f09301002d4b26',1,'ct::models::EventModel']]],
   ['is_5fdeadline_5fevent',['is_deadline_event',['../classct_1_1models_1_1_event_model.html#aec01e6977f30d0ae57fed18ee622ca96',1,'ct::models::EventModel']]],
   ['is_5fdisjunctive',['is_disjunctive',['../classct_1_1models_1_1_filter_collection_model.html#aee89901d15d198ca9932fee3d1a6cbc9',1,'ct::models::FilterCollectionModel']]],

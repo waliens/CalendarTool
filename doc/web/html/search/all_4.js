@@ -5,6 +5,7 @@ var searchData=
   ['categorymodel',['CategoryModel',['../classutil_1_1mvc_1_1_category_model.html',1,'util::mvc']]],
   ['categorymodel_2eclass_2ephp',['CategoryModel.class.php',['../_category_model_8class_8php.html',1,'']]],
   ['check',['check',['../classutil_1_1superglobals_1_1_superglobal.html#a24c36c616c849529b7aeefdfdad519c6',1,'util::superglobals::Superglobal']]],
+  ['check_5ffor_5froot_5fdata',['check_for_root_data',['../classct_1_1_connection.html#a1ed0e562c87f6a8868c7d42ad4bd47e4',1,'ct::Connection']]],
   ['check_5fmodification_5frequest_5fdata',['check_modification_request_data',['../classct_1_1models_1_1_modification_request_model.html#a8ccc5faa82d1b71660c04f50b5b718f5',1,'ct::models::ModificationRequestModel']]],
   ['check_5froot_5fauth',['check_root_auth',['../classct_1_1models_1_1_root_model.html#adcb9e9ab6b274dd4c532335872c7a1be',1,'ct::models::RootModel']]],
   ['check_5fulg_5fid',['check_ulg_id',['../classct_1_1models_1_1_user_model.html#ab20e5c3734429070bed9e8dcd60aa859',1,'ct::models::UserModel']]],
@@ -21,6 +22,6 @@ var searchData=
   ['controller',['Controller',['../classutil_1_1mvc_1_1_controller.html',1,'util::mvc']]],
   ['controller_2eclass_2ephp',['Controller.class.php',['../_controller_8class_8php.html',1,'']]],
   ['count',['count',['../classutil_1_1database_1_1_s_q_l_abstract.html#a05065e9590d7928e48f1b0f39c478393',1,'util::database::SQLAbstract']]],
-  ['create_5fglobal_5fevent',['create_global_event',['../classct_1_1models_1_1_global_event_model.html#ad2fc9e4b1d27b5a3f3965a3bb5b111a7',1,'ct::models::GlobalEventModel']]],
+  ['create_5fglobal_5fevent',['create_global_event',['../classct_1_1models_1_1_global_event_model.html#a3a9a6a16f66eb48810b645654aab196a',1,'ct::models::GlobalEventModel']]],
   ['create_5fuser',['create_user',['../classct_1_1models_1_1_user_model.html#a57ee1f54860607f96170336561011936',1,'ct::models::UserModel']]]
 ];

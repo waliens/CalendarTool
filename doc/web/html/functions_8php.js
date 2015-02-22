@@ -1,5 +1,6 @@
 var functions_8php =
 [
+    [ "array_col_map", "functions_8php.html#a3e7dc253ae21c346cd49af4362c5ed6c", null ],
     [ "array_columns", "functions_8php.html#a7575b8254e22eb72ceff74028c187046", null ],
     [ "array_concat", "functions_8php.html#aeb6eeb8b4ddf741866160bf6d7f1d3e6", null ],
     [ "array_flatten", "functions_8php.html#ae4d1fe884274f25d99dbf8568f780d82", null ],
