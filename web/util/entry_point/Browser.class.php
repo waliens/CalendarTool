@@ -15,6 +15,8 @@
     use ct\controllers\browser\CalendarPageController;
     use ct\controllers\browser\ProfessorProfileController;
 
+    use ct\Connection;
+
     /**
      * @class Browser
      * @brief This class must be implemented by any request handler
@@ -40,16 +42,21 @@
             else
                 $page = $_GET['page'];
 
+            $connection = Connection::get_instance();
+
             switch($page)
             {
-            case "student_profile":
-                return new StudentProfileController();
+            case "profile":
+
+                if($connection->user_is_student())
+                    return new StudentProfileController();
+                else
+                    return new ProfessorProfileController();
+
             case "static_export":
                 return new StaticExportController();
             case "private_events":
                 return new PrivateEventsController();
-            case "professor_profile":
-                return new ProfessorProfileController();
             default:
                 return new CalendarPageController();
             }
