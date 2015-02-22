@@ -8,14 +8,14 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
   <!-- Added css -->
-  <link rel="stylesheet" href="css\stylesheet.css">
+  <link rel="stylesheet" href="css/stylesheet.css">
 
   <title>MyULG Calendar Tool {if !empty($title)}- {$title}{/if}</title>
 
   <!-- Custom styles for this template -->
   {$includes}
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link rel="icon" href="img/myulg.ico">
+  <link rel="icon" href="imgs/myulg.ico">
 </head>
 
 <body>

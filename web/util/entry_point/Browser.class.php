@@ -9,8 +9,9 @@
     
     use util\superglobals\SG_Get;
 
-    use ct\controllers\browser\ProfilePageController;
-    use ct\controllers\browser\LoginPageController;
+    use ct\controllers\browser\StudentProfileController;
+    use ct\controllers\browser\StaticExportController;
+    use ct\controllers\browser\PrivateEventsController;
     use ct\controllers\browser\CalendarPageController;
 
     /**
@@ -40,10 +41,12 @@
 
             switch($page)
             {
-            case "profile":
-                return new ProfilePageController();
-            case "login":
-                return new LoginPageController();
+            case "student_profile":
+                return new StudentProfileController();
+            case "static_export":
+                return new StaticExportController();
+            case "private_events":
+                return new PrivateEventsController();
             default:
                 return new CalendarPageController();
             }
