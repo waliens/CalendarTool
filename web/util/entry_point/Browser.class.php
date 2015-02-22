@@ -13,6 +13,7 @@
     use ct\controllers\browser\StaticExportController;
     use ct\controllers\browser\PrivateEventsController;
     use ct\controllers\browser\CalendarPageController;
+    use ct\controllers\browser\ProfessorProfileController;
 
     /**
      * @class Browser
@@ -47,6 +48,8 @@
                 return new StaticExportController();
             case "private_events":
                 return new PrivateEventsController();
+            case "professor_profile":
+                return new ProfessorProfileController();
             default:
                 return new CalendarPageController();
             }
