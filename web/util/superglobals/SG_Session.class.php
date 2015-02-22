@@ -20,7 +20,7 @@
 		 */
 		public function __construct()
 		{
-			if(!ct\session_started())
+			if(!\ct\session_started())
 				session_start();
 			
 			$this->superglobal = &$_SESSION;

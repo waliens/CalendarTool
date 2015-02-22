@@ -131,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad0e21a3c98ae9f8d8f1f69cc5753bec6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6">select</a> ($table, $where_clause=null, array $column_names=null, array $order_by=null, array $group_by=null, $limit_first=null, $limit_nb=null)</td></tr>
 <tr class="memdesc:ad0e21a3c98ae9f8d8f1f69cc5753bec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a select query to the database.  <a href="#ad0e21a3c98ae9f8d8f1f69cc5753bec6">More...</a><br/></td></tr>
 <tr class="separator:ad0e21a3c98ae9f8d8f1f69cc5753bec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63a959b340077023870b5bcd4f5c568"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568">select_one</a> ($table, $where_clause, array $column_names=null, array $order_by=null, array $group_by=null, $limit_first=null, $limit_nb=null)</td></tr>
+<tr class="memdesc:ae63a959b340077023870b5bcd4f5c568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending a select query to the database and extracting only the first result.  <a href="#ae63a959b340077023870b5bcd4f5c568">More...</a><br/></td></tr>
+<tr class="separator:ae63a959b340077023870b5bcd4f5c568"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9ae41c429f484035137903685ace34e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ae9ae41c429f484035137903685ace34e">insert</a> ($table, array $column_value_map)</td></tr>
 <tr class="memdesc:ae9ae41c429f484035137903685ace34e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for sending an insert query to the database.  <a href="#ae9ae41c429f484035137903685ace34e">More...</a><br/></td></tr>
 <tr class="separator:ae9ae41c429f484035137903685ace34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,9 +197,13 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:abebc05efc87154ccedcec67bcafc2a56"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#abebc05efc87154ccedcec67bcafc2a56">DUMP_MODE_DUMP_ALL</a> = 1</td></tr>
+<tr class="memitem:abebc05efc87154ccedcec67bcafc2a56"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abebc05efc87154ccedcec67bcafc2a56"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#abebc05efc87154ccedcec67bcafc2a56">DUMP_MODE_DUMP_ALL</a> = 1</td></tr>
+<tr class="memdesc:abebc05efc87154ccedcec67bcafc2a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">For dumping all queries to the screen. <br/></td></tr>
 <tr class="separator:abebc05efc87154ccedcec67bcafc2a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f5010c658108d96a322924dee3b9fe4"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a6f5010c658108d96a322924dee3b9fe4">DUMP_MODE_NO_DUMP</a> = 2</td></tr>
+<tr class="memitem:a6f5010c658108d96a322924dee3b9fe4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f5010c658108d96a322924dee3b9fe4"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a6f5010c658108d96a322924dee3b9fe4">DUMP_MODE_NO_DUMP</a> = 2</td></tr>
+<tr class="memdesc:a6f5010c658108d96a322924dee3b9fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">For never dumping any query. <br/></td></tr>
 <tr class="separator:a6f5010c658108d96a322924dee3b9fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
@@ -985,6 +992,85 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae63a959b340077023870b5bcd4f5c568"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">select_one </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$where_clause</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$column_names</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$order_by</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$group_by</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$limit_first</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$limit_nb</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Method for sending a select query to the database and extracting only the first result. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$table</td><td>The table name </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$where_clause</td><td>A string containing the where clause </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$column_names</td><td>The names of the colmuns to select (array of strings). null means "*" </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$order_by</td><td>The names of the columns on which the results must be sorted (array of strings). null means no sorting. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$group_by</td><td>The names of the columns on which the results must be grouped (array of strings). null means no grouping. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$limit_first</td><td>The number of the first row to display </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$limit_nb</td><td>The number of rows to extract</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array|bool</td><td>The row extracted from the query result (mapping the column names with the value), an empty array if there was no result or false on error. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The parameters must be correctly escaped </dd>
+<dd>
+If an error occurs, the error code and description can be obtained from the <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a0cb70bee2a022b5feb36b17f6da8d5c9" title="Returns the last error&#39;s code. ">error_code()</a> and <a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#ac8f7e84858176aa9327fdf8e63bc05ed" title="Returns the last error&#39;s description. ">error_info()</a> methods </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a8dc0c0e58a3e2d53d8fa1be24988e958"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1003,8 +1089,8 @@ Protected Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">$dump_mode</td><td>Must be one of the following class constant :<ul>
-<li><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#abebc05efc87154ccedcec67bcafc2a56">SQLAbstract::DUMP_MODE_DUMP_ALL</a> : dump every query to the screen</li>
-<li><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a6f5010c658108d96a322924dee3b9fe4">SQLAbstract::DUMP_MODE_NO_DUMP</a> : never dump any query to the screen </li>
+<li><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#abebc05efc87154ccedcec67bcafc2a56" title="For dumping all queries to the screen. ">SQLAbstract::DUMP_MODE_DUMP_ALL</a> : dump every query to the screen</li>
+<li><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html#a6f5010c658108d96a322924dee3b9fe4" title="For never dumping any query. ">SQLAbstract::DUMP_MODE_NO_DUMP</a> : never dump any query to the screen </li>
 </ul>
 </td></tr>
   </table>
@@ -1125,33 +1211,6 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Field Documentation</h2>
-<a class="anchor" id="abebc05efc87154ccedcec67bcafc2a56"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const DUMP_MODE_DUMP_ALL = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>For dumping all queries to the screen </p>
-
-</div>
-</div>
-<a class="anchor" id="a6f5010c658108d96a322924dee3b9fe4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const DUMP_MODE_NO_DUMP = 2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>For never dumping any query </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Documents/BitBucket/CalendarTool/web/util/database/<a class="el" href="_s_q_l_abstract_8class_8php.html">SQLAbstract.class.php</a></li>
 </ul>
@@ -1161,7 +1220,7 @@ Protected Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>database</b></li><li class="navelem"><a class="el" href="classutil_1_1database_1_1_s_q_l_abstract.html">SQLAbstract</a></li>
-    <li class="footer">Generated on Wed Feb 4 2015 10:24:59 for CalendarTool by
+    <li class="footer">Generated on Sun Feb 22 2015 14:48:20 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

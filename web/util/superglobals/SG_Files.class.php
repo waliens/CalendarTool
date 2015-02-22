@@ -49,8 +49,73 @@
 			if(!$this->check_upload($key))
 				return false;
 
-			if(is_null($name)) $name = $this->value($key)['name'];
+			if(is_null($name)) $name = $this->name($key);
 			
-			move_uploaded_file($this->value($key)['tmp_name'], $dest."/".$name);
+			move_uploaded_file($this->tmp_name($key), $dest."/".$name);
+		}
+
+
+		/**
+		 * @brief Get the value of the field 'type'
+		 * @param[in] string $key The key identifying the element in the $_FILES superglobal
+		 * @retval string The field, false on error
+		 */	
+		public function mime_type($key)
+		{
+			return $this->get_field($key, 'type');
+		}
+
+		/**
+		 * @brief Get the value of the field 'tmp_name'
+		 * @param[in] string $key The key identifying the element in the $_FILES superglobal
+		 * @retval string The field, false on error
+		 */
+		public function tmp_name($key)
+		{
+			return $this->get_field($key, 'tmp_name');
+		}
+
+		/**
+		 * @brief Get the value of the field 'error'
+		 * @param[in] string $key The key identifying the element in the $_FILES superglobal
+		 * @retval string The field, false on error
+		 */
+		public function error($key)
+		{
+			return $this->get_field($key, 'error');
+		}
+
+		/**
+		 * @brief Get the value of the field 'name'
+		 * @param[in] string $key The key identifying the element in the $_FILES superglobal
+		 * @retval string The field, false on error
+		 */
+		public function name($key)
+		{
+			return $this->get_field($key, 'name');
+		}
+
+		/**
+		 * @brief Get the value of the field 'size'
+		 * @param[in] string $key The key identifying the element in the $_FILES superglobal
+		 * @retval string The field, false on error
+		 */
+		public function size($key)
+		{
+			return $this->get_field($key, 'size');
+		}
+
+		/**
+		 * @brief Get the value of the field for the given key in the $_FILES array
+		 * @param[in] string $key   The key identifying the element in the $_FILES superglobal
+		 * @param[in] string $field The field to get
+		 * @retval string The field, false on error
+		 */
+		private function get_field($key, $field)
+		{
+			if(!$this->check($key, Superglobal::CHK_ISSET))
+				return false;
+
+			return $_FILES[$key][$field];
 		}
 	}

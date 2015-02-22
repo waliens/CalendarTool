@@ -1,0 +1,28 @@
+
+	// create_user (existing or not) : var_dump($user_mod->create_user($connection->user_ulg_id()));
+	// var_dump($sql_abs->select("ulg_course_team_member", "Id_ULg_Fac_Staff = ".$sql_abs->quote($connection->user_ulg_id())));
+	
+	// create global event (existing or not) : var_dump($gb_mod->create_global_event('INFO2009-2'));
+	$id_data = array("ulg_id" => 'INFO2009-2', 'year' => 2014);
+	var_dump($id_data);
+
+	// check for an event (existing or non existing) : ok
+	//var_dump($gb_mod->global_event_exists($id_data['ulg_id'], $id_data['year']));
+	//var_dump($gb_mod->global_event_exists($id_data['ulg_id'], 2013));
+
+	// get global event data : all get_* functions works
+	//var_dump($gb_mod->get_global_event($id_data));
+	//var_dump($gb_mod->get_global_event_files($id_data));
+	//var_dump($gb_mod->get_global_event_pathways($id_data));
+	//var_dump($gb_mod->get_subscribed_student($id_data));
+	//var_dump($gb_mod->get_teaching_team($id_data));
+	//var_dump($gb_mod->get_whole_global_event($id_data));
+
+	// delete event : works
+	// var_dump($gb_mod->delete_global_event($id_data));
+	
+	// update global event with language or not
+	// var_dump($gb_mod->update_global_event_non_ulg_data($id_data, array("feedback" => "Feedback", "desc" => "Cours de C", "lang" => 'FR')));
+
+	//var_dump($gb_mod->create_global_event('INFO2047-1'));
+	//var_dump($user_mod->create_user('s114310'));
