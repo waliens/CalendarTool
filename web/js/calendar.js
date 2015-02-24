@@ -11,6 +11,7 @@ var year = today.getFullYear();
 var minutes = today.getMinutes();
 var hours = today.getHours();
 var calendar_data;
+var edit_existing_event=false;
 //vars to handle the definition of event notes
 var edit_existing_note=false;
 var existing_note_content;
@@ -25,6 +26,8 @@ var event_recursive=false;
 var datepicker = {"existing_event":0,"private_event":0};
 var existing_event_datepicker;
 var new_event_datepicker;
+//holds the private event on click in case of update of its data
+var private_event;
 
 //update the navbar
 $("#navbar li").removeClass("active");
@@ -99,6 +102,7 @@ $(document).ready(function() {
 			var event_private=calEvent.private;
 			//check event type to call proper modal
 			if(event_private){
+				private_event=calEvent;
 				//set recursion var
 				if(calEvent.recursive)
 					event_recursive=true;
@@ -109,51 +113,48 @@ $(document).ready(function() {
 			else{
 				$("#event_info").modal("show");
 				populate_public_event(calEvent);
+				//check if it's an all day event
+				if(calEvent.allDay){
+					event_all_day=true;
+					$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY'));
+					//check if there's an end date
+					if(calEvent.end){
+						$("#endDate").text(calEvent.end.format('dddd DD MMM YYYY'));
+						$("#endDate").removeClass("hidden");
+						$("#endDate_label").removeClass("hidden");
+						$("#startDate_label").removeClass("hidden");
+					}
+					else {
+						$("#endDate").addClass("hidden");
+						$("#endDate_label").addClass("hidden");
+						$("#startDate_label").addClass("hidden");
+					}
 				}
-			//check if it's an all day event
-			if(calEvent.allDay){
-				event_all_day=true;
-				$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY'));
-				//check if there's an end date
-				if(calEvent.end){
-					$("#endDate").text(calEvent.end.format('dddd DD MMM YYYY'));
+				else {
+					event_all_day=false;
+					$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.start.format("HH:mm"));
+					$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
 					$("#endDate").removeClass("hidden");
 					$("#endDate_label").removeClass("hidden");
 					$("#startDate_label").removeClass("hidden");
 				}
-				else {
-					$("#endDate").addClass("hidden");
-					$("#endDate_label").addClass("hidden");
-					$("#startDate_label").addClass("hidden");
-				}
-			}
-			else {
-				event_all_day=false;
-				$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.start.format("HH:mm"));
-				$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
-				$("#endDate").removeClass("hidden");
-				$("#endDate_label").removeClass("hidden");
-				$("#startDate_label").removeClass("hidden");
-			}
-			//populate place,prof and details
-			$("#event_place").text(calEvent.place);
-			//if the event is private there's no need to show the owner so we hide the corresponding table row
-			if(calEvent.owner){
+				//populate place,prof and details
+				$("#event_place").text(calEvent.place);
 				$("#event_owner").text(calEvent.owner);
 				$("#event_owner").parent().parent().removeClass("hidden");
-			}
-			else $("#event_owner").parent().parent().addClass("hidden");
-			$("#event_details").text(calEvent.details);
-			//check if the event has notes or not
-			if(calEvent.notes){
-				$("#add_notes").addClass("hidden");
-				$("#notes").removeClass("hidden");
-				$("#notes_body").text(calEvent.notes);
-			}
-			else{
-				$("#add_notes").removeClass('hidden');
-				$("#notes").addClass("hidden");
+				$("#event_details").text(calEvent.details);
+				//check if the event has notes or not
+				if(calEvent.notes){
+					$("#add_notes").addClass("hidden");
+					$("#notes").removeClass("hidden");
+					$("#notes_body").text(calEvent.notes);
 				}
+				else{
+					$("#add_notes").removeClass('hidden');
+					$("#notes").addClass("hidden");
+					}
+				}
+			
 		},
 		
 		//handle clicks within the calendar
@@ -166,8 +167,10 @@ $(document).ready(function() {
 			$("#private_event_place").prop("disabled",false);
 			$("#recurrence_btn").prop("disabled",false);
 			$("#private_event_details").prop("disabled",false);
+			$("#private_event_startHour").prop("disabled",false);
+			$("#private_event_endHour").prop("disabled",false);
 			$("#private_notes_body").prop("disabled",false);
-			$("#new_event_btns").removeClass("hidden");
+			$("#edit_event_btns").removeClass("hidden");
 			$("#private_event").modal("show");
 	
 		},
@@ -267,26 +270,30 @@ function edit_note(){
 //edit event info	
 function edit_private_event(){
 	if(!$("#edit_private_event .edit").attr("disabled")){
+		edit_existing_event=true;
 		//prevent the modal to hide before we either confirm the new note or we abort
 		$(".modal-backdrop").off("click");
 		//prevent the button from being pressed again
 		$("#edit_private_event .edit").attr("disabled",true);
 		//make all event info editable
-		$("#event_place").prop('contenteditable',"true");
-		$("#event_place").addClass("box");
-		$("#event_details").prop('contenteditable',"true");
-		$("#event_details").addClass("box");
-		//save current event info
-		event_date_start=$("#startDate").text();
-		event_date_end=$("#endDate").text();
-		event_place=$("#event_place").text();
-		event_details=$("#event_details").text();
-		//build the date picker element
-		$("#startDate").html('<p><input id="startDate_datepicker" onclick="setSens(\'endDate_datepicker\', \'max\', \'existing_event\');" readonly="true"><label class="common_text margin-left-10">Commence</label></p>');
-		$("#endDate").html('<p><input id="endDate_datepicker" onclick="setSens(\'startDate_datepicker\', \'min\',\'existing_event\');" readonly=true"><label class="common_text margin-left-10">Se termine</label></p><p>Jour entier?<input type="checkbox" id="entire_day_checkbox" onclick="entire_day("existing_event_datepicker")"></p>');
-		buildDatePicker("existing_event");
-		//display save, abort buttons
+		$("#private_event_title").prop("disabled",false);
+		$("#private_event_startDate_datepicker").prop("disabled",false);
+		$("#private_event_startHour").prop("disabled",false);
+		$("#private_event_startHour").removeClass("hidden");
+		$("#private_event_endDate").parent().removeClass("hidden");
+		$("#private_event_endDate_datepicker").prop("disabled",false);
+		$("#private_event_endDate_datepicker").removeClass("hidden");
+		$("#private_event_endHour").prop("disabled",false);
+		$("#private_event_endHour").removeClass("hidden");
+		$("#private_event_place").prop("disabled",false);
+		$("#private_event_place").removeClass("hidden");
+		$("#private_event_details").prop("disabled",false);
+		$("#private_event_details").removeClass("hidden");
+		$("#recurrence_btn").prop("disabled",false);
+		$("#private_notes_body").prop("disabled",false);
+		$("#private_notes_body").parent().parent().removeClass("hidden");
 		$("#edit_event_btns").removeClass("hidden");
+		$("#edit_event_btns .btn-primary").prop("disabled",false);
 	}
 }
 	
@@ -310,25 +317,6 @@ function abort_edit_event(){
 	$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
 	}
 	
-//confirm edit event
-function confirm_edit_event(){
-	//bind edit button to handler
-	$("#edit_private_event .edit").attr("disabled",false);
-	//make all event info non editable
-	$("#event_place").prop('contenteditable',"false");
-	$("#event_place").removeClass("box");
-	$("#event_details").prop('contenteditable',"false");
-	$("#event_details").removeClass("box");
-	$("#startDate").html($("#startDate_datepicker").val());
-	$("#endDate").html($("#endDate_datepicker").val());
-	//hide save, abort buttons
-	$("#edit_event_btns").addClass("hidden");
-	//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
-	$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
-	//send new data to server
-	//TODO	
-	}
-	
 //builds the object datepicker
 function buildDatePicker(option,target) {
 	//convert target date to format DD-MM-YYYY
@@ -339,21 +327,16 @@ function buildDatePicker(option,target) {
 	if(option=="existing_event"){
 		elements.push($("#startDate_datepicker"),$("#endDate_datepicker"));
 		//check how many date pickers we have to initialize, eg. for allday events there's only one to be initialized
-		if(!$("#endDate").hasClass("hidden")){
-			datepicker["existing_event"] = new dhtmlXCalendarObject([elements[0].attr("id"),elements[1].attr("id")]);
-			//datepicker["existing_event"].setDate(convert_date(event_date_start,"DD-MM-YYYY"),convert_date(event_date_end,"DD-MM-YYYY"));
-		}
-		else {
-			datepicker["existing_event"] = new dhtmlXCalendarObject(elements[0].attr("id"));
-			//datepicker["existing_event"].setDate(convert_date(event_date_start,"DD-MM-YYYY"));
-		}
+		if(!$("#endDate").hasClass("hidden"))
+			datepicker[option] = new dhtmlXCalendarObject([elements[0].attr("id"),elements[1].attr("id")]);
+		else datepicker[option] = new dhtmlXCalendarObject(elements[0].attr("id"))
 		//set date format
-		datepicker["existing_event"].setDateFormat("%d-%m-%Y");
+		datepicker[option].setDateFormat("%d-%m-%Y");
 		byId("startDate_datepicker").value = convert_date(event_date_start,"dddd DD MMM YYYY");
 		if($("#endDate_datepicker").length>0)
 			byId("endDate_datepicker").value = convert_date(event_date_end,"dddd DD MMM YYYY");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
-		datepicker["existing_event"].attachEvent("onClick", function(date){
+		datepicker[option].attachEvent("onClick", function(date){
 			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
 			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
 		});
@@ -361,18 +344,20 @@ function buildDatePicker(option,target) {
 	//datepicker to be built for the new event panel
 	else {
 		elements.push($("#private_event_startDate_datepicker"),$("#private_event_endDate_datepicker"));
-		datepicker["private_event"] = new dhtmlXCalendarObject([elements[0].attr("id"),elements[1].attr("id")]);
+		datepicker[option] = new dhtmlXCalendarObject([elements[0].attr("id"),elements[1].attr("id")]);
 		//set date format
-		datepicker["private_event"].setDateFormat("%d-%m-%Y");
-		datepicker["private_event"].setDate(target);	
+		datepicker[option].setDateFormat("%d-%m-%Y");
+		datepicker[option].setDate(target);	
 		elements[0].val(convert_date(target,"dddd DD MMM YYYY"));
 		elements[1].val(convert_date(target,"dddd DD MMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
-		datepicker["private_event"].attachEvent("onClick", function(date){
+		datepicker[option].attachEvent("onClick", function(date){
 			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
 			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
 		});
 	}
+	//hide the time in the datepicker tool
+	datepicker[option].hideTime();
 }
 
 //defines valid interval of dates for the date picker
@@ -470,23 +455,32 @@ function update_recurrence(recurrence){
 //enable nev event confirm button only when requierd fields are inserted
 $('#private_event_title').keyup(function () {
     if( $('#private_event_title').val().length > 0) {
-        $('#new_event_btns .btn-primary').prop("disabled", false);
+        $('#edit_event_btns .btn-primary').prop("disabled", false);
     } else {
-        $('#new_event_btns .btn-primary').prop("disabled", true);
+        $('#edit_event_btns .btn-primary').prop("disabled", true);
     }   
 });
 	
-//reset new event modal content before display
-$('#private_event').on('show.bs.modal', function (e) {
-  $("#private_event_title").val("");
+//reset new event modal content after display
+$('#private_event').on('hidden.bs.modal', function (e) {
+	edit_existing_event=false;
+	$("#private_event_title").val("");
 	$("#private_event_startHour").val("");
+	$("#private_event_startHour").parent().parent().removeClass("hidden");
+	$("#private_event_startHour").removeClass("hidden");
 	$("#private_event_endHour").val("");
+	$("#private_event_endHour").parent().parent().removeClass("hidden");
+	$("#private_event_endHour").removeClass("hidden");
 	$("#recurrence").text("jamais");
 	$("#private_event_place").val("");
+	$("#private_event_place").parent().parent().removeClass("hidden");
 	$("#private_event_details").val("");
+	$("#private_event_details").parent().parent().removeClass("hidden");
+	$("#private_notes_body").parent().parent().removeClass("hidden");
 	$("#private_notes_body").val("");
-	$("#new_event_btns").removeClass("hidden");
-	$('#new_event_btns .btn-primary').prop("disabled", true);
+	$("#edit_event_btns").addClass("hidden");
+	$('#edit_event_btns .btn-primary').prop("disabled", true);
+	$("#edit_private_event .edit").attr("disabled",false);
 })
 
 //setup timepickers of new event modal
@@ -496,8 +490,22 @@ $("#private_event_endHour").timepicker();
 //populate private event modal
 function populate_private_event(event){
 	var title=event.title;
-	var start=event.start;
-	var end=event.end;
+	var allDay=event.allDay;
+	var start=event.start.format("dddd DD MMM YYYY");
+	buildDatePicker("private_event",start);
+	//check if event has start hour
+	var startHour;
+	if(!allDay){
+		startHour=event.start.format("HH:mm");
+		$("#private_event_startHour").val(startHour);
+	}
+	else $("#private_event_startHour").addClass("hidden");
+	//check if the event as an end date
+	if(event.end){
+		var end=event.end.format("dddd DD MMM YYYY");
+		$("#private_event_endDate_datepicker").val(end);
+	}
+	else 	$("#private_event_endDate_datepicker").parent().parent().addClass("hidden"); 
 	var place=event.place;
 	var details=event.details;
 	var notes=event.notes;
@@ -511,16 +519,21 @@ function populate_private_event(event){
 	$("#private_event_title").prop("disabled",true);
 	$("#private_event_startDate_datepicker").val(start);
 	$("#private_event_startDate_datepicker").prop("disabled",true);
-	$("#private_event_endDate_datepicker").val(end);
+	$("#private_event_startHour").prop("disabled",true);
 	$("#private_event_endDate_datepicker").prop("disabled",true);
+	$("#private_event_endHour").prop("disabled",true);
 	$("#private_event_place").val(place);
 	$("#private_event_place").prop("disabled",true);
 	$("#private_event_details").val(details);
 	$("#private_event_details").prop("disabled",true);
-	$("#private_notes_body").val(notes);
-	$("#private_notes_body").prop("disabled",true);
+	$("#recurrence_btn").prop("disabled",true);
+	if(notes!=""){
+		$("#private_notes_body").val(notes);
+		$("#private_notes_body").prop("disabled",true);
+	}
+	else $("#private_notes_body").parent().parent().addClass("hidden");
 	//hides button used when creating a new event
-	$("#new_event_btns").addClass("hidden");
+	$("#edit_event_btns").addClass("hidden");
 	}
 	
 function populate_public_event(event){
@@ -528,9 +541,8 @@ function populate_public_event(event){
 	$("#event-title").text(event_title);
 	}
 	
-//update the calendar with the new event
+//update the calendar with the new event or confirm the edit of an existing event
 function create_private_event(){
-	
 	var title=$("#private_event_title").val();
 	var start=convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD");
 	var startHour=$("#private_event_startHour").val();
@@ -540,26 +552,57 @@ function create_private_event(){
 	var endHour=$("#private_event_endHour").val();
 	if(endHour)
 		end=end+"T"+endHour;
+	//check if the event is an allDay event
+	var allDay=false;
+	if(!startHour && !endHour)
+		allDay=true;
+	var recurrence=$("#recurrence").text();
 	var place=$("#private_event_place").val();
 	var details=$("#private_event_details").val();
 	var notes=$("#private_notes_body").val();
-	
-	$('#calendar').fullCalendar('addEventSource', {
-		events:[{
-			id: 10000, //retrive unique ID from server
-			private: true,
-			title: title,
-			start: start,
-			end: end,
-			place: place,
-			details: details,
-			notes: notes,
-			color: "#8AC007",
-			editable: true
-			}]
-		} 
-	)
-	
+	//check if we are adding a new private event
+	if(!edit_existing_event){
+		$('#calendar').fullCalendar('addEventSource', {
+			events:[{
+				id: guid(), //retrive unique ID from server
+				private: true,
+				title: title,
+				start: start,
+				end: end,
+				allDay: allDay,
+				place: place,
+				details: details,
+				notes: notes,
+				color: "#8AC007",
+				editable: true
+				}]
+			} 
+		)
+	}
+	//otherwise we are editing an existing one
+	else{
+		private_event.title=title;
+		private_event.start=start;
+		private_event.end=end;
+		private_event.place=place;
+		private_event.details=details;
+		private_event.notes=notes;
+		private_event.allDay=allDay;
+		private_event.recurrence=recurrence;
+		$('#calendar').fullCalendar('updateEvent', private_event);
+		}
 	//hide the modal
 	$("#private_event").modal("hide");
+	
+}
+
+//generate unique id for new private events
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
 }

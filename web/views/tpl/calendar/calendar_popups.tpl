@@ -51,15 +51,11 @@
           </tr>
         </table>
       </div>
-      <div class='modal-footer text-center hidden' id='edit_event_btns'>
-        <button type='button' class='btn btn-primary' onclick='confirm_edit_event()'>Confirmer</button>
-        <button type='button' class='btn btn-default' onclick='abort_edit_event()'>Annuler</button>
-      </div>
     </div>
   </div>
 </div>
 
-<!-- CREATE PRIVATE EVENT ALERT -->
+<!-- PRIVATE EVENT ALERT -->
 <div class="modal fade" id="private_event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -92,7 +88,7 @@
                 <tr>
                   <td class="width-80 text-underline">Se termine</td>
                   <td id="private_event_endDate"><label for="private_event_endDate_datepicker" class="sr-only">Se termine</label>
-                    <input class="marging-10-0" id="private_event_endDate_datepicker" onclick="setSens('private_event_startDate_datepicker', 'min','new_event');"><label for="private_event_endHour" class="sr-only">Se termine Heure</label>
+                    <input class="marging-10-0" id="private_event_endDate_datepicker" onclick="setSens('private_event_startDate_datepicker', 'min','private_event');"><label for="private_event_endHour" class="sr-only">Se termine Heure</label>
                     <input class="marging-10-0" id="private_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
                 </tr>
               </table></td>
@@ -137,7 +133,7 @@
               <input class="form-control" id="private_notes_body" placeholder="Notes de l'événement"></td>
           </tr>
           <tr>
-          <td colspan="2"><div class='text-center' id='new_event_btns'>
+          <td colspan="2"><div class='text-center' id='edit_event_btns'>
           <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="create_private_event();">Confirmer</button>
           <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
         </div></td></tr>
