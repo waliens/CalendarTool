@@ -243,7 +243,7 @@
 			// post request
 			$request_data = array("Id_Event" => $data['event'], 
 								  "Id_Sender" => $data['sender'],
-								  "Description" => $data['description'],
+								  "Description" => $this->filter->f($data['description']),
 								  "Status" => self::STATUS_SENT);
 
 			$success = true; // true if no error occurred

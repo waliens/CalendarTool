@@ -65,7 +65,8 @@
 			if(!$this->sg_file->check_upload($spf_key))
 				return 0;
 
-			$name = $this->sg_file->name($spf_key); 
+			$name = $this->filter->f($this->sg_file->name($spf_key), "filename"); 
+
 			if(!preg_match("#^.+\.[a-z]+$#", $name))
 				$name .= ".".$this->extract_extension_from_mime($spf_key);
 
@@ -103,7 +104,7 @@
 
 			$file = $this->sql->select_one("file", "Id_File = ".$this->sql->quote($fid));
 
-			$new_name = \basename($new_path);
+			$new_name = $this->filter->f(\basename($new_path), "filename");
 
 			// check extension 
 			if($this->extract_extension($file['Name']) !== $this->extract_extension($new_name))

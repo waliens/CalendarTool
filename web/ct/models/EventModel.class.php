@@ -177,7 +177,7 @@
 			$success = $this->delete_time_type($event);
 
 			// insert the new deadline data
-			$insert_date = array("Id_Event" => $target['event'], "Limit" => $target['proposition']);
+			$insert_date = array("Id_Event" => $event, "Limit" => $datetime);
 			$success &= $this->sql->insert("deadline_event", $this->quote_all($insert_date));
 		}
 
