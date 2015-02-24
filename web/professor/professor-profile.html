@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- Added css -->
+<link rel="stylesheet" href="../css/stylesheet.css">
+
+<!-- Custom styles for this template -->
+<link href="../css/jumbotron.css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" href="../imgs/myulg.ico">
+<title>MyULG Calendar Tool</title>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#">Calendrier</a></li>
+        <li class="active"><a href="#profile">Profile</a></li>
+        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Export statique</a></li>
+            <li><a href="#">Export dynamique</a></li>
+            <li class="divider"></li>
+            <li><a href="#">&Eacute;venements privés</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Déconnexion</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!--/.nav-collapse --> 
+  </div>
+</nav>
+<div class="container marg-top-40">
+  <div class="panel panel-primary width-70 center marg-bot-40">
+    <div class="panel-heading">
+      <h3 class="panel-title text-center">Profile</h3>
+    </div>
+    <div class="panel-body">
+      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Professeur</span></p>
+      <p><span class="text-info text-bold">Nom: </span><span id="user-name"><!--USERNAME--></span></p>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Cours</a></h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <table class="table" id="global_events">
+        <tr class="text-bold">
+          <td class="min-width-90">Course ID</td>
+          <td>Title</td>
+          <td class="width-30">Modifier</td>
+          <td class="width-30">Supprimer</td>
+        </tr>
+        <!--FILLED BY AJAX WITH COURSES LIST-->
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Événements indépendants</a> </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <table class="table" id="independent-events">
+        <tr class="text-bold">
+          <td>Title</td>
+          <td class="width-30">Modifier</td>
+          <td class="width-30">Supprimer</td>
+        </tr>
+        <!--FILLED BY AJAX WITH LIST INDEPENDENT EVENTS-->
+      </table>
+    </div>
+  </div>
+</div>
+<!-- /.container -->
+
+<div id="footer"> Copyright &copy; <script>document.write(new Date().getFullYear())</script> SEGI - Université de Liège </div>
+
+<!-- Delete Global Event Alert -->
+<div class="modal fade" id="delete_global_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Supprimer le cours</h4>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir supprimer le cours <span name="global_course_deleted" class="text-bold"></span>? Le texte suivant sera envoyé à tous les étudiants actuellement inscrits à l'événement.</p>
+        <div contenteditable="true" class="box"> Le cours <span name="global_course_deleted"></span> a été supprimé. </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Independent Event Alert -->
+<div class="modal fade" id="delete_indep_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Supprimer l'événement indépendant</h4>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir supprimer l'événement <span name="indep_event_deleted" class="text-bold"></span>? Le texte suivant sera envoyé à tous les étudiants actuellement inscrits à l'événement.</p>
+        <div contenteditable="true" class="box"> L'événement <span name="indep_event_deleted"></span> a été supprimé. </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Sauver</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Event Info -->
+<div class="modal fade" id="event_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="event-title"><!--EVENT TITLE--></h4>
+    </div>
+    <div class="modal-body">
+      <div class="panel-group width-70 center" id="accordion-global-event" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-global-event" href="#global-event-info" aria-expanded="true" aria-controls="global-event-info">Info</a></h4>
+          </div>
+          <div id="global-event-info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <table class="table" id="global_events">
+              <tr>
+                <td class="text-bold">Détails</td>
+                <td id="event-details"></td>
+              </tr>
+              <tr>
+                <td class="text-bold">Langue</td>
+                <td id="event-lang"></td>
+              </tr>
+              <tr>
+                <td class="text-bold">Travail</td>
+                <td id="event-work"></td>
+              </tr>
+              <tr>
+                <td class="text-bold">Quand</td>
+                <td id="event-period"></td>
+              </tr>
+              <tr>
+                <td class="text-bold">Pathway</td>
+                <td id="event-pathway"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info" aria-expanded="false" aria-controls="subevents_info">Sousévénements</a> </h4>
+          </div>
+          <div id="subevents_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+              <!--FILLED BY AJAX WITH LIST SUBEVENTS-->
+          </div>
+        </div>
+         <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#event_team" aria-expanded="false" aria-controls="event_team">Équipe</a> </h4>
+          </div>
+          <div id="event_team" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+              <!--FILLED BY AJAX WITH LIST EVENT TEAM-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SubEvent Panel -->
+<div class="modal fade" id="subevent_panel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="subevent_title"><!--SUBEVENT TITLE--></h4>
+      </div>
+      <div class="modal-body" id="subevent_panel_body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+    ================================================== --> 
+<!-- Placed at the end of the document so the pages load faster --> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+<!-- Latest compiled and minified JavaScript --> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
+<!-- added js --> 
+<script src="../js/professor_profile.js"></script>
+</body>
+</html>

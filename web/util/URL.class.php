@@ -15,17 +15,17 @@
 	 */
 	class URL
 	{
-		protected $params; /**< Array mapping parameters name and value */
-		protected $ressource; /**< the ressource path */
-		protected $protocol; /**< the protocol */
-		protected $domain; /**< the domain name/ip */
+		protected $params; /**< @brief Array mapping parameters name and value */
+		protected $ressource; /**< @brief the ressource path */
+		protected $protocol; /**< @brief the protocol */
+		protected $domain; /**< @brief the domain name/ip */
 
-		const PROTOCOL_HTTP = "http"; /**< URL protocol : HTTP */
-		const PROTOCOL_HTTPS = "https"; /**< URL protocol : HTTPS */
-		const PROTOCOL_FTP = "ftp"; /**< URL protocol : FTP */
-		const PROTOCOL_SFTP = "sftp"; /**< URL protocol : SFTP */
-		const PROTOCOL_SVN = "svn"; /**< URL protocol : SVN */
-		const PROTOCOL_NONE = "none"; /**< URL protocol : no protocol */
+		const PROTOCOL_HTTP = "http"; /**< @brief URL protocol : HTTP */
+		const PROTOCOL_HTTPS = "https"; /**< @brief URL protocol : HTTPS */
+		const PROTOCOL_FTP = "ftp"; /**< @brief URL protocol : FTP */
+		const PROTOCOL_SFTP = "sftp"; /**< @brief URL protocol : SFTP */
+		const PROTOCOL_SVN = "svn"; /**< @brief URL protocol : SVN */
+		const PROTOCOL_NONE = "none"; /**< @brief URL protocol : no protocol */
 
 		/**
 		 * @brief Adds a param and its value to the current 

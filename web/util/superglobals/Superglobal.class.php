@@ -32,7 +32,7 @@
 		const CHK_ALL = 7; /**< @brief Perform the isset|trim|empty check */
 
 		// data members
-		protected $superglobal; /**< A reference to the superglobal array */
+		protected $superglobal; /**< @brief A reference to the superglobal array */
 
 		/**
 		 * @brief Perform a check on the given key in the superglobal

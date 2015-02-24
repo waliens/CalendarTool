@@ -10,10 +10,10 @@
   <!-- Added css -->
   <link rel="stylesheet" href="css\stylesheet.css">
 
-  <title>MyULG Calendar Tool {$title}</title>
+  <title>MyULG Calendar Tool {if !empty($title)}- {$title}{/if}</title>
 
   <!-- Custom styles for this template -->
-  <link href="css\jumbotron.css" rel="stylesheet">
+  {$includes}
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="icon" href="img/myulg.ico">
 </head>

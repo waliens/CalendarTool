@@ -7,17 +7,45 @@
 
     namespace util\entry_point;
     
+    use util\superglobals\SG_Get;
+
+    use ct\controllers\browser\ProfilePageController;
+    use ct\controllers\browser\LoginPageController;
+    use ct\controllers\browser\CalendarPageController;
+
     /**
      * @class Browser
      * @brief This class must be implemented by any request handler
      */
     class Browser implements EntryPoint
     {
+        private $spg_get; 
+        /**
+         * @brief Construct the Browser EntryPoint object
+         */
+        public function __construct()
+        {
+            $this->spg_get = new SG_Get();
+        }
+
         /**
          * @copydoc EntryPoint::get_controller
          */
         public function get_controller()
         {
+            if($this->spg_get->check("page") < 0)
+                $page = "";
+            else
+                $page = $_GET['page'];
 
+            switch($page)
+            {
+            case "profile":
+                return new ProfilePageController();
+            case "login":
+                return new LoginPageController();
+            default:
+                return new CalendarPageController();
+            }
         }
     };

@@ -11,7 +11,7 @@
 	 * @class BrowserController
 	 * @brief A base class for any controller that is made for handling requests from the browser
 	 */
-	abstract class BrowserController
+	abstract class BrowserController extends Controller
 	{
 		/**
 		 * @brief Construct the BrowserController object
@@ -35,8 +35,41 @@
 		 */
 		protected function get_starter()
 		{
-			$this->smarty->assign("title", "");
+			$includes = $this->get_includes();
+			$this->smarty->assign("title", $this->get_title());
+			$this->smarty->assign("includes", $includes);
 			return $this->smarty->fetch("starter.tpl");
+		}
+
+
+		/**
+		 * @brief Return as a string the html code of the popups frame to add to the page footer
+		 * @retval string The html code of the popups
+		 * @note Re-implement this function for adding some popups to a page
+		 */
+		protected function get_popups()
+		{
+			return "";
+		}
+
+		/**
+		 * @brief Return as a string the html code of the includes frame to add to the page starter
+		 * @retval string The html code of the popups
+		 * @note Re-implement this functon for adding some includes to a page
+		 */
+		protected function get_includes()
+		{
+			return $this->smarty->fetch("includes_default.tpl");
+		}
+		
+		/**
+		 * @brief Return the additionnal title of the page 
+		 * @return string The additionnal title
+		 * @note Re-implement this function for adding an additionnal title
+		 */
+		protected function get_title()
+		{
+			return "";
 		}
 
 		/**
@@ -45,6 +78,8 @@
 		 */
 		protected function get_footer()
 		{
+			$popups = $this->get_popups();
+			$this->smarty->assign("popups", $popups);
 			return $this->smarty->fetch("footer.tpl");
 		}
 
