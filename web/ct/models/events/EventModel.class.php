@@ -5,7 +5,7 @@
 	 * @brief Event ControllerClass
 	 */
 
-	namespace ct\model;
+namespace ct\models\events;
 
 	/**
 	 * @class Event

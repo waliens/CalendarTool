@@ -1,6 +1,6 @@
 <?php
 
-namespace ct\model;
+namespace ct\models\events;
 
 /**
  * @brief Describe the SubEvents

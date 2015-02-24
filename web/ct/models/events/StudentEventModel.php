@@ -1,24 +1,24 @@
 <?php
-
-namespace ct\model;
-
+namespace ct\models\events;
 
 /**
  * @brief Describe the AcademicEvent
  * @author charybde
  *
  */
-class AcademicEventModel extends EventModel{
+class StudentEventModel extends EventModel{
 
-	private $fields_ac;
+	private $fields_st;
 	
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields, array("feedback" => "text", "workload" => "int", "practical_details" => "text"));
-		$this->fields_ac = array("Id_Event" => "int", "Feedback" => "text", "Workload" => "int", "Practical_Details" => "text");
+		$this->fields = array_merge($this->fields,  array("id_owner" => "int"));
+		$this->fields_st = array("Id_Event" => "int", "Id_Owner" => "int");
 		
-		$this->table[1] = "academic_event";
-		$this->translate = array_merge($this->translate, array("feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details"));
+		$this->translate = array_merge($this->translate,  array("id_owner" => "Id_Owner"));
+		
+		$this->table[1] = "Student_Event";
+
 	}
 
 	/**
@@ -37,13 +37,12 @@ class AcademicEventModel extends EventModel{
 			return -1;
 	
 	
-		$datas = array_intersect_key($datas, $this->fields_ac);
-	
+		$datas = array_intersect_key($datas, $this->fields_st);
 		$this->sql->insert($this->table[1], $datas);
 		$ret[1] = $this->sql->error_info();
 		return $ret;
+		
 	}
 }
-
 
 ?>
