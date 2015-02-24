@@ -25,22 +25,27 @@ class StudentEventModel extends EventModel{
 	 *
 	 * @brief Create an event and put it into the DB
 	 * @param array $data The data provide by the user after being checked by the controller
-	 * @retval -1 if an error occurs
+	 * @retval mixed true if execute correctly error_info if not
 	 */
 	public function createEvent($data){
 		$datas = $data;
-		$ret = array();
-		$ret[0] = parent::createEvent($datas);
+		$ret = parent::createEvent($datas);
 	
+		if(!is_bool($ret) || !$ret)
+			return $ret;
+		
 		$datas = $this->checkParams($data, true, true);
 		if($datas == -1)
-			return -1;
+			return false;
 	
 	
 		$datas = array_intersect_key($datas, $this->fields_st);
-		$this->sql->insert($this->table[1], $datas);
-		$ret[1] = $this->sql->error_info();
-		return $ret;
+		$a = $this->sql->insert($this->table[1], $datas);
+
+		if($a)
+			return true;
+		else
+			return $this->sql->error_info();
 		
 	}
 }

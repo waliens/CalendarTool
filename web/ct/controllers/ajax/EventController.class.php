@@ -6,7 +6,7 @@
  */
 
 namespace ct\controller;
-
+use ct;
 
 /**
  * @class Event
@@ -23,33 +23,7 @@ class Event extends Controller{
 		parent::__construct();
 	}
 	
-	/**
-	 * @brief instantiate a specific Event model according to the params
-	 * @param string $type the type of the event model
-	 * @retval an instance of $type.Model
-	 */
-	public function instantiateModel($type){
-		switch($type){
-			case "Independent":
-				return new IndependentEventModel();
-				break;
-			case "Academic":
-				return new AcademicEventModel();
-				break;
-			case "Student":
-				return new StudentEventModel();
-				break;
-			case "Sub":
-				return new SubEventModel();
-				break;
-			case "Event":
-				return new EventModel();
-				break;
-			default :
-				return -1;
-				break;
-		}
-	}
+
 	
 	/**
 	 * @brief return one or several event according to the $which criteria
@@ -74,7 +48,7 @@ class Event extends Controller{
 		if($type == null)
 			$type = "Event";
 		
-		$model = instantiateModel($type);
+		$model = instantiateEventModel($type);
 		$fields = $model->getFields();
 		
 		$badInfo = array();

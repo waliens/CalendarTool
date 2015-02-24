@@ -6,13 +6,14 @@
 	 */
 
 namespace ct\models\events;
+use ct;
+use util\database\Database;
 
 	/**
 	 * @class Event
 	 * @brief Class for getting event from D
 	 */
 
-	use util\database\Database;
 
 	class EventModel extends Model{
 			
@@ -53,7 +54,7 @@ namespace ct\models\events;
 		 * @param String $tables tables to find the event (default Event)
 		 * @param array String $infoData the data to identify the event
 		 * @param array String $requestData the requested data for the event $id (empty = all)
-		 * @retval string return the JSON representation of the event
+		 * @retval mixed an array containing the data, false if no matching
 		 */
 		protected  function getData($table, array $infoData = null, array $requestData = null){
 
@@ -82,7 +83,7 @@ namespace ct\models\events;
 		 * @param $requestedData what we want to obtain (nothing for *)
 		 * @param $infoData what we know about the event
 		 * @param $dateType the type of event concerning the date (Date|Deadline|TimeRange)
-		 * @retval Json string of the event(s) -1 if error
+		 * @retval mixed an array containing the data false otherwise
 		 */
 		public function getEvent (array $infoData = null,  array $requestedData = null, $dateType = NULL){	
 			if($infoData == null)
@@ -120,13 +121,13 @@ namespace ct\models\events;
 		 * @param array $ar Parameters array
 		 * @param boolean $ckey Check key (if not check values)
 		 * @param boolean $cintegrity Check integrity
-		 * @retval return the array without invalids params (-1 if prooblem during cintegrity)
+		 * @retval mixed return the array without invalids params (-1 if prooblem during cintegrity)
 		 */
 		protected function checkParams($ar, $ckey, $cintegrity = false){
 			if($ckey)
 				$arr = array_intersect_key($ar, $this->fields);
 			else
-				$arr = $this->array_intersect_key_val($ar, $this->fields);
+				$arr = array_intersect_key_val($ar, $this->fields);
 			
 			
 			if($cintegrity){
@@ -166,32 +167,27 @@ namespace ct\models\events;
 			return $ret;
 			
 		}
-		protected function array_intersect_key_val($array, $keyArray){ //$array est un tableau dont on cherche a savoir quelles sont les valeurs en commun avec les clés de $keyarray
-			$retval = array();
-			foreach($array as $key => $value){
-				if(array_key_exists($value, $keyArray)){
-					$retval[$key] = $value;
-				}
-			}
-			return $retval;
-		}
-		
+
 		
 		/**
 		 * 
 		 * @brief Create an event and put it into the DB
 		 * @param array $data The data provide by the user after being checked by the controller
-		 * @retval -1 if an error occurs
+		 * @retval mixed true if execute correctly error_info if not
 		 */
 		public function createEvent($data){
 
 			$datas = $this->checkParams($data, true, true);
 			if($datas == -1)
-				return -1;
+				return false;
 			
 			$datas = array_intersect_key($datas, $this->fields_event);
 
-			$this->sql->insert($this->table[0], $datas);
+			$a = $this->sql->insert($this->table[0], $datas);
+			
+			if($a)
+				return true;
+				
 			return $this->sql->error_info();
 		}
 
@@ -200,7 +196,7 @@ namespace ct\models\events;
 		 * @brief Update event(s) (specify by $from) data to the those specify by $to
 		 * @param array $from array of elements that allow us to identy target event(s)
 		 * @param array $to new data to put in the bdd 
-		 * @retval -1 if an error occurs
+		 * @retval mixed true if execute correctly error_info if not
 		 */
 		public function modifyEvent($from, $to){
 			$table = implode(" JOIN ", $this->table);
@@ -220,7 +216,9 @@ namespace ct\models\events;
 				$i++;
 			}
 			
-			$this->sql->update($table, $data, implode(" AND ", $whereClause));
+			$a = $this->sql->update($table, $data, implode(" AND ", $whereClause));
+			if($a)
+				return true;
 			return $this->sql->error_info();
 		}
 		/**
@@ -230,9 +228,10 @@ namespace ct\models\events;
 		 * @param DateTime $start the start of the event (or the deadline)
 		 * @param DateTime $end the end of the event 
 		 * @param boolean $update if it's already set to an other value
-		 * @retval SQL_abstract return code
+		 * @retval mixed true if execute correctly error_info if not
 		 */
 		public function setDate($id, $type, $start, $end = NULL, $update = false){
+			$a = false;
 			switch($type){
 				case "Date":
 					$data = array();
@@ -255,21 +254,28 @@ namespace ct\models\events;
 					$table = "time_range_event";
 					break;
 				default:
-					return -1;
+					return false;
 					break;	
 			}
 			if($update){
 				if(!is_int($id))
 					return -1;
-				$this->sql->update($table, $data, "Id_Event=".$id);
+				$a = $this->sql->update($table, $data, "Id_Event=".$id);
 
 			}
 			else
-				$this->sql->insert($table, $data);
+				$a = $this->sql->insert($table, $data);
 			
+			if($a)
+				return true;
 			return $this->sql->error_info();
 		}
-	
+	/**
+	 * @brief get an array of event from an array of id
+	 * @param array $ids an array containing the differents ids
+	 * @param string $dateType the type of the date that the event have
+	 * @retval mixed array of data (false if error)
+	 */
 		public function getEventFromIds($ids = null, $dateType = null){
 			if($ids == null)
 				$ids = array();
@@ -501,4 +507,32 @@ namespace ct\models\events;
 			$success &= $this->sql->delete("deadline_event", "Id_Event = ".$quoted_event);
 			return $success;
 		}
+		
+		/**
+		 * @brief get an annotation for the given student/event couple
+		 * @param int $eventId The event id
+		 * @param int $userId The user id 
+		 * @retval the annotation or false if empty
+		 */
+		public function get_annotation($eventId, $userId) {}
+		
+		/**
+		 * @brief set an annotation for the given student/event couple
+		 * @param int $eventId The event id
+		 * @param int $userId The user id
+		 * @param bool $update true if we have to perform an update false (by default)  if insert
+		 * @retval true if everything go perfectly false if not
+		 */
+		public function set_annotation($eventId, $userId, $update) {
+		}
+		
+		/**
+		 * @brief delete an annotation for the given student/event couple
+		 * @param int $eventId The event id
+		 * @param int $userId The user id
+		 * @param bool $update true if we have to perform an update false (by default)  if insert
+		 * @retval true if everything go perfectly false if not
+		 */
+		public function delete_annotation($eventId, $userId){}
+		
 	}

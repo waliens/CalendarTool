@@ -25,25 +25,54 @@ class AcademicEventModel extends EventModel{
 	 *
 	 * @brief Create an event and put it into the DB
 	 * @param array $data The data provide by the user after being checked by the controller
-	 * @retval -1 if an error occurs
+	 * @retval mixed true if execute correctly error_info if not
 	 */
 	public function createEvent($data){
 		$datas = $data;
-		$ret = array();
-		$ret[0] = parent::createEvent($datas);
+		$ret = parent::createEvent($datas);
 	
+		if(!is_bool($ret) || !$ret)
+			return $ret;
+			
 		$datas = $this->checkParams($data, true, true);
 		if($datas == -1)
-			return -1;
+			return false;
 	
 	
 		$datas = array_intersect_key($datas, $this->fields_ac);
 	
-		$this->sql->insert($this->table[1], $datas);
-		$ret[1] = $this->sql->error_info();
-		return $ret;
+		$a = $this->sql->insert($this->table[1], $datas);
+
+		if($a)
+			return true;
+		else
+			return $this->sql->error_info();
 	}
+	
+	/**
+	 * @brief upload a file to the server and link it to the envent
+	 * @param FILE $file
+	 * @retval bool true if everything ok
+	 */
+	public function upload_file($file){}
+	
+	/**
+	 * @brief delete a file from the server
+	 * @param int $id
+	 * @retval bool true if everything ok
+	 */
+	public function delete_file($id) {}
+
+	/**
+	 * @brief return the different pathway in which the event is involved
+	 * @param int $eventId the id of the event
+	 * @retval mixed the differents pathways or false if not
+	 */
+	public function get_pathways($eventId) {}
+	
+	
 }
+
 
 
 ?>
