@@ -194,7 +194,7 @@
 
 			$_SESSION['root_id'] = $this->root_mod->get_root_id($root_login, $root_pass);
 
-			return true;
+			return session_regenerate_id(true); // renew session id to avoid session fixation attacks
 		}
 
 		/**
@@ -215,5 +215,6 @@
 		public function disconnect_root()
 		{
 			unset($_SESSION['root_id']);
+			session_regenerate_id(true); // regenerate id to avoid session fixation
 		}
 	}
