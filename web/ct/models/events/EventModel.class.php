@@ -6,8 +6,9 @@
 	 */
 
 namespace ct\models\events;
-use ct;
+use util\mvc\Model;
 use util\database\Database;
+
 
 	/**
 	 * @class Event
@@ -127,7 +128,7 @@ use util\database\Database;
 			if($ckey)
 				$arr = array_intersect_key($ar, $this->fields);
 			else
-				$arr = array_intersect_key_val($ar, $this->fields);
+				$arr = $this->array_intersect_key_val($ar, $this->fields);
 			
 			
 			if($cintegrity){
@@ -512,18 +513,40 @@ use util\database\Database;
 		 * @brief get an annotation for the given student/event couple
 		 * @param int $eventId The event id
 		 * @param int $userId The user id 
-		 * @retval the annotation or false if empty
+		 * @retval mixed the annotation or false if empty
 		 */
-		public function get_annotation($eventId, $userId) {}
+		public function get_annotation($eventId, $userId) {
+			if(is_int($eventId) && is_int($userId)){
+				$data = $this->sql->select("event_annotation", "Id_Event = ".$eventId." AND Id_Student =".$userId, array("Annotation"));
+				if(isset($data[0]["Annotation"]))
+					return $data[0]['Annotation'];
+			}
+			return false;
+		}
 		
 		/**
 		 * @brief set an annotation for the given student/event couple
 		 * @param int $eventId The event id
 		 * @param int $userId The user id
+		 * @param string $annotation the annotation
 		 * @param bool $update true if we have to perform an update false (by default)  if insert
-		 * @retval true if everything go perfectly false if not
+		 * @retval mixed true if everything go perfectly false or the error_innfo from sql if not
 		 */
-		public function set_annotation($eventId, $userId, $update) {
+		public function set_annotation($eventId, $userId, $annotation, $update = false) {
+			$annotation_quoted = $this->sql->quote($annotation); 
+			if(is_int($eventId) && is_int($userId)){
+				if($update)
+					$a = $this->sql->update("event_annotation", array("Annotation" => $annotation_quoted), "Id_Event=".$eventId." AND Id_Student=".$userId);
+				else
+					$a = $this->sql->insert("event_annotation", array("Annotation" => $annotation_quoted, "Id_Event" => $eventId, "Id_Student" => $userId ));
+				
+				if($a)
+					return true;
+				else
+					return $this->sql->error_info();
+					
+			}
+			return false;
 		}
 		
 		/**
@@ -533,6 +556,32 @@ use util\database\Database;
 		 * @param bool $update true if we have to perform an update false (by default)  if insert
 		 * @retval true if everything go perfectly false if not
 		 */
-		public function delete_annotation($eventId, $userId){}
+		public function delete_annotation($eventId, $userId){
+			$event = $this->sql->quote($eventId);
+			$user = $this->sql->quote($userId);
+			$success = $this->sql->delete("event_annotation", "Id_Event = ".$event." AND Id_Student = ".$user);
+			if($success)
+				return true;
+			else
+				return $this->sql->error_info();
+		}
+		
+		 	
+	/**
+	 * @brief get an intersection of an array based on the key of an other array (ie if the value x in the table $array is a key of the table $keyarray we keep it)
+	 * @param array $array the tested array
+	 * @param array $keyArray the key that we want to appear as value in the first array
+	 * @retval the intersected array
+	 */
+ 		protected function array_intersect_key_val($array, $keyArray){ //$array est un tableau dont on cherche a savoir quelles sont les valeurs en commun avec les clés de $keyarray
+		$retval = array();
+		foreach($array as $key => $value){
+			if(array_key_exists($value, $keyArray)){
+				$retval[$key] = $value;
+			}
+		}
+		return $retval;
+	}
+	
 		
 	}

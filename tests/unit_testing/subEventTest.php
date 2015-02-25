@@ -1,7 +1,7 @@
 <?php
 
-use util\mvc\AcademicEventModel;
-use util\mvc\EventModel;
+use ct\models\events\EventModel;
+use ct\models\events\AcademicEventModel;
 
 header('Content-Type: text/html; charset=utf-8');
 
@@ -66,3 +66,33 @@ var_dump($h);
 echo  "<br> GetEvent Academic <br>";
 $i = $model2->getEvent(array("place" => "montef"));
 var_dump($i);
+
+
+//Annotation part
+echo "<br> Select an annotation <br>";
+$j = $test->get_annotation(11, 1);
+var_dump($j);
+
+echo "<br> Insert annotation <br>";
+$k = $test->set_annotation(11, 1, "first");
+var_dump($k);
+
+echo "<br> Select an annotation <br>";
+$j = $test->get_annotation(11, 1);
+var_dump($j);
+
+echo '<br> Update an annotation <br>';
+$l = $test->set_annotation(11, 1, "up", true);
+var_dump($l);
+
+echo "<br> Select an annotation <br>";
+$j = $test->get_annotation(11, 1);
+var_dump($j);
+
+echo "<br> Delete an annotation <br>";
+$n = $test->delete_annotation(11, 1);
+var_dump($n);
+
+echo "<br> Select an annotation <br>";
+$j = $test->get_annotation(11, 1);
+var_dump($j);

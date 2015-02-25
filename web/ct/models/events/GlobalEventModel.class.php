@@ -5,7 +5,7 @@
 	 * @brief Contains the GlobalEventModel
 	 */
 
-	namespace ct\models;
+	namespace ct\models\events;
 
 	require_once("functions.php");
 

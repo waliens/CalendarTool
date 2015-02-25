@@ -300,23 +300,7 @@
 
 		return array_map($fn, $array); 
 	}
-	
-	/**
-	 * @brief get an intersection of an array based on the key of an other array (ie if the value x in the table $array is a key of the table $keyarray we keep it)
-	 * @param array $array the tested array
-	 * @param array $keyArray the key that we want to appear as value in the first array
-	 * @retval the intersected array
-	 */
- 	function array_intersect_key_val($array, $keyArray){ //$array est un tableau dont on cherche a savoir quelles sont les valeurs en commun avec les clés de $keyarray
-		$retval = array();
-		foreach($array as $key => $value){
-			if(array_key_exists($value, $keyArray)){
-				$retval[$key] = $value;
-			}
-		}
-		return $retval;
-	}
-	
+
 	
 	/**
 	 * @brief instantiate a specific Event model according to the params
