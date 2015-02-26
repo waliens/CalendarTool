@@ -20,7 +20,7 @@ spl_autoload_register("ct\autoload");
 $test = new EventModel();
 //Create
 echo "<br> Create <br>";
-$data = array("id_event" => 10, "place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 1);
+$data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 1);
 $a = $test->createEvent($data);
 var_dump($a);
 
@@ -48,7 +48,7 @@ var_dump($e);
 //Academic Event
 echo "<br> Academic Event <br>";
 $model2 = new AcademicEventModel();
-$data2 = array("id_event" => 11, "feedback" => "pop", "workload" => 100, "practical_details" => "none", "name" => "Stuff", "description" => "why ?", "id_category" => 1, "place" => "montef");
+$data2 = array("feedback" => "pop", "workload" => 100, "practical_details" => "none", "name" => "Stuff", "description" => "why ?", "id_category" => 1, "place" => "montef");
 $f = $model2->createEvent($data2);
 var_dump($f);
 
