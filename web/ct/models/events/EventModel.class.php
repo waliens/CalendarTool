@@ -137,18 +137,18 @@ use util\database\Database;
 						if(!is_int($value))
 							return -1;
 						else
-							$arr[$key] = $this->sql->quoted($value);
+							$arr[$key] = $this->sql->quote($value);
 					}
 					elseif($this->fields[$key] == "bool"){
 						if(!is_bool($value))
 							return -1;
 						else
-							$arr[$key] = $this->sql->quoted($value);	
+							$arr[$key] = $this->sql->quote($value);	
 					}
 					elseif($this->fields[$key] == "text"){
 						$arr[$key] = htmlEntities($value, ENT_QUOTES);
 						$arr[$key] = nl2br($arr[$key]);
-						$arr[$key] = $this->sql->quoted($arr[$key]);
+						$arr[$key] = $this->sql->quote($arr[$key]);
 					}
 					elseif($this->fields[$key] == "date"){
 						//TODO
@@ -194,24 +194,12 @@ use util\database\Database;
 			
 			$datas = array_intersect_key($datas, $this->fields_event);
 
-			if($this->sql->lock(array("event"))){
-				$a = $this->sql->insert($this->table[0], $datas);
-				if($a){
-					$id = $this->sql->execute_query("SELECT Id_Event FROM event ORDER BY Id_Event DESC LIMIT 0,1", array());
 
-					if(isset($id[0]["Id_Event"]))
-						$ret = intval($id[0]["Id_Event"]);
-					else 
-						$ret = $this->sql->error_info();
-				}
-				else 
-					$ret = $this->sql->error_info();
-				$this->sql->unlock();
-			}
-			
-			
-			return $ret;
-			
+			$a = $this->sql->insert($this->table[0], $datas);
+			if($a)
+				return intval($this->sql->last_insert_id());
+			else 
+				 return  $this->sql->error_info();
 		}
 
 		/**

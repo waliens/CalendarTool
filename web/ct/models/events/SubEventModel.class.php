@@ -28,7 +28,7 @@ class SubEventModel extends AcademicEventModel{
 	 *
 	 * @brief Create an event and put it into the DB
 	 * @param array $data The data provide by the user after being checked by the controller
-	 * @retval mixed true if execute correctly error_info if not
+	 * @retval mixed int the id of the created event if execute correctly error_info if not
 	 */
 	public function createEvent($data){
 		$datas = $data;
