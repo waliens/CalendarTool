@@ -66,7 +66,7 @@ use util\database\Database;
 				
 			
 				foreach($infoData as $key => $value){
-					$ar[$i] = $key." = '".$value."'";
+					$ar[$i] = $key." = ".$value;
 					$i++;
 				}
 				
@@ -133,19 +133,26 @@ use util\database\Database;
 			
 			if($cintegrity){
 				foreach($arr as $key => $value){
-					if($this->fields[$key] == "int"  && !is_int($value) )
-						return -1;
-					elseif($this->fields[$key] == "bool" && !is_int($value)){
-						if(abs($value) > 1)
+					if($this->fields[$key] == "int"){
+						if(!is_int($value))
 							return -1;
+						else
+							$arr[$key] = $this->sql->quoted($value);
+					}
+					elseif($this->fields[$key] == "bool"){
+						if(!is_bool($value))
+							return -1;
+						else
+							$arr[$key] = $this->sql->quoted($value);	
 					}
 					elseif($this->fields[$key] == "text"){
 						$arr[$key] = htmlEntities($value, ENT_QUOTES);
 						$arr[$key] = nl2br($arr[$key]);
-						$arr[$key] = "'".$arr[$key]."'";
+						$arr[$key] = $this->sql->quoted($arr[$key]);
 					}
 					elseif($this->fields[$key] == "date"){
 						//TODO
+						$arr[$key] = $this->sql->quoted($value);
 					}
 				
 				}
@@ -209,14 +216,15 @@ use util\database\Database;
 		 * @brief Update event(s) (specify by $from) data to the those specify by $to
 		 * @param array $from array of elements that allow us to identy target event(s)
 		 * @param array $to new data to put in the bdd 
-		 * @retval mixed true if execute correctly error_info if not
+		 * @retval mixed true if execute correctly error_info or false if not
 		 */
 		public function modifyEvent($from, $to){
 			$table = implode(" JOIN ", $this->table);
 			
 			$data = $this->checkParams($to, true, true);
 			if($data == -1)
-				return -1;
+				return false;
+			
 			$where = $this->checkParams($from, true);
 			
 			$whereClause = array();

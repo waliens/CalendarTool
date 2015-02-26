@@ -66,9 +66,20 @@ class AcademicEventModel extends EventModel{
 	/**
 	 * @brief return the different pathway in which the event is involved
 	 * @param int $eventId the id of the event
-	 * @retval mixed the differents pathways or false if not
+	 * @retval mixed the differents pathways or false if error 
 	 */
-	public function get_pathways($eventId) {}
+	public function get_pathways($eventId) {
+		$event = $this->sql->quote($eventId);
+		$resp = $this->sql->select("academic_event_pathways", "Id_Academic_Event = ".$event, array("Id_Pathways)"));
+		if(is_array($resp)){
+			$pathways = array();
+			foreach($resp AS $key => $value)
+				array_push($pathways, $value);
+			return $pathways;
+		}
+		else 
+			return false;
+	}
 	
 	
 }
