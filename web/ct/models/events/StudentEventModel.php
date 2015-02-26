@@ -31,7 +31,7 @@ class StudentEventModel extends EventModel{
 		$datas = $data;
 		$ret = parent::createEvent($datas);
 	
-		if(!is_bool($ret) || !$ret)
+		if(!is_int($ret) || (is_bool($ret) && !$ret))
 			return $ret;
 		
 		$datas = $this->checkParams($data, true, true);
@@ -40,10 +40,11 @@ class StudentEventModel extends EventModel{
 	
 	
 		$datas = array_intersect_key($datas, $this->fields_st);
+		$datas["Id_Event"] = $ret;
 		$a = $this->sql->insert($this->table[1], $datas);
 
 		if($a)
-			return true;
+			return $ret;
 		else
 			return $this->sql->error_info();
 		

@@ -182,14 +182,26 @@ use util\database\Database;
 			if($datas == -1)
 				return false;
 			
+			if(isset($datas['Id_Event']))
+				return false;
+			
 			$datas = array_intersect_key($datas, $this->fields_event);
 
+			//TODO a lock here
 			$a = $this->sql->insert($this->table[0], $datas);
+			if($a){
+				$id = $this->sql->execute_query("SELECT Id_Event FROM event ORDER BY Id_Event DESC LIMIT 0,1", array());
+				if(isset($id[0]["Id_Event"]))
+					$ret = intval($id[0]["Id_Event"]);
+				else 
+					$ret = $this->sql->error_info();
+			}
+			else 
+				$ret = $this->sql->error_info();
+			//TODO unlock
 			
-			if($a)
-				return true;
-				
-			return $this->sql->error_info();
+			return $ret;
+			
 		}
 
 		/**

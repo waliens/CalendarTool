@@ -30,19 +30,19 @@ class IndependentEventModel extends AcademicEventModel{
 		$datas = $data;
 		$ret = parent::createEvent($datas);
 	
-		if(!is_bool($ret) || !$ret)
+		if(!is_int($ret) || (is_bool($ret) && !$ret))
 			return $ret;
 		
 		$datas = $this->checkParams($data, true, true);
 		if($datas == -1)
 			return false;
 	
-	
 		$datas = array_intersect_key($datas, $this->fields_ind);
+		$datas["Id_Event"] = $ret;
 		$a = $this->sql->insert($this->table[2], $datas);
 
 		if($a)
-			return true;
+			return $ret;
 		else
 			return $this->sql->error_info();
 	}
