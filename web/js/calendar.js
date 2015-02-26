@@ -16,6 +16,7 @@ var edit_existing_event=false;
 var edit_existing_note=false;
 var existing_note_content;
 //private event vars
+var event_id;
 var event_date_start;
 var event_date_end;
 var event_all_day;
@@ -37,6 +38,7 @@ $(document).ready(function() {
 	//initialize the calendar...
     $('#calendar').fullCalendar({
 		lang: 'fr',
+		nextDayThreshold : "00:00:00",
 		header: {
 		left: 'prev,next today',
 		center: 'title',
@@ -100,6 +102,7 @@ $(document).ready(function() {
 			//handle click on event
 		eventClick: function(calEvent, jsEvent, view) {
 			var event_private=calEvent.private;
+			event_id=calEvent.id;
 			//check event type to call proper modal
 			if(event_private){
 				private_event=calEvent;
@@ -161,17 +164,21 @@ $(document).ready(function() {
 		dayClick: function(date, jsEvent, view) {
 			var target = date.format();
 			buildDatePicker("private_event",target);
-			$("#private_event_title").prop("disabled",false);
+			$("#private_event_title").prop("readonly",false);
 			$("#private_event_startDate_datepicker").prop("disabled",false);
+			$("#private_event_startDate_datepicker").prop("readonly",true);
 			$("#private_event_endDate_datepicker").prop("disabled",false);
-			$("#private_event_place").prop("disabled",false);
+			$("#private_event_endDate_datepicker").prop("readonly",true);
+			$("#private_event_place").prop("readonly",false);
 			$("#recurrence_btn").prop("disabled",false);
-			$("#private_event_details").prop("disabled",false);
-			$("#private_event_startHour").prop("disabled",false);
-			$("#private_event_endHour").prop("disabled",false);
-			$("#private_notes_body").prop("disabled",false);
+			$("#private_event_details").prop("readonly",false);
+			//$("#private_event_startHour").prop("readonly",false);
+			//$("#private_event_endHour").prop("readonly",false);
+			$("#private_notes_body").prop("readonly",false);
 			$("#edit_event_btns").removeClass("hidden");
 			$("#private_event").modal("show");
+			$("#edit_private_event").addClass('hidden');
+			$("#delete_private_event").removeClass('hidden');
 	
 		},
     })
@@ -276,21 +283,21 @@ function edit_private_event(){
 		//prevent the button from being pressed again
 		$("#edit_private_event .edit").attr("disabled",true);
 		//make all event info editable
-		$("#private_event_title").prop("disabled",false);
+		$("#private_event_title").prop("readonly",false);
 		$("#private_event_startDate_datepicker").prop("disabled",false);
-		$("#private_event_startHour").prop("disabled",false);
+		//$("#private_event_startHour").prop("readonly",false);
 		$("#private_event_startHour").removeClass("hidden");
 		$("#private_event_endDate").parent().removeClass("hidden");
 		$("#private_event_endDate_datepicker").prop("disabled",false);
 		$("#private_event_endDate_datepicker").removeClass("hidden");
-		$("#private_event_endHour").prop("disabled",false);
+		//$("#private_event_endHour").prop("readonly",false);
 		$("#private_event_endHour").removeClass("hidden");
-		$("#private_event_place").prop("disabled",false);
+		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
-		$("#private_event_details").prop("disabled",false);
+		$("#private_event_details").prop("readonly",false);
 		$("#private_event_details").removeClass("hidden");
 		$("#recurrence_btn").prop("disabled",false);
-		$("#private_notes_body").prop("disabled",false);
+		$("#private_notes_body").prop("readonly",false);
 		$("#private_notes_body").parent().parent().removeClass("hidden");
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
@@ -484,9 +491,13 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 })
 
 //setup timepickers of new event modal
-$("#private_event_startHour").timepicker();
-$("#private_event_endHour").timepicker();
-
+$(".time").timepicker({ 'forceRoundTime': true });
+$("#private_event_endHour").on("changeTime",function(){
+	$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	})
+$("#private_event_startHour").on("changeTime",function(){
+	$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+	})
 //populate private event modal
 function populate_private_event(event){
 	var title=event.title;
@@ -498,6 +509,8 @@ function populate_private_event(event){
 	if(!allDay){
 		startHour=event.start.format("HH:mm");
 		$("#private_event_startHour").val(startHour);
+		endHour=event.end.format("HH:mm");
+		$("#private_event_endHour").val(endHour);
 	}
 	else $("#private_event_startHour").addClass("hidden");
 	//check if the event as an end date
@@ -511,25 +524,28 @@ function populate_private_event(event){
 	var notes=event.notes;
 	//populate modal title
 	$("#private_event_modal_header").text(title);
-	//adds an edit icon next to title
+	//adds edit/delete icons next to title
 	$("#edit_private_event").removeClass('hidden');
+	$("#delete_private_event").removeClass('hidden');
 	$("#private_event_modal_header").addClass("float-left-10padright");
 	//populate modal fields
 	$("#private_event_title").val(title);
-	$("#private_event_title").prop("disabled",true);
+	$("#private_event_title").prop("readonly",true);
 	$("#private_event_startDate_datepicker").val(start);
+	$("#private_event_startDate_datepicker").prop("readonly",true);
 	$("#private_event_startDate_datepicker").prop("disabled",true);
-	$("#private_event_startHour").prop("disabled",true);
+	//$("#private_event_startHour").prop("readonly",true);
+	$("#private_event_endDate_datepicker").prop("readonly",true);
 	$("#private_event_endDate_datepicker").prop("disabled",true);
-	$("#private_event_endHour").prop("disabled",true);
+	//$("#private_event_endHour").prop("readonly",true);
 	$("#private_event_place").val(place);
-	$("#private_event_place").prop("disabled",true);
+	$("#private_event_place").prop("readonly",true);
 	$("#private_event_details").val(details);
-	$("#private_event_details").prop("disabled",true);
+	$("#private_event_details").prop("readonly",true);
 	$("#recurrence_btn").prop("disabled",true);
 	if(notes!=""){
 		$("#private_notes_body").val(notes);
-		$("#private_notes_body").prop("disabled",true);
+		$("#private_notes_body").prop("readonly",true);
 	}
 	else $("#private_notes_body").parent().parent().addClass("hidden");
 	//hides button used when creating a new event
@@ -590,11 +606,20 @@ function create_private_event(){
 		private_event.allDay=allDay;
 		private_event.recurrence=recurrence;
 		$('#calendar').fullCalendar('updateEvent', private_event);
+		//send update to server
 		}
 	//hide the modal
 	$("#private_event").modal("hide");
 	
 }
+
+//delete private event
+function delete_private_event(){
+	$('#calendar').fullCalendar('removeEvents', event_id);
+	//hide the modal
+	$("#private_event").modal("hide");
+	//send delete to server
+	}
 
 //generate unique id for new private events
 function guid() {
