@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['url_2eclass_2ephp',['URL.class.php',['../_u_r_l_8class_8php.html',1,'']]],
-  ['usermodel_2eclass_2ephp',['UserModel.class.php',['../_user_model_8class_8php.html',1,'']]]
+  ['teachingrolemodel_2eclass_2ephp',['TeachingRoleModel.class.php',['../_teaching_role_model_8class_8php.html',1,'']]],
+  ['typechecker_2eclass_2ephp',['TypeChecker.class.php',['../_type_checker_8class_8php.html',1,'']]]
 ];

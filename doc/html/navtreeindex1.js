@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+<<<<<<< HEAD:doc/html/navtreeindex1.js
 "classutil_1_1_connection.html#a1ed0e562c87f6a8868c7d42ad4bd47e4":[3,0,1,4,0],
 "classutil_1_1_connection.html#a2e6d77a89379995b761cb9d6e734c0d2":[3,0,1,4,3],
 "classutil_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263":[3,0,1,4,5],
@@ -8,6 +9,24 @@ var NAVTREEINDEX1 =
 "classutil_1_1_connection.html#a9ec86bb53c84a9a54c832e76d193c141":[3,0,1,4,2],
 "classutil_1_1_connection.html#aa4e53b55981571c9a1176026c08fc206":[3,0,1,4,7],
 "classutil_1_1_connection.html#abe175fcf658475bc56e9d6fa02bc88ec":[3,0,1,4,1],
+=======
+"classct_1_1models_1_1filters_1_1_pathway_filter.html#acaae2a0afad64240cf856ba2d3b02c14":[3,0,0,1,0,5,3],
+"classct_1_1models_1_1filters_1_1_professor_filter.html":[3,0,0,1,0,6],
+"classct_1_1models_1_1filters_1_1_professor_filter.html#aaa495951ab414cbb345318df941d9582":[3,0,0,1,0,6,2],
+"classct_1_1models_1_1filters_1_1_professor_filter.html#aace3f0d9a8cac637ccfde04e6da24a9f":[3,0,0,1,0,6,0],
+"classct_1_1models_1_1filters_1_1_professor_filter.html#ac63336af85e4256dd46e0767f978f136":[3,0,0,1,0,6,1],
+"classct_1_1models_1_1filters_1_1_professor_filter.html#acaae2a0afad64240cf856ba2d3b02c14":[3,0,0,1,0,6,3],
+"classct_1_1models_1_1notifiers_1_1_notifier.html":[3,0,0,1,1,0],
+"classct_1_1models_1_1notifiers_1_1_notifier.html#a095c5d389db211932136b53f25f39685":[3,0,0,1,1,0,0],
+"classct_1_1models_1_1notifiers_1_1_notifier.html#add8686b50f3ac89a272ca980452d10cc":[3,0,0,1,1,0,1],
+"classes.html":[3,1],
+"classutil_1_1_mail.html":[3,0,1,4],
+"classutil_1_1_mail.html#a218382f4b86ae1cf0de410be0e608f5d":[3,0,1,4,2],
+"classutil_1_1_mail.html#a24323a4b49893b3122a372c59e76b2bd":[3,0,1,4,3],
+"classutil_1_1_mail.html#a40939d52d013832858023414e11e7ced":[3,0,1,4,1],
+"classutil_1_1_mail.html#a47e029049a4699fc532aed15fc29de33":[3,0,1,4,0],
+"classutil_1_1_mail.html#aa4dbe306aa552f9c768a930fcd5d27a2":[3,0,1,4,4],
+>>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/navtreeindex1.js
 "classutil_1_1_redirection.html":[3,0,1,5],
 "classutil_1_1_redirection.html#af8e0b4973827723e65906c95202d1f21":[3,0,1,5,0],
 "classutil_1_1_type_checker.html":[3,0,1,6],
@@ -103,12 +122,21 @@ var NAVTREEINDEX1 =
 "classutil_1_1mvc_1_1_browser_controller.html":[3,0,1,2,1],
 "classutil_1_1mvc_1_1_browser_controller.html#a095c5d389db211932136b53f25f39685":[3,0,1,2,1,0],
 "classutil_1_1mvc_1_1_browser_controller.html#a3658f6c15c7cf0c195fd3a24c878b16a":[3,0,1,2,1,2],
+<<<<<<< HEAD:doc/html/navtreeindex1.js
 "classutil_1_1mvc_1_1_browser_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72":[3,0,1,2,1,6],
 "classutil_1_1mvc_1_1_browser_controller.html#aa6c3f8688f804de4f1af8a462fffb922":[3,0,1,2,1,4],
 "classutil_1_1mvc_1_1_browser_controller.html#ab2cb88ac71408422d425f97eafdf313d":[3,0,1,2,1,5],
 "classutil_1_1mvc_1_1_browser_controller.html#ac01f0421cdf853d8bdac45fcd181dc28":[3,0,1,2,1,7],
 "classutil_1_1mvc_1_1_browser_controller.html#ae48ba977d1ee458d4000f7f8b2d3093d":[3,0,1,2,1,3],
+=======
+"classutil_1_1mvc_1_1_browser_controller.html#a5df4dd44b64bc4598ca46ca69ab96c72":[3,0,1,2,1,7],
+"classutil_1_1mvc_1_1_browser_controller.html#aa6c3f8688f804de4f1af8a462fffb922":[3,0,1,2,1,5],
+"classutil_1_1mvc_1_1_browser_controller.html#ab2cb88ac71408422d425f97eafdf313d":[3,0,1,2,1,6],
+"classutil_1_1mvc_1_1_browser_controller.html#ac01f0421cdf853d8bdac45fcd181dc28":[3,0,1,2,1,8],
+"classutil_1_1mvc_1_1_browser_controller.html#ae48ba977d1ee458d4000f7f8b2d3093d":[3,0,1,2,1,4],
+>>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/navtreeindex1.js
 "classutil_1_1mvc_1_1_browser_controller.html#ae5c96b134b24ec7120296945f11f251e":[3,0,1,2,1,1],
+"classutil_1_1mvc_1_1_browser_controller.html#af9b7a6e909f05576624caffc103e8f9f":[3,0,1,2,1,3],
 "classutil_1_1mvc_1_1_category_model.html":[3,0,1,2,2],
 "classutil_1_1mvc_1_1_category_model.html#a066e6a4d47b28441996e8906dd85dc88":[3,0,1,2,2,8],
 "classutil_1_1mvc_1_1_category_model.html#a0f01f8fcd5a7652a7bb6877e082e92fc":[3,0,1,2,2,10],
@@ -197,10 +225,11 @@ var NAVTREEINDEX1 =
 "dir_a7ba20a5612f6ba32828835255f1e53d.html":[4,0,0,0,1],
 "dir_c3699550a2e3f59dd301671dd96a061e.html":[4,0,0,0,0,0],
 "dir_decccf3b3462f656282abb9e8a472aec.html":[4,0,0,2],
+"dir_ec2922f963385e5906a4529e6fc22578.html":[4,0,0,0,1,1],
 "dir_f35edcb09eb32ff39ef9f9e49a29d976.html":[4,0,0,0,0],
 "files.html":[4,0],
-"functions.html":[3,3,0],
 "functions.html":[3,3,0,0],
+"functions.html":[3,3,0],
 "functions_8php.html":[4,0,0,3],
 "functions_8php.html#a0560953594825b2431dc3cea5c6b066a":[4,0,0,3,10],
 "functions_8php.html#a161b4373d171d1397b14c9b9815fc9a7":[4,0,0,3,6],
@@ -246,8 +275,12 @@ var NAVTREEINDEX1 =
 "functions_func_p.html":[3,3,1,13],
 "functions_func_q.html":[3,3,1,14],
 "functions_func_r.html":[3,3,1,15],
+<<<<<<< HEAD:doc/html/navtreeindex1.js
 "functions_func_s.html":[3,3,1,16],
 "functions_func_t.html":[3,3,1,17],
 "functions_func_u.html":[3,3,1,18],
 "functions_func_v.html":[3,3,1,19]
+=======
+"functions_func_s.html":[3,3,1,16]
+>>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/navtreeindex1.js
 };

@@ -73,14 +73,25 @@
 		}
 
 		/**
-		 * @brief Return a string containing the HTML code containing thefooter of the HTML page
+		 * @brief Return a string containing the HTML code of the page's footer
 		 * @retval string End of the HTML page
 		 */
 		protected function get_footer()
 		{
 			$popups = $this->get_popups();
 			$this->smarty->assign("popups", $popups);
+			$this->smarty->assign("footer_inc", $this->get_footer_inc());
 			return $this->smarty->fetch("footer.tpl");
+		}
+
+		/**
+		 * @brief Return a string containing the HTML code of the footer's includes
+		 * @retval string The code of the footer's includes
+		 * @note Re-implement this function for adding an additionnal title
+		 */
+		protected function get_footer_inc()
+		{
+			return "";
 		}
 
 		/**

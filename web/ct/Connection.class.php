@@ -216,4 +216,22 @@
 		{
 			unset($_SESSION['root_id']);
 		}
+
+		/**
+		 * @brief Check whether the user is a student
+		 * @retval bool True if the user is a student, false otherwise
+		 */
+		public function user_is_student()
+		{
+			return preg_match("#^[sS][0-9]{6}$#", $this->user_ulg_id());
+		}
+
+		/**
+		 * @brief Check whether the user is a faculty staff
+		 * @retval bool True if the user is a faculty staff member, false otherwise
+		 */
+		public function user_is_faculty_staff()
+		{
+			return preg_match("#^[uU][0-9]{6}$#", $this->user_ulg_id());
+		}
 	}

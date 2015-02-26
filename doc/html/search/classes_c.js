@@ -1,5 +1,6 @@
 var searchData=
 [
+<<<<<<< HEAD:doc/html/search/classes_c.js
   ['sg_5fcookies',['SG_Cookies',['../classutil_1_1superglobals_1_1_s_g___cookies.html',1,'util::superglobals']]],
   ['sg_5ffiles',['SG_Files',['../classutil_1_1superglobals_1_1_s_g___files.html',1,'util::superglobals']]],
   ['sg_5fget',['SG_Get',['../classutil_1_1superglobals_1_1_s_g___get.html',1,'util::superglobals']]],
@@ -10,4 +11,8 @@ var searchData=
   ['studenteventmodel',['StudentEventModel',['../classct_1_1model_1_1_student_event_model.html',1,'ct::model']]],
   ['subeventmodel',['SubEventModel',['../classct_1_1model_1_1_sub_event_model.html',1,'ct::model']]],
   ['superglobal',['Superglobal',['../classutil_1_1superglobals_1_1_superglobal.html',1,'util::superglobals']]]
+=======
+  ['redirection',['Redirection',['../classutil_1_1_redirection.html',1,'util']]],
+  ['rootmodel',['RootModel',['../classct_1_1models_1_1_root_model.html',1,'ct::models']]]
+>>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/search/classes_c.js
 ];

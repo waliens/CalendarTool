@@ -5,9 +5,13 @@ var searchData=
   ['select_5fby_5fsender',['SELECT_BY_SENDER',['../classct_1_1models_1_1_modification_request_model.html#a8495909f26a9fcfe6d119677a651878f',1,'ct::models::ModificationRequestModel']]],
   ['select_5fby_5fuser',['SELECT_BY_USER',['../classct_1_1models_1_1_modification_request_model.html#a3b3a0052f404ab3d00fb91d6cfe01711',1,'ct::models::ModificationRequestModel']]],
   ['select_5fone',['select_one',['../classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568',1,'util::database::SQLAbstract']]],
+  ['send',['send',['../classutil_1_1_mail.html#a40939d52d013832858023414e11e7ced',1,'util::Mail']]],
   ['set_5fassociation_5fmode',['set_association_mode',['../classct_1_1models_1_1_filter_collection_model.html#a4aa9fff8108ba944f5d220c72ed2f8ed',1,'ct::models::FilterCollectionModel']]],
   ['set_5fdomain_5fname',['set_domain_name',['../classutil_1_1_u_r_l.html#a3dacfb5f6029aa9c4504f9be98819310',1,'util::URL']]],
   ['set_5fdump_5fmode',['set_dump_mode',['../classutil_1_1database_1_1_s_q_l_abstract.html#a8dc0c0e58a3e2d53d8fa1be24988e958',1,'util::database::SQLAbstract']]],
+  ['set_5fmsg_5fhtml',['set_msg_html',['../classutil_1_1_mail.html#a218382f4b86ae1cf0de410be0e608f5d',1,'util::Mail']]],
+  ['set_5fmsg_5ftxt',['set_msg_txt',['../classutil_1_1_mail.html#a24323a4b49893b3122a372c59e76b2bd',1,'util::Mail']]],
+  ['set_5fsubject',['set_subject',['../classutil_1_1_mail.html#aa4dbe306aa552f9c768a930fcd5d27a2',1,'util::Mail']]],
   ['set_5ftype',['set_type',['../classutil_1_1_type_checker.html#a424a47491438d0e72cc283f9c8b0c16a',1,'util::TypeChecker']]],
   ['setdate',['setDate',['../classct_1_1model_1_1_event_model.html#ad081f9cbba63b142397963a5106e53d5',1,'ct::model::EventModel']]],
   ['sg_5fcookies',['SG_Cookies',['../classutil_1_1superglobals_1_1_s_g___cookies.html',1,'util::superglobals']]],
@@ -25,12 +29,19 @@ var searchData=
   ['sqlabstract_2eclass_2ephp',['SQLAbstract.class.php',['../_s_q_l_abstract_8class_8php.html',1,'']]],
   ['sqlabstract_5fpdo',['SQLAbstract_PDO',['../classutil_1_1database_1_1_s_q_l_abstract___p_d_o.html',1,'util::database']]],
   ['sqlabstract_5fpdo_2eclass_2ephp',['SQLAbstract_PDO.class.php',['../_s_q_l_abstract___p_d_o_8class_8php.html',1,'']]],
+  ['staticexportcontroller',['StaticExportController',['../classct_1_1controllers_1_1browser_1_1_static_export_controller.html',1,'ct::controllers::browser']]],
+  ['staticexportcontroller_2eclass_2ephp',['StaticExportController.class.php',['../_static_export_controller_8class_8php.html',1,'']]],
   ['status_5faccepted',['STATUS_ACCEPTED',['../classct_1_1models_1_1_modification_request_model.html#a6f80c53f025dbcfa3b742820a5f472c8',1,'ct::models::ModificationRequestModel']]],
   ['status_5fcancelled',['STATUS_CANCELLED',['../classct_1_1models_1_1_modification_request_model.html#a0e22a60db07645715da9995e43076bba',1,'ct::models::ModificationRequestModel']]],
   ['status_5frefused',['STATUS_REFUSED',['../classct_1_1models_1_1_modification_request_model.html#aa25a7729a5d70def79d5519811fefbea',1,'ct::models::ModificationRequestModel']]],
   ['status_5fsent',['STATUS_SENT',['../classct_1_1models_1_1_modification_request_model.html#aae72d31bfbec2b0724b39d73462853fe',1,'ct::models::ModificationRequestModel']]],
+<<<<<<< HEAD:doc/html/search/all_12.js
   ['studenteventmodel',['StudentEventModel',['../classct_1_1model_1_1_student_event_model.html',1,'ct::model']]],
   ['subeventmodel',['SubEventModel',['../classct_1_1model_1_1_sub_event_model.html',1,'ct::model']]],
+=======
+  ['studentprofilecontroller',['StudentProfileController',['../classct_1_1controllers_1_1browser_1_1_student_profile_controller.html',1,'ct::controllers::browser']]],
+  ['studentprofilecontroller_2eclass_2ephp',['StudentProfileController.class.php',['../_student_profile_controller_8class_8php.html',1,'']]],
+>>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/search/all_12.js
   ['superglobal',['Superglobal',['../classutil_1_1superglobals_1_1_superglobal.html',1,'util::superglobals']]],
   ['superglobal_2eclass_2ephp',['Superglobal.class.php',['../_superglobal_8class_8php.html',1,'']]]
 ];

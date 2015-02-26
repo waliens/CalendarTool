@@ -6,6 +6,13 @@ var searchData=
   ['update_5fglobal_5fevent_5fulg_5fdata',['update_global_event_ulg_data',['../classct_1_1models_1_1_global_event_model.html#a51f47dc348356c6f8c36c7866e6f18be',1,'ct::models::GlobalEventModel']]],
   ['update_5frequest_5fstatus',['update_request_status',['../classct_1_1models_1_1_modification_request_model.html#a1205073da3837d804b950340d89d5543',1,'ct::models::ModificationRequestModel']]],
   ['user_5fexists',['user_exists',['../classct_1_1models_1_1_user_model.html#a74c70a4a8fdeb2f2c497c08dc7529e2a',1,'ct::models::UserModel']]],
+<<<<<<< HEAD:doc/html/search/functions_13.js
   ['user_5fid',['user_id',['../classutil_1_1_connection.html#a73111142777dd43189b53adcaffe5381',1,'util::Connection']]],
   ['user_5fulg_5fid',['user_ulg_id',['../classutil_1_1_connection.html#aa4e53b55981571c9a1176026c08fc206',1,'util::Connection']]]
+=======
+  ['user_5fid',['user_id',['../classct_1_1_connection.html#a73111142777dd43189b53adcaffe5381',1,'ct::Connection']]],
+  ['user_5fis_5ffaculty_5fstaff',['user_is_faculty_staff',['../classct_1_1_connection.html#a64ba30ae0782acefc5f18bff34b5477f',1,'ct::Connection']]],
+  ['user_5fis_5fstudent',['user_is_student',['../classct_1_1_connection.html#ac4cb6ac0736ba0bb974788170a07a2a5',1,'ct::Connection']]],
+  ['user_5fulg_5fid',['user_ulg_id',['../classct_1_1_connection.html#aa4e53b55981571c9a1176026c08fc206',1,'ct::Connection']]]
+>>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/search/functions_13.js
 ];

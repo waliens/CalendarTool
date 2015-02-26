@@ -59,8 +59,10 @@
 		/**
 		 * @brief Create a global event for with the given course id
 		 * @param[in] string $course_id The ulg course identifier
-		 * @param[in] string $user_id   The user ulg id (optional, default : currently connected user ulg id)
+		 * @param[in] string $user_id   The user ulg id (optional, default: currently connected user ulg id)
 		 * @param[in] int    $acad_year The academic year for which the course must be created (optional, default: current acad year)
+		 * @param[in] string $lang      The language in which the course must be created (one of the class 
+		 * LANG_* constant) (optional, default: LANG_FR)
 		 * @retval bool True on success, false on error
 		 */
 		public function create_global_event($course_id, $user_id = null, $acad_year=null, $lang=null)
