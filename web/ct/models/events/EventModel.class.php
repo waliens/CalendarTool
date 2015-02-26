@@ -595,5 +595,18 @@ use util\database\Database;
 		return $retval;
 	}
 	
-		
+	/**
+	 * @brief delete an event from the DB 
+	 * @param int $eventId the id of the event to delete
+	 * @retval mixed true if everything was correct error_info if not
+	 * @note this function only delete from the tale event but the  db is construct with the CASCADE keyword so it will delete also if the id is present in academic/sub/... event table
+	 */
+		public function delete_event($eventId){
+			$event = $this->sql->quote($eventId);
+			$success = $this->sql->delete("event", "Id_Event = ". $event);
+			if($success)
+				return true;
+			else
+				return $this->sql->error_info();
+		}
 	}
