@@ -94,7 +94,7 @@
                 </tr>
               </table></td>
           <tr>
-            <td colspan="2"><div>
+            <td colspan="2"><div class="float-left-10padright">
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="input-group">
@@ -116,7 +116,16 @@
                   </div>
                   <!-- /.col-lg-6 --> 
                 </div>
-              </div></td>
+              </div>
+              
+              <div id="recurrence_end_td" class="hidden float-left-10padright">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                      <input id="recurrence_end" class="form-control border-radius-4" placeholder="Fin de la récurrence?" size="17">
+                    </div><!-- /input-group -->
+                  </div><!-- /.col-lg-6 -->
+              </div>
+              </td>
           </tr>
           <tr>
             <td class="text-bold width-80 vertical-middle">Lieu</td>

@@ -24,7 +24,7 @@ var event_place;
 var event_details;
 var event_recursive=false;
 //dates picker
-var datepicker = {"existing_event":0,"private_event":0};
+var datepicker = {"existing_event":0,"private_event":0,"recurrence_end":0};
 var existing_event_datepicker;
 var new_event_datepicker;
 //holds the private event on click in case of update of its data
@@ -178,7 +178,7 @@ $(document).ready(function() {
 			$("#edit_event_btns").removeClass("hidden");
 			$("#private_event").modal("show");
 			$("#edit_private_event").addClass('hidden');
-			$("#delete_private_event").removeClass('hidden');
+			$("#delete_private_event").addClass('hidden');
 	
 		},
     })
@@ -327,7 +327,8 @@ function abort_edit_event(){
 //builds the object datepicker
 function buildDatePicker(option,target) {
 	//convert target date to format DD-MM-YYYY
-	target=convert_date(target,"DD-MM-YYYY","YYYY-MM-DD");
+	if(target)
+		target=convert_date(target,"DD-MM-YYYY","YYYY-MM-DD");
 	//prepare elements to which datepicker has to be attached
 	var elements=[];
 	//datepicker to be built for the existing event panel
@@ -348,6 +349,17 @@ function buildDatePicker(option,target) {
 			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
 		});
 	}
+	//datepicker to be built for the end recursion
+	else if(option=="recurrence_end"){
+		datepicker[option] = new dhtmlXCalendarObject("recurrence_end");
+		datepicker[option].setDateFormat("%d-%m-%Y");
+		setSens("private_event_endDate_datepicker","min","recurrence_end");
+		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
+		datepicker[option].attachEvent("onClick", function(date){
+			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMM YYYY"));
+		});
+		}
+	
 	//datepicker to be built for the new event panel
 	else {
 		elements.push($("#private_event_startDate_datepicker"),$("#private_event_endDate_datepicker"));
@@ -457,6 +469,12 @@ function convert_date(date,formatDestination,formatOrigin){
 //sets the event recurrence
 function update_recurrence(recurrence){
 	$("#recurrence").text(recurrence);
+	if(recurrence!="jamais"){
+		$("#recurrence_end_td").removeClass("hidden");
+		//build date picker of the end recurrence input
+		buildDatePicker("recurrence_end");
+		}
+	else $("#recurrence_end_td").addClass("hidden");
 	}
 	
 //enable nev event confirm button only when requierd fields are inserted
@@ -479,6 +497,7 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 	$("#private_event_endHour").parent().parent().removeClass("hidden");
 	$("#private_event_endHour").removeClass("hidden");
 	$("#recurrence").text("jamais");
+	$("#recurrence_end").addClass("hidden");
 	$("#private_event_place").val("");
 	$("#private_event_place").parent().parent().removeClass("hidden");
 	$("#private_event_details").val("");
@@ -578,9 +597,25 @@ function create_private_event(){
 	var notes=$("#private_notes_body").val();
 	//check if we are adding a new private event
 	if(!edit_existing_event){
+		var id=guid();
+		//check if the event is recursive
+		if(recurrence!="jamais"){
+			switch(recurrence){
+				case "tous les jours":
+				break;
+				case "tous les semaines":
+				break;
+				case "tous les deux semaines":
+				break;
+				case "tous les mois":
+				break;
+				case "tous les ans":
+				break;
+				}
+			}
 		$('#calendar').fullCalendar('addEventSource', {
 			events:[{
-				id: guid(), //retrive unique ID from server
+				id: id,
 				private: true,
 				title: title,
 				start: start,
