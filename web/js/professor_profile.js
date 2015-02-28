@@ -10,7 +10,7 @@ $(document).ready(function() {
 		dataType : "json",
 		type : 'GET',
 		url : "json/professor-profile.json",
-		//url: "professor-profile.html&src='ajax'&req=8",
+		//url: "index.php&src='ajax'&req=8",
 		success : function(data, status) {
 			var first_name=data.firstName;
 			var last_name=data.lastName;

@@ -63,7 +63,8 @@ $(document).ready(function() {
 						//chech the event type to accordingly set the event color
 						var color=getEventColor(instance);
 						events.push({
-							id: instance.id,
+							id_server: instance.id,
+							id: guid(),
 							private: false,
 							title: instance.name,
 							start: instance.start,
@@ -80,7 +81,8 @@ $(document).ready(function() {
 					for(var i=0;i<calendar_data.events.privateEvents.length;i++){
 						var instance=calendar_data.events.privateEvents[i];
 						events.push({
-							id: instance.id,
+							id_server: instance.id,
+							id: guid(),
 							private: true,
 							title: instance.name,
 							start: instance.start,
@@ -171,7 +173,9 @@ $(document).ready(function() {
 			$("#private_event_endDate_datepicker").prop("readonly",true);
 			$("#private_event_place").prop("readonly",false);
 			$("#recurrence_btn").prop("disabled",false);
+			$("#private_event_type_btn").prop("disabled",false);
 			$("#private_event_details").prop("readonly",false);
+			$("#deadline input").prop("disabled",true);
 			//$("#private_event_startHour").prop("readonly",false);
 			//$("#private_event_endHour").prop("readonly",false);
 			$("#private_notes_body").prop("readonly",false);
@@ -285,7 +289,7 @@ function edit_private_event(){
 		//make all event info editable
 		$("#private_event_title").prop("readonly",false);
 		$("#private_event_startDate_datepicker").prop("disabled",false);
-		//$("#private_event_startHour").prop("readonly",false);
+		$("#deadline input").prop("disabled",false);
 		$("#private_event_startHour").removeClass("hidden");
 		$("#private_event_endDate").parent().removeClass("hidden");
 		$("#private_event_endDate_datepicker").prop("disabled",false);
@@ -297,6 +301,7 @@ function edit_private_event(){
 		$("#private_event_details").prop("readonly",false);
 		$("#private_event_details").removeClass("hidden");
 		$("#recurrence_btn").prop("disabled",false);
+		$("#private_event_type_btn").prop("disabled",false);
 		$("#private_notes_body").prop("readonly",false);
 		$("#private_notes_body").parent().parent().removeClass("hidden");
 		$("#edit_event_btns").removeClass("hidden");
@@ -467,9 +472,9 @@ function convert_date(date,formatDestination,formatOrigin){
 	}
 	
 //sets the event recurrence
-function update_recurrence(recurrence){
-	$("#recurrence").text(recurrence);
-	if(recurrence!="jamais"){
+function updateRecurrence(){
+	$("#recurrence").text(event.target.innerHTML);
+	if(event.target.innerHTML!="jamais"){
 		$("#recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
 		buildDatePicker("recurrence_end");
@@ -490,6 +495,7 @@ $('#private_event_title').keyup(function () {
 $('#private_event').on('hidden.bs.modal', function (e) {
 	edit_existing_event=false;
 	$("#private_event_title").val("");
+	$("#deadline input").prop("checked",false);
 	$("#private_event_startHour").val("");
 	$("#private_event_startHour").parent().parent().removeClass("hidden");
 	$("#private_event_startHour").removeClass("hidden");
@@ -498,6 +504,7 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 	$("#private_event_endHour").removeClass("hidden");
 	$("#recurrence").text("jamais");
 	$("#recurrence_end_td").addClass("hidden");
+	$("#private_event_type").text("Travail");
 	$("#private_event_place").val("");
 	$("#private_event_place").parent().parent().removeClass("hidden");
 	$("#private_event_details").val("");
@@ -550,6 +557,7 @@ function populate_private_event(event){
 	//populate modal fields
 	$("#private_event_title").val(title);
 	$("#private_event_title").prop("readonly",true);
+	$("#deadline input").prop("disabled",true);
 	$("#private_event_startDate_datepicker").val(start);
 	$("#private_event_startDate_datepicker").prop("readonly",true);
 	$("#private_event_startDate_datepicker").prop("disabled",true);
@@ -562,6 +570,7 @@ function populate_private_event(event){
 	$("#private_event_details").val(details);
 	$("#private_event_details").prop("readonly",true);
 	$("#recurrence_btn").prop("disabled",true);
+	$("#private_event_type_btn").prop("disabled",true);
 	if(notes!=""){
 		$("#private_notes_body").val(notes);
 		$("#private_notes_body").prop("readonly",true);
@@ -600,6 +609,7 @@ function create_private_event(){
 	if(!startHour && !endHour)
 		allDay=true;
 	var recurrence=$("#recurrence").text();
+	var recurrence_id=0;
 	var place=$("#private_event_place").val();
 	var details=$("#private_event_details").val();
 	var notes=$("#private_notes_body").val();
@@ -615,6 +625,7 @@ function create_private_event(){
 			switch(recurrence){
 				case "tous les jours":
 					offset=1;
+					recurrence_id=1;
 					//if user doesn't specify end of the recursion we set it to one year
 					if(end_recurrence==""){
 						end_recurrence=new moment(start);
@@ -623,14 +634,18 @@ function create_private_event(){
 					//build start date in format required by fullcalendar.io
 					var event_start;
 					var event_end;
+					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
 						if(startHour!="")
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						else event_start=start.format("YYYY-MM-DD")
 						if(endHour!="")
 							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						else event_end=end.format("YYYY-MM-DD")
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
-								id: id,
+								id_server: id,
+								id: id_event,
 								private: true,
 								title: title,
 								start: event_start,
@@ -650,6 +665,7 @@ function create_private_event(){
 					break;
 				case "tous les semaines":
 					offset=7;
+					recurrence_id=2;
 					//if user doesn't specify end of the recursion we set it to one year
 					if(end_recurrence==""){
 						end_recurrence=new moment(start);
@@ -658,14 +674,18 @@ function create_private_event(){
 					//build start date in format required by fullcalendar.io
 					var event_start;
 					var event_end;
+					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
 						if(startHour!="")
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						else event_start=start.format("YYYY-MM-DD")
 						if(endHour!="")
 							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						else event_end=end.format("YYYY-MM-DD");
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
-								id: id,
+								id_server: id,
+								id: id_event,
 								private: true,
 								title: title,
 								start: event_start,
@@ -685,6 +705,7 @@ function create_private_event(){
 					break;
 				case "tous les deux semaines":
 					offset=14;
+					recurrence_id=3
 					//if user doesn't specify end of the recursion we set it to one year
 					if(end_recurrence==""){
 						end_recurrence=new moment(start);
@@ -693,14 +714,18 @@ function create_private_event(){
 					//build start date in format required by fullcalendar.io
 					var event_start;
 					var event_end;
+					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
 						if(startHour!="")
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						else event_start=start.format("YYYY-MM-DD")
 						if(endHour!="")
 							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						else event_end=end.format("YYYY-MM-DD");
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
-								id: id,
+								id_server: id,
+								id: id_event,
 								private: true,
 								title: title,
 								start: event_start,
@@ -720,6 +745,7 @@ function create_private_event(){
 					break;
 				case "tous les mois":
 					offset=1;
+					recurrence_id=4;
 					//if user doesn't specify end of the recursion we set it to one year
 					if(end_recurrence==""){
 						end_recurrence=new moment(start);
@@ -728,14 +754,18 @@ function create_private_event(){
 					//build start date in format required by fullcalendar.io
 					var event_start;
 					var event_end;
+					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
 						if(startHour!="")
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						else event_start=start.format("YYYY-MM-DD")
 						if(endHour!="")
 							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						else event_end=end.format("YYYY-MM-DD");
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
-								id: id,
+								id_server: id,
+								id: id_event,
 								private: true,
 								title: title,
 								start: event_start,
@@ -755,6 +785,7 @@ function create_private_event(){
 					break;
 				case "tous les ans":
 					offset=1;
+					recurrence_id=5;
 					//if user doesn't specify end of the recursion we set it to one year
 					if(end_recurrence==""){
 						end_recurrence=new moment(start);
@@ -763,14 +794,18 @@ function create_private_event(){
 					//build start date in format required by fullcalendar.io
 					var event_start;
 					var event_end;
+					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
 						if(startHour!="")
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						else event_start=start.format("YYYY-MM-DD")
 						if(endHour!="")
 							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						else event_end=end.format("YYYY-MM-DD");
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
-								id: id,
+								id_server: id,
+								id: id_event,
 								private: true,
 								title: title,
 								start: event_start,
@@ -788,24 +823,42 @@ function create_private_event(){
 						end.add(offset,"year");
 					}
 					break;
-				}
 			}
-		$('#calendar').fullCalendar('addEventSource', {
-			events:[{
-				id: id,
-				private: true,
-				title: title,
-				start: start,
-				end: end,
-				allDay: allDay,
-				place: place,
-				details: details,
-				notes: notes,
-				color: "#8AC007",
-				editable: true
-				}]
-			} 
-		)
+		}
+		else{
+			$('#calendar').fullCalendar('addEventSource', {
+				events:[{
+					id_server: id,
+					id: guid(),
+					private: true,
+					title: title,
+					start: start,
+					end: end,
+					allDay: allDay,
+					place: place,
+					details: details,
+					notes: notes,
+					color: "#8AC007",
+					editable: true
+					}]
+				} 
+			)
+		//send data to server
+		var new_event={"name":title, "type":type, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes}
+		$.ajax({
+						dataType : "json",
+						type : 'POST',
+						url : "index.php&src='ajax'&req=8",
+						data : filters,
+						success : function(data, status) {
+							$("#dynamic_export_download_alert").modal("show");
+							$("#dynamic_export_file").attr("href",data.url);
+						},
+						error : function(data, status, errors) {
+							// Inserire un messagio di errore
+						}
+					});
+		}
 	}
 	//otherwise we are editing an existing one
 	else{
@@ -843,3 +896,12 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
+
+//change the value of the dropdown stating the private event type
+function changePrivateEventType(){
+	$("#private_event_type").text(event.target.innerHTML);
+	}
+	
+function deadline(){
+	$("#private_event_endDate").parent().toggleClass("hidden");
+	}
