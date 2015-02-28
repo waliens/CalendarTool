@@ -26,6 +26,11 @@ use util\database\Database;
 		const TEMP_DEADLINE = 1; /**< @brief Constant identifying the temporal type of event : deadline event */
 		const TEMP_TIME_RANGE = 2; /**< @brief Constant identifying the temporal type of event : time range event */
 		const TEMP_DATE_RANGE = 3; /**< @brief Constant identifying the temporal type of event : date range event */
+		const REC_DAILY = 1;
+		const REC_WEEKLY = 2;
+		const REC_BIM = 3;
+		const REC_MONTHLY = 4;
+		const REC_YEARLY = 5;
 		
 		function __construct() {
 			parent::__construct();
@@ -631,6 +636,61 @@ use util\database\Database;
 		 * @retval array the ids of the created events
 		 */
 		public function createEventWithRecurrence(array $data, $recurence, $endrecurence){
+			switch($recurence){
+				case REC_DAILY :
+					$interval = new DateInterval("0-0-1 0:0:0");
+					break;
+				case REC_WEEKLY :
+					$interval = new DateInterval("0-0-7 0:0:0");
+					break;
+				case REC_BIM :
+					$interval = new DateInterval("0-0-14 0:0:0");
+					break;
+				case REC_MONTHLY :
+					$interval = new DateInterval("0-1-0 0:0:0");
+					break;
+				case REC_YEARLY :
+					$interval = new DateInterval("1-0-0 0:0:0");
+					break;
+				default :
+					return false;
+					break;
+			}
 			
+			$typeOfDate = "";
+			if(isset($datas['limit'])){
+				$start = new DateTime($data['Limit']);
+				$end = NULL;
+				$typeOfDate = "Deadline";
+			}
+			elseif(isset($datas['Start'])){
+				$start = new DateTime($data['start']);
+				$end = new DateTime($data['end']);
+				if($start->format("H:i:s") == "00:00:00")
+					$typeOfDate =  "Date";
+				else 
+					$typeOfDate = "Timerange";
+			}
+			else
+				return false;
+		
+			unset($data['start']);
+			unset($data['end']);
+			unset($data['limit']);
+			
+			$retval = array();
+			while($start < $endrecurence){
+				$id = $this->createEvent($data);
+				if(is_int($id) && $id >= 0){
+					$this->setDate($id, $typeOfDate, $start, $end);
+					array_push($retval, $id);
+				}
+				$start->add($interval);
+				if($end)
+					$end->add($interval);
+			}
+			
+			return $retval;
 		}
+		
 	}
