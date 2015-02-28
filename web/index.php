@@ -34,3 +34,4 @@
 	}
 
 	echo $entry_point->get_controller()->get_output();
+

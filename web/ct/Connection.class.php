@@ -5,7 +5,7 @@
 	 * @brief Contains the Connection class
 	 */
 
-	namespace ct;
+	namespace util;
 
 	use util\superglobals\Superglobal;
 	use util\superglobals\SG_Session;

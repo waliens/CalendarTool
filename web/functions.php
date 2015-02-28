@@ -300,3 +300,32 @@
 
 		return array_map($fn, $array); 
 	}
+
+	
+	/**
+	 * @brief instantiate a specific Event model according to the params
+	 * @param string $type the type of the event model
+	 * @retval mixed an instance of $type.EventModel false otherwise
+	 */
+	function instantiateEventModel($type){
+		switch($type){
+			case "Independent":
+				return new IndependentEventModel();
+				break;
+			case "Academic":
+				return new AcademicEventModel();
+				break;
+			case "Student":
+				return new StudentEventModel();
+				break;
+			case "Sub":
+				return new SubEventModel();
+				break;
+			case "Event":
+				return new EventModel();
+				break;
+			default :
+				return false;
+				break;
+		}
+	}
