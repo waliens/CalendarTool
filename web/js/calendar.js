@@ -175,7 +175,7 @@ $(document).ready(function() {
 			$("#recurrence_btn").prop("disabled",false);
 			$("#private_event_type_btn").prop("disabled",false);
 			$("#private_event_details").prop("readonly",false);
-			$("#deadline input").prop("disabled",true);
+			$("#deadline input").prop("disabled",false);
 			//$("#private_event_startHour").prop("readonly",false);
 			//$("#private_event_endHour").prop("readonly",false);
 			$("#private_notes_body").prop("readonly",false);
@@ -588,6 +588,7 @@ function populate_public_event(event){
 //update the calendar with the new event or confirm the edit of an existing event
 function create_private_event(){
 	var title=$("#private_event_title").val();
+	var type=$("#private_event_type_btn").text();
 	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
 	var startHour=$("#private_event_startHour").val();
 	if(startHour!=""){
@@ -608,6 +609,9 @@ function create_private_event(){
 	var allDay=false;
 	if(!startHour && !endHour)
 		allDay=true;
+	var limit=false;
+	if($("#deadline input").prop("checked"))
+		limit=true;
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=0;
 	var place=$("#private_event_place").val();
@@ -849,10 +853,9 @@ function create_private_event(){
 						dataType : "json",
 						type : 'POST',
 						url : "index.php&src='ajax'&req=8",
-						data : filters,
+						data : new_event,
 						success : function(data, status) {
-							$("#dynamic_export_download_alert").modal("show");
-							$("#dynamic_export_file").attr("href",data.url);
+							// Inserire messaggio di successo
 						},
 						error : function(data, status, errors) {
 							// Inserire un messagio di errore
