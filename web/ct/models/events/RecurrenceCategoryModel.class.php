@@ -44,7 +44,9 @@
 		}
 
 		/** 
-		 * @brief Check whether the 
+		 * @brief Check whether the given language is valid
+		 * @param[in] string $lang The language to check
+		 * @retval bool True if the language string is valid, false otherwise
 		 */
 		private function is_valid_lang($lang)
 		{
