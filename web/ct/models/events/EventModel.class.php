@@ -18,7 +18,7 @@ use util\database\Database;
 
 	class EventModel extends Model{
 			
-		protected $fields;
+		protected $fields; /** < @brief Array containing the differents type of data that we use when we work with event when you pass an array it must have the same keys */
 		protected $fields_event;
 		protected $table;
 		protected $translate;
@@ -194,10 +194,24 @@ use util\database\Database;
 			
 			$datas = array_intersect_key($datas, $this->fields_event);
 
+			
 
 			$a = $this->sql->insert($this->table[0], $datas);
-			if($a)
-				return intval($this->sql->last_insert_id());
+			if($a){
+				$id = intval($this->sql->last_insert_id());
+				if(isset($datas['limit'])){
+					$limit = new DateTime($data['Limit']);
+					$this->setDate($id, "Deadline", $limit);
+				}
+				elseif(isset($datas['Start'])){
+					$start = new DateTime($data['start']);
+					$end = new DateTime($data['end']);
+					if($start->format("H:i:s") == "00:00:00")
+						$this->setDate($id, "Date", $start, $end);
+					else 
+						$this->setDate($id, "TimeRange", $start, $end);
+				}
+			}
 			else 
 				 return  $this->sql->error_info();
 		}
@@ -607,5 +621,16 @@ use util\database\Database;
 				return true;
 			else
 				return $this->sql->error_info();
+		}
+		
+		/**
+		 * @brief create different event with same data at differents interval
+		 * @param array $data The date 
+		 * @param enum $recurence the type of reccurence 
+		 * @param DateTime $endrecurence the end date of the recurrence (exclude)
+		 * @retval array the ids of the created events
+		 */
+		public function createEventWithRecurrence(array $data, $recurence, $endrecurence){
+			
 		}
 	}
