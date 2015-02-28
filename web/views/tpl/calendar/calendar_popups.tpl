@@ -95,7 +95,7 @@
               </table></td>
           <tr>
             <td colspan="2"><div class="float-left-10padright">
-                <div class="row">
+                <div class="row" style="width:350px;">
                   <div class="col-lg-6">
                     <div class="input-group">
                       <div class="input-group-btn">
@@ -120,8 +120,8 @@
               
               <div id="recurrence_end_td" class="hidden float-left-10padright">
                 <div class="col-lg-6">
-                    <div class="input-group">
-                      <input id="recurrence_end" class="form-control border-radius-4" placeholder="Fin de la récurrence?" size="17">
+                    <div class="input-group" style="width:165px">
+                      <input id="recurrence_end" class="form-control border-radius-4" placeholder="Fin de la récurrence?" size="45">
                     </div><!-- /input-group -->
                   </div><!-- /.col-lg-6 -->
               </div>

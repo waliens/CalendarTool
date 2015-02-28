@@ -497,7 +497,7 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 	$("#private_event_endHour").parent().parent().removeClass("hidden");
 	$("#private_event_endHour").removeClass("hidden");
 	$("#recurrence").text("jamais");
-	$("#recurrence_end").addClass("hidden");
+	$("#recurrence_end_td").addClass("hidden");
 	$("#private_event_place").val("");
 	$("#private_event_place").parent().parent().removeClass("hidden");
 	$("#private_event_details").val("");
@@ -579,14 +579,22 @@ function populate_public_event(event){
 //update the calendar with the new event or confirm the edit of an existing event
 function create_private_event(){
 	var title=$("#private_event_title").val();
-	var start=convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD");
+	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
 	var startHour=$("#private_event_startHour").val();
-	if(startHour)
-		start=start+"T"+startHour;
-	var end=convert_date($("#private_event_endDate_datepicker").val(), "YYYY-MM-DD");
+	if(startHour!=""){
+		//divide minutes from hours
+		startHour=startHour.split(":");
+		start.minute(startHour[1]);
+		start.hour(startHour[0]); 
+	}
+	var end=moment(convert_date($("#private_event_endDate_datepicker").val(), "YYYY-MM-DD"));
 	var endHour=$("#private_event_endHour").val();
-	if(endHour)
-		end=end+"T"+endHour;
+	if(endHour!=""){
+		//divide minutes from hours
+		endHour=endHour.split(":");
+		end.minute(endHour[1]);
+		end.hour(endHour[0]); 
+	}
 	//check if the event is an allDay event
 	var allDay=false;
 	if(!startHour && !endHour)
@@ -600,17 +608,186 @@ function create_private_event(){
 		var id=guid();
 		//check if the event is recursive
 		if(recurrence!="jamais"){
+			var end_recurrence=$("#recurrence_end").val();
+			if(end_recurrence!="")
+				end_recurrence=moment(convert_date(end_recurrence, "YYYY-MM-DD"));
+			var offset;
 			switch(recurrence){
 				case "tous les jours":
-				break;
+					offset=1;
+					//if user doesn't specify end of the recursion we set it to one year
+					if(end_recurrence==""){
+						end_recurrence=new moment(start);
+						end_recurrence.add(1,"year");
+					}
+					//build start date in format required by fullcalendar.io
+					var event_start;
+					var event_end;
+					while(start.isBefore(end_recurrence)){
+						if(startHour!="")
+							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						if(endHour!="")
+							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						$('#calendar').fullCalendar('addEventSource', {
+							events:[{
+								id: id,
+								private: true,
+								title: title,
+								start: event_start,
+								end: event_end,
+								allDay: allDay,
+								place: place,
+								details: details,
+								notes: notes,
+								color: "#8AC007",
+								editable: true
+								}]
+							} 
+						)
+						start.add(offset,"day");
+						end.add(offset,"day");
+					}
+					break;
 				case "tous les semaines":
-				break;
+					offset=7;
+					//if user doesn't specify end of the recursion we set it to one year
+					if(end_recurrence==""){
+						end_recurrence=new moment(start);
+						end_recurrence.add(1,"year");
+					}
+					//build start date in format required by fullcalendar.io
+					var event_start;
+					var event_end;
+					while(start.isBefore(end_recurrence)){
+						if(startHour!="")
+							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						if(endHour!="")
+							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						$('#calendar').fullCalendar('addEventSource', {
+							events:[{
+								id: id,
+								private: true,
+								title: title,
+								start: event_start,
+								end: event_end,
+								allDay: allDay,
+								place: place,
+								details: details,
+								notes: notes,
+								color: "#8AC007",
+								editable: true
+								}]
+							} 
+						)
+						start.add(offset,"day");
+						end.add(offset,"day");
+					}
+					break;
 				case "tous les deux semaines":
-				break;
+					offset=14;
+					//if user doesn't specify end of the recursion we set it to one year
+					if(end_recurrence==""){
+						end_recurrence=new moment(start);
+						end_recurrence.add(1,"year");
+					}
+					//build start date in format required by fullcalendar.io
+					var event_start;
+					var event_end;
+					while(start.isBefore(end_recurrence)){
+						if(startHour!="")
+							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						if(endHour!="")
+							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						$('#calendar').fullCalendar('addEventSource', {
+							events:[{
+								id: id,
+								private: true,
+								title: title,
+								start: event_start,
+								end: event_end,
+								allDay: allDay,
+								place: place,
+								details: details,
+								notes: notes,
+								color: "#8AC007",
+								editable: true
+								}]
+							} 
+						)
+						start.add(offset,"day");
+						end.add(offset,"day");
+					}
+					break;
 				case "tous les mois":
-				break;
+					offset=1;
+					//if user doesn't specify end of the recursion we set it to one year
+					if(end_recurrence==""){
+						end_recurrence=new moment(start);
+						end_recurrence.add(1,"year");
+					}
+					//build start date in format required by fullcalendar.io
+					var event_start;
+					var event_end;
+					while(start.isBefore(end_recurrence)){
+						if(startHour!="")
+							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						if(endHour!="")
+							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						$('#calendar').fullCalendar('addEventSource', {
+							events:[{
+								id: id,
+								private: true,
+								title: title,
+								start: event_start,
+								end: event_end,
+								allDay: allDay,
+								place: place,
+								details: details,
+								notes: notes,
+								color: "#8AC007",
+								editable: true
+								}]
+							} 
+						)
+						start.add(offset,"month");
+						end.add(offset,"month");
+					}
+					break;
 				case "tous les ans":
-				break;
+					offset=1;
+					//if user doesn't specify end of the recursion we set it to one year
+					if(end_recurrence==""){
+						end_recurrence=new moment(start);
+						end_recurrence.add(10,"year");
+					}
+					//build start date in format required by fullcalendar.io
+					var event_start;
+					var event_end;
+					while(start.isBefore(end_recurrence)){
+						if(startHour!="")
+							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
+						if(endHour!="")
+							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+						$('#calendar').fullCalendar('addEventSource', {
+							events:[{
+								id: id,
+								private: true,
+								title: title,
+								start: event_start,
+								end: event_end,
+								allDay: allDay,
+								place: place,
+								details: details,
+								notes: notes,
+								color: "#8AC007",
+								editable: true
+								}]
+							} 
+						)
+						start.add(offset,"year");
+						end.add(offset,"year");
+					}
+					break;
 				}
 			}
 		$('#calendar').fullCalendar('addEventSource', {
