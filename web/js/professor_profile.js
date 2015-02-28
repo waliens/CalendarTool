@@ -1,10 +1,15 @@
 // JavaScript Document
+
+//update the navbar
+$("#navbar li").removeClass("active");
+$("#profile_nav").addClass("active");
+
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "professor-profile.json",
+		url : "json/professor-profile.json",
 		//url: "professor-profile.html&src='ajax'&req=8",
 		success : function(data, status) {
 			var first_name=data.firstName;
@@ -117,7 +122,7 @@ $('#event_info').on('show.bs.modal', function (event) {
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "globalevent-info.json",
+		url : "json/globalevent-info.json",
 		//url: "professor-profile.html&src='ajax'&req=9&id=target.id",
 		success : function(data, status) {
 			//store the info retrieved from the server in ad hoc vars

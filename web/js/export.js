@@ -1,5 +1,9 @@
 // JavaScript Document
 
+//update the navbar
+$("#navbar li").removeClass("active");
+$("#menu_nav").addClass("active");
+
 var filters = {
           	allEvents: {isSet: 'false'},
 			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
@@ -45,7 +49,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "student-courses.json",
+						url : "json/student-courses.json",
 						async : true,
 						success : function(data, status) {
 							var courses=data.courses;
@@ -77,7 +81,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "events_type.json",
+						url : "json/events_type.json",
 						async : true,
 						success : function(data, status) {
 							var types=data.types;
@@ -108,7 +112,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "sessions.json",
+						url : "json/sessions.json",
 						async : true,
 						success : function(data, status) {
 							var sessions=data.sessions;
@@ -139,7 +143,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "all_professors.json",
+						url : "json/all_professors.json",
 						async : true,
 						success : function(data, status) {
 							var professors=data.professors;

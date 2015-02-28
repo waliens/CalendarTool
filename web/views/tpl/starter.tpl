@@ -26,9 +26,9 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#">Calendrier</a></li>
-          <li class="active"><a href="?page=profile">Profil</a></li>
-          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
+          <li id="calendar_nav" class="active"><a href="index.php">Calendrier</a></li>
+          <li id="profile_nav"><a href="?page=profile">Profil</a></li>
+          <li id="menu_nav" class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="?page=static_export">Export statique</a></li>
               <li class="divider"></li>

@@ -1,10 +1,15 @@
 // JavaScript Document
+
+//update the navbar
+$("#navbar li").removeClass("active");
+$("#menu_nav").addClass("active");
+
 $(document).ready(function() {
 	//retrieve private events from server
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "all_private_events.json",
+		url : "json/all_private_events.json",
 		//url: "src='ajax'&req=7"
 		async : true,
 		success : function(data, status) {

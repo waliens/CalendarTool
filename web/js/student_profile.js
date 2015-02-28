@@ -1,10 +1,15 @@
 // JavaScript Document
+
+//update the navbar
+$("#navbar li").removeClass("active");
+$("#profile_nav").addClass("active");
+
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "student-profile.json",
+		url : "json/student-profile.json",
 		async : true,
 		success : function(data, status) {
 			var first_name=data.firstName;
