@@ -304,7 +304,8 @@ use \DateTime;
 			
 			if($a)
 				return true;
-			return $this->sql->error_info();
+			$this->error .= "\n Date Error";
+			return false;
 		}
 	/**
 	 * @brief get an array of event from an array of id
@@ -316,8 +317,11 @@ use \DateTime;
 			if($ids == null)
 				$ids = array();
 			
-			if(empty($ids))
-				return -1;
+			if(empty($ids)){
+				$this->error .= "\n No IDs provided";
+				return false;
+			}
+				
 			
 			$table = implode(" JOIN ", $this->table);
 			
@@ -556,6 +560,7 @@ use \DateTime;
 				if(isset($data[0]["Annotation"]))
 					return $data[0]['Annotation'];
 			}
+			$this->error .= "\n Error while searching for the annotation";
 			return false;
 		}
 		
@@ -577,10 +582,13 @@ use \DateTime;
 				
 				if($a)
 					return true;
-				else
-					return $this->sql->error_info();
+				else{
+					$this->error .= "\n Error while setting the annotation";
+					return false;
+				}
 					
 			}
+			$this->error .= "\n Id error (user or event)";
 			return false;
 		}
 		
@@ -597,8 +605,9 @@ use \DateTime;
 			$success = $this->sql->delete("event_annotation", "Id_Event = ".$event." AND Id_Student = ".$user);
 			if($success)
 				return true;
-			else
-				return $this->sql->error_info();
+			else{
+				$this->error .= "\n Error while deleting the annotation";
+			}
 		}
 		
 		 	
@@ -629,8 +638,9 @@ use \DateTime;
 			$success = $this->sql->delete("event", "Id_Event = ". $event);
 			if($success)
 				return true;
-			else
-				return $this->sql->error_info();
+			
+			$this->error .= "\n Error while deleting the event";
+				return false;
 		}
 		
 		/**
@@ -658,6 +668,7 @@ use \DateTime;
 					$interval = new DateInterval("1-0-0 0:0:0");
 					break;
 				default :
+					$this->error .= "\n Error in the recurrence field";
 					return false;
 					break;
 			}
@@ -676,8 +687,10 @@ use \DateTime;
 				else 
 					$typeOfDate = "Timerange";
 			}
-			else
+			else{
+				$this->error .= "\n Error in the Date field";
 				return false;
+			}
 		
 			unset($data['start']);
 			unset($data['end']);

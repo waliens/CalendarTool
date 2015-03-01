@@ -32,7 +32,7 @@
 
 			switch($this->sg_get->value("req"))
             {
-				case "101":
+				case "61":
 					return new PrivateEventController();
 				default:
 					return null;
