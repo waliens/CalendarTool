@@ -7,6 +7,7 @@
 
 namespace ct\controllers\ajax;
 
+
 use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
@@ -18,6 +19,8 @@ use util\superglobals\Superglobal;
 
 class PrivateEventController extends AjaxController
 {
+
+		
 	public function __construct() 
 	{
 		parent::__construct();
@@ -77,5 +80,7 @@ class PrivateEventController extends AjaxController
 		$this->output_data['id'] = $id_ret;
 	}
 	
-	
+
 }
+
+

@@ -7,7 +7,6 @@
 
 	namespace util\superglobals;
 
-	require_once("functions.php");
 
 	/**
 	 * @class SG_Session

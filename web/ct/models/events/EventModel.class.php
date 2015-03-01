@@ -8,7 +8,7 @@
 namespace ct\models\events;
 use util\mvc\Model;
 use util\database\Database;
-
+use \DateTime;
 
 	/**
 	 * @class Event
@@ -157,7 +157,7 @@ use util\database\Database;
 					}
 					elseif($this->fields[$key] == "date"){
 						//TODO
-						$arr[$key] = $this->sql->quoted($value);
+						$arr[$key] = $this->sql->quote($value);
 					}
 				
 				}
@@ -189,7 +189,6 @@ use util\database\Database;
 		 * @retval mixed true if execute correctly error_info if not
 		 */
 		public function createEvent($data){
-
 			$datas = $this->checkParams($data, true, true);
 			if($datas == -1)
 				return false;
@@ -204,18 +203,21 @@ use util\database\Database;
 			$a = $this->sql->insert($this->table[0], $datas);
 			if($a){
 				$id = intval($this->sql->last_insert_id());
-				if(isset($datas['limit'])){
-					$limit = new DateTime($data['Limit']);
+				if(isset($data['limit'])){
+					$limit = new DateTime($data['limit']);
 					$this->setDate($id, "Deadline", $limit);
 				}
-				elseif(isset($datas['Start'])){
+				elseif(isset($data['start'])){
 					$start = new DateTime($data['start']);
 					$end = new DateTime($data['end']);
-					if($start->format("H:i:s") == "00:00:00")
+					if($start->format("H:i:s") == "00:00:00"){
 						$this->setDate($id, "Date", $start, $end);
+					
+					}
 					else 
 						$this->setDate($id, "TimeRange", $start, $end);
 				}
+				return $id;
 			}
 			else 
 				 return  $this->sql->error_info();
@@ -266,22 +268,22 @@ use util\database\Database;
 			switch($type){
 				case "Date":
 					$data = array();
-					$data["Id_event"] = $id;
-					$data["Start"] = $start->format("Y-m-d");
-					$data["End"] = $start->format("Y-m-d");
+					$data["Id_event"] = $this->sql->quote($id);
+					$data["Start"] = $this->sql->quote($start->format("Y-m-d"));
+					$data["End"] = $this->sql->quote($start->format("Y-m-d"));
 					$table = "date_range_event";
 					break;
 				case "Deadline":
 					$data = array();
-					$data["Id_event"] = $id;
-					$data["Limit"] = $start->format("Y-m-d H:i:s");
+					$data["Id_event"] = $this->sql->quote($id);
+					$data["Limit"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
 					$table = "deadline_event";
 					break;
 				case "TimeRange":
 					$data = array();
-					$data["Id_event"] = $id;
-					$data["Start"] = $start->format("Y-m-d H:i:s");
-					$data["End"] = $start->format("Y-m-d H:i:s");
+					$data["Id_event"] = $this->sql->quote($id);
+					$data["Start"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
+					$data["End"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
 					$table = "time_range_event";
 					break;
 				default:

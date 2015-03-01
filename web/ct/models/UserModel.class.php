@@ -7,7 +7,6 @@
 
 	namespace ct\models;
 
-	require_once("functions.php");
 
 	use util\mvc\Model;
 

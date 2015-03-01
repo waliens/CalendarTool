@@ -17,7 +17,7 @@ class StudentEventModel extends EventModel{
 		
 		$this->translate = array_merge($this->translate,  array("id_owner" => "Id_Owner"));
 		
-		$this->table[1] = "Student_Event";
+		$this->table[1] = "student_event";
 
 	}
 
