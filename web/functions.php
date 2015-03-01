@@ -160,7 +160,7 @@
 	 * @retval The flattened array
 	 * @note Taken from 'too much php' post on stackoverflow (url: http://goo.gl/UUCMTp)
 	 */
-	function array_flatten(array $array)
+	function array_flatten(array& $array)
 	{
 	    $return = array();
 	    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
@@ -301,6 +301,26 @@
 		return array_map($fn, $array); 
 	}
 
+	/**
+	 * @brief Duplicate the given array n times
+	 * @param[in] array $array The array to duplicate (must not contain string keys)
+	 * @param[in] int   $n     The number of duplication
+	 * @retval array The duplicated array
+	 * 
+	 * Example :
+	 * @code
+	 * $array = array(1, 2);
+	 * // $dup_array is (1, 2, 1, 2);
+	 * $dup_array = array_dup($array, 2);
+	 * @endcode
+	 */
+	function array_dup(array &$array, $n)
+	{
+		$out_array = $array;
+		for($i = 1; $i < $n; ++$i)
+			$out_array = array_merge($out_array, $array);
+		return $out_array;
+	}
 	
 	/**
 	 * @brief instantiate a specific Event model according to the params
@@ -329,3 +349,4 @@
 				break;
 		}
 	}
+
