@@ -354,7 +354,7 @@
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ? ) AS ttm
 						NATURAL JOIN 
-						( SELECT Id_Role, ".$lang_col.", Description FROM teaching_role ) AS roles";
+						( SELECT Id_Role, ".$lang_col." FROM teaching_role ) AS roles";
 
 			return $this->sql->execute_query($query, array($id_glob));
 		}
