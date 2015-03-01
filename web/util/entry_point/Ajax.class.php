@@ -7,15 +7,15 @@
 
     namespace util\entry_point;
     
+    use ct\controllers\ajax\PrivateEventController;
+    use util\superglobals\Superglobal;
+    use util\superglobals\SG_Get;
+
     /**
      * @class Ajax
      * @brief This class must be implemented by any request handler
      */
-    use ct\controllers\ajax\PrivateEventController;
-
-				use util\superglobals\Superglobal;
-
-				class Ajax implements EntryPoint
+	class Ajax implements EntryPoint
     {
     	protected $sg_get; /**< @brief Superglobal object for $_GET */
         /**
@@ -27,16 +27,16 @@
         }
     	public function get_controller()
         {
-			if($this->sg_get->check("req") == Superglobal::ERR_OK){
-				$req = $this->sg_get->value("req");
-				switch($req){
-					case 101:
-						return new PrivateEventController();
-						break;
-					default:
-						return null;
-						break;
-				}
+			if($this->sg_get->check("req") !== Superglobal::ERR_OK)
+                return null;
+
+			switch($this->sg_get->value("req"))
+            {
+				case "101":
+					return new PrivateEventController();
+				default:
+					return null;
+
 			}
         }
     };

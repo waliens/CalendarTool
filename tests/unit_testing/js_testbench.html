@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Benchmark</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+	</head>
+	<body>
+		<ul>
+			<li>Input : <div id="input"></div></li>
+			<li>Output : <div id="output"></div></li>
+		<ul>
+		
+		
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+
+			var request_id = "101", // put request id here
+				json_input = {"id" : [{"item1" : 1}, {"item1" : 2}], "name" : "lolipop" };
+
+			$("#input").text(JSON.stringify(json_input));
+
+			$.ajax({
+				dataType : "json",
+				type : 'POST',
+				url : ("http://localhost/ct/index.php?src=ajax&req=" + request_id),
+				success : function(data, status) {
+					$("#output").text(data);
+				},
+				error : function(data, status, errors) {
+					$("#output").text("Error " + status + " : " + errors);
+				}
+			});
+		});
+		</script>
+	</body>
+</html>
