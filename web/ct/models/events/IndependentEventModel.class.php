@@ -1,26 +1,25 @@
 <?php
+
 namespace ct\models\events;
 
 /**
- * @brief Describe the AcademicEvent
+ * @brief Describe the SubEvents
  * @author charybde
  *
  */
-class StudentEventModel extends EventModel{
-
-	private $fields_st;
+class IndependentEventModel extends AcademicEventModel{
+	
+	private $fields_ind;
 	
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields,  array("id_owner" => "int"));
-		$this->fields_st = array("Id_Event" => "int", "Id_Owner" => "int");
-		
-		$this->translate = array_merge($this->translate,  array("id_owner" => "Id_Owner"));
-		
-		$this->table[1] = "Student_Event";
-
+		$this->fields = array_merge($this->fields, array("id_owner" => "int", "public" => "bool"));
+		$this->fields_ind = array("Id_Event" => "int", "Id_Owner" => "int", "Public" => "bool");
+		$this->translate = array_merge($this->translate, array("id_owner" => "Id_Owner", "Public" => "Public"));
+		$this->table = $this->table[2]= "independent_event";
+	
 	}
-
+	
 	/**
 	 *
 	 * @brief Create an event and put it into the DB
@@ -38,17 +37,17 @@ class StudentEventModel extends EventModel{
 		if($datas == -1)
 			return false;
 	
-	
-		$datas = array_intersect_key($datas, $this->fields_st);
+		$datas = array_intersect_key($datas, $this->fields_ind);
 		$datas["Id_Event"] = $ret;
-		$a = $this->sql->insert($this->table[1], $datas);
+		$a = $this->sql->insert($this->table[2], $datas);
 
 		if($a)
 			return $ret;
 		else
 			return $this->sql->error_info();
-		
 	}
+	
 }
+
 
 ?>
