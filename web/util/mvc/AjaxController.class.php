@@ -13,8 +13,6 @@
 	 */
 	abstract class AjaxController extends Controller
 	{
-		protected $input_data; /**< @brief Array containing input data converted from a JSON string (array is left empty there was no input data) */ 
-		protected $input_json; /**< @brief String containing the json string given as input (empty string if there was no input JSON) */
 		protected $output_data; /**< @brief Array where to store the data to send back as JSON to the client */
 		
 		/**
@@ -24,21 +22,7 @@
 		{
 			parent::__construct();
 
-			$this->input_json = file_get_contents("php://input");
-
-			if($this->has_json_input())
-				$this->input_data = $this->json2array($this->input_json);
-
-			$this->output_data = array();
-		}
-
-		/** 
-		 * @brief Checks whether there was a json input in the request
-		 * @retval True if there was a json input, false otherwise
-		 */
-		final protected function has_json_input()
-		{
-			return !empty($this->input_json);
+			$this->output_data = array("error" => "");
 		}
 
 		/**
@@ -67,5 +51,25 @@
 		public function get_output()
 		{
 			return $this->array2json($this->output_data);
+		}
+
+		/**
+		 * @brief Checks whether the currently connected user has access to the ressource
+		 * @retval bool True if the user has access to the ressource, false otherwise
+		 * @note Default behavior is to give access to everything. Should be reimplemented according to
+		 * the check that has to be performed
+		 */
+		protected function has_access()
+		{
+			return true;
+		}
+
+		/**
+		 * @brief Set the content of the error field to return 
+		 * @param[in] array|string The error to return to the client
+		 */
+		protected function set_error($error)
+		{
+			$this->output_data['error'] = $error;
 		}
 	}
