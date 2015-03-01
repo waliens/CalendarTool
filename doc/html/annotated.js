@@ -5,6 +5,9 @@ var annotated =
         [ "Event", "classct_1_1controller_1_1_event.html", "classct_1_1controller_1_1_event" ]
       ] ],
       [ "controllers", null, [
+        [ "ajax", null, [
+          [ "PrivateEventController", "classct_1_1controllers_1_1ajax_1_1_private_event_controller.html", "classct_1_1controllers_1_1ajax_1_1_private_event_controller" ]
+        ] ],
         [ "browser", null, [
           [ "CalendarPageController", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller" ],
           [ "LoginPageController", "classct_1_1controllers_1_1browser_1_1_login_page_controller.html", "classct_1_1controllers_1_1browser_1_1_login_page_controller" ],
@@ -15,14 +18,15 @@ var annotated =
           [ "StudentProfileController", "classct_1_1controllers_1_1browser_1_1_student_profile_controller.html", "classct_1_1controllers_1_1browser_1_1_student_profile_controller" ]
         ] ]
       ] ],
-      [ "model", null, [
-        [ "AcademicEventModel", "classct_1_1model_1_1_academic_event_model.html", "classct_1_1model_1_1_academic_event_model" ],
-        [ "EventModel", "classct_1_1model_1_1_event_model.html", "classct_1_1model_1_1_event_model" ],
-        [ "IndependentEventModel", "classct_1_1model_1_1_independent_event_model.html", "classct_1_1model_1_1_independent_event_model" ],
-        [ "StudentEventModel", "classct_1_1model_1_1_student_event_model.html", "classct_1_1model_1_1_student_event_model" ],
-        [ "SubEventModel", "classct_1_1model_1_1_sub_event_model.html", "classct_1_1model_1_1_sub_event_model" ]
-      ] ],
       [ "models", null, [
+        [ "events", null, [
+          [ "AcademicEventModel", "classct_1_1models_1_1events_1_1_academic_event_model.html", "classct_1_1models_1_1events_1_1_academic_event_model" ],
+          [ "EventModel", "classct_1_1models_1_1events_1_1_event_model.html", "classct_1_1models_1_1events_1_1_event_model" ],
+          [ "GlobalEventModel", "classct_1_1models_1_1events_1_1_global_event_model.html", "classct_1_1models_1_1events_1_1_global_event_model" ],
+          [ "IndependentEventModel", "classct_1_1models_1_1events_1_1_independent_event_model.html", "classct_1_1models_1_1events_1_1_independent_event_model" ],
+          [ "StudentEventModel", "classct_1_1models_1_1events_1_1_student_event_model.html", "classct_1_1models_1_1events_1_1_student_event_model" ],
+          [ "SubEventModel", "classct_1_1models_1_1events_1_1_sub_event_model.html", "classct_1_1models_1_1events_1_1_sub_event_model" ]
+        ] ],
         [ "filters", null, [
           [ "DateTimeFilter", "classct_1_1models_1_1filters_1_1_date_time_filter.html", "classct_1_1models_1_1filters_1_1_date_time_filter" ],
           [ "EventCategoryFilter", "classct_1_1models_1_1filters_1_1_event_category_filter.html", "classct_1_1models_1_1filters_1_1_event_category_filter" ],
@@ -32,16 +36,11 @@ var annotated =
           [ "PathwayFilter", "classct_1_1models_1_1filters_1_1_pathway_filter.html", "classct_1_1models_1_1filters_1_1_pathway_filter" ],
           [ "ProfessorFilter", "classct_1_1models_1_1filters_1_1_professor_filter.html", "classct_1_1models_1_1filters_1_1_professor_filter" ]
         ] ],
-<<<<<<< HEAD:doc/html/annotated.js
-=======
         [ "notifiers", null, [
           [ "Notifier", "classct_1_1models_1_1notifiers_1_1_notifier.html", "classct_1_1models_1_1notifiers_1_1_notifier" ]
         ] ],
-        [ "EventModel", "classct_1_1models_1_1_event_model.html", "classct_1_1models_1_1_event_model" ],
->>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/annotated.js
         [ "FileModel", "classct_1_1models_1_1_file_model.html", "classct_1_1models_1_1_file_model" ],
         [ "FilterCollectionModel", "classct_1_1models_1_1_filter_collection_model.html", "classct_1_1models_1_1_filter_collection_model" ],
-        [ "GlobalEventModel", "classct_1_1models_1_1_global_event_model.html", "classct_1_1models_1_1_global_event_model" ],
         [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", "classct_1_1models_1_1_modification_request_model" ],
         [ "PathwayModel", "classct_1_1models_1_1_pathway_model.html", "classct_1_1models_1_1_pathway_model" ],
         [ "RootModel", "classct_1_1models_1_1_root_model.html", "classct_1_1models_1_1_root_model" ],
@@ -66,7 +65,6 @@ var annotated =
         [ "BrowserController", "classutil_1_1mvc_1_1_browser_controller.html", "classutil_1_1mvc_1_1_browser_controller" ],
         [ "CategoryModel", "classutil_1_1mvc_1_1_category_model.html", "classutil_1_1mvc_1_1_category_model" ],
         [ "Controller", "classutil_1_1mvc_1_1_controller.html", "classutil_1_1mvc_1_1_controller" ],
-        [ "Event", "classutil_1_1mvc_1_1_event.html", "classutil_1_1mvc_1_1_event" ],
         [ "Model", "classutil_1_1mvc_1_1_model.html", "classutil_1_1mvc_1_1_model" ]
       ] ],
       [ "superglobals", null, [
@@ -77,14 +75,12 @@ var annotated =
         [ "SG_Session", "classutil_1_1superglobals_1_1_s_g___session.html", "classutil_1_1superglobals_1_1_s_g___session" ],
         [ "Superglobal", "classutil_1_1superglobals_1_1_superglobal.html", "classutil_1_1superglobals_1_1_superglobal" ]
       ] ],
-<<<<<<< HEAD:doc/html/annotated.js
       [ "Connection", "classutil_1_1_connection.html", "classutil_1_1_connection" ],
-=======
       [ "Mail", "classutil_1_1_mail.html", "classutil_1_1_mail" ],
->>>>>>> cc35306a37733ff7f91a545d478bf5a833039451:doc/web/html/annotated.js
       [ "Redirection", "classutil_1_1_redirection.html", "classutil_1_1_redirection" ],
       [ "TypeChecker", "classutil_1_1_type_checker.html", "classutil_1_1_type_checker" ],
       [ "URL", "classutil_1_1_u_r_l.html", "classutil_1_1_u_r_l" ]
     ] ],
+    [ "Event", "class_event.html", null ],
     [ "Event", "class_event.html", null ]
 ];

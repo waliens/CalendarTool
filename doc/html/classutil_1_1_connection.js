@@ -7,5 +7,7 @@ var classutil_1_1_connection =
     [ "is_connected_as_root", "classutil_1_1_connection.html#a7d7b1a8e1d7defb228ee8b29c14bcd94", null ],
     [ "is_root", "classutil_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263", null ],
     [ "user_id", "classutil_1_1_connection.html#a73111142777dd43189b53adcaffe5381", null ],
+    [ "user_is_faculty_staff", "classutil_1_1_connection.html#a64ba30ae0782acefc5f18bff34b5477f", null ],
+    [ "user_is_student", "classutil_1_1_connection.html#ac4cb6ac0736ba0bb974788170a07a2a5", null ],
     [ "user_ulg_id", "classutil_1_1_connection.html#aa4e53b55981571c9a1176026c08fc206", null ]
 ];
