@@ -80,6 +80,28 @@
 		}
 
 		/**
+		 * @brief Perform a check on the given keys are the superglobal
+		 * @param[in] array    $keys 	 The keys to check
+		 * @param[in] int      $chk 	 Define the type of check to perform (see below) (default: null => CHK_ISSET | CHK_NOT_EMPTY)
+		 * @param[in] function $callback A predicate taking the value associated with one key as argument and returning
+		 * true if this value is valid, false otherwise (default: null => callback not evaluated)
+		 * @retval int The negative error code specifying which check has failed (see ERR_* class negative constants) if it has failed, ERR_OK otherwise
+		 * 
+		 * @note The function return ERR_OK if none of the keys returned an error, otherwise it returns the error code of the first error encountered
+		 */
+		public function check_keys(array $keys, $chk = null, $callback = null)
+		{
+			foreach ($keys as $key) 
+			{
+				$code = $this->check($key, $chk, $callback);
+				if($code < 0)
+					return $code;
+			}
+
+			return self::ERR_OK;
+		}
+
+		/**
 		 * @brief Check if the value (associated with a key) is empty
 		 * @param mixed $value A reference to the value to check
 		 * @retval bool True if the value is empty, false otherwise
