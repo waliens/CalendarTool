@@ -78,6 +78,8 @@ class PrivateEventController extends AjaxController
 				$model->set_annotation($value, $data['id_owner'], $this->sg_post->value('note'));
 		
 		$this->output_data['id'] = $id_ret;
+		$this->set_error($model->get_error());
+		
 	}
 	
 

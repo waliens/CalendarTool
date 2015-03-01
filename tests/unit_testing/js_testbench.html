@@ -8,7 +8,6 @@
 		<ul>
 			<li><strong>Request</strong> : <span id="req"></span>
 			<li><strong>Input</strong> : <span id="input"></span></li>
-			<li><strong>Request body</strong> : <span id="body"></span></li>
 			<li><strong>Output</strong> : <span id="output"></span></li>
 			<li><strong>Comment</strong> : <span id="comment"></span></li>
 		<ul>
@@ -37,13 +36,7 @@
 				url : ("http://localhost/git/calendartool/web/index.php?src=ajax&req=" + request_id),
 				data:json_input,
 				success : function(data, status) {
-					var out = JSON.stringify(data);
-
-					if(out.length() == 0)
-						$("#output").text(data.responseText);
-					else
-						$("#output").text(out);
-
+					$("#output").text(JSON.stringify(data));
 					$("#comment").text("success");
 				},
 				error : function(data, status, errors) {

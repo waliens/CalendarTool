@@ -22,6 +22,7 @@ use \DateTime;
 		protected $fields_event;
 		protected $table;
 		protected $translate;
+		protected  $error;
 
 		const TEMP_DEADLINE = 1; /**< @brief Constant identifying the temporal type of event : deadline event */
 		const TEMP_TIME_RANGE = 2; /**< @brief Constant identifying the temporal type of event : time range event */
@@ -139,15 +140,9 @@ use \DateTime;
 			if($cintegrity){
 				foreach($arr as $key => $value){
 					if($this->fields[$key] == "int"){
-						if(!is_int($value))
-							return -1;
-						else
 							$arr[$key] = $this->sql->quote($value);
 					}
 					elseif($this->fields[$key] == "bool"){
-						if(!is_bool($value))
-							return -1;
-						else
 							$arr[$key] = $this->sql->quote($value);	
 					}
 					elseif($this->fields[$key] == "text"){
@@ -193,9 +188,10 @@ use \DateTime;
 			if($datas == -1)
 				return false;
 			
-			if(isset($datas['Id_Event']))
+			if(isset($datas['Id_Event'])){
+				$this->error .= "\n Try to force an ID";
 				return false;
-			
+			}
 			$datas = array_intersect_key($datas, $this->fields_event);
 
 			
@@ -219,8 +215,11 @@ use \DateTime;
 				}
 				return $id;
 			}
-			else 
-				 return  $this->sql->error_info();
+			
+			$this->error .= "\n The event cannot be created";
+			return false;
+			
+				
 		}
 
 		/**
@@ -234,9 +233,12 @@ use \DateTime;
 			$table = implode(" JOIN ", $this->table);
 			
 			$data = $this->checkParams($to, true, true);
-			if($data == -1)
+			if($data == -1){
+				$this->error .= "\n Error in the fields analysis";
 				return false;
-			
+			}
+
+						
 			$where = $this->checkParams($from, true);
 			
 			$whereClause = array();
@@ -252,7 +254,8 @@ use \DateTime;
 			$a = $this->sql->update($table, $data, implode(" AND ", $whereClause));
 			if($a)
 				return true;
-			return $this->sql->error_info();
+			$this->error .= "\n Error in the modification of the event";
+			return false;
 		}
 		/**
 		 * @brief 
@@ -695,4 +698,7 @@ use \DateTime;
 			return $retval;
 		}
 		
+		public function get_error(){
+			return $this->error;
+		}
 	}
