@@ -158,8 +158,6 @@
  		 */
 		public function user_id()
 		{
-			return 1;
-			 
 			if(!$this->is_connected())
 				throw new \Exception("User not connected");
 		
