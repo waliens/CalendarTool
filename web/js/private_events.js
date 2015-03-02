@@ -68,7 +68,7 @@ $("#delete_confirm").click(function(){
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
-		url : "private_events.html?src='ajax'&req=8",
+		url : "index.php?src=ajax&req=102",
 		data:$("#delete_confirm").attr("event-id"),
 		async : true,
 		success : function(data, status) {

@@ -588,7 +588,7 @@ function populate_public_event(event){
 //update the calendar with the new event or confirm the edit of an existing event
 function create_private_event(){
 	var title=$("#private_event_title").val();
-	var type=$("#private_event_type_btn").text();
+	var type=$("#private_event_type").text();
 	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
 	var startHour=$("#private_event_startHour").val();
 	if(startHour!=""){
@@ -852,7 +852,7 @@ function create_private_event(){
 		$.ajax({
 						dataType : "json",
 						type : 'POST',
-						url : "index.php?src=ajax&req=10",
+						url : "index.php?src=ajax&req=101",
 						data : new_event,
 						success : function(data, status) {
 							// Inserire messaggio di successo

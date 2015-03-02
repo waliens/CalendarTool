@@ -14,8 +14,6 @@ var filters = {
           };
  
 $(document).ready(function(){
-	//bind alert popup to filters submission button
-	$("#dynamic_export").popover();
 	//bind alert popup to ok button of each filter pane
 	$("#filter_alert .btn-primary").popover();
 	}); 
@@ -394,29 +392,20 @@ $("#filter_alert .close").click(function(){
 });
 
 //send data to server after filters comple
-$("#dynamic_export").click(function(){
-	//check that at least a choice has been made
-	if($("#filters input:checked").length==0){
-		$("#dynamic_export").data("title","Erreur");
-		$("#dynamic_export").data("content","Sélectionner au moins une option");
-		$("#dynamic_export").popover("show");
-	}
-	//send data to server
-	else{
-		//UNCOMMENT FOLLOWING LINE FOR TESTING WITHOUT SERVER
-		//$("#dynamic_export_download_alert").modal("show");
-		$.ajax({
-						dataType : "json",
-						type : 'POST',
-						url : "dynamic_export.html",
-						data : filters,
-						success : function(data, status) {
-							$("#dynamic_export_download_alert").modal("show");
-							$("#dynamic_export_file").attr("href",data.url);
-						},
-						error : function(data, status, errors) {
-							// Inserire un messagio di errore
-						}
-					});
-		}
+$("#static_export").click(function(){
+	//UNCOMMENT FOLLOWING LINE FOR TESTING WITHOUT SERVER
+	//$("#dynamic_export_download_alert").modal("show");
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=200",
+			data : filters,
+			success : function(data, status) {
+				$("#dynamic_export_download_alert").modal("show");
+				$("#dynamic_export_file").attr("href",data.url);
+			},
+			error : function(data, status, errors) {
+				// Inserire un messagio di errore
+			}
+		});
 });
