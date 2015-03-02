@@ -349,3 +349,43 @@
 				break;
 		}
 	}
+
+	/**
+	 * @brief Transform a one-dimensionnal array to transform 
+	 * @param[in] array $array     The one-idimensionnal array to transform 
+	 * @param[in] array $transform Array specifying which transformations must be executed on the array
+	 * @note The operations exposed by the function are item removal and key replacement
+	 * @note The transform array must be formatted as for the darray_transform function
+	 * @note The transform array must be formatted as follows : its keys are the keys to keep from $array and they must map
+	 * the new key name or an empty string if the key name must not change
+	 */
+	function array_keys_transform(array &$array, $transform)
+	{
+		$out = array();
+		$transform_fn = function($val, $key) use (&$out, $transform)
+						{
+							if(array_key_exists($key, $transform)) // add element if the key exists
+							{
+								// 
+								$new_key = empty($transform[$key]) ? $key : $transform[$key];
+								$out[$new_key] = $val;
+							}
+						};
+
+		array_walk($array, $transform_fn);
+		return $out;
+	}
+
+	/**
+	 * @brief Transform a database-like array (see below). 
+	 * @param[in] array $array     The array to transform 
+	 * @param[in] array $transform Array specifying which transformations must be executed on the array
+	 * @note The operations exposed by the function are the selection and renaming of columns
+	 * @note A database-like array is a two dimensionnal array (array of arrays) of which each
+	 * subarrays contains the same keys. 
+	 */
+	function darray_transform(array &$array, $transform)
+	{
+		return array_map(function(&$row) use (&$transform) { return array_keys_transform($row, $transform);},
+						 $array);
+	}

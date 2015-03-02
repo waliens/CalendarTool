@@ -149,4 +149,23 @@
 		{
 			return \ct\starts_with($ulg_id, "s");
 		}
+
+		/**
+		 * @brief Returns the list of professors registered on the platform
+		 * @retval array An array containing the professors
+		 * @note A professor is described by the following items (given by array key) :
+		 * <ul>
+		 *  <li>Id_User : user id </li>
+		 *  <li>Id_ULg : user ulg id </li>
+		 *  <li>Name : user name </li>
+		 *  <li>Surname : user surname </li>
+		 * </ul>
+		 */
+		public function get_professors()
+		{
+			$query  =  "SELECT * FROM user NATURAL JOIN
+						(SELECT Id_Faculty_Member AS Id_User FROM faculty_staff_member ) AS fac_meme";
+
+			return $this->sql->execute_query($query);
+		}
 	}
