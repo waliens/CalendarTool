@@ -848,18 +848,19 @@ function create_private_event(){
 				} 
 			)
 		//send data to server
-		var new_event={"name":title, "type":type, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes}
+		var new_event={"name":title, "type":type, "start":start.format("YYYY-MM-DD"), "end":end.format("YYYY-MM-DD"), "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes}
 		$.ajax({
 						dataType : "json",
 						type : 'POST',
-						url : "index.php&src='ajax'&req=8",
+						url : "index.php?src=ajax&req=10",
 						data : new_event,
 						success : function(data, status) {
 							// Inserire messaggio di successo
 						},
-						error : function(data, status, errors) {
-							// Inserire un messagio di errore
-						}
+						error : function(xhr, status, error) {
+								  var err = eval("(" + xhr.responseText + ")");
+								  alert(err.Message);
+								}
 					});
 		}
 	}
