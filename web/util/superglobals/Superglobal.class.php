@@ -156,4 +156,14 @@
 		{
 			return $this->superglobal[$key];
 		}
+
+		/**
+		 * @brief Set the given value for the given key in the superglobal
+		 * @param[in] string $key The key
+		 * @param[in] string $value The value
+		 */
+		public function set_value($key, $value)
+		{
+			$this->superglobal[$key] = $value;
+		}
 	}
