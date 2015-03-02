@@ -20,10 +20,10 @@ spl_autoload_register("ct\autoload");
 $test = new EventModel();
 //Create
 echo "<br> Create <br>";
-$data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 1);
+$data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 1, "start" => "2015-03-01", "end" => "2015-03-01");
 $a = $test->createEvent($data);
 var_dump($a);
-
+/*
 //Updata
 echo "<br> Update <br>";
 $from = array("id_category" => 1);
@@ -95,4 +95,4 @@ var_dump($n);
 
 echo "<br> Select an annotation <br>";
 $j = $test->get_annotation(11, 1);
-var_dump($j);
+var_dump($j);*/

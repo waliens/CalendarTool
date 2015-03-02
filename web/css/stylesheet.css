@@ -1,0 +1,190 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* start css sign in page*/
+body {
+  padding-top: 0;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/*end css sign in page*/
+
+/*footer*/
+#footer{
+position: absolute;
+margin: 20px 0;
+font-size: 12px;
+font-weight: bold;
+line-height: 20px;
+text-align: center;
+width: 100%;
+	}
+	
+/*header*/
+.header{
+	width:200px;
+	margin:25px auto;
+	}
+	
+.center{
+	margin:0 auto;
+	}
+	
+.width-70{
+	width:70%;
+	}
+	
+.text-center{
+	text-align:center;
+	}
+	
+.text-bold{
+	font-weight:bold;
+	}
+	
+.text-underline{
+	text-decoration:underline;
+	}
+	
+.marg-bot-40{
+	margin-bottom:40px;
+	}
+	
+.marg-top-40{
+	margin-top:40px;
+	}
+.marging-10-0{
+	margin:10px 0;
+	}
+	
+.margin-left-10{
+	margin-left:10px;
+	}
+	
+.float-left{
+	float:left;
+	margin-right:40px;
+	}
+	
+.float-left:last-of-type{
+	margin-right:0;
+	}
+	
+#user-optional-courses .checkbox, #user-mandatory-courses .checkbox{
+	margin-top:0;
+	} 
+	
+.min-width-80{
+	min-width:80px;
+	}
+	
+.min-width-90{
+	min-width:90px;
+	}
+	
+.width-30{
+	width:30px;
+	}
+	
+.width-80{
+	width:80px;
+	}
+	
+.common_text{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+font-size: 14px;
+line-height: 1.42857143;
+color: #333;
+font-weight:100;
+	}
+	
+.padding-6-55{
+	padding:6px 55px;
+	}
+
+.div-32{
+	width:32px;
+	height:32px;
+	overflow:hidden;
+	}
+
+.edit, .delete{
+	background-repeat: no-repeat;
+	width:32px;
+	height:32px;
+	cursor:pointer;
+	display:inline-block;
+	}
+	
+.delete{
+	background:url("../imgs/delete-icon.png") 0 0;
+	}
+
+.delete:hover{
+	background:url("../imgs/delete-icon.png") -32px 0;
+	}	
+.edit{
+	background:url("../imgs/edit-icon.png") 0 0;
+	}
+	
+.edit:hover{
+	background:url("../imgs/edit-icon.png") -32px 0;
+	}
+
+a{
+cursor:pointer;	
+	}
+	
+.box{
+	border: 1px solid #aaa;
+padding: 5px;
+	}
+	
+.vertical-middle{
+	vertical-align:middle !important;
+	}
+	
+.float-left-10padright{
+	float:left;
+	padding-right:10px;
+	}
+	
+.border-radius-4{
+	border-radius:4px !important;
+	}

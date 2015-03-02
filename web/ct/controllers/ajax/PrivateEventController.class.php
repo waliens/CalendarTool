@@ -6,63 +6,83 @@
  */
 
 namespace ct\controllers\ajax;
+
+
 use ct\models\events\StudentEventModel;
-
 use util\mvc\AjaxController;
-
-use ct;
+use util\superglobals\Superglobal;
 
 /**
  * @class Event
  * @brief Class for handling the control of event
  */
-use nhitec\sql\SQLAbstract_PDO;
 
-use ct\util\database\Database;
+class PrivateEventController extends AjaxController
+{
 
-class PrivateEventController extends AjaxController{
-	
-	
-	public function __construct() {
-		parent::__construct();
 		
-		if(isset($this->input_json)){
-			$id_ret = array();
-			$model = new StudentEventModel();
-			$data = array("name" => $this->input_data['name'],
-							"description" => $this->input_data['details'],
-							"place" => $this->input_data['place'],
-							"id_category" => $this->input_data['type'],
-						);
-			if(isset($this->input_data['limit']))
-				$data['limit'] = $this->input_data['limit'];
-			else{
-				$data['start'] = $this->input_data['start'];
-				$data['end'] = $this->input_data['end'];
-			}
-			
-			$data['id_owner'] = $this->connection->user_id();
-			
-			if($this->input_data['recurrence'] != 0){
-				$endrec = new DateTime($this->input_data['end-recurrence']);
-				
-				$id_ret = $model->createEventWithRecurrence($data, $this->input_data['recurrence'], $endrec);
-			}
-			else {
-				$id_ret[0] = $model->createEvent($data);
-			}
-			
-			if(isset($this->input_data['note'])){
-				foreach($id_ret as $key => $value){
-					$model->set_annotation($value, $data['id_owner'], $this->input_data['note']);
-				}
-			}
-			
-			$this->output_data['id'] = $id_ret;
-			$this->output_data['error'] = false;//
+	public function __construct() 
+	{
+		parent::__construct();
+
+		// check if the expected keys are in the array
+		$keys = array("name", "place", "type", "recurrence", "details", "end-recurrence");
+
+		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
+		{
+			$this->set_error("Missing data");
+			return;
 		}
+
+		// create private event
+		$model = new StudentEventModel();
+
+		$data = array("name" => $this->sg_post->value('name'),
+					  "description" => $this->sg_post->value('details'),
+					  "place" => $this->sg_post->value('place'),
+					  "id_category" => $this->sg_post->value('type'));
+
+		// get event date 
+		if($this->sg_post->check("limit") > 0)
+			$data['limit'] = $this->sg_post->value('limit');
+		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
+		{
+			$data['start'] = $this->sg_post->value('start');
+			$data['end'] = $this->sg_post->value('end');
+		}
+		else
+		{
+			$this->set_error("Missing time data");
+			return;
+		}
+		
+		// get owner id
+		$data['id_owner'] = $this->connection->user_id();
+		
+		// check for recurrence
+		$id_ret = array(); // new private event id
+
+		if($this->sg_post->value('recurrence') != 0 
+			&& $this->sg_post->check("end-recurrence"))
+		{
+
+			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
+			$id_ret = $model->createEventWithRecurrence($data, $this->sg_post->value('recurrence'), $endrec);
+		}
+		else
+			$id_ret[0] = $model->createEvent($data);
+		
+		// add annotation if necessary
+		if($this->sg_post->check("note") > 0)
+			foreach($id_ret as $key => $value)
+				$model->set_annotation($value, $data['id_owner'], $this->sg_post->value('note'));
+		
+		$this->output_data['id'] = $id_ret;
+		$this->set_error($model->get_error());
+		
 	}
 	
-	
-	
+
 }
+
+

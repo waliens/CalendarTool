@@ -5,7 +5,7 @@
 	 * @brief Contains the Connection class
 	 */
 
-	namespace util;
+	namespace ct;
 
 	use util\superglobals\Superglobal;
 	use util\superglobals\SG_Session;
@@ -55,13 +55,14 @@
 
 			// set the http headers variables
 			$this->extract_http_headers();
-
+			$this->remote_user = "s101052";
+			$this->host = "";
 			// check host
-			if(!$this->check_host()) // host different from the reverse proxy 
-			{
-				http_response_code(401);
-				exit();
-			}
+			// if(!$this->check_host()) // host different from the reverse proxy 
+			// {
+			// 	http_response_code(401);
+			// 	exit();
+			// }
 
 			if(!$this->is_connected()) // no previous connection
 				$this->connect($this->remote_user);
@@ -157,6 +158,8 @@
  		 */
 		public function user_id()
 		{
+			return 1;
+			 
 			if(!$this->is_connected())
 				throw new \Exception("User not connected");
 		
@@ -206,7 +209,8 @@
 
 			session_destroy();
 
-			new Redirection("http://www.intranet.ulg.ac.be/logout");
+			//new Redirection("http://www.intranet.ulg.ac.be/logout");
+			exit();
 		}
 
 		/**
