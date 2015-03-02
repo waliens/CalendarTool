@@ -277,7 +277,7 @@
 	 * @brief Check whether the argument is a positive integer differenet from 0
 	 * @retval bool True if $int is an integer > 0, false otherwise 
 	 */
-	function is_positive_integers($int)
+	function is_positive_integer($int)
 	{
 		return is_int($int) && $int > 0;
 	}

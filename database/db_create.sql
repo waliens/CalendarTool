@@ -252,13 +252,6 @@ CREATE TABLE IF NOT EXISTS `time_range_event`
 	PRIMARY KEY(`Id_Event`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `sub_event`
-(
-	`Id_Event` int(11) NOT NULL,
-	`Id_Global_Event` int(11) NOT NULL,
-	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
 CREATE TABLE IF NOT EXISTS `favorite_event`
 (
 	`Id_Event` int(11) NOT NULL, 

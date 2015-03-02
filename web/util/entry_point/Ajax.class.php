@@ -7,7 +7,9 @@
 
     namespace util\entry_point;
     
+    use ct\controllers\ajax\TestController;
     use ct\controllers\ajax\PrivateEventController;
+    
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
 
@@ -32,7 +34,9 @@
 
 			switch($this->sg_get->value("req"))
             {
-				case "61":
+                case "000";
+                    return new TestController();
+				case "061":
 					return new PrivateEventController();
 				default:
 					return null;

@@ -29,15 +29,15 @@
 		/**
 		 * @brief Construct a FilterCollectionModel object
 		 * @param[in] string $association_mode The association mode to apply between the 
-		 * filter (one of the MODE_* class constant) (optionnal, default: MODE_OR)
+		 * filter (one of the MODE_* class constant) (optionnal, default: MODE_AND)
 		 * @throws Exception bad association mod
 		 */
 		public function __construct($association_mode=null)
 		{
 			parent::__construct();
-
+			
 			if($association_mode == null) 
-				$association_mode = self::MODE_OR;
+				$association_mode = self::MODE_AND;
 			elseif(!$this->valid_association_mode($association_mode))
 				throw new \Exception("Bad association mode");
 
@@ -143,9 +143,9 @@
 		 * @brief Return the ids of the event filtered by the set of filters
 		 * @retval array An array of integers containing the ids 
 		 */
-		private function get_event_ids()
+		public function get_event_ids()
 		{
-			$ids = $this->execute_query($this->get_filters_query());
+			$ids = $this->sql->execute_query($this->get_filters_query());
 			return \ct\array_flatten($ids);
 		}
 
@@ -174,7 +174,7 @@
 		 *   <li> Id_Category : the event category id </li>
 		 * </ul>
 		 */
-		private function get_events()
+		public function get_events()
 		{
 			return $this->event_mod->getEventFromIds($this->get_event_ids());
 		}
