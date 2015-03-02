@@ -9,7 +9,7 @@ namespace ct\models\events;
 use util\mvc\Model;
 use util\database\Database;
 use \DateTime;
-
+use \DateInterval;
 	/**
 	 * @class Event
 	 * @brief Class for getting event from D
@@ -36,11 +36,11 @@ use \DateTime;
 		function __construct() {
 			parent::__construct();
 			
-			$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
-			$this->fields_event = array("Id_Event" => "int", "Name" => "text", "Description" => "text", "Id_Recurence" => "int", "Place" => "text", "Id_Category" => "int");
+			$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurrence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
+			$this->fields_event = array("Id_Event" => "int", "Name" => "text", "Description" => "text", "Id_Recurrence" => "int", "Place" => "text", "Id_Category" => "int");
 			$this->table = array();
 			$this->table[0] = "event";
-			$this->translate = array("id_event" => "Id_Event", "name" => "Name", "description" => "Description", "id_recurence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End");
+			$this->translate = array("id_event" => "Id_Event", "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End");
 		}
 		
 		/**
@@ -321,30 +321,78 @@ use \DateTime;
 				$this->error .= "\n No IDs provided";
 				return false;
 			}
+			
+			// create que question mark array string : (?, ..., ?)
+			$qmark_array = array_fill(0, count($ids), "?");
+			$id_array_str = "(".implode(", ", $qmark_array).")";
+			
+			/**
+			 * This query return the following columns :
+			 * - Id_Event : id of the event
+			 * - Name : event name
+			 * - Description : event description
+			 * - Place : location where the event take place (or NULL)
+			 * - Start : start date/datetime (for deadline events, this field contains the limit datetime)
+			 * - End : end date/datetime (for deadline events, this field contains an empty string)
+			 * - DateType : a string specifying the date type of the event ('time_range', 'date_range' or 'deadline')
+			 * - EventType : a string specifying the event type ('sub_event', 'indep_event' or 'student_event')
+			 * - Color : event category color
+			 * - Categ_Name_EN : the event category name in english
+			 * - Categ_Name_FR : the event category name in french
+			 * - Categ_Desc_EN : the event category description in english
+			 * - Categ_Desc_FR : the event category description in french
+			 * - Recur_Category_EN : the recurrence category name in english
+			 * - Recur_Category_FR : the recurrence category name in french
+			 * - Id_Recur_Category : the id of the recurrence category
+			 * - Id_Recurrence : the recurrence id of the event (1 for never)
+			 * - Id_Category : the event category id
+			 */
+			$query  =  "SELECT * FROM event
+			NATURAL JOIN
+			(
+			SELECT Id_Event, Start, End, 'time_range' AS DateType
+			FROM time_range_event
+			WHERE Id_Event IN ".$id_array_str."
 				
+			UNION ALL
 			
-			$table = implode(" JOIN ", $this->table);
+			SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 'date_range' AS DateType
+			FROM date_range_event
+			WHERE Id_Event IN ".$id_array_str."
 			
+			UNION ALL
 			
-			$id = 'event.Id_Event = ';
-			$id = $id.implode(" OR event.Id_Event = ", $ids);
+			SELECT Id_Event, `Limit` AS Start, '' AS End, 'deadline' AS DateType
+			FROM deadline_event
+			WHERE Id_Event IN ".$id_array_str."
+			) AS time_data
+			NATURAL JOIN
+			(
+			SELECT Id_Event, 'sub_event' AS EventType
+			FROM sub_event
+			WHERE Id_Event IN ".$id_array_str."
 			
-			if(isset($dateType)){
-				switch($dateType){
-					case "Date":
-						$table = $table ." JOIN date_range_event";
-						break;
-					case "Deadline":
-						$table = $table ." JOIN deadline_event";
-						break;
-					case "TimeRange":
-						$table = $table . " JOIN time_range_event";
-						break;
-							
-				}
-			}
+			UNION ALL
 			
-			return $this->sql->select($table, $id);
+			SELECT Id_Event, 'indep_event' AS EventType
+			FROM independent_event
+			WHERE Id_Event IN ".$id_array_str."
+			
+			UNION ALL
+			
+			SELECT Id_Event, 'student_event' AS EventType
+			FROM student_event
+			WHERE Id_Event IN ".$id_array_str."
+			) AS type_data
+			NATURAL JOIN
+			( SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN,
+			Description_FR AS Categ_Desc_FR, Name_EN AS Categ_Name_EN,
+			Name_FR AS Categ_Name_FR
+			FROM event_category ) AS categ
+			NATURAL JOIN recurrence
+			NATURAL JOIN recurrence_category;";
+			
+			return $this->sql->execute_query($query, \ct\array_dup($ids, 6));
 			
 		}
 
@@ -652,20 +700,20 @@ use \DateTime;
 		 */
 		public function createEventWithRecurrence(array $data, $recurence, $endrecurence){
 			switch($recurence){
-				case REC_DAILY :
-					$interval = new DateInterval("0-0-1 0:0:0");
+				case self::REC_DAILY :
+					$interval = new DateInterval("P1D");
 					break;
-				case REC_WEEKLY :
-					$interval = new DateInterval("0-0-7 0:0:0");
+				case self::REC_WEEKLY :
+					$interval = new DateInterval("P7D");
 					break;
-				case REC_BIM :
-					$interval = new DateInterval("0-0-14 0:0:0");
+				case self::REC_BIM :
+					$interval = new DateInterval("P14D");
 					break;
-				case REC_MONTHLY :
-					$interval = new DateInterval("0-1-0 0:0:0");
+				case self::REC_MONTHLY :
+					$interval = new DateInterval("P1M");
 					break;
-				case REC_YEARLY :
-					$interval = new DateInterval("1-0-0 0:0:0");
+				case self::REC_YEARLY :
+					$interval = new DateInterval("P1Y");
 					break;
 				default :
 					$this->error .= "\n Error in the recurrence field";
@@ -674,18 +722,18 @@ use \DateTime;
 			}
 			
 			$typeOfDate = "";
-			if(isset($datas['limit'])){
-				$start = new DateTime($data['Limit']);
+			if(isset($data['limit'])){
+				$start = new DateTime($data['limit']);
 				$end = NULL;
 				$typeOfDate = "Deadline";
 			}
-			elseif(isset($datas['Start'])){
+			elseif(isset($data['start'])){
 				$start = new DateTime($data['start']);
 				$end = new DateTime($data['end']);
 				if($start->format("H:i:s") == "00:00:00")
 					$typeOfDate =  "Date";
 				else 
-					$typeOfDate = "Timerange";
+					$typeOfDate = "TimeRange";
 			}
 			else{
 				$this->error .= "\n Error in the Date field";
@@ -695,7 +743,16 @@ use \DateTime;
 			unset($data['start']);
 			unset($data['end']);
 			unset($data['limit']);
+		
+			$ret = $this->sql->insert("recurrence", array("Id_Recur_Category"  => $recurence));
+			$recId = $this->sql->last_insert_id();
+			if(!$ret){
+				$this->error .= "\n Error while registering the recurrence";
+				return false;
+			}
 			
+			$data["id_recurrence"] = $recId;
+				
 			$retval = array();
 			while($start < $endrecurence){
 				$id = $this->createEvent($data);
