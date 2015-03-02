@@ -9,6 +9,7 @@
     
     use ct\controllers\ajax\TestController;
     use ct\controllers\ajax\PrivateEventController;
+    use ct\controllers\ajax\AllProfessorsController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -36,11 +37,16 @@
             {
                 case "000";
                     return new TestController();
-				case "061":
+
+                /* User-related requests */
+			    case "021":
+                    return new AllProfessorsController();
+
+                /* Event related */
+            	case "061":
 					return new PrivateEventController();
 				default:
 					return null;
-
 			}
         }
     };
