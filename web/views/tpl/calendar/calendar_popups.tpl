@@ -101,7 +101,7 @@
               <div class="float-left-10padright">
                 <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="recurrence_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="recurrence">Jamais</span>
+                    <span id="recurrence">jamais</span>
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">

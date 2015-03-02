@@ -4,6 +4,7 @@
 $("#navbar li").removeClass("active");
 $("#menu_nav").addClass("active");
 
+var datepicker;
 var filters = {
           	allEvents: {isSet: 'false'},
 			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
@@ -16,6 +17,8 @@ var filters = {
 $(document).ready(function(){
 	//bind alert popup to ok button of each filter pane
 	$("#filter_alert .btn-primary").popover();
+	//set moment locale to french
+	moment.locale('fr');
 	}); 
  
   
@@ -38,8 +41,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 		  	case "date_filter":
 				$(this).find('.modal-title').text("Filtrer par date");
 				//build the datepicker elements
-				$(this).find('.modal-body').html("<p><input id='startDate' onclick='setSens('endDate', 'max');' readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDate' onclick='setSens('startDate', 'min');' readonly='true'><label class='common_text margin-left-10'>de</label></p>");
-				buildCalendar();
+				$(this).find('.modal-body').html("<p><input id='startDate' onclick=\"setSens(\'endDate\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDate' onclick=\"setSens(\'startDate\',\'max\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
+				buildDatepicker();
 				break;
 			case "course_filter":
 				$(this).find('.modal-title').text("Filtrer par cours");
@@ -192,8 +195,7 @@ $("#all_events_filter").click(function(){
 	})
 
 //builds the element datepicker in the alert called by the date range filter
-function buildCalendar() {
-	var myCalendar;
+function buildDatepicker() {
 	//build current date
 	var today = new Date();
 	var dd = today.getDate();
@@ -209,21 +211,27 @@ function buildCalendar() {
 	} 
 	
 	today = yyyy+'-'+mm+'-'+dd;
-	myCalendar = new dhtmlXCalendarObject(["startDate","endDate"]);
-	myCalendar.setDate(today);
-	myCalendar.hideTime();
-	// init values
-	var t = new Date();
-	byId("startDate").value = today;
-	byId("endDate").value = today;
+	datepicker = new dhtmlXCalendarObject(["startDate","endDate"]);
+	datepicker.setDate(today);
+	datepicker.setDateFormat("%Y-%m-%d");
+	datepicker.hideTime();
+	byId("startDate").value = convert_date(today,"dddd DD MM YYYY","YYYY-MM-DD");
+	byId("endDate").value = convert_date(today,"dddd DD MM YYYY","YYYY-MM-DD");
+	//setSens("startDate","max");
+	//setSens("endDate","min");
+	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
+	datepicker.attachEvent("onClick", function(date){
+		$("#startDate").val(convert_date($("#startDate").val(),"dddd DD MMM YYYY"));
+		$("#endDate").val(convert_date($("#endDate").val(),"dddd DD MMM YYYY"));
+	});
 }
 
 function setSens(id, k) {
 	// update range
 	if (k == "min") {
-		myCalendar.setSensitiveRange(byId(id).value, null);
+		datepicker.setSensitiveRange(moment(byId(id).value).format("YYYY-MM-DD"), null);
 	} else {
-		myCalendar.setSensitiveRange(null, byId(id).value);
+		datepicker.setSensitiveRange(null, moment(byId(id).value).format("YYYY-MM-DD"));
 	}
 }
 function byId(id) {
@@ -389,7 +397,17 @@ $("#filter_alert .btn-primary").click(function(){
 $("#filter_alert .close").click(function(){
 		var filter=$('#filter_alert .btn-primary').attr("id");
 		unSetFilter(filter);
+		//eventually disable the form submission button if no other filter is set
+		if($("input:checked").length==0)
+			$("#static_export").attr("disabled",true);
 });
+
+$("input").click(function(){
+	//enable the send form button only when at least one filter is selected
+	if($("input:checked").length>0)
+		$("#static_export").attr("disabled",false);
+	else $("#static_export").attr("disabled",true);
+	});
 
 //send data to server after filters comple
 $("#static_export").click(function(){
@@ -409,3 +427,21 @@ $("#static_export").click(function(){
 			}
 		});
 });
+
+
+//converts date formats	
+function convert_date(date,formatDestination,formatOrigin){
+		var dd;
+		var mm;
+		var yy;
+		chunks=date.split("-");
+		if(chunks.length>1){
+			dd=chunks[2];
+			mm=chunks[1];
+			yy=chunks[0];
+			date_standard=yy+"-"+mm+"-"+dd;
+			var d = moment(date_standard); 
+			return d.format(formatDestination);
+		}
+		else return date;
+	}

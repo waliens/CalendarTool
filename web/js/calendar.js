@@ -848,7 +848,7 @@ function create_private_event(){
 				} 
 			)
 		//send data to server
-		var new_event={"name":title, "type":type, "start":start.format("YYYY-MM-DD"), "end":end.format("YYYY-MM-DD"), "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes}
+		var new_event={"name":title, "type":3, "start":start.format("YYYY-MM-DD"), "end":end.format("YYYY-MM-DD"), "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes}
 		$.ajax({
 						dataType : "json",
 						type : 'POST',

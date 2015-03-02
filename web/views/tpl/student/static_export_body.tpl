@@ -14,7 +14,7 @@
          <tr><td class="width-30"><input type="checkbox" id="professor_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par professeur</td></tr>     
         </table>
         <div class="text-center">
-        <a href="#" class="btn btn-primary padding-6-55" role="button" id="static_export" data-toggle="popover" data-trigger="focus">Ok</a>
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="static_export" data-toggle="popover" data-trigger="focus" disabled="true">Ok</a>
         </div>
     </div>
   </div>
