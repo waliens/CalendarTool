@@ -42,7 +42,7 @@
                 /* User-related requests */
                 case "021":
                     return new AllProfessorsController();
-                case "202":
+                case "022":
                     return new ProfessorProfileController();
 
                 /* Event related */
