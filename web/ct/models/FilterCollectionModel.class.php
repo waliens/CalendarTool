@@ -9,6 +9,7 @@
 
 	use util\mvc\Model;
 	use ct\models\filters\EventFilter;
+	use ct\models\events\EventModel;
 
 	/**
 	 * @class FilterCollectionModel
@@ -20,27 +21,29 @@
 		private $association_mode; /**< @brief The filter association mode (one of the MODE_* class constant) */
 		private $filters; /**< @brief Array of filters (contain at most one filter of a given type). 
 									The filters are mapped by their class name*/
+		private $event_mod; /**< @brief The event model */
 
 		const MODE_OR = "OR"; /**< @brief One of the filter association : disjunction */
- 		const MODE_AND = "AND"; /**< @brief One of the filter association : conjunction */
+		const MODE_AND = "AND"; /**< @brief One of the filter association : conjunction */
 
 		/**
 		 * @brief Construct a FilterCollectionModel object
 		 * @param[in] string $association_mode The association mode to apply between the 
-		 * filter (one of the MODE_* class constant) (optionnal, default: MODE_OR)
+		 * filter (one of the MODE_* class constant) (optionnal, default: MODE_AND)
 		 * @throws Exception bad association mod
 		 */
 		public function __construct($association_mode=null)
 		{
 			parent::__construct();
-
+			
 			if($association_mode == null) 
-				$association_mode = self::MODE_OR;
+				$association_mode = self::MODE_AND;
 			elseif(!$this->valid_association_mode($association_mode))
 				throw new \Exception("Bad association mode");
 
 			$this->association_mode = $association_mode;
 			$this->filters = array();
+			$this->event_mod = new EventModel();
 		}
 
 		/**
@@ -136,4 +139,43 @@
 			}
 		}
 
+		/**
+		 * @brief Return the ids of the event filtered by the set of filters
+		 * @retval array An array of integers containing the ids 
+		 */
+		public function get_event_ids()
+		{
+			$ids = $this->sql->execute_query($this->get_filters_query());
+			return \ct\array_flatten($ids);
+		}
+
+		/**
+		 * @brief Return the filtered event data
+		 * @retval array A multidimensionnal array containing the event data
+		 * The rows contains the following keys : 
+		 * <ul>
+		 *   <li> Id_Event : id of the event </li>
+		 *   <li> Name : event name </li>
+		 *   <li> Description : event description </li>
+		 *   <li> Place : location where the event take place (or NULL) </li>
+		 *   <li> Start : start date/datetime (for deadline events, this field contains the limit datetime) </li>
+		 *   <li> End : end date/datetime (for deadline events, this field contains an empty string) </li>
+		 *   <li> DateType : a string specifying the date type of the event ('time_range', 'date_range' or 'deadline') </li>
+		 *   <li> EventType : a string specifying the event type ('sub_event', 'indep_event' or 'student_event') </li>
+		 *   <li> Color : event category color </li>
+		 *   <li> Categ_Name_EN : the event category name in english </li>
+		 *   <li> Categ_Name_FR : the event category name in french </li>
+		 *   <li> Categ_Desc_EN : the event category description in english </li>
+		 *   <li> Categ_Desc_FR : the event category description in french </li>
+		 *   <li> Recur_Category_EN : the recurrence category name in english </li>
+		 *   <li> Recur_Category_FR : the recurrence category name in french </li>
+		 *   <li> Id_Recur_Category : the id of the recurrence category </li>
+		 *   <li> Id_Recurrence : the recurrence id of the event (1 for never) </li>
+		 *   <li> Id_Category : the event category id </li>
+		 * </ul>
+		 */
+		public function get_events()
+		{
+			return $this->event_mod->getEventFromIds($this->get_event_ids());
+		}
 	}
