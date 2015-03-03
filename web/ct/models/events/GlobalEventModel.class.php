@@ -877,7 +877,7 @@
 		 */
 		public function add_team_member(array $id_data, $role_id, $user_id=null)
 		{
-			if($this->valid_role_id($role_id))
+			if(!$this->valid_role_id($role_id))
 				return false; 
 
 			// default value for argument
@@ -893,7 +893,7 @@
 								 "Id_Global_Event" => $id_glob,
 								 "Id_Role" => $role_id);
 
-			return $this->sql->insert("teaching_team_member", $this->sql->quote_all($insert_array));
+			return $this->sql->insert("teaching_team_member", $this->sql->quote_all($insert_data));
 		}
 
 		/**
@@ -965,7 +965,7 @@
 		 * @retval bool True if the user has write access, false otherwise
 		 * @note The user has write access if he is either a professor or a teaching assistant
 		 */
-		public function global_event_user_has_write_access(array $id_data, $user_id)
+		public function global_event_user_has_write_access(array $id_data, $user_id=null)
 		{
 			if($user_id == null) $user_id = $this->connection->user_id();
 

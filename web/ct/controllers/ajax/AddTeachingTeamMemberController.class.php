@@ -38,7 +38,7 @@
 			// check whether the use has write access on the global event
 			if(!$this->has_access())
 			{
-				$this->set_error_predefined(AjaxController::ERROR_ACCESS_DENIED);
+				$this->set_error_predefined(AjaxController::ERROR_ACCESS_PROFESSOR_REQUIRED);
 				return;
 			}
 
