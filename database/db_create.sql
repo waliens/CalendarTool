@@ -5,8 +5,6 @@ CREATE DATABASE IF NOT EXISTS calendar_tool
 
 USE calendar_tool;
 
-START TRANSACTION;
-
 -- 
 -- Tables containing user informations
 --
@@ -313,9 +311,10 @@ CREATE TABLE IF NOT EXISTS `sub_event_excluded_pathway`
 (
 	`Id_Event` int(11) NOT NULL, 
 	`Id_Pathway` varchar(20) NOT NULL,
-	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
+	`Id_Global_Event` int(11) NOT NULL,
+	FOREIGN KEY(`Id_Global_Event`, `Id_Pathway`) REFERENCES `global_event_pathway`(`Id_Global_Event`, `Id_Pathway`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Event`) REFERENCES `sub_event`(`Id_Event`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Event`,`Id_Pathway`)
+	PRIMARY KEY(`Id_Event`, `Id_Pathway`, `Id_Global_Event`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `independent_event_pathway`
@@ -327,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `independent_event_pathway`
 	PRIMARY KEY(`Id_Event`,`Id_Pathway`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `event_manager`
+CREATE TABLE IF NOT EXISTS `independent_event_manager`
 (
 	`Id_Event` int(11) NOT NULL,
 	`Id_User` int(11) NOT NULL,
@@ -336,6 +335,16 @@ CREATE TABLE IF NOT EXISTS `event_manager`
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Role`) REFERENCES `teaching_role`(`Id_Role`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Event`,`Id_User`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `sub_event_excluded_team_member`
+(
+	`Id_Event` int(11) NOT NULL,
+	`Id_User` int(11) NOT NULL,
+	`Id_Global_Event` int(11) NOT NULL,
+	FOREIGN KEY(`Id_Event`) REFERENCES `sub_event`(`Id_Event`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_User`, `Id_Global_Event`) REFERENCES `teaching_team_member`(`Id_User`, `Id_Global_Event`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Event`, `Id_User`, `Id_Global_Event`)  
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `academic_event_file`
@@ -482,5 +491,3 @@ CREATE TABLE IF NOT EXISTS `ulg_has_course`
 	FOREIGN KEY(`Id_Course`) REFERENCES `ulg_course`(`Id_Course`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_ULg_Student`, `Id_Course`)
 ) ENGINE=InnoDB;
-
-COMMIT;
