@@ -18,11 +18,12 @@ spl_autoload_register("ct\autoload");
 
 //Event Model Test (assume there is an id_category = 1 
 $test = new EventModel();/*
-//Create
+//Create*/
 echo "<br> Create <br>";
-$data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 1, "start" => "2015-03-01", "end" => "2015-03-01");
+$data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 2, "start" => "2015-03-01", "end" => "2015-03-01");
 $a = $test->createEvent($data);
-var_dump($a);*/
+echo $test->get_error();
+var_dump($a);
 /*
 //Updata
 echo "<br> Update <br>";
@@ -59,10 +60,11 @@ $g = $test->getEventFromIds($ids);
 var_dump($g);
 
 //getEvents
+ * 
 echo "<br>GetEvent <br>";
 $h = $test->getEvent(array("id_category" => 1), array("id_event"));
 var_dump($h);
-
+/*
 echo  "<br> GetEvent Academic <br>";
 $i = $model2->getEvent(array("place" => "montef"));
 var_dump($i);
@@ -95,11 +97,11 @@ var_dump($n);
 
 echo "<br> Select an annotation <br>";
 $j = $test->get_annotation(11, 1);
-var_dump($j);*/
+var_dump($j);
 
 echo "<br> receurrence <br>";
 $data = array("place" => "montef", "name" => "Cours XXX", "description" => "lol \n d", "id_category" => 1, "start" => "2015-03-01 14:15:16", "end" => "2015-03-02 15:14:12");
 $end = new DateTime("2015-03-04");
 $e = $test->createEventWithRecurrence($data, EventModel::REC_DAILY, $end);
 echo $test->get_error();
-var_dump($e);
+var_dump($e);*/

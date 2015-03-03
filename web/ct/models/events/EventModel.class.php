@@ -32,6 +32,7 @@ use \DateInterval;
 		const REC_BIM = 3;
 		const REC_MONTHLY = 4;
 		const REC_YEARLY = 5;
+		const REC_NEVER = 6;
 		
 		function __construct() {
 			parent::__construct();
@@ -72,13 +73,22 @@ use \DateInterval;
 				
 			
 				foreach($infoData as $key => $value){
+					if($key == "Id_Event")
+						$key = "event.Id_Event";
 					$ar[$i] = $key." = ".$value;
 					$i++;
 				}
 				
 				$where = implode(" AND ", $ar);
-			
+				if($requestData != null){
+					foreach($requestData as $key => $value){
+						if($value == "Id_Event")
+							$requestData[$key] = "event.Id_Event";
+					}
+				}
+				
 				$data = $this->sql->select($table, $where, $requestData);
+				var_dump($this->sql->error_info());
 				return $data;
 			}
 
@@ -102,24 +112,26 @@ use \DateInterval;
 			if(isset($dateType)){
 				switch($dateType){
 					case "Date":
-						$table = $table ." JOIN date_range_event";
+						$table = $table ." JOIN date_range_event ";
 						break;
 					case "Deadline":
-						$table = $table ." JOIN deadline_event";
+						$table = $table ." JOIN deadline_event ";
 						break;
 					case "TimeRange":
-						$table = $table . " JOIN time_range_event";
+						$table = $table . " JOIN time_range_event ";
 						break;
 						
 				}
 			}
-			
+			else
+				$table .= " JOIN (date_range_event UNION deadline_event UNION time_range_event) ";
 			
 			$info = $this->checkParams($infoData, true);
 			if($requestedData ==  null)
 				return $this->getData($table, $info);
 		
 			$request = $this->checkParams($requestedData, false);		
+			
 			return $this->getData($table, $info, $request);
 		}
 		
@@ -215,8 +227,9 @@ use \DateInterval;
 				}
 				return $id;
 			}
-			
-			$this->error .= "\n The event cannot be created";
+			$e = $this->sql->error_info();
+			$this->error .= "\n The event cannot be created \n";
+			$this->error .= "\n ".$e[2]."";
 			return false;
 			
 				
@@ -621,22 +634,31 @@ use \DateInterval;
 		 * @retval mixed true if everything go perfectly false or the error_innfo from sql if not
 		 */
 		public function set_annotation($eventId, $userId, $annotation, $update = false) {
-			$annotation_quoted = $this->sql->quote($annotation); 
-			if(is_int($eventId) && is_int($userId)){
-				if($update)
-					$a = $this->sql->update("event_annotation", array("Annotation" => $annotation_quoted), "Id_Event=".$eventId." AND Id_Student=".$userId);
-				else
-					$a = $this->sql->insert("event_annotation", array("Annotation" => $annotation_quoted, "Id_Event" => $eventId, "Id_Student" => $userId ));
-				
-				if($a)
-					return true;
-				else{
-					$this->error .= "\n Error while setting the annotation";
-					return false;
-				}
-					
+			$annotation_quoted = $this->sql->quote($annotation);
+			 
+			if(!$this->event_exists($eventId)){
+				$this->error .= "This event does not exist";
+				return false;
 			}
-			$this->error .= "\n Id error (user or event)";
+		
+			if(intval($userId) < 0){
+				$this->error .= "Error in the  user field";
+				return false;
+			}
+	
+			if($update)
+				$a = $this->sql->update("event_annotation", array("Annotation" => $annotation_quoted), "Id_Event=".$eventId." AND Id_Student=".$userId);
+			else
+				$a = $this->sql->insert("event_annotation", array("Annotation" => $annotation_quoted, "Id_Event" => $eventId, "Id_Student" => $userId ));
+			
+			if($a)
+				return true;
+			else{
+				$this->error .= "\n Error while setting the annotation";
+				return false;
+			}
+				
+			
 			return false;
 		}
 		
