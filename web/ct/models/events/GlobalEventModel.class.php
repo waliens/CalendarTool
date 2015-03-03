@@ -243,6 +243,18 @@
 		}
 
 		/**
+		 * @brief Check whether the role id is valid
+		 * @param[in] int $role_id THe role id to check
+		 * @retval bool True if the role id is valid, false otherwise
+		 */
+		private function valid_role_id($role_id)
+		{
+			return $role_id == self::ROLE_ID_PROFESSOR ||
+					$role_id == self::ROLE_ID_TA ||
+					$role_id == self::ROLE_ID_TS;
+		}
+
+		/**
 		 * @brief Get the data of a global event
 		 * @param[in] array $id_data The data identifying the global event
 		 * @retval array An array containing the data, an empty array if the event wasn't found
@@ -865,8 +877,12 @@
 		 */
 		public function add_team_member(array $id_data, $role_id, $user_id=null)
 		{
-			if($user_id == null) $user_id = $this->connection->user_id();
+			if($this->valid_role_id($role_id))
+				return false; 
 
+			// default value for argument
+			if($user_id == null) $user_id = $this->connection->user_id();
+		
 			// extract global event id
 			$id_glob = $this->get_global_event_id($id_data);
 
@@ -908,7 +924,7 @@
 		 * if he is registered to the global event. If the user is a professor, than he can access the global event if he
 		 * is in the teaching team of the global event.
 		 */
-		public function global_event_user_has_access(array $id_data, $user_id=null)
+		public function global_event_user_has_read_access(array $id_data, $user_id=null)
 		{
 			if($user_id == null) $user_id = $this->connection->user_id();
 
@@ -940,5 +956,30 @@
 
 				return $this->sql->count("teaching_team_member", "Id_Global_Event = ".$q_id_glob." AND Id_User = ".$q_id_user) > 0;
 			}
+		}
+
+		/**
+		 * @brief Checks whether the user has the write acces on the global event
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in] int   $user_id The user id (optionnal, default: the currently connected user)
+		 * @retval bool True if the user has write access, false otherwise
+		 * @note The user has write access if he is either a professor or a teaching assistant
+		 */
+		public function global_event_user_has_write_access(array $id_data, $user_id)
+		{
+			if($user_id == null) $user_id = $this->connection->user_id();
+
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$query  =  "SELECT COUNT(*) AS cnt FROM teaching_team_member 
+						WHERE Id_Global_Event = ? AND Id_User = ? AND (Id_Role = ? OR Id_Role = ?);";
+
+			$result = $this->sql->execute_query($query, array($id_glob, $user_id, self::ROLE_ID_PROFESSOR, self::ROLE_ID_TA));
+
+			return empty($result) ? false : $result[0]['cnt'] > 0;
 		}
 	}
