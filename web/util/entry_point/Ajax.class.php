@@ -12,6 +12,7 @@
     use ct\controllers\ajax\AllProfessorsController;
     use ct\controllers\ajax\ProfessorProfileController;
     use ct\controllers\ajax\GetTeachingTeamController;
+    use ct\controllers\ajax\AddTeachingTeamMemberController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -53,6 +54,8 @@
                 /* Teaching role related */
                 case "071":
                     return new GetTeachingTeamController();
+                case "072":
+                    return new AddTeachingTeamMemberController();
 
                 default:
                     return null;
