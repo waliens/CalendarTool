@@ -4,12 +4,16 @@
 $("#navbar li").removeClass("active");
 $("#profile_nav").addClass("active");
 
+//holds the checkbox of an  optional cours
+var checkbox;
+
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
 		url : "json/student-profile.json",
+		//url : "index.php?src=ajax&req=011",
 		async : true,
 		success : function(data, status) {
 			var first_name=data.firstName;
@@ -37,6 +41,9 @@ $(document).ready(function() {
 function addMandatoryCourse(course){
 	var allMandatoryCourses=document.getElementById("user-mandatory-courses");
     var course_tag=document.createElement('a');
+	course_tag.setAttribute("data-toggle","modal");
+	course_tag.setAttribute("data-target","#event_info");
+	course_tag.setAttribute("event-id",course.id)
 	course_tag.innerHTML = course.code;
 	var row=allMandatoryCourses.insertRow(-1);
 	var cell1=row.insertCell(0);
@@ -49,7 +56,10 @@ function addMandatoryCourse(course){
 function addOptionalCourse(course){
 	var allOptionalCourses=document.getElementById("user-optional-courses");
     var course_tag=document.createElement('a');
+	course_tag.setAttribute("data-toggle","modal");
+	course_tag.setAttribute("data-target","#event_info");
 	course_tag.innerHTML = course.code;
+	course_tag.setAttribute("event-id",course.id)
 	var row=allOptionalCourses.insertRow(-1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
@@ -71,7 +81,7 @@ function addOptionalCourse(course){
 	
 //populate optional course alert
 $('#optional_course_alert').on('show.bs.modal', function (event) {
-  var checkbox = $(event.relatedTarget) // checkbox that triggered the modal
+  checkbox = $(event.relatedTarget) // checkbox that triggered the modal
   var course_id = checkbox.prop('id') // Extract info from id attributes
   var modal = $(this);  
   var choice="";
@@ -82,15 +92,50 @@ $('#optional_course_alert').on('show.bs.modal', function (event) {
   modal.find('.modal-body p').text('Êtes-vous sûr que vous voulez '+choice+' le cours '+course_id+' de votre calendrier?');
 })
 
-//apply the result of the button pressed on the optional course alert
+//revert the selection of the optional course
 $('#optional_course_alert .close').click(function(){
-	// revert the action on the checkbox
+	if(checkbox.attr("checked"))
+		checkbox.attr("checked",false)
+	else checkbox.attr("checkbox",true);
 	});
 
 $('#optional_course_alert .btn-default').click(function(){
 	// revert the action on the checkbox
+	if(checkbox.attr("checked"))
+		checkbox.attr("checked",false)
+	else checkbox.attr("checkbox",true);
 	});	
 	
 $('#optional_course_alert .btn-primary').click(function(){
 	// send to server the modified info
+	var optional_course = {"id":checkbox.attr("id"),"selected":checkbox.prop("checked")}
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=300",
+			data : filters,
+			success : function(data, status) {
+				// insert success msg
+			},
+			error : function(data, status, errors) {
+				// insert error msg
+			}
+		});
 	});
+	
+//populate event info when modal appears
+$("#evnet_info").modal("show.bs.modal",function(){
+	var event_id=event.relatedTarget.attr('event-id');
+	$.ajax({
+		dataType : "json",
+		type : 'GET',
+		url : "json/globalevent-info.json",
+		//url : "index.php?src=ajax&req=032&event=event_id",
+		success : function(data, status) {
+
+		},
+		error : function(data, status, errors) {
+			// Inserire un messagio di errore
+		}
+	});
+	})
