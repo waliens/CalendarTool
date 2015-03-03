@@ -17,10 +17,11 @@ spl_autoload_register("ct\autoload");
 
 
 //Event Model Test (assume there is an id_category = 1 
-$test = new EventModel();/*
+$test = new EventModel();
 //Create*/
+/*
 echo "<br> Create <br>";
-$data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 2, "start" => "2015-03-01", "end" => "2015-03-01");
+$data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n d", "id_category" => 1, "start" => "2015-03-01", "end" => "2015-03-01");
 $a = $test->createEvent($data);
 echo $test->get_error();
 var_dump($a);
@@ -55,50 +56,51 @@ var_dump($f);
 
 //get events from id
 echo "<br> GetEventFromIds <br>";
-$ids = array(11,10);
+$ids = array(1,2);
 $g = $test->getEventFromIds($ids);
 var_dump($g);
 
 //getEvents
- * 
+*/
 echo "<br>GetEvent <br>";
-$h = $test->getEvent(array("id_category" => 1), array("id_event"));
+$h = $test->getEvent(array("id_category" => "1"));
 var_dump($h);
 /*
 echo  "<br> GetEvent Academic <br>";
 $i = $model2->getEvent(array("place" => "montef"));
 var_dump($i);
-
+*/
 
 //Annotation part
+/*
 echo "<br> Select an annotation <br>";
-$j = $test->get_annotation(11, 1);
+$j = $test->get_annotation(35, 1);
 var_dump($j);
 
 echo "<br> Insert annotation <br>";
-$k = $test->set_annotation(11, 1, "first");
+$k = $test->set_annotation(35, 1, "first");
 var_dump($k);
 
 echo "<br> Select an annotation <br>";
-$j = $test->get_annotation(11, 1);
+$j = $test->get_annotation(35, 1);
 var_dump($j);
 
 echo '<br> Update an annotation <br>';
-$l = $test->set_annotation(11, 1, "up", true);
+$l = $test->set_annotation(35, 1, "up", true);
 var_dump($l);
 
 echo "<br> Select an annotation <br>";
-$j = $test->get_annotation(11, 1);
+$j = $test->get_annotation(35, 1);
 var_dump($j);
 
 echo "<br> Delete an annotation <br>";
-$n = $test->delete_annotation(11, 1);
+$n = $test->delete_annotation(35, 1);
 var_dump($n);
 
 echo "<br> Select an annotation <br>";
-$j = $test->get_annotation(11, 1);
+$j = $test->get_annotation(35, 1);
 var_dump($j);
-
+/*
 echo "<br> receurrence <br>";
 $data = array("place" => "montef", "name" => "Cours XXX", "description" => "lol \n d", "id_category" => 1, "start" => "2015-03-01 14:15:16", "end" => "2015-03-02 15:14:12");
 $end = new DateTime("2015-03-04");

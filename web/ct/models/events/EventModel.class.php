@@ -39,11 +39,11 @@ use \DateInterval;
 		function __construct() {
 			parent::__construct();
 			
-			$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurrence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date");
+			$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurrence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date", "feedback" => "text", "workload" => "int", "practical_details" => "text", "id_owner" => "int", "public" => "bool","id_owner" => "int", "id_GlobalEvent" => "int", "categ_name_FR" => "text", "categ_name_EN" => "text");
 			$this->fields_event = array("Id_Event" => "int", "Name" => "text", "Description" => "text", "Id_Recurrence" => "int", "Place" => "text", "Id_Category" => "int");
 			$this->table = array();
 			$this->table[0] = "event";
-			$this->translate = array("id_event" => "Id_Event", "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End");
+			$this->translate = array("id_event" => "event.Id_Event", "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "event.Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End", "feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details", "id_GlobalEvent" => "Id_Global_Event","id_owner" => "Id_Owner", "id_owner" => "Id_Owner", "public" => "Public", "categ_name_FR" => "Name_FR", "categ_name_EN" => "Name_EN");
 		}
 		
 		/**
@@ -60,40 +60,73 @@ use \DateInterval;
 		
 		
 		/**
-		 * @brief Get an event from the bdd
-		 * @param String $tables tables to find the event (default Event)
+		 * @brief Get an or several events from the bdd
 		 * @param array String $infoData the data to identify the event
 		 * @param array String $requestData the requested data for the event $id (empty = all)
 		 * @retval mixed an array containing the data, false if no matching
 		 */
-		protected  function getData($table, array $infoData = null, array $requestData = null){
-
-			//Build WHERE clause
-			if($infoData != null && !empty($infoData)){
-				$ar = array();
-				$i = 0;
-				
+		protected  function getData(array $infoData = null, array $requestData = null){			
+			$selectClause = "*";
+			$whereClause = "";
 			
-				foreach($infoData as $key => $value){
-					if($key == "Id_Event")
-						$key = "event.Id_Event";
-					$ar[$i] = $key." = ".$value;
-					$i++;
-				}
-				
-				$where = implode(" AND ", $ar);
-				if($requestData != null){
-					foreach($requestData as $key => $value){
-						if($value == "Id_Event")
-							$requestData[$key] = "event.Id_Event";
-					}
-				}
-				
-				$data = $this->sql->select($table, $where, $requestData);
-				var_dump($this->sql->error_info());
-				return $data;
-			}
+			if($infoData == null)
+				$infoData = array();
+			
+			if($requestData != null && !empty($requestData))
+				$selectClause = implode(", ", $requestData);
 
+			
+			if(!empty($infoData)){
+				$whereClause = "WHERE ";
+				$equals = array();
+				foreach($infoData as $key => $value){
+					array_push($equals,"".$key ." = '". $value. "'");
+				}
+				$whereClause .= implode(" AND ", $equals);
+			}
+			$query  =  "SELECT ".$selectClause." FROM event 
+						NATURAL JOIN 
+						(
+						  SELECT Id_Event, Start, End, 'time_range' AS DateType 
+						  FROM time_range_event 
+						  
+						  UNION ALL
+
+						  SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 'date_range' AS DateType
+						  FROM date_range_event
+
+						  UNION ALL
+
+						  SELECT Id_Event, `Limit` AS Start, '' AS End, 'deadline' AS DateType
+						  FROM deadline_event
+						) AS time_data
+						NATURAL JOIN
+						(
+						  SELECT Id_Event, Id_Global_Event, 'sub_event' AS EventType 
+						  FROM sub_event
+
+						  UNION ALL
+
+						  SELECT Id_Event, Id_Owner, 'indep_event' AS EventType
+						  FROM independent_event
+
+						  UNION ALL
+
+						  SELECT Id_Event, Id_Owner, 'student_event' AS EventType
+						  FROM student_event
+						) AS type_data
+						NATURAL JOIN 
+						( SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN, 
+								 Description_FR AS Categ_Desc_FR, Name_EN AS Categ_Name_EN, 
+								 Name_FR AS Categ_Name_FR 
+						  FROM event_category ) AS categ
+						NATURAL JOIN recurrence
+						NATURAL JOIN recurrence_category ".$whereClause." ;";
+
+			
+			return   $this->sql->execute_query($query);
+
+	
 		}
 		
 		/**
@@ -101,40 +134,19 @@ use \DateInterval;
 		 * @param $type type of event
 		 * @param $requestedData what we want to obtain (nothing for *)
 		 * @param $infoData what we know about the event
-		 * @param $dateType the type of event concerning the date (Date|Deadline|TimeRange)
 		 * @retval mixed an array containing the data false otherwise
 		 */
-		public function getEvent (array $infoData = null,  array $requestedData = null, $dateType = NULL){	
+		public function getEvent (array $infoData = null,  array $requestedData = null){	
 			if($infoData == null)
 				$infoData = array();
-			
-			$table = implode(" JOIN ", $this->table);
-			
-			
-			if(isset($dateType)){
-				switch($dateType){
-					case "Date":
-						$table = $table ." JOIN date_range_event ";
-						break;
-					case "Deadline":
-						$table = $table ." JOIN deadline_event ";
-						break;
-					case "TimeRange":
-						$table = $table . " JOIN time_range_event ";
-						break;
 						
-				}
-			}
-			else
-				$table .= " JOIN (date_range_event UNION deadline_event UNION time_range_event) ";
-			
 			$info = $this->checkParams($infoData, true);
 			if($requestedData ==  null)
-				return $this->getData($table, $info);
+				return $this->getData($info);
 		
 			$request = $this->checkParams($requestedData, false);		
 			
-			return $this->getData($table, $info, $request);
+			return $this->getData($info, $request);
 		}
 		
 		/** 
@@ -206,10 +218,14 @@ use \DateInterval;
 				$this->error .= "\n Try to force an ID";
 				return false;
 			}
+			
+			if(!isset($datas['Id_Recurrence'])){
+				$datas = array_merge($datas, array("Id_Recurrence" => 1));
+			}			
+			
 			$datas = array_intersect_key($datas, $this->fields_event);
 
 			
-
 			$a = $this->sql->insert($this->table[0], $datas);
 			if($a){
 				$id = intval($this->sql->last_insert_id());
@@ -359,27 +375,6 @@ use \DateInterval;
 			$qmark_array = array_fill(0, count($ids), "?");
 			$id_array_str = "(".implode(", ", $qmark_array).")";
 
-			/**
-			 * This query return the following columns : 
-			 * - Id_Event : id of the event
-			 * - Name : event name
-			 * - Description : event description
-			 * - Place : location where the event take place (or NULL)
-			 * - Start : start date/datetime (for deadline events, this field contains the limit datetime)
-			 * - End : end date/datetime (for deadline events, this field contains an empty string)
-			 * - DateType : a string specifying the date type of the event ('time_range', 'date_range' or 'deadline')
-			 * - EventType : a string specifying the event type ('sub_event', 'indep_event' or 'student_event')
-			 * - Color : event category color
-			 * - Categ_Name_EN : the event category name in english
-			 * - Categ_Name_FR : the event category name in french
-			 * - Categ_Desc_EN : the event category description in english
-			 * - Categ_Desc_FR : the event category description in french
-			 * - Recur_Category_EN : the recurrence category name in english
-			 * - Recur_Category_FR : the recurrence category name in french
-			 * - Id_Recur_Category : the id of the recurrence category
-			 * - Id_Recurrence : the recurrence id of the event (1 for never)
-			 * - Id_Category : the event category id
-			 */
 			$query  =  "SELECT * FROM event 
 						NATURAL JOIN 
 						(
@@ -425,7 +420,9 @@ use \DateInterval;
 						NATURAL JOIN recurrence
 						NATURAL JOIN recurrence_category;";
 
-			return $this->sql->execute_query($query, \ct\array_dup($ids, 6));
+			
+			return  $this->sql->execute_query($query, \ct\array_dup($ids, 6));
+			
 		}
 
 		/**
@@ -514,8 +511,12 @@ use \DateInterval;
 		 */
 		public function event_exists($event_id, $lock_mode=Model::LOCKMODE_NO_LOCK)
 		{
-			if($this->do_lock())
-			$ret = $this->sql->count("event", "Id_Event = ".$this->sql->quote($event_id)) > 0;
+			$ret = false;
+			
+			if($this->do_lock($lock_mode)){
+				$ret = $this->sql->count("event", "Id_Event = ".$this->sql->quote($event_id)) > 0;
+			}
+			return $ret;
 		}
 
 		/**
@@ -639,6 +640,9 @@ use \DateInterval;
 				$data = $this->sql->select("event_annotation", "Id_Event = ".$eventId." AND Id_Student =".$userId, array("Annotation"));
 				if(isset($data[0]["Annotation"]))
 					return $data[0]['Annotation'];
+				else
+					$this->error .= "\n No annotation";
+				return false;
 			}
 			$this->error .= "\n Error while searching for the annotation";
 			return false;
@@ -655,13 +659,13 @@ use \DateInterval;
 		public function set_annotation($eventId, $userId, $annotation, $update = false) {
 			$annotation_quoted = $this->sql->quote($annotation);
 			 
-			if(!$this->event_exists($eventId)){
-				$this->error .= "This event does not exist";
+			if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK)){
+				$this->error .= "\n This event does not exist";
 				return false;
 			}
 		
 			if(intval($userId) < 0){
-				$this->error .= "Error in the  user field";
+				$this->error .= "\n Error in the  user field";
 				return false;
 			}
 			
@@ -674,6 +678,7 @@ use \DateInterval;
 				return true;
 			else{
 				$this->error .= "\n Error while setting the annotation";
+				var_dump($this->sql->error_info());
 				return false;
 			}
 				

@@ -14,10 +14,8 @@ class SubEventModel extends AcademicEventModel{
 	
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields, array("id_GlobalEvent" => "int"));
 		$this->fields_sb = array("Id_Event" => "int", "Id_Global_Event" => "int");
 		
-		$this->translate = array_merge($this->translate, array("id_GlobalEvent" => "Id_Global_Event"));
 		
 		$this->table[2] ="sub_event";
 	
