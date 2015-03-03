@@ -11,6 +11,7 @@
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
     use ct\controllers\ajax\ProfessorProfileController;
+    use ct\controllers\ajax\GetTeachingTeamController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -48,6 +49,11 @@
                 /* Event related */
                 case "061":
                     return new PrivateEventController();
+
+                /* Teaching role related */
+                case "071":
+                    return new GetTeachingTeamController();
+
                 default:
                     return null;
             }

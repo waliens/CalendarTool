@@ -8,6 +8,7 @@
 	namespace ct\controllers\ajax;
 
 	use util\mvc\AjaxController;
+	use util\superglobals\Superglobal;
 	use ct\models\events\GlobalEventModel;
 
 	/**
@@ -44,7 +45,7 @@
 			$lang = $this->glob_mod->get_language($id_data);
 			$team = $this->glob_mod->get_teaching_team($id_data, $lang);
 
-			$this->output_data['team'] = \ct\darray_transform($team, array("user" => "user_id", "name", "surname", "role"));
+			$this->output_data['team'] = \ct\darray_transform($team, array("user" => "user_id", "name" => "", "surname" => "", "role" => ""));
 		}
 
 		/**
@@ -52,6 +53,7 @@
 		 */
 		protected function has_access()
 		{
-			return $this->glob_mod->global_event_user_has_access($this->sg_post->value("global_event_id"));
+			$id_data = array("id" => $this->sg_post->value("global_event_id"));
+			return $this->glob_mod->global_event_user_has_access($id_data);
 		}
 	}

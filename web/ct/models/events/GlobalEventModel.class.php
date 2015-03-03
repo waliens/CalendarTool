@@ -927,7 +927,7 @@
 							NATURAL JOIN
 							( SELECT Id_Global_Event, COUNT(*) AS cnt_sub 
 							  FROM global_event_subscription 
-							  WHERE Id_Global_Event = ? AND Id_User = ? ) as sub;"
+							  WHERE Id_Global_Event = ? AND Id_User = ? ) as sub;";
 
 				$result = $this->sql->execute_query($query, array($id_glob, $user_id, $id_glob, $user_id));
 

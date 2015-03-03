@@ -17,7 +17,8 @@
 		private $error_msgs; /**< @brief Array mapping error code and pre-defined error messages */
 		
 		/* 000 : generic error */
-		const ERROR = 0;
+		const ERROR_OK = 0; /**< @brief No error */
+		const ERROR = 1; /**< @brief Generic error */
 		/* 3xx : missing data */
 		const ERROR_MISSING_DATA = 300; /**< @brief Missing data generic error (300) */
 		const ERROR_MISSING_USER = 301; /**< @brief User is missing */
@@ -38,7 +39,8 @@
 		{
 			parent::__construct();
 
-			$this->output_data = array("error" => "");
+			$this->output_data = array();
+			$this->set_error("", self::ERROR_OK);
 			$this->set_error_msg_array();
 		}
 
@@ -104,7 +106,9 @@
 		 */
 		private function is_valid_error_code($error_code)
 		{
-			return $error_code == 0 || ($error_code >= 400 && $error_code < 403); 
+			return ($error_code >= 0 && $error_code <= 1) 
+					|| ($error_code >= 300 && $error_code <= 304)
+					|| ($error_code >= 400 && $error_code <= 403); 
 		}
 
 		/**
