@@ -7,7 +7,11 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\TestController;
+    use ct\controllers\ajax\AddNoteController;
+
+				use ct\controllers\ajax\AddNote;
+
+				use ct\controllers\ajax\TestController;
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
     use ct\controllers\ajax\ProfessorProfileController;
@@ -45,6 +49,12 @@
                 case "022":
                     return new ProfessorProfileController();
 
+                 /* Note related  */
+                case "042":
+                	return new AddNoteController();
+                case "043":
+                	return new AddNoteController(true);
+                	
                 /* Event related */
                 case "061":
                     return new PrivateEventController();

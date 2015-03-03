@@ -17,11 +17,11 @@ use util\superglobals\Superglobal;
  * @brief Class for handling the control of event
  */
 
-class AddNote extends AjaxController
+class AddNoteController extends AjaxController
 {
 
 
-	public function __construct()
+	public function __construct($update = false)
 	{
 		parent::__construct();
 
@@ -42,7 +42,7 @@ class AddNote extends AjaxController
 		$eventId = $this->sg_post->value("id_event");
 		$note = $this->sg_post->value("note");
 		
-		$model->set_annotation($eventId, $userId, $annotation);
+		$model->set_annotation($eventId, $userId, $annotation, $update);
 
 		$this->set_error($model->get_error());
 
