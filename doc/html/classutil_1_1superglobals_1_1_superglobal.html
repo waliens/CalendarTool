@@ -136,9 +136,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a24c36c616c849529b7aeefdfdad519c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a24c36c616c849529b7aeefdfdad519c6">check</a> ($key, $chk=null, $callback=null)</td></tr>
 <tr class="memdesc:a24c36c616c849529b7aeefdfdad519c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a check on the given key in the superglobal.  <a href="#a24c36c616c849529b7aeefdfdad519c6">More...</a><br/></td></tr>
 <tr class="separator:a24c36c616c849529b7aeefdfdad519c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9abd378168fb8d5b6294603e6944df7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a9abd378168fb8d5b6294603e6944df7c">check_keys</a> (array $keys, $chk=null, $callback=null)</td></tr>
+<tr class="memdesc:a9abd378168fb8d5b6294603e6944df7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a check on the given keys are the superglobal.  <a href="#a9abd378168fb8d5b6294603e6944df7c">More...</a><br/></td></tr>
+<tr class="separator:a9abd378168fb8d5b6294603e6944df7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad57b7892cb0ff5a8492c266366323a3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#ad57b7892cb0ff5a8492c266366323a3e">value</a> ($key)</td></tr>
 <tr class="memdesc:ad57b7892cb0ff5a8492c266366323a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the value associated with the given key in the superglobal array.  <a href="#ad57b7892cb0ff5a8492c266366323a3e">More...</a><br/></td></tr>
 <tr class="separator:ad57b7892cb0ff5a8492c266366323a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f9d9a20632bd68069955e65ba1296b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a9f9d9a20632bd68069955e65ba1296b8">set_value</a> ($key, $<a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#ad57b7892cb0ff5a8492c266366323a3e">value</a>)</td></tr>
+<tr class="memdesc:a9f9d9a20632bd68069955e65ba1296b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the given value for the given key in the superglobal.  <a href="#a9f9d9a20632bd68069955e65ba1296b8">More...</a><br/></td></tr>
+<tr class="separator:a9f9d9a20632bd68069955e65ba1296b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -266,6 +272,55 @@ CHK_ALL = CHK_TRIM | CHK_ISSET </li>
 <li>
 Check if the key is set and the value not empty = CHK_ISSET | CHK_NOT_EMPTY </li>
 </ul>
+
+</div>
+</div>
+<a class="anchor" id="a9abd378168fb8d5b6294603e6944df7c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">check_keys </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$keys</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$chk</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$callback</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform a check on the given keys are the superglobal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$keys</td><td>The keys to check </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$chk</td><td>Define the type of check to perform (see below) (default: null =&gt; CHK_ISSET | CHK_NOT_EMPTY) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">function</td><td class="paramname">$callback</td><td>A predicate taking the value associated with one key as argument and returning true if this value is valid, false otherwise (default: null =&gt; callback not evaluated) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">int</td><td>The negative error code specifying which check has failed (see ERR_* class negative constants) if it has failed, ERR_OK otherwise</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The function return ERR_OK if none of the keys returned an error, otherwise it returns the error code of the first error encountered </dd></dl>
 
 </div>
 </div>
@@ -441,6 +496,41 @@ Check if the key is set and the value not empty = CHK_ISSET | CHK_NOT_EMPTY </li
 
 </div>
 </div>
+<a class="anchor" id="a9f9d9a20632bd68069955e65ba1296b8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">set_value </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the given value for the given key in the superglobal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$value</td><td>The value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ad57b7892cb0ff5a8492c266366323a3e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -474,7 +564,7 @@ Check if the key is set and the value not empty = CHK_ISSET | CHK_NOT_EMPTY </li
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>superglobals</b></li><li class="navelem"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html">Superglobal</a></li>
-    <li class="footer">Generated on Sun Mar 1 2015 11:45:12 for CalendarTool by
+    <li class="footer">Generated on Tue Mar 3 2015 23:11:50 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

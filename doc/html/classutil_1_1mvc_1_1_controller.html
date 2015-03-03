@@ -107,7 +107,6 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_controller.html',
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Controller Class Reference</div>  </div>
@@ -122,16 +121,22 @@ Inheritance diagram for Controller:</div>
  <div class="center">
   <img src="classutil_1_1mvc_1_1_controller.png" usemap="#Controller_map" alt=""/>
   <map id="Controller_map" name="Controller_map">
-<area href="classutil_1_1mvc_1_1_ajax_controller.html" title="A base class for any controller which is supposed to handle ajax request. " alt="AjaxController" shape="rect" coords="0,56,160,80"/>
-<area href="classutil_1_1mvc_1_1_browser_controller.html" title="A base class for any controller that is made for handling requests from the browser. " alt="BrowserController" shape="rect" coords="170,56,330,80"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_private_event_controller.html" alt="PrivateEventController" shape="rect" coords="0,112,160,136"/>
-<area href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="CalendarPageController" shape="rect" coords="340,112,500,136"/>
-<area href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="LoginPageController" shape="rect" coords="340,168,500,192"/>
-<area href="classct_1_1controllers_1_1browser_1_1_private_events_controller.html" title="A class for generating the private events page. " alt="PrivateEventsController" shape="rect" coords="340,224,500,248"/>
-<area href="classct_1_1controllers_1_1browser_1_1_professor_profile_controller.html" title="A class for generating the private events page. " alt="ProfessorProfileController" shape="rect" coords="340,280,500,304"/>
-<area href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html" title="A class for representing the controller that handle the browser for the profile page. " alt="ProfilePageController" shape="rect" coords="340,336,500,360"/>
-<area href="classct_1_1controllers_1_1browser_1_1_static_export_controller.html" title="A class for generating the private events page. " alt="StaticExportController" shape="rect" coords="340,392,500,416"/>
-<area href="classct_1_1controllers_1_1browser_1_1_student_profile_controller.html" title="A class for generating the student profile page. " alt="StudentProfileController" shape="rect" coords="340,448,500,472"/>
+<area href="classutil_1_1mvc_1_1_ajax_controller.html" title="A base class for any controller which is supposed to handle ajax request. " alt="AjaxController" shape="rect" coords="0,56,232,80"/>
+<area href="classutil_1_1mvc_1_1_browser_controller.html" title="A base class for any controller that is made for handling requests from the browser. " alt="BrowserController" shape="rect" coords="484,56,716,80"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_add_teaching_team_member_controller.html" title="A class for handling the add teaching team member request. " alt="AddTeachingTeamMemberController" shape="rect" coords="242,112,474,136"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_all_professors_controller.html" title="Class for handling the getAllProfessors request. " alt="AllProfessorsController" shape="rect" coords="242,168,474,192"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_delete_teaching_team_member_controller.html" title="A class for handling the delete teaching. " alt="DeleteTeachingTeamMemberController" shape="rect" coords="242,224,474,248"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_teaching_team_controller.html" title="A class for handling the getTeachingTeam request. " alt="GetTeachingTeamController" shape="rect" coords="242,280,474,304"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_private_event_controller.html" title="Class for handling the create private event request. " alt="PrivateEventController" shape="rect" coords="242,336,474,360"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_professor_profile_controller.html" title="A class for handling the getProfessorProfile ajax request. " alt="ProfessorProfileController" shape="rect" coords="242,392,474,416"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_test_controller.html" title="A controller for testing. " alt="TestController" shape="rect" coords="242,448,474,472"/>
+<area href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="CalendarPageController" shape="rect" coords="726,112,958,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="LoginPageController" shape="rect" coords="726,168,958,192"/>
+<area href="classct_1_1controllers_1_1browser_1_1_private_events_controller.html" title="A class for generating the private events page. " alt="PrivateEventsController" shape="rect" coords="726,224,958,248"/>
+<area href="classct_1_1controllers_1_1browser_1_1_professor_profile_controller.html" title="A class for generating the private events page. " alt="ProfessorProfileController" shape="rect" coords="726,280,958,304"/>
+<area href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html" title="A class for representing the controller that handle the browser for the profile page. " alt="ProfilePageController" shape="rect" coords="726,336,958,360"/>
+<area href="classct_1_1controllers_1_1browser_1_1_static_export_controller.html" title="A class for generating the private events page. " alt="StaticExportController" shape="rect" coords="726,392,958,416"/>
+<area href="classct_1_1controllers_1_1browser_1_1_student_profile_controller.html" title="A class for generating the student profile page. " alt="StudentProfileController" shape="rect" coords="726,448,958,472"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -144,12 +149,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa6c3f8688f804de4f1af8a462fffb922"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_controller.html#aa6c3f8688f804de4f1af8a462fffb922">get_output</a> ()</td></tr>
 <tr class="memdesc:aa6c3f8688f804de4f1af8a462fffb922"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the output generated by the controller as a string so that it can be sent through http(s)  <a href="#aa6c3f8688f804de4f1af8a462fffb922">More...</a><br/></td></tr>
 <tr class="separator:aa6c3f8688f804de4f1af8a462fffb922"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9bca36b8a8e8c0a1918ef0be04a63148"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_controller.html#a9bca36b8a8e8c0a1918ef0be04a63148">perform_action</a> ()</td></tr>
-<tr class="memdesc:a9bca36b8a8e8c0a1918ef0be04a63148"><td class="mdescLeft">&#160;</td><td class="mdescRight">If an action should executed from a request, the code for executing this action should be placed into this function.  <a href="#a9bca36b8a8e8c0a1918ef0be04a63148">More...</a><br/></td></tr>
-<tr class="separator:a9bca36b8a8e8c0a1918ef0be04a63148"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -179,7 +178,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ac3ae29e9ccbb2006fa26fd9eb2c12117"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d9c79b9b86b3f5891c6d3892f12c6a0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d9c79b9b86b3f5891c6d3892f12c6a0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_controller.html#a0d9c79b9b86b3f5891c6d3892f12c6a0">$connection</a></td></tr>
-<tr class="memdesc:a0d9c79b9b86b3f5891c6d3892f12c6a0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classutil_1_1_connection.html" title="A class for handling an user connection and accessing information about the currently connected user...">Connection</a> object. <br/></td></tr>
+<tr class="memdesc:a0d9c79b9b86b3f5891c6d3892f12c6a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connection object. <br/></td></tr>
 <tr class="separator:a0d9c79b9b86b3f5891c6d3892f12c6a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -216,37 +215,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9bca36b8a8e8c0a1918ef0be04a63148"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">perform_action </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">abstract</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>If an action should executed from a request, the code for executing this action should be placed into this function. </p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">bool</td><td>True if the action has succeeded, false otherwise </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Documents/BitBucket/CalendarTool/web/util/mvc/<a class="el" href="_controller_8class_8php.html">Controller.class.php</a></li>
 </ul>
@@ -256,7 +224,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>util</b></li><li class="navelem"><b>mvc</b></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_controller.html">Controller</a></li>
-    <li class="footer">Generated on Sun Mar 1 2015 11:45:12 for CalendarTool by
+    <li class="footer">Generated on Tue Mar 3 2015 23:11:50 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

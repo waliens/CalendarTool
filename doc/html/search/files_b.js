@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['pathwayfilter_2eclass_2ephp',['PathwayFilter.class.php',['../_pathway_filter_8class_8php.html',1,'']]],
-  ['pathwaymodel_2eclass_2ephp',['PathwayModel.class.php',['../_pathway_model_8class_8php.html',1,'']]],
-  ['privateeventcontroller_2eclass_2ephp',['PrivateEventController.class.php',['../_private_event_controller_8class_8php.html',1,'']]],
-  ['privateeventscontroller_2eclass_2ephp',['PrivateEventsController.class.php',['../_private_events_controller_8class_8php.html',1,'']]],
-  ['professorfilter_2eclass_2ephp',['ProfessorFilter.class.php',['../_professor_filter_8class_8php.html',1,'']]],
-  ['professorprofilecontroller_2eclass_2ephp',['ProfessorProfileController.class.php',['../_professor_profile_controller_8class_8php.html',1,'']]],
-  ['profilepagecontroller_2eclass_2ephp',['ProfilePageController.class.php',['../_profile_page_controller_8class_8php.html',1,'']]]
+  ['redirection_2eclass_2ephp',['Redirection.class.php',['../_redirection_8class_8php.html',1,'']]],
+  ['rootmodel_2eclass_2ephp',['RootModel.class.php',['../_root_model_8class_8php.html',1,'']]]
 ];

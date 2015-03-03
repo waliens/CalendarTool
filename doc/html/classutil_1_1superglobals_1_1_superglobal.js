@@ -1,11 +1,13 @@
 var classutil_1_1superglobals_1_1_superglobal =
 [
     [ "check", "classutil_1_1superglobals_1_1_superglobal.html#a24c36c616c849529b7aeefdfdad519c6", null ],
+    [ "check_keys", "classutil_1_1superglobals_1_1_superglobal.html#a9abd378168fb8d5b6294603e6944df7c", null ],
     [ "do_isset", "classutil_1_1superglobals_1_1_superglobal.html#a0dec24285e3b159dc71e00d376d77066", null ],
     [ "do_not_empty", "classutil_1_1superglobals_1_1_superglobal.html#aa1b74131db9eea087795386e77cdef3f", null ],
     [ "do_trim", "classutil_1_1superglobals_1_1_superglobal.html#a6b306754d68b1daba28159eb56358d18", null ],
     [ "is_empty", "classutil_1_1superglobals_1_1_superglobal.html#a0b25ccb9268800ddc5bb2cc4028cd835", null ],
     [ "is_set", "classutil_1_1superglobals_1_1_superglobal.html#ac25ca2e2dd14511265fc16fa2fb87402", null ],
+    [ "set_value", "classutil_1_1superglobals_1_1_superglobal.html#a9f9d9a20632bd68069955e65ba1296b8", null ],
     [ "value", "classutil_1_1superglobals_1_1_superglobal.html#ad57b7892cb0ff5a8492c266366323a3e", null ],
     [ "$superglobal", "classutil_1_1superglobals_1_1_superglobal.html#a88a8ba097fdca3d32429af9868b6aa6e", null ],
     [ "CHK_ALL", "classutil_1_1superglobals_1_1_superglobal.html#ab470e80d06e872a2247dbe15dd32cea9", null ],

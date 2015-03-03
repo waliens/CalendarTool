@@ -143,9 +143,9 @@ Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>autoload</b> ($class)</td></tr>
 <tr class="memdesc:ac3c046edd1c7f6839ac7635fa6dfb4f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom autoload function for spl autoloading. <br/></td></tr>
 <tr class="separator:ac3c046edd1c7f6839ac7635fa6dfb4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4d1fe884274f25d99dbf8568f780d82"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>array_flatten</b> (array $array)</td></tr>
-<tr class="memdesc:ae4d1fe884274f25d99dbf8568f780d82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flatten an multidimensionnal array.  <a href="#ae4d1fe884274f25d99dbf8568f780d82">More...</a><br/></td></tr>
-<tr class="separator:ae4d1fe884274f25d99dbf8568f780d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f745a19b52c4fab8891fab311af7609"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>array_flatten</b> (array &amp;$array)</td></tr>
+<tr class="memdesc:a1f745a19b52c4fab8891fab311af7609"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flatten an multidimensionnal array.  <a href="#a1f745a19b52c4fab8891fab311af7609">More...</a><br/></td></tr>
+<tr class="separator:a1f745a19b52c4fab8891fab311af7609"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a6ac3da789387d2f6ea57a541dbc47e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>starts_with</b> ($haystack, $needle)</td></tr>
 <tr class="memdesc:a8a6ac3da789387d2f6ea57a541dbc47e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the string starts with a given string.  <a href="#a8a6ac3da789387d2f6ea57a541dbc47e">More...</a><br/></td></tr>
 <tr class="separator:a8a6ac3da789387d2f6ea57a541dbc47e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,15 +170,27 @@ Functions</h2></td></tr>
 <tr class="memitem:a4ac1ac3c28f14babafce08c730aea014"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>date_fr2sql</b> ($fr_date)</td></tr>
 <tr class="memdesc:a4ac1ac3c28f14babafce08c730aea014"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for converting a french formatted date(time) in the sql date(time) format.  <a href="#a4ac1ac3c28f14babafce08c730aea014">More...</a><br/></td></tr>
 <tr class="separator:a4ac1ac3c28f14babafce08c730aea014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5ac001bfcf193dde3548228cff48d3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>is_positive_integers</b> ($int)</td></tr>
-<tr class="memdesc:af5ac001bfcf193dde3548228cff48d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the argument is a positive integer differenet from 0.  <a href="#af5ac001bfcf193dde3548228cff48d3f">More...</a><br/></td></tr>
-<tr class="separator:af5ac001bfcf193dde3548228cff48d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aede825fd34ce9a1acb68128cc5f85545"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>is_positive_integer</b> ($int)</td></tr>
+<tr class="memdesc:aede825fd34ce9a1acb68128cc5f85545"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the argument is a positive integer differenet from 0.  <a href="#aede825fd34ce9a1acb68128cc5f85545">More...</a><br/></td></tr>
+<tr class="separator:aede825fd34ce9a1acb68128cc5f85545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40711c369e37e8da3658107490547285"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>is_valid_id</b> ($data)</td></tr>
+<tr class="memdesc:a40711c369e37e8da3658107490547285"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the given data can be a database integer key.  <a href="#a40711c369e37e8da3658107490547285">More...</a><br/></td></tr>
+<tr class="separator:a40711c369e37e8da3658107490547285"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e7dc253ae21c346cd49af4362c5ed6c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>array_col_map</b> (array &amp;$array, $callback, $column_name)</td></tr>
 <tr class="memdesc:a3e7dc253ae21c346cd49af4362c5ed6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the given multi-dimensionnal array from which the column having the given index was modified with the given callback function.  <a href="#a3e7dc253ae21c346cd49af4362c5ed6c">More...</a><br/></td></tr>
 <tr class="separator:a3e7dc253ae21c346cd49af4362c5ed6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b6e5a44a752c4a34290fea920857a1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>array_dup</b> (array &amp;$array, $n)</td></tr>
+<tr class="memdesc:a1b6e5a44a752c4a34290fea920857a1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Duplicate the given array n times.  <a href="#a1b6e5a44a752c4a34290fea920857a1d">More...</a><br/></td></tr>
+<tr class="separator:a1b6e5a44a752c4a34290fea920857a1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10b3769ae0c0d20bed46413c8613b5fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>instantiateEventModel</b> ($type)</td></tr>
 <tr class="memdesc:a10b3769ae0c0d20bed46413c8613b5fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">instantiate a specific <a class="el" href="class_event.html" title="Class for getting event from D. ">Event</a> model according to the params  <a href="#a10b3769ae0c0d20bed46413c8613b5fd">More...</a><br/></td></tr>
 <tr class="separator:a10b3769ae0c0d20bed46413c8613b5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c19aa68128858e47fb6fa631bc0e415"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>array_keys_transform</b> (array &amp;$array, $transform)</td></tr>
+<tr class="memdesc:a1c19aa68128858e47fb6fa631bc0e415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a one-dimensionnal array to transform.  <a href="#a1c19aa68128858e47fb6fa631bc0e415">More...</a><br/></td></tr>
+<tr class="separator:a1c19aa68128858e47fb6fa631bc0e415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e1745c43a192021e358f2624f8c9f6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>darray_transform</b> (array &amp;$array, $transform)</td></tr>
+<tr class="memdesc:a1e1745c43a192021e358f2624f8c9f6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a database-like array (see below).  <a href="#a1e1745c43a192021e358f2624f8c9f6e">More...</a><br/></td></tr>
+<tr class="separator:a1e1745c43a192021e358f2624f8c9f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains a set of useful standalone functions. </p>
@@ -188,7 +200,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_562abdcd8625d4bf7bad2fe6fe01354c.html">web</a></li><li class="navelem"><a class="el" href="functions_8php.html">functions.php</a></li>
-    <li class="footer">Generated on Sun Mar 1 2015 11:45:10 for CalendarTool by
+    <li class="footer">Generated on Tue Mar 3 2015 23:11:50 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
