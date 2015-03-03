@@ -13,14 +13,14 @@ use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
 /**
- * @class Event
- * @brief Class for handling the control of event
+ * @class PrivateEventController
+ * @brief Class for handling the create private event request
  */
-
 class PrivateEventController extends AjaxController
 {
-
-		
+	/** 
+	 * @brief Construct the PrivateEventController object and process the request
+	 */
 	public function __construct() 
 	{
 		parent::__construct();
@@ -78,10 +78,8 @@ class PrivateEventController extends AjaxController
 				$model->set_annotation($value, $data['id_owner'], $this->sg_post->value('note'));
 		
 		$this->output_data['id'] = $id_ret;
-		$this->set_error($model->get_error());
-		
+		$this->set_error($model->get_error());		
 	}
-	
 
 }
 
