@@ -23,5 +23,5 @@
 				session_start();
 			
 			$this->superglobal = &$_SESSION;
-		} 
+		}
 	}

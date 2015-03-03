@@ -7,7 +7,7 @@
 
 	namespace ct\models\filters;
 
-	use ct\models\GlobalEventModel;
+	use ct\models\events\GlobalEventModel;
 
 	/**
 	 * @class GlobalEventFilter
@@ -17,9 +17,9 @@
 	{
 		private $ge_ids; /**< @brief The global event ids to filter on (array of integers)*/ 
 
-		const FORMAT_INT; /**< @brief Represents the format of the id_data array row : global event id */
-		const FORMAT_ARR_ID; /**< @brief Represents the format of the id_data array row : array containing the id */
-		const FORMAT_ARR_ULG; /**< @brief Represents the format of the id_data array row : array containing the year and ulg_id */
+		const FORMAT_INT = 0; /**< @brief Represents the format of the id_data array row : global event id */
+		const FORMAT_ARR_ID = 1; /**< @brief Represents the format of the id_data array row : array containing the id */
+		const FORMAT_ARR_ULG = 2; /**< @brief Represents the format of the id_data array row : array containing the year and ulg_id */
 
 		/**
 		 * @brief Construct a GlobalEventFilter object for filtering on the given global events
@@ -27,7 +27,7 @@
 		 * event must be filtered
 		 * @note The id data rows can be formatted in three ways :
 		 * <ul>
-		 * 	<li>integer : the row is a global event id (FORMAT_INT)</li>
+		 * 	<li>integer : an array of integers being the global events ids (FORMAT_INT)</li>
 		 *	<li>array (1) : the row is an array containing one key 'id' mapping a global event id (FORMAT_ARR_ID)</li>
 		 *  <li>array (2) : the row is an array containing two keys 'ulg_id', 'year' which 
 		 *      are respectively the ulg id of the course and the year starting its academic year (FORMAT_ARR_ULG)</li>
@@ -53,11 +53,14 @@
 				switch($this->get_row_format($row))
 				{
 				case self::FORMAT_INT:
-					$this->ge_ids[] = $id_data;
+					$this->ge_ids[] = $row;
+					break;
 				case self::FORMAT_ARR_ID:
-					$this->ge_ids[] = $id_data['id'];
+					$this->ge_ids[] = $row['id'];
+					break;
 				case self::FORMAT_ARR_ULG:
-					$this->ge_ids[] = $ge_mod->get_global_event_id($id_data);
+					$this->ge_ids[] = $ge_mod->get_global_event_id($row);
+					break;
 				}
 			}
 
@@ -77,8 +80,10 @@
 				else
 					return self::FORMAT_ARR_ULG;
 			}
-			else
+			elseif(is_int($row))
 				return self::FORMAT_INT;
+			else
+				throw new \Exception("Mauvais format pour l'identifiant du cours");
 		}
 
 		/**

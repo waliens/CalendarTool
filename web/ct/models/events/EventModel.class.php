@@ -8,8 +8,10 @@
 namespace ct\models\events;
 use util\mvc\Model;
 use util\database\Database;
+
 use \DateTime;
 use \DateInterval;
+
 	/**
 	 * @class Event
 	 * @brief Class for getting event from D
@@ -320,27 +322,45 @@ use \DateInterval;
 			$this->error .= "\n Date Error";
 			return false;
 		}
-	/**
-	 * @brief get an array of event from an array of id
-	 * @param array $ids an array containing the differents ids
-	 * @param string $dateType the type of the date that the event have
-	 * @retval mixed array of data (false if error)
-	 */
-		public function getEventFromIds($ids = null, $dateType = null){
-			if($ids == null)
-				$ids = array();
-			
-			if(empty($ids)){
-				$this->error .= "\n No IDs provided";
-				return false;
-			}
-			
-			// create que question mark array string : (?, ..., ?)
+
+		/**
+		 * @brief Get the data of the events having the given ids
+		 * @param array $ids an array containing the differents ids
+		 * @retval array Multi-dimensionnal array containing the event data
+		 *
+		 * The rows contains the following keys : 
+		 * <ul>
+		 *   <li> Id_Event : id of the event </li>
+		 *   <li> Name : event name </li>
+		 *   <li> Description : event description </li>
+		 *   <li> Place : location where the event take place (or NULL) </li>
+		 *   <li> Start : start date/datetime (for deadline events, this field contains the limit datetime) </li>
+		 *   <li> End : end date/datetime (for deadline events, this field contains an empty string) </li>
+		 *   <li> DateType : a string specifying the date type of the event ('time_range', 'date_range' or 'deadline') </li>
+		 *   <li> EventType : a string specifying the event type ('sub_event', 'indep_event' or 'student_event') </li>
+		 *   <li> Color : event category color </li>
+		 *   <li> Categ_Name_EN : the event category name in english </li>
+		 *   <li> Categ_Name_FR : the event category name in french </li>
+		 *   <li> Categ_Desc_EN : the event category description in english </li>
+		 *   <li> Categ_Desc_FR : the event category description in french </li>
+		 *   <li> Recur_Category_EN : the recurrence category name in english </li>
+		 *   <li> Recur_Category_FR : the recurrence category name in french </li>
+		 *   <li> Id_Recur_Category : the id of the recurrence category </li>
+		 *   <li> Id_Recurrence : the recurrence id of the event (1 for never) </li>
+		 *   <li> Id_Category : the event category id </li>
+		 * </ul>
+		 */
+		public function getEventFromIds(array $ids)
+		{
+			if(count($ids) == 0)
+				return array();
+
+			// create que question mark array string : (?, ..., ?) 
 			$qmark_array = array_fill(0, count($ids), "?");
 			$id_array_str = "(".implode(", ", $qmark_array).")";
-			
+
 			/**
-			 * This query return the following columns :
+			 * This query return the following columns : 
 			 * - Id_Event : id of the event
 			 * - Name : event name
 			 * - Description : event description
@@ -360,53 +380,52 @@ use \DateInterval;
 			 * - Id_Recurrence : the recurrence id of the event (1 for never)
 			 * - Id_Category : the event category id
 			 */
-			$query  =  "SELECT * FROM event
-			NATURAL JOIN
-			(
-			SELECT Id_Event, Start, End, 'time_range' AS DateType
-			FROM time_range_event
-			WHERE Id_Event IN ".$id_array_str."
-				
-			UNION ALL
-			
-			SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 'date_range' AS DateType
-			FROM date_range_event
-			WHERE Id_Event IN ".$id_array_str."
-			
-			UNION ALL
-			
-			SELECT Id_Event, `Limit` AS Start, '' AS End, 'deadline' AS DateType
-			FROM deadline_event
-			WHERE Id_Event IN ".$id_array_str."
-			) AS time_data
-			NATURAL JOIN
-			(
-			SELECT Id_Event, 'sub_event' AS EventType
-			FROM sub_event
-			WHERE Id_Event IN ".$id_array_str."
-			
-			UNION ALL
-			
-			SELECT Id_Event, 'indep_event' AS EventType
-			FROM independent_event
-			WHERE Id_Event IN ".$id_array_str."
-			
-			UNION ALL
-			
-			SELECT Id_Event, 'student_event' AS EventType
-			FROM student_event
-			WHERE Id_Event IN ".$id_array_str."
-			) AS type_data
-			NATURAL JOIN
-			( SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN,
-			Description_FR AS Categ_Desc_FR, Name_EN AS Categ_Name_EN,
-			Name_FR AS Categ_Name_FR
-			FROM event_category ) AS categ
-			NATURAL JOIN recurrence
-			NATURAL JOIN recurrence_category;";
-			
+			$query  =  "SELECT * FROM event 
+						NATURAL JOIN 
+						(
+						  SELECT Id_Event, Start, End, 'time_range' AS DateType 
+						  FROM time_range_event 
+						  WHERE Id_Event IN ".$id_array_str."
+						  
+						  UNION ALL
+
+						  SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 'date_range' AS DateType
+						  FROM date_range_event
+						  WHERE Id_Event IN ".$id_array_str."
+
+						  UNION ALL
+
+						  SELECT Id_Event, `Limit` AS Start, '' AS End, 'deadline' AS DateType
+						  FROM deadline_event
+						  WHERE Id_Event IN ".$id_array_str."
+						) AS time_data
+						NATURAL JOIN
+						(
+						  SELECT Id_Event, 'sub_event' AS EventType 
+						  FROM sub_event
+						  WHERE Id_Event IN ".$id_array_str."
+
+						  UNION ALL
+
+						  SELECT Id_Event, 'indep_event' AS EventType
+						  FROM independent_event
+						  WHERE Id_Event IN ".$id_array_str."
+
+						  UNION ALL
+
+						  SELECT Id_Event, 'student_event' AS EventType
+						  FROM student_event
+						  WHERE Id_Event IN ".$id_array_str."
+						) AS type_data
+						NATURAL JOIN 
+						( SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN, 
+								 Description_FR AS Categ_Desc_FR, Name_EN AS Categ_Name_EN, 
+								 Name_FR AS Categ_Name_FR 
+						  FROM event_category ) AS categ
+						NATURAL JOIN recurrence
+						NATURAL JOIN recurrence_category;";
+
 			return $this->sql->execute_query($query, \ct\array_dup($ids, 6));
-			
 		}
 
 		/**
@@ -645,7 +664,7 @@ use \DateInterval;
 				$this->error .= "Error in the  user field";
 				return false;
 			}
-	
+			
 			if($update)
 				$a = $this->sql->update("event_annotation", array("Annotation" => $annotation_quoted), "Id_Event=".$eventId." AND Id_Student=".$userId);
 			else

@@ -26,7 +26,7 @@
 	 	 * @param[in] int $types A combination of TYPE_* masks indicating the type of events to keep
 	 	 * (for instance : EventTypeFilter::SUB_EVENT | EventTypeFilter::TYPE_STUDENT)
  	 	 */
-		public function __construct(array $types)
+		public function __construct($types)
 		{
 			if(!$this->valid_mask($types))
 				throw new \Exception("Invalid type mask");
@@ -69,7 +69,7 @@
 		{
 			$queries = array();
 
-			if($this->type === self::TYPE_ALL)
+			if($this->types === self::TYPE_ALL)
 				trigger_error("The event type filter should only be used if it has a category of event to filter (thus other than TYPE_ALL)", E_USER_WARNING);
 
 			if($this->do_keep(self::TYPE_ACADEMIC))

@@ -160,7 +160,7 @@
 	 * @retval The flattened array
 	 * @note Taken from 'too much php' post on stackoverflow (url: http://goo.gl/UUCMTp)
 	 */
-	function array_flatten(array $array)
+	function array_flatten(array& $array)
 	{
 	    $return = array();
 	    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
@@ -277,7 +277,7 @@
 	 * @brief Check whether the argument is a positive integer differenet from 0
 	 * @retval bool True if $int is an integer > 0, false otherwise 
 	 */
-	function is_positive_integers($int)
+	function is_positive_integer($int)
 	{
 		return is_int($int) && $int > 0;
 	}
@@ -301,6 +301,26 @@
 		return array_map($fn, $array); 
 	}
 
+	/**
+	 * @brief Duplicate the given array n times
+	 * @param[in] array $array The array to duplicate (must not contain string keys)
+	 * @param[in] int   $n     The number of duplication
+	 * @retval array The duplicated array
+	 * 
+	 * Example :
+	 * @code
+	 * $array = array(1, 2);
+	 * // $dup_array is (1, 2, 1, 2);
+	 * $dup_array = array_dup($array, 2);
+	 * @endcode
+	 */
+	function array_dup(array &$array, $n)
+	{
+		$out_array = $array;
+		for($i = 1; $i < $n; ++$i)
+			$out_array = array_merge($out_array, $array);
+		return $out_array;
+	}
 	
 	/**
 	 * @brief instantiate a specific Event model according to the params
@@ -328,4 +348,44 @@
 				return false;
 				break;
 		}
+	}
+
+	/**
+	 * @brief Transform a one-dimensionnal array to transform 
+	 * @param[in] array $array     The one-idimensionnal array to transform 
+	 * @param[in] array $transform Array specifying which transformations must be executed on the array
+	 * @note The operations exposed by the function are item removal and key replacement
+	 * @note The transform array must be formatted as for the darray_transform function
+	 * @note The transform array must be formatted as follows : its keys are the keys to keep from $array and they must map
+	 * the new key name or an empty string if the key name must not change
+	 */
+	function array_keys_transform(array &$array, $transform)
+	{
+		$out = array();
+		$transform_fn = function($val, $key) use (&$out, $transform)
+						{
+							if(array_key_exists($key, $transform)) // add element if the key exists
+							{
+								// 
+								$new_key = empty($transform[$key]) ? $key : $transform[$key];
+								$out[$new_key] = $val;
+							}
+						};
+
+		array_walk($array, $transform_fn);
+		return $out;
+	}
+
+	/**
+	 * @brief Transform a database-like array (see below). 
+	 * @param[in] array $array     The array to transform 
+	 * @param[in] array $transform Array specifying which transformations must be executed on the array
+	 * @note The operations exposed by the function are the selection and renaming of columns
+	 * @note A database-like array is a two dimensionnal array (array of arrays) of which each
+	 * subarrays contains the same keys. 
+	 */
+	function darray_transform(array &$array, $transform)
+	{
+		return array_map(function(&$row) use (&$transform) { return array_keys_transform($row, $transform);},
+						 $array);
 	}

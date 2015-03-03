@@ -14,6 +14,7 @@ var functions_8php =
     [ "first", "functions_8php.html#ad2fa6c88434f7edd8c1b5aef5ffba51a", null ],
     [ "get_academic_year", "functions_8php.html#a1b0bdcafa5b78e9ef7c3c264994c222f", null ],
     [ "get_OS", "functions_8php.html#a931519592e0b89c57e82a2b1d259d2d9", null ],
+    [ "instantiateEventModel", "functions_8php.html#a10b3769ae0c0d20bed46413c8613b5fd", null ],
     [ "is_positive_integers", "functions_8php.html#af5ac001bfcf193dde3548228cff48d3f", null ],
     [ "rows_compare_fn", "functions_8php.html#aa531a16b15610b16130b4b52af8f9bae", null ],
     [ "session_started", "functions_8php.html#aa30eb49b40eca5f97fca4489601ef721", null ],

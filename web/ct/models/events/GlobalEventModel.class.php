@@ -354,7 +354,7 @@
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ? ) AS ttm
 						NATURAL JOIN 
-						( SELECT Id_Role, ".$lang_col.", Description FROM teaching_role ) AS roles";
+						( SELECT Id_Role, ".$lang_col." FROM teaching_role ) AS roles";
 
 			return $this->sql->execute_query($query, array($id_glob));
 		}
@@ -604,6 +604,29 @@
 			return $global_events;
 		}
 
+		/** 
+		 * @brief Returns all the global events given user is associated to
+		 * @param[in] int $user_id The user id (optionnal, default: the currently connected user)
+		 * @retval array The array of global events
+		 */
+		public function get_global_events_by_user_role($user_id = null)
+		{
+			if($user_id == null) $user_id = $this->connection->user_id();
+
+			$query  =  "SELECT Id_Global_Event AS id, ULg_Identifier AS ulg_id, Name_Short AS name_short,
+							   Name_Long AS name_long, owner_name, owner_surname, Period AS period, 
+							   Description AS `desc`, Feedback AS feedback, Workload_Th AS wk_th,
+							   Workload_Pr AS wk_pr, Workload_Au AS wk_au, Workload_St AS wk_st,
+							   Language AS lang, CONCAT(Acad_Start_Year, '-', Acad_Start_Year + 1) AS acad_year
+						FROM global_event 
+						NATURAL JOIN
+						( SELECT Id_Global_Event FROM teaching_team_member WHERE Id_User = ? ) AS glob
+						NATURAL JOIN
+						( SELECT Name AS owner_name, Surname AS owner_surname, Id_User AS Id_Owner FROM user ) as owner;";
+
+			return $this->sql->execute_query($query, array($user_id));
+		}
+
 		/**
 		 * @brief Delete the subscription of the given student to the given global event
 		 * @param[in] array $id_data    The data for identifying the global event
@@ -790,9 +813,30 @@
 			if($id_glob < 0)
 				return false;
 
+			$this->sql->transaction();
+
 			$where = "Id_Global_Event = ".$this->sql->quote($id_glob).
 					 " AND Id_Pathway = ".$this->sql->quote($pathway_id);
-			return $this->sql->delete("global_event_pathway", $where);
+
+			if(!$this->sql->delete("global_event_pathway", $where))
+			{
+				$this->sql->rollback();
+				return false;
+			}
+
+			// delete subevent excluded pathways
+			$query  =  "DELETE FROM sub_event_excluded_pathway 
+						WHERE Id_Event IN ( SELECT Id_Event FROM sub_event WHERE Id_Global_Event = ? ) 
+							AND Id_Pathway = ?;";
+
+			if($this->sql->execute_query($query, array($id_glob, $pathway_id)))
+			{
+				$this->sql->commit();
+				return true;
+			}
+			
+			$this->sql->rollback();
+			return false;
 		}
 
 		/**

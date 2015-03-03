@@ -4,6 +4,7 @@ var searchData=
   ['_24category_5ftable',['$category_table',['../classutil_1_1mvc_1_1_category_model.html#a65b50279a0e27be269f2183c0b290339',1,'util::mvc::CategoryModel']]],
   ['_24connection',['$connection',['../classutil_1_1mvc_1_1_controller.html#a0d9c79b9b86b3f5891c6d3892f12c6a0',1,'util::mvc::Controller']]],
   ['_24domain',['$domain',['../classutil_1_1_u_r_l.html#aef9cf198312d2f89238a8e8e2f0f67f3',1,'util::URL']]],
+  ['_24fields_5fevent',['$fields_event',['../classct_1_1models_1_1events_1_1_event_model.html#a8dfa7837a08c0bd8cb25a3eb558d0cb4',1,'ct::models::events::EventModel']]],
   ['_24id_5fcol_5fname',['$id_col_name',['../classutil_1_1mvc_1_1_category_model.html#a0f01f8fcd5a7652a7bb6877e082e92fc',1,'util::mvc::CategoryModel']]],
   ['_24input_5fdata',['$input_data',['../classutil_1_1mvc_1_1_ajax_controller.html#a6533a3606e58291459e9dfec2ad7da21',1,'util::mvc::AjaxController']]],
   ['_24input_5fjson',['$input_json',['../classutil_1_1mvc_1_1_ajax_controller.html#a3bbb0e03b7e172c3b2d0bc20cd3a95c4',1,'util::mvc::AjaxController']]],
