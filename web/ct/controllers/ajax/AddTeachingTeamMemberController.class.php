@@ -19,6 +19,9 @@
 	{
 		private $glob_mod; /**< @brief The global event model */
 
+		/**
+		 * @brief Construct the AddTeachingTeamMemberController and process the request
+		 */
 		public function __construct()
 		{
 			parent::__construct();
@@ -53,6 +56,9 @@
 				$this->set_error_predefined(AjaxController::ERROR_ACTION_ADD_DATA);
 		}
 
+		/**
+		 * @copydoc AjaxController::has_access
+		 */
 		public function has_access()
 		{
 			$id_data = array("id" => $this->sg_post->value("id_global_event"));
