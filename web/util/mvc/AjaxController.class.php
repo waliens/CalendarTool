@@ -19,6 +19,14 @@
 		/* 000 : generic error */
 		const ERROR_OK = 0; /**< @brief No error */
 		const ERROR = 1; /**< @brief Generic error */
+
+		/* 2xx : operation failure */ 
+		const ERROR_ACTION_FAILURE = 200; /**< @brief Action failure */
+		const ERROR_ACTION_ADD_DATA = 201; /**< @brief Action failure : cannot add data */
+		const ERROR_ACTION_UPDATE_DATA = 202; /**< @brief Action failure : cannot update data */
+		const ERROR_ACTION_DELETE_DATA = 203; /**< @brief Action failure : cannot delete data */
+		const ERROR_ACTION_READ_DATA = 204; /**< @brief Action failure : cannot read data */
+
 		/* 3xx : missing data */
 		const ERROR_MISSING_DATA = 300; /**< @brief Missing data generic error (300) */
 		const ERROR_MISSING_USER = 301; /**< @brief User is missing */
@@ -28,9 +36,9 @@
 
 		/* 4xx : access error (user has not the given rights) */
 		const ERROR_ACCESS_DENIED = 400; /**< @brief Access denied generic error (400) */
-		const ERROR_ACCESS_PROFESSOR_REQUIRED = 401; /**< @brief Access denied because the user is not a professor */
-		const ERROR_ACCESS_STUDENT_REQUIRED = 402; /**< @brief Access denied because the user is not a student */
-		const ERROR_ACCESS_ROOT_REQUIRED = 403; /**< @brief Access denied because the user is not the root */
+		const ERROR_ACCESS_PROFESSOR_REQUIRED = 401; /**< @brief Access denied : only a professor can perform this operation  */
+		const ERROR_ACCESS_STUDENT_REQUIRED = 402; /**< @brief Access denied : only a student can perform this operation */
+		const ERROR_ACCESS_ROOT_REQUIRED = 403; /**< @brief Access denied : only the root user can perform this operation */
 
 		/**
 		 * @brief Constructs the AjaxController object
@@ -53,12 +61,31 @@
 		{
 			$this->error_msgs = array();
 
-			// $this->error_msgs[] = array("EN" => "", "FR" => "");
-
 			/* 000 : no error */
 			$this->error_msgs[self::ERROR]
 				= array("EN" => "An error occurred.", 
 						"FR" => "Une erreur s'est produite.");
+
+			/* 200 : action failure */
+			$this->error_msgs[self::ERROR_ACTION_FAILURE] 
+				= array("EN" => "Failure : impossible to perform the requested action.", 
+						"FR" => "Echec : impossible de traiter l'action demandée.");
+
+			$this->error_msgs[self::ERROR_ACTION_ADD_DATA] 
+				= array("EN" => "Failure : impossible to add the sent data.", 
+						"FR" => "Echec : impossible d'ajouter les données envoyées.");
+
+			$this->error_msgs[self::ERROR_ACTION_UPDATE_DATA] 
+				= array("EN" => "Failure : impossible to update the requested data", 
+						"FR" => "Echec : impossible de mettre à jour les données demandées.");
+
+			$this->error_msgs[self::ERROR_ACTION_DELETE_DATA] 
+				= array("EN" => "Failure : impossible to delete the requested data.", 
+						"FR" => "Echec : impossible de supprimer les données demandées.");
+
+			$this->error_msgs[self::ERROR_ACTION_READ_DATA] 
+				= array("EN" => "Failure : impossible to fetch the requested data.", 
+						"FR" => "Echec : impossible de récupérer les données demandées.");
 
 			/* 300 : missing */
 			$this->error_msgs[self::ERROR_MISSING_DATA] 
@@ -87,16 +114,16 @@
 						 "FR" => "Accès refusé : ces données ne sont pas accessible depuis votre compte.");
 
 			$this->error_msgs[self::ERROR_ACCESS_ROOT_REQUIRED] 
-				= array("EN" => "Access denied : you must be the root user to access these information.", 
-						"FR" => "Accès refusé : vous devez être l'utilisateur root pour accéder à ces données.");
+				= array("EN" => "Access denied : only the root user can access these information or perform this operation.", 
+						"FR" => "Accès refusé : seul le root peut accéder à ces données ou effectuer cette opération.");
 
 			$this->error_msgs[self::ERROR_ACCESS_STUDENT_REQUIRED] 
-				= array("EN" => "Access denied : you must be a student to access these information.", 
-						"FR" => "Accès refusé : vous devez être un étudiant pour accéder à ces données.");
+				= array("EN" => "Access denied : only a student can access these information or perform this operation.", 
+						"FR" => "Accès refusé : seul un étudiant peut accéder à ces données ou effectuer cette opération.");
 
 			$this->error_msgs[self::ERROR_ACCESS_PROFESSOR_REQUIRED] 
-				= array("EN" => "Access denied : you must be a professor to access these information.", 
-						"FR" => "Accès refusé : vous devez être un professeur pour accéder à ces données.");
+				= array("EN" => "Access denied : only a professor can access these information or perform this operation.", 
+						"FR" => "Accès refusé : seul un professeur peut accéder à ces données ou effectuer cette opération.");
 		}
 
 		/**
@@ -107,6 +134,7 @@
 		private function is_valid_error_code($error_code)
 		{
 			return ($error_code >= 0 && $error_code <= 1) 
+					|| ($error_code >= 200 && $error_code <= 204)
 					|| ($error_code >= 300 && $error_code <= 304)
 					|| ($error_code >= 400 && $error_code <= 403); 
 		}
