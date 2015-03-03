@@ -12,7 +12,7 @@ var filters = {
 			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
-			sessions: {isSet: 'false', id:[]},
+			pathways: {isSet: 'false', id:[]},
 			professors:	{isSet: 'false', id:[]}
           };
  
@@ -111,32 +111,32 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						}
 					});
 				break;
-			case "session_filter":
-				$(this).find('.modal-title').text("Filtrer par session");
-				//get sessions
+			case "pathway_filter":
+				$(this).find('.modal-title').text("Filtrer par pathway");
+				//get pathways
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/sessions.json",
+						url : "json/pathways.json",
 						//url : "index.php?src=ajax&req=111",
 						async : true,
 						success : function(data, status) {
-							var sessions=data.sessions;
+							var pathways=data.pathways;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
 							var table=document.createElement("table");
 							table.className="table";
-							table.id="sessions_filter_table";
+							table.id="pathways_filter_table";
 							var row=table.insertRow(-1);
 							row.className="text-bold";
 							var cell1=row.insertCell(0);
 							var cell2=row.insertCell(1);
-							cell1.innerHTML="Session";
+							cell1.innerHTML="Pathway";
 							cell2.innerHTML="Choisir";
 							cell2.className="text-center"
 							filter_alert.append(table);
-							for (var i = 0; i < sessions.length; i++)
-								addSession(sessions[i]);
+							for (var i = 0; i < pathways.length; i++)
+								addPathway(pathway[i]);
 						},
 						error : function(data, status, errors) {
 							// Inserire un messagio di errore
@@ -145,7 +145,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				break;
 			case "professor_filter":
 				$(this).find('.modal-title').text("Filtrer par professeur");
-				//get sessions
+				//get professors
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
@@ -284,18 +284,18 @@ function addType(type){
 	cell2.appendChild(input);
 	}
 	
-//add the session to the list in the filter alert
-function addSession(session){
-    var session_tag=document.createElement('p');
-	session_tag.innerHTML = session.name;
-	var table=document.getElementById("sessions_filter_table");
+//add the pathway to the list in the filter alert
+function addPathway(pathway){
+    var pathway_tag=document.createElement('p');
+	pathway_tag.innerHTML = pathway.name;
+	var table=document.getElementById("pathways_filter_table");
 	var row=table.insertRow(-1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
-	cell1.appendChild(session_tag);
+	cell1.appendChild(pathway_tag);
 	var input=document.createElement('input');
 	input.type='checkbox';
-	input.id=session.id;
+	input.id=pathway.id;
 	cell2.className="text-center";
 	cell2.appendChild(input);
 	}
@@ -338,11 +338,11 @@ function setFilter(filter){
 				filters.eventTypes.id.push(this.id);
 				});
 			break;
-		case "session_filter":
-			filters.sessions.isSet="true";
-				var selectedSessions=$("#filter_alert input:checked");
-				selectedSessions.each(function (){
-					filters.sessions.id.push(this.id);
+		case "pathway_filter":
+			filters.pathways.isSet="true";
+				var selectedPathways=$("#filter_alert input:checked");
+				selectedPathways.each(function (){
+					filters.pathways.id.push(this.id);
 					});
 			break;
 		case "professor_filter":
@@ -372,10 +372,10 @@ function unSetFilter(filter){
 			//empty the array of ids'
 			filters.eventTypes.id.length=0;
 		break;
-		case "session_filter":
-			filters.sessions.isSet="false";
+		case "pathway_filter":
+			filters.pathways.isSet="false";
 			//empty the array of ids'
-			filters.sessions.id.length=0;
+			filters.pathways.id.length=0;
 		break;
 		case "professor_filter":
 			filters.professors.isSet="false";
