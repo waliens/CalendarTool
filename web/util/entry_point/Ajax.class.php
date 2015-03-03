@@ -11,6 +11,9 @@
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
     use ct\controllers\ajax\ProfessorProfileController;
+    use ct\controllers\ajax\GetTeachingTeamController;
+    use ct\controllers\ajax\AddTeachingTeamMemberController;
+    use ct\controllers\ajax\DeleteTeachingTeamMemberController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -25,10 +28,14 @@
         /**
          * @copydoc EntryPoint::get_controller
          */
-        public function __construct(){
+        public function __construct()
+        {
             $this->sg_get = new SG_Get();
-             
         }
+
+        /**
+         * @copydoc EntryPoint::get_controller
+         */
         public function get_controller()
         {
             if($this->sg_get->check("req") !== Superglobal::ERR_OK)
@@ -48,6 +55,15 @@
                 /* Event related */
                 case "061":
                     return new PrivateEventController();
+
+                /* Teaching role related */
+                case "071":
+                    return new GetTeachingTeamController();
+                case "072":
+                    return new AddTeachingTeamMemberController();
+                case "073":
+                    return new DeleteTeachingTeamMemberController();
+
                 default:
                     return null;
             }

@@ -55,8 +55,9 @@
 
 			// set the http headers variables
 			$this->extract_http_headers();
-			$this->remote_user = "s101052";
+			$this->remote_user = "u216357";
 			$this->host = "";
+			$this->connect($this->remote_user);
 			// check host
 			// if(!$this->check_host()) // host different from the reverse proxy 
 			// {
