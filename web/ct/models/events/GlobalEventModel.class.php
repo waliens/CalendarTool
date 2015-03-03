@@ -329,10 +329,10 @@
 		 * @note See GlobalEventModel::get_global_event_id function for details about the structure of the $id_data array
 		 * @note The rows are structured as follows :
 		 * <ul>
+		 *  <li>user : the user id </li>
 		 * 	<li>name : the team member name</li>
 		 *  <li>surname : the team member surname</li>
 		 *  <li>role : its role in the given language</li>
-		 *  <li>desc : the role description</li>
 		 * </ul> 
 		 */
 		public function get_teaching_team(array $id_data, $lang = self::LANG_FR)
@@ -350,13 +350,30 @@
 			else
 				$lang_col = "Role_EN AS role";
 
-			$query  =  "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Description as `desc`
+			$query  =  "SELECT Id_User AS user, Name AS name, Surname AS surname, role as `desc`
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ? ) AS ttm
 						NATURAL JOIN 
 						( SELECT Id_Role, ".$lang_col." FROM teaching_role ) AS roles";
 
 			return $this->sql->execute_query($query, array($id_glob));
+		}
+
+		/**
+		 * @brief Return the language of the given global event
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @retval string One of the class LANG_* constant
+		 */
+		public function get_language(array $id_data)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return array(); 
+
+			$lang = $this->sql->select_one("global_event", "Id_Global_Event = ".$this->sql->quote($id_glob), array("Language"));
+			return $lang['Language'];
 		}
 
 		/**
@@ -880,5 +897,48 @@
 			$where = "Id_Global_Event = ".$this->sql->quote($id_glob).
 					 " AND Id_User = ".$this->sql->quote($user_id);
 			return $this->sql->delete("teaching_team_member", $where);
+		}
+
+		/**
+		 * @brief Checks whether the user has access to the global event 
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in] int   $user_id The user id (optionnal, default: the currently connected user)
+		 * @retval True if the user can access the global event, false otherwise
+		 * @note If the user is a student he can access the event if he is either in the teaching team or 
+		 * if he is registered to the global event. If the user is a professor, than he can access the global event if he
+		 * is in the teaching team of the global event.
+		 */
+		public function global_event_user_has_access(array $id_data, $user_id=null)
+		{
+			if($user_id == null) $user_id = $this->connection->user_id();
+
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			if($this->connection->user_is_student())
+			{
+				$query  =  "SELECT (cnt_sub + cnt_teach) AS cnt FROM  
+							( SELECT Id_Global_Event, COUNT(*) AS cnt_teach 
+							  FROM teaching_team_member 
+							  WHERE Id_Global_Event = ? AND Id_User = ? ) as teach 
+							NATURAL JOIN
+							( SELECT Id_Global_Event, COUNT(*) AS cnt_sub 
+							  FROM global_event_subscription 
+							  WHERE Id_Global_Event = ? AND Id_User = ? ) as sub;"
+
+				$result = $this->sql->execute_query($query, array($id_glob, $user_id, $id_glob, $user_id));
+
+				return empty($result) ? false : $result[0]['cnt'] >= 1;
+			}
+			else
+			{
+				$q_id_glob = $this->sql->quote($id_glob);
+				$q_id_user = $this->sql->quote($user_id);
+
+				return $this->sql->count("teaching_team_member", "Id_Global_Event = ".$q_id_glob." AND Id_User = ".$q_id_user) > 0;
+			}
 		}
 	}

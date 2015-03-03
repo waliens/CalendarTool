@@ -275,11 +275,22 @@
 
 	/**
 	 * @brief Check whether the argument is a positive integer differenet from 0
+	 * @param[in] mixed $int Check whether the given argument is a strictly positive integer
 	 * @retval bool True if $int is an integer > 0, false otherwise 
 	 */
 	function is_positive_integer($int)
 	{
 		return is_int($int) && $int > 0;
+	}
+
+	/**
+	 * @brief Check whether the given data can be a database integer key
+	 * @param[in] mixed $data The data to check;
+	 * @retval bool True if it is valid, false otherwise
+	 */
+	function is_valid_id($data)
+	{
+		return is_numeric($data) && intval($data) > 0;
 	}
 
 	/**

@@ -23,6 +23,7 @@
 		const ERROR_MISSING_USER = 301; /**< @brief User is missing */
 		const ERROR_MISSING_EVENT = 302; /**< @brief Event is missing */
 		const ERROR_MISSING_GLOBAL_EVENT = 303; /**< @brief Missing global event */
+		const ERROR_MISSING_ID = 304; /**< @brief The id is missing */
 
 		/* 4xx : access error (user has not the given rights) */
 		const ERROR_ACCESS_DENIED = 400; /**< @brief Access denied generic error (400) */
@@ -73,6 +74,10 @@
 			$this->error_msgs[self::ERROR_MISSING_GLOBAL_EVENT] 
 				= array("EN" => "Global event not found : the global event you're looking for wasn't found.", 
 						"FR" => "Evénement global manquant : l'événement global recherché n'a pas été trouvé.");
+
+			$this->error_msgs[self::ERROR_MISSING_ID] 
+				= array("EN" => "Missing id : the data identifier is missing.", 
+						"FR" => "Identifiant manquant : l'identifiant des données recherchées est manquant.");
 
 			/* 400 : access denied */
 			$this->error_msgs[self::ERROR_ACCESS_DENIED] 
