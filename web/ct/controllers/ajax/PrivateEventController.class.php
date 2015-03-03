@@ -7,7 +7,6 @@
 
 namespace ct\controllers\ajax;
 
-
 use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
@@ -80,7 +79,6 @@ class PrivateEventController extends AjaxController
 		$this->output_data['id'] = $id_ret;
 		$this->set_error($model->get_error());		
 	}
-
 }
 
 
