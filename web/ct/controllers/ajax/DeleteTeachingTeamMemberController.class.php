@@ -55,7 +55,7 @@
 		 */
 		protected function has_access()
 		{
-			$id_data = array("id", $this->sg_post->value("id_global_event"));
-			return $this->glob_mod = 
+			$id_data = array("id" => $this->sg_post->value("id_global_event"));
+			return $this->glob_mod->global_event_user_has_write_access($id_data);
 		}
 	}

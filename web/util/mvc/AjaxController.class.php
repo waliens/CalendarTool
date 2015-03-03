@@ -51,7 +51,7 @@
 			$this->output_data = array();
 			$this->set_error_msg_array();
 			$this->set_error_predefined(self::ERROR_OK); // set the default no error message
-			$this->set_form_error("");
+			$this->set_form_error(array());
 		}
 
 		/**
@@ -64,7 +64,7 @@
 			$this->error_msgs = array();
 
 			/* 000 : no error */
-			$this->error_msgs[self::ERROR-ok]
+			$this->error_msgs[self::ERROR_OK]
 				= array("EN" => "No error.", 
 						"FR" => "Pas d'erreur.");
 
@@ -171,7 +171,7 @@
 		public function get_output()
 		{
 			$output = array("data" => $this->output_data, "error" => $this->error_data);
-			return $this->array2json($this->output_data);
+			return $this->array2json($output);
 		}
 
 		/**
@@ -193,7 +193,7 @@
 		private function set_error($error, $code)
 		{
 			$this->error_data['error_msg'] = $error;
-			$this->output_data['error_code'] = $code;
+			$this->error_data['error_code'] = $code;
 		}
 
 		/**
@@ -228,9 +228,9 @@
 		}
 
 		/**
-		 * @brief Assign the data to be returned as response (overwrite the data previously added through add_output_data or
-		 * set_output_data)
+		 * @brief Assign the data to be returned as response 
 		 * @param[in] mixed $data The data to be returned as response
+		 * @note overwrite the data previously added through add_output_data or set_output_data
 		 */
 		protected function set_output_data($data)
 		{
