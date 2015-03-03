@@ -13,8 +13,9 @@
 	 */
 	abstract class AjaxController extends Controller
 	{
-		protected $output_data; /**< @brief Array where to store the data to send back as JSON to the client */
+		private $output_data; /**< @brief Array where to store the data to send back as JSON to the client */
 		private $error_msgs; /**< @brief Array mapping error code and pre-defined error messages */
+		private $error; /**< @brief Array holding the error data */
 		
 		/* 000 : generic error */
 		const ERROR_OK = 0; /**< @brief No error */
@@ -48,8 +49,9 @@
 			parent::__construct();
 
 			$this->output_data = array();
-			$this->set_error("", self::ERROR_OK);
 			$this->set_error_msg_array();
+			$this->set_error_predefined(self::ERROR_OK); // set the default no error message
+			$this->set_form_error("");
 		}
 
 		/**
@@ -62,6 +64,10 @@
 			$this->error_msgs = array();
 
 			/* 000 : no error */
+			$this->error_msgs[self::ERROR-ok]
+				= array("EN" => "No error.", 
+						"FR" => "Pas d'erreur.");
+
 			$this->error_msgs[self::ERROR]
 				= array("EN" => "An error occurred.", 
 						"FR" => "Une erreur s'est produite.");
@@ -164,6 +170,7 @@
 		 */
 		public function get_output()
 		{
+			$output = array("data" => $this->output_data, "error" => $this->error_data);
 			return $this->array2json($this->output_data);
 		}
 
@@ -180,12 +187,12 @@
 
 		/**
 		 * @brief Set the content of the error fields to return 
-		 * @param[in] array|string The error to return to the client
-		 * @param[in] int 		   The error code for the given error
+		 * @param[in] array|string $error 	   The error to return to the client
+		 * @param[in] int 		   $code   	   The error code for the given error
 		 */
 		private function set_error($error, $code)
 		{
-			$this->output_data['error'] = $error;
+			$this->error_data['error_msg'] = $error;
 			$this->output_data['error_code'] = $code;
 		}
 
@@ -199,5 +206,34 @@
 				return;
 
 			$this->set_error($this->error_msgs[$error_code], $error_code);
+		}
+
+		/**
+		 * @brief Set the form error field
+		 * @param[in] array $form_error An array mapping input name and error
+		 */	
+		protected function set_form_error(array $form_error)
+		{
+			$this->error_data['form_error'] = $form_error;
+		}
+
+		/**
+		 * @brief Add a field for the output data array
+		 * @param[in] string $key   The key for the data in the output data array
+		 * @param[in] mixed  $value The value to add in the output data array
+		 */
+		protected function add_output_data($key, $value)
+		{
+			$this->output_data[$key] = $value;
+		}
+
+		/**
+		 * @brief Assign the data to be returned as response (overwrite the data previously added through add_output_data or
+		 * set_output_data)
+		 * @param[in] mixed $data The data to be returned as response
+		 */
+		protected function set_output_data($data)
+		{
+			$this->output_data = $data;
 		}
 	}
