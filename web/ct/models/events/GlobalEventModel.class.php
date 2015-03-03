@@ -912,6 +912,9 @@
 
 			$where = "Id_Global_Event = ".$this->sql->quote($id_glob).
 					 " AND Id_User = ".$this->sql->quote($user_id);
+
+			// delete from teaching team member : entry from 
+			// sub_event_excluded_team_member are removed on cascade
 			return $this->sql->delete("teaching_team_member", $where);
 		}
 
