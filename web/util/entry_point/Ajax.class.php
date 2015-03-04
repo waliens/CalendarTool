@@ -7,11 +7,10 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\AddNoteController;
-
-				use ct\controllers\ajax\AddNote;
-
-				use ct\controllers\ajax\TestController;
+    use ct\controllers\ajax\DeleteController;
+	use ct\controllers\ajax\AddNoteController;
+	use ct\controllers\ajax\AddNote;
+	use ct\controllers\ajax\TestController;
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
     use ct\controllers\ajax\ProfessorProfileController;
@@ -54,7 +53,8 @@
                 	return new AddNoteController();
                 case "043":
                 	return new AddNoteController(true);
-                	
+                case "044":
+                	return new DeleteController();                	
                 /* Event related */
                 case "061":
                     return new PrivateEventController();

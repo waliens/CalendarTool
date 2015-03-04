@@ -168,7 +168,7 @@
 		 * $foo->insert_batch("my_table", $columns, $values);
 		 * @endcode
 		 */
-		public function insert_batch($table, array $values, array $columns = null)
+		public function ($table, array $values, array $columns = null)
 		{
 			if($columns == null)
 				$query = "INSERT INTO ".$table." VALUES ";
