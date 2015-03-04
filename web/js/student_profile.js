@@ -6,6 +6,8 @@ $("#profile_nav").addClass("active");
 
 //holds the checkbox of an  optional cours
 var checkbox;
+var subevent;
+var showSubeventModal=false;
 
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
@@ -113,7 +115,7 @@ $('#optional_course_alert .btn-primary').click(function(){
 			dataType : "json",
 			type : 'POST',
 			url : "index.php?src=ajax&req=300",
-			data : filters,
+			data : optional_course,
 			success : function(data, status) {
 				// insert success msg
 			},
@@ -124,18 +126,125 @@ $('#optional_course_alert .btn-primary').click(function(){
 	});
 	
 //populate event info when modal appears
-$("#evnet_info").modal("show.bs.modal",function(){
-	var event_id=event.relatedTarget.attr('event-id');
+$("#event_info").on("show.bs.modal",function(event){
+	var event_id=event.relatedTarget.getAttribute('event-id');
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
 		url : "json/globalevent-info.json",
 		//url : "index.php?src=ajax&req=032&event=event_id",
 		success : function(data, status) {
-
+			var global_event_id=data.id;
+			var global_event_title=data.name;
+			var global_event_description=data.description;
+			var global_event_lang=data.language;
+			var global_event_start=data.start;
+			var global_event_end=data.end;
+			var global_event_work=data.work;
+			var pathways=data.pathways;
+			var subevents=data.subevents;
+			var team=data.team;
+			//populate alert with global event data
+			$("#event-title").text(global_event_title);
+			$("#event-details").text(global_event_description);
+			$("#event-lang").text(global_event_lang);
+			$("#global_event_startDate").text(global_event_start);
+			$("#global_event_endDate").text(global_event_end);
+			$("#event-work").text(global_event_work);
+			var pathways_table=document.createElement("table");
+			pathways_table.id="pathways_table";
+			$("#event-pathway").html(pathways_table);
+			for(var i=0;i<pathways.length;i++)
+				addPathway(pathways[i]);
+			var subevents_table=document.createElement("table");
+			subevents_table.className="table";
+			subevents_table.id="subevents_table";
+			$("#subevents_info").html(subevents_table);
+			for(var i=0;i<subevents.length;i++)
+				addSubevent(subevents[i]);
+			var team_table=document.createElement("table");
+			team_table.className="table";
+			team_table.id="team_table";
+			$("#event_team").html(team_table);	
+			for(var i=0;i<team.length;i++)
+				addTeamMember(team[i]);
 		},
-		error : function(data, status, errors) {
-			// Inserire un messagio di errore
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
 		}
 	});
 	})
+
+function addPathway(pathway){
+	table=$("#pathways_table");
+	var row=document.createElement("tr");
+	var cell=document.createElement("td");
+	cell.innerHTML=pathway.name;
+	row.appendChild(cell);
+	table.append(row);
+	}
+	
+function addSubevent(subevent){
+	table=$("#subevents_table");
+	var row=document.createElement("tr");
+	var cell=document.createElement("td");
+	var a=document.createElement("a");
+	a.setAttribute("data-dismiss","modal");
+	a.innerHTML=subevent.lib_cours_complet;
+	a.id=subevent.id;
+	a.onclick=function(){showSubeventModal=true; subevent=a;}
+	cell.appendChild(a);
+	row.appendChild(cell);
+	table.append(row);
+	}
+	
+function addTeamMember(member){
+	table=$("#team_table");
+	var row=document.createElement("tr");
+	var cell=document.createElement("td");
+	cell.innerHTML=member.name+" "+member.surname;
+	cell.id=member.id;
+	row.appendChild(cell);
+	table.append(row);
+	}
+	
+$("#event_info").on("hidden.bs.modal",function(){
+	if(showSubeventModal){
+		$("#subevent_info").modal("show");
+		//get subevent info
+		var subevent_id=subevent.getAttribute('id');
+		$.ajax({
+			dataType : "json",
+			type : 'GET',
+			url : "json/subevent-info.json",
+			//url : "index.php?src=ajax&req=051&event=subevent_id",
+			success : function(data, status) {
+				var subevent_id=data.id;
+				var subevent_title=data.name;
+				var subevent_description=data.description;
+				var subevent_place=data.place;
+				var subevent_type=data.type;
+				var subevent_start=data.start;
+				var subevent_end=data.end;
+				var deadline=data.deadline;
+				var category_id=data.category_id;
+				var category_name=data.category_name;
+				var recurrence=data.recurrence;
+				var start_recurrence=data.start_recurrence;
+				var end_recurrence=data.end_recurrence;
+				var favourite=data.favourite;
+				//populate alert with global event data
+				$("#subevent-title").text(subevent_title);
+				$("#subevent-details").text(subevent_description);
+				$("#subevent_category").text(category_name);
+				$("#subevent_startDate").text(subevent_start);
+				$("#subevent_endDate").text(subevent_end);
+			},
+			error: function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	}
+})

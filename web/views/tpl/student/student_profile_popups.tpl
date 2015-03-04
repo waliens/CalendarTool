@@ -34,23 +34,38 @@
           <div id="global-event-info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <table class="table" id="global_events">
               <tr>
-                <td class="text-bold">Détails</td>
+                <td class="text-bold width-80">Détails</td>
                 <td id="event-details"></td>
               </tr>
               <tr>
-                <td class="text-bold">Langue</td>
+                <td class="text-bold width-80">Langue</td>
                 <td id="event-lang"></td>
               </tr>
               <tr>
-                <td class="text-bold">Travail</td>
+                <td class="text-bold width-80">Travail</td>
                 <td id="event-work"></td>
               </tr>
               <tr>
-                <td class="text-bold">Quand</td>
-                <td id="event-period"></td>
+                <td class="text-bold width-80">Quand</td>
+                <td id="event-period">
+                <table id="global_event_time">
+                  <tr>
+                    <td class="width-80 text-underline">Commence</td>
+                    <td id="event_startDate">
+                      <p class="marging-10-0" id="global_event_startDate"></p>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td class="width-80 text-underline">Se termine</td>
+                    <td id="global_event_endDate">
+                      <p class="marging-10-0" id="global_event_endDate"></p>
+                      </td>
+                  </tr>
+                </table>
+                </td>
               </tr>
               <tr>
-                <td class="text-bold">Pathway</td>
+                <td class="text-bold width-80">Pathway</td>
                 <td id="event-pathway"></td>
               </tr>
             </table>
@@ -73,6 +88,52 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- SubEvent Info -->
+<div class="modal fade" id="subevent_info" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="subevent-title"><!--EVENT TITLE--></h4>
+    </div>
+    <div class="modal-body" id="subevent-info">
+            <table class="table" id="global_events">
+              <tr>
+                <td class="text-bold width-80">Détails</td>
+                <td id="subevent-details"></td>
+              </tr>
+              <tr>
+                <td class="text-bold width-80">Catégorie</td>
+                <td id="subevent-category"></td>
+              </tr>
+              <tr>
+                <td class="text-bold width-80">Place</td>
+                <td id="subevent-place"></td>
+              </tr>
+              <tr>
+                <td class="text-bold width-80">Quand</td>
+                <td id="subevent-period">
+                <table id="subevent_time">
+                  <tr>
+                    <td class="width-80 text-underline">Commence</td>
+                    <td id="subevent_startDate">
+                      <p class="marging-10-0" id="subevent_startDate"></p>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td class="width-80 text-underline">Se termine</td>
+                    <td id="subevent_endDate">
+                      <p class="marging-10-0" id="subevent_endDate"></p>
+                      </td>
+                  </tr>
+                </table>
+                </td>
+              </tr>
+            </table>
     </div>
   </div>
 </div>
