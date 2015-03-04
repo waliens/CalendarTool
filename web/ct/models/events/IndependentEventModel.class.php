@@ -7,6 +7,8 @@ namespace ct\models\events;
  * @author charybde
  *
  */
+use ct\models\PathwayModel;
+
 use ct\models\UserModel;
 
 class IndependentEventModel extends AcademicEventModel{
@@ -108,7 +110,59 @@ class IndependentEventModel extends AcademicEventModel{
 		return  $this->sql->delete("independant_event_management", "Id_Event=". $this->sql->quote($eventId)." AND Id_User=".$this->sql->quote($userId));
 	}
 	
+	/**
+	 * @brief return an array containing the ids and the names of the dfferents pathway of the indep event
+	 * @param int $eventId
+	 * @retval array|boolean if error
+	 */
+	public function getPathways($eventId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
+			//TODO SET ERROR
+			return false;
+		}
+		return $this->sql->select("independent_event_pathway NATURAL JOIN pathway", "Id_Event=".$eventId, array("Id_Pathway", "Name_Long", "Name_Short"));
+	}
 	
+	/**
+	 * @brief link the event with a pathway (can be done several tiume to multiples pâthways)
+	 * @param int $eventId
+	 * @param int $pathwayId
+	 * @retval boolean
+	 */
+	public function setPathway($eventId, $pathwayId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
+			//TODO SET ERROR
+			return false;
+		}
+		
+		$pM = new PathwayModel();
+		if(!$pM->pathway_exists($pathwayId)){
+			return false;
+		}
+		$data = array("Id_Pathway" => $pathwayId, "Id_Event" => $eventId);
+		return $this->sql->insert("independent_event_pathway", $data);
+	}
+	
+	/**
+	 * @brief remove a pathway form the list of path way of an event
+	 * @param int $eventId
+	 * @param int $pathwayId
+	 * @retval boolean
+	 */
+	public function removePathway($eventId, $pathwayId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
+			//TODO SET ERROR
+			return false;
+		}
+		
+		$pM = new PathwayModel();
+		if(!$pM->pathway_exists($pathwayId)){
+			return false;
+		}
+		$data = "Id_Pathway=".$pathwayId." AND Id_Event=". $eventId;
+		
+		return $this->sql->delete("independent_event_pathway", $data);
+	}
 }
 
 

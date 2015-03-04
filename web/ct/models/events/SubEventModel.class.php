@@ -8,6 +8,8 @@ namespace ct\models\events;
  * @author charybde
  *
  */
+use ct\models\PathwayModel;
+
 use ct\models\UserModel;
 
 class SubEventModel extends AcademicEventModel{
@@ -116,6 +118,54 @@ class SubEventModel extends AcademicEventModel{
 		
 		return $this->sql->insert("sub_event_excluded_member", array("Id_Event" => $eventId, "Id_User" => $userId, "Id_Global_Event" => $idGlob));
 	}
+	
+	/**
+	 * @brief get the different pathways a sub event is link to
+	 * @param int $eventId
+	 * @retval array (id,name_long, name_short)
+	 */
+	public function getPathway($eventId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
+			//TODO SET ERROR
+			return false;
+		}
+		
+		$idGlob = $this->getIdGlobal($eventId);
+		
+		$query  =  "SELECT Id_Pathway AS id, Name_Long AS name_long, Name_Short AS name_short
+		FROM pathway NATURAL JOIN
+		( SELECT Id_Pathway
+		FROM global_event_pathway
+		WHERE Id_Global_Event = ? AND NOT Id_Pathway NOT IN (SELECT Id_Pathway FROM sub_event_excluded_pathway WHERE Id_Event  = ?)) AS paths;";
+		
+		return $this->sql->execute_query($query, array($idGlob, $eventId));
+	}
+	
+	
+	
+	/**
+	 * @brief exclude a pathway for a specific sub event
+	 * @param int $eventId
+	 * @param int $pathwayId
+	 * @retval Boolean
+	 */
+	public function excludeMember($eventId, $pathwayId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
+			//TODO SET ERROR
+			return false;
+		}
+		$pM = new PathwayModel();
+		if(!$pM->pathway_exists($pathwayId)){
+			return false;
+		}
+	
+		$idGlob = $this->getIdGlobal($eventId);
+		if(!$idGlob)
+			return false;
+	
+		return $this->sql->insert("sub_event_excluded_pathway", array("Id_Event" => $eventId, "Id_Pathway" => $pathwayId, "Id_Global_Event" => $idGlob));
+	}
+	
 	
 	
 
