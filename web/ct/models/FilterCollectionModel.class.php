@@ -9,6 +9,7 @@
 
 	use util\mvc\Model;
 	use ct\models\filters\EventFilter;
+	use ct\models\filters\AccessFilter;
 	use ct\models\events\EventModel;
 
 	/**
@@ -22,6 +23,7 @@
 		private $filters; /**< @brief Array of filters (contain at most one filter of a given type). 
 									The filters are mapped by their class name*/
 		private $event_mod; /**< @brief The event model */
+		private $access_filter; /**< @brief An access filter, null if no filtering linked to the access should be done */
 
 		const MODE_OR = "OR"; /**< @brief One of the filter association : disjunction */
 		const MODE_AND = "AND"; /**< @brief One of the filter association : conjunction */
@@ -44,6 +46,7 @@
 			$this->association_mode = $association_mode;
 			$this->filters = array();
 			$this->event_mod = new EventModel();
+			$this->access_filter = null;
 		}
 
 		/**
@@ -63,6 +66,7 @@
 		public function reset()
 		{
 			$this->filters = array();
+			$this->access_filter = null;
 		}
 
 		/**
@@ -106,6 +110,17 @@
 		}
 
 		/**
+		 * @brief Add an AccessFilter to the collection
+		 * @param AccessFilter $filter An access filter object
+		 * @note This filter will be used whatever the MODE_* of the object to exclude the events
+		 * that currently connected user shouldn't be getting access to 
+		 */
+		public function add_access_filter(AccessFilter $filter)
+		{
+			$this->access_filter = $filter;
+		}
+
+		/**
 		 * @brief Get from the database the selected event for the given set of filters
 		 * @retval array|bool Plain array containing the selected events' ids, false on error 
 		 */
@@ -126,14 +141,32 @@
 				// function for mapping a filter to an aliased sql query : ( filter_query ) AS table_alias 
 				$fn = function(EventFilter $filter) 
 					  { return "( ".$filter->get_sql_query()." ) AS ".$filter->get_table_alias(); };
-				$filter_queries = array_map($fn, $this->filters);
-				return "SELECT * FROM ".implode("\nNATURAL JOIN\n", $filter_queries);
+
+				// check whether the access filter must be applied
+				if($this->access_filter == null)
+					$filter_arr = $this->filters;
+				else
+					$filter_arr = array_merge($this->filters, array($this->access_filter));
+
+				$filter_queries = array_map($fn, $filter_arr);
+
+				return "SELECT * FROM ".implode(" NATURAL JOIN ", $filter_queries);
 			case self::MODE_OR:
 				// function for mapping a filter to an sql query into parenthesis : ( filter_quer)
 				$fn = function(EventFilter $filter)
 					  { return "( ".$filter->get_sql_query()." )"; };
 				$filter_queries = array_map($fn, $this->filters);
-				return "SELECT * FROM ( ".implode("\nUNION\n")." )";
+
+				$query = "SELECT * FROM ( ".implode(" UNION ")." )";
+				
+				// check if the access filter must applied
+				if($this->access_filter == null)
+					return $query;
+
+				$access = " NATURAL JOIN ( ".$this->get_sql_query()." ) ".$this->access_filter->get_table_alias();
+
+				return $query.$access;
+
 			default:
 				trigger_error("Bad association mode", E_USER_ERROR);
 			}
