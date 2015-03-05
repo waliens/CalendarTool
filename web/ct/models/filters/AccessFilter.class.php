@@ -20,6 +20,7 @@
 	class AccessFilter extends EventFilter
 	{
 		private $policy; /**< @brief The selected policy */
+		private $connection; /**< @brief A connection object */
 
 		const POLICY_AS_STUDENT = 1; /**< @brief Events followed by the user as a student only */
 		const POLICY_AS_TEACHING_STUDENT = 2; /**< @brief Events followed by the user as a teaching student only */
@@ -27,15 +28,52 @@
 
 		/**
 		 * @brief Construct the AccessFilter 
-		 * @param[in] int $policy The policy for selecting events (a combination of POLICY_* flags)
+		 * @param[in] int $policy The policy for selecting events (a combination of POLICY_* 
+		 * flags) (optionnal, default:the one that suits the most the user)
 		 * @note The flags POLICY_AS_STUDENT and POLICY_AS_TEACHING_STUDENT cannot be combined with the POLICY_AS_FACULTY_MEMBER flag
+		 * @note Default policy is given by the static functions get_***_def_policy according to the user type 
 		 */
-		public function __construct($policy)
+		public function __construct($policy=null)
 		{
+			$this->connection = Connection::get_instance();
+
+			if($policy == null)
+				$policy = $this->get_def_policy();
+
 			if(!$this->valid_policy($policy))
 				throw new \Exception("Bad policy");
 
 			$this->policy = $policy;
+		}
+
+		/**
+		 * @brief Get the default policy according to the type of user
+		 * @retval int A policy
+		 */
+		private function get_def_policy()
+		{
+			if($this->connection->user_is_student())
+				return self::get_student_def_policy();
+			else
+				return self::get_fac_member_def_policy();
+		}
+
+		/**
+		 * @brief The default policy for the student : combination of as_teaching_student and as_student
+		 * @retval int The default policy 
+		 */
+		public static function get_student_def_policy()
+		{
+			return self::POLICY_AS_TEACHING_STUDENT | self::POLICY_AS_STUDENT;
+		}
+
+		/**
+		 * @brief The default policy for the student : as_faculty_member
+		 * @retval int The default policy 
+		 */
+		public static function get_fac_member_def_policy()
+		{
+			return self::POLICY_AS_FACULTY_MEMBER;
 		}
 
 		/**
