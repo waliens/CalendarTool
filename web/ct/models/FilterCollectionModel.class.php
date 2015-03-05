@@ -70,6 +70,24 @@
 		}
 
 		/**
+		 * @brief Count the number of filters registered in the collection
+		 * @retval int The number of filters registered in the collection
+		 */
+		public function count()
+		{
+			return count($this->filters);
+		}
+
+		/**
+		 * @brief Check whether the collection is empty
+		 * @retval bool True if the collection is empty, false otherwise
+		 */
+		public function empty()
+		{
+			return $this->count() === 0;
+		}
+
+		/**
 		 * @brief Change the association mode of the filter collection to the given mode
 		 * @param[in] string $mode The new association mode 
 		 */
@@ -81,6 +99,7 @@
 			$this->association_mode = $mode;
 		}
 
+		public 
 		/**
 		 * @brief Checks whether the filters collection is in the disjunctive mode
 		 * @retval bool True if the collection is in the disjunctive mode, false otherwise 
@@ -107,6 +126,16 @@
 		public function add_filter(EventFilter $filter)
 		{
 			$this->filters[get_class($filter)] = $filter;
+		}
+
+		/**
+		 * @brief Add the filters from the array into the collection
+		 * @param[in] array $filters The filters to add
+		 */
+		public function add_filters(array $filters)
+		{
+			foreach ($filters as $filter)
+				$this->add_filter($filter);
 		}
 
 		/**

@@ -68,6 +68,8 @@
                 /* Calendar views */
                 case "101":
                     return new CalendarBaseDataController();
+                case "102":
+                    return new CalendarViewController();
 
                 default:
                     return null;
