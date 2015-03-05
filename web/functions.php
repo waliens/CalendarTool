@@ -400,3 +400,15 @@
 		return array_map(function(&$row) use (&$transform) { return array_keys_transform($row, $transform);},
 						 $array);
 	}
+
+	/**
+	 * @brief Transform the item in a column of a given database-like array (see below) with a callback
+	 * @param[in] array    $array    The database like array of which a column must be modified
+	 * @param[in] string   $col      The column name
+	 * @param[in] callback $callback The callback function taking the value to modify and returning the new value
+	 */
+	function darray_col_map(array &$array, $col, $callback)
+	{
+		foreach($array as &$row)
+			$row[$col] = $callback($array[$col]);
+	}
