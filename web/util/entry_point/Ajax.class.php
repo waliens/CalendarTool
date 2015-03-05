@@ -14,6 +14,7 @@
     use ct\controllers\ajax\GetTeachingTeamController;
     use ct\controllers\ajax\AddTeachingTeamMemberController;
     use ct\controllers\ajax\DeleteTeachingTeamMemberController;
+    use ct\controllers\ajax\CalendarBaseDataController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -63,6 +64,10 @@
                     return new AddTeachingTeamMemberController();
                 case "073":
                     return new DeleteTeachingTeamMemberController();
+
+                /* Calendar views */
+                case "101":
+                    return new CalendarBaseDataController();
 
                 default:
                     return null;

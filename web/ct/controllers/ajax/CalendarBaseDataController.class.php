@@ -14,6 +14,10 @@
 	use ct\models\filters\GlobalEventFilter;
 	use ct\models\filters\PathwayFilter;
 	use ct\models\filters\ProfessorFilter;
+	use ct\models\filters\AccessFilter;
+	use ct\models\filters\TimeTypeFilter;
+
+	use util\mvc\AjaxController;
 
 	/**
 	 * @class CalendarBaseDataController
@@ -32,9 +36,6 @@
 		public function __construct()
 		{
 			parent::__construct();
-			/*
-{upcomingDeadlines:[{id, limit, name}], upcomingEvents:[{id, start, name}],favorites:[{id,start,name}]}
-			*/
 			
 			// init a common access filter
 			// use the default policy determine according to the type of user
@@ -43,6 +44,7 @@
 			// get events that 
 			$this->add_output_data("upcomingDeadlines", $this->get_deadlines());
 			$this->add_output_data("upcomingEvents", $this->get_upcoming());
+			$this->add_output_data("favorites", $this->get_favorites());
 		}
 
 		/**
@@ -58,7 +60,7 @@
 			$end   = $this->add_time("+2 weeks");
 
 			$filter_collection->add_filter(new DateTimeFilter($start, $end));
-			$filter_collection->add_filter(new TimeTypeFilter(TimeTypeFilter::DEADLINE_EVENT));
+			$filter_collection->add_filter(new TimeTypeFilter(TimeTypeFilter::TYPE_DEADLINE));
 
 			// add access filter
 			//$filter_collection->add_access_filter($this->access_filter);
@@ -79,6 +81,10 @@
 			return $deadlines;
 		}
 
+		/** 
+		 * @brief Return the upcoming events (of the two following weeks) sorted from the closest to the furthest
+		 * @retval array An array of deadline events, each one being formatted as {'id', 'name', 'start'}
+		 */
 		private function get_upcoming()
 		{
 			$filter_collection = new FilterCollectionModel();
@@ -88,14 +94,14 @@
 			$end   = $this->add_time("+2 weeks");
 
 			$filter_collection->add_filter(new DateTimeFilter($start, $end));
-			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::ACADEMIC_EVENT));
+			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_ACADEMIC));
 
 			// add access filter
-			//$filter_collection->add_access_filter($this->access_filter);
+			$filter_collection->add_access_filter($this->access_filter);
 
 			$upcoming = $filter_collection->get_events();
 
-			// extract usefull data
+			// extract useful data
 			$transform = array("Id_Event" => "id", "Start" => "start", "Name" => "name");
 			$upcoming = \ct\darray_transform($upcoming, $transform);
 
@@ -103,6 +109,34 @@
 			usort($upcoming, function($event1, $event2) { strtotime($event1['start']) < strtotime($event2['start']); } );
 
 			return $upcoming;
+		}
+
+		/**
+		 * @brief Return the future favorite events
+		 */
+		public function get_favorites()
+		{
+			$filter_collection = new FilterCollectionModel();
+
+			// add filters
+			$start = $this->now_fr();
+
+			$filter_collection->add_filter(new DateTimeFilter($start));
+			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_ALL | EventTypeFilter::TYPE_FAVORITE));
+
+			// add access filter
+			$filter_collection->add_access_filter($this->access_filter);
+
+			$favorites = $filter_collection->get_events();
+
+			// extract useful data
+			$transform = array("Id_Event" => "id", "Start" => "start", "Name" => "name");
+			$favorites = \ct\darray_transform($favorites, $transform);
+
+			// sort array on the limit field
+			usort($favorites, function($event1, $event2) { strtotime($event1['start']) < strtotime($event2['start']); } );
+
+			return $favorites;
 		}
 
 		/**

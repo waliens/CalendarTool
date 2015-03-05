@@ -17,6 +17,8 @@
 	use ct\models\filters\GlobalEventFilter;
 	use ct\models\filters\PathwayFilter;
 	use ct\models\filters\ProfessorFilter;
+	use ct\models\filters\AccessFilter;
+	use ct\models\filters\TimeTypeFilter;
 
 	/**
 	 * @class TestController
@@ -33,18 +35,21 @@
 
 			// set up filters
 			$filters = array();
-			$filters['datetime'] = new DateTimeFilter("02-03-2015"); // adter 02-04-2015
-			$filters['event_category'] = new EventCategoryFilter(array(1)); // theoritical courses
-			$filters['type_filter'] = new EventTypeFilter(EventTypeFilter::TYPE_ACADEMIC); // academic events
-			$filters['glob'] = new GlobalEventFilter(array(40));
-			$filters['path'] = new PathwayFilter(array("ABICAR000201"));
-			$filters['prof'] = new ProfessorFilter(array(7));
+			$filters['datetime'] = new DateTimeFilter("02-03-2015", "02-05-2015"); // after 02-04-2015
+			$filters['timetype'] = new TimeTypeFilter(TimeTypeFilter::TYPE_DEADLINE | TimeTypeFilter::TYPE_TIME_RANGE); // time type filter
+			// $filters['event_category'] = new EventCategoryFilter(array(1)); // theoritical courses
+			// $filters['type_filter'] = new EventTypeFilter(EventTypeFilter::TYPE_ACADEMIC); // academic events
+			// $filters['glob'] = new GlobalEventFilter(array(40));
+			// $filters['path'] = new PathwayFilter(array("ABICAR000201"));
+			// $filters['prof'] = new ProfessorFilter(array(7));
 
 			$filter_collection = new FilterCollectionModel();
 
 			foreach ($filters as $filter) 
 				$filter_collection->add_filter($filter);
 
-			$this->output_data['event'] = $filter_collection->get_events();
+			$filter_collection->add_access_filter(new AccessFilter());
+
+			$this->add_output_data("events", $filter_collection->get_events());
 		}
 	}
