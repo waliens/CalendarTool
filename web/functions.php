@@ -230,7 +230,15 @@
 	 */
 	function date_cmp($date1, $date2)
 	{
-		return strtotime($date1) < strtotime($date2);
+		$d1 = strtotime($date1);
+		$d2 = strtotime($date2);
+
+		if($d1 < $d2)
+			return -1;
+		elseif($d1 > $d2)
+			return 1;
+		else
+			return 0;
 	}
 
 	/**
