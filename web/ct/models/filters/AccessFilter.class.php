@@ -17,7 +17,7 @@
 	 * @class AccessFilter
 	 * @brief A class for filtering event according to user rights (can a user see this event?)
 	 */
-	class AccessFilter extends EventFilter
+	class AccessFilter implements EventFilter
 	{
 		private $policy; /**< @brief The selected policy */
 		private $connection; /**< @brief A connection object */
@@ -106,7 +106,7 @@
 						  	WHERE Id_Student = $q_user_id AND Acad_Start_Year = $q_acad) AS user_path
 						) 
 						UNION
-						( SELECT Id_Event FROM event 
+						( SELECT Id_Event FROM sub_event 
 						  NATURAL JOIN
 						  ( SELECT Id_Global_Event, Id_Student 
 						  	FROM global_event_subscription
@@ -139,7 +139,7 @@
 		private function get_as_faculty_member_query()
 		{
 			return $this->get_as_team_member_query(array(GlobalEventModel::ROLE_ID_TA,
-														 GlobalEventModel::ROLE_ID_PROFESSOR))
+														 GlobalEventModel::ROLE_ID_PROFESSOR));
 		}
 
 		/**
@@ -149,13 +149,13 @@
 		 */
 		private function get_as_team_member_query(array $roles)
 		{
-			$quoted_roles = array_map(function($role) { return "'".$role."'"}, $roles);
+			$quoted_roles = array_map(function($role) { return "'".$role."'"; }, $roles);
 			$q_role_ids = "(".implode(", ", $quoted_roles).")";
 			$q_user_id = "'".$this->connection->user_id()."'";
 
 			return "SELECT Id_Event FROM 
 					(
-						( SELECT Id_Event FROM event
+						( SELECT Id_Event FROM sub_event
 						  NATURAL JOIN
 						  ( SELECT Id_Global_Event, Id_User 
 						    FROM teaching_team_member 

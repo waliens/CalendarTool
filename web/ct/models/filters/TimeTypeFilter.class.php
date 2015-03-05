@@ -42,7 +42,7 @@
 		 */
 		public function valid_types($types)
 		{
-			return $this->types > 0 && $this->types <= 7;
+			return $types > 0 && $types <= 7;
 		}
 
 		/**

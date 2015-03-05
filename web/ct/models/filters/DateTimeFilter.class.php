@@ -46,7 +46,7 @@
 				throw new \Exception("Date mal formattée");
 
 			// check if start is before end if necessary
-			if($this->end !== null && \ct\date_cmp($this->start, $this->end) >= 0)
+			if($this->end !== null && \ct\date_cmp($this->start, $this->end) > 0)
 				throw new \Exception("La date 'start' doit précéder la date 'end'");
 
 			if(!$this->valid_mode($mode))
@@ -138,7 +138,7 @@
 					return array("range" => "Start >= ".$q_start." OR End >= ".$q_start,
 								 "deadline" => "`Limit` >= ".$q_start);
 				case self::MODE_BETWEEN:
-					return array("range" => "(Start >= ".$q_start." AND Start <= ".$q_end.") OR (End >= ".$q_start." AND End =< ".$q_end.")",
+					return array("range" => "(Start >= ".$q_start." AND Start <= ".$q_end.") OR (End >= ".$q_start." AND End <= ".$q_end.")",
 								 "deadline" => "`Limit` >= ".$q_start." AND `Limit` <= ".$q_end);
 			}
 		}
