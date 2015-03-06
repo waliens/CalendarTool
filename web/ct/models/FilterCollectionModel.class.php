@@ -47,6 +47,7 @@
 			$this->filters = array();
 			$this->event_mod = new EventModel();
 			$this->access_filter = null;
+			//$this->sql->set_dump_mode();
 		}
 
 		/**
@@ -82,7 +83,7 @@
 		 * @brief Check whether the collection is empty
 		 * @retval bool True if the collection is empty, false otherwise
 		 */
-		public function empty()
+		public function is_empty()
 		{
 			return $this->count() === 0;
 		}
@@ -99,7 +100,6 @@
 			$this->association_mode = $mode;
 		}
 
-		public 
 		/**
 		 * @brief Checks whether the filters collection is in the disjunctive mode
 		 * @retval bool True if the collection is in the disjunctive mode, false otherwise 
