@@ -16,6 +16,7 @@
     use ct\controllers\ajax\DeleteTeachingTeamMemberController;
     use ct\controllers\ajax\CalendarBaseDataController;
     use ct\controllers\ajax\CalendarViewController;
+    use ct\controllers\ajax\GetPathwaysController.class.php;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -71,6 +72,10 @@
                     return new CalendarBaseDataController();
                 case "102":
                     return new CalendarViewController();
+
+                /* Pathways */
+                case "111":
+                    return new GetPathwaysController();
 
                 default:
                     return null;

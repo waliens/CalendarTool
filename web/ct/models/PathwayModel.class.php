@@ -56,4 +56,13 @@
 		{
 			return preg_match("#^[A-Z]{6}[0-9]{6}$#", $pathway);
 		}
+
+		/**
+		 * @brief Get the list of pathways
+		 * @retval array The pathways array containing the keys (Id_Pathway, Name_Long, Name_Short)
+		 */
+		public function get_pathways()
+		{
+			return $this->sql->select("pathway");
+		}
 	};
