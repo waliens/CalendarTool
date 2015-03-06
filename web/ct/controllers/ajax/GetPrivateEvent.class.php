@@ -17,7 +17,7 @@ use util\superglobals\Superglobal;
  * @brief Class for handling the control of event
  */
 
-class PrivateEventController extends AjaxController
+class GetPrivateEventController extends AjaxController
 {
 
 		
@@ -28,8 +28,6 @@ class PrivateEventController extends AjaxController
 
 		// create private event
 		$model = new StudentEventModel();
-		{events:[{
-			id, name, recurrence}]}
 
 		// get owner id
 		$id = $this->connection->user_id();

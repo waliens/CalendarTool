@@ -817,4 +817,15 @@ use \DateInterval;
 		public function get_error(){
 			return $this->error;
 		}
+		
+		/**
+		 * @brief delete from de db all the event with a specific id recurrence
+		 * @param int $idRec the id of the recurrence;
+		 * @retval boolean
+		 * @warning NEVER USE WITH 1
+		 */
+		public function deleteEventRecurrence($idRec){
+			return $this->sql->delete("recurrence", "Id_Recurrence = ". $this->sql->quote($idRec));
+		}
+		
 	}
