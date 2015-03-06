@@ -34,6 +34,7 @@
 		const ERROR_MISSING_EVENT = 302; /**< @brief Event is missing */
 		const ERROR_MISSING_GLOBAL_EVENT = 303; /**< @brief Missing global event */
 		const ERROR_MISSING_ID = 304; /**< @brief The id is missing */
+		const ERROR_MISSING_INPUT_DATA = 305; /**< @brief Some field in the input data of the request are missing */
 
 		/* 4xx : access error (user has not the given rights) */
 		const ERROR_ACCESS_DENIED = 400; /**< @brief Access denied generic error (400) */
@@ -95,8 +96,8 @@
 
 			/* 300 : missing */
 			$this->error_msgs[self::ERROR_MISSING_DATA] 
-				= array("EN" => "Missing data : the data you're looking for was not found.", 
-						 "FR" => "Données manquantes : les données recherchées sont introuvables.");
+				= array("EN" => "Missing data.", 
+						"FR" => "Données manquantes.");
 
 			$this->error_msgs[self::ERROR_MISSING_USER] 
 				= array("EN" => "User not found : the user you're looking for was not found.", 
@@ -114,10 +115,14 @@
 				= array("EN" => "Missing id : the data identifier is missing.", 
 						"FR" => "Identifiant manquant : l'identifiant des données recherchées est manquant.");
 
+			$this->error_msgs[self::ERROR_MISSING_INPUT_DATA] 
+				= array("EN" => "Missing input data : some fields of the JSON array are missing or empty.", 
+						"FR" => "Données d'entrée manquante : des champs de tableau JSON sont manquants ou vides.");
+
 			/* 400 : access denied */
 			$this->error_msgs[self::ERROR_ACCESS_DENIED] 
 				= array("EN" => "Access denied : these information are not accessible from your account.", 
-						 "FR" => "Accès refusé : ces données ne sont pas accessible depuis votre compte.");
+						"FR" => "Accès refusé : ces données ne sont pas accessible depuis votre compte.");
 
 			$this->error_msgs[self::ERROR_ACCESS_ROOT_REQUIRED] 
 				= array("EN" => "Access denied : only the root user can access these information or perform this operation.", 
@@ -141,7 +146,7 @@
 		{
 			return ($error_code >= 0 && $error_code <= 1) 
 					|| ($error_code >= 200 && $error_code <= 204)
-					|| ($error_code >= 300 && $error_code <= 304)
+					|| ($error_code >= 300 && $error_code <= 305)
 					|| ($error_code >= 400 && $error_code <= 403); 
 		}
 
@@ -203,7 +208,7 @@
 		protected function set_error_predefined($error_code)
 		{
 			if(!$this->is_valid_error_code($error_code))
-				return;
+				trigger_error("Bad ajax controller error code", E_USER_ERROR);
 
 			$this->set_error($this->error_msgs[$error_code], $error_code);
 		}
