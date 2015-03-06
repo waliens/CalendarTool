@@ -16,7 +16,7 @@
     use ct\controllers\ajax\DeleteTeachingTeamMemberController;
     use ct\controllers\ajax\CalendarBaseDataController;
     use ct\controllers\ajax\CalendarViewController;
-    use ct\controllers\ajax\GetPathwaysController.class.php;
+    use ct\controllers\ajax\GetPathwaysController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
