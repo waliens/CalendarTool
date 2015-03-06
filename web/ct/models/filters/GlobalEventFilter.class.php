@@ -53,7 +53,7 @@
 				switch($this->get_row_format($row))
 				{
 				case self::FORMAT_INT:
-					$this->ge_ids[] = $row;
+					$this->ge_ids[] = intval($row);
 					break;
 				case self::FORMAT_ARR_ID:
 					$this->ge_ids[] = $row['id'];
@@ -80,7 +80,7 @@
 				else
 					return self::FORMAT_ARR_ULG;
 			}
-			elseif(is_int($row))
+			elseif(is_numeric($row))
 				return self::FORMAT_INT;
 			else
 				throw new \Exception("Mauvais format pour l'identifiant du cours");
