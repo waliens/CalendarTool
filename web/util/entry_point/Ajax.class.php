@@ -15,6 +15,7 @@
     use ct\controllers\ajax\AddTeachingTeamMemberController;
     use ct\controllers\ajax\DeleteTeachingTeamMemberController;
     use ct\controllers\ajax\CalendarBaseDataController;
+    use ct\controllers\ajax\CalendarViewController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
