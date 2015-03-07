@@ -8,6 +8,7 @@
 	namespace ct\models;
 
 	use util\mvc\Model;
+	use ct\Connection;
 
 	/**
 	 * @class PathwayModel
@@ -64,5 +65,26 @@
 		public function get_pathways()
 		{
 			return $this->sql->select("pathway");
+		}
+
+		/**
+		 * @brief Get the pathway of a student for a given academic year
+		 * @param[in] int $stud_id   The student id
+		 * @param[in] int $acad_year The year starting the academic year
+		 * @retval array An array containing the pathway info : Id_Pathway, Name_Long, Name_Short. An 
+		 * empty array if the student has no pathway 
+		 */
+		public function get_pathway_by_student($stud_id=null, $acad_year=null)
+		{
+			if($stud_id == null) $stud_id = Connection::get_instance()->user_id();
+			if($acad_year == null) $acad_year = \ct\get_academic_year();
+
+			$query  =  "SELECT Id_Pathway, Name_Long, Name_Short 
+						FROM pathway NATURAL JOIN 
+						( SELECT Id_Pathway FROM student_pathway WHERE Id_Student = ? AND Acad_Start_Year = ?) AS stud_path;";
+
+			$ret = $this->sql->execute_query($query, array($stud_id, $acad_year));
+
+			return empty($ret) ? array() : $ret[0];
 		}
 	};

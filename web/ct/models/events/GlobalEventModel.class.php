@@ -34,7 +34,11 @@
 		const GET_BY_STUDENT = 3; /**< @brief Way of getting a list of global events : by student id (global event to which the student is subscribed) */
 		const GET_BY_PATHWAYS = 4; /**< @brief Way of getting a list of global events :  by pathways */
 		const GET_BY_TEAM_MEMBER = 5; /**< @brief Way of getting a list of global events : by team member id */
-
+		const GET_BY_STUDENT_NO_OPT = 6; /**< @brief Way of getting a list of global events : same as GET_BY_STUDENT but exclude 
+												courses for which the student is a free student*/ 
+		const GET_BY_STUDENT_OPT_ONLY = 7; /**< @brief Way of getting a list of global events : same as GET_BY_STUDENT but exclude 
+												courses for which the student is not a free student*/ 
+		
 		/**
 		 * @brief Constructs a GlobalEventObject
 		 */
@@ -43,6 +47,7 @@
 			parent::__construct();
 			$this->connection = Connection::get_instance();
 			$this->file_model = new FileModel();
+			//$this->sql->set_dump_mode();
 		}
 
 		/**
@@ -568,7 +573,7 @@
 		 * @brief Return the global events selected with the given GET_* method and the given identifier
 		 * @param[in] int 	$method 	The GET_* method
 		 * @param[in] mixed $identifier The identifier associated with the GET_* method
-		 * @retval An multidimensionnal array of which each row corresponds to a global event and is structured as 
+		 * @retval array An multidimensionnal array of which each row corresponds to a global event and is structured as 
 		 * the array returned by the get_global_event function
 		 * @note For the method GET_BY_IDS, the identifier can either be an array of integers (the indexes) or an 
 		 * array of which the sub_arrays have the structure of the id_data array as in the get_global_event_id function
@@ -598,13 +603,24 @@
 			{
 			case self::GET_BY_OWNER:
 				$ids = $this->sql->select("global_event", "Id_Owner = ".$quoted_id, $column);
+				break;
 			case self::GET_BY_STUDENT:
 				$ids = $this->sql->select("global_event_subscription", "Id_Student = ".$quoted_id, $column);
+				break;
+			case self::GET_BY_STUDENT_NO_OPT:
+				$ids = $this->sql->select("global_event_subscription", "Id_Student = ".$quoted_id." AND Free_Student IS FALSE", $column);
+				break;
+			case self::GET_BY_STUDENT_OPT_ONLY:
+				$ids = $this->sql->select("global_event_subscription", "Id_Student = ".$quoted_id." AND Free_Student IS TRUE", $column);
+				break;
 			case self::GET_BY_PATHWAYS:
 				$ids = $this->sql->select("global_event_pathway", "Id_Pathway = ".$quoted_id, $column);
+				break;
 			case self::GET_BY_TEAM_MEMBER:
 				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, $column);
+				break;
 			}
+
 			// the select returns a multidimensionnal array -> need to flatten it
 			return \ct\array_flatten($ids);
 		}
@@ -984,5 +1000,59 @@
 			$result = $this->sql->execute_query($query, array($id_glob, $user_id, self::ROLE_ID_PROFESSOR, self::ROLE_ID_TA));
 
 			return empty($result) ? false : $result[0]['cnt'] > 0;
+		}
+
+		/**
+		 * @brief Get the optionnal events to which the student has already subscribed or not
+		 * @param[in] int $user_id   The user id (optionnal, default: the currently connected user)
+		 * @param[in] int $acad_year The year starting the academic year (optionnal, default: current one)
+ 		 * @retval array A multidimensionnal array containing the optionnal global events of the given user
+		 * @note Each row of the returned array contains the following fields :
+		 * <ul>
+		 *   <li>id: global event id</li>
+		 *   <li>name_long: course name (long version)</li>
+		 *   <li>name_short: course name (short version)</li>
+		 *   <li>ulg_id: course ulg_id</li>
+		 *   <li>acad_year: academic year (i.e. "2014-2015")</li>
+		 *   <li>selected: boolean value specifying if the user is subscribed to the course</li>
+		 * </ul>
+		 */
+		public function get_global_events_optionnal($user_id=null, $start_acad_year=null)
+		{
+			if($user_id == null) $user_id = $this->connection->user_id();
+			if($start_acad_year == null) $start_acad_year = \ct\get_academic_year();
+
+			$query  =  "SELECT Id_Global_Event AS id, Name_Long AS name_long, Name_Short AS name_short,
+							   ULg_Identifier AS ulg_id, CONCAT(Acad_Start_Year, '-', Acad_Start_Year + 1) AS acad_year,
+							   selected
+						FROM global_event NATURAL JOIN
+						(
+						    (
+						        SELECT Id_Global_Event, 0 AS selected FROM
+						        ( SELECT Id_Global_Event FROM global_event WHERE Acad_Start_Year = ? ) AS globs
+						        NATURAL JOIN
+						        ( SELECT Id_Global_Event FROM global_event_pathway
+						         NATURAL JOIN
+						         ( SELECT Id_Pathway 
+						           FROM student_pathway 
+						           WHERE Id_Student = ? AND Acad_Start_Year = ? ) AS stud_path
+						        ) AS stud_globs
+						        WHERE Id_Global_Event NOT IN 
+						        ( SELECT Id_Global_Event FROM global_event_subscription WHERE Id_Student = ? ) 
+						    )
+						    
+						    UNION ALL
+						    
+						    ( SELECT Id_Global_Event, 1 AS selected FROM
+						      ( SELECT Id_Global_Event FROM global_event WHERE Acad_Start_Year = ? ) AS globs 
+						      NATURAL JOIN
+						      ( SELECT Id_Global_Event 
+						      	FROM global_event_subscription 
+						      	WHERE Id_Student = ? AND Free_Student IS TRUE ) as subs
+						    ) 
+						) AS ids";
+	
+			$params = array($start_acad_year, $user_id, $start_acad_year, $user_id, $start_acad_year, $user_id);
+			return $this->sql->execute_query($query, $params);
 		}
 	}

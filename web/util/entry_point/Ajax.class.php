@@ -19,6 +19,7 @@
     use ct\controllers\ajax\GetPathwaysController;
     use ct\controllers\ajax\DeleteGlobalEventController;
     use ct\controllers\ajax\ViewGlobalEventController;
+    use ct\controllers\ajax\StudentProfileController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -50,6 +51,10 @@
             {
                 case "000";
                     return new TestController();
+
+                /* Student-related requests */
+                case "011":
+                    return new StudentProfileController();
 
                 /* User-related requests */
                 case "021":
