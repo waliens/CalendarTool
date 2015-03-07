@@ -17,6 +17,7 @@
     use ct\controllers\ajax\CalendarBaseDataController;
     use ct\controllers\ajax\CalendarViewController;
     use ct\controllers\ajax\GetPathwaysController;
+    use ct\controllers\ajax\DeleteGlobalEventController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -54,6 +55,10 @@
                     return new AllProfessorsController();
                 case "022":
                     return new ProfessorProfileController();
+
+                /* Global event related */
+                case "303":
+                    return new DeleteGlobalEventController();
 
                 /* Event related */
                 case "061":
