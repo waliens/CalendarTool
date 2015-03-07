@@ -8,6 +8,7 @@
 	namespace ct\models;
 
 	use util\mvc\CategoryModel;
+	use ct\models\events\GlobalEventModel;
 
 	/**
 	 * @brief A class for handling teaching role data related database queries

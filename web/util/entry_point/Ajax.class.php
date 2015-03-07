@@ -20,6 +20,7 @@
     use ct\controllers\ajax\DeleteGlobalEventController;
     use ct\controllers\ajax\ViewGlobalEventController;
     use ct\controllers\ajax\StudentProfileController;
+    use ct\controllers\ajax\GetTeachingRolesController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -79,6 +80,8 @@
                     return new AddTeachingTeamMemberController();
                 case "073":
                     return new DeleteTeachingTeamMemberController();
+                case "074":
+                    return new GetTeachingRolesController();
 
                 /* Calendar views */
                 case "101":

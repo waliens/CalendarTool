@@ -49,7 +49,7 @@
 		 */
 		public function get_items()
 		{
-			return $this->sql->select($category_table);
+			return $this->sql->select($this->category_table);
 		}
 
 		/**
