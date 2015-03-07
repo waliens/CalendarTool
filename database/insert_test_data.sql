@@ -14,6 +14,7 @@ INSERT INTO `pathway` (`Id_Pathway`, `Name_Long`, `Name_Short`) VALUES
 ('ABICIV000201', '2e année du grade de bachelier en sciences de l''ingénieur, orientation ingénieur civil', '2e an. bac. sc. ing., or. ing. civil'),
 ('ABICIV000301', '3e an. bac. sc. ing., or. ing. civil', '3e année du grade de bachelier en sciences de l''ingénieur, orientation ingénieur civil'),
 ('ABICIV009901', 'Bachelier en sciences de l''ingénieur, orientation ingénieur civil', 'Bac. sc. ingé., or. ingé. civ. '),
+('ABINFO000201', '2e année du grade de bachelier en sciences informatiques', '2e an. bac. sc. informatiques'),
 ('ABINFO009901', 'Bachelier en sciences informatiques', 'Bac. sc. info.');
 
 INSERT INTO `user` (`Id_User`, `Id_ULg`, `Name`, `Surname`) VALUES
@@ -31,10 +32,12 @@ INSERT INTO `student` (`Id_Student`, `Mobile_User`) VALUES
 (1, 0), (3, 0), (4, 0), (6, 0), (8, 0), (9, 0);
 
 INSERT INTO `student_pathway` (`Id_Pathway`, `Id_Student`, `Acad_Start_Year`) VALUES
+('ABICIV000201', 1, 2014),
+('ABINFO000201', 3, 2014),
 ('ABICIV000201', 4, 2014),
-('ABICIV000301', 6, 2014),
-('ABICIV009901', 8, 2014),
-('ABICIV000201', 9, 2014);
+('ABINFO009901', 6, 2014),
+('ABICIV000201', 8, 2014),
+('ABICIV009901', 9, 2014);
 
 INSERT INTO `faculty_staff_member` (`Id_Faculty_Member`) VALUES
 (2), (5), (7);
@@ -46,14 +49,18 @@ INSERT INTO `faculty_staff_member` (`Id_Faculty_Member`) VALUES
 -- global events
 
 INSERT INTO `global_event` (`Id_Global_Event`, `ULg_Identifier`, `Name_Short`, `Name_Long`, `Id_Owner`, `Period`, `Description`, `Feedback`, `Workload_Th`, `Workload_Pr`, `Workload_Au`, `Workload_St`, `Language`, `Acad_Start_Year`) VALUES
-(23, 'MATH0009-4', 'Mathématiques générales, Partim A, 30h Th, 30h Pr, BASTIN Françoise', 'Mathématiques générales, Partim A', 2, 'Q1', '', '', 30, 30, 0, 0, 'EN', 2014),
-(40, 'INFO2047-1', 'Introduction à la programmation', 'Introduction à la programmation, 12h Th, 12h Pr, DONNET Benoît, FONTENEAU Raphaël', 7, 'Q1', '', '', 12, 12, 0, 0, 'FR', 2014);
+(1, 'MATH0009-4', 'Mathématiques générales, Partim A, 30h Th, 30h Pr, BASTIN Françoise', 'Mathématiques générales, Partim A', 2, 'Q1', '', '', 30, 30, 0, 0, 'EN', 2014),
+(2, 'INFO2047-1', 'Introduction à la programmation', 'Introduction à la programmation, 12h Th, 12h Pr, DONNET Benoît, FONTENEAU Raphaël', 7, 'Q1', '', '', 12, 12, 0, 0, 'FR', 2014);
 
 INSERT INTO `global_event_pathway` (`Id_Global_Event`, `Id_Pathway`) VALUES
-(40, 'ABICAR000201'), (23, 'ABINFO009901');
+(2, 'ABICIV000201'), 
+(1, 'ABINFO009901');
 
 INSERT INTO `global_event_subscription` (`Id_Global_Event`, `Id_Student`, `Free_Student`) VALUES
-(23, 3, 0);
+(1, 6, 0),
+(2, 1, 0),
+(2, 4, 0),
+(2, 8, 0);
 
 INSERT INTO `teaching_team_member` (`Id_Global_Event`, `Id_User`, `Id_Role`) VALUES
 (23, 2, 1), (40, 7, 1);

@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `student_pathway`
 	`Id_Student` int(11) NOT NULL,
 	`Acad_Start_Year` year NOT NULL,
 	FOREIGN KEY(`Id_Student`) REFERENCES `student`(`Id_Student`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Student`, `Id_Pathway`, `Acad_Start_Year`)
 ) ENGINE=InnoDB;
 
