@@ -27,6 +27,7 @@
 		const ERROR_ACTION_UPDATE_DATA = 202; /**< @brief Action failure : cannot update data */
 		const ERROR_ACTION_DELETE_DATA = 203; /**< @brief Action failure : cannot delete data */
 		const ERROR_ACTION_READ_DATA = 204; /**< @brief Action failure : cannot read data */
+		const ERROR_ACTION_SAVE_EXPORT = 205 /**< @brief Action failure : cannot save export settings */
 
 		/* 3xx : missing data */
 		const ERROR_MISSING_DATA = 300; /**< @brief Missing data generic error (300) */
@@ -93,6 +94,10 @@
 			$this->error_msgs[self::ERROR_ACTION_READ_DATA] 
 				= array("EN" => "Failure : impossible to fetch the requested data.", 
 						"FR" => "Echec : impossible de récupérer les données demandées.");
+
+			$this->error_msgs[self::ERROR_ACTION_SAVE_EXPORT] 
+				= array("EN" => "Failure : impossible to save the export settings.", 
+						"FR" => "Echec : impossible de sauver les options d'export.");
 
 			/* 300 : missing */
 			$this->error_msgs[self::ERROR_MISSING_DATA] 
@@ -192,13 +197,22 @@
 
 		/**
 		 * @brief Set the content of the error fields to return 
-		 * @param[in] array|string $error 	   The error to return to the client
-		 * @param[in] int 		   $code   	   The error code for the given error
+		 * @param[in] array|string $error The error message to return to the client
+		 * @param[in] int 		   $code  The error code for the given error
 		 */
 		private function set_error($error, $code)
 		{
 			$this->error_data['error_msg'] = $error;
 			$this->error_data['error_code'] = $code;
+		}
+
+		/**
+		 * @brief Set the content of the error fields describing the error to return to the user
+		 * @param[in] array|string $error The custom error message to return to the client
+		 */
+		protected function set_error_custom($error)
+		{
+			$this->set_error($error, self::ERROR);
 		}
 
 		/**
@@ -233,12 +247,30 @@
 		}
 
 		/**
-		 * @brief Assign the data to be returned as response 
+		 * @brief Assign the data to be returned as response
 		 * @param[in] mixed $data The data to be returned as response
 		 * @note overwrite the data previously added through add_output_data or set_output_data
 		 */
 		protected function set_output_data($data)
 		{
 			$this->output_data = $data;
+		}
+
+		/**
+		 * @brief Return the output data array
+		 * @retval array The output data array
+		 */
+		protected function get_output_data()
+		{
+			return $this->output_data;
+		}
+
+		/**
+		 * @brief Check whether an error was set (Another code than ERROR_OK)
+		 * @retval True if an error was set, false otherwise
+		 */
+		protected function error_isset()
+		{
+			return $this->error_data['error_code'] !== self::ERROR_OK;
 		}
 	}

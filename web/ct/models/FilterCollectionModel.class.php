@@ -14,8 +14,7 @@
 
 	/**
 	 * @class FilterCollectionModel
-	 * @brief A class that contains a collection of event filters and that can retrieve from the db
-	 * the filtered events from the set of filters that it contains. 
+	 * @brief A class for storing a set of filters and retrieving events based on these filters
 	 */
 	class FilterCollectionModel extends Model
 	{

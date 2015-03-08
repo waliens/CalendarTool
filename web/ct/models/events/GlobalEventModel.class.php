@@ -226,7 +226,7 @@
 			// check if the language must be updated
 			if(isset($data['lang']))
 			{
-				if($this->valid_lang($data['lang']))
+				if(self::valid_lang($data['lang']))
 					$update_array['Language'] = $data['lang'];
 				else
 					return false;
@@ -242,7 +242,7 @@
 		 * @param[in] string $lang The language string
 		 * @retval bool True if the string is valid, false otherwise
 		 */
-		private function valid_lang($lang)
+		public static function valid_lang($lang)
 		{
 			return $lang === self::LANG_FR || $lang === self::LANG_EN;
 		}

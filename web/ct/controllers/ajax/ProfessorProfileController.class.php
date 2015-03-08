@@ -48,6 +48,15 @@
 			$glob_events = $glob_mod->get_global_events_by_user_role();
 			$prof_data['courses'] = \ct\darray_transform($glob_events, array("id", "ulg_id" => "code", "name_long" => "lib_cours_complet"));
 
-			$this->output_data = $prof_data;
+			// get independent events
+			$filter_collection = new FilterCollectionModel();
+			$filter->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_INDEPENDENT));
+			$filter->add_access_filter(new AccessFilter());
+
+			$indep_events = $filter_collection->get_events();
+			$trans_indep = array("Id_Event" => "id", "Name" => "name");
+			$prof_data['indep_events'] = \ct\darray_transform($indep_events, $trans_indep);
+
+			$this->set_output_data($prof_data);
 		}
 	}

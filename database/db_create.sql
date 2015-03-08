@@ -172,10 +172,10 @@ CREATE TABLE IF NOT EXISTS `teaching_team_member`
 CREATE TABLE IF NOT EXISTS `event_category`
 (
 	`Id_Category` int(11) NOT NULL AUTO_INCREMENT,
-	`Name_EN` varchar(255) NOT NULL,
 	`Name_FR` varchar(255) NOT NULL,
-	`Description_EN` text NOT NULL,
+	`Name_EN` varchar(255) NOT NULL,
 	`Description_FR` text NOT NULL,
+	`Description_EN` text NOT NULL,
 	`Color` varchar(7) NOT NULL,
 	PRIMARY KEY(`Id_Category`)
 ) ENGINE=InnoDB;
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `student_event_category`
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `recurrence_category`
-(	
+(
 	`Id_Recur_Category` int(11) NOT NULL AUTO_INCREMENT, -- ID 6 for category "never"
 	`Recur_Category_EN` varchar(255) NOT NULL,
 	`Recur_Category_FR` varchar(255) NOT NULL,
@@ -408,13 +408,11 @@ CREATE TABLE IF NOT EXISTS `mobile_event_update`
 
 CREATE TABLE IF NOT EXISTS `event_export`
 (
-	`Id_Export` int(11) NOT NULL AUTO_INCREMENT,
-	`User_Hash` varchar(255) NOT NULL,
 	`Id_User` int(11) NOT NULL,
-	PRIMARY KEY(`Id_Export`),
+	`User_Hash` varchar(255) NOT NULL,
+	PRIMARY KEY(`Id_User`),
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
-	UNIQUE KEY `User_Hash` (`User_Hash`),
-	UNIQUE KEY `Id_User` (`Id_User`)
+	UNIQUE KEY `User_Hash` (`User_Hash`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `filter`
@@ -427,11 +425,11 @@ CREATE TABLE IF NOT EXISTS `filter`
 CREATE TABLE IF NOT EXISTS `export_filter`
 (
 	`Id_Filter` int(11) NOT NULL,
-	`Id_Export` int(11) NOT NULL,
-	`Value` varchar(255) NOT NULL,
+	`Id_User` int(11) NOT NULL,
+	`Value` text NOT NULL,
 	FOREIGN KEY(`Id_Filter`) REFERENCES `filter`(`Id_Filter`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_Export`) REFERENCES `event_export`(`Id_Export`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Filter`, `Id_Export`)
+	FOREIGN KEY(`Id_User`) REFERENCES `event_export`(`Id_User`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Filter`, `Id_User`)
 ) ENGINE=InnoDB;
 
 --

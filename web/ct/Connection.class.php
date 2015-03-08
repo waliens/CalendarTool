@@ -7,6 +7,7 @@
 
 	namespace ct;
 
+
 	use util\superglobals\Superglobal;
 	use util\superglobals\SG_Session;
 	use util\superglobals\SG_Post;
@@ -55,6 +56,7 @@
 
 			// set the http headers variables
 			$this->extract_http_headers();
+
 			$this->remote_user = "u216357";
 			$this->host = "";
 			$this->connect($this->remote_user);

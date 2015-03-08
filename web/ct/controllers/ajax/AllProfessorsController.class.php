@@ -27,6 +27,6 @@
 
 			// key transformation 
 			$trans = array("Id_User" => "id", "Name" => "name", "Surname" => "surname");
-			$this->output_data['professors'] = \ct\darray_transform($profs, $trans);
+			$this->add_output_data("professors", \ct\darray_transform($profs, $trans));
 		}
 	}

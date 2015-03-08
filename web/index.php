@@ -17,8 +17,6 @@
 
 	$connection = Connection::get_instance();
 
-	header('Content-Type: text/html; charset=utf-8');
-
 	if(!isset($_GET['src']) || empty($_GET['src']))
 		$src = "browser";
 	else
@@ -34,3 +32,4 @@
 	}
 
 	echo $entry_point->get_controller()->get_output();
+

@@ -20,6 +20,8 @@
     use ct\controllers\ajax\DeleteGlobalEventController;
     use ct\controllers\ajax\ViewGlobalEventController;
     use ct\controllers\ajax\StudentProfileController;
+    use ct\controllers\ajax\GetTeachingRolesController;
+    use ct\controllers\ajax\StaticExportController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -36,6 +38,7 @@
          */
         public function __construct()
         {
+            header('Content-Type: text/html; charset=utf-8');
             $this->sg_get = new SG_Get();
         }
 
@@ -79,6 +82,12 @@
                     return new AddTeachingTeamMemberController();
                 case "073":
                     return new DeleteTeachingTeamMemberController();
+                case "074":
+                    return new GetTeachingRolesController();
+
+                /* Export related */
+                case "091":
+                    return new StaticExportController();
 
                 /* Calendar views */
                 case "101":

@@ -69,4 +69,16 @@ INSERT INTO `recurrence` (`Id_Recurrence`, `Id_Recur_Category`) VALUES
 (1, 6); -- recurrence non recursive events
 
 
+-- 
+-- Insert event filter
+--
 
+INSERT INTO `filter` (`Id_Filter`, `Name`) VALUES
+(1, 'datetime'),  
+(2, 'access'), 
+(3, 'event_category'), 
+(4, 'event_type'), 
+(5, 'global_event'), 
+(6, 'pathway'), 
+(7, 'professor'), 
+(8, 'time_type');
