@@ -37,6 +37,7 @@
          */
         public function __construct()
         {
+            header('Content-Type: text/html; charset=utf-8');
             $this->sg_get = new SG_Get();
         }
 
