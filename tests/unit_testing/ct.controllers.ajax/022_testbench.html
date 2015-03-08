@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Benchmark</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+	</head>
+	<body>
+		<ul>
+			<li><strong>Request</strong> : <span id="req"></span>
+			<li><strong>Input</strong> : <span id="input"></span></li>
+			<li><strong>Output</strong> : <span id="output"></span></li>
+			<li><strong>Comment</strong> : <span id="comment"></span></li>
+		<ul>
+		
+		
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+			// // add listener to see http request body
+			// chrome.webRequest.onBeforeRequest.addListener( function(details) {
+			//     $("#body").text(details.requestBody);
+			// });
+
+			var request_id = "101", // put request id here
+				json_input = {"name":"Go shopping", "place":"The mall", "type":19, 
+							  "recurrence":0, "end-recurrence":"", 
+							  "details":"Shopping avec Annie", 
+							  "start":"2015-03-18", "end":"2015-03-18"};
+
+			$("#input").text(JSON.stringify(json_input));
+			$("#req").text(request_id);
+	 
+			$.ajax({
+				dataType : "json",
+				type : 'POST',
+				url : ("http://localhost/git/calendartool/web/index.php?src=ajax&req=" + request_id),
+				data:json_input,
+				success : function(data, status) {
+					$("#output").text(JSON.stringify(data));
+					$("#comment").text("success");
+				},
+				error : function(data, status, errors) {
+					$("#comment").text("error");
+				}
+			}); 
+		});
+		</script>
+	</body>
+</html>
