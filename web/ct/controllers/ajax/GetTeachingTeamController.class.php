@@ -40,7 +40,7 @@
 			}
 
 			// get teaching team data
-			$id_data = array("id" => $this->sg_post->value("global_event_id"));
+			$id_data = array("id" => $this->sg_post->value("id_global_event"));
 
 			$lang = $this->glob_mod->get_language($id_data);
 			$team = $this->glob_mod->get_teaching_team($id_data, $lang);

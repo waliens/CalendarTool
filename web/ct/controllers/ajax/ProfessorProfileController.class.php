@@ -12,6 +12,10 @@
 	use ct\models\events\GlobalEventModel;
 	use ct\models\UserModel;
 
+	use ct\models\FilterCollectionModel;
+	use ct\models\filters\EventTypeFilter;
+	use ct\models\filters\AccessFilter;
+
 	/**
 	 * @class ProfessorProfileController 
 	 * @brief A class for handling the getProfessorProfile ajax request
@@ -50,8 +54,8 @@
 
 			// get independent events
 			$filter_collection = new FilterCollectionModel();
-			$filter->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_INDEPENDENT));
-			$filter->add_access_filter(new AccessFilter());
+			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_INDEPENDENT));
+			$filter_collection->add_access_filter(new AccessFilter());
 
 			$indep_events = $filter_collection->get_events();
 			$trans_indep = array("Id_Event" => "id", "Name" => "name");
