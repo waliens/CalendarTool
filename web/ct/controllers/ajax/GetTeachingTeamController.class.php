@@ -45,7 +45,8 @@
 			$lang = $this->glob_mod->get_language($id_data);
 			$team = $this->glob_mod->get_teaching_team($id_data, $lang);
 
-			$this->output_data['team'] = \ct\darray_transform($team, array("user" => "user_id", "name" => "", "surname" => "", "role" => ""));
+			$trans_team = array("user" => "user_id", "name" => "", "surname" => "", "role" => "");
+			$this->add_output_data("team", \ct\darray_transform($team, $trans_team));
 		}
 
 		/**
