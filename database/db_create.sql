@@ -172,10 +172,10 @@ CREATE TABLE IF NOT EXISTS `teaching_team_member`
 CREATE TABLE IF NOT EXISTS `event_category`
 (
 	`Id_Category` int(11) NOT NULL AUTO_INCREMENT,
-	`Name_EN` varchar(255) NOT NULL,
 	`Name_FR` varchar(255) NOT NULL,
-	`Description_EN` text NOT NULL,
+	`Name_EN` varchar(255) NOT NULL,
 	`Description_FR` text NOT NULL,
+	`Description_EN` text NOT NULL,
 	`Color` varchar(7) NOT NULL,
 	PRIMARY KEY(`Id_Category`)
 ) ENGINE=InnoDB;
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `student_event_category`
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `recurrence_category`
-(	
+(
 	`Id_Recur_Category` int(11) NOT NULL AUTO_INCREMENT, -- ID 6 for category "never"
 	`Recur_Category_EN` varchar(255) NOT NULL,
 	`Recur_Category_FR` varchar(255) NOT NULL,

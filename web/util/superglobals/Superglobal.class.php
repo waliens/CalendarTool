@@ -156,6 +156,7 @@
 		{
 			return $this->superglobal[$key];
 		}
+<<<<<<< HEAD
 
 		/**
 		 * @brief Set the given value for the given key in the superglobal
@@ -167,3 +168,6 @@
 			$this->superglobal[$key] = $value;
 		}
 	}
+=======
+	};
+>>>>>>> exportation

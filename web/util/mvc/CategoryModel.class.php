@@ -28,18 +28,31 @@
 		 * @param[in] string $table_name     The name of the table containing the categories
 		 * @param[in] array  $id_col_name    Array containing the name of the table columns composing the key of table
 		 * @param[in] string $categ_col_name The name of the table column containing the name of the category
-		 * @param[in] array  $other_col_name The name of the other field describing a categort
+		 * @param[in] array  $other_col_name The name of the other field describing a category
 		 */
 		public function __construct($table_name, array $id_col_name, $categ_col_name, array $other_col_name = null)
 		{
-			if($other_col_name == null) $other_col_name = array();
-
 			parent::__construct();
+
+			if($other_col_name == null) $other_col_name = array();
 
 			$this->category_table = $table_name;
 			$this->id_col_name = $id_col_name;
 			$this->categ_col_name = $categ_col_name;
 			$this->other_col_name = $other_col_name;
+		}
+
+		/**
+		 * @brief Change association of columns and names
+		 * @param[in] string $categ_col_name The name of the table column containing the name of the category
+		 * @param[in] array  $other_col_name The name of the other field describing a category (optional, default: previous one)
+		 */
+		protected function set_columns($categ_col_name, array $other_col_name = null)
+		{
+			$this->categ_col_name = $categ_col_name;
+
+			if($other_col_name != null)
+				$this->other_col_name = $other_col_name;
 		}
 
 		/**
