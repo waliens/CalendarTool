@@ -172,6 +172,9 @@
 					) AS ts_events";
 		}
 
+		/**
+		 * @copydoc EventFilter::get_sql_query
+		 */
 		public function get_sql_query()
 		{
 			switch ($this->policy) 
@@ -191,6 +194,9 @@
 			}
 		}
 
+		/**
+		 * @copydoc EventFilter::get_table_alias
+		 */
 		public function get_table_alias()
 		{
 			return "f_access_events";
