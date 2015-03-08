@@ -2,7 +2,7 @@
 	
 	/**
 	 * @file 
-	 * @brief Contains the ModificationRequestModel
+	 * @brief Contains the ModificationRequestModel class
 	 */
 
 	namespace ct\models;
@@ -56,7 +56,7 @@
 		/**
 		 * @brief Get all the possible modification targets
 		 * @retval array An array of which the rows corresponds to the targets
-		 * @note The each row of the output array is mapped by the corresponding target id and
+		 * @note Each row of the output array is mapped by the corresponding target id and
 		 * is structured as follows :
 		 * <ul>
 		 * 	<li>Id_Target : the target id</li>
