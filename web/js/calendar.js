@@ -467,7 +467,7 @@ function convert_date(date,formatDestination,formatOrigin){
 		}
 		date_standard=yy+"-"+mm+"-"+dd;
 		var d = moment(date_standard);
-		moment.locale('fr'); 
+		moment().locale('fr'); 
 		return d.format(formatDestination);
 	}
 	
