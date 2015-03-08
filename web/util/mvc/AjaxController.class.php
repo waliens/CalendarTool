@@ -197,13 +197,22 @@
 
 		/**
 		 * @brief Set the content of the error fields to return 
-		 * @param[in] array|string $error 	   The error to return to the client
-		 * @param[in] int 		   $code   	   The error code for the given error
+		 * @param[in] array|string $error The error message to return to the client
+		 * @param[in] int 		   $code  The error code for the given error
 		 */
 		private function set_error($error, $code)
 		{
 			$this->error_data['error_msg'] = $error;
 			$this->error_data['error_code'] = $code;
+		}
+
+		/**
+		 * @brief Set the content of the error fields describing the error to return to the user
+		 * @param[in] array|string $error The custom error message to return to the client
+		 */
+		protected function set_error_custom($error)
+		{
+			$this->set_error($error, self::ERROR);
 		}
 
 		/**
