@@ -83,6 +83,9 @@ INSERT INTO `academic_event` (`Id_Event`, `Feedback`, `Workload`, `Practical_Det
 INSERT INTO `independent_event` (`Id_Event`, `Id_Owner`, `Public`) VALUES
 (2, 7, 1);
 
+INSERT INTO `independent_event_manager` (`Id_Event`, `Id_User`, `Id_Role`) VALUES
+(2, 7, 1);
+
 INSERT INTO `student_event` (`Id_Event`, `Id_Owner`) VALUES
 (3, 9);
 
