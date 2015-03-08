@@ -8,6 +8,16 @@
 	namespace ct\controllers\ajax;
 
 	use util\mvc\AjaxController;
+	use util\superglobals\Superglobal;
+
+	use ct\models\FilterCollectionModel;
+	use ct\models\filters\DateTimeFilter;
+	use ct\models\filters\AccessFilter;
+	use ct\models\filters\PathwayFilter;
+	use ct\models\filters\GlobalEventFilter;
+	use ct\models\filters\ProfessorFilter;
+	use ct\models\filters\EventCategoryFilter;
+	use ct\models\filters\EventTypeFilter;
 
 	/**
 	 * @class FilterController
@@ -61,9 +71,9 @@
 			}
 
 			// structure the data to match the output format
-			$event = $this->extract_events();
+			$events = $this->extract_events();
 
-			$this->add_output_data("events", $this->events);
+			$this->add_output_data("events", $events);
 		}
 
 
@@ -167,7 +177,7 @@
 		{
 			$filter_collection = new FilterCollectionModel();
 
-			$events = array();
+			$events_array = array();
 
 			// public events : academic
 			$types_map = array("public" => EventTypeFilter::TYPE_ACADEMIC,
@@ -185,12 +195,12 @@
 
 				$events = $filter_collection->get_events();
 
-				$events[$output_key] = $this->format_events($events);
+				$events_array[$output_key] = $this->format_events($events);
 
 				$filter_collection->reset();
 			}
 
-			return $events;
+			return $events_array;
 		}
 
 		/**

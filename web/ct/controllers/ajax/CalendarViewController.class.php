@@ -10,15 +10,8 @@
 	use util\mvc\AjaxController;
 	use util\superglobals\Superglobal;
 
-	use ct\controllers\FilterController;
 	use ct\models\FilterCollectionModel;
 	use ct\models\filters\DateTimeFilter;
-	use ct\models\filters\AccessFilter;
-	use ct\models\filters\PathwayFilter;
-	use ct\models\filters\GlobalEventFilter;
-	use ct\models\filters\ProfessorFilter;
-	use ct\models\filters\EventCategoryFilter;
-	use ct\models\filters\EventTypeFilter;
 
 	/**
 	 * @class CalendarViewController
@@ -48,7 +41,7 @@
 			$current_events = $this->get_output_data();
 
 			// structure the data to match the output format
-			$current_events['event']['upperView'] = $this->extract_upper_view();
+			$current_events['events']['upperView'] = $this->extract_upper_view();
 
 			$this->set_output_data($current_events);
 		}
@@ -69,7 +62,7 @@
 			// add custom datetime filter (overwrite the user view one)
 			$filter_collection->add_filter($datetime_filter);
 			
-			if($this->access_filter != null) // add access filter if it is set
+			if($this->get_access_filter() != null) // add access filter if it is set
 				$filter_collection->add_access_filter($this->get_access_filter());
 
 			$events = $filter_collection->get_events();

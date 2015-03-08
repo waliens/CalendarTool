@@ -257,6 +257,6 @@
 		 */
 		protected function error_isset()
 		{
-			return $this->error['error_code'] !== self::ERROR_OK;
+			return $this->error_data['error_code'] !== self::ERROR_OK;
 		}
 	}
