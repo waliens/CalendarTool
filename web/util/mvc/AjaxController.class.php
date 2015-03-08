@@ -233,12 +233,30 @@
 		}
 
 		/**
-		 * @brief Assign the data to be returned as response 
+		 * @brief Assign the data to be returned as response
 		 * @param[in] mixed $data The data to be returned as response
 		 * @note overwrite the data previously added through add_output_data or set_output_data
 		 */
 		protected function set_output_data($data)
 		{
 			$this->output_data = $data;
+		}
+
+		/**
+		 * @brief Return the output data array
+		 * @retval array The output data array
+		 */
+		protected function get_output_data()
+		{
+			return $this->output_data;
+		}
+
+		/**
+		 * @brief Check whether an error was set (Another code than ERROR_OK)
+		 * @retval True if an error was set, false otherwise
+		 */
+		protected function error_isset()
+		{
+			return $this->error['error_code'] !== self::ERROR_OK;
 		}
 	}
