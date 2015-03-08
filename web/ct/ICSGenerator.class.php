@@ -2,20 +2,19 @@
 
 	/**
 	 * @file
-	 * @brief Contains the ICSModel class
+	 * @brief Contains the ICSGenerator class
 	 */
 
 	namespace ct\models;
 
-	use util\mvc\Model;
-
+	use ct\ICSGenerator;
 	use ct\models\FilterCollectionModel;
 
 	/**
-	 * @class ICSModel
+	 * @class ICSGenerator
 	 * @brief A class for generating ICS calendars for a set of events
 	 */
-	class ICSModel extends Model
+	class ICSGenerator
 	{
 		private $smarty; /**< @brief The smarty object for generating ICS */
 		private $filter_collection; /**< @brief A filter collection object */
@@ -23,13 +22,11 @@
 		const PROD_ID = "ULg//Montefiore//PROJ0010//Group2//CalendarTool"; /**< @brief ICS Calendar product id */
 
 		/**
-		 * @brief Construct an ICSModel object
-		 * @param[in] FilterCollection A filter collection object
+		 * @brief Construct an ICSGenerator object
+		 * @param[in] FilterCollectionModel A filter collection object
 		 */
-		public function __construct(FilterCollection $filter_collection)
+		public function __construct(FilterCollectionModel $filter_collection)
 		{
-			parent::__construct();
-
 			$this->smarty = new Smarty();
 			$this->smarty->setTemplateDir("views/tpl/export");
 			$this->smarty->setCompileDir("views/compiled/export");
