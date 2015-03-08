@@ -55,7 +55,7 @@
 
 			// set the http headers variables
 			$this->extract_http_headers();
-			$this->remote_user = "s101052";
+			$this->remote_user = "u216357";
 			$this->host = "";
 
 			// // check host

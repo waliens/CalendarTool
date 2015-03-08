@@ -271,7 +271,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 			var deadline=data.deadline;
 			var category_id=data.category_id;
 			var category_name=data.category_name;
-			var recurrence=data.recurrence;
+			var recurrence=get_recursion(data.recurrence);
 			$("#recurrence").text(recurrence);
 			if(recurrence=="jamais"){
 				$("#start-recurrence").parent().addClass("hidden");
@@ -298,3 +298,20 @@ $("#subevent_info").on("show.bs.modal",function(){
 		}
 	});
 })
+
+function get_recursion(recursion_id){
+	switch(recursion_id){
+		case "1":
+			return "jamais";
+		case "2":
+			return "tous les jours";
+		case "3":
+			return "toutes les semaines";
+		case "4":
+			return "toutes les deux semaines";
+		case "5":
+			return "tous les mois";
+		case "6":
+			return "tous les ans"
+		}
+	}
