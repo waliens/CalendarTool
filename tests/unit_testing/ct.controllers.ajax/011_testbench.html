@@ -30,7 +30,7 @@
 			$.ajax({
 				dataType : "json",
 				type : 'POST',
-				url : ("http://localhost/git/calendartool/web/index.php?src=ajax&req=" + request_id),
+				url : ("http://localhost/ct/index.php?src=ajax&req=" + request_id),
 				data:json_input,
 				success : function(data, status) {
 					$("#output").text(JSON.stringify(data));

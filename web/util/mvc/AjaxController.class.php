@@ -27,7 +27,7 @@
 		const ERROR_ACTION_UPDATE_DATA = 202; /**< @brief Action failure : cannot update data */
 		const ERROR_ACTION_DELETE_DATA = 203; /**< @brief Action failure : cannot delete data */
 		const ERROR_ACTION_READ_DATA = 204; /**< @brief Action failure : cannot read data */
-		const ERROR_ACTION_SAVE_EXPORT = 205 /**< @brief Action failure : cannot save export settings */
+		const ERROR_ACTION_SAVE_EXPORT = 205; /**< @brief Action failure : cannot save export settings */
 
 		/* 3xx : missing data */
 		const ERROR_MISSING_DATA = 300; /**< @brief Missing data generic error (300) */
