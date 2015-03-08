@@ -825,7 +825,7 @@ use \DateInterval;
 		 * @warning NEVER USE WITH 1
 		 */
 		public function deleteEventRecurrence($idRec){
-			return $this->sql->delete("recurrence", "Id_Recurrence = ". $this->sql->quote($idRec));
+			return   $this->sql->delete("recurrence", "Id_Recurrence = ". $this->sql->quote($idRec));
 		}
 		
 	}
