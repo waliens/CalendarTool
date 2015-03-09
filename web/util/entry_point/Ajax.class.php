@@ -24,6 +24,7 @@
     use ct\controllers\ajax\StaticExportController;
     use ct\controllers\ajax\GetGlobalEventsByStudentController;
     use ct\controllers\ajax\GetProfessorAvailableCoursesController;
+    use ct\controllers\ajax\CreateGlobalEventController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -74,6 +75,8 @@
                     return new ViewGlobalEventController();
                 case "033":
                     return new DeleteGlobalEventController();
+                case "035":
+                    return new CreateGlobalEventController();
                 case "036":
                     return new GetProfessorAvailableCoursesController();
 
