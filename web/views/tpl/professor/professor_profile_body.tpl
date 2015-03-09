@@ -16,11 +16,18 @@
       <table class="table" id="global_events">
         <tr class="text-bold">
           <td class="min-width-90">Course ID</td>
-          <td>Title</td>
-          <td class="width-30">Modifier</td>
+          <td>Titre</td>
           <td class="width-30">Supprimer</td>
         </tr>
         <!--FILLED BY AJAX WITH COURSES LIST-->
+        <tr>
+      
+      <td colspan="3">
+      <div class="text-center">
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-global-event">Ajouter cours</a>
+      </div>
+      </td>
+      </tr>
       </table>
     </div>
   </div>
@@ -31,11 +38,18 @@
     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
       <table class="table" id="independent-events">
         <tr class="text-bold">
-          <td>Title</td>
+          <td>Titre</td>
           <td class="width-30">Modifier</td>
           <td class="width-30">Supprimer</td>
         </tr>
         <!--FILLED BY AJAX WITH LIST INDEPENDENT EVENTS-->
+        <tr>
+      <td colspan="3">
+      <div class="text-center">
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event">Ajouter événement indépendant</a>
+      </div>
+      </td>
+      </tr>
       </table>
     </div>
   </div>

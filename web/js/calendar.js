@@ -467,7 +467,7 @@ function convert_date(date,formatDestination,formatOrigin){
 		}
 		date_standard=yy+"-"+mm+"-"+dd;
 		var d = moment(date_standard);
-		moment.locale('fr'); 
+		moment().locale('fr'); 
 		return d.format(formatDestination);
 	}
 	
@@ -588,7 +588,7 @@ function populate_public_event(event){
 //update the calendar with the new event or confirm the edit of an existing event
 function create_private_event(){
 	var title=$("#private_event_title").val();
-	var type=$("#private_event_type_btn").text();
+	var type=$("#private_event_type").text();
 	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
 	var startHour=$("#private_event_startHour").val();
 	if(startHour!=""){
@@ -848,18 +848,19 @@ function create_private_event(){
 				} 
 			)
 		//send data to server
-		var new_event={"name":title, "type":type, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes}
+		var new_event={"name":title, "type":3, "start":start.format("YYYY-MM-DD"), "end":end.format("YYYY-MM-DD"), "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes}
 		$.ajax({
 						dataType : "json",
 						type : 'POST',
-						url : "index.php&src='ajax'&req=8",
+						url : "index.php?src=ajax&req=101",
 						data : new_event,
 						success : function(data, status) {
 							// Inserire messaggio di successo
 						},
-						error : function(data, status, errors) {
-							// Inserire un messagio di errore
-						}
+						error : function(xhr, status, error) {
+								  var err = eval("(" + xhr.responseText + ")");
+								  alert(err.Message);
+								}
 					});
 		}
 	}

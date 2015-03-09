@@ -10,7 +10,7 @@
         <!--ALERT CONTENT-->
       </div>
       <div class="modal-footer text-center">
-        <a role="button" tabindex="0" class="btn btn-primary padding-6-55" data-placement="top" data-toggle="popover" data-trigger="focus" data-title="Erreur" data-content="Sélectionner au moins une option" data-dismiss="modal">Ok</a>
+        <a role="button" tabindex="0" class="btn btn-primary padding-6-55" id="filter_alert_btn" data-placement="top" data-toggle="popover" data-trigger="focus" data-dismiss="modal" disabled=true>Ok</a>
       </div>
     </div>
   </div>
