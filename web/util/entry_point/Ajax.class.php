@@ -66,6 +66,8 @@
                     return new ProfessorProfileController();
 
                 /* Global event related */
+                case "301": 
+                    return new GetGlobalEventsByStudentController();
                 case "302":
                     return new ViewGlobalEventController();
                 case "303":
