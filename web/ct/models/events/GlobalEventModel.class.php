@@ -83,6 +83,20 @@
 
 			$this->sql->transaction();
 
+			// check whether the professor/user can create the course
+			$query  =  "SELECT COUNT(*) AS cnt
+						FROM ulg_course_team_member 
+						WHERE Id_ULg_Fac_Staff = ( SELECT Id_ULg FROM user WHERE Id_User = ? ) 
+							AND Id_Course = ?;";
+
+			$creation_right_check = $this->sql->execute_query($query, array($user_id, $course_id));
+
+			if(empty($creation_right_check) || $creation_right_check[0]['cnt'] < 1)
+			{
+				$this->sql->rollback();
+				return false;
+			}
+
 			// transfer course ulg data
 			$query  =  "INSERT INTO global_event(ULg_Identifier, Name_Short, Name_Long, 
 												 Period, Workload_Th, Workload_Pr, 
@@ -1056,5 +1070,28 @@
 	
 			$params = array($start_acad_year, $user_id, $start_acad_year, $user_id, $start_acad_year, $user_id);
 			return $this->sql->execute_query($query, $params);
+		}
+
+		/**
+		 * @brief Return the list of courses that a given professor can still create for the given academic year
+		 * @param[in] int $acad_year The year starting the academic year (optionnal, default: current one)
+ 		 * @param[in] int $user_id   The user id (optionnal, default: the currently connected user)
+ 		 * @retval array An array containing the courses' id and names (short and long) (row keys : Id_Course, Name_Short, Name_Long)
+		 */
+		public function get_available_global_events($acad_year=null, $user_id=null)
+		{
+			if($acad_year == null) $acad_year = \ct\get_academic_year();
+			if($user_id == null) $user_id = $this->connection->user_id();
+
+			$query  =  "SELECT Id_Course, Name_Long, Name_Short 
+						FROM ulg_course NATURAL JOIN
+						( SELECT Id_Course FROM ulg_course_team_member 
+						  WHERE Id_ULg_Fac_Staff = ( SELECT Id_ULg FROM user WHERE Id_User = ? ) ) AS fac_staff_courses
+						WHERE Id_Course NOT IN
+							( SELECT ULg_Identifier 
+							  FROM global_event
+							  WHERE Acad_Start_Year = ? );";
+
+			return $this->sql->execute_query($query, array($user_id, $acad_year));
 		}
 	}
