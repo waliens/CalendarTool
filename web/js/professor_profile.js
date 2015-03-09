@@ -11,7 +11,7 @@ $(document).ready(function() {
 		dataType : "json",
 		type : 'GET',
 		url : "json/professor-profile.json",
-		//url: "index.php&src='ajax'&req=8",
+		//url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
 			var first_name=data.firstName;
 			var last_name=data.lastName;
@@ -36,35 +36,30 @@ function addGlobalEvent(course){
 	var global_events=document.getElementById("global_events");
     var course_id=document.createElement('a');
 	course_id.setAttribute("id",course.code);
+	course_id.setAttribute("event-id",course.id);
 	course_id.innerHTML = course.code;
 	//link the event link to the event info pane
 	course_id.setAttribute("data-toggle","modal");
 	course_id.setAttribute("data-target","#event_info");
 	course_id.setAttribute("event-name",course.lib_cours_complet);
 	var delete_icon=document.createElement('a');
-	var edit_icon=document.createElement('a');
-	edit_icon.className="edit";
 	delete_icon.className="delete";
 	//link the delete icon to the delete alert
 	delete_icon.setAttribute("data-toggle","modal");
 	delete_icon.setAttribute("data-target","#delete_global_event_alert");
-	delete_icon.setAttribute("course-id",course.code);
+	delete_icon.setAttribute("course-code",course.code);
+	delete_icon.setAttribute("course-id",course.id);
 	delete_icon.setAttribute("course-name",course.lib_cours_complet);
-	var div_container1=document.createElement("div");
-	div_container1.className="text-center";
 	var div_container2=document.createElement("div");
 	div_container2.className="text-center";
-	div_container1.appendChild(edit_icon);
 	div_container2.appendChild(delete_icon);
-	var row=global_events.insertRow(-1);
+	var row=global_events.insertRow(1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
 	var cell3=row.insertCell(2);
-	var cell4=row.insertCell(3);
 	cell1.appendChild(course_id);
 	cell2.innerHTML=course.lib_cours_complet;
-	cell3.appendChild(div_container1);
-	cell4.appendChild(div_container2);
+	cell3.appendChild(div_container2);
 	}
 
 //populate independent events table
@@ -85,7 +80,8 @@ function addIndependentEvent(indep_event){
 	//link the delete icon to the delete alert
 	delete_icon.setAttribute("data-toggle","modal");
 	delete_icon.setAttribute("data-target","#delete_indep_event_alert");
-	delete_icon.setAttribute("course-id",indep_event.code);
+	delete_icon.setAttribute("course-code",indep_event.code);
+	delete_icon.setAttribute("course-id",indep_event.id);
 	delete_icon.setAttribute("course-name",indep_event.lib_cours_complet);
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
@@ -93,7 +89,7 @@ function addIndependentEvent(indep_event){
 	div_container2.className="text-center";
 	div_container1.appendChild(edit_icon);
 	div_container2.appendChild(delete_icon);
-	var row=all_indep_events.insertRow(-1);
+	var row=all_indep_events.insertRow(1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
 	var cell3=row.insertCell(2);
@@ -106,15 +102,36 @@ function addIndependentEvent(indep_event){
 $('#delete_global_event_alert').on('show.bs.modal', function (event) {
 	var event = $(event.relatedTarget);
 	$("span[name=global_course_deleted]").text(event.attr("course-name"));
-	$("#delete_confirm").attr("event-id",event.prop("id"));
+	$("#global_event_delete_confirm").attr("event-id",event.attr("course-id"));
 });
 
 //populate delete independent event alert
 $('#delete_indep_event_alert').on('show.bs.modal', function (event) {
 	var event = $(event.relatedTarget);
 	$("span[name=indep_event_deleted]").text(event.attr("course-name"));
-	$("#delete_confirm").attr("event-id",event.prop("id"));
+	$("#indep_event_delete_confirm").attr("event-id",event.attr("course-id"));
 });
+
+//confirm global event deletion
+$("#delete_global_event_alert").on("click",".btn-primary",function(event){
+	$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
+	var event_id=event.currentTarget.getAttribute("event-id");
+	//send deletion confirmation to server
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=o33",
+			data : event_id,
+			success : function(data, status) {
+				// Inserire messaggio di successo
+			},
+			error : function(xhr, status, error) {
+					  var err = eval("(" + xhr.responseText + ")");
+					  alert(err.Message);
+					}
+		});
+	
+	})
 
 //populate event info when modal appears
 $("#event_info").on("show.bs.modal",function(event){
@@ -123,7 +140,7 @@ $("#event_info").on("show.bs.modal",function(event){
 		dataType : "json",
 		type : 'GET',
 		url : "json/globalevent-info.json",
-		//url : "index.php?src=ajax&req=032&event=event_id",
+		//url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;

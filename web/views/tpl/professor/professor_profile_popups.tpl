@@ -12,7 +12,25 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Confirmer</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_delete_confirm">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Global Event Alert -->
+<div class="modal fade" id="add_global_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ajouter un cours</h4>
+      </div>
+      <div class="modal-body">
+        <!--TO BE COMPLETED!!-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_add_confirm">Confirmer</button>
       </div>
     </div>
   </div>
@@ -31,7 +49,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Sauver</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="indep_event_delete_confirm">Confirmer</button>
       </div>
     </div>
   </div>
@@ -48,7 +66,7 @@
           <div class="panel-group width-70 center" id="accordion-global-event" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-global-event" href="#global-event-info" aria-expanded="true" aria-controls="global-event-info">Info</a></h4>
+                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-global-event" href="#global-event-info" aria-expanded="true" aria-controls="global-event-info">Info</a></h4><span id="edit_note" class="float-left-10padright"><a class="edit" onclick="edit_note()"></a></span>
               </div>
               <div id="global-event-info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                 <table class="table" id="global_events">
@@ -82,7 +100,7 @@
             </div>
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info" aria-expanded="false" aria-controls="subevents_info">Sousévénements</a> </h4>
+                <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info" aria-expanded="false" aria-controls="subevents_info">Sous-événements</a> </h4>
               </div>
               <div id="subevents_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                   <!--FILLED BY AJAX WITH LIST SUBEVENTS-->

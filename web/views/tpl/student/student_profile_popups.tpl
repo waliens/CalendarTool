@@ -63,7 +63,7 @@
             </div>
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info" aria-expanded="false" aria-controls="subevents_info">Sousévénements</a> </h4>
+                <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info" aria-expanded="false" aria-controls="subevents_info">Sous-événements</a> </h4>
               </div>
               <div id="subevents_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                   <!--FILLED BY AJAX WITH LIST SUBEVENTS-->
