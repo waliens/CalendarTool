@@ -133,6 +133,27 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 	
 	})
 
+//confirm global event deletion
+$("#delete_global_event_alert").on("click",".btn-primary",function(event){
+	$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
+	var event_id=event.currentTarget.getAttribute("event-id");
+	//send deletion confirmation to server
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=o33",
+			data : event_id,
+			success : function(data, status) {
+				// Inserire messaggio di successo
+			},
+			error : function(xhr, status, error) {
+					  var err = eval("(" + xhr.responseText + ")");
+					  alert(err.Message);
+					}
+		});
+	
+	})
+
 //populate event info when modal appears
 $("#event_info").on("show.bs.modal",function(event){
 	var event_id=event.relatedTarget.getAttribute('event-id');
