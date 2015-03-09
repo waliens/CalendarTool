@@ -36,22 +36,15 @@
 			$glob_mod = new GlobalEventModel();
 
 			// create the global event
-			if(!$glob_mod->create_global_event($this->sg_post->value("ulgId")))
+			$glob_id = $glob_mod->create_global_event($this->sg_post->value("ulgId"));
+			
+			if(!$glob_id)
 			{
 				$this->set_error_predefined(AjaxController::ERROR_ACTION_ADD_DATA);
 				return;
 			}
 
-			// get the global event id
-			$id_data =("year" => \ct\get_academic_year(), "id" => $this->sg_post->value("ulgId"));
-			$added_glob = $glob_mod->get_global_event($id_data);
-
-			if(empty($added_glob))
-			{
-				$this->set_error_predefined(AjaxController::ERROR_ACTION_ADD_DATA);
-				return;
-			}
-
-			$this->add_output_data("id", $added_glob['id']);
+			// set the global event id as output
+			$this->add_output_data("id", $glob_id);
 		}
 	}

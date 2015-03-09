@@ -68,7 +68,7 @@
 		 * @param[in] int    $acad_year The academic year for which the course must be created (optional, default: current acad year)
 		 * @param[in] string $lang      The language in which the course must be created (one of the class 
 		 * LANG_* constant) (optional, default: LANG_FR)
-		 * @retval bool True on success, false on error
+		 * @retval int The global event id if the addition worked, 0 otherwise
 		 */
 		public function create_global_event($course_id, $user_id = null, $acad_year=null, $lang=null)
 		{
@@ -77,7 +77,7 @@
 			if($lang == null) $lang = self::LANG_FR;
 
 			if(!checkdate(1, 1, $acad_year)) // check whether the year is valid
-				return false;
+				return 0;
 
 			$success = true;
 
@@ -94,7 +94,7 @@
 			if(empty($creation_right_check) || $creation_right_check[0]['cnt'] < 1)
 			{
 				$this->sql->rollback();
-				return false;
+				return 0;
 			}
 
 			// transfer course ulg data
@@ -113,7 +113,7 @@
 			if(!$success || $glob_event_id === 0) 
 			{			
 				$this->sql->rollback();
-				return false;
+				return 0;
 			}
 
 			// update the pathways table in case if the pathways are not stored in it yet
@@ -137,7 +137,7 @@
 			if(!$success)
 			{
 				$this->sql->rollback();
-				return false;
+				return 0;
 			}
 
 			// only add the pathways of the ulg student that have the added course
@@ -157,7 +157,7 @@
 			if(!$success)
 			{
 				$this->sql->rollback();
-				return false;				
+				return 0;				
 			}
 
 			// add to the event the student that are registered on the calendar tool and 
@@ -174,7 +174,7 @@
 			if(!$success)
 			{
 				$this->sql->rollback();
-				return false;				
+				return 0;				
 			}
 
 			// add the creator as professor for this global event
@@ -189,7 +189,7 @@
 			else
 				$this->sql->rollback();
 
-			return $success;
+			return $success ? $glob_event_id : 0;
 		}
 
 		/**
