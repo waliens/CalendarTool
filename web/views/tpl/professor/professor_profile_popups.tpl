@@ -12,7 +12,25 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Confirmer</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_delete_confirm">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Global Event Alert -->
+<div class="modal fade" id="add_global_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ajouter un cours</h4>
+      </div>
+      <div class="modal-body">
+        <!--TO BE COMPLETED!!-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_add_confirm">Confirmer</button>
       </div>
     </div>
   </div>
@@ -31,7 +49,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Sauver</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="indep_event_delete_confirm">Confirmer</button>
       </div>
     </div>
   </div>
