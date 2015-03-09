@@ -53,7 +53,8 @@ $(document).ready(function() {
 				dataType : "json",
 				type : 'GET',
 				url : "json/calendar-month.json",
-				//url: "calendar.html&src='ajax'&req=10&month="+month,
+				//url: "index.php?src=ajax&req=102",
+				//data: {},
 				success : function(data, status) {
 					calendar_data=data;
 					var events = [];

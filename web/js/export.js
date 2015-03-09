@@ -52,8 +52,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/student-courses.json",
-						//url : "index.php?src=ajax&req=031", 
+						//url : "json/student-courses.json",
+						url : "index.php?src=ajax&req=031", 
 						async : true,
 						success : function(data, status) {
 							var courses=data.courses;
@@ -117,8 +117,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/pathways.json",
-						//url : "index.php?src=ajax&req=111",
+						//url : "json/pathways.json",
+						url : "index.php?src=ajax&req=111",
 						async : true,
 						success : function(data, status) {
 							var pathways=data.pathways;
@@ -136,7 +136,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							cell2.className="text-center"
 							filter_alert.append(table);
 							for (var i = 0; i < pathways.length; i++)
-								addPathway(pathway[i]);
+								addPathway(pathways[i]);
 						},
 						error : function(data, status, errors) {
 							// Inserire un messagio di errore
@@ -149,8 +149,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/all_professors.json",
-						//url : "index.php?src=ajax&req=021",
+						//url : "json/all_professors.json",
+						url : "index.php?src=ajax&req=021",
 						async : true,
 						success : function(data, status) {
 							var professors=data.professors;

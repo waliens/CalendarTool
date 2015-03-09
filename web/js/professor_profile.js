@@ -11,7 +11,7 @@ $(document).ready(function() {
 		dataType : "json",
 		type : 'GET',
 		url : "json/professor-profile.json",
-		//url: "index.php&src='ajax'&req=8",
+		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
 			var first_name=data.firstName;
 			var last_name=data.lastName;
@@ -138,8 +138,8 @@ $("#event_info").on("show.bs.modal",function(event){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/globalevent-info.json",
-		//url : "index.php?src=ajax&req=032&event=event_id",
+		//url : "json/globalevent-info.json",
+		url : "index.php?src=ajax&req=032&event=2",// + event_id,
 		success : function(data, status) {
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
@@ -242,8 +242,8 @@ $("#subevent_info").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/subevent-info.json",
-		//url : "index.php?src=ajax&req=051&event=subevent_id",
+		//url : "json/subevent-info.json",
+		url : "index.php?src=ajax&req=051&event=" + subevent_id,
 		success : function(data, status) {
 			var subevent_id=data.id;
 			var subevent_title=data.name;
