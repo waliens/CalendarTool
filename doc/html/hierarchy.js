@@ -1,9 +1,15 @@
 var hierarchy =
 [
-    [ "Connection", "classutil_1_1_connection.html", null ],
+    [ "Connection", "classct_1_1_connection.html", null ],
     [ "Controller", "classutil_1_1mvc_1_1_controller.html", [
       [ "AjaxController", "classutil_1_1mvc_1_1_ajax_controller.html", [
-        [ "PrivateEventController", "classct_1_1controllers_1_1ajax_1_1_private_event_controller.html", null ]
+        [ "AddTeachingTeamMemberController", "classct_1_1controllers_1_1ajax_1_1_add_teaching_team_member_controller.html", null ],
+        [ "AllProfessorsController", "classct_1_1controllers_1_1ajax_1_1_all_professors_controller.html", null ],
+        [ "DeleteTeachingTeamMemberController", "classct_1_1controllers_1_1ajax_1_1_delete_teaching_team_member_controller.html", null ],
+        [ "GetTeachingTeamController", "classct_1_1controllers_1_1ajax_1_1_get_teaching_team_controller.html", null ],
+        [ "PrivateEventController", "classct_1_1controllers_1_1ajax_1_1_private_event_controller.html", null ],
+        [ "ProfessorProfileController", "classct_1_1controllers_1_1ajax_1_1_professor_profile_controller.html", null ],
+        [ "TestController", "classct_1_1controllers_1_1ajax_1_1_test_controller.html", null ]
       ] ],
       [ "BrowserController", "classutil_1_1mvc_1_1_browser_controller.html", [
         [ "CalendarPageController", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html", null ],
@@ -15,16 +21,12 @@ var hierarchy =
         [ "StudentProfileController", "classct_1_1controllers_1_1browser_1_1_student_profile_controller.html", null ]
       ] ]
     ] ],
-    [ "Controller", null, [
-      [ "Event", "classct_1_1controller_1_1_event.html", null ]
-    ] ],
     [ "Database", "classutil_1_1database_1_1_database.html", null ],
     [ "EntryPoint", "interfaceutil_1_1entry__point_1_1_entry_point.html", [
       [ "Ajax", "classutil_1_1entry__point_1_1_ajax.html", null ],
       [ "Browser", "classutil_1_1entry__point_1_1_browser.html", null ],
       [ "ICS", "classutil_1_1entry__point_1_1_i_c_s.html", null ]
     ] ],
-    [ "Event", "class_event.html", null ],
     [ "Event", "class_event.html", null ],
     [ "EventFilter", "interfacect_1_1models_1_1filters_1_1_event_filter.html", [
       [ "DateTimeFilter", "classct_1_1models_1_1filters_1_1_date_time_filter.html", null ],
@@ -34,8 +36,8 @@ var hierarchy =
       [ "PathwayFilter", "classct_1_1models_1_1filters_1_1_pathway_filter.html", null ],
       [ "ProfessorFilter", "classct_1_1models_1_1filters_1_1_professor_filter.html", null ]
     ] ],
-    [ "Mail", "classutil_1_1_mail.html", null ],
     [ "Model", "classutil_1_1mvc_1_1_model.html", [
+      [ "EventModel", "classct_1_1models_1_1_event_model.html", null ],
       [ "EventModel", "classct_1_1models_1_1events_1_1_event_model.html", [
         [ "AcademicEventModel", "classct_1_1models_1_1events_1_1_academic_event_model.html", [
           [ "IndependentEventModel", "classct_1_1models_1_1events_1_1_independent_event_model.html", null ],
@@ -66,8 +68,5 @@ var hierarchy =
       [ "SG_Session", "classutil_1_1superglobals_1_1_s_g___session.html", null ]
     ] ],
     [ "TypeChecker", "classutil_1_1_type_checker.html", null ],
-    [ "URL", "classutil_1_1_u_r_l.html", null ],
-    [ "Model", null, [
-      [ "Notifier", "classct_1_1models_1_1notifiers_1_1_notifier.html", null ]
-    ] ]
+    [ "URL", "classutil_1_1_u_r_l.html", null ]
 ];

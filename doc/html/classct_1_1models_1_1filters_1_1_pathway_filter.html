@@ -126,9 +126,9 @@ Inheritance diagram for PathwayFilter:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a71ead3dfc7bbd096f90840d682582d03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_pathway_filter.html#a71ead3dfc7bbd096f90840d682582d03">__construct</a> (array $pathways)</td></tr>
-<tr class="memdesc:a71ead3dfc7bbd096f90840d682582d03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classct_1_1models_1_1filters_1_1_pathway_filter.html" title="A class for filtering events for some pathways. ">PathwayFilter</a> object with a set of pathways to keep.  <a href="#a71ead3dfc7bbd096f90840d682582d03">More...</a><br/></td></tr>
-<tr class="separator:a71ead3dfc7bbd096f90840d682582d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebe2c3a4e4a32cd6f2330f4d6c4b9907"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_pathway_filter.html#aebe2c3a4e4a32cd6f2330f4d6c4b9907">__construct</a> (array $pathways, $keep_students=true)</td></tr>
+<tr class="memdesc:aebe2c3a4e4a32cd6f2330f4d6c4b9907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classct_1_1models_1_1filters_1_1_pathway_filter.html" title="A class for filtering events for some pathways. ">PathwayFilter</a> object with a set of pathways to keep.  <a href="#aebe2c3a4e4a32cd6f2330f4d6c4b9907">More...</a><br/></td></tr>
+<tr class="separator:aebe2c3a4e4a32cd6f2330f4d6c4b9907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12e0e97b4b4a0ac2629c5fb761ead9f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_pathway_filter.html#a12e0e97b4b4a0ac2629c5fb761ead9f3">get_pathways</a> ()</td></tr>
 <tr class="memdesc:a12e0e97b4b4a0ac2629c5fb761ead9f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the list of pathways to keep.  <a href="#a12e0e97b4b4a0ac2629c5fb761ead9f3">More...</a><br/></td></tr>
 <tr class="separator:a12e0e97b4b4a0ac2629c5fb761ead9f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,7 +149,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for filtering events for some pathways. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a71ead3dfc7bbd096f90840d682582d03"></a>
+<a class="anchor" id="aebe2c3a4e4a32cd6f2330f4d6c4b9907"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -157,8 +157,18 @@ Public Member Functions</h2></td></tr>
           <td class="memname">__construct </td>
           <td>(</td>
           <td class="paramtype">array&#160;</td>
-          <td class="paramname"><em>$pathways</em></td><td>)</td>
+          <td class="paramname"><em>$pathways</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$keep_students</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -167,6 +177,7 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$pathways</td><td>Array containing the ids of the pathways </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">bool</td><td class="paramname">$keep_students</td><td>True for keeping the student ids, false otherwise (optionnal, default: true) </td></tr>
   </table>
   </dd>
 </dl>
@@ -220,7 +231,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>The returned sql query should be directly executable and it should be possible to embed it in another query (also, as it could be embedded, it should be as efficient as possible) </dd>
 <dd>
 The query should return a table with one 'Id_Event' column containing the events </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>find an appropriate quoting mechanism </dd></dl>
 
 </div>
 </div>
@@ -257,7 +267,7 @@ The query should return a table with one 'Id_Event' column containing the events
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>ct</b></li><li class="navelem"><b>models</b></li><li class="navelem"><b>filters</b></li><li class="navelem"><a class="el" href="classct_1_1models_1_1filters_1_1_pathway_filter.html">PathwayFilter</a></li>
-    <li class="footer">Generated on Sun Mar 1 2015 11:45:12 for CalendarTool by
+    <li class="footer">Generated on Tue Mar 3 2015 23:22:29 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

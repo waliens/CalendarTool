@@ -230,7 +230,15 @@
 	 */
 	function date_cmp($date1, $date2)
 	{
-		return strtotime($date1) < strtotime($date2);
+		$d1 = strtotime($date1);
+		$d2 = strtotime($date2);
+
+		if($d1 < $d2)
+			return -1;
+		elseif($d1 > $d2)
+			return 1;
+		else
+			return 0;
 	}
 
 	/**
@@ -275,11 +283,22 @@
 
 	/**
 	 * @brief Check whether the argument is a positive integer differenet from 0
+	 * @param[in] mixed $int Check whether the given argument is a strictly positive integer
 	 * @retval bool True if $int is an integer > 0, false otherwise 
 	 */
 	function is_positive_integer($int)
 	{
 		return is_int($int) && $int > 0;
+	}
+
+	/**
+	 * @brief Check whether the given data can be a database integer key
+	 * @param[in] mixed $data The data to check;
+	 * @retval bool True if it is valid, false otherwise
+	 */
+	function is_valid_id($data)
+	{
+		return is_numeric($data) && intval($data) > 0;
 	}
 
 	/**
@@ -388,4 +407,16 @@
 	{
 		return array_map(function(&$row) use (&$transform) { return array_keys_transform($row, $transform);},
 						 $array);
+	}
+
+	/**
+	 * @brief Transform the item in a column of a given database-like array (see below) with a callback
+	 * @param[in] array    $array    The database like array of which a column must be modified
+	 * @param[in] string   $col      The column name
+	 * @param[in] callback $callback The callback function taking the value to modify and returning the new value
+	 */
+	function darray_col_map(array &$array, $col, $callback)
+	{
+		foreach($array as &$row)
+			$row[$col] = $callback($array[$col]);
 	}

@@ -1,12 +1,15 @@
 var annotated =
 [
     [ "ct", null, [
-      [ "controller", null, [
-        [ "Event", "classct_1_1controller_1_1_event.html", "classct_1_1controller_1_1_event" ]
-      ] ],
       [ "controllers", null, [
         [ "ajax", null, [
-          [ "PrivateEventController", "classct_1_1controllers_1_1ajax_1_1_private_event_controller.html", "classct_1_1controllers_1_1ajax_1_1_private_event_controller" ]
+          [ "AddTeachingTeamMemberController", "classct_1_1controllers_1_1ajax_1_1_add_teaching_team_member_controller.html", "classct_1_1controllers_1_1ajax_1_1_add_teaching_team_member_controller" ],
+          [ "AllProfessorsController", "classct_1_1controllers_1_1ajax_1_1_all_professors_controller.html", "classct_1_1controllers_1_1ajax_1_1_all_professors_controller" ],
+          [ "DeleteTeachingTeamMemberController", "classct_1_1controllers_1_1ajax_1_1_delete_teaching_team_member_controller.html", "classct_1_1controllers_1_1ajax_1_1_delete_teaching_team_member_controller" ],
+          [ "GetTeachingTeamController", "classct_1_1controllers_1_1ajax_1_1_get_teaching_team_controller.html", "classct_1_1controllers_1_1ajax_1_1_get_teaching_team_controller" ],
+          [ "PrivateEventController", "classct_1_1controllers_1_1ajax_1_1_private_event_controller.html", "classct_1_1controllers_1_1ajax_1_1_private_event_controller" ],
+          [ "ProfessorProfileController", "classct_1_1controllers_1_1ajax_1_1_professor_profile_controller.html", "classct_1_1controllers_1_1ajax_1_1_professor_profile_controller" ],
+          [ "TestController", "classct_1_1controllers_1_1ajax_1_1_test_controller.html", "classct_1_1controllers_1_1ajax_1_1_test_controller" ]
         ] ],
         [ "browser", null, [
           [ "CalendarPageController", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html", "classct_1_1controllers_1_1browser_1_1_calendar_page_controller" ],
@@ -36,9 +39,7 @@ var annotated =
           [ "PathwayFilter", "classct_1_1models_1_1filters_1_1_pathway_filter.html", "classct_1_1models_1_1filters_1_1_pathway_filter" ],
           [ "ProfessorFilter", "classct_1_1models_1_1filters_1_1_professor_filter.html", "classct_1_1models_1_1filters_1_1_professor_filter" ]
         ] ],
-        [ "notifiers", null, [
-          [ "Notifier", "classct_1_1models_1_1notifiers_1_1_notifier.html", "classct_1_1models_1_1notifiers_1_1_notifier" ]
-        ] ],
+        [ "EventModel", "classct_1_1models_1_1_event_model.html", "classct_1_1models_1_1_event_model" ],
         [ "FileModel", "classct_1_1models_1_1_file_model.html", "classct_1_1models_1_1_file_model" ],
         [ "FilterCollectionModel", "classct_1_1models_1_1_filter_collection_model.html", "classct_1_1models_1_1_filter_collection_model" ],
         [ "ModificationRequestModel", "classct_1_1models_1_1_modification_request_model.html", "classct_1_1models_1_1_modification_request_model" ],
@@ -46,7 +47,8 @@ var annotated =
         [ "RootModel", "classct_1_1models_1_1_root_model.html", "classct_1_1models_1_1_root_model" ],
         [ "TeachingRoleModel", "classct_1_1models_1_1_teaching_role_model.html", "classct_1_1models_1_1_teaching_role_model" ],
         [ "UserModel", "classct_1_1models_1_1_user_model.html", "classct_1_1models_1_1_user_model" ]
-      ] ]
+      ] ],
+      [ "Connection", "classct_1_1_connection.html", "classct_1_1_connection" ]
     ] ],
     [ "util", null, [
       [ "database", null, [
@@ -75,12 +77,9 @@ var annotated =
         [ "SG_Session", "classutil_1_1superglobals_1_1_s_g___session.html", "classutil_1_1superglobals_1_1_s_g___session" ],
         [ "Superglobal", "classutil_1_1superglobals_1_1_superglobal.html", "classutil_1_1superglobals_1_1_superglobal" ]
       ] ],
-      [ "Connection", "classutil_1_1_connection.html", "classutil_1_1_connection" ],
-      [ "Mail", "classutil_1_1_mail.html", "classutil_1_1_mail" ],
       [ "Redirection", "classutil_1_1_redirection.html", "classutil_1_1_redirection" ],
       [ "TypeChecker", "classutil_1_1_type_checker.html", "classutil_1_1_type_checker" ],
       [ "URL", "classutil_1_1_u_r_l.html", "classutil_1_1_u_r_l" ]
     ] ],
-    [ "Event", "class_event.html", null ],
     [ "Event", "class_event.html", null ]
 ];

@@ -7,20 +7,19 @@
 
 namespace ct\controllers\ajax;
 
-
 use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
 /**
- * @class Event
- * @brief Class for handling the control of event
+ * @class PrivateEventController
+ * @brief Class for handling the create private event request
  */
-
 class PrivateEventController extends AjaxController
 {
-
-		
+	/** 
+	 * @brief Construct the PrivateEventController object and process the request
+	 */
 	public function __construct() 
 	{
 		parent::__construct();
@@ -30,7 +29,7 @@ class PrivateEventController extends AjaxController
 
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
-			$this->set_error("Missing data");
+			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
 			return;
 		}
 
@@ -52,7 +51,7 @@ class PrivateEventController extends AjaxController
 		}
 		else
 		{
-			$this->set_error("Missing time data");
+			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
 			return;
 		}
 		
@@ -77,12 +76,9 @@ class PrivateEventController extends AjaxController
 			foreach($id_ret as $key => $value)
 				$model->set_annotation($value, $data['id_owner'], $this->sg_post->value('note'));
 		
-		$this->output_data['id'] = $id_ret;
-		$this->set_error($model->get_error());
-		
+		$this->add_output_data("id", $id_ret);
+		$this->set_error_custom($model->get_error());		
 	}
-	
-
 }
 
 

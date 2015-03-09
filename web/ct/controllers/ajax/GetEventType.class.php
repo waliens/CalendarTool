@@ -6,6 +6,10 @@
 */
 
 namespace ct\controllers\ajax;
+use ct\models\filters\TimeTypeFilter;
+
+use ct\models\filters\EventTypeFilter;
+
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
@@ -23,26 +27,26 @@ class GetEventTypeController extends AjaxController
 		parent::__construct();
 
 
-		// create models
-		$model = new EventModel();
-
-		// get owner id
-		$id = $this->connection->user_id();
-		$eventId = $this->sg_post->value("id");
-
-
-		$req = $model->getEvent(array("id_event" => $this->sg_post->value()), array("EventType", "DateType"));
-
-		if(!isset($req[0])){
-			$this->set_error_predefined(self::ERROR_MISSING_EVENT);
-		}
-		else{
-			$data = $req[0];
-			$this->output_data['event_type'] = $data['EventType'];
-			$this->output_data['date_type'] = $data['DateType'];
-
-		}
-
+		$this->output_data['event_types'] = array();
+		$this->output_data['date_types'] = array();
+		
+		$data = array();
+		array_push($data, array("id" => EventTypeFilter::TYPE_ACADEMIC, "Name" => "Académique"));
+		array_push($data, array("id" => EventTypeFilter::TYPE_FAVORITE, "Name" => "Favoris"));
+		array_push($data, array("id" => EventTypeFilter::TYPE_INDEPENDENT, "Name" => "Independent"));
+		array_push($data, array("id" => EventTypeFilter::TYPE_STUDENT, "Name" => "Student"));
+		array_push($data, array("id" => EventTypeFilter::TYPE_SUB_EVENT, "Name" => "Sous Evenement"));
+		array_push($data, array("id" => EventTypeFilter::TYPE_ALL, "Name" => "Tous"));
+		$this->output_data['event_types'] = $data;
+		
+		$date = array();
+		array_push($data, array("id" => TimeTypeFilter::TYPE_TIME_RANGE, "Name" => "Time Range"));
+		array_push($data, array("id" => TimeTypeFilter::TYPE_DEADLINE , "Name" => "Deadline"));
+		array_push($data, array("id" => TimeTypeFilter::TYPE_ALL, "Name" => "Tous"));
+		array_push($data, array("id" => TimeTypeFilter::TYPE_DATE_RANGE, "Name" => "Date Range"));
+		$this->output_data['date_types'] = $date;
+		
+		
 
 	}
 }

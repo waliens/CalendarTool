@@ -48,7 +48,7 @@
 					  ( SELECT Id_Global_Event FROM teaching_team_member WHERE ".$where_clause.") AS glob_events )
 					UNION ALL
 					( SELECT Id_Event FROM independent_event NATURAL JOIN
-					  ( SELECT Id_Event FROM event_manager WHERE ".$where_clause.") AS indep_event )";
+					  ( SELECT Id_Event FROM independent_event_manager WHERE ".$where_clause.") AS indep_event )";
 		}
 
 		/**

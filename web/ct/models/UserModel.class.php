@@ -171,7 +171,7 @@
 
 		/**
 		 * @brief Get the given user data
-		 * @param[in] int $user The user id (optionnal, default: the currently connected user data)
+		 * @param[in] int $user_id The user id (optionnal, default: the currently connected user data)
 		 * @retval array The user data
 		 * @note The array contains the following data :
 		 * <ul>

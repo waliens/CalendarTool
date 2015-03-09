@@ -247,7 +247,7 @@
 
 			$query .= implode(", ", $set_final);
 			$query .= " WHERE ".$where.";";
-			
+
 			return $this->execute_query($query);
 		}
 

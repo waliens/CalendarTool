@@ -9,7 +9,7 @@ var dir_8c6371d00406f00f74f88ee822cfd4b4 =
     [ "PrivateEventsController.class.php", "_private_events_controller_8class_8php.html", [
       [ "PrivateEventsController", "classct_1_1controllers_1_1browser_1_1_private_events_controller.html", "classct_1_1controllers_1_1browser_1_1_private_events_controller" ]
     ] ],
-    [ "ProfessorProfileController.class.php", "_professor_profile_controller_8class_8php.html", [
+    [ "ProfessorProfileController.class.php", "browser_2_professor_profile_controller_8class_8php.html", [
       [ "ProfessorProfileController", "classct_1_1controllers_1_1browser_1_1_professor_profile_controller.html", "classct_1_1controllers_1_1browser_1_1_professor_profile_controller" ]
     ] ],
     [ "ProfilePageController.class.php", "_profile_page_controller_8class_8php.html", [

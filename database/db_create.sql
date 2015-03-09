@@ -5,8 +5,6 @@ CREATE DATABASE IF NOT EXISTS calendar_tool
 
 USE calendar_tool;
 
-START TRANSACTION;
-
 -- 
 -- Tables containing user informations
 --
@@ -50,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `student_pathway`
 	`Id_Student` int(11) NOT NULL,
 	`Acad_Start_Year` year NOT NULL,
 	FOREIGN KEY(`Id_Student`) REFERENCES `student`(`Id_Student`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Student`, `Id_Pathway`, `Acad_Start_Year`)
 ) ENGINE=InnoDB;
 
@@ -173,10 +172,10 @@ CREATE TABLE IF NOT EXISTS `teaching_team_member`
 CREATE TABLE IF NOT EXISTS `event_category`
 (
 	`Id_Category` int(11) NOT NULL AUTO_INCREMENT,
-	`Name_EN` varchar(255) NOT NULL,
 	`Name_FR` varchar(255) NOT NULL,
-	`Description_EN` text NOT NULL,
+	`Name_EN` varchar(255) NOT NULL,
 	`Description_FR` text NOT NULL,
+	`Description_EN` text NOT NULL,
 	`Color` varchar(7) NOT NULL,
 	PRIMARY KEY(`Id_Category`)
 ) ENGINE=InnoDB;
@@ -198,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `student_event_category`
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `recurrence_category`
-(	
+(
 	`Id_Recur_Category` int(11) NOT NULL AUTO_INCREMENT, -- ID 6 for category "never"
 	`Recur_Category_EN` varchar(255) NOT NULL,
 	`Recur_Category_FR` varchar(255) NOT NULL,
@@ -313,9 +312,10 @@ CREATE TABLE IF NOT EXISTS `sub_event_excluded_pathway`
 (
 	`Id_Event` int(11) NOT NULL, 
 	`Id_Pathway` varchar(20) NOT NULL,
-	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
+	`Id_Global_Event` int(11) NOT NULL,
+	FOREIGN KEY(`Id_Global_Event`, `Id_Pathway`) REFERENCES `global_event_pathway`(`Id_Global_Event`, `Id_Pathway`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Event`) REFERENCES `sub_event`(`Id_Event`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Event`,`Id_Pathway`)
+	PRIMARY KEY(`Id_Event`, `Id_Pathway`, `Id_Global_Event`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `independent_event_pathway`
@@ -327,7 +327,7 @@ CREATE TABLE IF NOT EXISTS `independent_event_pathway`
 	PRIMARY KEY(`Id_Event`,`Id_Pathway`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `event_manager`
+CREATE TABLE IF NOT EXISTS `independent_event_manager`
 (
 	`Id_Event` int(11) NOT NULL,
 	`Id_User` int(11) NOT NULL,
@@ -336,6 +336,16 @@ CREATE TABLE IF NOT EXISTS `event_manager`
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Role`) REFERENCES `teaching_role`(`Id_Role`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Event`,`Id_User`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `sub_event_excluded_team_member`
+(
+	`Id_Event` int(11) NOT NULL,
+	`Id_User` int(11) NOT NULL,
+	`Id_Global_Event` int(11) NOT NULL,
+	FOREIGN KEY(`Id_Event`) REFERENCES `sub_event`(`Id_Event`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_User`, `Id_Global_Event`) REFERENCES `teaching_team_member`(`Id_User`, `Id_Global_Event`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Event`, `Id_User`, `Id_Global_Event`)  
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `academic_event_file`
@@ -398,13 +408,11 @@ CREATE TABLE IF NOT EXISTS `mobile_event_update`
 
 CREATE TABLE IF NOT EXISTS `event_export`
 (
-	`Id_Export` int(11) NOT NULL AUTO_INCREMENT,
-	`User_Hash` varchar(255) NOT NULL,
 	`Id_User` int(11) NOT NULL,
-	PRIMARY KEY(`Id_Export`),
+	`User_Hash` varchar(255) NOT NULL,
+	PRIMARY KEY(`Id_User`),
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
-	UNIQUE KEY `User_Hash` (`User_Hash`),
-	UNIQUE KEY `Id_User` (`Id_User`)
+	UNIQUE KEY `User_Hash` (`User_Hash`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `filter`
@@ -417,11 +425,11 @@ CREATE TABLE IF NOT EXISTS `filter`
 CREATE TABLE IF NOT EXISTS `export_filter`
 (
 	`Id_Filter` int(11) NOT NULL,
-	`Id_Export` int(11) NOT NULL,
-	`Value` varchar(255) NOT NULL,
+	`Id_User` int(11) NOT NULL,
+	`Value` text NOT NULL,
 	FOREIGN KEY(`Id_Filter`) REFERENCES `filter`(`Id_Filter`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_Export`) REFERENCES `event_export`(`Id_Export`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Filter`, `Id_Export`)
+	FOREIGN KEY(`Id_User`) REFERENCES `event_export`(`Id_User`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Filter`, `Id_User`)
 ) ENGINE=InnoDB;
 
 --
@@ -482,5 +490,3 @@ CREATE TABLE IF NOT EXISTS `ulg_has_course`
 	FOREIGN KEY(`Id_Course`) REFERENCES `ulg_course`(`Id_Course`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_ULg_Student`, `Id_Course`)
 ) ENGINE=InnoDB;
-
-COMMIT;

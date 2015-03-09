@@ -156,7 +156,7 @@
 		{
 			return $this->superglobal[$key];
 		}
-
+		
 		/**
 		 * @brief Set the given value for the given key in the superglobal
 		 * @param[in] string $key The key

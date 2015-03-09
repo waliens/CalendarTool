@@ -7,8 +7,8 @@ var searchData=
   ['update_5frequest_5fstatus',['update_request_status',['../classct_1_1models_1_1_modification_request_model.html#a1205073da3837d804b950340d89d5543',1,'ct::models::ModificationRequestModel']]],
   ['upload_5ffile',['upload_file',['../classct_1_1models_1_1events_1_1_academic_event_model.html#a889f89d28a12dc499264864518a74bb0',1,'ct::models::events::AcademicEventModel']]],
   ['user_5fexists',['user_exists',['../classct_1_1models_1_1_user_model.html#a74c70a4a8fdeb2f2c497c08dc7529e2a',1,'ct::models::UserModel']]],
-  ['user_5fid',['user_id',['../classutil_1_1_connection.html#a73111142777dd43189b53adcaffe5381',1,'util::Connection']]],
-  ['user_5fis_5ffaculty_5fstaff',['user_is_faculty_staff',['../classutil_1_1_connection.html#a64ba30ae0782acefc5f18bff34b5477f',1,'util::Connection']]],
-  ['user_5fis_5fstudent',['user_is_student',['../classutil_1_1_connection.html#ac4cb6ac0736ba0bb974788170a07a2a5',1,'util::Connection']]],
-  ['user_5fulg_5fid',['user_ulg_id',['../classutil_1_1_connection.html#aa4e53b55981571c9a1176026c08fc206',1,'util::Connection']]]
+  ['user_5fid',['user_id',['../classct_1_1_connection.html#a73111142777dd43189b53adcaffe5381',1,'ct::Connection']]],
+  ['user_5fis_5ffaculty_5fstaff',['user_is_faculty_staff',['../classct_1_1_connection.html#a64ba30ae0782acefc5f18bff34b5477f',1,'ct::Connection']]],
+  ['user_5fis_5fstudent',['user_is_student',['../classct_1_1_connection.html#ac4cb6ac0736ba0bb974788170a07a2a5',1,'ct::Connection']]],
+  ['user_5fulg_5fid',['user_ulg_id',['../classct_1_1_connection.html#aa4e53b55981571c9a1176026c08fc206',1,'ct::Connection']]]
 ];
