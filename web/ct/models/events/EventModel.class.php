@@ -828,4 +828,34 @@ use \DateInterval;
 			return   $this->sql->delete("recurrence", "Id_Recurrence = ". $this->sql->quote($idRec));
 		}
 		
+		/**
+		 * @brief Set the event as favorite for the user
+		 * @param int $eventId
+		 * @param int $userId
+		 * @retval boolean
+		 */
+		public function addAsFavorite($eventId, $userId){
+			
+		}
+		
+		/**
+		 * @brief Remove the event of the favourite list
+		 * @param int $eventId
+		 * @param int $userId
+		 * @retval boolean
+		 */
+		public function removeAsFavorite($eventId, $userId){
+			
+		}
+		
+		/**
+		 * @brief edit all event include in the same recursive scheme
+		 * @param int $recurrence
+		 * @param int $data
+		 */
+		public function editRecursive($recurrence, $data){
+			
+		}
+		
+		
 	}
