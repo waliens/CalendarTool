@@ -22,6 +22,7 @@
     use ct\controllers\ajax\StudentProfileController;
     use ct\controllers\ajax\GetTeachingRolesController;
     use ct\controllers\ajax\StaticExportController;
+    use ct\controllers\ajax\GetGlobalEventsByStudentController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -66,11 +67,11 @@
                     return new ProfessorProfileController();
 
                 /* Global event related */
-                case "301": 
+                case "031": 
                     return new GetGlobalEventsByStudentController();
-                case "302":
+                case "032":
                     return new ViewGlobalEventController();
-                case "303":
+                case "033":
                     return new DeleteGlobalEventController();
 
                 /* Event related */

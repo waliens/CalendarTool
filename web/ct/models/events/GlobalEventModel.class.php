@@ -955,14 +955,16 @@
 
 			if($this->connection->user_is_student())
 			{
-				$query  =  "SELECT (cnt_sub + cnt_teach) AS cnt FROM  
-							( SELECT Id_Global_Event, COUNT(*) AS cnt_teach 
-							  FROM teaching_team_member 
-							  WHERE Id_Global_Event = ? AND Id_User = ? ) as teach 
-							NATURAL JOIN
-							( SELECT Id_Global_Event, COUNT(*) AS cnt_sub 
-							  FROM global_event_subscription 
-							  WHERE Id_Global_Event = ? AND Id_User = ? ) as sub;";
+				$query  =  "SELECT COUNT(what) AS cnt FROM  
+							(
+							    ( SELECT 'team_member' AS what
+							     FROM teaching_team_member 
+							     WHERE Id_Global_Event = ? AND Id_User = ? )
+							    UNION 
+							    ( SELECT 'student' AS what
+							     FROM global_event_subscription 
+							     WHERE Id_Global_Event = ? AND Id_Student = ? )
+							) as what;";
 
 				$result = $this->sql->execute_query($query, array($id_glob, $user_id, $id_glob, $user_id));
 
