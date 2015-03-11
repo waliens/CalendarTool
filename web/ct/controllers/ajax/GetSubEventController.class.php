@@ -21,11 +21,11 @@ use util\superglobals\Superglobal;
  * @brief Class for handling the control of event
  */
 
-class ViewEventController extends AjaxController
+class GetSubEventController extends AjaxController
 {
 
 
-	public function __construct($type)
+	public function __construct()
 	{
 		parent::__construct();
 

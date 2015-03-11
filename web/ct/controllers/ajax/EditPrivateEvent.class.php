@@ -15,7 +15,7 @@ use util\superglobals\Superglobal;
  * @class PrivateEventController
  * @brief Class for handling the create private event request
  */
-class PrivateEventController extends AjaxController
+class EditPrivateEventController extends AjaxController
 {
 	/**
 	 * @brief Construct the PrivateEventController object and process the request

@@ -7,7 +7,15 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\GetPrivateEventController;
+    use ct\controllers\ajax\EditPrivateEventController;
+
+				use ct\controllers\ajax\GetSubEventController;
+
+				use ct\controllers\ajax\DeleteFavController;
+
+				use ct\controllers\ajax\AddFavController;
+
+				use ct\controllers\ajax\GetPrivateEventController;
 
 				use ct\controllers\ajax\DeleteEventController;
 
@@ -77,8 +85,7 @@
                 case "022":
                     return new ProfessorProfileController();
 
-<<<<<<< HEAD
-                 /* Note related  */
+                 /* Event related  */
                 case "041":
                 	return new GetEventTypeController();
                 case "042":
@@ -86,10 +93,17 @@
                 case "043":
                 	return new AddNoteController(true);
                 case "044":
-                	return new DeleteController();                	
+                	return new DeleteController();
+                case "045":
+                	return new AddFavController();
+                case "046":
+                	return new DeleteFavController();
+                                	
                 /* Sub Event related */
                 case "051":
                 	return new ViewEventController("SUB");
+                case "052":
+                	return new GetSubEventController();
                 case "055":
                 	return new DeleteEventController("SUB");
                 /* Private Event related */
@@ -101,8 +115,9 @@
                 	return new DeleteEventController("PRIVATE");
                 case '064':
                 	return new ViewEventController("PRIVATE");
-=======
-                /* Global event related */
+                case "065":
+                	return new EditPrivateEventController();
+                	/* Global event related */
                 case "031": 
                     return new GetGlobalEventsByStudentController();
                 case "032":
@@ -137,8 +152,6 @@
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
-
->>>>>>> 274c94718919d0a38d35a799789d0496df103595
                 default:
                     return null;
             }

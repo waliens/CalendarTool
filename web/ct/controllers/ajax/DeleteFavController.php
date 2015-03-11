@@ -16,7 +16,7 @@ use util\superglobals\Superglobal;
  * @brief Class for handling the control of event
  */
 
-class AddFavController extends AjaxController
+class DeleteFavController extends AjaxController
 {
 
 
