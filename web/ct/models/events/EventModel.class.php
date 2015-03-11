@@ -835,7 +835,11 @@ use \DateInterval;
 		 * @retval boolean
 		 */
 		public function addAsFavorite($eventId, $userId){
+			if(!$this->event_exists($eventId, self::LOCKMODE_LOCK))
+				return false;
 			
+			return $this->sql->insert("favorite_event", array("Id_Student" => $this->sql->quote($userId),
+																"Id_Event" => $this->sql->quote($eventId)));
 		}
 		
 		/**
@@ -845,17 +849,12 @@ use \DateInterval;
 		 * @retval boolean
 		 */
 		public function removeAsFavorite($eventId, $userId){
-			
+			return  $this->sql->delete("favorite_event", "Id_Student =".$this->sql->quote($userId)
+																."AND Id_Event =". $this->sql->quote($eventId));
+		
 		}
 		
-		/**
-		 * @brief edit all event include in the same recursive scheme
-		 * @param int $recurrence
-		 * @param int $data
-		 */
-		public function editRecursive($recurrence, $data){
-			
-		}
+	
 		
 		
 	}

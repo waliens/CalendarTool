@@ -27,7 +27,7 @@ class SubEventModel extends AcademicEventModel{
 	
 	private function getIdGlobal($eventId){
 		$mod = new GlobalEventModel();
-		$idGlob = $this->getEvent(array("id_event" => $this->sql->quote($eventId), array("id_globalEvent"));
+		$idGlob = $this->getEvent(array("id_event" => $this->sql->quote($eventId), array("id_globalEvent")));
 		if(!empty($idGlob) && isset($idGlob[0]['Id_Global_Event'])){
 			return $idGlob[0]['Id_Global_Event'];
 		}
@@ -166,6 +166,20 @@ class SubEventModel extends AcademicEventModel{
 		return $this->sql->insert("sub_event_excluded_pathway", array("Id_Event" => $eventId, "Id_Pathway" => $pathwayId, "Id_Global_Event" => $idGlob));
 	}
 	
+	/**
+	 * @brief return an array containing the different id and name of the events where userId is part of the teaching team
+	 * @param unknown_type $userId
+	 */
+	public function getEventByTeamMember($userId) {
+		$mod = new UserModel();
+		if(!$mod->get_user($userId))
+			return false;
+		
+		$query = "SELECT Id_Event AS id, name FROM event NATURAL JOIN sub_event
+					NATURAL JOIN teaching_team_member WHERE ID_USER =".$userId." AND Id_Event NOT in 
+							(SELECT Id_Event FROM sub_event_excluded_team_member WHERE Id_User=".$userId.")";
+		return $this->sql->execute_query($query);
+	}
 	
 	
 
