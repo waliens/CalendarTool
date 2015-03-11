@@ -180,7 +180,8 @@
 		 */
 		public function get_output()
 		{
-			$output = array("data" => $this->output_data, "error" => $this->error_data);
+			$output = $this->output_data;
+			$output['error'] = $this->error_data;
 			return $this->array2json($output);
 		}
 

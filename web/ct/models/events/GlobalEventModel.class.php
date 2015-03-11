@@ -381,7 +381,7 @@
 			else
 				$lang_col = "Role_EN AS role";
 
-			$query  =  "SELECT Id_User AS user, Name AS name, Surname AS surname, role as `desc`
+			$query  =  "SELECT Id_User AS user, Name AS name, Surname AS surname, role 
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ? ) AS ttm
 						NATURAL JOIN 

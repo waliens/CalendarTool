@@ -17,6 +17,7 @@ spl_autoload_register("ct\autoload");
 
 
 //Event Model Test (assume there is an id_category = 1 
+
 $test = new EventModel();/*
 //Create
 echo "<br> Create <br>";
@@ -24,6 +25,7 @@ $data = array("place" => "montef", "name" => "Cours X", "description" => "lol \n
 $a = $test->createEvent($data);
 var_dump($a);*/
 /*
+
 //Updata
 echo "<br> Update <br>";
 $from = array("id_category" => 1);
@@ -95,6 +97,7 @@ var_dump($n);
 
 echo "<br> Select an annotation <br>";
 $j = $test->get_annotation(11, 1);
+
 var_dump($j);*/
 
 echo "<br> receurrence <br>";
@@ -103,3 +106,4 @@ $end = new DateTime("2015-03-04");
 $e = $test->createEventWithRecurrence($data, EventModel::REC_DAILY, $end);
 echo $test->get_error();
 var_dump($e);
+
