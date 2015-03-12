@@ -378,7 +378,7 @@
 	 * @note The transform array must be formatted as follows : its keys are the keys to keep from $array and they must map
 	 * the new key name or an empty string if the key name must not change
 	 */
-	function array_keys_transform(array &$array, $transform)
+	function array_keys_transform(array &$array, array $transform)
 	{
 		$out = array();
 		$transform_fn = function($val, $key) use (&$out, $transform)
