@@ -21,7 +21,7 @@
 			//     $("#body").text(details.requestBody);
 			// });
 
-			var request_id = "101", // put request id here
+			var request_id = "061", // put request id here
 				json_input = {"name":"Go shopping", "place":"The mall", "type":19, 
 							  "recurrence":0, "end-recurrence":"", 
 							  "details":"Shopping avec Annie", 
@@ -33,7 +33,7 @@
 			$.ajax({
 				dataType : "json",
 				type : 'POST',
-				url : ("http://localhost/ct/index.php?src=ajax&req=" + request_id),
+				url : ("http://localhost/git/calendartool/web/index.php?src=ajax&req=" + request_id),
 				data:json_input,
 				success : function(data, status) {
 					$("#output").text(JSON.stringify(data));

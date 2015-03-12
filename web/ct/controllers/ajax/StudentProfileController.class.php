@@ -42,10 +42,10 @@
 			$mandatory = $glob_mod->get_global_events(GlobalEventModel::GET_BY_STUDENT_NO_OPT, $user_id);
 			$optional = $glob_mod->get_global_events_optionnal();
 
-			$trans_mandatory = array("id" => "", "name_long" => "lib_cours_complet");
+			$trans_mandatory = array("id" => "", "ulg_id" => "code", "name_long" => "lib_cours_complet");
 			$mandatory = \ct\darray_transform($mandatory, $trans_mandatory);
 
-			$trans_optionnal = array("id" => "", "name_long" => "lib_cours_complet", "selected" => "");
+			$trans_optionnal = array("id" => "", "ulg_id" => "code", "name_long" => "lib_cours_complet", "selected" => "");
 			$optional = \ct\darray_transform($optional, $trans_optionnal);
 
 			// get and format pathway

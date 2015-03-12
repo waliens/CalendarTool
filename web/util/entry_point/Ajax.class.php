@@ -9,21 +9,21 @@
     
     use ct\controllers\ajax\EditPrivateEventController;
 
-				use ct\controllers\ajax\GetSubEventController;
+	use ct\controllers\ajax\GetSubEventController;
 
-				use ct\controllers\ajax\DeleteFavController;
+	use ct\controllers\ajax\DeleteFavController;
 
-				use ct\controllers\ajax\AddFavController;
+	use ct\controllers\ajax\AddFavController;
 
-				use ct\controllers\ajax\GetPrivateEventController;
+	use ct\controllers\ajax\GetPrivateEventController;
 
-				use ct\controllers\ajax\DeleteEventController;
+	use ct\controllers\ajax\DeleteEventController;
 
-				use ct\controllers\ajax\ViewEventController;
+	use ct\controllers\ajax\ViewEventController;
 
-				use ct\controllers\ajax\GetEventTypeController;
+	use ct\controllers\ajax\GetEventTypeController;
 
-				use ct\controllers\ajax\DeleteController;
+	use ct\controllers\ajax\DeleteController;
 	use ct\controllers\ajax\AddNoteController;
 	use ct\controllers\ajax\AddNote;
 	use ct\controllers\ajax\TestController;
@@ -42,6 +42,8 @@
     use ct\controllers\ajax\GetTeachingRolesController;
     use ct\controllers\ajax\StaticExportController;
     use ct\controllers\ajax\GetGlobalEventsByStudentController;
+    use ct\controllers\ajax\GetProfessorAvailableCoursesController;
+    use ct\controllers\ajax\CreateGlobalEventController;
     
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -124,6 +126,10 @@
                     return new ViewGlobalEventController();
                 case "033":
                     return new DeleteGlobalEventController();
+                case "035":
+                    return new CreateGlobalEventController();
+                case "036":
+                    return new GetProfessorAvailableCoursesController();
 
                 /* Event related */
                 case "061":

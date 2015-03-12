@@ -68,7 +68,7 @@
 		 * @param[in] int    $acad_year The academic year for which the course must be created (optional, default: current acad year)
 		 * @param[in] string $lang      The language in which the course must be created (one of the class 
 		 * LANG_* constant) (optional, default: LANG_FR)
-		 * @retval bool True on success, false on error
+		 * @retval int The global event id if the addition worked, 0 otherwise
 		 */
 		public function create_global_event($course_id, $user_id = null, $acad_year=null, $lang=null)
 		{
@@ -77,11 +77,25 @@
 			if($lang == null) $lang = self::LANG_FR;
 
 			if(!checkdate(1, 1, $acad_year)) // check whether the year is valid
-				return false;
+				return 0;
 
 			$success = true;
 
 			$this->sql->transaction();
+
+			// check whether the professor/user can create the course
+			$query  =  "SELECT COUNT(*) AS cnt
+						FROM ulg_course_team_member 
+						WHERE Id_ULg_Fac_Staff = ( SELECT Id_ULg FROM user WHERE Id_User = ? ) 
+							AND Id_Course = ?;";
+
+			$creation_right_check = $this->sql->execute_query($query, array($user_id, $course_id));
+
+			if(empty($creation_right_check) || $creation_right_check[0]['cnt'] < 1)
+			{
+				$this->sql->rollback();
+				return 0;
+			}
 
 			// transfer course ulg data
 			$query  =  "INSERT INTO global_event(ULg_Identifier, Name_Short, Name_Long, 
@@ -99,7 +113,7 @@
 			if(!$success || $glob_event_id === 0) 
 			{			
 				$this->sql->rollback();
-				return false;
+				return 0;
 			}
 
 			// update the pathways table in case if the pathways are not stored in it yet
@@ -123,7 +137,7 @@
 			if(!$success)
 			{
 				$this->sql->rollback();
-				return false;
+				return 0;
 			}
 
 			// only add the pathways of the ulg student that have the added course
@@ -143,7 +157,7 @@
 			if(!$success)
 			{
 				$this->sql->rollback();
-				return false;				
+				return 0;				
 			}
 
 			// add to the event the student that are registered on the calendar tool and 
@@ -160,7 +174,7 @@
 			if(!$success)
 			{
 				$this->sql->rollback();
-				return false;				
+				return 0;				
 			}
 
 			// add the creator as professor for this global event
@@ -175,7 +189,7 @@
 			else
 				$this->sql->rollback();
 
-			return $success;
+			return $success ? $glob_event_id : 0;
 		}
 
 		/**
@@ -367,7 +381,7 @@
 			else
 				$lang_col = "Role_EN AS role";
 
-			$query  =  "SELECT Id_User AS user, Name AS name, Surname AS surname, role as `desc`
+			$query  =  "SELECT Id_User AS user, Name AS name, Surname AS surname, role 
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ? ) AS ttm
 						NATURAL JOIN 
@@ -1056,5 +1070,28 @@
 	
 			$params = array($start_acad_year, $user_id, $start_acad_year, $user_id, $start_acad_year, $user_id);
 			return $this->sql->execute_query($query, $params);
+		}
+
+		/**
+		 * @brief Return the list of courses that a given professor can still create for the given academic year
+		 * @param[in] int $acad_year The year starting the academic year (optionnal, default: current one)
+ 		 * @param[in] int $user_id   The user id (optionnal, default: the currently connected user)
+ 		 * @retval array An array containing the courses' id and names (short and long) (row keys : Id_Course, Name_Short, Name_Long)
+		 */
+		public function get_available_global_events($acad_year=null, $user_id=null)
+		{
+			if($acad_year == null) $acad_year = \ct\get_academic_year();
+			if($user_id == null) $user_id = $this->connection->user_id();
+
+			$query  =  "SELECT Id_Course, Name_Long, Name_Short 
+						FROM ulg_course NATURAL JOIN
+						( SELECT Id_Course FROM ulg_course_team_member 
+						  WHERE Id_ULg_Fac_Staff = ( SELECT Id_ULg FROM user WHERE Id_User = ? ) ) AS fac_staff_courses
+						WHERE Id_Course NOT IN
+							( SELECT ULg_Identifier 
+							  FROM global_event
+							  WHERE Acad_Start_Year = ? );";
+
+			return $this->sql->execute_query($query, array($user_id, $acad_year));
 		}
 	}

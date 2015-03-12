@@ -1,5 +1,4 @@
 <?php
-<?php
 
 /**
  * @file
@@ -38,7 +37,7 @@ class DeletePrivateEventController extends AjaxController
 
 		$verif = $model->getEvent(array("id_event" => $eventId), array("id_owner", "id_recurrence"));
 
-		if(!isset($verif[0]['Id_Owner'] || intval($verif[0]['Id_Owner']) != intval($id)){
+		if(!isset($verif[0]['Id_Owner']) || intval($verif[0]['Id_Owner']) != intval($id)){
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);
 		}
 		else{

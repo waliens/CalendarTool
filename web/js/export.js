@@ -3,21 +3,22 @@
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#menu_nav").addClass("active");
-
+//datepickers
+var startDate;
+var endDate;
+//filters for export
 var filters = {
           	allEvents: {isSet: 'false'},
 			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
-			sessions: {isSet: 'false', id:[]},
+			pathways: {isSet: 'false', id:[]},
 			professors:	{isSet: 'false', id:[]}
           };
  
 $(document).ready(function(){
-	//bind alert popup to filters submission button
-	$("#dynamic_export").popover();
-	//bind alert popup to ok button of each filter pane
-	$("#filter_alert .btn-primary").popover();
+	//set moment locale to french
+	moment.locale('fr');
 	}); 
  
   
@@ -33,15 +34,17 @@ $('#filter_alert').on('show.bs.modal', function (event) {
   //populate the alert with the available filters
   else{
 	  var trigger=checkbox.prop("id");
-	  $("#filter_alert .btn-primary").attr("id",trigger);
+	  $("#filter_alert .btn-primary").attr("id",trigger+"_btn");
 	  $('#filter_alert .close').attr("id","close_"+trigger);
 	  //populate the filter alert based on the triggered filter
 	  switch (trigger) {
 		  	case "date_filter":
+				//enable ok button
+				$("#date_filter_btn").attr("disabled",false);
 				$(this).find('.modal-title').text("Filtrer par date");
 				//build the datepicker elements
-				$(this).find('.modal-body').html("<p><input id='startDate' onclick='setSens('endDate', 'max');' readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDate' onclick='setSens('startDate', 'min');' readonly='true'><label class='common_text margin-left-10'>de</label></p>");
-				buildCalendar();
+				$(this).find('.modal-body').html("<p><input id='startDate' onclick=\"setSens(\'endDate\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDate' onclick=\"setSens(\'startDate\',\'max\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
+				buildDatepicker();
 				break;
 			case "course_filter":
 				$(this).find('.modal-title').text("Filtrer par cours");
@@ -49,7 +52,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/student-courses.json",
+						//url : "json/student-courses.json",
+						url : "index.php?src=ajax&req=031", 
 						async : true,
 						success : function(data, status) {
 							var courses=data.courses;
@@ -82,6 +86,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						dataType : "json",
 						type : 'GET',
 						url : "json/events_type.json",
+						//url : "index.php?src=ajax&req=041",
 						async : true,
 						success : function(data, status) {
 							var types=data.types;
@@ -106,31 +111,32 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						}
 					});
 				break;
-			case "session_filter":
-				$(this).find('.modal-title').text("Filtrer par session");
-				//get sessions
+			case "pathway_filter":
+				$(this).find('.modal-title').text("Filtrer par pathway");
+				//get pathways
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/sessions.json",
+						//url : "json/pathways.json",
+						url : "index.php?src=ajax&req=111",
 						async : true,
 						success : function(data, status) {
-							var sessions=data.sessions;
+							var pathways=data.pathways;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
 							var table=document.createElement("table");
 							table.className="table";
-							table.id="sessions_filter_table";
+							table.id="pathways_filter_table";
 							var row=table.insertRow(-1);
 							row.className="text-bold";
 							var cell1=row.insertCell(0);
 							var cell2=row.insertCell(1);
-							cell1.innerHTML="Session";
+							cell1.innerHTML="Pathway";
 							cell2.innerHTML="Choisir";
 							cell2.className="text-center"
 							filter_alert.append(table);
-							for (var i = 0; i < sessions.length; i++)
-								addSession(sessions[i]);
+							for (var i = 0; i < pathways.length; i++)
+								addPathway(pathways[i]);
 						},
 						error : function(data, status, errors) {
 							// Inserire un messagio di errore
@@ -139,11 +145,12 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				break;
 			case "professor_filter":
 				$(this).find('.modal-title').text("Filtrer par professeur");
-				//get sessions
+				//get professors
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/all_professors.json",
+						//url : "json/all_professors.json",
+						url : "index.php?src=ajax&req=021",
 						async : true,
 						success : function(data, status) {
 							var professors=data.professors;
@@ -194,8 +201,7 @@ $("#all_events_filter").click(function(){
 	})
 
 //builds the element datepicker in the alert called by the date range filter
-function buildCalendar() {
-	var myCalendar;
+function buildDatepicker() {
 	//build current date
 	var today = new Date();
 	var dd = today.getDate();
@@ -211,21 +217,32 @@ function buildCalendar() {
 	} 
 	
 	today = yyyy+'-'+mm+'-'+dd;
-	myCalendar = new dhtmlXCalendarObject(["startDate","endDate"]);
-	myCalendar.setDate(today);
-	myCalendar.hideTime();
-	// init values
-	var t = new Date();
-	byId("startDate").value = today;
-	byId("endDate").value = today;
+	today = moment(today);
+	startDate = new dhtmlXCalendarObject("startDate");
+	endDate = new dhtmlXCalendarObject("endDate");
+	startDate.setDate(today.format("YYYY-MM-DD"));
+	endDate.setDate(today.add(1,"day").format("YYYY-MM-DD"));
+	startDate.hideTime();
+	endDate.hideTime();
+	byId("startDate").value = today.format("dddd DD MM YYYY");
+	byId("endDate").value = today.add(1,"day").format("dddd DD MM YYYY");
+	startDate.setSensitiveRange(null,moment($("#endDate").val()).format("YYYY-MM-DD"));
+	endDate.setSensitiveRange(moment($("#startDate").val()).format("YYYY-MM-DD"),null);
+	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
+	startDate.attachEvent("onClick", function(date){
+		$("#startDate").val(convert_date($("#startDate").val(),"dddd DD MMM YYYY"));
+	});
+	endDate.attachEvent("onClick", function(date){
+		$("#endDate").val(convert_date($("#endDate").val(),"dddd DD MMM YYYY"));
+	});
 }
 
 function setSens(id, k) {
 	// update range
 	if (k == "min") {
-		myCalendar.setSensitiveRange(byId(id).value, null);
+		endDate.setSensitiveRange(moment(byId(id).value).format("YYYY-MM-DD"), null);
 	} else {
-		myCalendar.setSensitiveRange(null, byId(id).value);
+		startDate.setSensitiveRange(null, moment(byId(id).value).format("YYYY-MM-DD"));
 	}
 }
 function byId(id) {
@@ -242,10 +259,10 @@ function addCourse(course){
 	var cell2=row.insertCell(1);
 	cell1.appendChild(course_tag);
 	cell2.className="margin-left-10";
-	cell2.innerHTML=course.lib_cours_complet
+	cell2.innerHTML=course.name;
 	var input=document.createElement('input');
 	input.type='checkbox';
-	input.id=course.code;
+	input.id=course.id;
 	var cell3=row.insertCell(2);
 	cell3.className="text-center";
 	cell3.appendChild(input);
@@ -267,18 +284,18 @@ function addType(type){
 	cell2.appendChild(input);
 	}
 	
-//add the session to the list in the filter alert
-function addSession(session){
-    var session_tag=document.createElement('p');
-	session_tag.innerHTML = session.name;
-	var table=document.getElementById("sessions_filter_table");
+//add the pathway to the list in the filter alert
+function addPathway(pathway){
+    var pathway_tag=document.createElement('p');
+	pathway_tag.innerHTML = pathway.name;
+	var table=document.getElementById("pathways_filter_table");
 	var row=table.insertRow(-1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
-	cell1.appendChild(session_tag);
+	cell1.appendChild(pathway_tag);
 	var input=document.createElement('input');
 	input.type='checkbox';
-	input.id=session.id;
+	input.id=pathway.id;
 	cell2.className="text-center";
 	cell2.appendChild(input);
 	}
@@ -286,7 +303,7 @@ function addSession(session){
 //add the professor to the list in the filter alert
 function addProfessor(professor){
     var professor_tag=document.createElement('p');
-	professor_tag.innerHTML = professor.name;
+	professor_tag.innerHTML = professor.surname+" "+professor.name;
 	var table=document.getElementById("professors_filter_table");
 	var row=table.insertRow(-1);
 	var cell1=row.insertCell(0);
@@ -321,11 +338,11 @@ function setFilter(filter){
 				filters.eventTypes.id.push(this.id);
 				});
 			break;
-		case "session_filter":
-			filters.sessions.isSet="true";
-				var selectedSessions=$("#filter_alert input:checked");
-				selectedSessions.each(function (){
-					filters.sessions.id.push(this.id);
+		case "pathway_filter":
+			filters.pathways.isSet="true";
+				var selectedPathways=$("#filter_alert input:checked");
+				selectedPathways.each(function (){
+					filters.pathways.id.push(this.id);
 					});
 			break;
 		case "professor_filter":
@@ -355,10 +372,10 @@ function unSetFilter(filter){
 			//empty the array of ids'
 			filters.eventTypes.id.length=0;
 		break;
-		case "session_filter":
-			filters.sessions.isSet="false";
+		case "pathway_filter":
+			filters.pathways.isSet="false";
 			//empty the array of ids'
-			filters.sessions.id.length=0;
+			filters.pathways.id.length=0;
 		break;
 		case "professor_filter":
 			filters.professors.isSet="false";
@@ -369,54 +386,78 @@ function unSetFilter(filter){
 	}
 
 	
-//prevent modal from hiding if the ok button is pressed and no input box has been selected
+//set global var filters when a filter is selected
 $("#filter_alert .btn-primary").click(function(){
-	$('.modal').on('hide.bs.modal', function (event) {
-				var filter=$('#filter_alert .btn-primary').attr("id");
-				//we make sure the form has at least an input field
-				if($("#filter_alert input:checkbox").length!=0){
-					var selectedCourses=$("#filter_alert input:checked");
-					//make sure there's at least one box checked otherwise show an error and prevent the alert from closing
-					if(selectedCourses.length==0)
-						return event.preventDefault() // stops modal from closing	
-					else {
-						setFilter(filter);
-						$('#filter_alert .btn-primary').popover("destroy");}	
-				}
-				else setFilter(filter);
-		});
+		var filter=$('#filter_alert .btn-primary').attr("id").replace("_btn","");
+		setFilter(filter);
 });
 
 //call the unSetFilter when the close button is clicked
 $("#filter_alert .close").click(function(){
-		var filter=$('#filter_alert .btn-primary').attr("id");
+		var filter=$('#filter_alert .btn-primary').attr("id").replace("_btn","");
 		unSetFilter(filter);
+		$("#filter_alert").modal("hide");
+		//eventually disable the form submission button if no other filter is set
+		if($("input:checked").length==0)
+			$("#static_export").attr("disabled",true);
 });
 
+$("input").click(function(){
+	//enable the send form button only when at least one filter is selected
+	if($("input:checked").length>0)
+		$("#static_export").attr("disabled",false);
+	else $("#static_export").attr("disabled",true);
+	});
+
 //send data to server after filters comple
-$("#dynamic_export").click(function(){
-	//check that at least a choice has been made
-	if($("#filters input:checked").length==0){
-		$("#dynamic_export").data("title","Erreur");
-		$("#dynamic_export").data("content","Sélectionner au moins une option");
-		$("#dynamic_export").popover("show");
-	}
-	//send data to server
-	else{
-		//UNCOMMENT FOLLOWING LINE FOR TESTING WITHOUT SERVER
-		//$("#dynamic_export_download_alert").modal("show");
-		$.ajax({
-						dataType : "json",
-						type : 'POST',
-						url : "dynamic_export.html",
-						data : filters,
-						success : function(data, status) {
-							$("#dynamic_export_download_alert").modal("show");
-							$("#dynamic_export_file").attr("href",data.url);
-						},
-						error : function(data, status, errors) {
-							// Inserire un messagio di errore
-						}
-					});
+$("#static_export").click(function(){
+	//UNCOMMENT FOLLOWING LINE FOR TESTING WITHOUT SERVER
+	//$("#dynamic_export_download_alert").modal("show");
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=091",
+			data : filters,
+			success : function(data, status) {
+				$("#dynamic_export_download_alert").modal("show");
+				$("#dynamic_export_file").attr("href",data.url);
+			},
+			error : function(data, status, errors) {
+				// Inserire un messagio di errore
+			}
+		});
+});
+
+
+//converts date formats	
+function convert_date(date,formatDestination,formatOrigin){
+		var dd;
+		var mm;
+		var yy;
+		chunks=date.split("-");
+		if(chunks.length>1){
+			dd=chunks[2];
+			mm=chunks[1];
+			yy=chunks[0];
+			date_standard=yy+"-"+mm+"-"+dd;
+			var d = moment(date_standard); 
+			return d.format(formatDestination);
 		}
+		else return date;
+	}
+	
+//enable filter ok button when at least one checkbox is selected
+$("#filter_alert").on("click", $("#filter_alert input"),function(){
+	//we make sure we are not in the date filter
+		if($("#date_filter_btn").length==0){
+			var checked=$("#filter_alert input:checked");
+			if(checked.length>0)
+				$("#filter_alert .btn-primary").attr("disabled",false);
+			else $("#filter_alert .btn-primary").attr("disabled",true);
+		}
+	})
+	
+$("#filter_alert").on('hidden.bs.modal', function (e) {
+	if($("#date_filter_btn").length==0)
+		$("#filter_alert .btn-primary").attr("disabled",true);
 });

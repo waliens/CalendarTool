@@ -3,6 +3,7 @@
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#profile_nav").addClass("active");
+var subevent;
 
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
@@ -10,19 +11,19 @@ $(document).ready(function() {
 		dataType : "json",
 		type : 'GET',
 		url : "json/professor-profile.json",
-		//url: "index.php&src='ajax'&req=8",
+		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var courses=data.courses;
+			var indep_events=data.indep_events
 			//populate the user profile info
 			document.getElementById("user-name").innerHTML=first_name+" "+last_name;
 			//populate the global courses and independent events tables
-			for (var i = 0; i < courses.length; i++){
-				if(courses[i].global=="true")
+			for (var i = 0; i < courses.length; i++)
 					addGlobalEvent(courses[i]);
-				else addIndependentEvent(courses[i]);
-			}
+			for (var i=0; i<indep_events.length; i++)
+				addIndependentEvent(indep_events[i]);
 		},
 		error : function(data, status, errors) {
 			// Inserire un messagio di errore
@@ -41,29 +42,23 @@ function addGlobalEvent(course){
 	course_id.setAttribute("data-target","#event_info");
 	course_id.setAttribute("event-name",course.lib_cours_complet);
 	var delete_icon=document.createElement('a');
-	var edit_icon=document.createElement('a');
-	edit_icon.className="edit";
 	delete_icon.className="delete";
 	//link the delete icon to the delete alert
 	delete_icon.setAttribute("data-toggle","modal");
 	delete_icon.setAttribute("data-target","#delete_global_event_alert");
-	delete_icon.setAttribute("course-id",course.code);
+	delete_icon.setAttribute("course-code",course.code);
+	delete_icon.setAttribute("course-id",course.id);
 	delete_icon.setAttribute("course-name",course.lib_cours_complet);
-	var div_container1=document.createElement("div");
-	div_container1.className="text-center";
 	var div_container2=document.createElement("div");
 	div_container2.className="text-center";
-	div_container1.appendChild(edit_icon);
 	div_container2.appendChild(delete_icon);
-	var row=global_events.insertRow(-1);
+	var row=global_events.insertRow(1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
 	var cell3=row.insertCell(2);
-	var cell4=row.insertCell(3);
 	cell1.appendChild(course_id);
 	cell2.innerHTML=course.lib_cours_complet;
-	cell3.appendChild(div_container1);
-	cell4.appendChild(div_container2);
+	cell3.appendChild(div_container2);
 	}
 
 //populate independent events table
@@ -72,10 +67,11 @@ function addIndependentEvent(indep_event){
     var event_name=document.createElement('a');
 	//link the event link to the event info pane
 	event_name.setAttribute("data-toggle","modal");
-	event_name.setAttribute("data-target","#event_info");
-	event_name.setAttribute("id",indep_event.code);
+	event_name.setAttribute("data-target","#subevent_info");
+	event_name.setAttribute("id",indep_event.id);
 	event_name.setAttribute("event-name",indep_event.lib_cours_complet);
 	event_name.innerHTML = indep_event.lib_cours_complet;
+	event_name.onclick=function(e){subevent=e.target}
 	var delete_icon=document.createElement('a');
 	var edit_icon=document.createElement('a');
 	edit_icon.className="edit";
@@ -83,7 +79,8 @@ function addIndependentEvent(indep_event){
 	//link the delete icon to the delete alert
 	delete_icon.setAttribute("data-toggle","modal");
 	delete_icon.setAttribute("data-target","#delete_indep_event_alert");
-	delete_icon.setAttribute("course-id",indep_event.code);
+	delete_icon.setAttribute("course-code",indep_event.code);
+	delete_icon.setAttribute("course-id",indep_event.id);
 	delete_icon.setAttribute("course-name",indep_event.lib_cours_complet);
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
@@ -91,7 +88,7 @@ function addIndependentEvent(indep_event){
 	div_container2.className="text-center";
 	div_container1.appendChild(edit_icon);
 	div_container2.appendChild(delete_icon);
-	var row=all_indep_events.insertRow(-1);
+	var row=all_indep_events.insertRow(1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
 	var cell3=row.insertCell(2);
@@ -104,104 +101,224 @@ function addIndependentEvent(indep_event){
 $('#delete_global_event_alert').on('show.bs.modal', function (event) {
 	var event = $(event.relatedTarget);
 	$("span[name=global_course_deleted]").text(event.attr("course-name"));
-	$("#delete_confirm").attr("event-id",event.prop("id"));
+	$("#global_event_delete_confirm").attr("event-id",event.attr("course-id"));
 });
 
 //populate delete independent event alert
 $('#delete_indep_event_alert').on('show.bs.modal', function (event) {
 	var event = $(event.relatedTarget);
 	$("span[name=indep_event_deleted]").text(event.attr("course-name"));
-	$("#delete_confirm").attr("event-id",event.prop("id"));
+	$("#indep_event_delete_confirm").attr("event-id",event.attr("course-id"));
 });
 
-//display event info on click
-$('#event_info').on('show.bs.modal', function (event) {
-	var target = $(event.relatedTarget);
-	$("#event-title").text(target.attr("event-name"));
-	//get event info from server
+//confirm global event deletion
+$("#delete_global_event_alert").on("click",".btn-primary",function(event){
+	$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
+	var event_id=event.currentTarget.getAttribute("event-id");
+	//send deletion confirmation to server
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=o33",
+			data : event_id,
+			success : function(data, status) {
+				// Inserire messaggio di successo
+			},
+			error : function(xhr, status, error) {
+					  var err = eval("(" + xhr.responseText + ")");
+					  alert(err.Message);
+					}
+		});
+	
+	})
+
+//populate event info when modal appears
+$("#event_info").on("show.bs.modal",function(event){
+	var event_id=event.relatedTarget.getAttribute('event-id');
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/globalevent-info.json",
-		//url: "professor-profile.html&src='ajax'&req=9&id=target.id",
+		//url : "json/globalevent-info.json",
+		url : "index.php?src=ajax&req=032&event=2",// + event_id,
 		success : function(data, status) {
-			//store the info retrieved from the server in ad hoc vars
-			var eventId=data.id;
-			var eventName=data.name;
-			var eventDescription=data.description;
-			var eventLanguage=data.language;
-			var eventWork=data.work;
-			var eventStart=data.start;
-			var eventEnd=data.end;
-			var eventPathway=data.pathway;
+			var global_event_id=data.id;
+			var global_event_id_ulg=data.id_ulg;
+			var global_event_name=data.name;
+			var global_event_name_short=data.name_short
+			var global_event_description=data.description;
+			var global_event_feedback=data.feedback;
+			var global_event_period=data.period;
+			var global_event_lang=data.language;
+			var global_event_acad_year=data.acad_year;
+			var global_event_work_th=data.workload.th;
+			var global_event_work_pr=data.workload.pr;
+			var global_event_work_au=data.workload.au;
+			var global_event_work_st=data.workload.st;
+			var pathways=data.pathways;
 			var subevents=data.subevents;
 			var team=data.team;
-			//populate global event info
-			$("#event-title").text(eventName);
-			$("#event-details").text(eventDescription);
-			$("#event-lang").text(eventLanguage);
-			$("#event-work").text(eventWork);
-			$("#event-period").text(eventStart+" - "+eventEnd);
-			var table=document.createElement("table");
-			for(var i=0;i<eventPathway.length;i++){
-				var row=table.insertRow(-1);
-				var cell1=row.insertCell(0);
-				cell1.innerHTML=eventPathway[i].name;
-				}
-			$("#event-pathway").html(table);
-			//populate subevents info
-			var subeventsTable=document.createElement("table");
-			subeventsTable.className="table";
-			var row=subeventsTable.insertRow(-1);
-			row.className="text-bold";
-			var cell0=row.insertCell(0);
-			var cell00=row.insertCell(1);
-			cell0.innerHTML="Code";
-			cell00.innerHTML="Nom";
-			for(var i=0;i<subevents.length;i++){
-				var row=subeventsTable.insertRow(-1);
-				var cell1=row.insertCell(0);
-				var cell2=row.insertCell(1);
-				var subevent_tag=document.createElement('a');
-				subevent_tag.innerHTML = subevents[i].code;
-				subevent_tag.setAttribute("subevent-id",subevents[i].code);
-				//link the event link to the event info pane
-				subevent_tag.setAttribute("data-toggle","modal");
-				subevent_tag.setAttribute("data-target","#subevent_panel");
-				cell1.appendChild(subevent_tag);
-				cell2.innerHTML=subevents[i].lib_cours_complet;
-				}
-			$("#subevents_info").html(subeventsTable);
-			//populate team info
-			var teamTable=document.createElement("table");
-			teamTable.className="table";
-			for(var i=0;i<team.length;i++){
-				var row=teamTable.insertRow(-1);
-				var cell1=row.insertCell(0);
-				cell1.innerHTML=team[i].name;
-				cell1.setAttribute("team-id",team[i].id)
-				}
-			$("#event_team").html(teamTable);
+			//populate alert with global event data
+			$("#event-title").text(global_event_id_ulg+"\t"+global_event_name_short);
+			$("#event-details").text(global_event_description);
+			$("#event-feedback").text(global_event_feedback);
+			$("#event-lang").text(global_event_lang);
+			$("#event-period").text(global_event_period);
+			$("#event-work").text("");
+			if(global_event_work_th!="")
+				$("#event-work").append(global_event_work_th+"h Th. ");
+			if(global_event_work_pr!="")
+				$("#event-work").append(global_event_work_pr+"h Proj. ");
+			if(global_event_work_au!="")
+				$("#event-work").append(global_event_work_au+"h Au. ");
+			if(global_event_work_st!="")
+				$("#event-work").append(global_event_work_st+"h St.");
+			var pathways_table=document.createElement("table");
+			pathways_table.id="pathways_table";
+			$("#event-pathway").html(pathways_table);
+			for(var i=0;i<pathways.length;i++)
+				addPathway(pathways[i]);
+			var subevents_table=document.createElement("table");
+			subevents_table.className="table";
+			subevents_table.id="subevents_table";
+			$("#subevents_info").html(subevents_table);
+			for(var i=0;i<subevents.length;i++)
+				addSubevent(subevents[i]);
+			var team_table=document.createElement("table");
+			team_table.className="table";
+			team_table.id="team_table";
+			$("#event_team").html(team_table);	
+			for(var i=0;i<team.length;i++)
+				addTeamMember(team[i]);
 		},
-		error : function(data, status, errors) {
-			// Inserire un messagio di errore
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
 		}
 	});
-	});
+	})
+
+function addPathway(pathway){
+	table=$("#pathways_table");
+	var row=document.createElement("tr");
+	var cell=document.createElement("td");
+	cell.innerHTML=pathway.name;
+	row.appendChild(cell);
+	table.append(row);
+	}
 	
+function addSubevent(item){
+	table=$("#subevents_table");
+	var row=document.createElement("tr");
+	var cell=document.createElement("td");
+	var a=document.createElement("a");
+	a.setAttribute("data-dismiss","modal");
+	a.setAttribute("data-target","#subevent_info");
+	a.setAttribute("data-toggle","modal");
+	a.innerHTML=item.name;
+	a.id=item.id;
+	a.onclick=function(e){showSubeventModal=true; subevent=e.target}
+	cell.appendChild(a);
+	row.appendChild(cell);
+	table.append(row);
+	}
 	
-/*var event_id=data.id;
-			var event_name=data.name;
-			var event_description=data.description;
-			var event_place=data.place;
-			var event_type=data.type;
-			var start_day=data.startDay;
-			var end_day=data.endDay;
-			var start_time=data.startTime;
-			var end_time=data.endTime;
+function addTeamMember(member){
+	table=$("#team_table");
+	var row=document.createElement("tr");
+	var cell1=document.createElement("td");
+	cell1.innerHTML=member.name+" "+member.surname;
+	cell1.id=member.id;
+	row.appendChild(cell1);
+	var cell2=document.createElement("td");
+	cell2.innerHTML=member.role;
+	row.appendChild(cell2);
+	table.append(row);
+	}
+
+//displays info of subevents and independent events
+$("#subevent_info").on("show.bs.modal",function(){
+	//get subevent info
+	var subevent_id=subevent.getAttribute('id');
+	$.ajax({
+		dataType : "json",
+		type : 'GET',
+		//url : "json/subevent-info.json",
+		url : "index.php?src=ajax&req=051&event=" + subevent_id,
+		success : function(data, status) {
+			var subevent_id=data.id;
+			var subevent_title=data.name;
+			var subevent_description=data.description;
+			var subevent_place=data.place;
+			var subevent_type=data.type;
+			var subevent_start=moment(data.startDay);
+			if(data.startTime!=""){
+				var chunks=data.startTime.split(":");
+				subevent_start.set("hour",chunks[0]);
+				subevent_start.set("minute",chunks[1]);
+				$("#subevent_startDate").text(subevent_start.format("dddd, MMMM Do YYYY, h:mm a"));
+			}
+			else $("#subevent_startDate").text(subevent_start.format("dddd, MMMM Do YYYY"));
+			var subevent_end;
+			if(data.endDay!=""){
+				$("#subevent_endDate").parent().removeClass("hidden");
+				$("#subevent_startDate").prev().removeClass("hidden");
+				subevent_end=moment(data.endDay);
+				if(data.endTime!=""){
+					var chunks=data.endTime.split(":");
+					subevent_end.set("hour",chunks[0]);
+					subevent_end.set("minute",chunks[1]);
+					$("#subevent_endDate").text(subevent_end.format("dddd, MMMM Do YYYY, h:mm a"));
+				}
+				else $("#subevent_endDate").text(subevent_end.format("dddd, MMMM Do YYYY"));
+			}
+			else {
+				$("#subevent_endDate").parent().addClass("hidden");
+				$("#subevent_startDate").prev().addClass("hidden");
+			}
 			var deadline=data.deadline;
 			var category_id=data.category_id;
 			var category_name=data.category_name;
-			var recurrence=data.recurrence;
-			var annotation=data.annotation;
-			var favourite=data.favourite;*/
+			var recurrence=get_recursion(data.recurrence);
+			$("#recurrence").text(recurrence);
+			if(recurrence=="jamais"){
+				$("#start-recurrence").parent().addClass("hidden");
+				$("#end-recurrence").parent().addClass("hidden");
+			}
+			else{
+				$("#start-recurrence").parent().removeClass("hidden");
+				$("#end-recurrence").parent().removeClass("hidden");
+				var start_recurrence=moment(data.start_recurrence);
+				var end_recurrence=moment(data.end_recurrence);
+				$("#start-recurrence").text(start_recurrence.format("dddd, MMMM Do YYYY"));
+				$("#end-recurrence").text(end_recurrence.format("dddd, MMMM Do YYYY"));
+				}
+			var favourite=data.favourite;
+			//populate alert with global event data
+			$("#subevent-title").text(subevent_title);
+			$("#subevent-details").text(subevent_description);
+			$("#subevent-category").text(category_name);
+			$("#subevent-place").text(subevent_place);
+		},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+})
+
+function get_recursion(recursion_id){
+	switch(recursion_id){
+		case "1":
+			return "jamais";
+		case "2":
+			return "tous les jours";
+		case "3":
+			return "toutes les semaines";
+		case "4":
+			return "toutes les deux semaines";
+		case "5":
+			return "tous les mois";
+		case "6":
+			return "tous les ans"
+		}
+	}

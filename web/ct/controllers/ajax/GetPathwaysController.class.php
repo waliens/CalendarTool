@@ -30,6 +30,6 @@
 			$pathways = $path_mod->get_pathways();
 			$pathways = \ct\darray_transform($pathways, array("Id_Pathway" => "id", "Name_Short" => "name"));
 
-			$this->add_output_data("sections", $pathways);
+			$this->add_output_data("pathways", $pathways);
 		}
 	}
