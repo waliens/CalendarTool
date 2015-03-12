@@ -48,19 +48,22 @@ class DeleteEventController extends AjaxController
 		
 		if($priv)
 			$verif = $model->getEvent(array("id_event" => $eventId), array("id_owner", "id_recurrence"));
-
+		else
+			$verif = $model->getEvent(array("id_event" => $eventId), array("id_recurrence"));
+				
+		
 		if($priv && (!isset($verif[0]) || intval($verif[0]['Id_Owner']) != intval($id))){
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);
 		}
 		else{
-			if($recur){
+			if($recur == "true"){
 				$success = $model->deleteEventRecurrence($verif[0]['Id_Recurrence']);
 			}
 			else {
-				$success = $model->deleteEvent(intval($eventId));
+				$success = $model->delete_event(intval($eventId));
 			}
 			if(!$success){
-				$this->set_error_predefined(self::ERROR);
+				$this->set_error_predefined(self::ERROR_ACTION_DELETE_DATA);
 			}
 		}
 

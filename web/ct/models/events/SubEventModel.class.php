@@ -104,14 +104,9 @@ class SubEventModel extends AcademicEventModel{
 	 */
 	public function excludeMember($eventId, $userId){
 		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
-			//TODO SET ERROR
 			return false;
 		}
-		$uM = new UserModel();
-		if(empty($uM->get_user($userId))){
-			return false;
-		}
-		
+				
 		$idGlob = $this->getIdGlobal($eventId);
 		if(!$idGlob)
 			return false;
@@ -126,7 +121,6 @@ class SubEventModel extends AcademicEventModel{
 	 */
 	public function getPathway($eventId){
 		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
-			//TODO SET ERROR
 			return false;
 		}
 		
@@ -149,7 +143,7 @@ class SubEventModel extends AcademicEventModel{
 	 * @param int $pathwayId
 	 * @retval Boolean
 	 */
-	public function excludeMember($eventId, $pathwayId){
+	public function excludePathway($eventId, $pathwayId){
 		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
 			//TODO SET ERROR
 			return false;
@@ -171,12 +165,11 @@ class SubEventModel extends AcademicEventModel{
 	 * @param unknown_type $userId
 	 */
 	public function getEventByTeamMember($userId) {
-		$mod = new UserModel();
-		if(!$mod->get_user($userId))
-			return false;
+		
+		$userId = $this->sql->quote($userId);
 		
 		$query = "SELECT Id_Event AS id, name FROM event NATURAL JOIN sub_event
-					NATURAL JOIN teaching_team_member WHERE ID_USER =".$userId." AND Id_Event NOT in 
+					NATURAL JOIN teaching_team_member WHERE Id_User =".$userId." AND Id_Event NOT in 
 							(SELECT Id_Event FROM sub_event_excluded_team_member WHERE Id_User=".$userId.")";
 		return $this->sql->execute_query($query);
 	}
