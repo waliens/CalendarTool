@@ -63,7 +63,7 @@ INSERT INTO `global_event_subscription` (`Id_Global_Event`, `Id_Student`, `Free_
 (2, 8, 0);
 
 INSERT INTO `teaching_team_member` (`Id_Global_Event`, `Id_User`, `Id_Role`) VALUES
-(23, 2, 1), (40, 7, 1);
+(1, 2, 1), (2, 7, 1);
 
 -- events 
 
@@ -90,8 +90,8 @@ INSERT INTO `student_event` (`Id_Event`, `Id_Owner`) VALUES
 (3, 9);
 
 INSERT INTO `sub_event` (`Id_Event`, `Id_Global_Event`) VALUES
-(1, 40),
-(4, 40);
+(1, 2),
+(4, 2);
 
 
 -- event time data
