@@ -40,8 +40,9 @@ class DeleteFavController extends AjaxController
 		$userId = $this->connection->user_id();
 		$eventId = $this->sg_post->value("id_event");
 
-		$model->removeAsFavorite($eventId, $userId);
-
+		$a = $model->removeAsFavorite($eventId, $userId);
+		if(!$a)
+			$this->set_error_predefined(self::ERROR_ACTION_DELETE_DATA);
 	}
 
 

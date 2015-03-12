@@ -692,7 +692,7 @@ use \DateInterval;
 			if($success)
 				return true;
 			else{
-				$this->error .= "\n Error while deleting the annotation";
+				return false;
 			}
 		}
 		

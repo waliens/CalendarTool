@@ -23,7 +23,7 @@
 
 	use ct\controllers\ajax\GetEventTypeController;
 
-	use ct\controllers\ajax\DeleteController;
+	use ct\controllers\ajax\DeleteNoteController;
 	use ct\controllers\ajax\AddNoteController;
 	use ct\controllers\ajax\AddNote;
 	use ct\controllers\ajax\TestController;
@@ -95,7 +95,7 @@
                 case "043":
                 	return new AddNoteController(true);
                 case "044":
-                	return new DeleteController();
+                	return new DeleteNoteController();
                 case "045":
                 	return new AddFavController();
                 case "046":

@@ -40,8 +40,9 @@ class AddFavController extends AjaxController
 		$userId = $this->connection->user_id();
 		$eventId = $this->sg_post->value("id_event");
 
-		$model->addAsFavorite($eventId, $userId);
-
+		$a = $model->addAsFavorite($eventId, $userId);
+		if(!$a)
+			$this->set_error_predefined(self::ERROR_MISSING_EVENT); //It's problably a missing event 
 	}
 
 

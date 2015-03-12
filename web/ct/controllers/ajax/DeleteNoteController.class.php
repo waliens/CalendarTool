@@ -17,7 +17,7 @@ use util\superglobals\Superglobal;
  * @brief Class for handling the control of event
  */
 
-class DeleteController extends AjaxController
+class DeleteNoteController extends AjaxController
 {
 
 
@@ -30,7 +30,7 @@ class DeleteController extends AjaxController
 
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
-			$this->set_error("Missing data");
+			$this->set_error_predefined(self::ERROR_MISSING_DATA);
 			return;
 		}
 
@@ -41,10 +41,10 @@ class DeleteController extends AjaxController
 		$userId = $this->connection->user_id();
 		$eventId = $this->sg_post->value("id_event");
 		
-		$model->delete_annotation($eventId, $userId);
+		$a = $model->delete_annotation($eventId, $userId);
+		if(!$a)
+			$this->set_error_predefined(self::ERROR_ACTION_DELETE_DATA);
 		
-		$this->set_error($model->get_error());
-
 	}
 
 

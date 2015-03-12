@@ -43,9 +43,10 @@ class AddNoteController extends AjaxController
 		$note = $this->sg_post->value("note");
 		
 		$a = $model->set_annotation($eventId, $userId, $note, $update);
-		if(!$a)
+		if(!$a && !$update)
 			$this->set_error_predefined(self::ERROR_ACTION_ADD_DATA); //Problably a duplicate key
-
+		elseif(!$a && $update)
+			$this->set_error_predefined(self::ERROR_ACTION_UPDATE_DATA); 
 	}
 
 
