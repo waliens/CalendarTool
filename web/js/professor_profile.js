@@ -42,6 +42,7 @@ function addGlobalEvent(course){
 	course_id.setAttribute("data-toggle","modal");
 	course_id.setAttribute("data-target","#event_info");
 	course_id.setAttribute("event-name",course.lib_cours_complet);
+	$("#edit_global_event").attr("event-id",course.id);
 	var delete_icon=document.createElement('a');
 	delete_icon.className="delete";
 	//link the delete icon to the delete alert
@@ -344,3 +345,55 @@ function get_recursion(recursion_id){
 			return "tous les ans"
 		}
 	}
+
+function edit_global_event(){
+	var event_id=event.currentTarget.parentNode.getAttribute("event-id");
+	}
+	
+//add global event panel - populate list of years
+$("#add_global_event_alert").on("show.bs.modal",function(){
+	var current_year=new Date().getFullYear();
+	$('#years_list').html("");
+	$("#selected_year").html('Année <span class="caret"></span>');
+	$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
+	$("#global_course_list").html("");
+	$("#global_event_add_confirm").attr("disabled","disabled");
+	for(var i=0;i<3;i++){
+    	$('#years_list').append($('<li role="presentation"><a role="menuitem" tabindex="-1" href="#">'+(current_year+i)+'</a></li>'));
+	}
+	})
+
+//update global courses list of add new cours modal on selection of the year	
+$("#years_list").on("click","a",function(event){
+	var year=event.currentTarget.innerHTML;
+	$("#selected_year").html(year+' <span class="caret"></span>');
+	$.ajax({
+		dataType : "json",
+		type : 'GET',
+		url : "json/global-events-list.json",
+		//url : "index.php?src=ajax&req=036&year="+year,
+		success : function(data, status) {
+			$("#global_course_list").html("");
+			$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
+			var courses=data.courses;
+			for(var i=0;i<courses.length;i++)
+				$("#global_course_list").append($('<li role="presentation"><a cours-id='+courses[i].ulg_id+' role="menuitem" tabindex="-1" href="#">'+courses[i].ulg_id+"\t"+courses[i].nameShort+'</a></li>'));
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	})
+	
+//update the selected cours to be added in the add new cours modal
+$("#global_course_list").on("click","a",function(event){
+	var cours=event.currentTarget.innerHTML;
+	$("#cours_to_add").html(cours+' <span class="caret"></span>');
+	$("#cours_to_add").attr("cours-id",event.currentTarget.getAttribute("cours-id"));
+	$("#global_event_add_confirm").removeAttr("disabled");
+	})
+	
+$("#global_event_add_confirm").click(function(event){
+	//Complete with post sent to serve and event creation in list global courses
+	})	

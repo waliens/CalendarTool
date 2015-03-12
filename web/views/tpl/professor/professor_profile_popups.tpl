@@ -26,11 +26,28 @@
         <h4 class="modal-title" id="myModalLabel">Ajouter un cours</h4>
       </div>
       <div class="modal-body">
-        <!--TO BE COMPLETED!!-->
+ 		<div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="selected_year" data-toggle="dropdown" aria-expanded="true">
+            Année
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="years_list">
+          </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="cours_to_add" data-toggle="dropdown" aria-expanded="true">
+            Sélectionnez cours
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="global_course_list">
+            
+          </ul>
+        </div>
       </div>
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_add_confirm">Confirmer</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_add_confirm" disabled="disabled">Confirmer</button>
       </div>
     </div>
   </div>
@@ -65,8 +82,8 @@
         <div class="modal-body">
           <div class="panel-group width-70 center" id="accordion-global-event" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-global-event" href="#global-event-info" aria-expanded="true" aria-controls="global-event-info">Info</a></h4><span id="edit_note" class="float-left-10padright"><a class="edit" onclick="edit_note()"></a></span>
+              <div class="panel-heading" style="height:42px" role="tab" id="headingOne">
+                <h4 class="panel-title float-left"><a data-toggle="collapse" data-parent="#accordion-global-event" href="#global-event-info" aria-expanded="true" aria-controls="global-event-info">Info</a></h4><span id="edit_global_event" class="float-right" style="margin-top: -4px;"><a class="edit" onclick="edit_global_event()"></a></span>
               </div>
               <div id="global-event-info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                 <table class="table" id="global_events">
