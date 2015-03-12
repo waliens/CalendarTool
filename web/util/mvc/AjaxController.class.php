@@ -43,6 +43,9 @@
 		const ERROR_ACCESS_STUDENT_REQUIRED = 402; /**< @brief Access denied : only a student can perform this operation */
 		const ERROR_ACCESS_ROOT_REQUIRED = 403; /**< @brief Access denied : only the root user can perform this operation */
 
+		/* 5xx : access error () */
+		const ERROR_FORMAT_INVALID = 500;
+
 		/**
 		 * @brief Constructs the AjaxController object
 		 */
@@ -140,6 +143,11 @@
 			$this->error_msgs[self::ERROR_ACCESS_PROFESSOR_REQUIRED] 
 				= array("EN" => "Access denied : only a professor can access these information or perform this operation.", 
 						"FR" => "Accès refusé : seul un professeur peut accéder à ces données ou effectuer cette opération.");
+
+			/* 500 : format error */
+			$this->error_msgs[self::ERROR_FORMAT_INVALID] 
+				= array("EN" => "Bad format", 
+						"FR" => "Format invalide");
 		}
 
 		/**
@@ -152,7 +160,8 @@
 			return ($error_code >= 0 && $error_code <= 1) 
 					|| ($error_code >= 200 && $error_code <= 204)
 					|| ($error_code >= 300 && $error_code <= 305)
-					|| ($error_code >= 400 && $error_code <= 403); 
+					|| ($error_code >= 400 && $error_code <= 403)
+					|| ($error_code >= 500 && $error_code <= 500); 
 		}
 
 		/**
@@ -229,12 +238,22 @@
 		}
 
 		/**
-		 * @brief Set the form error field
+		 * @brief Set the form error field (overwrite the previous form error data)
 		 * @param[in] array $form_error An array mapping input name and error
 		 */	
 		protected function set_form_error(array $form_error)
 		{
 			$this->error_data['form_error'] = $form_error;
+		}
+
+		/**
+		 * @brief Add a form error for the given key
+		 * @param[in] string $form_key   The key identifying the form field for which the error must added
+		 * @param[in] mixed  $error_desc The description of the error
+		 */
+		protected function add_form_error($form_key, $error_desc)
+		{
+			$this->error_data['form_error'][$form_key] = $error_desc;
 		}
 
 		/**
