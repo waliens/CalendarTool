@@ -30,7 +30,7 @@ class AddNoteController extends AjaxController
 
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
-			$this->set_error("Missing data");
+			$this->set_error_predefined(self::ERROR_MISSING_DATA);
 			return;
 		}
 
@@ -42,9 +42,9 @@ class AddNoteController extends AjaxController
 		$eventId = $this->sg_post->value("id_event");
 		$note = $this->sg_post->value("note");
 		
-		$model->set_annotation($eventId, $userId, $annotation, $update);
-
-		$this->set_error($model->get_error());
+		$a = $model->set_annotation($eventId, $userId, $note, $update);
+		if(!$a)
+			$this->set_error_predefined(self::ERROR_ACTION_ADD_DATA); //Problably a duplicate key
 
 	}
 

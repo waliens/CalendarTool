@@ -5,7 +5,7 @@
 	set_include_path(dirname(__FILE__));
 
 	// various includes 
-	require_once("ct/functions.php");
+	require_once("functions.php");
 
 	// init autoloading
 	spl_autoload_register("ct\autoload");

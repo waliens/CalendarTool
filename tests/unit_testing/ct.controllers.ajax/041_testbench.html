@@ -29,14 +29,15 @@
 	 
 			$.ajax({
 				dataType : "json",
-				type : 'POST', 
-				url : ("http://localhost/git/calendartool/web/index.php?src=ajax&req=041"),
+				type : "POST", 
+				url : ("../../../web/index.php?src=ajax&req=041"),
 				data:json_input,
 				success : function(data, status) {
 					$("#output").text(JSON.stringify(data));
 					$("#comment").text("success");
 				},
 				error : function(data, status, errors) {
+					$("#output").text(JSON.stringify(data));
 
 					$("#comment").text("error");
 				}

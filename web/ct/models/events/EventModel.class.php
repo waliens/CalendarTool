@@ -674,16 +674,8 @@ use \DateInterval;
 			else
 				$a = $this->sql->insert("event_annotation", array("Annotation" => $annotation_quoted, "Id_Event" => $eventId, "Id_Student" => $userId ));
 			
-			if($a)
-				return true;
-			else{
-				$this->error .= "\n Error while setting the annotation";
-				var_dump($this->sql->error_info());
-				return false;
-			}
-				
+			return $a;
 			
-			return false;
 		}
 		
 		/**
