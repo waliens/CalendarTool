@@ -83,7 +83,7 @@ class ViewEventController extends AjaxController
 
 			if($sub){
 				$glob = new GlobalEventModel();
-				$eng = $glob->get_language(array($ret["Id_Global_Event"])) == GlobalEventModel::LANG_EN;
+				$eng = $glob->get_language(array("id" => $data["Id_Global_Event"])) == GlobalEventModel::LANG_EN;
 			}
 			else
 				$eng = false;
