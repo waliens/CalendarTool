@@ -7,26 +7,20 @@
 
     namespace util\entry_point;
     
+
     use ct\controllers\ajax\EditPrivateEventController;
-
 	use ct\controllers\ajax\GetSubEventController;
-
 	use ct\controllers\ajax\DeleteFavController;
-
 	use ct\controllers\ajax\AddFavController;
-
 	use ct\controllers\ajax\GetPrivateEventController;
-
 	use ct\controllers\ajax\DeleteEventController;
-
 	use ct\controllers\ajax\ViewEventController;
-
 	use ct\controllers\ajax\GetEventTypeController;
-
 	use ct\controllers\ajax\DeleteNoteController;
 	use ct\controllers\ajax\AddNoteController;
 	use ct\controllers\ajax\AddNote;
 	use ct\controllers\ajax\TestController;
+
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
     use ct\controllers\ajax\ProfessorProfileController;
@@ -89,6 +83,7 @@
                 case "022":
                     return new ProfessorProfileController();
 
+<<<<<<< HEAD
                  /* Event related  */
                 case "041":
                 	return new GetEventTypeController();
@@ -122,23 +117,33 @@
                 case "065":
                 	return new EditPrivateEventController();
                 	/* Global event related */
+=======
+                /* Global event related */
+>>>>>>> web_interface
                 case "031": 
                     return new GetGlobalEventsByStudentController();
                 case "032":
                     return new ViewGlobalEventController();
                 case "033":
                     return new DeleteGlobalEventController();
+<<<<<<< HEAD
                 case "034":
                     return new EditGlobalEventController();
+=======
+>>>>>>> web_interface
                 case "035":
                     return new CreateGlobalEventController();
                 case "036":
                     return new GetProfessorAvailableCoursesController();
 
+<<<<<<< HEAD
 
                 /* Event related */
                 case "047":
                     return new EventCategoriesController();
+=======
+                /* Event related */
+>>>>>>> web_interface
                 case "061":
                     return new PrivateEventController();
 
@@ -161,10 +166,18 @@
                     return new CalendarBaseDataController();
                 case "102":
                     return new CalendarViewController();
+<<<<<<< HEAD
 
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
+=======
+
+                /* Pathways */
+                case "111":
+                    return new GetPathwaysController();
+
+>>>>>>> web_interface
                 default:
                     return null;
             }

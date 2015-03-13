@@ -23,7 +23,7 @@ $(document).ready(function() {
 			var last_name=data.lastName;
 			var pathway=data.pathway;
 			var mandatory_courses=data.courses.mandatory;
-			var optional_courses=data.courses.optional;
+			var optional_courses=data.courses.optional
 			//populate the user profile info
 			document.getElementById("user-name").innerHTML=first_name+" "+last_name;
 			document.getElementById("user-pathway").innerHTML=pathway.nameLong;
@@ -34,9 +34,8 @@ $(document).ready(function() {
 			for (var i = 0; i < optional_courses.length; i++)
 				addOptionalCourse( optional_courses[i]);
 		},
-		error : function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		error : function(data, status, errors) {
+			// Inserire un messagio di errore
 		}
 	});
 });
@@ -134,7 +133,7 @@ $("#event_info").on("show.bs.modal",function(event){
 		dataType : "json",
 		type : 'GET',
 		//url : "json/globalevent-info.json",
-		url : "index.php?src=ajax&req=032&event=" + event_id,
+		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
@@ -159,13 +158,13 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#event-lang").text(global_event_lang);
 			$("#event-period").text(global_event_period);
 			$("#event-work").text("");
-			if(global_event_work_th!="")
+			if(global_event_work_th!="0")
 				$("#event-work").append(global_event_work_th+"h Th. ");
-			if(global_event_work_pr!="")
+			if(global_event_work_pr!="0")
 				$("#event-work").append(global_event_work_pr+"h Proj. ");
-			if(global_event_work_au!="")
+			if(global_event_work_au!="0")
 				$("#event-work").append(global_event_work_au+"h Au. ");
-			if(global_event_work_st!="")
+			if(global_event_work_st!="0")
 				$("#event-work").append(global_event_work_st+"h St.");
 			var pathways_table=document.createElement("table");
 			pathways_table.id="pathways_table";
@@ -229,15 +228,14 @@ function addTeamMember(member){
 	row.appendChild(cell2);
 	table.append(row);
 	}
-	
+//get subevent info	
 $("#subevent_info").on("show.bs.modal",function(){
-	//get subevent info
 	var subevent_id=subevent.getAttribute('id');
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
 		//url : "json/subevent-info.json",
-		url : "index.php?src=ajax&req=051&event=" + subevent_id,
+		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
 			var subevent_id=data.id;
 			var subevent_title=data.name;

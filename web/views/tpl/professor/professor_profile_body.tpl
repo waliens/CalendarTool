@@ -15,7 +15,7 @@
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <table class="table" id="global_events">
         <tr class="text-bold">
-          <td class="min-width-90">Course ID</td>
+          <td class="min-width-100">Course ID</td>
           <td>Titre</td>
           <td class="width-30">Supprimer</td>
         </tr>
@@ -24,7 +24,7 @@
       
       <td colspan="3">
       <div class="text-center">
-        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-global-event">Ajouter cours</a>
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-global-event" data-toggle="modal" data-target="#add_global_event_alert">Ajouter cours</a>
       </div>
       </td>
       </tr>

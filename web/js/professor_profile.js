@@ -10,7 +10,7 @@ $(document).ready(function() {
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/professor-profile.json",
+		//url : "json/professor-profile.json",
 		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
 			var first_name=data.firstName;
@@ -25,8 +25,9 @@ $(document).ready(function() {
 			for (var i=0; i<indep_events.length; i++)
 				addIndependentEvent(indep_events[i]);
 		},
-		error : function(data, status, errors) {
-			// Inserire un messagio di errore
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
 		}
 	});
 });
@@ -36,11 +37,13 @@ function addGlobalEvent(course){
 	var global_events=document.getElementById("global_events");
     var course_id=document.createElement('a');
 	course_id.setAttribute("id",course.code);
+	course_id.setAttribute("event-id",course.id);
 	course_id.innerHTML = course.code;
 	//link the event link to the event info pane
 	course_id.setAttribute("data-toggle","modal");
 	course_id.setAttribute("data-target","#event_info");
 	course_id.setAttribute("event-name",course.lib_cours_complet);
+	$("#edit_global_event").attr("event-id",course.id);
 	var delete_icon=document.createElement('a');
 	delete_icon.className="delete";
 	//link the delete icon to the delete alert
@@ -119,6 +122,27 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
+			url : "index.php?src=ajax&req=033",
+			data : event_id,
+			success : function(data, status) {
+				// Inserire messaggio di successo
+			},
+			error : function(xhr, status, error) {
+					  var err = eval("(" + xhr.responseText + ")");
+					  alert(err.Message);
+					}
+		});
+	
+	})
+
+//confirm global event deletion
+$("#delete_global_event_alert").on("click",".btn-primary",function(event){
+	$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
+	var event_id=event.currentTarget.getAttribute("event-id");
+	//send deletion confirmation to server
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
 			url : "index.php?src=ajax&req=o33",
 			data : event_id,
 			success : function(data, status) {
@@ -139,7 +163,7 @@ $("#event_info").on("show.bs.modal",function(event){
 		dataType : "json",
 		type : 'GET',
 		//url : "json/globalevent-info.json",
-		url : "index.php?src=ajax&req=032&event=2",// + event_id,
+		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
@@ -242,8 +266,8 @@ $("#subevent_info").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		//url : "json/subevent-info.json",
-		url : "index.php?src=ajax&req=051&event=" + subevent_id,
+		url : "json/subevent-info.json",
+		//url : "index.php?src=ajax&req=051&event=subevent_id",
 		success : function(data, status) {
 			var subevent_id=data.id;
 			var subevent_title=data.name;
@@ -322,3 +346,85 @@ function get_recursion(recursion_id){
 			return "tous les ans"
 		}
 	}
+
+function edit_global_event(){
+	var event_id=event.currentTarget.parentNode.getAttribute("event-id");
+	}
+	
+//add global event panel - populate list of years
+$("#add_global_event_alert").on("show.bs.modal",function(){
+	var current_year=new Date().getFullYear();
+	$('#years_list').html("");
+	$("#selected_year").html('Année <span class="caret"></span>');
+	$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
+	$("#global_course_list").html("");
+	$("#global_event_add_confirm").attr("disabled","disabled");
+	for(var i=0;i<3;i++){
+    	$('#years_list').append($('<li role="presentation"><a role="menuitem" tabindex="-1" href="#">'+(current_year+i)+'</a></li>'));
+	}
+	})
+
+//update global courses list of add new cours modal on selection of the year	
+$("#years_list").on("click","a",function(event){
+	var year=event.currentTarget.innerHTML;
+	$("#selected_year").html(year+' <span class="caret"></span>');
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		//url : "json/global-events-list.json",
+		url : "index.php?src=ajax&req=036",
+		data: {"year":year},
+		success : function(data, status) {
+			$("#global_course_list").html("");
+			$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
+			$("#cours_language").html('Sélectionner langue <span class="caret"></span>');
+			$("#new_global_cours_details").html("");
+			$("#new_global_cours_feedback").html("");
+			var courses=data.courses;
+			for(var i=0;i<courses.length;i++)
+				$("#global_course_list").append($('<li role="presentation"><a cours-id='+courses[i].ulg_id+' role="menuitem" tabindex="-1" href="#">'+courses[i].ulg_id+"\t"+courses[i].nameShort+'</a></li>'));
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	})
+	
+//update the selected cours to be added in the add new cours modal
+$("#global_course_list").on("click","a",function(event){
+	var cours=event.currentTarget.innerHTML;
+	$("#cours_to_add").html(cours+' <span class="caret"></span>');
+	$("#cours_to_add").attr("cours-id",event.currentTarget.getAttribute("cours-id"));
+	$("#global_event_add_confirm").removeAttr("disabled");
+	})
+	
+//update the selected cours language
+$("#languages_list").on("click","a",function(event){
+	var language=event.currentTarget.innerHTML;
+	$("#cours_language").html(language+' <span class="caret"></span>');
+	})
+	
+$("#global_event_add_confirm").click(function(event){
+	var cours_id=$("#cours_to_add").attr("cours-id");
+	if($("#cours_language").text()!="Sélectionner language")
+		var language=$("#cours_language").text()
+	var feedback=$("#new_global_cours_feedback").text();
+	var description=$("#new_global_cours_details").text();
+	var new_course={"ulgId":cours_id, "description":description, "feedback":feedback, "language":language};
+	//send cours to add to the server
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "index.php?src=ajax&req=035",
+		data: new_course,
+		success : function(data, status) {
+			var cours_to_add={"id":data.id,"code":cours_id, "lib_cours_complet":$("#cours_to_add").text()}
+			addGlobalEvent(cours_to_add);
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	})	
