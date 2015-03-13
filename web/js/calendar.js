@@ -29,6 +29,7 @@ var existing_event_datepicker;
 var new_event_datepicker;
 //holds the private event on click in case of update of its data
 var private_event;
+var modal_shown;
 
 //update the navbar
 $("#navbar li").removeClass("active");
@@ -36,6 +37,7 @@ $("#calendar_nav").addClass("active");
 
 $(document).ready(function() {
 	//initialize the calendar...
+	var view={"view":'month' ,"all":"true","dateRange": {"start": "01-03-2015", "end": "31-03-2015"},"courses": {"isSet": 'false', "id":[]},"eventTypes": {"isSet": 'false', "id":[]},"pathways": {"isSet": 'false', "id":[]},"professors":{"isSet": 'false', "id":[]}};
     $('#calendar').fullCalendar({
 		lang: 'fr',
 		nextDayThreshold : "00:00:00",
@@ -51,16 +53,16 @@ $(document).ready(function() {
 		events:   function(start, end, timezone, callback){
 			$.ajax({
 				dataType : "json",
-				type : 'GET',
-				url : "json/calendar-month.json",
-				//url: "index.php?src=ajax&req=102",
-				//data: {},
+				type : 'POST',
+				data: view,
+				//url : "json/calendar-month.json",
+				url: "index.php?src=ajax&req=102",
 				success : function(data, status) {
 					calendar_data=data;
 					var events = [];
 					//retireve all public events first
-					for(var i=0;i<calendar_data.events.publicEvents.length;i++){
-						var instance = calendar_data.events.publicEvents[i];
+					for(var i=0;i<calendar_data.events.public.length;i++){
+						var instance = calendar_data.events.public[i];
 						//chech the event type to accordingly set the event color
 						var color=getEventColor(instance);
 						events.push({
@@ -70,17 +72,17 @@ $(document).ready(function() {
 							title: instance.name,
 							start: instance.start,
 							end: instance.end,
-							owner: instance.professor.name,
+							/*owner: instance.professor.name,
 							place: instance.where,
 							details: instance.details,
-							notes: instance.notes,
+							notes: instance.notes,*/
 							color: color,
 							editable: false
 						});
 					}
 					//then retrieve private events
-					for(var i=0;i<calendar_data.events.privateEvents.length;i++){
-						var instance=calendar_data.events.privateEvents[i];
+					for(var i=0;i<calendar_data.events.private.length;i++){
+						var instance=calendar_data.events.private[i];
 						events.push({
 							id_server: instance.id,
 							id: guid(),
@@ -89,9 +91,9 @@ $(document).ready(function() {
 							start: instance.start,
 							end: instance.end,
 							recursive: instance.recursive,
-							place: instance.where,
+							/*place: instance.where,
 							details: instance.details,
-							notes: instance.notes,
+							notes: instance.notes,*/
 							color: '#8AC007'
 						});
 					}
@@ -114,10 +116,14 @@ $(document).ready(function() {
 					event_recursive=true;
 				else event_recursive=false;
 				populate_private_event(calEvent);
+				$("#private_event").attr("event-id",calEvent.id_server);
 				$("#private_event").modal("show");
+				modal_shown="#private_event";
 				}
 			else{
+				$("#event_info").attr("event-id",calEvent.id_server);
 				$("#event_info").modal("show");
+				modal_shown="#event_info";
 				populate_public_event(calEvent);
 				//check if it's an all day event
 				if(calEvent.allDay){
@@ -205,11 +211,23 @@ function getEventColor(event){
 	
 //delete note when confirm deletion
 function delete_note() {
+	var id_event=$(modal_shown).attr("event-id");
 	$("#add_notes").removeClass("hidden");
 	$("#notes").addClass("hidden");
 	$("#notes_body").text("");
 	//Send delete confirmation to server
-	//TODO
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=044",
+			data : {"id_event":id_event},
+			success : function(data, status) {
+				//TODO
+			},
+			error : function(data, status, errors) {
+				// Inserire un messagio di errore
+			}
+		});
 	}
 	
 //add note
@@ -231,16 +249,46 @@ function add_note(){
 	
 //save new note
 function save_note(){
-	$("#mod_notes_btns").addClass("hidden");
-	$("#notes_body").prop('contenteditable',"false");
-	$("#notes_body").removeClass("box");
-	$("#edit_note").removeClass("hidden");
-	$("#delete_note").removeClass("hidden");
-	//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
-	$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
-	//send new data to server
-	//TODO
+	var note=$("#notes_body").text();
+		var id_event=$(modal_shown).attr("event-id");
+		$("#mod_notes_btns").addClass("hidden");
+		$("#notes_body").prop('contenteditable',"false");
+		$("#notes_body").removeClass("box");
+		$("#edit_note").removeClass("hidden");
+		$("#delete_note").removeClass("hidden");
+		//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
+		$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
+	if(edit_existing_note){
+		//send new data to server
+		$.ajax({
+				dataType : "json",
+				type : 'POST',
+				url : "index.php?src=ajax&req=043",
+				data : {"id_event":id_event,"note":note},
+				success : function(data, status) {
+					//TODO
+				},
+				error : function(data, status, errors) {
+					// Inserire un messagio di errore
+				}
+			});
+		}
+	else{
+		//send new data to server
+		$.ajax({
+				dataType : "json",
+				type : 'POST',
+				url : "index.php?src=ajax&req=042",
+				data : {"id_event":id_event,"note":note},
+				success : function(data, status) {
+					//TODO
+				},
+				error : function(data, status, errors) {
+					// Inserire un messagio di errore
+				}
+			});
 	}
+}
 	
 /*//checks if the event is recursive and eventually asks if we want to apply the modification to all instances or not; 
 function recursive_check(){
@@ -615,6 +663,7 @@ function create_private_event(){
 		limit=true;
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=0;
+	var end_recurrence;
 	var place=$("#private_event_place").val();
 	var details=$("#private_event_details").val();
 	var notes=$("#private_notes_body").val();
@@ -623,7 +672,7 @@ function create_private_event(){
 		var id=guid();
 		//check if the event is recursive
 		if(recurrence!="jamais"){
-			var end_recurrence=$("#recurrence_end").val();
+			end_recurrence=$("#recurrence_end").val();
 			if(end_recurrence!="")
 				end_recurrence=moment(convert_date(end_recurrence, "YYYY-MM-DD"));
 			var offset;
@@ -647,23 +696,35 @@ function create_private_event(){
 						if(endHour!="")
 							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
 						else event_end=end.format("YYYY-MM-DD")
-						$('#calendar').fullCalendar('addEventSource', {
-							events:[{
-								id_server: id,
-								id: id_event,
-								private: true,
-								title: title,
-								start: event_start,
-								end: event_end,
-								allDay: allDay,
-								place: place,
-								details: details,
-								notes: notes,
-								color: "#8AC007",
-								editable: true
-								}]
-							} 
-						)
+						var new_private_event={"name":title, "start":event_start, "end":event_end, "recurrence": recurrence_id, "end-recurrence":end_recurrence.format("YYYY-MM-DD"), "place":place, "details":details, "note":notes, "type":""}
+						$.ajax({
+							dataType : "json",
+							type : 'POST',
+							url : "index.php?src=ajax&req=061",
+							data : new_private_event,
+							success : function(data, status) {
+								$('#calendar').fullCalendar('addEventSource', {
+									events:[{
+										id_server: id,
+										id: id_event,
+										private: true,
+										title: title,
+										start: event_start,
+										end: event_end,
+										allDay: allDay,
+										place: place,
+										details: details,
+										notes: notes,
+										color: "#8AC007",
+										editable: true
+										}]
+									} 
+								)
+							},
+							error : function(data, status, errors) {
+								// Inserire un messagio di errore
+							}
+						});
 						start.add(offset,"day");
 						end.add(offset,"day");
 					}
