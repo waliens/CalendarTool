@@ -43,7 +43,7 @@ use \DateInterval;
 			$this->fields_event = array("Id_Event" => "int", "Name" => "text", "Description" => "text", "Id_Recurrence" => "int", "Place" => "text", "Id_Category" => "int");
 			$this->table = array();
 			$this->table[0] = "event";
-			$this->translate = array("id_event" => "event.Id_Event", "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "event.Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End", "feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details", "id_GlobalEvent" => "Id_Global_Event","id_owner" => "Id_Owner", "id_owner" => "Id_Owner", "public" => "Public", "categ_name_FR" => "Name_FR", "categ_name_EN" => "Name_EN");
+			$this->translate = array("id_event" => "event.Id_Event", "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End", "feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details", "id_GlobalEvent" => "Id_Global_Event","id_owner" => "Id_Owner", "id_owner" => "Id_Owner", "public" => "Public", "categ_name_FR" => "Name_FR", "categ_name_EN" => "Name_EN");
 		}
 		
 		/**
@@ -85,45 +85,33 @@ use \DateInterval;
 				$whereClause .= implode(" AND ", $equals);
 			}
 			$query  =  "SELECT ".$selectClause." FROM event 
-						NATURAL JOIN 
-						(
-						  SELECT Id_Event, Start, End, 'time_range' AS DateType 
-						  FROM time_range_event 
-						  
-						  UNION ALL
+					 NATURAL JOIN ( 
+					 	SELECT Id_Event, Start, End, 'time_range' AS DateType FROM time_range_event 
+					 	UNION ALL
+					 	SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 
+					 	 	'date_range' AS DateType FROM date_range_event 
+					 	UNION ALL 
+					 	SELECT Id_Event, `Limit` AS Start, '' AS End, 'deadline' AS DateType FROM deadline_event 
+					 ) AS time_data 
+					NATURAL JOIN (
+						SELECT Id_Event, '' AS Id_Owner,Id_Global_Event, 'sub_event' AS EventType,
+							 Feedback, Workload, Practical_Details 
+							 FROM sub_event NATURAL JOIN academic_event
+              			UNION ALL 
+              			SELECT Id_Event, Id_Owner,'' AS Id_Global_Event, 'indep_event' AS EventType,
+              				Feedback, Workload, Practical_Details 
+              				FROM independent_event NATURAL JOIN academic_event
+              			UNION ALL
+              			SELECT Id_Event, Id_Owner,'' AS Id_Global_Event, 'student_event' AS EventType, 
+              			'' AS Feedback, '' AS Workload, '' AS Practical_Details FROM student_event
+              		 ) AS type_data
+  		            NATURAL JOIN (
+						 SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN, Description_FR 
+							AS Categ_Desc_FR, Name_EN AS Categ_Name_EN, Name_FR AS Categ_Name_FR
+						 	FROM event_category 
+					) AS categ NATURAL JOIN recurrence NATURAL JOIN recurrence_category ".$whereClause." ;";
 
-						  SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 'date_range' AS DateType
-						  FROM date_range_event
-
-						  UNION ALL
-
-						  SELECT Id_Event, `Limit` AS Start, '' AS End, 'deadline' AS DateType
-						  FROM deadline_event
-						) AS time_data
-						NATURAL JOIN
-						(
-						  SELECT Id_Event, Id_Global_Event, 'sub_event' AS EventType 
-						  FROM sub_event
-
-						  UNION ALL
-
-						  SELECT Id_Event, Id_Owner, 'indep_event' AS EventType
-						  FROM independent_event
-
-						  UNION ALL
-
-						  SELECT Id_Event, Id_Owner, 'student_event' AS EventType
-						  FROM student_event
-						) AS type_data
-						NATURAL JOIN 
-						( SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN, 
-								 Description_FR AS Categ_Desc_FR, Name_EN AS Categ_Name_EN, 
-								 Name_FR AS Categ_Name_FR 
-						  FROM event_category ) AS categ
-						NATURAL JOIN recurrence
-						NATURAL JOIN recurrence_category ".$whereClause." ;";
-
-			
+						
 			return   $this->sql->execute_query($query);
 
 	
@@ -245,9 +233,6 @@ use \DateInterval;
 				}
 				return $id;
 			}
-			$e = $this->sql->error_info();
-			$this->error .= "\n The event cannot be created \n";
-			$this->error .= "\n ".$e[2]."";
 			return false;
 			
 				
