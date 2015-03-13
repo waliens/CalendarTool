@@ -7,7 +7,26 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\TestController;
+    use ct\controllers\ajax\EditPrivateEventController;
+
+	use ct\controllers\ajax\GetSubEventController;
+
+	use ct\controllers\ajax\DeleteFavController;
+
+	use ct\controllers\ajax\AddFavController;
+
+	use ct\controllers\ajax\GetPrivateEventController;
+
+	use ct\controllers\ajax\DeleteEventController;
+
+	use ct\controllers\ajax\ViewEventController;
+
+	use ct\controllers\ajax\GetEventTypeController;
+
+	use ct\controllers\ajax\DeleteNoteController;
+	use ct\controllers\ajax\AddNoteController;
+	use ct\controllers\ajax\AddNote;
+	use ct\controllers\ajax\TestController;
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
     use ct\controllers\ajax\ProfessorProfileController;
@@ -70,7 +89,39 @@
                 case "022":
                     return new ProfessorProfileController();
 
-                /* Global event related */
+                 /* Event related  */
+                case "041":
+                	return new GetEventTypeController();
+                case "042":
+                	return new AddNoteController();
+                case "043":
+                	return new AddNoteController(true);
+                case "044":
+                	return new DeleteNoteController();
+                case "045":
+                	return new AddFavController();
+                case "046":
+                	return new DeleteFavController();
+                                	
+                /* Sub Event related */
+                case "051":
+                	return new ViewEventController("SUB");
+                case "052":
+                	return new GetSubEventController();
+                case "055":
+                	return new DeleteEventController("SUB");
+                /* Private Event related */
+                case "061":
+                    return new PrivateEventController();
+                case "062":
+                	return new GetPrivateEventController();
+                case '063':
+                	return new DeleteEventController("PRIVATE");
+                case '064':
+                	return new ViewEventController("PRIVATE");
+                case "065":
+                	return new EditPrivateEventController();
+                	/* Global event related */
                 case "031": 
                     return new GetGlobalEventsByStudentController();
                 case "032":
@@ -114,7 +165,6 @@
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
-
                 default:
                     return null;
             }

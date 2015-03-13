@@ -25,7 +25,7 @@ class PrivateEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "place", "type", "recurrence", "details", "end-recurrence");
+		$keys = array("name", "place", "type", "recurrence", "details", "end-recurrence", "type");
 
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
@@ -75,9 +75,9 @@ class PrivateEventController extends AjaxController
 		if($this->sg_post->check("note") > 0)
 			foreach($id_ret as $key => $value)
 				$model->set_annotation($value, $data['id_owner'], $this->sg_post->value('note'));
-		
+		if($id_ret = false)
+			$this->set_error_predefined(self::ERROR_ACTION_ADD_DATA);
 		$this->add_output_data("id", $id_ret);
-		$this->set_error_custom($model->get_error());		
 	}
 }
 

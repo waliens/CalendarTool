@@ -8,22 +8,34 @@ namespace ct\models\events;
  * @author charybde
  *
  */
+use ct\models\PathwayModel;
+
+use ct\models\UserModel;
+
 class SubEventModel extends AcademicEventModel{
 	
 	private $fields_sb;
 	
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields, array("id_GlobalEvent" => "int"));
 		$this->fields_sb = array("Id_Event" => "int", "Id_Global_Event" => "int");
 		
-		$this->translate = array_merge($this->translate, array("id_GlobalEvent" => "Id_Global_Event"));
 		
 		$this->table[2] ="sub_event";
 	
 	}
 	
-
+	private function getIdGlobal($eventId){
+		$mod = new GlobalEventModel();
+		$idGlob = $this->getEvent(array("id_event" => $this->sql->quote($eventId), array("id_globalEvent")));
+		if(!empty($idGlob) && isset($idGlob[0]['Id_Global_Event'])){
+			return $idGlob[0]['Id_Global_Event'];
+		}
+		else{
+			//Todo SEt etrror
+			return false;
+		}
+	}
 	/**
 	 *
 	 * @brief Create an event and put it into the DB
@@ -53,6 +65,117 @@ class SubEventModel extends AcademicEventModel{
 		else
 			return $this->sql->error_info();
 	}
+
+	/**
+	 * @brief return the team members of a subevent
+	 * @param int $eventId
+	 */
+	public function getTeam($eventId, $lang = GlobalEventModel::LANG_FR){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
+			//TODO SET ERROR
+			return false;
+		}
+
+		$idGlob = $this->getIdGlobal($eventId);
+		if(!$idGlob)
+				return false;
+		
+		
+		if($lang === self::LANG_FR)
+			$lang_col = "Role_FR AS role";
+		else
+			$lang_col = "Role_EN AS role";
+		
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Description as `desc`
+						FROM  user NATURAL JOIN
+						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ".$idGlob." AND Id_User NOT in 
+							(SELECT Id_User FROM sub_event_excluded_team_member WHERE Id_Event = ".$this->sql->quote($eventId)." AND Id_Global_Event = ".$idGlob."))
+							 AS ttm
+						NATURAL JOIN 
+						( SELECT Id_Role, ".$lang_col." FROM teaching_role ) AS roles";
+		$this->sql->execute_query($query);
+	}
+	
+	/**
+	 * @brief exclude a Team Member for a specific sub event
+	 * @param int $eventId
+	 * @param int $userId
+	 * @retval Boolean
+	 */
+	public function excludeMember($eventId, $userId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
+			return false;
+		}
+				
+		$idGlob = $this->getIdGlobal($eventId);
+		if(!$idGlob)
+			return false;
+		
+		return $this->sql->insert("sub_event_excluded_member", array("Id_Event" => $eventId, "Id_User" => $userId, "Id_Global_Event" => $idGlob));
+	}
+	
+	/**
+	 * @brief get the different pathways a sub event is link to
+	 * @param int $eventId
+	 * @retval array (id,name_long, name_short)
+	 */
+	public function getPathway($eventId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
+			return false;
+		}
+		
+		$idGlob = $this->getIdGlobal($eventId);
+		
+		$query  =  "SELECT Id_Pathway AS id, Name_Long AS name_long, Name_Short AS name_short
+		FROM pathway NATURAL JOIN
+		( SELECT Id_Pathway
+		FROM global_event_pathway
+		WHERE Id_Global_Event = ? AND NOT Id_Pathway NOT IN (SELECT Id_Pathway FROM sub_event_excluded_pathway WHERE Id_Event  = ?)) AS paths;";
+		
+		return $this->sql->execute_query($query, array($idGlob, $eventId));
+	}
+	
+	
+	
+	/**
+	 * @brief exclude a pathway for a specific sub event
+	 * @param int $eventId
+	 * @param int $pathwayId
+	 * @retval Boolean
+	 */
+	public function excludePathway($eventId, $pathwayId){
+		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
+			//TODO SET ERROR
+			return false;
+		}
+		$pM = new PathwayModel();
+		if(!$pM->pathway_exists($pathwayId)){
+			return false;
+		}
+	
+		$idGlob = $this->getIdGlobal($eventId);
+		if(!$idGlob)
+			return false;
+	
+		return $this->sql->insert("sub_event_excluded_pathway", array("Id_Event" => $eventId, "Id_Pathway" => $pathwayId, "Id_Global_Event" => $idGlob));
+	}
+	
+	/**
+	 * @brief return an array containing the different id and name of the events where userId is part of the teaching team
+	 * @param unknown_type $userId
+	 */
+	public function getEventByTeamMember($userId) {
+		
+		$userId = $this->sql->quote($userId);
+		
+		$query = "SELECT Id_Event AS id, name FROM event NATURAL JOIN sub_event
+					NATURAL JOIN teaching_team_member WHERE Id_User =".$userId." AND Id_Event NOT in 
+							(SELECT Id_Event FROM sub_event_excluded_team_member WHERE Id_User=".$userId.")";
+		return $this->sql->execute_query($query);
+	}
+	
+	
+
 }
 
 

@@ -22,7 +22,7 @@
 		const TYPE_ACADEMIC = 0x3;/**< @brief The type to keep : only academic event */
 		const TYPE_STUDENT = 0x4;/**< @brief The type to keep : only student event */
 		const TYPE_ALL = 0x7;/**< @brief The type to keep : all types of events (not including TYPE_FAVORITE */
-		const TYPE_FAVORITE = 0x8; /** @brief The type to keep : only favorite event */
+		const TYPE_FAVORITE = 0x8; /**< @brief The type to keep : only favorite event */
 
 		/**
 	 	 * @brief Constructs a EventTypeFilter object for filtering the given types of event

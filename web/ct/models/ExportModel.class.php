@@ -59,10 +59,10 @@
 
 			$datetime_cls = get_class(new DateTimeFilter("02-02-2015"));
 			$access_cls   = get_class(new AccessFilter());
-			$ev_categ_cls = get_class(new EventCategoryFilter(array(1));
+			$ev_categ_cls = get_class(new EventCategoryFilter(array(1)));
 			$ev_type_cls  = get_class(new EventTypeFilter(EventTypeFilter::TYPE_ACADEMIC));
 			$glob_cls     = get_class(new GlobalEventFilter(array(1)));
-			$path_cls     = get_class(new PathwayFilter(array("ABICIV000301"));
+			$path_cls     = get_class(new PathwayFilter(array("ABICIV000301")));
 			$prof_cls     = get_class(new ProfessorFilter(array(1)));
 			$timetype_cls = get_class(new TimeTypeFilter(TimeTypeFilter::TYPE_DEADLINE));
 

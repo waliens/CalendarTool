@@ -16,11 +16,9 @@ class AcademicEventModel extends EventModel{
 	
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields, array("feedback" => "text", "workload" => "int", "practical_details" => "text"));
-		$this->fields_ac = array("Id_Event" => "int", "Feedback" => "text", "Workload" => "int", "Practical_Details" => "text");
-		
+		$this->fields_ac = array("Id_Event" => "int", "Feedback" => "text", "Workload" => "int", "Practical_Details" => "text");		
 		$this->table[1] = "academic_event";
-		$this->translate = array_merge($this->translate, array("feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details"));
+
 	}
 
 	/**
