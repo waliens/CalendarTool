@@ -249,11 +249,15 @@ use \DateInterval;
 			
 			$data = $this->checkParams($to, true, true);
 			if($data == -1){
-				$this->error .= "\n Error in the fields analysis";
 				return false;
 			}
 
 						
+			if(!(array_key_exists('recurrence', $from)))
+				$data['Id_Recurrence'] = 1;
+			
+				
+			
 			$where = $this->checkParams($from, true);
 			
 			$whereClause = array();
@@ -267,10 +271,7 @@ use \DateInterval;
 			}
 			
 			$a = $this->sql->update($table, $data, implode(" AND ", $whereClause));
-			if($a)
-				return true;
-			$this->error .= "\n Error in the modification of the event";
-			return false;
+	
 		}
 		/**
 		 * @brief 
