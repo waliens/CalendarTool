@@ -374,7 +374,10 @@ $("#years_list").on("click","a",function(event){
 		//url : "index.php?src=ajax&req=036&year="+year,
 		success : function(data, status) {
 			$("#global_course_list").html("");
-			$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
+			$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
+			$("#cours_language").html('Sélectionner langue <span class="caret"></span>');
+			$("#new_global_cours_details").html("");
+			$("#new_global_cours_feedback").html("");
 			var courses=data.courses;
 			for(var i=0;i<courses.length;i++)
 				$("#global_course_list").append($('<li role="presentation"><a cours-id='+courses[i].ulg_id+' role="menuitem" tabindex="-1" href="#">'+courses[i].ulg_id+"\t"+courses[i].nameShort+'</a></li>'));
@@ -394,6 +397,32 @@ $("#global_course_list").on("click","a",function(event){
 	$("#global_event_add_confirm").removeAttr("disabled");
 	})
 	
+//update the selected cours language
+$("#languages_list").on("click","a",function(event){
+	var language=event.currentTarget.innerHTML;
+	$("#cours_language").html(language+' <span class="caret"></span>');
+	})
+	
 $("#global_event_add_confirm").click(function(event){
-	//Complete with post sent to serve and event creation in list global courses
+	var cours_id=$("#cours_to_add").attr("cours-id");
+	if($("#cours_language").text()!="Sélectionner language")
+		var language=$("#cours_language").text()
+	var feedback=$("#new_global_cours_feedback").text();
+	var description=$("#new_global_cours_details").text();
+	var new_course={"ulgId":cours_id, "description":description, "feedback":feedback, "language":language};
+	//send cours to add to the server
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "index.php?src=ajax&req=035",
+		data: new_course,
+		success : function(data, status) {
+			var cours_to_add={"id":data.id,"code":cours_id, "lib_cours_complet":$("#cours_to_add").text()}
+			addGlobalEvent(cours_to_add);
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
 	})	
