@@ -56,7 +56,7 @@
 				return;
 
 			// set the filters if necessary
-			if(!$this->sg_post->value("all")) 
+			if($this->sg_post->value("all") !== "true") 
 			{
 				// filters keys
 				$filter_keys = array("courses", "eventTypes", "pathways", "professors");
@@ -115,7 +115,7 @@
 		{
 			$query_entry = $this->sg_post->value($key);
 
-			if(isset($query_entry['isSet']) && !$query_entry['isSet'])
+			if(isset($query_entry['isSet']) && $query_entry['isSet'] !== "true")
 				return true;
 
 			if(!isset($query_entry['id']) || count($query_entry['id']) == 0)
@@ -213,7 +213,8 @@
 		}
 
 		/**
-		 *
+		 * @brief Return the access filter 
+		 * @retval AccessFilter The access filter
 		 */
 		protected function get_access_filter()
 		{
