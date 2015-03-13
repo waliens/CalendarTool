@@ -162,11 +162,11 @@
 			$out_keys = array("Id_Event" => "id", "Name" => "name", 
 							  "Start" => "start", "End" => "end", 
 							  "Id_Recurrence" => "recursive", 
-							  "DateType" => "timeType");
+							  "DateType" => "timeType", "Color"=>"color");
 
 			$renamed = \ct\darray_transform($events, $out_keys);
-			$start_formatted = \ct\array_col_map($renamed, "\ct\date_sql2fr", "start");
-			return \ct\array_col_map($start_formatted, "\ct\date_sql2fr", "end");
+			$start_formatted = \ct\array_col_map($renamed, "\ct\date_sql2fullcalendar", "start");
+			return \ct\array_col_map($start_formatted, "\ct\date_sql2fullcalendar", "end");
 		}
 
 		/**
