@@ -43,8 +43,8 @@
 		const ERROR_ACCESS_STUDENT_REQUIRED = 402; /**< @brief Access denied : only a student can perform this operation */
 		const ERROR_ACCESS_ROOT_REQUIRED = 403; /**< @brief Access denied : only the root user can perform this operation */
 
-		/* 5xx : access error () */
-		const ERROR_FORMAT_INVALID = 500;
+		/* 5xx : format errror */
+		const ERROR_FORMAT_INVALID = 500; /**< @brief Generic error of data format */
 
 		/**
 		 * @brief Constructs the AjaxController object
