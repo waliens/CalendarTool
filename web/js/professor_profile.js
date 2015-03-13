@@ -10,8 +10,8 @@ $(document).ready(function() {
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/professor-profile.json",
-		//url: "index.php?src=ajax&req=022",
+		//url : "json/professor-profile.json",
+		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
 			var first_name=data.firstName;
 			var last_name=data.lastName;
@@ -25,8 +25,9 @@ $(document).ready(function() {
 			for (var i=0; i<indep_events.length; i++)
 				addIndependentEvent(indep_events[i]);
 		},
-		error : function(data, status, errors) {
-			// Inserire un messagio di errore
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
 		}
 	});
 });
@@ -121,7 +122,7 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
-			url : "index.php?src=ajax&req=o33",
+			url : "index.php?src=ajax&req=033",
 			data : event_id,
 			success : function(data, status) {
 				// Inserire messaggio di successo
@@ -161,8 +162,8 @@ $("#event_info").on("show.bs.modal",function(event){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/globalevent-info.json",
-		//url : "index.php?src=ajax&req=032&event="+event_id,
+		//url : "json/globalevent-info.json",
+		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
@@ -369,9 +370,10 @@ $("#years_list").on("click","a",function(event){
 	$("#selected_year").html(year+' <span class="caret"></span>');
 	$.ajax({
 		dataType : "json",
-		type : 'GET',
-		url : "json/global-events-list.json",
-		//url : "index.php?src=ajax&req=036&year="+year,
+		type : 'POST',
+		//url : "json/global-events-list.json",
+		url : "index.php?src=ajax&req=036",
+		data: {"year":year},
 		success : function(data, status) {
 			$("#global_course_list").html("");
 			$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');

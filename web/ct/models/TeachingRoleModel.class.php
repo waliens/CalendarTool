@@ -8,6 +8,7 @@
 	namespace ct\models;
 
 	use util\mvc\CategoryModel;
+	use ct\models\events\GlobalEventModel;
 
 	/**
 	 * @brief A class for handling teaching role data related database queries
@@ -25,7 +26,7 @@
 			parent::__construct("teaching_role",
 								array("Id_Role"),
 								$lang == GlobalEventModel::LANG_EN ? "Role_EN" : "ROLE_FR",
-								array("Description", $lang == GlobalEventModel::LANG_EN ? "Role_FR" : "ROLE_EN"));
+								array($lang == GlobalEventModel::LANG_EN ? "Role_FR" : "ROLE_EN"));
 
 			$this->lang = ($lang == GlobalEventModel::LANG_EN ? "Role_EN" : "ROLE_FR");
 		}

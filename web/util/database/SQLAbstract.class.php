@@ -93,7 +93,6 @@
 				$query .= "LIMIT ".$limit_first.", ".$limit_nb;
 
 			$query .= ";";
-
 			return $this->execute_query($query);
 		}
 

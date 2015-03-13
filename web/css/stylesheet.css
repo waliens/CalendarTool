@@ -121,6 +121,10 @@ width: 100%;
 .min-width-90{
 	min-width:90px;
 	}
+
+.min-width-100{
+	min-width:100px;
+	}
 	
 .width-30{
 	width:30px;

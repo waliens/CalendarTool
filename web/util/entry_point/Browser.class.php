@@ -29,6 +29,7 @@
          */
         public function __construct()
         {
+            header('Content-Type: text/html; charset=utf-8');
             $this->spg_get = new SG_Get();
         }
 

@@ -21,7 +21,7 @@
 		// Error constants 
 		const ERR_NOT_SET = -1; /**< @brief Error : key doesn't exist */
 		const ERR_CALLBACK = -2; /**< @brief Error : callback predicate returned false */
-		const ERR_EMPTY = -3; /**< @brief Eror : value is "empty" */
+		const ERR_EMPTY = -3; /**< @brief Error : value is "empty" */
 		const ERR_OK = 1; /**< @brief No error */
 
 		// Checking type constants : they can be combine with |
@@ -80,6 +80,28 @@
 		}
 
 		/**
+		 * @brief Perform a check on the given keys are the superglobal
+		 * @param[in] array    $keys 	 The keys to check
+		 * @param[in] int      $chk 	 Define the type of check to perform (see below) (default: null => CHK_ISSET | CHK_NOT_EMPTY)
+		 * @param[in] function $callback A predicate taking the value associated with one key as argument and returning
+		 * true if this value is valid, false otherwise (default: null => callback not evaluated)
+		 * @retval int The negative error code specifying which check has failed (see ERR_* class negative constants) if it has failed, ERR_OK otherwise
+		 * 
+		 * @note The function return ERR_OK if none of the keys returned an error, otherwise it returns the error code of the first error encountered
+		 */
+		public function check_keys(array $keys, $chk = null, $callback = null)
+		{
+			foreach ($keys as $key) 
+			{
+				$code = $this->check($key, $chk, $callback);
+				if($code < 0)
+					return $code;
+			}
+
+			return self::ERR_OK;
+		}
+
+		/**
 		 * @brief Check if the value (associated with a key) is empty
 		 * @param mixed $value A reference to the value to check
 		 * @retval bool True if the value is empty, false otherwise
@@ -134,4 +156,14 @@
 		{
 			return $this->superglobal[$key];
 		}
-	};
+		
+		/**
+		 * @brief Set the given value for the given key in the superglobal
+		 * @param[in] string $key The key
+		 * @param[in] string $value The value
+		 */
+		public function set_value($key, $value)
+		{
+			$this->superglobal[$key] = $value;
+		}
+	}

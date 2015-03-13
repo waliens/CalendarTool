@@ -7,6 +7,7 @@
 
 	namespace ct;
 
+
 	use util\superglobals\Superglobal;
 	use util\superglobals\SG_Session;
 	use util\superglobals\SG_Post;
@@ -55,10 +56,11 @@
 
 			// set the http headers variables
 			$this->extract_http_headers();
-			$this->remote_user = "u216357";
+			$this->remote_user = "s131400";
+			//$this->remote_user = "u216357";
 			$this->host = "";
-
-			// // check host
+			$this->connect($this->remote_user);
+			// check host
 			// if(!$this->check_host()) // host different from the reverse proxy 
 			// {
 			// 	http_response_code(401);
@@ -209,7 +211,6 @@
 			session_destroy();
 
 			//new Redirection("http://www.intranet.ulg.ac.be/logout");
-			echo "disconnect";
 			exit();
 		}
 
