@@ -260,10 +260,50 @@
 	{
 		$matches = array();
 
-		if(!preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})(.*)#", $sql_date, $matches))
+		if(!preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})(?: (.+))?#", $sql_date, $matches))
 			return $sql_date;
 
-		return $matches[3].$sep.$matches[2].$sep.$matches[1].$matches[4];
+		return $matches[3].$sep.$matches[2].$sep.$matches[1]." ".$matches[4];
+	}
+
+	/** 
+	 * @brief Convert a date(time) in the SQL format into a date in the FullCalendar format
+	 * @param[in] string $sql_date The date in the sql format (YYYY-MM-DD( HH:MM:SS)?)
+	 * @retval string THe date in the FullCalendar format ("YYYY-MM-DD(THH:MM:SS)?")
+	 */
+	function date_sql2fullcalendar($sql_date)
+	{
+		$matches = array();
+
+		if(!preg_match("#^([0-9]{4}-[0-9]{2}-[0-9]{2})(?: (.+))?#", $sql_date, $matches))
+			return $sql_date;
+
+		$ret_date = $matches[1];
+
+		if(!empty($matches[2]))
+			$ret_date .= "T".$matches[2];
+
+		return $ret_date;
+	}
+
+	/** 
+	 * @brief Convert a date(time) in the FullCalendar format into a date in the SQL format
+	 * @param[in] string $full_cal_date The date in the FullCalendar format ("YYYY-MM-DD(THH:MM:SS)?")
+	 * @retval string The date in the sql format (YYYY-MM-DD( HH:MM:SS)?)
+	 */
+	function date_fullcalendar2sql($full_cal_date)
+	{
+		$matches = array();
+
+		if(!preg_match("#^([0-9]{4}-[0-9]{2}-[0-9]{2})(?:T(.*))?#", $full_cal_date, $matches))
+			return $full_cal_date;
+
+		$ret_date = $matches[1];
+
+		if(!empty($matches[2]))
+			$ret_date .= $matches[2];
+
+		return $ret_date;
 	}
 
 	/** 
