@@ -9,6 +9,8 @@
 namespace ct\controllers\ajax;
 
 
+use ct\models\events\GlobalEventModel;
+
 use ct\models\UserModel;
 
 use ct\models\events\StudentEventModel;
@@ -79,7 +81,18 @@ class ViewEventController extends AjaxController
 			
 			$ret['category_id'] = $data['Id_Category'];
 
- 			$ret['category_name'] = ""; //TODO Lang distinction
+			if($sub){
+				$glob = new GlobalEventModel();
+				$eng = $glob->get_language(array($ret["Id_Global_Event"])) == GlobalEventModel::LANG_EN;
+			}
+			else
+				$eng = false;
+			
+			if($eng)
+ 				$ret['category_name'] = $data['Categ_Name_EN'];
+			else
+				$ret['category_name'] = $data['Categ_Name_FR'];
+				
 			
 			$ret['recurrence'] = $data['Id_Recurrence'];
 			
