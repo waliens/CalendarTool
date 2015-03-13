@@ -126,7 +126,7 @@
                 </td>
             </tr>
             <tr>
-              <td class="text-bold width-80 vertical-middle">Tipe</td>
+              <td class="text-bold width-80 vertical-middle">Catégorie</td>
               <td>
               <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="private_event_type_btn" data-toggle="dropdown" aria-expanded="true">
@@ -134,16 +134,16 @@
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Travail</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Sport</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Chapi</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Restaurant</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Soirée</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Personnel</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Loisir</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Musique</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Anniversaire</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()">Autre</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="9">Sport</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="10">Chapi</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="11">Travail</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="12">Restaurant</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="13">Soirée</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="14">Personnel</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="15">Loisir</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="16">Musique</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="17">Anniversaire</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="18">Autre</a></li>
                   </ul>
                 </div>
             </tr>
