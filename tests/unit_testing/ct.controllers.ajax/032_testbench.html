@@ -30,7 +30,7 @@
 			$.ajax({
 				dataType : "json",
 				type : 'POST',
-				url : ("http://localhost/ct/index.php?src=ajax&req=" + request_id + "&event=2"),
+				url : ("http://localhost/ct/index.php?src=ajax&req=" + request_id + "&event=18"),
 				data:json_input,
 				success : function(data, status) {
 					$("#output").text(JSON.stringify(data));

@@ -21,8 +21,8 @@
 			//     $("#body").text(details.requestBody);
 			// });
 
-			var request_id = "034", // put request id here
-				json_input = {"id":2,"description":"Un cours posey pour manger du poulet au piment!","feedback":"Vous êtes les pires étudiants sur cette planète!"};
+			var request_id = "047", // put request id here
+				json_input = {"lang":"EN"};
 
 			$("#input").text(JSON.stringify(json_input));
 			$("#req").text(request_id);
@@ -30,7 +30,7 @@
 			$.ajax({
 				dataType : "json",
 				type : 'POST',
-				url : ("http://localhost/ct/index.php?src=ajax&req=" + request_id),
+				url : ("http://localhost/ct/index.php?src=ajax&req=" + request_id + "&sub_event=4"),
 				data:json_input,
 				success : function(data, status) {
 					$("#output").text(JSON.stringify(data));
