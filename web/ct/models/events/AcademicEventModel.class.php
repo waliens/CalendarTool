@@ -46,7 +46,7 @@ class AcademicEventModel extends EventModel{
 		if($a)
 			return $ret;
 		else
-			$this->error .= "\n Error during Academic Event creation";
+			return false;
 	}
 	
 	/**

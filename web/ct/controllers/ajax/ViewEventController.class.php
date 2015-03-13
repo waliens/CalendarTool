@@ -17,6 +17,7 @@ use ct\models\events\StudentEventModel;
 use ct\models\events\SubEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
+use \DateTime;
 
 /**
  * @class Event

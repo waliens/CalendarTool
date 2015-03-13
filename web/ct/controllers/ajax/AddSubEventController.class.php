@@ -9,7 +9,9 @@ namespace ct\controllers\ajax;
 
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
-use ct\models\SubEventModel;
+use ct\models\events\SubEventModel;
+use \DateTime;
+
 
 /**
  * @class PrivateEventController
@@ -25,7 +27,7 @@ class AddSubEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "details","id_global_event", "where", "start", "end", "type", "recurrence", "pathway", "teaching_team");
+		$keys = array("name", "details","id_global_event", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
@@ -39,7 +41,10 @@ class AddSubEventController extends AjaxController
 				"description" => $this->sg_post->value('details'),
 				"place" => $this->sg_post->value('where'),
 				"id_category" => $this->sg_post->value('type'),
-				"id_global_event" => $this->sg_post->value('id__global_event'));
+				"id_GlobalEvent" => $this->sg_post->value('id_global_event'),
+				"feedback" => $this->sg_post->value('feedback'),
+				"workload" => $this->sg_post->value('workload'),
+				"practical_details" => $this->sg_post->value('practical_details'));
 			
 		// get event date
 		if($this->sg_post->check("limit") > 0)
@@ -62,7 +67,6 @@ class AddSubEventController extends AjaxController
 		if($this->sg_post->value('recurrence') != 0
 				&& $this->sg_post->check("end-recurrence"))
 		{
-
 			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
 			$id_ret = $model->createEventWithRecurrence($data, $this->sg_post->value('recurrence'), $endrec);
 		}
@@ -88,7 +92,7 @@ class AddSubEventController extends AjaxController
 			}
 		}
 		
-		if(!$this->sg_post->check("attachments"))
+		if($this->sg_post->check("attachments") < 0)
 			return;
 		
 		$attach = $this->sg_post->value('attachments');

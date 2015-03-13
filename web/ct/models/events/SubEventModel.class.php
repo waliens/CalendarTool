@@ -32,7 +32,6 @@ class SubEventModel extends AcademicEventModel{
 			return $idGlob[0]['Id_Global_Event'];
 		}
 		else{
-			//Todo SEt etrror
 			return false;
 		}
 	}
@@ -54,7 +53,6 @@ class SubEventModel extends AcademicEventModel{
 		if($datas == -1)
 			return false;
 		
-		
 		$datas = array_intersect_key($datas, $this->fields_sb);
 		$datas["Id_Event"] = $ret;
 		$a = $this->sql->insert($this->table[2], $datas);
@@ -63,7 +61,7 @@ class SubEventModel extends AcademicEventModel{
 		if($a)
 			return $ret;
 		else
-			return $this->sql->error_info();
+			return false;
 	}
 
 	/**
