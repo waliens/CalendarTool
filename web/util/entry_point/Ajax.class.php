@@ -83,7 +83,6 @@
                 case "022":
                     return new ProfessorProfileController();
 
-<<<<<<< HEAD
                  /* Event related  */
                 case "041":
                 	return new GetEventTypeController();
@@ -97,7 +96,9 @@
                 	return new AddFavController();
                 case "046":
                 	return new DeleteFavController();
-                                	
+                case "047":
+                    return new EventCategoriesController();
+
                 /* Sub Event related */
                 case "051":
                 	return new ViewEventController("SUB");
@@ -117,33 +118,20 @@
                 case "065":
                 	return new EditPrivateEventController();
                 	/* Global event related */
-=======
-                /* Global event related */
->>>>>>> web_interface
                 case "031": 
                     return new GetGlobalEventsByStudentController();
                 case "032":
                     return new ViewGlobalEventController();
                 case "033":
                     return new DeleteGlobalEventController();
-<<<<<<< HEAD
                 case "034":
                     return new EditGlobalEventController();
-=======
->>>>>>> web_interface
+
                 case "035":
                     return new CreateGlobalEventController();
                 case "036":
                     return new GetProfessorAvailableCoursesController();
 
-<<<<<<< HEAD
-
-                /* Event related */
-                case "047":
-                    return new EventCategoriesController();
-=======
-                /* Event related */
->>>>>>> web_interface
                 case "061":
                     return new PrivateEventController();
 
@@ -166,18 +154,11 @@
                     return new CalendarBaseDataController();
                 case "102":
                     return new CalendarViewController();
-<<<<<<< HEAD
-
-                /* Pathways */
-                case "111":
-                    return new GetPathwaysController();
-=======
 
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
 
->>>>>>> web_interface
                 default:
                     return null;
             }
