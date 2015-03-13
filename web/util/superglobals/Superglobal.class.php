@@ -175,11 +175,11 @@
 
 			if(!$trans)
 				foreach ($keys as $key) 
-					$out_array[$key] = $keys[$key];
+					$out_array[$key] = $this->value($key);
 			else
 			{
-				foreach ($keys as $key => $value) 
-					$out_array[$key] = $keys[$key];
+				foreach (array_keys($keys) as $key) 
+					$out_array[$key] = $this->value($key);
 				$out_array = \ct\array_keys_transform($out_array, $keys);
 			}
 
