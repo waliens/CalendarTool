@@ -38,7 +38,7 @@
 												function($lang) { return GlobalEventModel::valid_lang($lang); });
 			if($lang_check < 0)
 			{
-				if($lang_check === Superglobal::ERR_CALLBACK): 
+				if($lang_check === Superglobal::ERR_CALLBACK)
 					$this->set_error_predefined(AjaxController::ERROR_FORMAT_INVALID);
 				else
 					$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
