@@ -71,7 +71,7 @@
 			$insert_data = $this->sg_post->values($insert_data_keys, true);
 			$id_data = array("id" => $glob_id);
 
-			if(!$this->glob_mod->update_global_event_non_ulg_data($id_data, $insert_data))
+			if(!$glob_mod->update_global_event_non_ulg_data($id_data, $insert_data))
 				$this->set_error_predefined(AjaxController::ERROR_ACTION_ADD_DATA);
 
 			// set the global event id as output
