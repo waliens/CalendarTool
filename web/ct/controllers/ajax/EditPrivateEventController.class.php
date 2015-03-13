@@ -25,7 +25,7 @@ class EditPrivateEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("id","name", "place", "type", "recurrenceId", "details", "start", "end", "applyRecursive");
+		$keys = array("id","name", "place", "type", "recurrenceId", "details","applyRecursive");
 	
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
@@ -43,33 +43,36 @@ class EditPrivateEventController extends AjaxController
 				"recurrence" => $this->sg_post->value('recurrenceId'));
 
 		// get event date
-		if($this->sg_post->check("limit") > 0)
-			$data['limit'] = $this->sg_post->value('limit');
+		if($this->sg_post->check("limit") > 0){
+			$limit = new DateTime($this->sg_post->value("limit"));
+			$model->setDate($this->sg_post->value("id"), "Deadline", $limit,null, true);
+		}
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
-			$data['start'] = $this->sg_post->value('start');
-			$data['end'] = $this->sg_post->value('end');
+			
+			$start = new DateTime($this->sg_post->value('start'));
+			$end = new DateTime($this->sg_post->value('end'));
+			if($start->format("H:i:s") == "0:0:0")
+				$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
+			else 
+				$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);				
+			
 		}
-		else
-		{
-			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
-			return;
-		}
+
 
 		// get owner id
 		$data['id_owner'] = $this->connection->user_id();
 
 		// check for recurrence
 	$ret = false;
-		if($this->sg_post->value('recurrence') != 0
-				&& $this->sg_post->check("end-recurrence"))
+		if($this->sg_post->value('applyRecursive') == "true")
 		{
 				$ret = $model->modifyEvent(array("recurrence" => $this->sg_post->value('recurrenceId')), $data);
 		}
 		else
 			$ret = $model->modifyEvent(array("id_event" => $this->sg_post->value('id')), $data);
 
-		$this->set_error_custom($model->get_error());
+		$this->add_output_data("ssucess", $ret);
 	}
 }
 

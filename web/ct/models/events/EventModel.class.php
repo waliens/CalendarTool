@@ -246,6 +246,8 @@ use \DateInterval;
 		 * @retval mixed true if execute correctly error_info or false if not
 		 */
 		public function modifyEvent($from, $to){
+
+			
 			$table = implode(" JOIN ", $this->table);
 			
 			$data = $this->checkParams($to, true, true);
