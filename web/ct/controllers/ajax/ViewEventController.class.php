@@ -66,16 +66,19 @@ class ViewEventController extends AjaxController
 			$ret['description'] = $data['Description'];
 			$ret['type'] = $data['EventType']; 
 			
-			if($data['DateType'] == "date_range"){
-				$ret['startDay'] = $data['Start'];
-				$ret['endDay'] = $data['End'];
-			}
-			elseif($data['DateType'] == "time_range"){	
-				$ret['startTime'] = $data['Start'];
-				$ret['endTime'] = $data['End'];
-			}
-			else	
-				$ret['deadline'] = $data['Start'];
+			$start = new DateTime($data['Start']);
+			$end = new DateTime($data['End']);
+			
+			$ret['startDay'] = $start->format("Y-m-d");
+			$ret['endDay'] = $end->format("Y-m-d");
+	
+			$ret['startTime'] = $start->format("H:i:s");
+			$ret['endTime'] = $end->format("H:i:s");;
+			
+			if($data['DateType'] == "deadline")
+				$ret['deadline'] = "true";
+			else
+				$ret['deadline'] = "false";
 			
 			
 			
@@ -83,7 +86,7 @@ class ViewEventController extends AjaxController
 
 			if($sub){
 				$glob = new GlobalEventModel();
-				$eng = $glob->get_language(array($ret["Id_Global_Event"])) == GlobalEventModel::LANG_EN;
+				$eng = $glob->get_language(array("id" => $data["Id_Global_Event"])) == GlobalEventModel::LANG_EN;
 			}
 			else
 				$eng = false;

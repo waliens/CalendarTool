@@ -75,7 +75,7 @@ class PrivateEventController extends AjaxController
 		if($this->sg_post->check("note") > 0)
 			foreach($id_ret as $key => $value)
 				$model->set_annotation($value, $data['id_owner'], $this->sg_post->value('note'));
-		if($id_ret = false)
+		if($id_ret == false)
 			$this->set_error_predefined(self::ERROR_ACTION_ADD_DATA);
 		$this->add_output_data("id", $id_ret);
 	}

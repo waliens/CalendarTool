@@ -14,8 +14,8 @@
 	use ct\controllers\ajax\DeleteFavController;
 
 	use ct\controllers\ajax\AddFavController;
-
-	use ct\controllers\ajax\GetPrivateEventController;
+	use ct\controllers\ajax\AddSubEventController;
+		use ct\controllers\ajax\GetPrivateEventController;
 
 	use ct\controllers\ajax\DeleteEventController;
 
@@ -106,6 +106,8 @@
                 	return new ViewEventController("SUB");
                 case "052":
                 	return new GetSubEventController();
+                case "053":
+                	return new AddSubEventController();
                 case "055":
                 	return new DeleteEventController("SUB");
                 /* Private Event related */
