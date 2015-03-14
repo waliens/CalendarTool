@@ -40,7 +40,7 @@ class GetPrivateEventController extends AjaxController
 			array_push($ret, array("name" => $value["Name"], "id" => $value['Id_Event'], "recurrence" => $value['Id_Recurrence']));
 		}
 
-		 $this->add_output_data('event', $ret);
+		 $this->add_output_data('events', $ret);
 		if(!$ret_sql)
 			$this->set_error_predefined(self::ERROR_ACTION_READ_DATA);
 	}

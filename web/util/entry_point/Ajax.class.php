@@ -52,6 +52,20 @@
                 case "022":
                     return new ProfessorProfileController();
 
+                    /* Global event related */
+                    case "031":
+                    	return new GetGlobalEventsByStudentController();
+                    case "032":
+                    	return new ViewGlobalEventController();
+                    case "033":
+                    	return new DeleteGlobalEventController();
+                    case "034":
+                    	return new EditGlobalEventController();
+                    case "035":
+                    	return new CreateGlobalEventController();
+                    case "036":
+                    	return new GetProfessorAvailableCoursesController();
+                    	
                  /* Event related  */
                 case "041":
                 	return new GetEventTypeController();
@@ -68,6 +82,7 @@
                 case "047":
                 	return new EventCategoriesController();
                                 	
+
                 /* Sub Event related */
                 case "051":
                 	return new ViewEventController("SUB");
@@ -77,6 +92,7 @@
                 	return new AddSubEventController();
                 case "055":
                 	return new DeleteEventController("SUB");
+                	
                 /* Private Event related */
                 case "061":
                     return new PrivateEventController();
@@ -88,19 +104,6 @@
                 	return new ViewEventController("PRIVATE");
                 case "065":
                 	return new EditPrivateEventController();
-                /* Global event related */
-                case "031": 
-                    return new GetGlobalEventsByStudentController();
-                case "032":
-                    return new ViewGlobalEventController();
-                case "033":
-                    return new DeleteGlobalEventController();
-                case "034":
-                    return new EditGlobalEventController();
-                case "035":
-                    return new CreateGlobalEventController();
-                case "036":
-                    return new GetProfessorAvailableCoursesController();
 
 
                 /* Teaching role related */

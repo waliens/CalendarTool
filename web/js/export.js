@@ -85,8 +85,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						url : "json/events_type.json",
-						//url : "index.php?src=ajax&req=041",
+						//url : "json/events_type.json",
+						url : "index.php?src=ajax&req=041",
 						async : true,
 						success : function(data, status) {
 							var types=data.types;
