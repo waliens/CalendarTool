@@ -9,6 +9,8 @@
 namespace ct\controllers\ajax;
 
 
+use ct\models\events\IndependentEventModel;
+
 use ct\models\events\GlobalEventModel;
 use ct\models\events\SubEventModel;
 use util\mvc\AjaxController;
@@ -31,12 +33,15 @@ class ViewEventController extends AjaxController
 		$model;
 		$sub = false;
 		$priv = false;
+		$indep = false;
 		
 		if($type == "SUB")
 			$sub = true;
 		if($type == "PRIVATE")
 			$priv = true;
-
+		if($type == "INDEP")
+			$indep = true;
+		
 		$id = $this->connection->user_id();
 		
 		// create models
@@ -44,17 +49,22 @@ class ViewEventController extends AjaxController
 			$model = new StudentEventModel();
 		if($sub)
 			$model = new SubEventModel();
+		if($indep)
+			$model = new IndependentEventModel();
 				
-		
-		$eventId = $this->sg_get->value("event");
-
+		if($this->sg_get->check('event') > 0)
+			$eventId = $this->sg_get->value("event");
+		else{
+			$this->set_error_predefined(self::ERROR_MISSING_INPUT_DATA);
+			return;
+		}
 		
 		$req = $model->getEvent(array("id_event" => $eventId));
 
 		if($priv && (!isset($req[0]) || intval($req[0]['Id_Owner']) != intval($id))){
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);
 		}
-		elseif($sub && (!isset($req[0])))
+		elseif(($sub || $indep) && (!isset($req[0])))
 			$this->set_error_predefined(self::ERROR_MISSING_EVENT);
 		else{
 			$data = $req[0];

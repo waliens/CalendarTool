@@ -8,7 +8,9 @@
     namespace util\entry_point;
     
 
-   use ct\controllers\ajax\EditPrivateEventController;
+   use ct\controllers\ajax\AddIndepEventController;
+
+			use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
     use ct\controllers\ajax\DeleteFavController;
     use ct\controllers\ajax\AddFavController;
@@ -147,6 +149,14 @@
                 case "074":
                     return new GetTeachingRolesController();
 
+				/* Independant Event related */ 
+                case "081":
+                	return new AddIndepEventController();
+                case "083":
+                	return new DeleteEventController("INDEP");
+                case "084":
+                	return new ViewEventController("INDEP");                    
+                    
                 /* Export related */
                 case "091":
                     return new StaticExportController();

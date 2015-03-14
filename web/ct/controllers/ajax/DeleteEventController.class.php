@@ -28,11 +28,14 @@ class DeleteEventController extends AjaxController
 		$model;
 		$sub = false;
 		$priv = false;
+		$indep = false;
 		
 		if($type == "SUB")
 			$sub = true;
 		if($type == "PRIVATE")
 			$priv = true;
+		if($type == "INDEP")
+			$indep = true;	
 		
 		// create models
 		if($priv){
@@ -48,14 +51,22 @@ class DeleteEventController extends AjaxController
 		
 		if($priv)
 			$verif = $model->getEvent(array("id_event" => $eventId), array("id_owner", "id_recurrence"));
-		else
+		else{
 			$verif = $model->getEvent(array("id_event" => $eventId), array("id_recurrence"));
+			$auth_people = $model->getTeam($eventId);
+			$auth_id = array();
+			foreach($auth_people as $key => $value)
+				array_push($auth_id, $value['user']);
+			
+		}
 				
 		
 		if($priv && (!isset($verif[0]) || intval($verif[0]['Id_Owner']) != intval($id))){
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);
 		}
-		else{
+		elseif(($sub || $indep) && in_array($id, $auth_id))
+			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);		
+		else{  
 			if($recur == "true"){
 				$success = $model->deleteEventRecurrence($verif[0]['Id_Recurrence']);
 			}

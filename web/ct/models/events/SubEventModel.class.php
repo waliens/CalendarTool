@@ -79,7 +79,7 @@ class SubEventModel extends AcademicEventModel{
 				return false;
 		
 		
-		if($lang === self::LANG_FR)
+		if($lang === GlobalEventModel::LANG_FR)
 			$lang_col = "Role_FR AS role";
 		else
 			$lang_col = "Role_EN AS role";
