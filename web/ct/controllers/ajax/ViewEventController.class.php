@@ -9,7 +9,7 @@
 namespace ct\controllers\ajax;
 
 
-
+use ct\models\events\GlobalEventModel;
 use ct\models\events\SubEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
@@ -63,6 +63,7 @@ class ViewEventController extends AjaxController
 			$ret['name'] = $data['Name'];
 			$ret['description'] = $data['Description'];
 			$ret['type'] = $data['EventType']; 
+			$ret['place'] = $data['Place'];
 			
 			$start = new DateTime($data['Start']);
 			$end = new DateTime($data['End']);
