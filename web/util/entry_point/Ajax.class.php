@@ -8,7 +8,9 @@
     namespace util\entry_point;
     
 
-   use ct\controllers\ajax\AddIndepEventController;
+   use ct\controllers\ajax\EditAcademicEventController;
+
+			use ct\controllers\ajax\AddIndepEventController;
 
 			use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
@@ -123,6 +125,8 @@
                 	return new GetSubEventController();
                 case "053":
                 	return new AddSubEventController();
+                case "054":
+                	return new EditAcademicEventController(true);
                 case "055":
                 	return new DeleteEventController("SUB");
                 	
@@ -155,7 +159,9 @@
                 case "083":
                 	return new DeleteEventController("INDEP");
                 case "084":
-                	return new ViewEventController("INDEP");                    
+                	return new ViewEventController("INDEP"); 
+                case '085':
+                	return new EditAcademicEventController(false);                   
                     
                 /* Export related */
                 case "091":

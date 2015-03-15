@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * @file
 * @brief Edit Academic (sub & indep) Event ControllerClass
