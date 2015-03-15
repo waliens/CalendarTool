@@ -362,7 +362,7 @@ CREATE TABLE IF NOT EXISTS `modification_request`
 	`Id_Request` int(11) NOT NULL AUTO_INCREMENT,
 	`Id_Event` int(11) NOT NULL,
 	`Id_Sender` int(11) NOT NULL,
-	`Status` enum('sent', 'accepted', 'cancelled', 'refused') NOT NULL,
+	`Status` enum('waiting', 'accepted', 'cancelled', 'refused') NOT NULL,
 	`Description` text NOT NULL,
 	PRIMARY KEY(`Id_Request`),
 	FOREIGN KEY(`Id_Event`) REFERENCES `event`(`Id_Event`) ON DELETE CASCADE,
