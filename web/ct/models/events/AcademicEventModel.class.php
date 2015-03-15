@@ -112,6 +112,19 @@ class AcademicEventModel extends EventModel{
 			return false;
 	}
 	
+	//Those functions are particularized in sub classes
+	public function getTeam($eventId, $lang = null) { return array(); }
+	public function getPathways($eventId) { return array(); }
+	
+	public function isInTeam($eventId, $userId){
+		$team = $this->getTeam($eventId);
+		foreach($team as $key => $value){
+			if($value['user'] == $userId)
+				return true;
+		}
+		return false;
+	}
+	
 	
 }
 

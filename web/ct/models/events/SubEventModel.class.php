@@ -117,7 +117,7 @@ class SubEventModel extends AcademicEventModel{
 	 * @param int $eventId
 	 * @retval array (id,name_long, name_short)
 	 */
-	public function getPathway($eventId){
+	public function getPathways($eventId){
 		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
 			return false;
 		}

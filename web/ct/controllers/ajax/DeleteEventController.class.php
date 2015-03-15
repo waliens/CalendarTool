@@ -7,6 +7,8 @@
 namespace ct\controllers\ajax;
 
 
+use ct\models\events\IndependentEventModel;
+
 use ct\models\events\SubEventModel;
 
 use ct\models\events\StudentEventModel;
@@ -40,12 +42,14 @@ class DeleteEventController extends AjaxController
 		// create models
 		if($priv){
 			$model = new StudentEventModel();
-			$id = $this->connection->user_id();
 		}
 		if($sub)
 			$model = new SubEventModel();
+		if($indep)
+			$model = new IndependentEventModel();
 		
 		
+		$id = $this->connection->user_id();
 		$eventId = $this->sg_post->value("id");
 		$recur = $this->sg_post->value("applyRecursive");
 		
@@ -53,18 +57,14 @@ class DeleteEventController extends AjaxController
 			$verif = $model->getEvent(array("id_event" => $eventId), array("id_owner", "id_recurrence"));
 		else{
 			$verif = $model->getEvent(array("id_event" => $eventId), array("id_recurrence"));
-			$auth_people = $model->getTeam($eventId);
-			$auth_id = array();
-			foreach($auth_people as $key => $value)
-				array_push($auth_id, $value['user']);
-			
 		}
 				
-		
-		if($priv && (!isset($verif[0]) || intval($verif[0]['Id_Owner']) != intval($id))){
+		if(!isset($verif[0]))
+			$this->set_error_predefined(self::ERROR_MISSING_EVENT);
+		elseif($priv &&  intval($verif[0]['Id_Owner']) != intval($id)){
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);
 		}
-		elseif(($sub || $indep) && in_array($id, $auth_id))
+		elseif(($sub || $indep) && !$model->isInTeam($eventId, $id))
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);		
 		else{  
 			if($recur == "true"){
@@ -78,7 +78,6 @@ class DeleteEventController extends AjaxController
 			}
 		}
 
-		$this->output_data['id'] = $eventId;
 
 	}
 

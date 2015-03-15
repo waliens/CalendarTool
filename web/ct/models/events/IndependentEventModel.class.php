@@ -78,15 +78,23 @@ class IndependentEventModel extends AcademicEventModel{
 	/**
 	 * @brief return the team of an idep event
 	 * @param int $eventId the id of the event
+	 * @param null $lang used to have the same declaration in parent and in sub event
 	 * @retval array|boolean
 	 */
-	public function getTeam($eventId){
+	public function getTeam($eventId , $lang = null){
 		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
 			//TODO SET ERROR
 			return false;
 		}
 
-		return $this->sql->select("independent_event_manager", "Id_Event =".$this->sql->quote($eventId), array("Id_User", "Id_Role"));
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Description as `desc`
+		FROM  user NATURAL JOIN
+			( SELECT * FROM independent_event_manager WHERE  Id_Event = ".$this->sql->quote($eventId)." )
+				AS ttm
+		NATURAL JOIN
+			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles";
+		return $this->sql->execute_query($query);
+
 	}
 	
 	
