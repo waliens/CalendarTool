@@ -156,6 +156,35 @@
 		{
 			return $this->superglobal[$key];
 		}
+
+		/**
+		 * @brief Return the values associated with the given keys (keeping the mapping)
+		 * @param[in] array $keys Depends on the value of $trans (see later)
+		 * @param[in] array $trans An array mapping the wanted key 
+		 * @retval array The array mapping the wanted keys and their values
+		 *
+		 * If $trans is false, then the desired keys are kept to map the desired values and
+		 * $keys is a array of which the values are these keys.
+		 *
+		 * If $trans is true, then the desired keys are the keys of the $keys array and this array
+		 * maps the actual keys to the new keys' values (or "" if the key must be conserved as such)
+		 */
+		public function values(array $keys, $trans=false)
+		{
+			$out_array = array();
+
+			if(!$trans)
+				foreach ($keys as $key) 
+					$out_array[$key] = $this->value($key);
+			else
+			{
+				foreach (array_keys($keys) as $key) 
+					$out_array[$key] = $this->value($key);
+				$out_array = \ct\array_keys_transform($out_array, $keys);
+			}
+
+			return $out_array;
+		}
 		
 		/**
 		 * @brief Set the given value for the given key in the superglobal

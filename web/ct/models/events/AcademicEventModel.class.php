@@ -16,11 +16,9 @@ class AcademicEventModel extends EventModel{
 	
 	function __construct(){
 		parent::__construct();
-		$this->fields = array_merge($this->fields, array("feedback" => "text", "workload" => "int", "practical_details" => "text"));
-		$this->fields_ac = array("Id_Event" => "int", "Feedback" => "text", "Workload" => "int", "Practical_Details" => "text");
-		
+		$this->fields_ac = array("Id_Event" => "int", "Feedback" => "text", "Workload" => "int", "Practical_Details" => "text");		
 		$this->table[1] = "academic_event";
-		$this->translate = array_merge($this->translate, array("feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details"));
+
 	}
 
 	/**
@@ -48,7 +46,7 @@ class AcademicEventModel extends EventModel{
 		if($a)
 			return $ret;
 		else
-			$this->error .= "\n Error during Academic Event creation";
+			return false;
 	}
 	
 	/**
@@ -112,6 +110,19 @@ class AcademicEventModel extends EventModel{
 		}
 		else 
 			return false;
+	}
+	
+	//Those functions are particularized in sub classes
+	public function getTeam($eventId, $lang = null) { return array(); }
+	public function getPathways($eventId) { return array(); }
+	
+	public function isInTeam($eventId, $userId){
+		$team = $this->getTeam($eventId);
+		foreach($team as $key => $value){
+			if($value['user'] == $userId)
+				return true;
+		}
+		return false;
 	}
 	
 	

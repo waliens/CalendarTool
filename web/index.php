@@ -1,7 +1,5 @@
 <?php
 
-	namespace ct;
-
 	// set include path to the path of the index.php file
 	set_include_path(dirname(__FILE__));
 

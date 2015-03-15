@@ -9,8 +9,8 @@ $(document).ready(function() {
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/all_private_events.json",
-		//url: "src='ajax'&req=7"
+		//url : "json/all_private_events.json",
+		url: "index.php?src=ajax&req=062",
 		async : true,
 		success : function(data, status) {
 			var private_events=data.events;

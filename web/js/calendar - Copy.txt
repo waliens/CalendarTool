@@ -696,7 +696,7 @@ function create_private_event(){
 						if(endHour!="")
 							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
 						else event_end=end.format("YYYY-MM-DD")
-						var new_private_event={"name":title, "start":event_start, "end":event_end, "recurrence": recurrence_id, "end-recurrence":end_recurrence.format("YYYY-MM-DD"), "place":place, "details":details, "note":notes, "type":"11"}
+						var new_private_event={"name":title, "start":event_start, "end":event_end, "recurrence": recurrence_id, "end-recurrence":end_recurrence.format("YYYY-MM-DD"), "place":place, "details":details, "note":notes, "type":""}
 						$.ajax({
 							dataType : "json",
 							type : 'POST',

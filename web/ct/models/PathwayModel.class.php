@@ -64,7 +64,7 @@
 		 */
 		public function get_pathways()
 		{
-			return $this->sql->select("pathway");
+			return $this->sql->select("pathway", null, null, array("Name_Long"));
 		}
 
 		/**

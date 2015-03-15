@@ -78,7 +78,7 @@
 		{
 			$view = $this->sg_post->value("view");
 			$actual_start = $this->sg_post->value("dateRange")['start'];
-			$actual_start = \ct\date_fr2sql($actual_start);
+			$actual_start = \ct\date_fullcalendar2sql($actual_start);
 			$date = new \DateTime($actual_start);
 			$actual_time = strtotime($actual_start);
 

@@ -7,7 +7,7 @@
 
 	namespace ct\models\events;
 
-	use util\
+	use util;
 
 	/**
 	 * @class RecurrenceCategoryModel

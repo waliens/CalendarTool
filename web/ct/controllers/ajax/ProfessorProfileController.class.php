@@ -50,7 +50,7 @@
 
 			// get courses data
 			$glob_events = $glob_mod->get_global_events_by_user_role();
-			$prof_data['courses'] = \ct\darray_transform($glob_events, array("id", "ulg_id" => "code", "name_long" => "lib_cours_complet"));
+			$prof_data['courses'] = \ct\darray_transform($glob_events, array("id" => "", "ulg_id" => "code", "name_long" => "lib_cours_complet"));
 
 			// get independent events
 			$filter_collection = new FilterCollectionModel();
