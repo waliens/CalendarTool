@@ -23,7 +23,7 @@ $(document).ready(function(){
 	}); 
  
   
-$('#filter_alert').on('show.bs.modal', function (event) {
+$('#filter_alert').on('shown.bs.modal', function (event) {
 	//we clean the content of the alert
 	$(this).find('.modal-body').html("");
 	var checkbox = $(event.relatedTarget);

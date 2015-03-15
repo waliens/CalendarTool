@@ -5,6 +5,7 @@
 
 <!-- FullCalendar Scripts --> 
 <script src='js/moment.min.js'></script> 
+<script src='js/moment-fr.js'></script> 
 <script src='js/fullcalendar.js'></script> 
 <script src='js/lang-all.js'></script> 
 <!--date picker js and css-->
