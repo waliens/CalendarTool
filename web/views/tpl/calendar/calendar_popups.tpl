@@ -99,6 +99,7 @@
                   </tr>
                   <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline();"></td></tr>
                 </table></td>
+                </tr>
             <tr>
             <td class="text-bold width-80 vertical-middle">Récurrence</td>
               <td>
@@ -150,6 +151,7 @@
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="18">Autre</a></li>
                   </ul>
                 </div>
+                </td>
             </tr>
             <tr>
               <td class="text-bold width-80 vertical-middle">Lieu</td>

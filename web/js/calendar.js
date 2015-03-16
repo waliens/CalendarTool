@@ -31,31 +31,38 @@ var new_event_datepicker;
 var private_event;
 var modal_shown;
 //holds displayed events ids in order not to duplicate them when new data is retrieved after changing the view mode 
-var displayed_events=[];
+//var displayed_events=[];
 
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#calendar_nav").addClass("active");
 
-$("#calendar").on("click",$(".fc-agendaDay-button"),function(){
-	filters.view="day";
+//when clicking on today, next, prev, dayview, monthview, weekview we need to load new events (potentially)
+$("#calendar").on("click",[".fc-agendaDay-button",".fc-agendaWeek-button",".fc-month-button",".fc-today-button",".fc-icon-right-single-arrow",".fc-icon-left-single-arrow"],function(){
 	addEvents();
 	});
-$("#calendar").on("click",$(".fc-agendaWeek-button"),function(){
-	filters.view="week";
-	addEvents();
-	});
-$("#calendar").on("click",$(".fc-month-button"),function(){
-	filters.view="month";
-	addEvents();
-	});
+	
+function getCurrentView(view){
+	switch (view){
+		case "month":
+		return view;
+		case "agendaWeek":
+		return "week";
+		case "agendaDay":
+		return "day";
+		}
+	}
+
 //add events to the calendar when changing the view
 function addEvents(){
-	filters.start=$("#calendar").fullCalendar( 'getView' ).start.format("DD-MM-YYYY");
-	filters.end=$("#calendar").fullCalendar( 'getView' ).end.format("DD-MM-YYYY");
+	$("#calendar").fullCalendar( 'removeEvents');
+	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
+	filters.view=getCurrentView(current_view);
+	filters.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
+	filters.end=$("#calendar").fullCalendar( 'getView' ).end.format("YYYY-MM-DD");
 	//we have to take into account the fact that server side date ranges are inclusive and so for all views but the day view we have to subtract 1 to the right boundary
-	if(!filters.end==filters.start)
-		filters.end=$("#calendar").fullCalendar( 'getView' ).endsubtract(1, 'days').format("DD-MM-YYYY");
+	if(filters.end!=filters.start)
+		filters.end=$("#calendar").fullCalendar( 'getView' ).end.subtract(1, 'days').format("YYYY-MM-DD");
 	$('#calendar').fullCalendar('addEventSource', {
 			events:function(start, end, timezone, callback){
 			$.ajax({
@@ -72,7 +79,7 @@ function addEvents(){
 						//chech the event type to accordingly set the event color
 						var color=getEventColor(instance);
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						if(!$.inArray(instance.id,displayed_events)==-1){
+						//if($.inArray(instance.id,displayed_events)==-1){
 							events.push({
 								id_server: instance.id,
 								id: guid(),
@@ -84,14 +91,14 @@ function addEvents(){
 								color: color,
 								editable: false
 							});
-							displayed_events.push(instance.id);
-						}
+							//displayed_events.push(instance.id);
+						//}
 					}
 					//then retrieve private events
 					for(var i=0;i<calendar_data.events.private.length;i++){
 						var instance=calendar_data.events.private[i];
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						if(!$.inArray(instance.id,displayed_events)==-1){
+						//if($.inArray(instance.id,displayed_events)==-1){
 							events.push({
 								id_server: instance.id,
 								id: guid(),
@@ -102,8 +109,8 @@ function addEvents(){
 								recursive: instance.recursive,
 								color: '#8AC007'
 							});
-							displayed_events.push(instance.id);
-						}
+							//displayed_events.push(instance.id);
+						//}
 					}
 					callback(events);
 				},
@@ -147,7 +154,7 @@ $(document).ready(function() {
 						//chech the event type to accordingly set the event color
 						var color=getEventColor(instance);
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						if($.inArray(instance.id,displayed_events)==-1){
+						//if($.inArray(instance.id,displayed_events)==-1){
 							events.push({
 								id_server: instance.id,
 								id: guid(),
@@ -159,14 +166,14 @@ $(document).ready(function() {
 								color: color,
 								editable: false
 							});
-							displayed_events.push(instance.id);
-						}
+							//displayed_events.push(instance.id);
+						//}
 					}
 					//then retrieve private events
 					for(var i=0;i<calendar_data.events.private.length;i++){
 						var instance=calendar_data.events.private[i];
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						if($.inArray(instance.id,displayed_events)==-1){
+						//if($.inArray(instance.id,displayed_events)==-1){
 							events.push({
 								id_server: instance.id,
 								id: guid(),
@@ -177,8 +184,8 @@ $(document).ready(function() {
 								recursive: instance.recursive,
 								color: '#8AC007'
 							});
-							displayed_events.push(instance.id);
-						}
+							//displayed_events.push(instance.id);
+						//}
 					}
 					callback(events);
 				},
@@ -1616,7 +1623,7 @@ function reset_filters(){
 	
 function submit_filters(){
 	$("#calendar").fullCalendar( 'removeEvents');
-	displayed_events.length=0;
+	//displayed_events.length=0;
 	$('#calendar').fullCalendar('addEventSource', {
 			events:function(start, end, timezone, callback){
 			$.ajax({

@@ -7,42 +7,40 @@
 
     namespace util\entry_point;
     
-
-   use ct\controllers\ajax\AddIndepEventController;
-
-			use ct\controllers\ajax\EditPrivateEventController;
+    use ct\controllers\ajax\EditAcademicEventController;
+    use ct\controllers\ajax\AddIndepEventController;
+    use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
     use ct\controllers\ajax\DeleteFavController;
     use ct\controllers\ajax\AddFavController;
     use ct\controllers\ajax\GetPrivateEventController;
-     use ct\controllers\ajax\DeleteEventController;
-     use ct\controllers\ajax\ViewEventController;
-     use ct\controllers\ajax\GetEventTypeController;
-     use ct\controllers\ajax\DeleteNoteController;
-     use ct\controllers\ajax\AddNoteController;
-     use ct\controllers\ajax\AddNote;
-     use ct\controllers\ajax\TestController;
-    
-     use ct\controllers\ajax\PrivateEventController;
-     use ct\controllers\ajax\AllProfessorsController;
-     use ct\controllers\ajax\ProfessorProfileController;
-     use ct\controllers\ajax\GetTeachingTeamController;
-     use ct\controllers\ajax\AddTeachingTeamMemberController;
-     use ct\controllers\ajax\DeleteTeachingTeamMemberController;
-     use ct\controllers\ajax\CalendarBaseDataController;
-     use ct\controllers\ajax\CalendarViewController;
-     use ct\controllers\ajax\GetPathwaysController;
-     use ct\controllers\ajax\DeleteGlobalEventController;
-     use ct\controllers\ajax\ViewGlobalEventController;
-     use ct\controllers\ajax\StudentProfileController;
-     use ct\controllers\ajax\GetTeachingRolesController;
-     use ct\controllers\ajax\StaticExportController;
-     use ct\controllers\ajax\GetGlobalEventsByStudentController;
-     use ct\controllers\ajax\GetProfessorAvailableCoursesController;
-     use ct\controllers\ajax\CreateGlobalEventController;
-    
-     use ct\controllers\ajax\EditGlobalEventController;
-     use ct\controllers\ajax\EventCategoriesController;
+    use ct\controllers\ajax\DeleteEventController;
+    use ct\controllers\ajax\ViewEventController;
+    use ct\controllers\ajax\GetEventTypeController;
+    use ct\controllers\ajax\DeleteNoteController;
+    use ct\controllers\ajax\AddNoteController;
+    use ct\controllers\ajax\AddNote;
+    use ct\controllers\ajax\TestController;
+    use ct\controllers\ajax\PrivateEventController;
+    use ct\controllers\ajax\AllProfessorsController;
+    use ct\controllers\ajax\ProfessorProfileController;
+    use ct\controllers\ajax\GetTeachingTeamController;
+    use ct\controllers\ajax\AddTeachingTeamMemberController;
+    use ct\controllers\ajax\DeleteTeachingTeamMemberController;
+    use ct\controllers\ajax\CalendarBaseDataController;
+    use ct\controllers\ajax\CalendarViewController;
+    use ct\controllers\ajax\GetPathwaysController;
+    use ct\controllers\ajax\DeleteGlobalEventController;
+    use ct\controllers\ajax\ViewGlobalEventController;
+    use ct\controllers\ajax\StudentProfileController;
+    use ct\controllers\ajax\GetTeachingRolesController;
+    use ct\controllers\ajax\StaticExportController;
+    use ct\controllers\ajax\GetGlobalEventsByStudentController;
+    use ct\controllers\ajax\GetProfessorAvailableCoursesController;
+    use ct\controllers\ajax\CreateGlobalEventController;
+    use ct\controllers\ajax\EditGlobalEventController;
+    use ct\controllers\ajax\EventCategoriesController;
+
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
 
@@ -85,19 +83,19 @@
                 case "022":
                     return new ProfessorProfileController();
 
-                    /* Global event related */
-                    case "031":
-                    	return new GetGlobalEventsByStudentController();
-                    case "032":
-                    	return new ViewGlobalEventController();
-                    case "033":
-                    	return new DeleteGlobalEventController();
-                    case "034":
-                    	return new EditGlobalEventController();
-                    case "035":
-                    	return new CreateGlobalEventController();
-                    case "036":
-                    	return new GetProfessorAvailableCoursesController();
+                /* Global event related */
+                case "031":
+                	return new GetGlobalEventsByStudentController();
+                case "032":
+                	return new ViewGlobalEventController();
+                case "033":
+                	return new DeleteGlobalEventController();
+                case "034":
+                	return new EditGlobalEventController();
+                case "035":
+                	return new CreateGlobalEventController();
+                case "036":
+                	return new GetProfessorAvailableCoursesController();
                     	
                  /* Event related  */
                 case "041":
@@ -123,6 +121,8 @@
                 	return new GetSubEventController();
                 case "053":
                 	return new AddSubEventController();
+                case "054":
+                	return new EditAcademicEventController(true);
                 case "055":
                 	return new DeleteEventController("SUB");
                 	
@@ -155,7 +155,9 @@
                 case "083":
                 	return new DeleteEventController("INDEP");
                 case "084":
-                	return new ViewEventController("INDEP");                    
+                	return new ViewEventController("INDEP"); 
+                case '085':
+                	return new EditAcademicEventController(false);                   
                     
                 /* Export related */
                 case "091":

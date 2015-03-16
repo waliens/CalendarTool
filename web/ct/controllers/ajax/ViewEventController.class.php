@@ -76,19 +76,21 @@ class ViewEventController extends AjaxController
 			$ret['place'] = $data['Place'];
 			
 			$start = new DateTime($data['Start']);
-			$end = new DateTime($data['End']);
 			
 			$ret['startDay'] = $start->format("Y-m-d");
-			$ret['endDay'] = $end->format("Y-m-d");
-	
 			$ret['startTime'] = $start->format("H:i:s");
-			$ret['endTime'] = $end->format("H:i:s");;
 			
-			if($data['DateType'] == "deadline")
+			if($data['DateType'] == "deadline"){
 				$ret['deadline'] = "true";
-			else
+				$ret['endDay'] = '';
+				$ret['endTime'] = '';
+			}
+			else{
 				$ret['deadline'] = "false";
-			
+				$end = new DateTime($data['End']);
+				$ret['endDay'] = $end->format("Y-m-d");
+				$ret['endTime'] = $end->format("H:i:s");;
+			}
 			
 			
 			$ret['category_id'] = $data['Id_Category'];

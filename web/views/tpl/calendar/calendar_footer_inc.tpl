@@ -29,3 +29,4 @@ dhtmlXCalendarObject.prototype.lang = "fr";
 </script> 
 <!-- added js --> 
 <script src="js/calendar.js"></script>
+</body></html>
