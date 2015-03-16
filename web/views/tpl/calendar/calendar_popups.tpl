@@ -24,6 +24,10 @@
             <td><div id="event_place"></div></td>
           </tr>
           <tr>
+            <td class="text-bold width-80">Categorie</td>
+            <td><div id="event_category"></div></td>
+          </tr>
+          <tr>
             <td class="text-bold width-80">Professeur</td>
             <td><div id="event_owner"></div></td>
           </tr>
@@ -172,6 +176,23 @@
             </tr>
           </table>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Filter Alert -->
+<div class="modal fade" id="filter_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><!--ALERT TITLE--></h4>
+      </div>
+      <div class="modal-body">
+        <!--ALERT CONTENT-->
+      </div>
+      <div class="modal-footer text-center">
+        <a role="button" tabindex="0" class="btn btn-primary padding-6-55" id="filter_alert_btn" data-placement="top" data-toggle="popover" data-trigger="focus" data-dismiss="modal" disabled=true>Ok</a>
       </div>
     </div>
   </div>
