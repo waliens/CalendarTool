@@ -23,7 +23,7 @@
 
 		/**
 		 * @brief Construct an ICSGenerator object
-		 * @param[in] FilterCollectionModel A filter collection object
+		 * @param[in] FilterCollectionModel $filter_collection A filter collection object
 		 */
 		public function __construct(FilterCollectionModel $filter_collection)
 		{

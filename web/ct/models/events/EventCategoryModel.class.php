@@ -128,7 +128,7 @@
 		 *   <li>Id_Category : </li>
 		 *   <li>Category : The category name a given language (set at construction)</li>
 		 *   <li>Description : The description of the category in a given language (set at construction)</li>
-		 *   <li>Color : the color in which the event must be (in the #hhhhhh format) </li>
+		 *   <li>Color : the color in which the event must be (in the \#hhhhhh format) </li>
 		 * </ul>
 		 * @note The columns are selected according to the language
 		 */
@@ -152,7 +152,7 @@
 		 *   <li>Id_Category : </li>
 		 *   <li>Category : The category name a given language (set at construction)</li>
 		 *   <li>Description : The description of the category in a given language (set at construction)</li>
-		 *   <li>Color : the color in which the event must be (in the #hhhhhh format) </li>
+		 *   <li>Color : the color in which the event must be (in the \#hhhhhh format) </li>
 		 * </ul>
 		 * @note The columns are selected according to the language
 		 */
