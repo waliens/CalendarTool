@@ -4,6 +4,8 @@
 $("#navbar li").removeClass("active");
 $("#profile_nav").addClass("active");
 var subevent;
+//var holding values to abort global event modification
+var edit_global_event_old;
 
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
@@ -170,7 +172,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			var global_event_description=data.description;
 			var global_event_feedback=data.feedback;
 			var global_event_period=data.period;
-			var global_event_lang=data.language;
+			var global_event_lang=convert_language(data.language);
 			var global_event_acad_year=data.acad_year;
 			var global_event_work_th=data.workload.th;
 			var global_event_work_pr=data.workload.pr;
@@ -346,6 +348,53 @@ function get_recursion(recursion_id){
 
 function edit_global_event(){
 	var event_id=event.currentTarget.parentNode.getAttribute("event-id");
+	//initialize variables to hold old content of the event
+	edit_global_event_old={details:$("#event-details").text(),feedback:$("#event-feedback").text(),language:$("#event-lang").text()};
+	//update modale view to make language, feedback and description editable
+	$("#event-details").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_details" value=\"'+edit_global_event_old.details+'">');
+	$("#event-feedback").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_feedback" value="'+edit_global_event_old.feedback+'">');
+	$("#event-lang").html('<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="edit_cours_language" data-toggle="dropdown" aria-expanded="true" language=""> '+edit_global_event_old.language+' <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_languages_list"><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li></ul></div>');
+	//display confirm and abort buttons and attach to the button the id of the event we are editing
+	$("#edit-global-event-buttons").removeClass("hidden");
+	$("#edit-global-event-buttons").attr("event-id",event_id);
+	}
+	
+//confirm global event edit
+function  edit_global_event_confirm(){
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "index.php?src=ajax&req=034",
+		data: {id:event_id,description:event_details,feedback:event_feedback,language:event_lan},
+		success : function(data, status) {
+			var event_id=$("#edit-global-event-buttons").attr("event-id");
+			var event_details=$("#edit_global_cours_feedback").text();
+			var event_lan=$("#edit_cours_language").text();
+			var event_feedback=$("#edit_global_cours_feedback").text();
+			$("#event-details").html('');
+			$("#event-details").value(event_details);
+			$("#event-feedback").html('');
+			$("#event-feedback").value(event_feedback);
+			$("#event-lang").html('');
+			$("#event-lang").value(event_lan);
+			$("#edit-global-event-buttons").addClass("hidden");
+		},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	}
+
+//abort the edit of a global event
+function edit_global_event_abort(){
+	$("#event-details").html('');
+	$("#event-details").value(edit_global_event_old.details);
+	$("#event-feedback").html('');
+	$("#event-feedback").value(edit_global_event_old.feedback);
+	$("#event-lang").html('');
+	$("#event-lang").value(edit_global_event_old.language);
+	$("#edit-global-event-buttons").addClass("hidden");
 	}
 	
 //add global event panel - populate list of years
@@ -411,6 +460,14 @@ $("#languages_list").on("click","a",function(event){
 	$("#cours_language").attr("language",language_code);
 	})
 	
+//update the selected cours language for edit global event
+$("#event_info").on("click","#edit_languages_list a",function(event){
+	var language=event.currentTarget.innerHTML;
+	var language_code=event.currentTarget.getAttribute("language");
+	$("#edit_cours_language").html(language+' <span class="caret"></span>');
+	$("#edit_cours_language").attr("language",language_code);
+	})
+	
 $("#global_event_add_confirm").click(function(event){
 	var cours_id=$("#cours_to_add").attr("cours-id");
 	if($("#cours_language").text()!="Sélectionner language")
@@ -442,5 +499,13 @@ $("#add_global_event_alert").on("click","#global_course_list li,#languages_list 
 	else $("#global_event_add_confirm").prop("disabled",true);
 });
 
+function convert_language(ln){
+	switch(ln){
+		case "FR":
+		return "Français";
+		case "EN":
+		return "Anglais";
+		}
+	}
 
 

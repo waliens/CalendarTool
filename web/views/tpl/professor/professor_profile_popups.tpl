@@ -152,6 +152,10 @@
           </div>
         </div>
       </div>
+      <div class="modal-footer hidden" id="edit-global-event-buttons">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="edit-global-event-abort">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="edit-global-event-confimr">Confirmer</button>
+      </div>
     </div>
   </div>
 </div>
