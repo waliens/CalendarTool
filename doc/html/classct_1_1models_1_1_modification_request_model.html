@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classct_1_1models_1_1_modification_req
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -160,10 +161,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:aae72d31bfbec2b0724b39d73462853fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae72d31bfbec2b0724b39d73462853fe"></a>
-const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_modification_request_model.html#aae72d31bfbec2b0724b39d73462853fe">STATUS_SENT</a> = &quot;sent&quot;</td></tr>
-<tr class="memdesc:aae72d31bfbec2b0724b39d73462853fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status string constant : sent. <br/></td></tr>
-<tr class="separator:aae72d31bfbec2b0724b39d73462853fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa749408a5c624adc0df9ccfaf2b1a7ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa749408a5c624adc0df9ccfaf2b1a7ce"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_modification_request_model.html#aa749408a5c624adc0df9ccfaf2b1a7ce">STATUS_WAITING</a> = &quot;waiting&quot;</td></tr>
+<tr class="memdesc:aa749408a5c624adc0df9ccfaf2b1a7ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status string constant : waiting. <br/></td></tr>
+<tr class="separator:aa749408a5c624adc0df9ccfaf2b1a7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f80c53f025dbcfa3b742820a5f472c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f80c53f025dbcfa3b742820a5f472c8"></a>
 const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_modification_request_model.html#a6f80c53f025dbcfa3b742820a5f472c8">STATUS_ACCEPTED</a> = &quot;accepted&quot;</td></tr>
 <tr class="memdesc:a6f80c53f025dbcfa3b742820a5f472c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status string constant : accepted. <br/></td></tr>
@@ -334,7 +335,19 @@ This function might access the following tables : event, modification_target </d
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>In addition of the index present in the $data array of the insert_modification_request function, some fields status and request are added containing respectively the status of the request and the request id. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In addition of the index present in the $data array of the insert_modification_request function, the following fields are added : <ul>
+<li>
+status : the request status (waiting, refused, cancelled, accepted) </li>
+<li>
+request : request id </li>
+<li>
+sender_name : the name of the sender </li>
+<li>
+sender_surname : the surname of the sende </li>
+<li>
+event_name : the name of the event </li>
+</ul>
+Moreover, the targets array contain a 'name' key mapping the target human-readable name </dd></dl>
 
 </div>
 </div>
@@ -399,7 +412,7 @@ This function might access the following tables : event, modification_target </d
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>The each row of the output array is mapped by the corresponding target id and is structured as follows : <ul>
+<dl class="section note"><dt>Note</dt><dd>Each row of the output array is mapped by the corresponding target id and is structured as follows : <ul>
 <li>
 Id_Target : the target id </li>
 <li>
@@ -564,8 +577,8 @@ proposition : change according to the target (see below) </li>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>ct</b></li><li class="navelem"><b>models</b></li><li class="navelem"><a class="el" href="classct_1_1models_1_1_modification_request_model.html">ModificationRequestModel</a></li>
-    <li class="footer">Generated on Tue Mar 3 2015 23:22:29 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespacect.html">ct</a></li><li class="navelem"><a class="el" href="namespacect_1_1models.html">models</a></li><li class="navelem"><a class="el" href="classct_1_1models_1_1_modification_request_model.html">ModificationRequestModel</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:55 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

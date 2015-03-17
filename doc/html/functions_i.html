@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -96,6 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_h.html#index_h"><span>h</span></a></li>
       <li class="current"><a href="functions_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_j.html#index_j"><span>j</span></a></li>
+      <li><a href="functions_k.html#index_k"><span>k</span></a></li>
       <li><a href="functions_l.html#index_l"><span>l</span></a></li>
       <li><a href="functions_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_n.html#index_n"><span>n</span></a></li>
@@ -128,7 +130,7 @@ $(document).ready(function(){initNavTree('functions_i.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -151,7 +153,7 @@ $(document).ready(function(){initNavTree('functions_i.html','');});
 : <a class="el" href="classct_1_1models_1_1_modification_request_model.html#ac7ea5e6527c80db4127603f13143b291">ModificationRequestModel</a>
 </li>
 <li>is_academic_event()
-: <a class="el" href="classct_1_1models_1_1_event_model.html#a460294fbcdf85474d0c5d2aed543f278">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a460294fbcdf85474d0c5d2aed543f278">EventModel</a>
 </li>
 <li>is_after()
 : <a class="el" href="classct_1_1models_1_1filters_1_1_date_time_filter.html#a26d4e49edda2c054917b46a7741382f1">DateTimeFilter</a>
@@ -172,22 +174,23 @@ $(document).ready(function(){initNavTree('functions_i.html','');});
 : <a class="el" href="classct_1_1_connection.html#a7d7b1a8e1d7defb228ee8b29c14bcd94">Connection</a>
 </li>
 <li>is_date_range_event()
-: <a class="el" href="classct_1_1models_1_1_event_model.html#ab16438e34529ac81e5f09301002d4b26">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#ab16438e34529ac81e5f09301002d4b26">EventModel</a>
 </li>
 <li>is_deadline_event()
-: <a class="el" href="classct_1_1models_1_1_event_model.html#aec01e6977f30d0ae57fed18ee622ca96">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#aec01e6977f30d0ae57fed18ee622ca96">EventModel</a>
 </li>
 <li>is_disjunctive()
 : <a class="el" href="classct_1_1models_1_1_filter_collection_model.html#aee89901d15d198ca9932fee3d1a6cbc9">FilterCollectionModel</a>
 </li>
 <li>is_empty()
-: <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a0b25ccb9268800ddc5bb2cc4028cd835">Superglobal</a>
+: <a class="el" href="classct_1_1models_1_1_filter_collection_model.html#a3f217727d8dcc96c3fe3e88e6937549a">FilterCollectionModel</a>
+, <a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a0b25ccb9268800ddc5bb2cc4028cd835">Superglobal</a>
 </li>
 <li>is_independent_event()
-: <a class="el" href="classct_1_1models_1_1_event_model.html#abccade0a7a9f78907afe399235554f0f">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#abccade0a7a9f78907afe399235554f0f">EventModel</a>
 </li>
 <li>is_private_event()
-: <a class="el" href="classct_1_1models_1_1_event_model.html#acbebecd8fa4a619608b590cb7a1d9ee7">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#acbebecd8fa4a619608b590cb7a1d9ee7">EventModel</a>
 </li>
 <li>is_root()
 : <a class="el" href="classct_1_1_connection.html#a72b5a7005064e37d0e9547e0ede76263">Connection</a>
@@ -199,10 +202,10 @@ $(document).ready(function(){initNavTree('functions_i.html','');});
 : <a class="el" href="classct_1_1models_1_1_user_model.html#a8193854aea603c8ab15af10fa5f5942f">UserModel</a>
 </li>
 <li>is_sub_event()
-: <a class="el" href="classct_1_1models_1_1_event_model.html#a55c136184349273f2c2b17d87a3c3ba5">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a55c136184349273f2c2b17d87a3c3ba5">EventModel</a>
 </li>
 <li>is_time_range_event()
-: <a class="el" href="classct_1_1models_1_1_event_model.html#acf9873878dd634b3e83c08ce88b4da49">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#acf9873878dd634b3e83c08ce88b4da49">EventModel</a>
 </li>
 <li>is_valid_password()
 : <a class="el" href="classct_1_1models_1_1_root_model.html#a72b298a76eddc327074fe6928e96de9e">RootModel</a>
@@ -213,7 +216,7 @@ $(document).ready(function(){initNavTree('functions_i.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Mar 3 2015 23:22:29 for CalendarTool by
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

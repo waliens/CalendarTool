@@ -7,7 +7,9 @@ var searchData=
   ['sg_5fsession_2eclass_2ephp',['SG_Session.class.php',['../_s_g___session_8class_8php.html',1,'']]],
   ['sqlabstract_2eclass_2ephp',['SQLAbstract.class.php',['../_s_q_l_abstract_8class_8php.html',1,'']]],
   ['sqlabstract_5fpdo_2eclass_2ephp',['SQLAbstract_PDO.class.php',['../_s_q_l_abstract___p_d_o_8class_8php.html',1,'']]],
-  ['staticexportcontroller_2eclass_2ephp',['StaticExportController.class.php',['../_static_export_controller_8class_8php.html',1,'']]],
-  ['studentprofilecontroller_2eclass_2ephp',['StudentProfileController.class.php',['../_student_profile_controller_8class_8php.html',1,'']]],
+  ['staticexportcontroller_2eclass_2ephp',['StaticExportController.class.php',['../ajax_2_static_export_controller_8class_8php.html',1,'']]],
+  ['staticexportcontroller_2eclass_2ephp',['StaticExportController.class.php',['../browser_2_static_export_controller_8class_8php.html',1,'']]],
+  ['studentprofilecontroller_2eclass_2ephp',['StudentProfileController.class.php',['../browser_2_student_profile_controller_8class_8php.html',1,'']]],
+  ['studentprofilecontroller_2eclass_2ephp',['StudentProfileController.class.php',['../ajax_2_student_profile_controller_8class_8php.html',1,'']]],
   ['superglobal_2eclass_2ephp',['Superglobal.class.php',['../_superglobal_8class_8php.html',1,'']]]
 ];

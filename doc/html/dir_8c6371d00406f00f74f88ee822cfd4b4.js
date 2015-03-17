@@ -15,10 +15,10 @@ var dir_8c6371d00406f00f74f88ee822cfd4b4 =
     [ "ProfilePageController.class.php", "_profile_page_controller_8class_8php.html", [
       [ "ProfilePageController", "classct_1_1controllers_1_1browser_1_1_profile_page_controller.html", "classct_1_1controllers_1_1browser_1_1_profile_page_controller" ]
     ] ],
-    [ "StaticExportController.class.php", "_static_export_controller_8class_8php.html", [
+    [ "StaticExportController.class.php", "browser_2_static_export_controller_8class_8php.html", [
       [ "StaticExportController", "classct_1_1controllers_1_1browser_1_1_static_export_controller.html", "classct_1_1controllers_1_1browser_1_1_static_export_controller" ]
     ] ],
-    [ "StudentProfileController.class.php", "_student_profile_controller_8class_8php.html", [
+    [ "StudentProfileController.class.php", "browser_2_student_profile_controller_8class_8php.html", [
       [ "StudentProfileController", "classct_1_1controllers_1_1browser_1_1_student_profile_controller.html", "classct_1_1controllers_1_1browser_1_1_student_profile_controller" ]
     ] ]
 ];
