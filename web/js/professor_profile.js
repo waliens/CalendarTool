@@ -13,6 +13,14 @@ $(document).ready(function() {
 		//url : "json/professor-profile.json",
 		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
+
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var courses=data.courses;
@@ -26,8 +34,7 @@ $(document).ready(function() {
 				addIndependentEvent(indep_events[i]);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 });
@@ -124,12 +131,18 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=033",
 			data : {id:event_id},
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+
 				$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
 			},
 			error : function(xhr, status, error) {
-					  var err = eval("(" + xhr.responseText + ")");
-					  alert(err.Message);
-					}
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
 		});
 	
 	})
@@ -144,12 +157,18 @@ $("#delete_indep_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=083",
 			data : {id:event_id,applyRecursive:"false"},
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+
 				$("#independent-events #"+event_id).parent().parent().remove()
 			},
 			error : function(xhr, status, error) {
-					  var err = eval("(" + xhr.responseText + ")");
-					  alert(err.Message);
-					}
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
 		});
 	
 	})
@@ -163,6 +182,13 @@ $("#event_info").on("show.bs.modal",function(event){
 		//url : "json/globalevent-info.json",
 		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
 			var global_event_name=data.name;
@@ -213,8 +239,7 @@ $("#event_info").on("show.bs.modal",function(event){
 				addTeamMember(team[i]);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -266,6 +291,13 @@ $("#subevent_info").on("show.bs.modal",function(){
 		type : 'GET',
 		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
 			var subevent_id=data.id;
 			var subevent_title=data.name;
 			var subevent_description=data.description;
@@ -321,8 +353,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 			$("#subevent-place").text(subevent_place);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 })
@@ -377,6 +408,14 @@ $("#years_list").on("click","a",function(event){
 		url : "index.php?src=ajax&req=036",
 		data: {"year":year},
 		success : function(data, status) {
+
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
 			$("#global_course_list").html("");
 			$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
 			$("#cours_language").html('Sélectionner langue <span class="caret"></span>');
@@ -390,8 +429,7 @@ $("#years_list").on("click","a",function(event){
 			}
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -425,12 +463,18 @@ $("#global_event_add_confirm").click(function(event){
 		url : "index.php?src=ajax&req=035",
 		data: new_course,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
 			var cours_to_add={"id":data.id,"code":cours_id, "lib_cours_complet":$("#cours_to_add").text()}
 			addGlobalEvent(cours_to_add);
-			},
+		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})	

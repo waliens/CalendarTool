@@ -19,7 +19,7 @@
               {if !$student}
               <tr>
                 <td class="width-30"><input type="checkbox" id="pathway_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
-                <td>Par pathway</td>
+                <td>Par section</td>
               </tr>
               {/if}
               <tr>
@@ -33,10 +33,6 @@
               <tr>
                 <td class="width-30"><input type="checkbox" id="event_category_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
                 <td>Par catégorie d'événement</td>
-              </tr>
-              <tr>
-                <td class="width-30"><input type="checkbox" id="pathway_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
-                <td>Par section</td>
               </tr>
               <tr>
                 <td class="width-30"><input type="checkbox" id="professor_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>

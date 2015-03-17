@@ -8,20 +8,20 @@
 function launch_error_ajax (error,lang) 
 {
 	// get proper language
-	lang = (lang === "undefined" || (lang !== "FR" && lang !== "EN") ? : "FR" : lang);
+	lang = (lang === "undefined" || (lang !== "FR" && lang !== "EN") ? "FR" : lang);
 	
 	// make title
-	var title = (lang == "FR" ? "Une erreur s\"est produite..." : "An error occurred...");
+	var title = (lang == "FR" ? "Une erreur s'est produite..." : "An error occurred...");
 
 	// make content
 	var body = "";
 
 	if(typeof error.error_msg === "string") // msg is a string
-		body = "Code " + error.error_code + " : " + error.error_msg;
+		body = error.error_msg;
 	else
 	{
-		var body_prefix = (lang == "FR" ? "Erreur " : "Error ") + error.error_code + " : ";
-		body = body_prefix + error.error_msg[lang];
+		var body_suffix = (lang == "FR" ? "(code d'erreur : " : "(error code : ") + error.error_code + ")";
+		body = error.error_msg[lang] + body_suffix;
 	}
 
 	$("#error-ajax-modal-title").text(title);
