@@ -114,6 +114,17 @@ class ViewEventController extends AjaxController
 			if($an)
 				$ret['annotation'] = $an;
 			
+			if($indep || $sub){
+				$team = $model->getTeam($eventId);
+				if($team){
+					$prof = array();
+					foreach($team as $key => $value){
+						if($value["role"] == "Professor" || $value["role"] == "Professeur") // Attention hardcodé
+							array_push($prof, $value["name"]." ".$value['surname']);
+					}
+					$ret['professor'] = implode(", ", $prof);
+				}
+			}
 			$this->set_output_data($ret);
 		}
 	}

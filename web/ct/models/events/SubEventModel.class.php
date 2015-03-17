@@ -10,6 +10,7 @@ namespace ct\models\events;
  */
 use ct\models\PathwayModel;
 
+use util\mvc\Model;
 use ct\models\UserModel;
 
 class SubEventModel extends AcademicEventModel{
@@ -27,7 +28,7 @@ class SubEventModel extends AcademicEventModel{
 	
 	private function getIdGlobal($eventId){
 		$mod = new GlobalEventModel();
-		$idGlob = $this->getEvent(array("id_event" => $this->sql->quote($eventId), array("id_globalEvent")));
+		$idGlob = $this->getEvent(array("id_event" => $eventId, array("id_globalEvent")));
 		if(!empty($idGlob) && isset($idGlob[0]['Id_Global_Event'])){
 			return $idGlob[0]['Id_Global_Event'];
 		}
@@ -69,14 +70,16 @@ class SubEventModel extends AcademicEventModel{
 	 * @param int $eventId
 	 */
 	public function getTeam($eventId, $lang = GlobalEventModel::LANG_FR){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
+		/*if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
 			//TODO SET ERROR
 			return false;
-		}
+		}*/
 
 		$idGlob = $this->getIdGlobal($eventId);
+		
 		if(!$idGlob)
 				return false;
+		
 		
 		
 		if($lang === GlobalEventModel::LANG_FR)
@@ -84,14 +87,14 @@ class SubEventModel extends AcademicEventModel{
 		else
 			$lang_col = "Role_EN AS role";
 		
-		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Description as `desc`
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ".$idGlob." AND Id_User NOT in 
 							(SELECT Id_User FROM sub_event_excluded_team_member WHERE Id_Event = ".$this->sql->quote($eventId)." AND Id_Global_Event = ".$idGlob."))
 							 AS ttm
 						NATURAL JOIN 
 						( SELECT Id_Role, ".$lang_col." FROM teaching_role ) AS roles";
-		$this->sql->execute_query($query);
+		return $this->sql->execute_query($query);
 	}
 	
 	/**
