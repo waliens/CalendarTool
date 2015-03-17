@@ -17,12 +17,8 @@
                 <td>Tous les événements</td>
               </tr>
               <tr>
-                <td class="width-30"><input type="checkbox" id="date_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
-                <td>Par date</td>
-              </tr>
-              <tr>
                 <td class="width-30"><input type="checkbox" id="course_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
-                <td>Par course</td>
+                <td>Par cours</td>
               </tr>
               <tr>
                 <td class="width-30"><input type="checkbox" id="event_type_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
@@ -30,11 +26,11 @@
               </tr>
               <tr>
                 <td class="width-30"><input type="checkbox" id="event_category_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
-                <td>Par categorie d'événement</td>
+                <td>Par catégorie d'événement</td>
               </tr>
               <tr>
                 <td class="width-30"><input type="checkbox" id="pathway_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
-                <td>Par pathway</td>
+                <td>Par section</td>
               </tr>
               <tr>
                 <td class="width-30"><input type="checkbox" id="professor_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
