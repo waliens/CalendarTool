@@ -51,15 +51,15 @@
           </tr>
           <tr>
             <td class="text-bold width-80">Feedback</td>
-            <td id="event-feedback"><input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" id="new_global_cours_feedback"></td>
+            <td id="event-feedback"><input type="text" class="form-control" placeholder="Feedback" aria-describedby="sizing-addon1" id="new_global_cours_feedback"></td>
           </tr>
           <tr>
             <td class="text-bold width-80">Langue</td>
             <td id="event-lang"><div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="cours_language" data-toggle="dropdown" aria-expanded="true"> Sélectionner langue <span class="caret"></span> </button>
+                <button class="btn btn-default dropdown-toggle" type="button" id="cours_language" data-toggle="dropdown" aria-expanded="true" language=""> Sélectionner langue <span class="caret"></span> </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="languages_list">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Français</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Anglais</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li>
                 </ul>
               </div></td>
           </tr>
@@ -67,7 +67,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="Annuler" disabled="disabled">Confirmer</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_add_confirm" disabled="disabled">Confirmer</button>
       </div>
     </div>
   </div>

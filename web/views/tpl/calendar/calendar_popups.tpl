@@ -24,6 +24,10 @@
             <td><div id="event_place"></div></td>
           </tr>
           <tr>
+            <td class="text-bold width-80">Categorie</td>
+            <td><div id="event_category"></div></td>
+          </tr>
+          <tr>
             <td class="text-bold width-80">Professeur</td>
             <td><div id="event_owner"></div></td>
           </tr>
@@ -95,6 +99,7 @@
                   </tr>
                   <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline();"></td></tr>
                 </table></td>
+                </tr>
             <tr>
             <td class="text-bold width-80 vertical-middle">Récurrence</td>
               <td>
@@ -126,7 +131,7 @@
                 </td>
             </tr>
             <tr>
-              <td class="text-bold width-80 vertical-middle">Catégorie</td>
+              <td class="text-bold width-80 vertical-middle">Categorie</td>
               <td>
               <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="private_event_type_btn" data-toggle="dropdown" aria-expanded="true">
@@ -134,9 +139,9 @@
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="11">Travail</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="9">Sport</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="10">Chapi</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="11">Travail</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="12">Restaurant</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="13">Soirée</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="14">Personnel</a></li>
@@ -146,6 +151,7 @@
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="18">Autre</a></li>
                   </ul>
                 </div>
+                </td>
             </tr>
             <tr>
               <td class="text-bold width-80 vertical-middle">Lieu</td>
@@ -172,6 +178,23 @@
             </tr>
           </table>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Filter Alert -->
+<div class="modal fade" id="filter_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><!--ALERT TITLE--></h4>
+      </div>
+      <div class="modal-body">
+        <!--ALERT CONTENT-->
+      </div>
+      <div class="modal-footer text-center">
+        <a role="button" tabindex="0" class="btn btn-primary padding-6-55" id="filter_alert_btn" data-placement="top" data-toggle="popover" data-trigger="focus" data-dismiss="modal" disabled=true>Ok</a>
       </div>
     </div>
   </div>

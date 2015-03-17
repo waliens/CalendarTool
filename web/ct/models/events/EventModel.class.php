@@ -289,20 +289,20 @@ use \DateInterval;
 					$data = array();
 					$data["Id_event"] = $this->sql->quote($id);
 					$data["Start"] = $this->sql->quote($start->format("Y-m-d"));
-					$data["End"] = $this->sql->quote($start->format("Y-m-d"));
+					$data["End"] = $this->sql->quote($end->format("Y-m-d"));
 					$table = "date_range_event";
 					break;
 				case "Deadline":
 					$data = array();
 					$data["Id_event"] = $this->sql->quote($id);
-					$data["Limit"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
+					$data["`Limit`"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
 					$table = "deadline_event";
 					break;
 				case "TimeRange":
 					$data = array();
 					$data["Id_event"] = $this->sql->quote($id);
 					$data["Start"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
-					$data["End"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
+					$data["End"] = $this->sql->quote($end->format("Y-m-d H:i:s"));
 					$table = "time_range_event";
 					break;
 				default:
@@ -317,7 +317,7 @@ use \DateInterval;
 			}
 			else
 				$a = $this->sql->insert($table, $data);
-			
+
 			if($a)
 				return true;
 			$this->error .= "\n Date Error";
