@@ -10,6 +10,7 @@ namespace ct\models\events;
 use ct\models\PathwayModel;
 
 use ct\models\UserModel;
+use util\mvc\Model;
 
 class IndependentEventModel extends AcademicEventModel{
 	
@@ -82,17 +83,18 @@ class IndependentEventModel extends AcademicEventModel{
 	 * @retval array|boolean
 	 */
 	public function getTeam($eventId , $lang = null){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
+		/*if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
 			//TODO SET ERROR
 			return false;
-		}
+		}*/
 
-		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Description as `desc`
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role
 		FROM  user NATURAL JOIN
 			( SELECT * FROM independent_event_manager WHERE  Id_Event = ".$this->sql->quote($eventId)." )
 				AS ttm
 		NATURAL JOIN
 			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles";
+		
 		return $this->sql->execute_query($query);
 
 	}

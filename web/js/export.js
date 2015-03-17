@@ -1,5 +1,5 @@
 // JavaScript Document
-
+var today = new Date();
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#menu_nav").addClass("active");
@@ -12,6 +12,7 @@ var filters = {
 			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
+			eventCategories: {isSet: 'false', id:[]},
 			pathways: {isSet: 'false', id:[]},
 			professors:	{isSet: 'false', id:[]}
           };
@@ -43,8 +44,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$("#date_filter_btn").attr("disabled",false);
 				$(this).find('.modal-title').text("Filtrer par date");
 				//build the datepicker elements
-				$(this).find('.modal-body').html("<p><input id='startDate' onclick=\"setSens(\'endDate\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDate' onclick=\"setSens(\'startDate\',\'max\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
-				buildDatepicker();
+				$(this).find('.modal-body').html("<p><input id='startDateFilter' onclick=\"setSens(\'endDateFilter\',\'max\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDateFilter' onclick=\"setSens(\'startDateFilter\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
+				buildDatepickerFilter();
 				break;
 			case "course_filter":
 				$(this).find('.modal-title').text("Filtrer par cours");
@@ -68,6 +69,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							var cell2=row.insertCell(1);
 							var cell3=row.insertCell(2);
 							cell1.innerHTML="ID";
+							cell1.className="min-width-100"
 							cell2.innerHTML="Title";
 							cell3.innerHTML="Choisir";
 							filter_alert.append(table);
@@ -89,7 +91,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=041",
 						async : true,
 						success : function(data, status) {
-							var types=data.types;
+							var date_types=data.date_type;
+							var event_types=data.event_type;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
 							var table=document.createElement("table");
@@ -103,14 +106,98 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							cell2.innerHTML="Choisir";
 							cell2.className="text-center"
 							filter_alert.append(table);
-							for (var i = 0; i < types.length; i++)
-								addType(types[i]);
+							for (var i = 0; i < date_types.length; i++)
+								addType(date_types[i]);
+							for (var i = 0; i < event_types.length; i++)
+								addType(event_types[i]);
 						},
-						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+						error : function(xhr, status, error) {
+						  var err = eval("(" + xhr.responseText + ")");
+						  alert(err.Message);
 						}
 					});
 				break;
+			case "event_category_filter":
+			$(this).find('.modal-title').text("Filtrer par categorie d'événement");
+				//get events type
+				$.ajax({
+						dataType : "json",
+						type : 'POST',
+						//url : "json/event_categories.json",
+						url : "index.php?src=ajax&req=047",
+						data: {lang:"FR"},
+						async : true,
+						success : function(data, status) {
+							var student_categories=data.student;
+							var academic_categories=data.academic;
+							//populate the filter list
+							var filter_alert=$("#filter_alert .modal-body");
+							var table=document.createElement("table");
+							table.className="table";
+							table.id="events_categories_filter_table";
+							var row=table.insertRow(-1);
+							row.className="text-bold";
+							var cell1=row.insertCell(0);
+							var cell2=row.insertCell(1);
+							cell1.innerHTML="Événement Academique";
+							cell2.innerHTML="Choisir";
+							cell2.className="text-center"
+							var cell3=row.insertCell(2);
+							var cell4=row.insertCell(3);
+							cell3.innerHTML="Événement Privé";
+							cell4.innerHTML="Choisir";
+							cell4.className="text-center"
+							filter_alert.append(table);
+							var i=0;
+							for (i; i < academic_categories.length; i++){
+								var acad_category_tag=document.createElement('p');
+								acad_category_tag.innerHTML = academic_categories[i].name;
+								var table=document.getElementById("events_categories_filter_table");
+								var row=table.insertRow(-1);
+								var cell1=row.insertCell(0);
+								var cell2=row.insertCell(1);
+								cell1.appendChild(acad_category_tag);
+								var input=document.createElement('input');
+								input.type='checkbox';
+								input.id=academic_categories[i].name;
+								cell2.className="text-center";
+								cell2.appendChild(input);
+								if(student_categories[i]!=null){
+									var student_category_tag=document.createElement('p');
+									student_category_tag.innerHTML = student_categories[i].name;
+									var cell3=row.insertCell(2);
+									var cell4=row.insertCell(3);
+									cell3.appendChild(student_category_tag);
+									var input=document.createElement('input');
+									input.type='checkbox';
+									input.id=student_categories[i].name;
+									cell4.className="text-center";
+									cell4.appendChild(input);
+								}
+							}
+							for(var j=i;j<student_categories.length;j++){
+								var table=document.getElementById("events_categories_filter_table");
+								var row=table.insertRow(-1);
+								var cell1=row.insertCell(0);
+								var cell2=row.insertCell(1);
+								var student_category_tag=document.createElement('p');
+								student_category_tag.innerHTML = student_categories[i].name;
+								var cell3=row.insertCell(2);
+								var cell4=row.insertCell(3);
+								cell3.appendChild(student_category_tag);
+								var input=document.createElement('input');
+								input.type='checkbox';
+								input.id=student_categories[i].name;
+								cell4.className="text-center";
+								cell4.appendChild(input);
+							}
+						},
+						error : function(xhr, status, error) {
+						  var err = eval("(" + xhr.responseText + ")");
+						  alert(err.Message);
+						}
+					});
+			break;	
 			case "pathway_filter":
 				$(this).find('.modal-title').text("Filtrer par pathway");
 				//get pathways
@@ -179,6 +266,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 		}
 })
 
+
+
 //deals with the filter all_events which must disable all other when pressed and enable all when pressed again
 $("#all_events_filter").click(function(){
 	if($(this).prop('checked')){
@@ -201,12 +290,13 @@ $("#all_events_filter").click(function(){
 	})
 
 //builds the element datepicker in the alert called by the date range filter
-function buildDatepicker() {
+//builds the element datepicker in the alert called by the date range filter
+function buildDatepickerFilter() {
 	//build current date
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
+	var td = new Date();
+	var dd = td.getDate();
+	var mm = td.getMonth()+1; //January is 0!
+	var yyyy = td.getFullYear();
 	
 	if(dd<10) {
 		dd='0'+dd
@@ -216,33 +306,29 @@ function buildDatepicker() {
 		mm='0'+mm
 	} 
 	
-	today = yyyy+'-'+mm+'-'+dd;
-	today = moment(today);
-	startDate = new dhtmlXCalendarObject("startDate");
-	endDate = new dhtmlXCalendarObject("endDate");
-	startDate.setDate(today.format("YYYY-MM-DD"));
-	endDate.setDate(today.add(1,"day").format("YYYY-MM-DD"));
-	startDate.hideTime();
-	endDate.hideTime();
-	byId("startDate").value = today.format("dddd DD MM YYYY");
-	byId("endDate").value = today.add(1,"day").format("dddd DD MM YYYY");
-	startDate.setSensitiveRange(null,moment($("#endDate").val()).format("YYYY-MM-DD"));
-	endDate.setSensitiveRange(moment($("#startDate").val()).format("YYYY-MM-DD"),null);
-	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
-	startDate.attachEvent("onClick", function(date){
-		$("#startDate").val(convert_date($("#startDate").val(),"dddd DD MMM YYYY"));
-	});
-	endDate.attachEvent("onClick", function(date){
-		$("#endDate").val(convert_date($("#endDate").val(),"dddd DD MMM YYYY"));
+	td = yyyy+'-'+mm+'-'+dd;
+	td = moment(today);
+	filterDates= new dhtmlXCalendarObject(["startDateFilter","endDateFilter"]);
+	filterDates.hideTime();
+	filterDates.setDateFormat("%Y-%m-%d");
+	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+	var t = new Date();
+	byId("endDateFilter").value = td.format("dddd DD MM YYYY");
+	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
+	filterDates.attachEvent("onClick", function(date){
+		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
+		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
 	});
 }
 
+
 function setSens(id, k) {
-	// update range
+// update range
 	if (k == "min") {
-		endDate.setSensitiveRange(moment(byId(id).value).format("YYYY-MM-DD"), null);
+		filterDates.setSensitiveRange(convert_date(byId(id).value,"YYYY-MM-DD"), null);
 	} else {
-		startDate.setSensitiveRange(null, moment(byId(id).value).format("YYYY-MM-DD"));
+		filterDates.setSensitiveRange(null, convert_date(byId(id).value,"YYYY-MM-DD"));
 	}
 }
 function byId(id) {
@@ -303,7 +389,7 @@ function addPathway(pathway){
 //add the professor to the list in the filter alert
 function addProfessor(professor){
     var professor_tag=document.createElement('p');
-	professor_tag.innerHTML = professor.surname+" "+professor.name;
+	professor_tag.innerHTML = professor.name+" "+professor.surname;
 	var table=document.getElementById("professors_filter_table");
 	var row=table.insertRow(-1);
 	var cell1=row.insertCell(0);
@@ -336,6 +422,13 @@ function setFilter(filter){
 			var selectedTypes=$("#filter_alert input:checked");
 			selectedTypes.each(function (){
 				filters.eventTypes.id.push(this.id);
+				});
+			break;
+		case "event_category_filter":
+			filters.eventCategories.isSet="true";
+			var selectedCategories=$("#filter_alert input:checked");
+			selectedCategories.each(function (){
+				filters.eventCategories.id.push(this.id);
 				});
 			break;
 		case "pathway_filter":
@@ -371,6 +464,11 @@ function unSetFilter(filter){
 			filters.eventTypes.isSet="false";
 			//empty the array of ids'
 			filters.eventTypes.id.length=0;
+		break;
+		case "event_category_filter":
+			filters.eventCategories.isSet="false";
+			//empty the array of ids'
+			filters.eventCategories.id.length=0;
 		break;
 		case "pathway_filter":
 			filters.pathways.isSet="false";
@@ -430,20 +528,37 @@ $("#static_export").click(function(){
 
 
 //converts date formats	
+//converts date formats	
 function convert_date(date,formatDestination,formatOrigin){
 		var dd;
 		var mm;
 		var yy;
-		chunks=date.split("-");
+		var chunks=date.split(" ");
+		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
 		if(chunks.length>1){
-			dd=chunks[2];
-			mm=chunks[1];
-			yy=chunks[0];
-			date_standard=yy+"-"+mm+"-"+dd;
-			var d = moment(date_standard); 
-			return d.format(formatDestination);
+			dd=chunks[1];
+			if(chunks[2].length<2)
+				mm=convert_month(chunks[2]);
+			else mm=chunks[2];
+			yy=chunks[3];
 		}
-		else return date;
+		else {
+			chunks=date.split("-");
+			if(chunks[0].length==4){
+				dd=chunks[2];
+				mm=chunks[1];
+				yy=chunks[0];
+			}
+			else{
+				dd=chunks[0];
+				mm=chunks[1];
+				yy=chunks[2];
+
+				}
+		}
+		date_standard=yy+"-"+mm+"-"+dd;
+		var d = moment(date_standard);
+		return d.format(formatDestination);
 	}
 	
 //enable filter ok button when at least one checkbox is selected
