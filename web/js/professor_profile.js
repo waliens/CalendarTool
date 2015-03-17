@@ -353,7 +353,11 @@ function edit_global_event(){
 	
 //add global event panel - populate list of years
 $("#add_global_event_alert").on("show.bs.modal",function(){
-	var current_year=new Date().getFullYear();
+	var current_year=new Date().getFullYear(), current_month = new Date().getMonth();
+
+	if(current_month > 0 && current_month <= 8)
+		current_year--;
+
 	$('#years_list').html("");
 	$("#selected_year").html('Année <span class="caret"></span>');
 	$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
@@ -382,7 +386,7 @@ $("#years_list").on("click","a",function(event){
 			$("#new_global_cours_feedback").html("");
 			var courses=data.courses;
 			for(var i=0;i<courses.length;i++)
-				$("#global_course_list").append($('<li role="presentation"><a cours-id='+courses[i].ulg_id+' role="menuitem" tabindex="-1" href="#">'+courses[i].ulg_id+"\t"+courses[i].nameShort+'</a></li>'));
+				$("#global_course_list").append($('<li role="presentation"><a cours-id='+courses[i].id_ulg+' role="menuitem" tabindex="-1" href="#">'+courses[i].id_ulg+"\t"+courses[i].nameShort+'</a></li>'));
 			},
 		error: function(xhr, status, error) {
 		  var err = eval("(" + xhr.responseText + ")");
@@ -428,3 +432,7 @@ $("#global_event_add_confirm").click(function(event){
 		}
 	});
 	})	
+
+$("#global_course_list").click(function() {
+	$("#confirm_add_global_event").prop("disabled",false);
+});
