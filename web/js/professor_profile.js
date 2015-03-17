@@ -72,8 +72,8 @@ function addIndependentEvent(indep_event){
 	event_name.setAttribute("data-toggle","modal");
 	event_name.setAttribute("data-target","#subevent_info");
 	event_name.setAttribute("id",indep_event.id);
-	event_name.setAttribute("event-name",indep_event.lib_cours_complet);
-	event_name.innerHTML = indep_event.lib_cours_complet;
+	event_name.setAttribute("event-name",indep_event.name);
+	event_name.innerHTML = indep_event.name;
 	event_name.onclick=function(e){subevent=e.target}
 	var delete_icon=document.createElement('a');
 	var edit_icon=document.createElement('a');
@@ -84,7 +84,7 @@ function addIndependentEvent(indep_event){
 	delete_icon.setAttribute("data-target","#delete_indep_event_alert");
 	delete_icon.setAttribute("course-code",indep_event.code);
 	delete_icon.setAttribute("course-id",indep_event.id);
-	delete_icon.setAttribute("course-name",indep_event.lib_cours_complet);
+	delete_icon.setAttribute("course-name",indep_event.name);
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
 	var div_container2=document.createElement("div");
@@ -266,8 +266,8 @@ $("#subevent_info").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/subevent-info.json",
-		//url : "index.php?src=ajax&req=051&event=subevent_id",
+		//url : "json/subevent-info.json",
+		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
 			var subevent_id=data.id;
 			var subevent_title=data.name;
