@@ -78,7 +78,7 @@ class ViewEventController extends AjaxController
 			$start = new DateTime($data['Start']);
 			
 			$ret['startDay'] = $start->format("Y-m-d");
-			$ret['startTime'] = $start->format("H:i:s");
+			$ret['startTime'] = $start->format("H:i");
 			
 			if($data['DateType'] == "deadline"){
 				$ret['deadline'] = "true";
@@ -89,7 +89,7 @@ class ViewEventController extends AjaxController
 				$ret['deadline'] = "false";
 				$end = new DateTime($data['End']);
 				$ret['endDay'] = $end->format("Y-m-d");
-				$ret['endTime'] = $end->format("H:i:s");;
+				$ret['endTime'] = $end->format("H:i");;
 			}
 			
 			
