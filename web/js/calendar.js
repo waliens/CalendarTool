@@ -1109,7 +1109,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$("#date_filter_btn").attr("disabled",false);
 				$(this).find('.modal-title').text("Filtrer par date");
 				//build the datepicker elements
-				$(this).find('.modal-body').html("<p><input id='startDateFilter' onclick=\"setSensFilter(\'endDateFilter\',\'maxx\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDateFilter' onclick=\"setSensFilter(\'startDateFilter\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
+				$(this).find('.modal-body').html("<p><input id='startDateFilter' onclick=\"setSensFilter(\'endDateFilter\',\'max\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDateFilter' onclick=\"setSensFilter(\'startDateFilter\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
 				buildDatepickerFilter();
 				break;
 			case "course_filter":
