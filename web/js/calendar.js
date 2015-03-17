@@ -587,7 +587,9 @@ function convert_date(date,formatDestination,formatOrigin){
 		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
 		if(chunks.length>1){
 			dd=chunks[1];
-			mm=convert_month(chunks[2]);
+			if(chunks[2].length<2)
+				mm=convert_month(chunks[2]);
+			else mm=chunks[2];
 			yy=chunks[3];
 		}
 		else {
@@ -606,7 +608,6 @@ function convert_date(date,formatDestination,formatOrigin){
 		}
 		date_standard=yy+"-"+mm+"-"+dd;
 		var d = moment(date_standard);
-		moment().locale('fr'); 
 		return d.format(formatDestination);
 	}
 	
@@ -1108,8 +1109,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$("#date_filter_btn").attr("disabled",false);
 				$(this).find('.modal-title').text("Filtrer par date");
 				//build the datepicker elements
-				$(this).find('.modal-body').html("<p><input id='startDate' onclick=\"setSens(\'endDate\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDate' onclick=\"setSens(\'startDate\',\'max\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
-				buildDatepicker();
+				$(this).find('.modal-body').html("<p><input id='startDateFilter' onclick=\"setSensFilter(\'endDateFilter\',\'maxx\');\" readonly='true'><label class='common_text margin-left-10'>à partir</label></p><p><input id='endDateFilter' onclick=\"setSensFilter(\'startDateFilter\',\'min\');\" readonly='true'><label class='common_text margin-left-10'>de</label></p>");
+				buildDatepickerFilter();
 				break;
 			case "course_filter":
 				$(this).find('.modal-title').text("Filtrer par cours");
@@ -1333,12 +1334,12 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 
 
 //builds the element datepicker in the alert called by the date range filter
-function buildDatepicker() {
+function buildDatepickerFilter() {
 	//build current date
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
+	var td = new Date();
+	var dd = td.getDate();
+	var mm = td.getMonth()+1; //January is 0!
+	var yyyy = td.getFullYear();
 	
 	if(dd<10) {
 		dd='0'+dd
@@ -1348,33 +1349,47 @@ function buildDatepicker() {
 		mm='0'+mm
 	} 
 	
-	today = yyyy+'-'+mm+'-'+dd;
-	today = moment(today);
-	startDate = new dhtmlXCalendarObject("startDate");
-	endDate = new dhtmlXCalendarObject("endDate");
-	startDate.setDate(today.format("YYYY-MM-DD"));
-	endDate.setDate(today.add(1,"day").format("YYYY-MM-DD"));
+	td = yyyy+'-'+mm+'-'+dd;
+	td = moment(today);
+	filterDates= new dhtmlXCalendarObject(["startDateFilter","endDateFilter"]);
+	filterDates.hideTime();
+	filterDates.setDateFormat("%Y-%m-%d");
+	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+	var t = new Date();
+	byId("endDateFilter").value = td.format("dddd DD MM YYYY");
+	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
+	filterDates.attachEvent("onClick", function(date){
+		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
+		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
+	});
+	/*startDate = new dhtmlXCalendarObject("startDateFilter");
+	endDate = new dhtmlXCalendarObject("endDateFilter");
+	startDate.setDateFormat("%Y-%m-%d");
+	endDate.setDateFormat("%Y-%m-%d");
+	startDate.setDate(td.format("YYYY-MM-DD"));
+	byId("startDateFilter").value = td.format("dddd DD MM YYYY");
+	endDate.setDate(td.add(1,"day").format("YYYY-MM-DD"));
+	byId("endDateFilter").value = td.format("dddd DD MM YYYY");
 	startDate.hideTime();
-	endDate.hideTime();
-	byId("startDate").value = today.format("dddd DD MM YYYY");
-	byId("endDate").value = today.add(1,"day").format("dddd DD MM YYYY");
-	startDate.setSensitiveRange(null,moment($("#endDate").val()).format("YYYY-MM-DD"));
-	endDate.setSensitiveRange(moment($("#startDate").val()).format("YYYY-MM-DD"),null);
+	endDate.hideTime();	
+	startDate.setSensitiveRange(null,convert_date($("#endDateFilter").val(),"YYYY-MM-DD"));
+	endDate.setSensitiveRange(convert_date($("#startDateFilter").val(),"YYYY-MM-DD"),null);
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 	startDate.attachEvent("onClick", function(date){
-		$("#startDate").val(convert_date($("#startDate").val(),"dddd DD MMM YYYY"));
+		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
 	});
 	endDate.attachEvent("onClick", function(date){
-		$("#endDate").val(convert_date($("#endDate").val(),"dddd DD MMM YYYY"));
-	});
+		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
+	});*/
 }
 
-function setSens(id, k) {
+function setSensFilter(id, k) {
 	// update range
 	if (k == "min") {
-		endDate.setSensitiveRange(moment(byId(id).value).format("YYYY-MM-DD"), null);
+		filterDates.setSensitiveRange(convert_date(byId(id).value,"YYYY-MM-DD"), null);
 	} else {
-		startDate.setSensitiveRange(null, moment(byId(id).value).format("YYYY-MM-DD"));
+		filterDates.setSensitiveRange(null, convert_date(byId(id).value,"YYYY-MM-DD"));
 	}
 }
 function byId(id) {
@@ -1453,6 +1468,7 @@ function setFilter(filter){
 	switch(filter){
 		case "all_events_filter":
 			$("#all_events_filter").prop('checked',true);
+			$("#submit_filters").attr("disabled","disabled");
 			//disable all other checkboxes
 			var checkboxes=$('input');
 			for(var i=0;i<checkboxes.length;i++){
@@ -1467,9 +1483,14 @@ function setFilter(filter){
 			break;
 		
 		case "date_filter":
-			filters.dataRange.isSet="true";
-			filters.dataRange["startDate"]=$("#startDate").val();
-			filters.dataRange["endDate"]=$("#endDate").val();
+			//oldstart=moment(filters.dateRange["start"],"YYYY-MM-DD");
+			newstart=moment(convert_date($("#startDateFilter").val(),"YYYY-MM-DD"));
+			//oldend=moment(filters.dateRange["end"],"YYYY-MM-DD");
+			newend=moment(convert_date($("#endDateFilter").val(),"YYYY-MM-DD"))
+			//if(newstart.isAfter(oldstart)&&newstart.isBefore(oldend))
+				filters.dateRange["start"]=newstart.format("YYYY-MM-DD");
+			//if(newend.isBefore(oldend))
+				filters.dateRange["end"]=newend.format("YYYY-MM-DD");
 			break;
 		case "course_filter":
 			filters.courses.isSet="true";
@@ -1618,6 +1639,8 @@ $("#filter_alert").on('hidden.bs.modal', function (e) {
 function reset_filters(){
 	//the reset is equivalent to select only the all events filter
 	setFilter("all_events_filter");
+	
+	submit_filters();
 	}
 
 	
@@ -1675,9 +1698,10 @@ function submit_filters(){
 					}
 					callback(events);
 				},
-				error : function(data, status, errors) {
-					// Inserire un messagio di errore
-				}
+				error : function(xhr, status, error) {
+						  var err = eval("(" + xhr.responseText + ")");
+						  alert(err.Message);
+						}
 			});
 			}
 			} 
