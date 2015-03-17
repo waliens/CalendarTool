@@ -58,11 +58,11 @@ function addEvents(){
 	$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
 	filters.view=getCurrentView(current_view);
-	filters.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
-	filters.end=$("#calendar").fullCalendar( 'getView' ).end.format("YYYY-MM-DD");
+	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
+	filters.dateRange.end=$("#calendar").fullCalendar( 'getView' ).end.format("YYYY-MM-DD");
 	//we have to take into account the fact that server side date ranges are inclusive and so for all views but the day view we have to subtract 1 to the right boundary
-	if(filters.end!=filters.start)
-		filters.end=$("#calendar").fullCalendar( 'getView' ).end.subtract(1, 'days').format("YYYY-MM-DD");
+	if(filters.dateRange.end!=filters.dateRange.start)
+		filters.dateRange.end=$("#calendar").fullCalendar( 'getView' ).end.subtract(1, 'days').format("YYYY-MM-DD");
 	$('#calendar').fullCalendar('addEventSource', {
 			events:function(start, end, timezone, callback){
 			$.ajax({

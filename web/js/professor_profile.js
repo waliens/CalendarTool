@@ -122,7 +122,7 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 			dataType : "json",
 			type : 'POST',
 			url : "index.php?src=ajax&req=033",
-			data : event_id,
+			data : {id:event_id},
 			success : function(data, status) {
 				$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
 			},
@@ -141,7 +141,7 @@ $("#delete_indep_event_alert").on("click",".btn-primary",function(event){
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
-			url : "index.php?src=ajax&req=055",
+			url : "index.php?src=ajax&req=083",
 			data : {id:event_id,applyRecursive:"false"},
 			success : function(data, status) {
 				$("#independent-events #"+event_id).parent().parent().remove()
@@ -264,7 +264,6 @@ $("#subevent_info").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		//url : "json/subevent-info.json",
 		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
 			var subevent_id=data.id;
@@ -355,12 +354,11 @@ $("#add_global_event_alert").on("show.bs.modal",function(){
 
 	if(current_month > 0 && current_month <= 8)
 		current_year--;
-	$("#confirm_add_global_event").prop("disabled",true);
+	$("#global_event_add_confirm").prop("disabled",true);
 	$('#years_list').html("");
 	$("#selected_year").html('Année <span class="caret"></span>');
 	$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
 	$("#global_course_list").html("");
-	$("#global_event_add_confirm").attr("disabled","disabled");
 	$("#new_global_cours_details").val("");
 	$("#new_global_cours_feedback").val("");
 	for(var i=0;i<3;i++){
@@ -385,9 +383,12 @@ $("#years_list").on("click","a",function(event){
 			$("#new_global_cours_details").html("");
 			$("#new_global_cours_feedback").html("");
 			var courses=data.courses;
-			for(var i=0;i<courses.length;i++)
+			for(var i=0;i<courses.length;i++){
+				//var shortText=courses[i].nameShort;
+				//shortText = jQuery.trim(shortText).substring(0, 40) + "...";
 				$("#global_course_list").append($('<li role="presentation"><a cours-id='+courses[i].id_ulg+' role="menuitem" tabindex="-1" href="#">'+courses[i].id_ulg+"\t"+courses[i].nameShort+'</a></li>'));
-			},
+			}
+		},
 		error: function(xhr, status, error) {
 		  var err = eval("(" + xhr.responseText + ")");
 		  alert(err.Message);
@@ -397,10 +398,9 @@ $("#years_list").on("click","a",function(event){
 	
 //update the selected cours to be added in the add new cours modal
 $("#global_course_list").on("click","a",function(event){
-	var cours=event.currentTarget.innerHTML;
-	$("#cours_to_add").html(cours+' <span class="caret"></span>');
+	var course=event.currentTarget.innerText;
+	$("#cours_to_add").html(course+' <span class="caret"></span>');
 	$("#cours_to_add").attr("cours-id",event.currentTarget.getAttribute("cours-id"));
-	$("#global_event_add_confirm").removeAttr("disabled");
 	})
 	
 //update the selected cours language
@@ -438,7 +438,8 @@ $("#global_event_add_confirm").click(function(event){
 //enable add global event button when course, language and year are selected
 $("#add_global_event_alert").on("click","#global_course_list li,#languages_list li",function() {
 	if($("#cours_language").text()!="Sélectionner langue "&&$("#cours_to_add").text()!="Sélectionnez cours ")
-		$("#confirm_add_global_event").prop("disabled",false);
+		$("#global_event_add_confirm").prop("disabled",false);
+	else $("#global_event_add_confirm").prop("disabled",true);
 });
 
 
