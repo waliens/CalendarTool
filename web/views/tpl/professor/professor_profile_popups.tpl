@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<!-- Delete Global Event Alert -->
+-<!-- Delete Global Event Alert -->
 
 <div class="modal fade" id="delete_global_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -420,4 +419,3 @@
     </div>
   </div>
 </div>
->>>>>>> 3259810720e5d4d5ab17325506c74d2385a62cba
