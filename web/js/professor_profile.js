@@ -72,8 +72,8 @@ function addIndependentEvent(indep_event){
 	event_name.setAttribute("data-toggle","modal");
 	event_name.setAttribute("data-target","#subevent_info");
 	event_name.setAttribute("id",indep_event.id);
-	event_name.setAttribute("event-name",indep_event.lib_cours_complet);
-	event_name.innerHTML = indep_event.lib_cours_complet;
+	event_name.setAttribute("event-name",indep_event.name);
+	event_name.innerHTML = indep_event.name;
 	event_name.onclick=function(e){subevent=e.target}
 	var delete_icon=document.createElement('a');
 	var edit_icon=document.createElement('a');
@@ -84,7 +84,7 @@ function addIndependentEvent(indep_event){
 	delete_icon.setAttribute("data-target","#delete_indep_event_alert");
 	delete_icon.setAttribute("course-code",indep_event.code);
 	delete_icon.setAttribute("course-id",indep_event.id);
-	delete_icon.setAttribute("course-name",indep_event.lib_cours_complet);
+	delete_icon.setAttribute("course-name",indep_event.name);
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
 	var div_container2=document.createElement("div");
@@ -266,8 +266,8 @@ $("#subevent_info").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "json/subevent-info.json",
-		//url : "index.php?src=ajax&req=051&event=subevent_id",
+		//url : "json/subevent-info.json",
+		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
 			var subevent_id=data.id;
 			var subevent_title=data.name;
@@ -357,7 +357,7 @@ $("#add_global_event_alert").on("show.bs.modal",function(){
 
 	if(current_month > 0 && current_month <= 8)
 		current_year--;
-
+	$("#confirm_add_global_event").prop("disabled",true);
 	$('#years_list').html("");
 	$("#selected_year").html('Année <span class="caret"></span>');
 	$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
@@ -433,6 +433,11 @@ $("#global_event_add_confirm").click(function(event){
 	});
 	})	
 
-$("#global_course_list").click(function() {
-	$("#confirm_add_global_event").prop("disabled",false);
+//enable add global event button when course, language and year are selected
+$("#add_global_event_alert").on("click","#global_course_list li,#languages_list li",function() {
+	if($("#cours_language").text()!="Sélectionner langue "&&$("#cours_to_add").text()!="Sélectionnez cours ")
+		$("#confirm_add_global_event").prop("disabled",false);
 });
+
+
+
