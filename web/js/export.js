@@ -12,6 +12,7 @@ var filters = {
 			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
+			eventCategories: {isSet: 'false', id:[]},
 			pathways: {isSet: 'false', id:[]},
 			professors:	{isSet: 'false', id:[]}
           };
@@ -68,6 +69,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							var cell2=row.insertCell(1);
 							var cell3=row.insertCell(2);
 							cell1.innerHTML="ID";
+							cell1.className="min-width-100"
 							cell2.innerHTML="Title";
 							cell3.innerHTML="Choisir";
 							filter_alert.append(table);
@@ -89,7 +91,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=041",
 						async : true,
 						success : function(data, status) {
-							var types=data.types;
+							var date_types=data.date_type;
+							var event_types=data.event_type;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
 							var table=document.createElement("table");
@@ -103,14 +106,98 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							cell2.innerHTML="Choisir";
 							cell2.className="text-center"
 							filter_alert.append(table);
-							for (var i = 0; i < types.length; i++)
-								addType(types[i]);
+							for (var i = 0; i < date_types.length; i++)
+								addType(date_types[i]);
+							for (var i = 0; i < event_types.length; i++)
+								addType(event_types[i]);
 						},
-						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+						error : function(xhr, status, error) {
+						  var err = eval("(" + xhr.responseText + ")");
+						  alert(err.Message);
 						}
 					});
 				break;
+			case "event_category_filter":
+			$(this).find('.modal-title').text("Filtrer par categorie d'événement");
+				//get events type
+				$.ajax({
+						dataType : "json",
+						type : 'POST',
+						//url : "json/event_categories.json",
+						url : "index.php?src=ajax&req=047",
+						data: {lang:"FR"},
+						async : true,
+						success : function(data, status) {
+							var student_categories=data.student;
+							var academic_categories=data.academic;
+							//populate the filter list
+							var filter_alert=$("#filter_alert .modal-body");
+							var table=document.createElement("table");
+							table.className="table";
+							table.id="events_categories_filter_table";
+							var row=table.insertRow(-1);
+							row.className="text-bold";
+							var cell1=row.insertCell(0);
+							var cell2=row.insertCell(1);
+							cell1.innerHTML="Événement Academique";
+							cell2.innerHTML="Choisir";
+							cell2.className="text-center"
+							var cell3=row.insertCell(2);
+							var cell4=row.insertCell(3);
+							cell3.innerHTML="Événement Privé";
+							cell4.innerHTML="Choisir";
+							cell4.className="text-center"
+							filter_alert.append(table);
+							var i=0;
+							for (i; i < academic_categories.length; i++){
+								var acad_category_tag=document.createElement('p');
+								acad_category_tag.innerHTML = academic_categories[i].name;
+								var table=document.getElementById("events_categories_filter_table");
+								var row=table.insertRow(-1);
+								var cell1=row.insertCell(0);
+								var cell2=row.insertCell(1);
+								cell1.appendChild(acad_category_tag);
+								var input=document.createElement('input');
+								input.type='checkbox';
+								input.id=academic_categories[i].name;
+								cell2.className="text-center";
+								cell2.appendChild(input);
+								if(student_categories[i]!=null){
+									var student_category_tag=document.createElement('p');
+									student_category_tag.innerHTML = student_categories[i].name;
+									var cell3=row.insertCell(2);
+									var cell4=row.insertCell(3);
+									cell3.appendChild(student_category_tag);
+									var input=document.createElement('input');
+									input.type='checkbox';
+									input.id=student_categories[i].name;
+									cell4.className="text-center";
+									cell4.appendChild(input);
+								}
+							}
+							for(var j=i;j<student_categories.length;j++){
+								var table=document.getElementById("events_categories_filter_table");
+								var row=table.insertRow(-1);
+								var cell1=row.insertCell(0);
+								var cell2=row.insertCell(1);
+								var student_category_tag=document.createElement('p');
+								student_category_tag.innerHTML = student_categories[i].name;
+								var cell3=row.insertCell(2);
+								var cell4=row.insertCell(3);
+								cell3.appendChild(student_category_tag);
+								var input=document.createElement('input');
+								input.type='checkbox';
+								input.id=student_categories[i].name;
+								cell4.className="text-center";
+								cell4.appendChild(input);
+							}
+						},
+						error : function(xhr, status, error) {
+						  var err = eval("(" + xhr.responseText + ")");
+						  alert(err.Message);
+						}
+					});
+			break;	
 			case "pathway_filter":
 				$(this).find('.modal-title').text("Filtrer par pathway");
 				//get pathways
@@ -178,6 +265,8 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 			}
 		}
 })
+
+
 
 //deals with the filter all_events which must disable all other when pressed and enable all when pressed again
 $("#all_events_filter").click(function(){
@@ -303,7 +392,7 @@ function addPathway(pathway){
 //add the professor to the list in the filter alert
 function addProfessor(professor){
     var professor_tag=document.createElement('p');
-	professor_tag.innerHTML = professor.surname+" "+professor.name;
+	professor_tag.innerHTML = professor.name+" "+professor.surname;
 	var table=document.getElementById("professors_filter_table");
 	var row=table.insertRow(-1);
 	var cell1=row.insertCell(0);
@@ -336,6 +425,13 @@ function setFilter(filter){
 			var selectedTypes=$("#filter_alert input:checked");
 			selectedTypes.each(function (){
 				filters.eventTypes.id.push(this.id);
+				});
+			break;
+		case "event_category_filter":
+			filters.eventCategories.isSet="true";
+			var selectedCategories=$("#filter_alert input:checked");
+			selectedCategories.each(function (){
+				filters.eventCategories.id.push(this.id);
 				});
 			break;
 		case "pathway_filter":
@@ -371,6 +467,11 @@ function unSetFilter(filter){
 			filters.eventTypes.isSet="false";
 			//empty the array of ids'
 			filters.eventTypes.id.length=0;
+		break;
+		case "event_category_filter":
+			filters.eventCategories.isSet="false";
+			//empty the array of ids'
+			filters.eventCategories.id.length=0;
 		break;
 		case "pathway_filter":
 			filters.pathways.isSet="false";
