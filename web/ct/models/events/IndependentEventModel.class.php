@@ -88,12 +88,13 @@ class IndependentEventModel extends AcademicEventModel{
 			return false;
 		}*/
 
-		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role,
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role
 		FROM  user NATURAL JOIN
 			( SELECT * FROM independent_event_manager WHERE  Id_Event = ".$this->sql->quote($eventId)." )
 				AS ttm
 		NATURAL JOIN
 			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles";
+		
 		return $this->sql->execute_query($query);
 
 	}
