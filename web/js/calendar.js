@@ -1240,7 +1240,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 									cell4.appendChild(input);
 								}
 							}
-							for(var j=i+1;j<student_categories.length;j++){
+							for(var j=i;j<student_categories.length;j++){
 								var table=document.getElementById("events_categories_filter_table");
 								var row=table.insertRow(-1);
 								var cell1=row.insertCell(0);

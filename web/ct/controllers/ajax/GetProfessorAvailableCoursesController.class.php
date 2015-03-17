@@ -45,7 +45,7 @@
 			$glob_mod = new GlobalEventModel();
 
 			$avail_courses = $glob_mod->get_available_global_events();
-			$trans_avail = array("Id_Course" => "id_ulg", "Name_Long" => "nameLong", "nameShort" => "nameShort");
+			$trans_avail = array("Id_Course" => "id_ulg", "Name_Long" => "nameLong", "Name_Short" => "nameShort");
 			$this->add_output_data("courses", \ct\darray_transform($avail_courses, $trans_avail));
 		}
 	}

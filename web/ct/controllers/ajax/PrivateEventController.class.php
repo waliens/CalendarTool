@@ -25,7 +25,7 @@ class PrivateEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "place", "type", "recurrence", "details", "end-recurrence", "type");
+		$keys = array("name","limit","start", "place", "type", "recurrence", "details", "end-recurrence", "type");
 
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
@@ -42,9 +42,10 @@ class PrivateEventController extends AjaxController
 					  "id_category" => $this->sg_post->value('type'));
 
 		// get event date 
-		if($this->sg_post->check("limit") > 0)
-			$data['limit'] = $this->sg_post->value('limit');
-		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
+		if($this->sg_post->value('limit') == "true"){
+			$data['limit'] = $this->sg_post->value('start');
+		}
+		elseif($this->sg_post->check_keys(array("end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');
 			$data['end'] = $this->sg_post->value('end');
