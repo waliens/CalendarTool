@@ -28,7 +28,7 @@ class AddIndepEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "details", "limit","where", "start", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
+		$keys = array("name", "details", "limit","where", "start", "workload", "feedback", "practical_details", "type", "recurrence", "pathways", "teaching_team");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
@@ -59,6 +59,8 @@ class AddIndepEventController extends AjaxController
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
 			return;
 		}
+		
+		$data['id_owner'] = $this->connection->user_id();
 
 
 		// check for recurrence
@@ -76,12 +78,12 @@ class AddIndepEventController extends AjaxController
 
 		$this->add_output_data("id", $id_ret);
 
-		$pathway = $this->sg_post->value('pathway');
+		$pathway = $this->sg_post->value('pathways');
 		$team = $this->sg_post->value('teaching_team');
 
 		foreach($pathway as $key => $value){
 			foreach($id_ret as $o => $id)
-				$model->setPathway($id, $value);			
+				$model->setPathway($id, $value['id']);			
 		}
 		
 		foreach($id_ret as $o => $id)

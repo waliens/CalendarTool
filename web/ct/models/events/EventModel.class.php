@@ -211,7 +211,7 @@ use \DateInterval;
 			}			
 			
 			$datas = array_intersect_key($datas, $this->fields_event);
-			$a = $this->sql->insert($this->table[0], $datas);
+			$a = $this->sql->insert("event", $datas);
 			if($a){
 				$id = intval($this->sql->last_insert_id());
 				if(isset($data['limit'])){

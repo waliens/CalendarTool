@@ -21,16 +21,15 @@
 			//     $("#body").text(details.requestBody);
 			// });
 
-			var request_id = "063", // put request id here
-				json_input = {"id":"51", "applyRecursive":"false"};
-
+			var request_id = "081", // put request id here	
+			json_input = {"name":"LIIII", "details":"Rhooo","end":"2015-12-14 22:00:00", "limit":"false","where":"ooo", "start":"2015-12-14 21:25:00", "workload":'555', "feedback":'', "practical_details":"555", "type":"2", "recurrence":"0", "pathways":[{"id":"ABICIV000201"}], "teaching_team":[{"id":"7", "role":"1"}]};
 			$("#input").text(JSON.stringify(json_input));
 			$("#req").text(request_id);
 	 
 			$.ajax({
 				dataType : "json",
 				type : 'POST',
-				url : ("../../../web/index.php?src=ajax&event=51&req=" + request_id),
+				url : ("../../../web/index.php?src=ajax&req=" + request_id),
 				data:json_input,
 				success : function(data, status) {
 					$("#output").text(JSON.stringify(data));
