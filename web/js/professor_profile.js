@@ -413,7 +413,7 @@ function edit_global_event(){
 function  edit_global_event_confirm(){
 	var event_id=$("#edit-global-event-buttons").attr("event-id");
 	var event_details=$("#edit_global_cours_details").val();
-	var event_lan=convert_language($("#edit_cours_language").attr("language"));
+	var event_lan=$("#edit_cours_language").attr("language");
 	var event_feedback=$("#edit_global_cours_feedback").val();
 	$.ajax({
 		dataType : "json",
@@ -433,7 +433,7 @@ function  edit_global_event_confirm(){
 			$("#event-feedback").html('');
 			$("#event-feedback").text(event_feedback);
 			$("#event-lang").html('');
-			$("#event-lang").text(event_lan);
+			$("#event-lang").text(convert_language(event_lan));
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
