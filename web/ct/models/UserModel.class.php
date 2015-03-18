@@ -195,9 +195,18 @@
 		 * @param[in] string $user_id the id of the user
 		 * @retval bool True if the user exists, false otherwise
 		 */
-		public function user_id_exists($user__id)
+		public function user_id_exists($user_id)
 		{
-			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_ulg_id)) > 0;
+			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
 		}
-		
+
+		/**
+		 * @brief Checks whether the given user is a student
+		 * @param[in] string $user_id the id of the user
+		 * @retval bool True if the user is a student, false otherwise
+		 */
+		public function user_is_student($user_id)
+		{
+			return $this->sql->count("student", "Id_Student = ".$this->sql->quote($user_id)) > 0;
+		}
 	}
