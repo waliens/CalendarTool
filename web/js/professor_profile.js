@@ -37,7 +37,7 @@ $(document).ready(function() {
 				addIndependentEvent(indep_events[i]);
 		},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 });
@@ -144,9 +144,8 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 				$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
 			},
 			error : function(xhr, status, error) {
-					  var err = eval("(" + xhr.responseText + ")");
-					  alert(err.Message);
-					}
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
 		});
 	
 	})
@@ -171,9 +170,8 @@ $("#delete_indep_event_alert").on("click",".btn-primary",function(event){
 				$("#independent-events #"+event_id).parent().parent().remove()
 			},
 			error : function(xhr, status, error) {
-					  var err = eval("(" + xhr.responseText + ")");
-					  alert(err.Message);
-					}
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
 		});
 	
 	})
@@ -252,7 +250,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -372,7 +370,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 			$("#subevent-place").text(subevent_place);
 		},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 })
@@ -437,7 +435,7 @@ function  edit_global_event_confirm(){
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	}
@@ -502,7 +500,7 @@ $("#years_list").on("click","a",function(event){
 			}
 		},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -555,7 +553,7 @@ $("#global_event_add_confirm").click(function(event){
 			addGlobalEvent(cours_to_add);
 			},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})	
@@ -612,7 +610,7 @@ $("#add-event-member").click(function(event){
 				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.users[i].id_user+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
 			},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	//retrieve list of team roles
@@ -634,7 +632,7 @@ $("#add-event-member").click(function(event){
 				$("#new_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
 			},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -680,6 +678,7 @@ $("#add-event-member-confirm").click(function(event){
 	var member_fullname=$("#add_team_member_dropdown").text();
 	var member_role=$("#add_team_member_role_dropdown").attr("member-role-id");
 	var member_role_name=$("#add_team_member_role_dropdown").text();
+
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
 	$("#add_team_member_dropdown").remove();
@@ -688,6 +687,7 @@ $("#add-event-member-confirm").click(function(event){
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=072",
+
 		data: {id_user:member_id, id_global_event:event_id, id_role:member_role},
 		success : function(data, status) {	
 			/** error checking */
@@ -698,9 +698,9 @@ $("#add-event-member-confirm").click(function(event){
 			}
 
 			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role_name+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
-			},
+		},
 		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -736,6 +736,7 @@ $("#add-subevent").click(function(){
 	})
 	
 $("#new_subevent").on('show.bs.modal', function (event) {
+	var global_event_id=$("#new_subevent_creation_confirm").attr("global_event_id");
 	buildDatePicker("new_subevent_dates");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
@@ -745,6 +746,50 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_startHour").on("changeTime",function(){
 		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
 		})
+
+	//populate event categories
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=047",
+			data: {lang:"FR"},
+			async : true,
+			success : function(data, status) {
+				var categories=data.academic;
+				for (var i=0; i < categories.length; i++)
+					$("#new_subevent_categories").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changeSubEventType()" category-id="'+categories[i].id+'">'+categories[i].name+'</a></li>');
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	//populate event pathways and team
+	$.ajax({
+			dataType : "json",
+			type : 'GET',
+			url : "index.php?src=ajax&req=032&event="+global_event_id,
+			async : true,
+			success : function(data, status) {
+				var pathways=data.pathways;
+				var team=data.team;
+				for (var i=0; i < pathways.length; i++)
+					addPathwayWithCheckbox(pathways[i]);
+				for (var i=0; i < team.length; i++)
+					addTeamWithCheckbox(team[i]);
+				//disable checkbox of the global event owner
+				var owner_id=data.owner_id;
+				team_checkboxes=$("#new_subevent_team_table input");
+				for(var i=0;i<team_checkboxes.length;i++){
+					if(team_checkboxes[i].attr("id")==owner_id)
+						team_checkboxes[i].attr("disabled","disabled")
+				}
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
 	})
 	
 //builds the object datepicker
@@ -782,7 +827,7 @@ function buildDatePicker(option,target) {
 	else if(option=="new_subevent_recurrence_end"){
 		datepicker[option] = new dhtmlXCalendarObject("new_subevent_recurrence_end");
 		datepicker[option].setDateFormat("%Y-%m-%d");
-		setSens("private_event_endDate_datepicker","min","new_subevent_recurrence_end");
+		setSens("new_subevent_endDate_datepicker","min","new_subevent_recurrence_end");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
 			$("#new_subevent_recurrence_end").val(convert_date($("#new_subevent_recurrence_end").val(),"dddd DD MMM YYYY"));
@@ -853,4 +898,76 @@ function updateRecurrence(){
 		buildDatePicker("new_subevent_recurrence_end");
 		}
 	else $("#new_subevent_recurrence_end_td").addClass("hidden");
+	}
+	
+//change the value of the dropdown stating the private event type
+function changeSubEventType(){
+	$("#new_subevent_type").text(event.target.innerHTML);
+	}
+	
+//create new subevent
+$("#new_subevent_btns").on("click",function(){
+	var title=$("#new_subevent_title").val();
+	var deadline=$("#new_subevent_deadline input").prop("checked");
+	var start=convert_date($("#new_subevent_startDate_datepicker").val(),"YYYY-MM-DD");
+	var end;
+	if($("#new_subevent_startHour").val().length!=0)
+		start=start+"T"+$("#new_subevent_startHour").val();
+	if(!deadline){
+		end=convert_date($("#new_subevent_endDate_datepicker").val(),"YYYY-MM-DD");
+		if($("#new_subevent_endHour").val().length!=0)
+			end=end+"T"+$("#new_subevent_endHour").val();
+		}
+	var recurrence=$("#new_subevent_recurrence").text();
+	var end_recurrence;
+	if(recurrence!="jamais"){
+		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
+		}
+	var place=$("#new_subevent_place").val();
+	var details=$("#new_subevent_details").val();
+	var feedback=$("#new_subevent_feedback_body").val();
+	var workload=$("#new_subevent_workload").val();
+	var pract_details=$("#new_soubevent_pract_details_body").val();
+	//populate 
+	})
+	
+//enable create new subevent confirm button
+$("#new_subevent input[type='text'], textarea").on("keyup", function(){
+if($("#new_subevent_title").val()!="")
+	$("#new_subevent_creation_confirm").attr("disabled",false)
+else $("#new_subevent_creation_confirm").attr("disabled",true)
+})
+
+//add the pathway to the list in the subevent alert
+function addPathwayWithCheckbox(pathway){
+    var pathway_tag=document.createElement('p');
+	pathway_tag.innerHTML = pathway.name;
+	var table=document.getElementById("new_subevent_pathways_table");
+	var row=table.insertRow(-1);
+	var cell1=row.insertCell(0);
+	var cell2=row.insertCell(1);
+	cell1.appendChild(pathway_tag);
+	var input=document.createElement('input');
+	input.type='checkbox';
+	input.checked=true;
+	input.id=pathway.id;
+	cell2.className="text-center";
+	cell2.appendChild(input);
+	}
+	
+//add the team member to the list in the subevent alert
+function addTeamWithCheckbox(team){
+    var team_tag=document.createElement('p');
+	team_tag.innerHTML = team.name+"\t"+team.role;
+	var table=document.getElementById("new_subevent_team_table");
+	var row=table.insertRow(-1);
+	var cell1=row.insertCell(0);
+	var cell2=row.insertCell(1);
+	cell1.appendChild(team_tag);
+	var input=document.createElement('input');
+	input.type='checkbox';
+	input.checked=true;
+	input.id=team.user;
+	cell2.className="text-center";
+	cell2.appendChild(input);
 	}

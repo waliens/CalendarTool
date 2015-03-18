@@ -57,8 +57,8 @@
             <td><div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="cours_language" data-toggle="dropdown" aria-expanded="true" language=""> Sélectionner langue <span class="caret"></span> </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="languages_list">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li>
                 </ul>
               </div></td>
           </tr>
@@ -99,7 +99,7 @@
         <h4 class="modal-title" id="event-title"><!--EVENT TITLE--></h4>
       </div>
       <div class="modal-body">
-        <div class="panel-group width-70 center" id="accordion-global-event" role="tablist" aria-multiselectable="true">
+        <div class="panel-group width-100 center" id="accordion-global-event" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default">
             <div class="panel-heading" style="height:42px" role="tab" id="headingOne">
               <h4 class="panel-title float-left"><a data-toggle="collapse" data-parent="#accordion-global-event" href="#global-event-info" aria-expanded="true" aria-controls="global-event-info">Info</a></h4>
@@ -137,15 +137,12 @@
             <div class="panel-heading" role="tab">
               <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info_accordion" aria-expanded="false" aria-controls="subevents_info_accordion">Sous-événements</a> </h4>
             </div>
-            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" id="subevents_info_accordion"> 
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" id="subevents_info_accordion">
               <div id="subevents_info"> 
-              <!--FILLED BY AJAX WITH LIST SUBEVENTS--> 
+                <!--FILLED BY AJAX WITH LIST SUBEVENTS--> 
+              </div>
+              <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-subevent" data-toggle="modal" data-dismiss="modal" data-target="#new_subevent">Ajouter sous-événement</a> </div>
             </div>
-            <div class="text-center marg-bot-10">
-               <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-subevent" data-toggle="modal" data-dismiss="modal" data-target="#new_subevent">Ajouter sous-événement</a>
-            </div>
-            </div>
-            
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab">
@@ -163,7 +160,6 @@
                 <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -184,118 +180,146 @@
         <h4 class="modal-title" id="new_subevent_modal_header">Nouvel sous-événement</h4>
       </div>
       <!--modal body-->
-      <div>
-        <form class="form-group">
-          <!-- Table -->
-          <table class="table">
-            <tr>
-              <td class="text-bold width-80 vertical-middle">Titre</td>
-              <td><label for="new_subevent_title" class="sr-only">Titre</label>
-                <input id="new_subevent_title" class="form-control" placeholder="Titre de l'événement" required autofocus></td>
-            </tr>
-            <tr>
-              <td class="text-bold width-80">Quand</td>
-              <td><table id="new_subevent_time">
-                  <tr>
-                    <td class="width-80 text-underline">Commence</td>
-                    <td id="new_subevent_startDate"><label for="new_subevent_startDate_datepicker" class="sr-only">Commence</label>
-                      <input id="new_subevent_startDate_datepicker" onclick="setSens('new_subevent_endDate_datepicker', 'max', 'private_event');">
-                      <label for="new_subevent_startHour" class="sr-only">Commence Heure</label>
-                      <input class="marging-10-0 time" id="new_subevent_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
-                  </tr>
-                  <tr>
-                    <td class="width-80 text-underline">Se termine</td>
-                    <td id="private_event_endDate"><label for="new_subevent_endDate_datepicker" class="sr-only">Se termine</label>
-                      <input class="marging-10-0" id="new_subevent_endDate_datepicker" onclick="setSens('private_event_startDate_datepicker', 'min','private_event');">
-                      <label for="new_subevent_endHour" class="sr-only">Se termine Heure</label>
-                      <input class="marging-10-0 time" id="new_subevent_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
-                  </tr>
-                  <tr id="new_subevent_deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline();"></td></tr>
-                </table></td>
+      <div class="modal-body">
+        <div class="panel-group width-100 center" id="accordion-subevent" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" style="height:42px" role="tab" id="headingOne">
+              <h4 class="panel-title float-left"><a data-toggle="collapse" data-parent="#accordion-subevent" href="#subevent-info" aria-expanded="true" aria-controls="subevent-info">Info</a></h4>
+            </div>
+            <div id="subevent-info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+              <form class="form-group">
+                <!-- Table -->
+                <table class="table">
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Titre</td>
+                  <td><label for="new_subevent_title" class="sr-only">Titre</label>
+                    <input id="new_subevent_title" class="form-control" placeholder="Titre de l'événement" required autofocus></td>
                 </tr>
-            <tr>
-            <td class="text-bold width-80 vertical-middle">Récurrence</td>
-              <td>
-              <div class="float-left-10padright">
-                <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="new_subevent_recurrence">jamais</span>
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">jamais</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les jours</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les semaines</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les deux semaines</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les mois</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les ans</a></li>
-                  </ul>
-                </div>
-                </div>
-                <div id="new_subevent_recurrence_end_td" class="hidden float-left-10padright">
-                  <div class="col-lg-6">
-                    <div class="input-group" style="width:180px">
-                      <input id="new_subevent_recurrence_end" class="form-control border-radius-4" placeholder="Fin de la récurrence?" size="45">
+                <tr>
+                  <td class="text-bold width-80">Quand</td>
+                  <td><table id="new_subevent_time">
+                      <tr>
+                        <td class="width-80 text-underline">Commence</td>
+                        <td id="new_subevent_startDate"><label for="new_subevent_startDate_datepicker" class="sr-only">Commence</label>
+                          <input id="new_subevent_startDate_datepicker" onclick="setSens('new_subevent_endDate_datepicker', 'max', 'new_subevent_dates');">
+                          <label for="new_subevent_startHour" class="sr-only">Commence Heure</label>
+                          <input class="marging-10-0 time" id="new_subevent_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                      </tr>
+                      <tr>
+                        <td class="width-80 text-underline">Se termine</td>
+                        <td id="new_subevent_endDate"><label for="new_subevent_endDate_datepicker" class="sr-only">Se termine</label>
+                          <input class="marging-10-0" id="new_subevent_endDate_datepicker" onclick="setSens('new_subevent_startDate_datepicker', 'min','new_subevent_dates');">
+                          <label for="new_subevent_endHour" class="sr-only">Se termine Heure</label>
+                          <input class="marging-10-0 time" id="new_subevent_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                      </tr>
+                      <tr id="new_subevent_deadline">
+                        <td>Deadline</td>
+                        <td><input type="checkbox" aria-label="" onclick="deadline();"></td>
+                      </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Récurrence</td>
+                  <td><div class="float-left-10padright">
+                      <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_recurrence">jamais</span> <span class="caret"></span> </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">jamais</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les jours</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les deux semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les mois</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les ans</a></li>
+                        </ul>
+                      </div>
                     </div>
-                    <!-- /input-group --> 
-                  </div>
-                  <!-- /.col-lg-6 --> 
-                </div>
-                </td>
-            </tr>
-            <tr>
-              <td class="text-bold width-80 vertical-middle">Categorie</td>
-              <td>
-              <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_type_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="new_subevent_type">Travail</span>
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="11">Travail</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="9">Sport</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="10">Chapi</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="12">Restaurant</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="13">Soirée</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="14">Personnel</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="15">Loisir</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="16">Musique</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="17">Anniversaire</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="18">Autre</a></li>
-                  </ul>
-                </div>
-                </td>
-            </tr>
-            <tr>
-              <td class="text-bold width-80 vertical-middle">Lieu</td>
-              <td><label for="new_subevent_place" class="sr-only">Lieu</label>
-                <input class="form-control" id="new_subevent_place" placeholder="Lieu de l'événement"></td>
-            </tr>
-            <tr>
-              <td class="text-bold width-80 vertical-middle">Détails</td>
-              <td><label for="new_subevent_details" class="sr-only">Détails</label>
-                <input class="form-control" id="new_subevent_details" placeholder="Détails de l'événement"></td>
-            </tr>
-            <tr id="new_soubevent_feedback">
-              <td class="text-bold width-80">Feedback</td>
-              <td><label for="new_subevent_feedback_body" class="sr-only">Feedback</label>
-                <input class="form-control" id="new_subevent_feedback_body" placeholder="Feedback pour l'événement"></td>
-            </tr>
-                        <tr id="new_soubevent_pract_details">
-              <td class="text-bold width-80">Détails pratiques</td>
-              <td><label for="new_soubevent_pract_details_body" class="sr-only">Détails pratiques</label>
-                <input class="form-control" id="new_soubevent_pract_details_body" placeholder="Détails pratiques pour l'étudiants"></td>
-            </tr>
-            <tr>
-              <td colspan="2"><div class='text-center' id='new_subevent_btns'>
-                  <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="create_subevent();" id="new_subevent_creation_confirm">
-                  Confirmer
-                  </button>
-                  <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
-                </div></td>
-            </tr>
-          </table>
-        </form>
+                    <div id="new_subevent_recurrence_end_td" class="hidden float-left-10padright">
+                      <div class="col-lg-6">
+                        <div class="input-group" style="width:180px">
+                          <input id="new_subevent_recurrence_end" class="form-control border-radius-4" placeholder="Fin de la récurrence?" size="45">
+                        </div>
+                        <!-- /input-group --> 
+                      </div>
+                      <!-- /.col-lg-6 --> 
+                    </div></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Categorie</td>
+                  <td><div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_type_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_type">Cours théorique</span> <span class="caret"></span> </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_subevent_categories">
+                        <!-- FILLED WITH ACADEMIC EVENTS CATEGORIES THROUGH AJAX -->
+                      </ul>
+                    </div></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Charge de Travail</td>
+                  <td><label for="new_subevent_workload" class="sr-only">Charge de Travail</label>
+                    <input type="number" name="points" min="0" max="1000" step="1" value="30" class="form-control" id="new_subevent_workload" placeholder="new_subevent_workload"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Lieu</td>
+                  <td><label for="new_subevent_place" class="sr-only">Lieu</label>
+                    <input class="form-control" id="new_subevent_place" placeholder="Lieu de l'événement"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Détails</td>
+                  <td><label for="new_subevent_details" class="sr-only">Détails</label>
+                    <input class="form-control" id="new_subevent_details" placeholder="Détails de l'événement"></td>
+                </tr>
+                <tr id="new_soubevent_feedback">
+                  <td class="text-bold width-80">Feedback</td>
+                  <td><label for="new_subevent_feedback_body" class="sr-only">Feedback</label>
+                    <input class="form-control" id="new_subevent_feedback_body" placeholder="Feedback pour l'événement"></td>
+                </tr>
+                <tr id="new_soubevent_pract_details">
+                  <td class="text-bold width-80">Détails pratiques</td>
+                  <td><label for="new_soubevent_pract_details_body" class="sr-only">Détails pratiques</label>
+                    <input class="form-control" id="new_soubevent_pract_details_body" placeholder="Détails pratiques pour l'étudiants"></td>
+                </tr>
+                </table>
+              </form>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-subevent" href="#subevents_pathways" aria-expanded="false" aria-controls="subevents_pathways">Sous-événements</a> </h4>
+            </div>
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" id="subevents_pathways"> 
+              <div id="new_subevents_pathways"> 
+              <table id="new_subevent_pathways_table" class="table">
+              <!--FILLED BY AJAX WITH LIST PATHWAYS OF GLOBAL EVENT--> 
+              </table>
+            </div>
+            </div>
+            
+          </div>
+          <div class="panel panel-default" style="margin-bottom: 10px;">
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-subevent" href="#subevent_team_accordion" aria-expanded="false" aria-controls="subevent_team_accordion">Équipe</a> </h4>
+            </div>
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="subevent_team_accordion"> 
+              	<div id="new_subevent_team"> 
+                <table id="new_subevent_team_table" class="table">
+              <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
+              </table>
+            	</div>
+            <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
+                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="modal-footer">
+        <div class='text-center' id='new_subevent_btns'>
+                <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="create_subevent();" id="new_subevent_creation_confirm">
+                Confirmer
+                </button>
+                <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
+        </div>
+        </div>
       </div>
     </div>
   </div>

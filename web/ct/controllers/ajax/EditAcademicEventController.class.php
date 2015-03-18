@@ -67,7 +67,6 @@ class EditAcademicEventController extends AjaxController
 				
 		}
 
-
 		// get owner id
 		$data['id_owner'] = $id;
 

@@ -263,7 +263,7 @@ $(document).ready(function() {
 				if($("#notes_body")){
 					$("#add_notes").addClass("hidden");
 					$("#notes").removeClass("hidden");
-					$("#notes_body").text(calEvent.annotation);
+					$("#notes_body").text(calEvent.notes);
 				}
 				else{
 					$("#add_notes").removeClass('hidden');
@@ -1130,7 +1130,7 @@ function changePrivateEventType(){
 	
 function deadline(){
 	$("#private_event_endDate").parent().toggleClass("hidden");
-	}
+}
 	
 /*-----------------------------------------------------*/	
 /*--------------------FILTERS--------------------------*/
@@ -1244,8 +1244,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								addType(event_types[i]);
 						},
 						error : function(xhr, status, error) {
-						  var err = eval("(" + xhr.responseText + ")");
-						  alert(err.Message);
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
 				break;
@@ -1332,8 +1331,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							}
 						},
 						error : function(xhr, status, error) {
-						  var err = eval("(" + xhr.responseText + ")");
-						  alert(err.Message);
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
 			break;	
