@@ -163,8 +163,8 @@
 		private function is_valid_error_code($error_code)
 		{
 			return ($error_code >= 0 && $error_code <= 1) 
-					|| ($error_code >= 200 && $error_code <= 204)
-					|| ($error_code >= 300 && $error_code <= 306)
+					|| ($error_code >= 200 && $error_code <= 206)
+					|| ($error_code >= 300 && $error_code <= 304)
 					|| ($error_code >= 400 && $error_code <= 403)
 					|| ($error_code >= 500 && $error_code <= 500); 
 		}
