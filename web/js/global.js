@@ -20,7 +20,7 @@ function launch_error_ajax (error,lang)
 		body = error.error_msg;
 	else
 	{
-		var body_suffix = (lang == "FR" ? "(code d'erreur : " : "(error code : ") + error.error_code + ")";
+		var body_suffix = (lang == "FR" ? " (code d'erreur : " : " (error code : ") + error.error_code + ")";
 		body = error.error_msg[lang] + body_suffix;
 	}
 
