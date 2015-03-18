@@ -28,7 +28,7 @@ class AddIndepEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "details", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
+		$keys = array("name", "details", "limit","where", "start", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
@@ -47,8 +47,8 @@ class AddIndepEventController extends AjaxController
 				"practical_details" => $this->sg_post->value('practical_details'));
 			
 		// get event date
-		if($this->sg_post->check("limit") > 0)
-			$data['limit'] = $this->sg_post->value('limit');
+		if($this->sg_post->value("limit") == "true")
+			$data['limit'] = $this->sg_post->value('start');
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');

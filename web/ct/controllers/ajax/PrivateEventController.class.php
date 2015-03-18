@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @brief Private Event ControllerClass
+ * @brief Creating Private Event ControllerClass
  */
 
 namespace ct\controllers\ajax;
