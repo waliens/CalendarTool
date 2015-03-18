@@ -17,6 +17,13 @@ $(document).ready(function() {
 		//url : "json/professor-profile.json",
 		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var courses=data.courses;
@@ -30,8 +37,7 @@ $(document).ready(function() {
 				addIndependentEvent(indep_events[i]);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 });
@@ -128,6 +134,13 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=033",
 			data : {id:event_id},
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
+
 				$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
 			},
 			error : function(xhr, status, error) {
@@ -148,6 +161,13 @@ $("#delete_indep_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=083",
 			data : {id:event_id,applyRecursive:"false"},
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
+
 				$("#independent-events #"+event_id).parent().parent().remove()
 			},
 			error : function(xhr, status, error) {
@@ -167,6 +187,13 @@ $("#event_info").on("show.bs.modal",function(event){
 		//url : "json/globalevent-info.json",
 		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
 			var global_event_name=data.name;
@@ -225,8 +252,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -284,6 +310,13 @@ $("#subevent_info").on("show.bs.modal",function(){
 		type : 'GET',
 		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var subevent_id=data.id;
 			var subevent_title=data.name;
 			var subevent_description=data.description;
@@ -339,8 +372,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 			$("#subevent-place").text(subevent_place);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 })
@@ -381,7 +413,7 @@ function edit_global_event(){
 function  edit_global_event_confirm(){
 	var event_id=$("#edit-global-event-buttons").attr("event-id");
 	var event_details=$("#edit_global_cours_details").val();
-	var event_lan=$("#edit_cours_language").attr("language");
+	var event_lan=convert_language($("#edit_cours_language").attr("language"));
 	var event_feedback=$("#edit_global_cours_feedback").val();
 	$.ajax({
 		dataType : "json",
@@ -389,17 +421,23 @@ function  edit_global_event_confirm(){
 		url : "index.php?src=ajax&req=034",
 		data: {id:event_id,description:event_details,feedback:event_feedback,language:event_lan},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			$("#event-details").html('');
 			$("#event-details").text(event_details);
 			$("#event-feedback").html('');
 			$("#event-feedback").text(event_feedback);
 			$("#event-lang").html('');
-			$("#event-lang").text(convert_language(event_lan));
+			$("#event-lang").text(event_lan);
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	}
@@ -444,6 +482,13 @@ $("#years_list").on("click","a",function(event){
 		url : "index.php?src=ajax&req=036",
 		data: {"year":year},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			$("#global_course_list").html("");
 			$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
 			$("#cours_language").html('Sélectionner langue <span class="caret"></span>');
@@ -457,8 +502,7 @@ $("#years_list").on("click","a",function(event){
 			}
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -500,12 +544,18 @@ $("#global_event_add_confirm").click(function(event){
 		url : "index.php?src=ajax&req=035",
 		data: new_course,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var cours_to_add={"id":data.id,"code":cours_id, "lib_cours_complet":$("#cours_to_add").text()}
 			addGlobalEvent(cours_to_add);
 			},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})	
@@ -537,6 +587,7 @@ function revert_convert_language(ln){
 		}
 	}
 	
+//add team member to global event
 $("#add-event-member").click(function(event){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	//retrieve list of team members that can be added
@@ -616,8 +667,8 @@ $("#event_team").on("click","#new_team_members_role_list a",function(event){
 	
 //abort add team member
 $("#add-event-member-abort").click(function(event){
-	$("#add_team_member_dropdown").remove();
-	$("#add_team_member_role_dropdown").remove();
+	$("#add_team_member_dropdown").parent().html("");
+	$("#add_team_member_role_dropdown").parent().html("");
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
 	})
@@ -631,8 +682,8 @@ $("#add-event-member-confirm").click(function(event){
 	var member_role_name=$("#add_team_member_role_dropdown").text();
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
-	$("#add_team_member_dropdown").remove();
-	$("#add_team_member_role_dropdown").remove();
+	$("#add_team_member_dropdown").parent().html("");
+	$("#add_team_member_role_dropdown").parent().html("");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
@@ -685,7 +736,6 @@ $("#add-subevent").click(function(){
 	})
 	
 $("#new_subevent").on('show.bs.modal', function (event) {
-	var global_event_id=$("#new_subevent_creation_confirm").attr("global_event_id");
 	buildDatePicker("new_subevent_dates");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
@@ -695,49 +745,6 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_startHour").on("changeTime",function(){
 		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
 		})
-	//populate event categories
-	$.ajax({
-			dataType : "json",
-			type : 'POST',
-			url : "index.php?src=ajax&req=047",
-			data: {lang:"FR"},
-			async : true,
-			success : function(data, status) {
-				var categories=data.academic;
-				for (var i=0; i < categories.length; i++)
-					$("#new_subevent_categories").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changeSubEventType()" category-id="'+categories[i].id+'">'+categories[i].name+'</a></li>');
-			},
-			error : function(xhr, status, error) {
-			  var err = eval("(" + xhr.responseText + ")");
-			  alert(err.Message);
-			}
-		});
-	//populate event pathways and team
-	$.ajax({
-			dataType : "json",
-			type : 'GET',
-			url : "index.php?src=ajax&req=032&event="+global_event_id,
-			async : true,
-			success : function(data, status) {
-				var pathways=data.pathways;
-				var team=data.team;
-				for (var i=0; i < pathways.length; i++)
-					addPathwayWithCheckbox(pathways[i]);
-				for (var i=0; i < team.length; i++)
-					addTeamWithCheckbox(team[i]);
-				//disable checkbox of the global event owner
-				var owner_id=data.owner_id;
-				team_checkboxes=$("#new_subevent_team_table input");
-				for(var i=0;i<team_checkboxes.length;i++){
-					if(team_checkboxes[i].attr("id")==owner_id)
-						team_checkboxes[i].attr("disabled","disabled")
-				}
-			},
-			error : function(xhr, status, error) {
-			  var err = eval("(" + xhr.responseText + ")");
-			  alert(err.Message);
-			}
-		});
 	})
 	
 //builds the object datepicker
@@ -775,7 +782,7 @@ function buildDatePicker(option,target) {
 	else if(option=="new_subevent_recurrence_end"){
 		datepicker[option] = new dhtmlXCalendarObject("new_subevent_recurrence_end");
 		datepicker[option].setDateFormat("%Y-%m-%d");
-		setSens("new_subevent_endDate_datepicker","min","new_subevent_recurrence_end");
+		setSens("private_event_endDate_datepicker","min","new_subevent_recurrence_end");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
 			$("#new_subevent_recurrence_end").val(convert_date($("#new_subevent_recurrence_end").val(),"dddd DD MMM YYYY"));
@@ -847,75 +854,3 @@ function updateRecurrence(){
 		}
 	else $("#new_subevent_recurrence_end_td").addClass("hidden");
 	}
-	
-//change the value of the dropdown stating the private event type
-function changeSubEventType(){
-	$("#new_subevent_type").text(event.target.innerHTML);
-	}
-	
-//create new subevent
-$("#new_subevent_btns").on("click",function(){
-	var title=$("#new_subevent_title").val();
-	var deadline=$("#new_subevent_deadline input").prop("checked");
-	var start=convert_date($("#new_subevent_startDate_datepicker").val(),"YYYY-MM-DD");
-	var end;
-	if($("#new_subevent_startHour").val().length!=0)
-		start=start+"T"+$("#new_subevent_startHour").val();
-	if(!deadline){
-		end=convert_date($("#new_subevent_endDate_datepicker").val(),"YYYY-MM-DD");
-		if($("#new_subevent_endHour").val().length!=0)
-			end=end+"T"+$("#new_subevent_endHour").val();
-		}
-	var recurrence=$("#new_subevent_recurrence").text();
-	var end_recurrence;
-	if(recurrence!="jamais"){
-		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
-		}
-	var place=$("#new_subevent_place").val();
-	var details=$("#new_subevent_details").val();
-	var feedback=$("#new_subevent_feedback_body").val();
-	var workload=$("#new_subevent_workload").val();
-	var pract_details=$("#new_soubevent_pract_details_body").val();
-	//populate 
-	})
-	
-//enable create new subevent confirm button
-$("#new_subevent input[type='text'], textarea").on("keyup", function(){
-if($("#new_subevent_title").val()!="")
-	$("#new_subevent_creation_confirm").attr("disabled",false)
-else $("#new_subevent_creation_confirm").attr("disabled",true)
-})
-
-//add the pathway to the list in the subevent alert
-function addPathwayWithCheckbox(pathway){
-    var pathway_tag=document.createElement('p');
-	pathway_tag.innerHTML = pathway.name;
-	var table=document.getElementById("new_subevent_pathways_table");
-	var row=table.insertRow(-1);
-	var cell1=row.insertCell(0);
-	var cell2=row.insertCell(1);
-	cell1.appendChild(pathway_tag);
-	var input=document.createElement('input');
-	input.type='checkbox';
-	input.checked=true;
-	input.id=pathway.id;
-	cell2.className="text-center";
-	cell2.appendChild(input);
-	}
-	
-//add the team member to the list in the subevent alert
-function addTeamWithCheckbox(team){
-    var team_tag=document.createElement('p');
-	team_tag.innerHTML = team.name+"\t"+team.role;
-	var table=document.getElementById("new_subevent_team_table");
-	var row=table.insertRow(-1);
-	var cell1=row.insertCell(0);
-	var cell2=row.insertCell(1);
-	cell1.appendChild(team_tag);
-	var input=document.createElement('input');
-	input.type='checkbox';
-	input.checked=true;
-	input.id=team.user;
-	cell2.className="text-center";
-	cell2.appendChild(input);
-}
