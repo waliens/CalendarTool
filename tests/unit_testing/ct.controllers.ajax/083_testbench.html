@@ -21,8 +21,8 @@
 			//     $("#body").text(details.requestBody);
 			// });
 
-			var request_id = "063", // put request id here
-				json_input = {"id":"51", "applyRecursive":"false"};
+			var request_id = "083", // put request id here
+				json_input = {"id":"63", "applyRecursive":"false"};
 
 			$("#input").text(JSON.stringify(json_input));
 			$("#req").text(request_id);
@@ -30,7 +30,7 @@
 			$.ajax({
 				dataType : "json",
 				type : 'POST',
-				url : ("../../../web/index.php?src=ajax&event=51&req=" + request_id),
+				url : ("../../../web/index.php?src=ajax&req=" + request_id),
 				data:json_input,
 				success : function(data, status) {
 					$("#output").text(JSON.stringify(data));

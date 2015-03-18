@@ -130,6 +130,8 @@
 			return $this->sql->count("user", "Id_ULg = ".$this->sql->quote($user_ulg_id)) > 0;
 		}
 
+		
+		
 		/**
 		 * @brief Checks whether the ulg id is correctly formatted
 		 * @param[in] string $ulg_id The ulg identifier to check
@@ -186,4 +188,16 @@
 			if($user_id == null) $user_id = Connection::get_instance()->user_id();
 			return $this->sql->select_one("user", "Id_User = ".$this->sql->quote($user_id));
 		}
+		
+		
+		/**
+		 * @brief Checks whether the user having the given id exists in the user table
+		 * @param[in] string $user_id the id of the user
+		 * @retval bool True if the user exists, false otherwise
+		 */
+		public function user_id_exists($user__id)
+		{
+			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_ulg_id)) > 0;
+		}
+		
 	}

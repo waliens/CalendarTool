@@ -84,12 +84,8 @@ class AddIndepEventController extends AjaxController
 				$model->setPathway($id, $value);			
 		}
 		
-		$team_formatted = array();
-		foreach($team as $key => value){
-			array_push($team_formatted, array("Id_User" => $value['id'], "Id_Role" => $value['role']));
-		}
 		foreach($id_ret as $o => $id)
-			$model->setTeam($id, $team_formatted);
+			$model->setTeam($id, $team);
 		
 
 		if($this->sg_post->check("attachments") < 0)

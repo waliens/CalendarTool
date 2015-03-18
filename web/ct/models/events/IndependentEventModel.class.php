@@ -66,11 +66,10 @@ class IndependentEventModel extends AcademicEventModel{
 		$userM = new UserModel();
 		$toinsert = array();
 		foreach ($teamMembers as $key => $value){
-			if(empty($userM->get_user($value[0]))){
-				//TODO SET ERROR
+			if(!$userM->user_id_exists($value['id'])){
 				return false;	
 			}
-			array_push($toinsert, array($this->sql->quote($eventId),  $this->sql->quote($value[0]), $this->sql->quote($value[1])));
+			array_push($toinsert, array($this->sql->quote($eventId),  $this->sql->quote($value['id']), $this->sql->quote($value['role'])));
 		}
 		$collumn = array("Id_Event", "Id_User", "Id_Role");
 		$this->sql->insert_batch("independent_event_manager", $toinsert, $collumn);
@@ -112,7 +111,7 @@ class IndependentEventModel extends AcademicEventModel{
 			return false;
 		}
 		$userM = new UserModel();
-		if(empty($userM->get_user($userId))){
+		if(!$userM->user_id_exists($value['id'])){
 			//TODO ERROR
 			return false;
 		}
