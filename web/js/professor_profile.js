@@ -182,6 +182,11 @@ $("#event_info").on("show.bs.modal",function(event){
 			var subevents=data.subevents;
 			var team=data.team;
 			//populate alert with global event data
+			$("#add-event-member-conf-abort-buttons").addClass("hidden");
+			$("#add-event-member").attr("event-id",global_event_id);
+			$("#add-subevent").attr("event-id",global_event_id);
+			$("#add-event-member-abort").attr("event-id",global_event_id);
+			$("#add-event-member-confirm").attr("event-id",global_event_id);
 			$("#event-title").text(global_event_id_ulg+"\t"+global_event_name_short);
 			$("#event-details").text(global_event_description);
 			$("#event-feedback").text(global_event_feedback);
@@ -206,13 +211,16 @@ $("#event_info").on("show.bs.modal",function(event){
 			subevents_table.id="subevents_table";
 			$("#subevents_info").html(subevents_table);
 			for(var i=0;i<subevents.length;i++)
-				addSubevent(subevents[i]);
+				populateSubevent(subevents[i]);
 			var team_table=document.createElement("table");
 			team_table.className="table";
 			team_table.id="team_table";
 			$("#event_team").html(team_table);	
 			for(var i=0;i<team.length;i++)
-				addTeamMember(team[i]);
+				populateTeamMember(team[i]);
+			$("#team_table tr:first .delete").addClass("delete-disabled");
+			//hide confirm/abort edit buttons
+			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
 		  var err = eval("(" + xhr.responseText + ")");
@@ -230,7 +238,8 @@ function addPathway(pathway){
 	table.append(row);
 	}
 	
-function addSubevent(item){
+//populate subevent to the table subevents of a global event
+function populateSubevent(item){
 	table=$("#subevents_table");
 	var row=document.createElement("tr");
 	var cell=document.createElement("td");
@@ -245,17 +254,22 @@ function addSubevent(item){
 	row.appendChild(cell);
 	table.append(row);
 	}
-	
-function addTeamMember(member){
+
+//populate team members to the table of team members of a global event
+function populateTeamMember(member){
 	table=$("#team_table");
 	var row=document.createElement("tr");
 	var cell1=document.createElement("td");
 	cell1.innerHTML=member.name+" "+member.surname;
-	cell1.id=member.id;
+	cell1.id=member.user;
 	row.appendChild(cell1);
 	var cell2=document.createElement("td");
 	cell2.innerHTML=member.role;
 	row.appendChild(cell2);
+	table.append(row);
+	var cell3=document.createElement("td");
+	cell3.innerHTML='<div class="text-center"><a class="delete" member-id="'+member.user+'"></a></div>';
+	row.appendChild(cell3);
 	table.append(row);
 	}
 
@@ -350,10 +364,12 @@ function edit_global_event(){
 	var event_id=event.currentTarget.parentNode.getAttribute("event-id");
 	//initialize variables to hold old content of the event
 	edit_global_event_old={details:$("#event-details").text(),feedback:$("#event-feedback").text(),language:$("#event-lang").text()};
+	var language=edit_global_event_old.language.replace(/\s+/g, '');
+	var language_code=revert_convert_language(language);
 	//update modale view to make language, feedback and description editable
 	$("#event-details").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_details" value=\"'+edit_global_event_old.details+'">');
 	$("#event-feedback").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_feedback" value="'+edit_global_event_old.feedback+'">');
-	$("#event-lang").html('<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="edit_cours_language" data-toggle="dropdown" aria-expanded="true" language=""> '+edit_global_event_old.language+' <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_languages_list"><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li></ul></div>');
+	$("#event-lang").html('<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="edit_cours_language" data-toggle="dropdown" aria-expanded="true" language="'+language_code+'"> '+language+' <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_languages_list"><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li></ul></div>');
 	//display confirm and abort buttons and attach to the button the id of the event we are editing
 	$("#edit-global-event-buttons").removeClass("hidden");
 	$("#edit-global-event-buttons").attr("event-id",event_id);
@@ -361,22 +377,22 @@ function edit_global_event(){
 	
 //confirm global event edit
 function  edit_global_event_confirm(){
+	var event_id=$("#edit-global-event-buttons").attr("event-id");
+	var event_details=$("#edit_global_cours_details").val();
+	var event_lan=convert_language($("#edit_cours_language").attr("language"));
+	var event_feedback=$("#edit_global_cours_feedback").val();
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=034",
 		data: {id:event_id,description:event_details,feedback:event_feedback,language:event_lan},
 		success : function(data, status) {
-			var event_id=$("#edit-global-event-buttons").attr("event-id");
-			var event_details=$("#edit_global_cours_feedback").text();
-			var event_lan=$("#edit_cours_language").text();
-			var event_feedback=$("#edit_global_cours_feedback").text();
 			$("#event-details").html('');
-			$("#event-details").value(event_details);
+			$("#event-details").text(event_details);
 			$("#event-feedback").html('');
-			$("#event-feedback").value(event_feedback);
+			$("#event-feedback").text(event_feedback);
 			$("#event-lang").html('');
-			$("#event-lang").value(event_lan);
+			$("#event-lang").text(event_lan);
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
@@ -499,6 +515,7 @@ $("#add_global_event_alert").on("click","#global_course_list li,#languages_list 
 	else $("#global_event_add_confirm").prop("disabled",true);
 });
 
+//convert language from two letters code to full string
 function convert_language(ln){
 	switch(ln){
 		case "FR":
@@ -508,4 +525,131 @@ function convert_language(ln){
 		}
 	}
 
+//convert language from full string to two letters code
+function revert_convert_language(ln){
+	switch(ln){
+		case "Français":
+		return "FR";
+		case "Anglais":
+		return "EN";
+		}
+	}
+	
+//add team member to global event
+$("#add-event-member").click(function(event){
+	var event_id=event.currentTarget.getAttribute("event-id");
+	//retrieve list of team members that can be added
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url :"json/team-members.json",
+		//url : "index.php?src=ajax&req=",
+		data: {id_global_event:event_id},
+		success : function(data, status) {
+			$("#add-event-member-conf-abort-buttons").removeClass("hidden");
+			$("#add-event-member").parent().addClass("hidden");
+			$("#event_team").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_role_list"></ul></div>');
+			for(var i=0;i<data.team.length;i++)
+				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.team[i].user_id+'">'+data.team[i].name+"\t"+data.team[i].surname+'</a></li>');
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	//retrieve list of team roles
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		//url :"json/team-members-roles.json",
+		url : "index.php?src=ajax&req=074",
+		data: {lang:"FR"},
+		success : function(data, status) {
+			//{roles:[{id, role}]}
+			for(var i=0;i<data.roles.length;i++)
+				$("#new_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	})
 
+//update the team members dropdown with the selected value
+$("#event_team").on("click","#new_team_members_list a",function(event){
+	var team_member=event.currentTarget.innerText;
+	$("#add_team_member_dropdown").html(team_member+' <span class="caret"></span>');
+	$("#add_team_member_dropdown").attr("member-id",event.currentTarget.getAttribute("member-id"));
+	$("#add-event-member-abort").attr("member-id",event.currentTarget.getAttribute("member-id"));
+	$("#add-event-member-confirm").attr("member-id",event.currentTarget.getAttribute("member-id"));
+	//enable add team member button when both team member and role have been selected
+	if($("#add_team_member_dropdown").attr("member-id")&&$("#add_team_member_role_dropdown").attr("member-role-id"))
+		$("#add-event-member-confirm").removeAttr("disabled");
+	})
+	
+//update the team member role dropdown with the selected value
+$("#event_team").on("click","#new_team_members_role_list a",function(event){
+	var role=event.currentTarget.innerText;
+	$("#add_team_member_role_dropdown").html(role+' <span class="caret"></span>');
+	$("#add_team_member_role_dropdown").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
+	$("#add-event-member-abort").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
+	$("#add-event-member-confirm").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
+	//enable add team member button when both team member and role have been selected
+	if($("#add_team_member_dropdown").attr("member-id")&&$("#add_team_member_role_dropdown").attr("member-role-id"))
+		$("#add-event-member-confirm").removeAttr("disabled");
+	})
+	
+
+	
+//abort add team member
+$("#add-event-member-abort").click(function(event){
+	$("#add_team_member_dropdown").remove();
+	$("#add_team_member_role_dropdown").remove();
+	$("#add-event-member-conf-abort-buttons").addClass("hidden");
+	$("#add-event-member").parent().removeClass("hidden");
+	})
+
+//confirm add team member
+$("#add-event-member-confirm").click(function(event){
+	var event_id=event.currentTarget.getAttribute("event-id");
+	var member_id=event.currentTarget.getAttribute("member-id");
+	var member_fullname=$("#add_team_member_dropdown").text();
+	var member_role=$("#add_team_member_role_dropdown").text()
+	$("#add-event-member-conf-abort-buttons").addClass("hidden");
+	$("#add-event-member").parent().removeClass("hidden");
+	$("#add_team_member_dropdown").remove();
+	$("#add_team_member_role_dropdown").remove();
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "index.php?src=ajax&req=072",
+		data: {id_user:member_id, id_global_event:event_id, id_role:"2"},
+		success : function(data, status) {			
+			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	})
+
+//remove team member
+$("#event_team").on("click",".delete",function(event){
+	var event_id=$("#add-event-member").attr("event-id");
+	var member_id=event.currentTarget.getAttribute("member-id");
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "index.php?src=ajax&req=073",
+		data: {id_user:member_id, id_global_event:event_id},
+		success : function(data, status) {			
+			event.currentTarget.parentNode.parentNode.parentNode.remove();
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
+	})

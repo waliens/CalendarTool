@@ -135,26 +135,42 @@
             </div>
           </div>
           <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
-              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info" aria-expanded="false" aria-controls="subevents_info">Sous-événements</a> </h4>
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#subevents_info_accordion" aria-expanded="false" aria-controls="subevents_info_accordion">Sous-événements</a> </h4>
             </div>
-            <div id="subevents_info" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo"> 
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" id="subevents_info_accordion"> 
+              <div id="subevents_info"> 
               <!--FILLED BY AJAX WITH LIST SUBEVENTS--> 
             </div>
+            <div class="text-center marg-bot-10">
+           		 <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-subevent">Ajouter sous-événement</a>
+          	</div>
+            </div>
+            
           </div>
           <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
-              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#event_team" aria-expanded="false" aria-controls="event_team">Équipe</a> </h4>
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#event_team_accordion" aria-expanded="false" aria-controls="event_team_accordion">Équipe</a> </h4>
             </div>
-            <div id="event_team" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo"> 
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="event_team_accordion"> 
+              	<div id="event_team"> 
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
+            	</div>
+            <div class="text-center marg-bot-10">
+           		 <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-event-member">Ajouter équipe</a>
+          	</div>
+            <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
+                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+              </div>
             </div>
+            
           </div>
         </div>
       </div>
-      <div class="modal-footer hidden" id="edit-global-event-buttons">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="edit-global-event-abort">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="edit-global-event-confimr">Confirmer</button>
+      <div class="modal-footer hidden text-center" id="edit-global-event-buttons">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="edit-global-event-abort" onclick="edit_global_event_abort()">Annuler</button>
+        <button type="button" class="btn btn-primary" id="edit-global-event-confirm" onclick="edit_global_event_confirm()">Confirmer</button>
       </div>
     </div>
   </div>

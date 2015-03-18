@@ -85,6 +85,10 @@ width: 100%;
 .marg-bot-40{
 	margin-bottom:40px;
 	}
+
+.marg-bot-10{
+	margin-bottom:10px;
+	}
 	
 .marg-top-40{
 	margin-top:40px;
@@ -164,8 +168,12 @@ font-weight:100;
 	background:url("../imgs/delete-icon.png") 0 0;
 	}
 
-.delete:hover{
+.delete:hover,.delete-disabled{
 	background:url("../imgs/delete-icon.png") -32px 0;
+	}
+	
+.delete-disabled{
+	cursor:not-allowed;
 	}	
 .edit{
 	background:url("../imgs/edit-icon.png") 0 0;
