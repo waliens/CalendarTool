@@ -1078,7 +1078,7 @@ function changePrivateEventType(){
 	
 function deadline(){
 	$("#private_event_endDate").parent().toggleClass("hidden");
-	}
+}
 	
 /*-----------------------------------------------------*/	
 /*--------------------FILTERS--------------------------*/

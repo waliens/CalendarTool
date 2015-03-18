@@ -1,11 +1,13 @@
 // JavaScript Document
-
+var today = new Date();
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#profile_nav").addClass("active");
 var subevent;
 //var holding values to abort global event modification
 var edit_global_event_old;
+//dates picker
+var datepicker={"new_subevent_dates":0,"edit_subevent_dates":0,"recurrence_date":0}
 
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
@@ -379,7 +381,7 @@ function edit_global_event(){
 function  edit_global_event_confirm(){
 	var event_id=$("#edit-global-event-buttons").attr("event-id");
 	var event_details=$("#edit_global_cours_details").val();
-	var event_lan=convert_language($("#edit_cours_language").attr("language"));
+	var event_lan=$("#edit_cours_language").attr("language");
 	var event_feedback=$("#edit_global_cours_feedback").val();
 	$.ajax({
 		dataType : "json",
@@ -392,7 +394,7 @@ function  edit_global_event_confirm(){
 			$("#event-feedback").html('');
 			$("#event-feedback").text(event_feedback);
 			$("#event-lang").html('');
-			$("#event-lang").text(event_lan);
+			$("#event-lang").text(convert_language(event_lan));
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
@@ -542,15 +544,15 @@ $("#add-event-member").click(function(event){
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
-		url :"json/team-members.json",
-		//url : "index.php?src=ajax&req=",
+		//url :"json/team-members.json",
+		url : "index.php?src=ajax&req=075",
 		data: {id_global_event:event_id},
 		success : function(data, status) {
 			$("#add-event-member-conf-abort-buttons").removeClass("hidden");
 			$("#add-event-member").parent().addClass("hidden");
 			$("#event_team").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_role_list"></ul></div>');
-			for(var i=0;i<data.team.length;i++)
-				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.team[i].user_id+'">'+data.team[i].name+"\t"+data.team[i].surname+'</a></li>');
+			for(var i=0;i<data.users.length;i++)
+				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.team[i].user_id+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
 			},
 		error: function(xhr, status, error) {
 		  var err = eval("(" + xhr.responseText + ")");
@@ -565,7 +567,6 @@ $("#add-event-member").click(function(event){
 		url : "index.php?src=ajax&req=074",
 		data: {lang:"FR"},
 		success : function(data, status) {
-			//{roles:[{id, role}]}
 			for(var i=0;i<data.roles.length;i++)
 				$("#new_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
 			},
@@ -637,24 +638,262 @@ $("#add-event-member-confirm").click(function(event){
 
 //remove team member
 $("#event_team").on("click",".delete",function(event){
-	var event_id=$("#add-event-member").attr("event-id");
-	var member_id=event.currentTarget.getAttribute("member-id");
-	$.ajax({
-		dataType : "json",
-		type : 'POST',
-		url : "index.php?src=ajax&req=073",
-		data: {id_user:member_id, id_global_event:event_id},
-		success : function(data, status) {			
-			event.currentTarget.parentNode.parentNode.parentNode.remove();
-			},
-		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
-		}
-	});
-	})
+	if(!$(this).hasClass("delete-disabled")){
+		var event_id=$("#add-event-member").attr("event-id");
+		var member_id=event.currentTarget.getAttribute("member-id");
+		$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=073",
+			data: {id_user:member_id, id_global_event:event_id},
+			success : function(data, status) {			
+				event.currentTarget.parentNode.parentNode.parentNode.remove();
+				},
+			error: function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	}
+})
 
 $("#add-subevent").click(function(){
 	var global_event_id=this.getAttribute("event-id");
 	$("#new_subevent_creation_confirm").attr("global_event_id",global_event_id);
 	})
+	
+$("#new_subevent").on('show.bs.modal', function (event) {
+	var global_event_id=$("#new_subevent_creation_confirm").attr("global_event_id");
+	buildDatePicker("new_subevent_dates");
+	//setup timepickers of new subevent modal
+	$(".time").timepicker({ 'forceRoundTime': true });
+	$("#new_subevent_endHour").on("changeTime",function(){
+		$("#new_subevent_startHour").timepicker("option",{maxTime:$("#new_subevent_endHour").val()});
+		})
+	$("#new_subevent_startHour").on("changeTime",function(){
+		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
+		})
+	//populate event categories
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=047",
+			data: {lang:"FR"},
+			async : true,
+			success : function(data, status) {
+				var categories=data.academic;
+				for (var i=0; i < categories.length; i++)
+					$("#new_subevent_categories").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changeSubEventType()" category-id="'+categories[i].id+'">'+categories[i].name+'</a></li>');
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	//populate event pathways and team
+	$.ajax({
+			dataType : "json",
+			type : 'GET',
+			url : "index.php?src=ajax&req=032&event="+global_event_id,
+			async : true,
+			success : function(data, status) {
+				var pathways=data.pathways;
+				var team=data.team;
+				for (var i=0; i < pathways.length; i++)
+					addPathwayWithCheckbox(pathways[i]);
+				for (var i=0; i < team.length; i++)
+					addTeamWithCheckbox(team[i]);
+				//disable checkbox of the global event owner
+				var owner_id=data.owner_id;
+				team_checkboxes=$("#new_subevent_team_table input");
+				for(var i=0;i<team_checkboxes.length;i++){
+					if(team_checkboxes[i].attr("id")==owner_id)
+						team_checkboxes[i].attr("disabled","disabled")
+				}
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	})
+	
+//builds the object datepicker
+function buildDatePicker(option,target) {
+	if(option=="new_subevent_dates"){
+		//build current date
+		var td = new Date();
+		var dd = td.getDate();
+		var mm = td.getMonth()+1; //January is 0!
+		var yyyy = td.getFullYear();
+		
+		if(dd<10) {
+			dd='0'+dd
+		} 
+		
+		if(mm<10) {
+			mm='0'+mm
+		} 
+		
+		td = yyyy+'-'+mm+'-'+dd;
+		td = moment(today);
+		datepicker["new_subevent_dates"]= new dhtmlXCalendarObject(["new_subevent_startDate_datepicker","new_subevent_endDate_datepicker"]);
+		datepicker["new_subevent_dates"].hideTime();
+		datepicker["new_subevent_dates"].setDateFormat("%Y-%m-%d");
+		datepicker["new_subevent_dates"].setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+		var t = new Date();
+		document.getElementById("new_subevent_endDate_datepicker").value = td.format("dddd DD MM YYYY");
+		document.getElementById("new_subevent_startDate_datepicker").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
+		datepicker["new_subevent_dates"].attachEvent("onClick", function(date){
+			$("#new_subevent_startDate_datepicker").val(convert_date($("#new_subevent_startDate_datepicker").val(),"dddd DD MMM YYYY"));
+			$("#new_subevent_endDate_datepicker").val(convert_date($("#new_subevent_endDate_datepicker").val(),"dddd DD MMM YYYY"));
+		});
+	}
+	else if(option=="new_subevent_recurrence_end"){
+		datepicker[option] = new dhtmlXCalendarObject("new_subevent_recurrence_end");
+		datepicker[option].setDateFormat("%Y-%m-%d");
+		setSens("new_subevent_endDate_datepicker","min","new_subevent_recurrence_end");
+		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
+		datepicker[option].attachEvent("onClick", function(date){
+			$("#new_subevent_recurrence_end").val(convert_date($("#new_subevent_recurrence_end").val(),"dddd DD MMM YYYY"));
+		});
+		}
+}
+
+//converts date formats	
+function convert_date(date,formatDestination,formatOrigin){
+		var dd;
+		var mm;
+		var yy;
+		var chunks=date.split(" ");
+		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
+		if(chunks.length>1){
+			dd=chunks[1];
+			if(chunks[2].length<2)
+				mm=convert_month(chunks[2]);
+			else mm=chunks[2];
+			yy=chunks[3];
+		}
+		else {
+			chunks=date.split("-");
+			if(chunks[0].length==4){
+				dd=chunks[2];
+				mm=chunks[1];
+				yy=chunks[0];
+			}
+			else{
+				dd=chunks[0];
+				mm=chunks[1];
+				yy=chunks[2];
+
+				}
+		}
+		date_standard=yy+"-"+mm+"-"+dd;
+		var d = moment(date_standard);
+		return d.format(formatDestination);
+	}
+	
+//defines valid interval of dates for the date picker
+function setSens(id, k, datepicker_instance) {
+	// update range
+	if (k == "min")
+		datepicker[datepicker_instance].setSensitiveRange(convert_date(document.getElementById(id).value,"YYYY-MM-DD"), null);
+	else datepicker[datepicker_instance].setSensitiveRange(null, convert_date(document.getElementById(id).value,"YYYY-MM-DD"));
+}
+
+//hide/show the end date and hour based on whether the checkbox deadline is selected or not
+function deadline(){
+	$("#new_subevent_endDate").parent().toggleClass("hidden");
+	//disable/enable range sensibility for date and hour
+	var checked=$("#new_subevent_deadline input").prop('checked');
+	if(checked){
+		datepicker["new_subevent_dates"].clearInsensitiveDays();
+		}
+	else{
+		
+		}
+	}
+	
+//sets the new subevent recurrence
+function updateRecurrence(){
+	$("#new_subevent_recurrence").text(event.target.innerHTML);
+	if(event.target.innerHTML!="jamais"){
+		$("#new_subevent_recurrence_end_td").removeClass("hidden");
+		//build date picker of the end recurrence input
+		buildDatePicker("new_subevent_recurrence_end");
+		}
+	else $("#new_subevent_recurrence_end_td").addClass("hidden");
+	}
+	
+//change the value of the dropdown stating the private event type
+function changeSubEventType(){
+	$("#new_subevent_type").text(event.target.innerHTML);
+	}
+	
+//create new subevent
+$("#new_subevent_btns").on("click",function(){
+	var title=$("#new_subevent_title").val();
+	var deadline=$("#new_subevent_deadline input").prop("checked");
+	var start=convert_date($("#new_subevent_startDate_datepicker").val(),"YYYY-MM-DD");
+	var end;
+	if($("#new_subevent_startHour").val().length!=0)
+		start=start+"T"+$("#new_subevent_startHour").val();
+	if(!deadline){
+		end=convert_date($("#new_subevent_endDate_datepicker").val(),"YYYY-MM-DD");
+		if($("#new_subevent_endHour").val().length!=0)
+			end=end+"T"+$("#new_subevent_endHour").val();
+		}
+	var recurrence=$("#new_subevent_recurrence").text();
+	var end_recurrence;
+	if(recurrence!="jamais"){
+		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
+		}
+	var place=$("#new_subevent_place").val();
+	var details=$("#new_subevent_details").val();
+	var feedback=$("#new_subevent_feedback_body").val();
+	var workload=$("#new_subevent_workload").val();
+	var pract_details=$("#new_soubevent_pract_details_body").val();
+	//populate 
+	})
+	
+//enable create new subevent confirm button
+$("#new_subevent input[type='text'], textarea").on("keyup", function(){
+if($("#new_subevent_title").val()!="")
+	$("#new_subevent_creation_confirm").attr("disabled",false)
+else $("#new_subevent_creation_confirm").attr("disabled",true)
+})
+
+//add the pathway to the list in the subevent alert
+function addPathwayWithCheckbox(pathway){
+    var pathway_tag=document.createElement('p');
+	pathway_tag.innerHTML = pathway.name;
+	var table=document.getElementById("new_subevent_pathways_table");
+	var row=table.insertRow(-1);
+	var cell1=row.insertCell(0);
+	var cell2=row.insertCell(1);
+	cell1.appendChild(pathway_tag);
+	var input=document.createElement('input');
+	input.type='checkbox';
+	input.checked=true;
+	input.id=pathway.id;
+	cell2.className="text-center";
+	cell2.appendChild(input);
+	}
+	
+//add the team member to the list in the subevent alert
+function addTeamWithCheckbox(team){
+    var team_tag=document.createElement('p');
+	team_tag.innerHTML = team.name+"\t"+team.role;
+	var table=document.getElementById("new_subevent_team_table");
+	var row=table.insertRow(-1);
+	var cell1=row.insertCell(0);
+	var cell2=row.insertCell(1);
+	cell1.appendChild(team_tag);
+	var input=document.createElement('input');
+	input.type='checkbox';
+	input.checked=true;
+	input.id=team.user;
+	cell2.className="text-center";
+	cell2.appendChild(input);
+	}
