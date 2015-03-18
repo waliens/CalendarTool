@@ -21,7 +21,7 @@ $(document).ready(function() {
 			/** error checking */
 			if(data.error.error_code > 0)
 			{	
-				launch_error_ajax(data.error );
+				launch_error_ajax(data.error);
 				return;
 			}	
 
