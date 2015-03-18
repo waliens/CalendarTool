@@ -17,7 +17,6 @@ $(document).ready(function() {
 		//url : "json/professor-profile.json",
 		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
-
 			/** error checking */
 			if(data.error.error_code > 0)
 			{	
