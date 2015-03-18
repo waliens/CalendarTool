@@ -432,11 +432,7 @@
 							NATURAL JOIN
 							(
 							    SELECT Id_Event FROM `independent_event` WHERE Id_Owner = ?
-<<<<<<< HEAD
 							    UNION ALL
-=======
-							    UNION
->>>>>>> test_merge
 							    SELECT Id_Event FROM sub_event NATURAL JOIN 
 							    ( SELECT Id_Global_Event FROM global_event WHERE Id_Owner = ? ) AS glob
 							) as owned_event";

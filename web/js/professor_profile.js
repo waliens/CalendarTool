@@ -676,13 +676,9 @@ $("#add-event-member-confirm").click(function(event){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	var member_id=event.currentTarget.getAttribute("member-id");
 	var member_fullname=$("#add_team_member_dropdown").text();
-<<<<<<< HEAD
 	var member_role=$("#add_team_member_role_dropdown").attr("member-role-id");
 	var member_role_name=$("#add_team_member_role_dropdown").text();
 
-=======
-	var member_role=$("#add_team_member_role_dropdown").text()
->>>>>>> test_merge
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
 	$("#add_team_member_dropdown").parent().html("");
@@ -691,7 +687,6 @@ $("#add-event-member-confirm").click(function(event){
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=072",
-<<<<<<< HEAD
 
 		data: {id_user:member_id, id_global_event:event_id, id_role:member_role},
 		success : function(data, status) {	
@@ -706,15 +701,6 @@ $("#add-event-member-confirm").click(function(event){
 		},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-=======
-		data: {id_user:member_id, id_global_event:event_id, id_role:"2"},
-		success : function(data, status) {			
-			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
-			},
-		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
->>>>>>> test_merge
 		}
 	});
 	})
@@ -748,14 +734,13 @@ $("#add-subevent").click(function(){
 //populate new subevent modal	
 $("#new_subevent").on('show.bs.modal', function (event) {
 	var global_event_id=$("#new_subevent_creation_confirm").attr("global_event_id");
-<<<<<<< HEAD
-=======
+
 	//clean eventual old data
 	$("#new_subevent_categories").html("");
 	$("#new_subevent_pathways_table").html("");
 	$("#new_subevent_team_table").html("");
 	//build datepicker
->>>>>>> test_merge
+
 	buildDatePicker("new_subevent_dates");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
@@ -765,10 +750,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_startHour").on("changeTime",function(){
 		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
 		})
-<<<<<<< HEAD
 
-=======
->>>>>>> test_merge
 	//populate event categories
 	$.ajax({
 			dataType : "json",
