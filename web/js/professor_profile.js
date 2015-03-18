@@ -653,3 +653,8 @@ $("#event_team").on("click",".delete",function(event){
 		}
 	});
 	})
+
+$("#add-subevent").click(function(){
+	var global_event_id=this.getAttribute("event-id");
+	$("#new_subevent_creation_confirm").attr("global_event_id",global_event_id);
+	})
