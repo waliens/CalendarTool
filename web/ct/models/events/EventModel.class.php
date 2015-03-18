@@ -211,7 +211,7 @@ use \DateInterval;
 			}			
 			
 			$datas = array_intersect_key($datas, $this->fields_event);
-			$a = $this->sql->insert($this->table[0], $datas);
+			$a = $this->sql->insert("event", $datas);
 			if($a){
 				$id = intval($this->sql->last_insert_id());
 				if(isset($data['limit'])){
@@ -240,9 +240,10 @@ use \DateInterval;
 		 * @brief Update event(s) (specify by $from) data to the those specify by $to
 		 * @param array $from array of elements that allow us to identy target event(s)
 		 * @param array $to new data to put in the bdd 
+		 * @param bool $recur Indicate if it's a recurrent modification or not
 		 * @retval mixed true if execute correctly error_info or false if not
 		 */
-		public function modifyEvent($from, $to){
+		public function modifyEvent($from, $to, $recur = false){
 
 			
 			$table = implode(" JOIN ", $this->table);
@@ -253,7 +254,7 @@ use \DateInterval;
 			}
 
 						
-			if(!(array_key_exists('recurrence', $from)))
+			if(!$recur) //Desolidarize recur
 				$data['Id_Recurrence'] = 1;
 			
 				
@@ -295,7 +296,7 @@ use \DateInterval;
 				case "Deadline":
 					$data = array();
 					$data["Id_event"] = $this->sql->quote($id);
-					$data["Limit"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
+					$data["`Limit`"] = $this->sql->quote($start->format("Y-m-d H:i:s"));
 					$table = "deadline_event";
 					break;
 				case "TimeRange":
@@ -317,7 +318,7 @@ use \DateInterval;
 			}
 			else
 				$a = $this->sql->insert($table, $data);
-			
+
 			if($a)
 				return true;
 			$this->error .= "\n Date Error";
@@ -621,15 +622,13 @@ use \DateInterval;
 		 * @retval mixed the annotation or false if empty
 		 */
 		public function get_annotation($eventId, $userId) {
-			if(is_int($eventId) && is_int($userId)){
+			if(intval($eventId) && intval($userId)){
 				$data = $this->sql->select("event_annotation", "Id_Event = ".$eventId." AND Id_Student =".$userId, array("Annotation"));
 				if(isset($data[0]["Annotation"]))
 					return $data[0]['Annotation'];
 				else
-					$this->error .= "\n No annotation";
-				return false;
+					return false;
 			}
-			$this->error .= "\n Error while searching for the annotation";
 			return false;
 		}
 		

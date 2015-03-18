@@ -13,13 +13,20 @@ $(document).ready(function() {
 		url: "index.php?src=ajax&req=062",
 		async : true,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+							
 			var private_events=data.events;
 			//populate the private events table
 			for (var i = 0; i < private_events.length; i++)
 				addEvent(private_events[i]);
 		},
 		error : function(data, status, errors) {
-			// Inserire un messagio di errore
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 });
@@ -72,11 +79,18 @@ $("#delete_confirm").click(function(){
 		data:$("#delete_confirm").attr("event-id"),
 		async : true,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}		
+
 			var event_id=$("#delete_confirm").attr("event-id");
 			$("a[id="+event_id+"]").parent().parent().remove();
 		},
 		error : function(data, status, errors) {
-			// Inserire un messagio di errore
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	});

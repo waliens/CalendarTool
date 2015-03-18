@@ -316,7 +316,7 @@
 		$matches = array();
 
 		if(!preg_match("#^([0-9]{2})[/-]([0-9]{2})[/-]([0-9]{4})(.*)#", $fr_date, $matches))
-			return $sql_date;
+			return $fr_date;
 
 		return $matches[3]."-".$matches[2]."-".$matches[1].$matches[4];
 	}

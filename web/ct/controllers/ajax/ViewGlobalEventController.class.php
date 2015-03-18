@@ -60,7 +60,7 @@
 
 			$trans_array = array("id" => "", "ulg_id" => "id_ulg", "name_long" => "name", "name_short" => "",
 								 "desc" => "description", "feedback" => "", "period" => "", "lang" => "language",
-								 "acad_year" => "");
+								 "acad_year" => "", "owner" => "owner_id");
 
 			$formatted_glob = \ct\array_keys_transform($glob, $trans_array);
 

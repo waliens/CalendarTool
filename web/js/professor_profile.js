@@ -537,7 +537,6 @@ function revert_convert_language(ln){
 		}
 	}
 	
-//add team member to global event
 $("#add-event-member").click(function(event){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	//retrieve list of team members that can be added
@@ -548,15 +547,21 @@ $("#add-event-member").click(function(event){
 		url : "index.php?src=ajax&req=075",
 		data: {id_global_event:event_id},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			$("#add-event-member-conf-abort-buttons").removeClass("hidden");
 			$("#add-event-member").parent().addClass("hidden");
 			$("#event_team").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_role_list"></ul></div>');
 			for(var i=0;i<data.users.length;i++)
-				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.team[i].user_id+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
+				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.users[i].id_user+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
 			},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	//retrieve list of team roles
@@ -567,12 +572,18 @@ $("#add-event-member").click(function(event){
 		url : "index.php?src=ajax&req=074",
 		data: {lang:"FR"},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			for(var i=0;i<data.roles.length;i++)
 				$("#new_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
 			},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -616,7 +627,8 @@ $("#add-event-member-confirm").click(function(event){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	var member_id=event.currentTarget.getAttribute("member-id");
 	var member_fullname=$("#add_team_member_dropdown").text();
-	var member_role=$("#add_team_member_role_dropdown").text()
+	var member_role=$("#add_team_member_role_dropdown").attr("member-role-id");
+	var member_role_name=$("#add_team_member_role_dropdown").text();
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
 	$("#add_team_member_dropdown").remove();
@@ -625,37 +637,47 @@ $("#add-event-member-confirm").click(function(event){
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=072",
-		data: {id_user:member_id, id_global_event:event_id, id_role:"2"},
-		success : function(data, status) {			
-			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
+		data: {id_user:member_id, id_global_event:event_id, id_role:member_role},
+		success : function(data, status) {	
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
+			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role_name+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
 			},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
 
 //remove team member
 $("#event_team").on("click",".delete",function(event){
-	if(!$(this).hasClass("delete-disabled")){
-		var event_id=$("#add-event-member").attr("event-id");
-		var member_id=event.currentTarget.getAttribute("member-id");
-		$.ajax({
-			dataType : "json",
-			type : 'POST',
-			url : "index.php?src=ajax&req=073",
-			data: {id_user:member_id, id_global_event:event_id},
-			success : function(data, status) {			
-				event.currentTarget.parentNode.parentNode.parentNode.remove();
-				},
-			error: function(xhr, status, error) {
-			  var err = eval("(" + xhr.responseText + ")");
-			  alert(err.Message);
-			}
-		});
-	}
-})
+	var event_id=$("#add-event-member").attr("event-id");
+	var member_id=event.currentTarget.getAttribute("member-id");
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "index.php?src=ajax&req=073",
+		data: {id_user:member_id, id_global_event:event_id},
+		success : function(data, status) {	
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
+			event.currentTarget.parentNode.parentNode.parentNode.remove();
+			},
+		error: function(xhr, status, error) {
+		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+		}
+	});
+	})
 
 $("#add-subevent").click(function(){
 	var global_event_id=this.getAttribute("event-id");
@@ -896,4 +918,4 @@ function addTeamWithCheckbox(team){
 	input.id=team.user;
 	cell2.className="text-center";
 	cell2.appendChild(input);
-	}
+}

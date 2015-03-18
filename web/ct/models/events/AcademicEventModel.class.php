@@ -41,8 +41,7 @@ class AcademicEventModel extends EventModel{
 	
 		$datas = array_intersect_key($datas, $this->fields_ac);
 		$datas["Id_Event"] = $ret;
-		$a = $this->sql->insert($this->table[1], $datas);
-
+		$a = $this->sql->insert("academic_event", $datas);
 		if($a)
 			return $ret;
 		else

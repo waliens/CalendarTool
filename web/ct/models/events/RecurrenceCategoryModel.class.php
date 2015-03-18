@@ -15,8 +15,8 @@
 	 */
 	class RecurrenceCategoryModel extends CategoryModel
 	{
-		const LANG_FR = "FR";
-		const LANG_EN = "EN";
+		const LANG_FR = GlobalEventModel::LANG_FR; /**< @brief Language in which the data should be printed : french*/ 
+		const LANG_EN = GlobalEventModel::LANG_EN; /**< @brief Language in which the data should be printed : english */
 
 		/**
 		 * @brief Construct the RecurrenceCategoryModel

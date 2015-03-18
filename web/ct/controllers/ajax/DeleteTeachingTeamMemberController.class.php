@@ -43,10 +43,17 @@
 				return;
 			}
 
-			// delete data 
+			// check whether the user to delete is the event owner
 			$id_data = array("id" => $this->sg_post->value("id_global_event"));
+			$user = $this->sg_post->value("id_user");
+			if($this->glob_mod->is_global_event_owner($id_data, $user))
+			{
+				$this->set_error_predefined(AjaxController::ERROR_ACTION_DELETE_DATA);
+				return;
+			}
 
-			if(!$this->glob_mod->delete_team_member($id_data, $this->sg_post->value("id_user")))
+			// delete data 
+			if(!$this->glob_mod->delete_team_member($id_data, $user))
 				$this->set_error_predefined(AjaxController::ERROR_ACTION_DELETE_DATA);
 		}
 

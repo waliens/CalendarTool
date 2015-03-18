@@ -40,6 +40,7 @@
     use ct\controllers\ajax\CreateGlobalEventController;
     use ct\controllers\ajax\EditGlobalEventController;
     use ct\controllers\ajax\EventCategoriesController;
+    use ct\controllers\ajax\GetTeamAddableUsers;
 
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -148,6 +149,8 @@
                     return new DeleteTeachingTeamMemberController();
                 case "074":
                     return new GetTeachingRolesController();
+                case "075":
+                    return new GetTeamAddableUsers();
 
 				/* Independant Event related */ 
                 case "081":

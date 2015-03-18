@@ -10,6 +10,7 @@ namespace ct\models\events;
 use ct\models\PathwayModel;
 
 use ct\models\UserModel;
+use util\mvc\Model;
 
 class IndependentEventModel extends AcademicEventModel{
 	
@@ -42,12 +43,11 @@ class IndependentEventModel extends AcademicEventModel{
 	
 		$datas = array_intersect_key($datas, $this->fields_ind);
 		$datas["Id_Event"] = $ret;
-		$a = $this->sql->insert($this->table[2], $datas);
-
+		$a = $this->sql->insert("independent_event", $datas);
 		if($a)
 			return $ret;
 		else
-			return $this->sql->error_info();
+			return false;
 	}
 	
 	/**
@@ -65,11 +65,10 @@ class IndependentEventModel extends AcademicEventModel{
 		$userM = new UserModel();
 		$toinsert = array();
 		foreach ($teamMembers as $key => $value){
-			if(empty($userM->get_user($value[0]))){
-				//TODO SET ERROR
+			if(!$userM->user_id_exists($value['id'])){
 				return false;	
 			}
-			array_push($toinsert, array($this->sql->quote($eventId),  $this->sql->quote($value[0]), $this->sql->quote($value[1])));
+			array_push($toinsert, array($this->sql->quote($eventId),  $this->sql->quote($value['id']), $this->sql->quote($value['role'])));
 		}
 		$collumn = array("Id_Event", "Id_User", "Id_Role");
 		$this->sql->insert_batch("independent_event_manager", $toinsert, $collumn);
@@ -82,17 +81,18 @@ class IndependentEventModel extends AcademicEventModel{
 	 * @retval array|boolean
 	 */
 	public function getTeam($eventId , $lang = null){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
+		/*if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
 			//TODO SET ERROR
 			return false;
-		}
+		}*/
 
-		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Description as `desc`
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role
 		FROM  user NATURAL JOIN
 			( SELECT * FROM independent_event_manager WHERE  Id_Event = ".$this->sql->quote($eventId)." )
 				AS ttm
 		NATURAL JOIN
 			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles";
+		
 		return $this->sql->execute_query($query);
 
 	}
@@ -110,7 +110,7 @@ class IndependentEventModel extends AcademicEventModel{
 			return false;
 		}
 		$userM = new UserModel();
-		if(empty($userM->get_user($userId))){
+		if(!$userM->user_id_exists($value['id'])){
 			//TODO ERROR
 			return false;
 		}

@@ -71,6 +71,13 @@ function addEvents(){
 				data: filters,
 				url: "index.php?src=ajax&req=102",
 				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
+
 					calendar_data=data;
 					var events = [];
 					//retireve all public events first
@@ -115,7 +122,7 @@ function addEvents(){
 					callback(events);
 				},
 				error : function(data, status, errors) {
-					// Inserire un messagio di errore
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 			});
 			}
@@ -146,6 +153,13 @@ $(document).ready(function() {
 				data: filters,
 				url: "index.php?src=ajax&req=102",
 				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
+
 					calendar_data=data;
 					var events = [];
 					//retireve all public events first
@@ -190,7 +204,7 @@ $(document).ready(function() {
 					callback(events);
 				},
 				error : function(data, status, errors) {
-					// Inserire un messagio di errore
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 			});
 			},
@@ -249,7 +263,7 @@ $(document).ready(function() {
 				if($("#notes_body")){
 					$("#add_notes").addClass("hidden");
 					$("#notes").removeClass("hidden");
-					$("#notes_body").text(calEvent.notes);
+					$("#notes_body").text(calEvent.annotation);
 				}
 				else{
 					$("#add_notes").removeClass('hidden');
@@ -312,10 +326,16 @@ function delete_note() {
 			url : "index.php?src=ajax&req=044",
 			data : {"id_event":id_event},
 			success : function(data, status) {
-				//TODO
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+				// TODO
 			},
 			error : function(data, status, errors) {
-				// Inserire un messagio di errore
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 			}
 		});
 	}
@@ -356,10 +376,16 @@ function save_note(){
 				url : "index.php?src=ajax&req=043",
 				data : {"id_event":id_event,"note":note},
 				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
 					//TODO
 				},
 				error : function(data, status, errors) {
-					// Inserire un messagio di errore
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 			});
 		}
@@ -371,10 +397,16 @@ function save_note(){
 				url : "index.php?src=ajax&req=042",
 				data : {"id_event":id_event,"note":note},
 				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
 					//TODO
 				},
 				error : function(data, status, errors) {
-					// Inserire un messagio di errore
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 			});
 	}
@@ -728,6 +760,13 @@ function populate_public_event(event){
 		url : "index.php?src=ajax&req=051&event="+event_id,
 		async : true,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
 			//{id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, start_recurrence, end_recurrence, favourite}
 			$("#event-title").text(data.name);
 			$("#event_place").text(data.place);
@@ -738,7 +777,7 @@ function populate_public_event(event){
 			$("#notes_body").text(data.annotation);
 		},
 		error : function(data, status, errors) {
-			// Inserire un messagio di errore
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	}
@@ -812,6 +851,13 @@ function create_private_event(){
 							url : "index.php?src=ajax&req=061",
 							data : new_private_event,
 							success : function(data, status) {
+								/** error checking */
+								if(data.error.error_code > 0)
+								{	
+									launch_error_ajax(data.error);
+									return;
+								}
+
 								$('#calendar').fullCalendar('addEventSource', {
 									events:[{
 										id_server: id,
@@ -831,7 +877,7 @@ function create_private_event(){
 								)
 							},
 							error : function(data, status, errors) {
-								// Inserire un messagio di errore
+								launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 							}
 						});
 						start.add(offset,"day");
@@ -1009,6 +1055,13 @@ function create_private_event(){
 						url : "index.php?src=ajax&req=61",
 						data : new_event,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							$('#calendar').fullCalendar('addEventSource', {
 								events:[{
 									id_server: id,
@@ -1028,9 +1081,8 @@ function create_private_event(){
 							)
 						},
 						error : function(xhr, status, error) {
-								  var err = eval("(" + xhr.responseText + ")");
-								  alert(err.Message);
-								}
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+						}
 					});
 		}
 	}
@@ -1123,6 +1175,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=031", 
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var courses=data.courses;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
@@ -1143,7 +1202,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								addCourse(courses[i]);
 						},
 						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
 				break;
@@ -1157,6 +1216,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=041",
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var date_types=data.date_type;
 							var event_types=data.event_type;
 							//populate the filter list
@@ -1194,6 +1260,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						data: {lang:"FR"},
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var student_categories=data.student;
 							var academic_categories=data.academic;
 							//populate the filter list
@@ -1274,6 +1347,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=111",
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var pathways=data.pathways;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
@@ -1292,7 +1372,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								addPathway(pathways[i]);
 						},
 						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
 				break;
@@ -1306,6 +1386,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=021",
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var professors=data.professors;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
@@ -1324,7 +1411,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								addProfessor(professors[i]);
 						},
 						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
 				break;
@@ -1611,11 +1698,18 @@ $("#static_export").click(function(){
 			url : "index.php?src=ajax&req=091",
 			data : filters,
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+
 				$("#dynamic_export_download_alert").modal("show");
 				$("#dynamic_export_file").attr("href",data.url);
 			},
 			error : function(data, status, errors) {
-				// Inserire un messagio di errore
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 			}
 		});
 });
@@ -1656,6 +1750,13 @@ function submit_filters(){
 				data: filters,
 				url: "index.php?src=ajax&req=102",
 				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
+
 					calendar_data=data;
 					var events = [];
 					//retrieve all public events first
@@ -1700,9 +1801,8 @@ function submit_filters(){
 					callback(events);
 				},
 				error : function(xhr, status, error) {
-						  var err = eval("(" + xhr.responseText + ")");
-						  alert(err.Message);
-						}
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				}
 			});
 			}
 			} 
