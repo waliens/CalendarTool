@@ -246,10 +246,10 @@ $(document).ready(function() {
 				$("#event_owner").parent().parent().removeClass("hidden");
 				$("#event_details").text(calEvent.details);
 				//check if the event has notes or not
-				if(calEvent.notes){
+				if($("#notes_body")){
 					$("#add_notes").addClass("hidden");
 					$("#notes").removeClass("hidden");
-					$("#notes_body").text(calEvent.notes);
+					$("#notes_body").text(calEvent.annotation);
 				}
 				else{
 					$("#add_notes").removeClass('hidden');
@@ -735,6 +735,7 @@ function populate_public_event(event){
 			$("#event_details").text(data.description);
 			$("#event_category").text(data.category_name);
 			$("#event_category").attr("category-id",data.category_id);
+			$("#notes_body").text(data.annotation);
 		},
 		error : function(data, status, errors) {
 			// Inserire un messagio di errore

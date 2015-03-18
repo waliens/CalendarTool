@@ -621,15 +621,13 @@ use \DateInterval;
 		 * @retval mixed the annotation or false if empty
 		 */
 		public function get_annotation($eventId, $userId) {
-			if(is_int($eventId) && is_int($userId)){
+			if(intval($eventId) && intval($userId)){
 				$data = $this->sql->select("event_annotation", "Id_Event = ".$eventId." AND Id_Student =".$userId, array("Annotation"));
 				if(isset($data[0]["Annotation"]))
 					return $data[0]['Annotation'];
 				else
-					$this->error .= "\n No annotation";
-				return false;
+					return false;
 			}
-			$this->error .= "\n Error while searching for the annotation";
 			return false;
 		}
 		
