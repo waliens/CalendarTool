@@ -7,13 +7,6 @@ $(document).ready(function() {
 		url : "student-profile.json",
 		async : true,
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}
-							
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var pathway=data.pathway;
@@ -30,7 +23,7 @@ $(document).ready(function() {
 				addOptionalCourse( optional_courses[i]);
 		},
 		error : function(data, status, errors) {
-			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			// Inserire un messagio di errore
 		}
 	});
 });

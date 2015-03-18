@@ -16,12 +16,6 @@
                 <td class="width-30"><input type="checkbox" id="all_events_filter" checked></td>
                 <td>Tous les événements</td>
               </tr>
-              {if !$student}
-              <tr>
-                <td class="width-30"><input type="checkbox" id="pathway_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
-                <td>Par section</td>
-              </tr>
-              {/if}
               <tr>
                 <td class="width-30"><input type="checkbox" id="course_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
                 <td>Par cours</td>
@@ -33,6 +27,10 @@
               <tr>
                 <td class="width-30"><input type="checkbox" id="event_category_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
                 <td>Par catégorie d'événement</td>
+              </tr>
+              <tr>
+                <td class="width-30"><input type="checkbox" id="pathway_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>
+                <td>Par section</td>
               </tr>
               <tr>
                 <td class="width-30"><input type="checkbox" id="professor_filter" data-toggle="modal" data-target="#filter_alert" disabled="disabled"></td>

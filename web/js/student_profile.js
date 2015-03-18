@@ -19,13 +19,6 @@ $(document).ready(function() {
 		url : "index.php?src=ajax&req=011",
 		async : true,
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}
-
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var pathway=data.pathway;
@@ -42,7 +35,7 @@ $(document).ready(function() {
 				addOptionalCourse( optional_courses[i]);
 		},
 		error : function(data, status, errors) {
-			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			// Inserire un messagio di errore
 		}
 	});
 });
@@ -125,16 +118,10 @@ $('#optional_course_alert .btn-primary').click(function(){
 			url : "index.php?src=ajax&req=300",
 			data : optional_course,
 			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}
-				// TODO
+				// insert success msg
 			},
 			error : function(data, status, errors) {
-				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				// insert error msg
 			}
 		});
 	});
@@ -148,13 +135,6 @@ $("#event_info").on("show.bs.modal",function(event){
 		//url : "json/globalevent-info.json",
 		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}
-
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
 			var global_event_name=data.name;
@@ -205,7 +185,8 @@ $("#event_info").on("show.bs.modal",function(event){
 				addTeamMember(team[i]);
 		},
 		error: function(xhr, status, error) {
-			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
 		}
 	});
 	})
@@ -256,13 +237,6 @@ $("#subevent_info").on("show.bs.modal",function(){
 		//url : "json/subevent-info.json",
 		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}
-
 			var subevent_id=data.id;
 			var subevent_title=data.name;
 			var subevent_description=data.description;
@@ -318,7 +292,8 @@ $("#subevent_info").on("show.bs.modal",function(){
 			$("#subevent-place").text(subevent_place);
 		},
 		error: function(xhr, status, error) {
-			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
 		}
 	});
 })
