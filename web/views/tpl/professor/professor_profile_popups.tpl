@@ -156,7 +156,7 @@
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </div>
             <div class="text-center marg-bot-10">
-               <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-event-member">Ajouter équipe</a>
+               <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-event-member">Ajouter un membre</a>
             </div>
             <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
                 <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
