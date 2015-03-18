@@ -1,4 +1,5 @@
 <!-- Delete Global Event Alert -->
+
 <div class="modal fade" id="delete_global_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -127,7 +128,7 @@
                   <td id="event-period"></td>
                 </tr>
                 <tr>
-                  <td class="text-bold width-80">Pathway</td>
+                  <td class="text-bold width-80">Section</td>
                   <td id="event-pathway"></td>
                 </tr>
               </table>
@@ -148,14 +149,12 @@
             <div class="panel-heading" role="tab">
               <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-global-event" href="#event_team_accordion" aria-expanded="false" aria-controls="event_team_accordion">Équipe</a> </h4>
             </div>
-            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="event_team_accordion"> 
-                <div id="event_team"> 
-              <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="event_team_accordion">
+              <div id="event_team"> 
+                <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </div>
-            <div class="text-center marg-bot-10">
-               <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-event-member">Ajouter un membre</a>
-            </div>
-            <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
+              <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-event-member">Ajouter équipe</a> </div>
+              <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
                 <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
                 <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
               </div>
@@ -222,14 +221,14 @@
                   <td class="text-bold width-80 vertical-middle">Récurrence</td>
                   <td><div class="float-left-10padright">
                       <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_recurrence">jamais</span> <span class="caret"></span> </button>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_recurrence" recurrence-id="1">jamais</span> <span class="caret"></span> </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">jamais</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les jours</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les deux semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les mois</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les ans</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="1">jamais</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="2">tous les jours</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="3">toutes les semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="4">toutes les deux semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="5">tous les mois</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="6">tous les ans</a></li>
                         </ul>
                       </div>
                     </div>
@@ -283,7 +282,7 @@
           </div>
           <div class="panel panel-default">
             <div class="panel-heading" role="tab">
-              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-subevent" href="#subevents_pathways" aria-expanded="false" aria-controls="subevents_pathways">Sous-événements</a> </h4>
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-subevent" href="#subevents_pathways" aria-expanded="false" aria-controls="subevents_pathways">Sections</a> </h4>
             </div>
             <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" id="subevents_pathways"> 
               <div id="new_subevents_pathways"> 
@@ -314,7 +313,7 @@
         </div>
         <div class="modal-footer">
         <div class='text-center' id='new_subevent_btns'>
-                <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="create_subevent();" id="new_subevent_creation_confirm">
+                <button type='button' class='btn btn-primary' type="submit" disabled="disabled" id="new_subevent_creation_confirm">
                 Confirmer
                 </button>
                 <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
@@ -344,7 +343,7 @@
             <td id="subevent-category"></td>
           </tr>
           <tr>
-            <td class="text-bold width-80">Place</td>
+            <td class="text-bold width-80">Lieu</td>
             <td id="subevent-place"></td>
           </tr>
           <tr>

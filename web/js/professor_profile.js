@@ -607,7 +607,7 @@ $("#add-event-member").click(function(event){
 			$("#add-event-member").parent().addClass("hidden");
 			$("#event_team").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_role_list"></ul></div>');
 			for(var i=0;i<data.users.length;i++)
-				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.users[i].id_user+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
+				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.users[i].user_id+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
 			},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -665,8 +665,8 @@ $("#event_team").on("click","#new_team_members_role_list a",function(event){
 	
 //abort add team member
 $("#add-event-member-abort").click(function(event){
-	$("#add_team_member_dropdown").remove();
-	$("#add_team_member_role_dropdown").remove();
+	$("#add_team_member_dropdown").parent().html("");
+	$("#add_team_member_role_dropdown").parent().html("");
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
 	})
@@ -676,17 +676,22 @@ $("#add-event-member-confirm").click(function(event){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	var member_id=event.currentTarget.getAttribute("member-id");
 	var member_fullname=$("#add_team_member_dropdown").text();
+<<<<<<< HEAD
 	var member_role=$("#add_team_member_role_dropdown").attr("member-role-id");
 	var member_role_name=$("#add_team_member_role_dropdown").text();
 
+=======
+	var member_role=$("#add_team_member_role_dropdown").text()
+>>>>>>> test_merge
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
-	$("#add_team_member_dropdown").remove();
-	$("#add_team_member_role_dropdown").remove();
+	$("#add_team_member_dropdown").parent().html("");
+	$("#add_team_member_role_dropdown").parent().html("");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=072",
+<<<<<<< HEAD
 
 		data: {id_user:member_id, id_global_event:event_id, id_role:member_role},
 		success : function(data, status) {	
@@ -701,42 +706,56 @@ $("#add-event-member-confirm").click(function(event){
 		},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+=======
+		data: {id_user:member_id, id_global_event:event_id, id_role:"2"},
+		success : function(data, status) {			
+			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
+			},
+		error: function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+>>>>>>> test_merge
 		}
 	});
 	})
 
 //remove team member
 $("#event_team").on("click",".delete",function(event){
-	var event_id=$("#add-event-member").attr("event-id");
-	var member_id=event.currentTarget.getAttribute("member-id");
-	$.ajax({
-		dataType : "json",
-		type : 'POST',
-		url : "index.php?src=ajax&req=073",
-		data: {id_user:member_id, id_global_event:event_id},
-		success : function(data, status) {	
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
-			event.currentTarget.parentNode.parentNode.parentNode.remove();
-			},
-		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-		}
-	});
-	})
+	if(!$(this).hasClass("delete-disabled")){
+		var event_id=$("#add-event-member").attr("event-id");
+		var member_id=event.currentTarget.getAttribute("member-id");
+		$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=073",
+			data: {id_user:member_id, id_global_event:event_id},
+			success : function(data, status) {			
+				event.currentTarget.parentNode.parentNode.parentNode.remove();
+				},
+			error: function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	}
+})
 
 $("#add-subevent").click(function(){
 	var global_event_id=this.getAttribute("event-id");
 	$("#new_subevent_creation_confirm").attr("global_event_id",global_event_id);
 	})
-	
+
+//populate new subevent modal	
 $("#new_subevent").on('show.bs.modal', function (event) {
 	var global_event_id=$("#new_subevent_creation_confirm").attr("global_event_id");
+<<<<<<< HEAD
+=======
+	//clean eventual old data
+	$("#new_subevent_categories").html("");
+	$("#new_subevent_pathways_table").html("");
+	$("#new_subevent_team_table").html("");
+	//build datepicker
+>>>>>>> test_merge
 	buildDatePicker("new_subevent_dates");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
@@ -746,7 +765,10 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_startHour").on("changeTime",function(){
 		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
 		})
+<<<<<<< HEAD
 
+=======
+>>>>>>> test_merge
 	//populate event categories
 	$.ajax({
 			dataType : "json",
@@ -781,8 +803,8 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 				var owner_id=data.owner_id;
 				team_checkboxes=$("#new_subevent_team_table input");
 				for(var i=0;i<team_checkboxes.length;i++){
-					if(team_checkboxes[i].attr("id")==owner_id)
-						team_checkboxes[i].attr("disabled","disabled")
+					if(team_checkboxes[i].getAttribute("id")==owner_id)
+						team_checkboxes[i].setAttribute("disabled","disabled")
 				}
 			},
 			error : function(xhr, status, error) {
@@ -892,6 +914,7 @@ function deadline(){
 //sets the new subevent recurrence
 function updateRecurrence(){
 	$("#new_subevent_recurrence").text(event.target.innerHTML);
+	$("#new_subevent_recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
 	if(event.target.innerHTML!="jamais"){
 		$("#new_subevent_recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
@@ -903,10 +926,12 @@ function updateRecurrence(){
 //change the value of the dropdown stating the private event type
 function changeSubEventType(){
 	$("#new_subevent_type").text(event.target.innerHTML);
+	$("#new_subevent_type").attr("category-id",event.target.getAttribute("category-id"))
 	}
 	
-//create new subevent
-$("#new_subevent_btns").on("click",function(){
+//confirm creation new subevent
+$("#new_subevent_creation_confirm").on("click",function(){
+	var id_global=$("#new_subevent_creation_confirm").attr("global_event_id");
 	var title=$("#new_subevent_title").val();
 	var deadline=$("#new_subevent_deadline input").prop("checked");
 	var start=convert_date($("#new_subevent_startDate_datepicker").val(),"YYYY-MM-DD");
@@ -918,21 +943,53 @@ $("#new_subevent_btns").on("click",function(){
 		if($("#new_subevent_endHour").val().length!=0)
 			end=end+"T"+$("#new_subevent_endHour").val();
 		}
-	var recurrence=$("#new_subevent_recurrence").text();
+
+	var entireDay=false;
+	if($("#new_subevent_startHour").val().length!=0&&$("#new_subevent_endHour").val().length!=0)
+		entireDay=true;
+	var recurrence=$("#new_subevent_recurrence").attr("recurrence-id");
 	var end_recurrence;
-	if(recurrence!="jamais"){
+	if(recurrence!=1){
 		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
 		}
 	var place=$("#new_subevent_place").val();
+	var category=$("#new_subevent_type").attr("category-id")
+
 	var details=$("#new_subevent_details").val();
 	var feedback=$("#new_subevent_feedback_body").val();
 	var workload=$("#new_subevent_workload").val();
 	var pract_details=$("#new_soubevent_pract_details_body").val();
-	//populate 
+	var pathways=$("#new_subevent_pathways_table input:checked");
+	var pathways_json=[];
+	var team=$("#new_subevent_team_table input:checked");
+	var team_json=[];
+	for(var i=0;i<pathways.length;i++)
+		pathways_json.push({id:pathways[i].id,selected:team[i].checked});
+	pathways_json=JSON.stringify(pathways_json);
+	for(var i=0;i<team.length;i++)
+		team_json.push({id:team[i].id,selected:team[i].checked});
+	team_json=JSON.stringify(team_json);
+	//populate the server with the new subevent data
+	var new_event={name:title, id_global_event:id_global, feedback:feedback, workload:workload, practical_details:pract_details, details:details, where:place, limit:deadline, entireDay:entireDay, start:start, end:end, type:category, recurrence:recurrence, "end-recurrence":end_recurrence, pathway:pathways_json, teachingTeam: team_json, attachments:""}
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=053",
+			data: new_event,
+			async : true,
+			success : function(data, status) {
+				$('#new_subevent').modal('hide');
+				$("#global_events [event-id="+id_global+"]").click();
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
 	})
 	
 //enable create new subevent confirm button
-$("#new_subevent input[type='text'], textarea").on("keyup", function(){
+$("#new_subevent input").on("keyup", function(){
 if($("#new_subevent_title").val()!="")
 	$("#new_subevent_creation_confirm").attr("disabled",false)
 else $("#new_subevent_creation_confirm").attr("disabled",true)
