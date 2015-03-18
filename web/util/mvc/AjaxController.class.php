@@ -28,7 +28,8 @@
 		const ERROR_ACTION_DELETE_DATA = 203; /**< @brief Action failure : cannot delete data */
 		const ERROR_ACTION_READ_DATA = 204; /**< @brief Action failure : cannot read data */
 		const ERROR_ACTION_SAVE_EXPORT = 205; /**< @brief Action failure : cannot save export settings */
-
+		const ERROR_ACTION_BAD_TEACHING_ROLE = 206; /**< @brief Action failure : cannot save the given teaching role for the given user */
+		
 		/* 3xx : missing data */
 		const ERROR_MISSING_DATA = 300; /**< @brief Missing data generic error (300) */
 		const ERROR_MISSING_USER = 301; /**< @brief User is missing */
@@ -101,6 +102,10 @@
 			$this->error_msgs[self::ERROR_ACTION_SAVE_EXPORT] 
 				= array("EN" => "Failure : impossible to save the export settings", 
 						"FR" => "Echec : impossible de sauver les options d'export");
+			
+			$this->error_msgs[self::ERROR_ACTION_BAD_TEACHING_ROLE] 
+				= array("EN" => "Failure : impossible for the given user to have the given role", 
+						"FR" => "Echec : impossible d'associer ce role à l'utilisateur donné");
 
 			/* 300 : missing */
 			$this->error_msgs[self::ERROR_MISSING_DATA] 
@@ -159,7 +164,7 @@
 		{
 			return ($error_code >= 0 && $error_code <= 1) 
 					|| ($error_code >= 200 && $error_code <= 204)
-					|| ($error_code >= 300 && $error_code <= 305)
+					|| ($error_code >= 300 && $error_code <= 306)
 					|| ($error_code >= 400 && $error_code <= 403)
 					|| ($error_code >= 500 && $error_code <= 500); 
 		}
