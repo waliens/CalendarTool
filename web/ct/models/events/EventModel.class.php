@@ -240,9 +240,10 @@ use \DateInterval;
 		 * @brief Update event(s) (specify by $from) data to the those specify by $to
 		 * @param array $from array of elements that allow us to identy target event(s)
 		 * @param array $to new data to put in the bdd 
+		 * @param bool $recur Indicate if it's a recurrent modification or not
 		 * @retval mixed true if execute correctly error_info or false if not
 		 */
-		public function modifyEvent($from, $to){
+		public function modifyEvent($from, $to, $recur = false){
 
 			
 			$table = implode(" JOIN ", $this->table);
@@ -253,7 +254,7 @@ use \DateInterval;
 			}
 
 						
-			if(!(array_key_exists('recurrence', $from)))
+			if(!$recur) //Desolidarize recur
 				$data['Id_Recurrence'] = 1;
 			
 				

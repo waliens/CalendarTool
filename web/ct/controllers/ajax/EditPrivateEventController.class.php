@@ -67,7 +67,7 @@ class EditPrivateEventController extends AjaxController
 	$ret = false;
 		if($this->sg_post->value('applyRecursive') == "true")
 		{
-				$ret = $model->modifyEvent(array("recurrence" => $this->sg_post->value('recurrenceId')), $data);
+				$ret = $model->modifyEvent(array("recurrence" => $this->sg_post->value('recurrenceId')), $data, true);
 		}
 		else
 			$ret = $model->modifyEvent(array("id_event" => $this->sg_post->value('id')), $data);
