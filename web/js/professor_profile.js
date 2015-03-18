@@ -17,13 +17,6 @@ $(document).ready(function() {
 		//url : "json/professor-profile.json",
 		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var courses=data.courses;
@@ -134,13 +127,6 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=033",
 			data : {id:event_id},
 			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}	
-
 				$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
 			},
 			error : function(xhr, status, error) {
@@ -160,13 +146,6 @@ $("#delete_indep_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=083",
 			data : {id:event_id,applyRecursive:"false"},
 			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}	
-
 				$("#independent-events #"+event_id).parent().parent().remove()
 			},
 			error : function(xhr, status, error) {
@@ -185,13 +164,6 @@ $("#event_info").on("show.bs.modal",function(event){
 		//url : "json/globalevent-info.json",
 		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
 			var global_event_name=data.name;
@@ -308,13 +280,6 @@ $("#subevent_info").on("show.bs.modal",function(){
 		type : 'GET',
 		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			var subevent_id=data.id;
 			var subevent_title=data.name;
 			var subevent_description=data.description;
@@ -419,13 +384,6 @@ function  edit_global_event_confirm(){
 		url : "index.php?src=ajax&req=034",
 		data: {id:event_id,description:event_details,feedback:event_feedback,language:event_lan},
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			$("#event-details").html('');
 			$("#event-details").text(event_details);
 			$("#event-feedback").html('');
@@ -480,13 +438,6 @@ $("#years_list").on("click","a",function(event){
 		url : "index.php?src=ajax&req=036",
 		data: {"year":year},
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			$("#global_course_list").html("");
 			$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
 			$("#cours_language").html('Sélectionner langue <span class="caret"></span>');
@@ -542,13 +493,6 @@ $("#global_event_add_confirm").click(function(event){
 		url : "index.php?src=ajax&req=035",
 		data: new_course,
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			var cours_to_add={"id":data.id,"code":cours_id, "lib_cours_complet":$("#cours_to_add").text()}
 			addGlobalEvent(cours_to_add);
 			},
@@ -596,18 +540,11 @@ $("#add-event-member").click(function(event){
 		url : "index.php?src=ajax&req=075",
 		data: {id_global_event:event_id},
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			$("#add-event-member-conf-abort-buttons").removeClass("hidden");
 			$("#add-event-member").parent().addClass("hidden");
 			$("#event_team").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_role_list"></ul></div>');
 			for(var i=0;i<data.users.length;i++)
-				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.users[i].id_user+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
+				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.team[i].user_id+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
 			},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -621,13 +558,6 @@ $("#add-event-member").click(function(event){
 		url : "index.php?src=ajax&req=074",
 		data: {lang:"FR"},
 		success : function(data, status) {
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
 			for(var i=0;i<data.roles.length;i++)
 				$("#new_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
 			},
@@ -665,8 +595,8 @@ $("#event_team").on("click","#new_team_members_role_list a",function(event){
 	
 //abort add team member
 $("#add-event-member-abort").click(function(event){
-	$("#add_team_member_dropdown").remove();
-	$("#add_team_member_role_dropdown").remove();
+	$("#add_team_member_dropdown").parent().html("");
+	$("#add_team_member_role_dropdown").parent().html("");
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
 	})
@@ -681,13 +611,12 @@ $("#add-event-member-confirm").click(function(event){
 
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
-	$("#add_team_member_dropdown").remove();
-	$("#add_team_member_role_dropdown").remove();
+	$("#add_team_member_dropdown").parent().html("");
+	$("#add_team_member_role_dropdown").parent().html("");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=072",
-
 		data: {id_user:member_id, id_global_event:event_id, id_role:member_role},
 		success : function(data, status) {	
 			/** error checking */
@@ -707,36 +636,40 @@ $("#add-event-member-confirm").click(function(event){
 
 //remove team member
 $("#event_team").on("click",".delete",function(event){
-	var event_id=$("#add-event-member").attr("event-id");
-	var member_id=event.currentTarget.getAttribute("member-id");
-	$.ajax({
-		dataType : "json",
-		type : 'POST',
-		url : "index.php?src=ajax&req=073",
-		data: {id_user:member_id, id_global_event:event_id},
-		success : function(data, status) {	
-			/** error checking */
-			if(data.error.error_code > 0)
-			{	
-				launch_error_ajax(data.error);
-				return;
-			}	
-
-			event.currentTarget.parentNode.parentNode.parentNode.remove();
-			},
-		error: function(xhr, status, error) {
-		  launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-		}
-	});
-	})
+	if(!$(this).hasClass("delete-disabled")){
+		var event_id=$("#add-event-member").attr("event-id");
+		var member_id=event.currentTarget.getAttribute("member-id");
+		$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=073",
+			data: {id_user:member_id, id_global_event:event_id},
+			success : function(data, status) {			
+				event.currentTarget.parentNode.parentNode.parentNode.remove();
+				},
+			error: function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	}
+})
 
 $("#add-subevent").click(function(){
 	var global_event_id=this.getAttribute("event-id");
 	$("#new_subevent_creation_confirm").attr("global_event_id",global_event_id);
 	})
-	
+
+//populate new subevent modal	
 $("#new_subevent").on('show.bs.modal', function (event) {
 	var global_event_id=$("#new_subevent_creation_confirm").attr("global_event_id");
+
+	//clean eventual old data
+	$("#new_subevent_categories").html("");
+	$("#new_subevent_pathways_table").html("");
+	$("#new_subevent_team_table").html("");
+	//build datepicker
+
 	buildDatePicker("new_subevent_dates");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
@@ -781,8 +714,8 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 				var owner_id=data.owner_id;
 				team_checkboxes=$("#new_subevent_team_table input");
 				for(var i=0;i<team_checkboxes.length;i++){
-					if(team_checkboxes[i].attr("id")==owner_id)
-						team_checkboxes[i].attr("disabled","disabled")
+					if(team_checkboxes[i].getAttribute("id")==owner_id)
+						team_checkboxes[i].setAttribute("disabled","disabled")
 				}
 			},
 			error : function(xhr, status, error) {
@@ -892,6 +825,7 @@ function deadline(){
 //sets the new subevent recurrence
 function updateRecurrence(){
 	$("#new_subevent_recurrence").text(event.target.innerHTML);
+	$("#new_subevent_recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
 	if(event.target.innerHTML!="jamais"){
 		$("#new_subevent_recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
@@ -903,10 +837,12 @@ function updateRecurrence(){
 //change the value of the dropdown stating the private event type
 function changeSubEventType(){
 	$("#new_subevent_type").text(event.target.innerHTML);
+	$("#new_subevent_type").attr("category-id",event.target.getAttribute("category-id"))
 	}
 	
-//create new subevent
-$("#new_subevent_btns").on("click",function(){
+//confirm creation new subevent
+$("#new_subevent_creation_confirm").on("click",function(){
+	var id_global=$("#new_subevent_creation_confirm").attr("global_event_id");
 	var title=$("#new_subevent_title").val();
 	var deadline=$("#new_subevent_deadline input").prop("checked");
 	var start=convert_date($("#new_subevent_startDate_datepicker").val(),"YYYY-MM-DD");
@@ -918,21 +854,51 @@ $("#new_subevent_btns").on("click",function(){
 		if($("#new_subevent_endHour").val().length!=0)
 			end=end+"T"+$("#new_subevent_endHour").val();
 		}
-	var recurrence=$("#new_subevent_recurrence").text();
+	var entireDay=false;
+	if($("#new_subevent_startHour").val().length!=0&&$("#new_subevent_endHour").val().length!=0)
+		entireDay=true;
+	var recurrence=$("#new_subevent_recurrence").attr("recurrence-id");
 	var end_recurrence;
-	if(recurrence!="jamais"){
+	if(recurrence!=1){
 		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
 		}
 	var place=$("#new_subevent_place").val();
+	var category=$("#new_subevent_type").attr("category-id")
 	var details=$("#new_subevent_details").val();
 	var feedback=$("#new_subevent_feedback_body").val();
 	var workload=$("#new_subevent_workload").val();
 	var pract_details=$("#new_soubevent_pract_details_body").val();
-	//populate 
+	var pathways=$("#new_subevent_pathways_table input:checked");
+	var pathways_json=[];
+	var team=$("#new_subevent_team_table input:checked");
+	var team_json=[];
+	for(var i=0;i<pathways.length;i++)
+		pathways_json.push({id:pathways[i].id,selected:team[i].checked});
+	pathways_json=JSON.stringify(pathways_json);
+	for(var i=0;i<team.length;i++)
+		team_json.push({id:team[i].id,selected:team[i].checked});
+	team_json=JSON.stringify(team_json);
+	//populate the server with the new subevent data
+	var new_event={name:title, id_global_event:id_global, feedback:feedback, workload:workload, practical_details:pract_details, details:details, where:place, limit:deadline, entireDay:entireDay, start:start, end:end, type:category, recurrence:recurrence, "end-recurrence":end_recurrence, pathway:pathways_json, teachingTeam: team_json, attachments:""}
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=053",
+			data: new_event,
+			async : true,
+			success : function(data, status) {
+				$('#new_subevent').modal('hide');
+				$("#global_events [event-id="+id_global+"]").click();
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
 	})
 	
 //enable create new subevent confirm button
-$("#new_subevent input[type='text'], textarea").on("keyup", function(){
+$("#new_subevent input").on("keyup", function(){
 if($("#new_subevent_title").val()!="")
 	$("#new_subevent_creation_confirm").attr("disabled",false)
 else $("#new_subevent_creation_confirm").attr("disabled",true)

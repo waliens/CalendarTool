@@ -13,7 +13,7 @@ $(document).ready(function() {
 				launch_error_ajax(data.error);
 				return;
 			}
-							
+
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var pathway=data.pathway;
