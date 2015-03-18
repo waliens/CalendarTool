@@ -1021,8 +1021,8 @@
 
 		/**
 		 * @brief Get the optionnal events to which the student has already subscribed or not
-		 * @param[in] int $user_id   The user id (optionnal, default: the currently connected user)
-		 * @param[in] int $acad_year The year starting the academic year (optionnal, default: current one)
+		 * @param[in] int $user_id   	   The user id (optionnal, default: the currently connected user)
+		 * @param[in] int $start_acad_year The year starting the academic year (optionnal, default: current one)
  		 * @retval array A multidimensionnal array containing the optionnal global events of the given user
 		 * @note Each row of the returned array contains the following fields :
 		 * <ul>

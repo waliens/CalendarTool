@@ -9,6 +9,7 @@ var classct_1_1models_1_1filters_1_1_event_type_filter =
     [ "$types", "classct_1_1models_1_1filters_1_1_event_type_filter.html#a92d70a97331cc6fc0a79d9da50895be8", null ],
     [ "TYPE_ACADEMIC", "classct_1_1models_1_1filters_1_1_event_type_filter.html#a9e77fcef79736b547a4cc0124437882e", null ],
     [ "TYPE_ALL", "classct_1_1models_1_1filters_1_1_event_type_filter.html#a416fb6ab1ce0d3a0ce2b79dad5fe81e5", null ],
+    [ "TYPE_FAVORITE", "classct_1_1models_1_1filters_1_1_event_type_filter.html#afa395beb3483fdabd0d5ce8ce353e616", null ],
     [ "TYPE_INDEPENDENT", "classct_1_1models_1_1filters_1_1_event_type_filter.html#ad2876750d2b3e897eadc30f3ff13482a", null ],
     [ "TYPE_STUDENT", "classct_1_1models_1_1filters_1_1_event_type_filter.html#a6b511cbc2e5c215dc4240c2847cb5a32", null ],
     [ "TYPE_SUB_EVENT", "classct_1_1models_1_1filters_1_1_event_type_filter.html#a52590b38a028749a35b05bffc8dbedbf", null ]

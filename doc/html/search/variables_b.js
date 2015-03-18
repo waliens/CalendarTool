@@ -1,15 +1,20 @@
 var searchData=
 [
-  ['temp_5fdate_5frange',['TEMP_DATE_RANGE',['../classct_1_1models_1_1_event_model.html#a3e91bcab11e179d142782abe1fb169d3',1,'ct\models\EventModel\TEMP_DATE_RANGE()'],['../classct_1_1models_1_1events_1_1_event_model.html#a3e91bcab11e179d142782abe1fb169d3',1,'ct\models\events\EventModel\TEMP_DATE_RANGE()']]],
-  ['temp_5fdeadline',['TEMP_DEADLINE',['../classct_1_1models_1_1_event_model.html#ac1f7d06ac945e26d95fea3105d7db361',1,'ct\models\EventModel\TEMP_DEADLINE()'],['../classct_1_1models_1_1events_1_1_event_model.html#ac1f7d06ac945e26d95fea3105d7db361',1,'ct\models\events\EventModel\TEMP_DEADLINE()']]],
-  ['temp_5ftime_5frange',['TEMP_TIME_RANGE',['../classct_1_1models_1_1_event_model.html#aa863376939c0e39fa68c478679023a2d',1,'ct\models\EventModel\TEMP_TIME_RANGE()'],['../classct_1_1models_1_1events_1_1_event_model.html#aa863376939c0e39fa68c478679023a2d',1,'ct\models\events\EventModel\TEMP_TIME_RANGE()']]],
+  ['temp_5fdate_5frange',['TEMP_DATE_RANGE',['../classct_1_1models_1_1events_1_1_event_model.html#a3e91bcab11e179d142782abe1fb169d3',1,'ct::models::events::EventModel']]],
+  ['temp_5fdeadline',['TEMP_DEADLINE',['../classct_1_1models_1_1events_1_1_event_model.html#ac1f7d06ac945e26d95fea3105d7db361',1,'ct::models::events::EventModel']]],
+  ['temp_5ftime_5frange',['TEMP_TIME_RANGE',['../classct_1_1models_1_1events_1_1_event_model.html#aa863376939c0e39fa68c478679023a2d',1,'ct::models::events::EventModel']]],
+  ['type_5facad',['TYPE_ACAD',['../classct_1_1models_1_1_file_model.html#abfcbe2c11d66b39e4c2bfb47401d7e0e',1,'ct::models::FileModel']]],
   ['type_5facademic',['TYPE_ACADEMIC',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#a9e77fcef79736b547a4cc0124437882e',1,'ct::models::filters::EventTypeFilter']]],
-  ['type_5fall',['TYPE_ALL',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#a416fb6ab1ce0d3a0ce2b79dad5fe81e5',1,'ct::models::filters::EventTypeFilter']]],
+  ['type_5fall',['TYPE_ALL',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#a416fb6ab1ce0d3a0ce2b79dad5fe81e5',1,'ct\models\filters\EventTypeFilter\TYPE_ALL()'],['../classct_1_1models_1_1filters_1_1_time_type_filter.html#a416fb6ab1ce0d3a0ce2b79dad5fe81e5',1,'ct\models\filters\TimeTypeFilter\TYPE_ALL()']]],
   ['type_5fbool',['TYPE_BOOL',['../classutil_1_1_type_checker.html#a2008e61ac981f88cf7a8218c600077f5',1,'util::TypeChecker']]],
   ['type_5fchar',['TYPE_CHAR',['../classutil_1_1_type_checker.html#a015168405ecd475597a9211761798efb',1,'util::TypeChecker']]],
+  ['type_5fdate_5frange',['TYPE_DATE_RANGE',['../classct_1_1models_1_1filters_1_1_time_type_filter.html#ab2f3457856f134295551c5b9f87fe4e6',1,'ct::models::filters::TimeTypeFilter']]],
+  ['type_5fdeadline',['TYPE_DEADLINE',['../classct_1_1models_1_1filters_1_1_time_type_filter.html#a7dfdd475b70cb8ef4e166d38c444cabe',1,'ct::models::filters::TimeTypeFilter']]],
   ['type_5fenum',['TYPE_ENUM',['../classutil_1_1_type_checker.html#a680dcb4933c5c24249d06e7d83bfb08d',1,'util::TypeChecker']]],
   ['type_5fereg',['TYPE_EREG',['../classutil_1_1_type_checker.html#ac41846afbd051e499ad22491486c9364',1,'util::TypeChecker']]],
+  ['type_5ffavorite',['TYPE_FAVORITE',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#afa395beb3483fdabd0d5ce8ce353e616',1,'ct::models::filters::EventTypeFilter']]],
   ['type_5ffile',['TYPE_FILE',['../classutil_1_1_type_checker.html#a6e21fe27fed935d13d258f1b38282e08',1,'util::TypeChecker']]],
+  ['type_5fglobal',['TYPE_GLOBAL',['../classct_1_1models_1_1_file_model.html#ab8123aa3a4a79c76a33c94d2d724963d',1,'ct::models::FileModel']]],
   ['type_5findependent',['TYPE_INDEPENDENT',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#ad2876750d2b3e897eadc30f3ff13482a',1,'ct::models::filters::EventTypeFilter']]],
   ['type_5fint',['TYPE_INT',['../classutil_1_1_type_checker.html#a99c083a2611abba224ce8a0aa7c7885d',1,'util::TypeChecker']]],
   ['type_5fset',['TYPE_SET',['../classutil_1_1_type_checker.html#a57e6a25b79785db81e3452d1c6bf28f3',1,'util::TypeChecker']]],
@@ -17,6 +22,7 @@ var searchData=
   ['type_5fstudent',['TYPE_STUDENT',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#a6b511cbc2e5c215dc4240c2847cb5a32',1,'ct::models::filters::EventTypeFilter']]],
   ['type_5fsub_5fevent',['TYPE_SUB_EVENT',['../classct_1_1models_1_1filters_1_1_event_type_filter.html#a52590b38a028749a35b05bffc8dbedbf',1,'ct::models::filters::EventTypeFilter']]],
   ['type_5ftext',['TYPE_TEXT',['../classutil_1_1_type_checker.html#ae1fdaa7ba3f181a024bf1a6506dd169c',1,'util::TypeChecker']]],
+  ['type_5ftime_5frange',['TYPE_TIME_RANGE',['../classct_1_1models_1_1filters_1_1_time_type_filter.html#a0fee4d5a936ec94a7b0241513f17cf96',1,'ct::models::filters::TimeTypeFilter']]],
   ['type_5ftinyint',['TYPE_TINYINT',['../classutil_1_1_type_checker.html#af61478fc2ca284288613e78deeb1e34b',1,'util::TypeChecker']]],
   ['type_5fvarchar',['TYPE_VARCHAR',['../classutil_1_1_type_checker.html#a18b4920bacde6f9e12a386f4a0fcde8f',1,'util::TypeChecker']]]
 ];

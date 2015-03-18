@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classct_1_1models_1_1events_1_1_event_
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -123,8 +124,8 @@ Inheritance diagram for EventModel:</div>
 <area href="classutil_1_1mvc_1_1_model.html" title="Base class for models. " alt="Model" shape="rect" coords="158,0,306,24"/>
 <area href="classct_1_1models_1_1events_1_1_academic_event_model.html" alt="AcademicEventModel" shape="rect" coords="79,112,227,136"/>
 <area href="classct_1_1models_1_1events_1_1_student_event_model.html" title="Describe the AcademicEvent. " alt="StudentEventModel" shape="rect" coords="237,112,385,136"/>
-<area href="classct_1_1models_1_1events_1_1_independent_event_model.html" title="Describe the SubEvents. " alt="IndependentEventModel" shape="rect" coords="0,168,148,192"/>
-<area href="classct_1_1models_1_1events_1_1_sub_event_model.html" title="Describe the SubEvents. " alt="SubEventModel" shape="rect" coords="158,168,306,192"/>
+<area href="classct_1_1models_1_1events_1_1_independent_event_model.html" alt="IndependentEventModel" shape="rect" coords="0,168,148,192"/>
+<area href="classct_1_1models_1_1events_1_1_sub_event_model.html" alt="SubEventModel" shape="rect" coords="158,168,306,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -136,9 +137,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0dd4bf57d57bc2a3697e40c9f6bddce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#aa0dd4bf57d57bc2a3697e40c9f6bddce">getTable</a> ()</td></tr>
 <tr class="memdesc:aa0dd4bf57d57bc2a3697e40c9f6bddce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the table from the Model.  <a href="#aa0dd4bf57d57bc2a3697e40c9f6bddce">More...</a><br/></td></tr>
 <tr class="separator:aa0dd4bf57d57bc2a3697e40c9f6bddce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a005bf931dff86a81b3290a0ec2c9ac09"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a005bf931dff86a81b3290a0ec2c9ac09">getEvent</a> (array $infoData=null, array $requestedData=null, $dateType=NULL)</td></tr>
-<tr class="memdesc:a005bf931dff86a81b3290a0ec2c9ac09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an event from the bdd (this function check the args)  <a href="#a005bf931dff86a81b3290a0ec2c9ac09">More...</a><br/></td></tr>
-<tr class="separator:a005bf931dff86a81b3290a0ec2c9ac09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add0fd4afe343c0a6719958be00d6da81"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#add0fd4afe343c0a6719958be00d6da81">getEvent</a> (array $infoData=null, array $requestedData=null)</td></tr>
+<tr class="memdesc:add0fd4afe343c0a6719958be00d6da81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an event from the bdd (this function check the args)  <a href="#add0fd4afe343c0a6719958be00d6da81">More...</a><br/></td></tr>
+<tr class="separator:add0fd4afe343c0a6719958be00d6da81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3974fa71afcb3e2c4511fa23d4e87a96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a3974fa71afcb3e2c4511fa23d4e87a96">createEvent</a> ($data)</td></tr>
 <tr class="memdesc:a3974fa71afcb3e2c4511fa23d4e87a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an event and put it into the DB.  <a href="#a3974fa71afcb3e2c4511fa23d4e87a96">More...</a><br/></td></tr>
 <tr class="separator:a3974fa71afcb3e2c4511fa23d4e87a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,6 +205,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1c0091515372f72e1a87683ca57c74eb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c0091515372f72e1a87683ca57c74eb"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>get_error</b> ()</td></tr>
 <tr class="separator:a1c0091515372f72e1a87683ca57c74eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18fa3c898a4b3884191e776643632186"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a18fa3c898a4b3884191e776643632186">deleteEventRecurrence</a> ($idRec)</td></tr>
+<tr class="memdesc:a18fa3c898a4b3884191e776643632186"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete from de db all the event with a specific id recurrence  <a href="#a18fa3c898a4b3884191e776643632186">More...</a><br/></td></tr>
+<tr class="separator:a18fa3c898a4b3884191e776643632186"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cd05746200f3da3dacb3392e3c200d3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a9cd05746200f3da3dacb3392e3c200d3">addAsFavorite</a> ($eventId, $userId)</td></tr>
+<tr class="memdesc:a9cd05746200f3da3dacb3392e3c200d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the event as favorite for the user.  <a href="#a9cd05746200f3da3dacb3392e3c200d3">More...</a><br/></td></tr>
+<tr class="separator:a9cd05746200f3da3dacb3392e3c200d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22b229212c28421fbadadaf0ea09d3fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a22b229212c28421fbadadaf0ea09d3fe">removeAsFavorite</a> ($eventId, $userId)</td></tr>
+<tr class="memdesc:a22b229212c28421fbadadaf0ea09d3fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the event of the favourite list.  <a href="#a22b229212c28421fbadadaf0ea09d3fe">More...</a><br/></td></tr>
+<tr class="separator:a22b229212c28421fbadadaf0ea09d3fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a095c5d389db211932136b53f25f39685"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
@@ -239,6 +249,9 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>REC_MONTHLY</b> = 4<
 <tr class="memitem:a6edba85658f9f2b661cf86d4c827c785"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6edba85658f9f2b661cf86d4c827c785"></a>
 const&#160;</td><td class="memItemRight" valign="bottom"><b>REC_YEARLY</b> = 5</td></tr>
 <tr class="separator:a6edba85658f9f2b661cf86d4c827c785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc61fc7fb6e1193ff6ff30ee0f8483e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc61fc7fb6e1193ff6ff30ee0f8483e5"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><b>REC_NEVER</b> = 6</td></tr>
+<tr class="separator:abc61fc7fb6e1193ff6ff30ee0f8483e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Data Fields inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
 <tr class="memitem:a3f82f023849a9c79819a7ff774811a4f inherit pub_attribs_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f82f023849a9c79819a7ff774811a4f"></a>
 const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a3f82f023849a9c79819a7ff774811a4f">LOCKMODE_NO_LOCK</a> = 1</td></tr>
@@ -255,9 +268,9 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9ad2c29d30d2231b79f8aa5b3c97407f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a9ad2c29d30d2231b79f8aa5b3c97407f">getData</a> ($table, array $infoData=null, array $requestData=null)</td></tr>
-<tr class="memdesc:a9ad2c29d30d2231b79f8aa5b3c97407f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an event from the bdd.  <a href="#a9ad2c29d30d2231b79f8aa5b3c97407f">More...</a><br/></td></tr>
-<tr class="separator:a9ad2c29d30d2231b79f8aa5b3c97407f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d0fd9bd2a39fb456874a24ca552bdc1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a0d0fd9bd2a39fb456874a24ca552bdc1">getData</a> (array $infoData=null, array $requestData=null)</td></tr>
+<tr class="memdesc:a0d0fd9bd2a39fb456874a24ca552bdc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an or several events from the bdd.  <a href="#a0d0fd9bd2a39fb456874a24ca552bdc1">More...</a><br/></td></tr>
+<tr class="separator:a0d0fd9bd2a39fb456874a24ca552bdc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa809a9e31b5e76e390fae82e8148df87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#aa809a9e31b5e76e390fae82e8148df87">checkParams</a> ($ar, $ckey, $cintegrity=false)</td></tr>
 <tr class="memdesc:aa809a9e31b5e76e390fae82e8148df87"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if the params given in input correspond to the type and translate into bdd rows name  <a href="#aa809a9e31b5e76e390fae82e8148df87">More...</a><br/></td></tr>
 <tr class="separator:aa809a9e31b5e76e390fae82e8148df87"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -306,6 +319,47 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525 inherit pro_attribs_classutil_1_1mvc_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a9cd05746200f3da3dacb3392e3c200d3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">addAsFavorite </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$eventId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$userId</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the event as favorite for the user. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$eventId</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$userId</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">boolean</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a5c7c753d81973a589ec9b5b38cd3a59c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -562,6 +616,37 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a18fa3c898a4b3884191e776643632186"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">deleteEventRecurrence </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$idRec</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>delete from de db all the event with a specific id recurrence </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$idRec</td><td>the id of the recurrence; </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">boolean</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>NEVER USE WITH 1 </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a784457eb70466550795acf8a141b0434"></a>
 <div class="memitem">
 <div class="memproto">
@@ -699,7 +784,7 @@ date_range : array('Start' =&gt; date, 'End' =&gt; date, 'Type' =&gt; ...) </li>
 
 </div>
 </div>
-<a class="anchor" id="a9ad2c29d30d2231b79f8aa5b3c97407f"></a>
+<a class="anchor" id="a0d0fd9bd2a39fb456874a24ca552bdc1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -709,12 +794,6 @@ date_range : array('Start' =&gt; date, 'End' =&gt; date, 'Type' =&gt; ...) </li>
         <tr>
           <td class="memname">getData </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$table</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">array&#160;</td>
           <td class="paramname"><em>$infoData</em> = <code>null</code>, </td>
         </tr>
@@ -737,12 +816,11 @@ date_range : array('Start' =&gt; date, 'End' =&gt; date, 'Type' =&gt; ...) </li>
 </table>
 </div><div class="memdoc">
 
-<p>Get an event from the bdd. </p>
+<p>Get an or several events from the bdd. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">String</td><td class="paramname">$tables</td><td>tables to find the event (default <a class="el" href="class_event.html" title="Class for getting event from D. ">Event</a>) </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">array</td><td>String $infoData the data to identify the event </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">array</td><td>String $requestData the requested data for the event $id (empty = all) </td></tr>
+    <tr><td class="paramname">array</td><td>String $infoData the data to identify the event </td></tr>
+    <tr><td class="paramname">array</td><td>String $requestData the requested data for the event $id (empty = all) </td></tr>
   </table>
   </dd>
 </dl>
@@ -755,7 +833,7 @@ date_range : array('Start' =&gt; date, 'End' =&gt; date, 'Type' =&gt; ...) </li>
 
 </div>
 </div>
-<a class="anchor" id="a005bf931dff86a81b3290a0ec2c9ac09"></a>
+<a class="anchor" id="add0fd4afe343c0a6719958be00d6da81"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -769,13 +847,7 @@ date_range : array('Start' =&gt; date, 'End' =&gt; date, 'Type' =&gt; ...) </li>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">array&#160;</td>
-          <td class="paramname"><em>$requestedData</em> = <code>null</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$dateType</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>$requestedData</em> = <code>null</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -791,7 +863,6 @@ date_range : array('Start' =&gt; date, 'End' =&gt; date, 'Type' =&gt; ...) </li>
     <tr><td class="paramname">$type</td><td>type of event </td></tr>
     <tr><td class="paramname">$requestedData</td><td>what we want to obtain (nothing for *) </td></tr>
     <tr><td class="paramname">$infoData</td><td>what we know about the event </td></tr>
-    <tr><td class="paramname">$dateType</td><td>the type of event concerning the date (Date|Deadline|TimeRange) </td></tr>
   </table>
   </dd>
 </dl>
@@ -869,27 +940,6 @@ Id_Recur_Category : the id of the recurrence category  </li>
 Id_Recurrence : the recurrence id of the event (1 for never)  </li>
 <li>
 Id_Category : the event category id  </li>
-</ul>
-<p>This query return the following columns :</p>
-<ul>
-<li>Id_Event : id of the event</li>
-<li>Name : event name</li>
-<li>Description : event description</li>
-<li>Place : location where the event take place (or NULL)</li>
-<li>Start : start date/datetime (for deadline events, this field contains the limit datetime)</li>
-<li>End : end date/datetime (for deadline events, this field contains an empty string)</li>
-<li>DateType : a string specifying the date type of the event ('time_range', 'date_range' or 'deadline')</li>
-<li>EventType : a string specifying the event type ('sub_event', 'indep_event' or 'student_event')</li>
-<li>Color : event category color</li>
-<li>Categ_Name_EN : the event category name in english</li>
-<li>Categ_Name_FR : the event category name in french</li>
-<li>Categ_Desc_EN : the event category description in english</li>
-<li>Categ_Desc_FR : the event category description in french</li>
-<li>Recur_Category_EN : the recurrence category name in english</li>
-<li>Recur_Category_FR : the recurrence category name in french</li>
-<li>Id_Recur_Category : the id of the recurrence category</li>
-<li>Id_Recurrence : the recurrence id of the event (1 for never)</li>
-<li>Id_Category : the event category id</li>
 </ul>
 
 </div>
@@ -1191,6 +1241,47 @@ Id_Category : the event category id  </li>
 
 </div>
 </div>
+<a class="anchor" id="a22b229212c28421fbadadaf0ea09d3fe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">removeAsFavorite </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$eventId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$userId</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove the event of the favourite list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$eventId</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$userId</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">boolean</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a6055387fe644f2747cdc65d4ff2b2fad"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1468,15 +1559,15 @@ Id_Category : the event category id  </li>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Documents/BitBucket/CalendarTool/web/ct/models/events/<a class="el" href="events_2_event_model_8class_8php.html">EventModel.class.php</a></li>
+<li>D:/Documents/BitBucket/CalendarTool/web/ct/models/events/<a class="el" href="_event_model_8class_8php.html">EventModel.class.php</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>ct</b></li><li class="navelem"><b>models</b></li><li class="navelem"><b>events</b></li><li class="navelem"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html">EventModel</a></li>
-    <li class="footer">Generated on Tue Mar 3 2015 23:22:29 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespacect.html">ct</a></li><li class="navelem"><a class="el" href="namespacect_1_1models.html">models</a></li><li class="navelem"><a class="el" href="namespacect_1_1models_1_1events.html">events</a></li><li class="navelem"><a class="el" href="classct_1_1models_1_1events_1_1_event_model.html">EventModel</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_controller.html',
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -121,22 +122,48 @@ Inheritance diagram for Controller:</div>
  <div class="center">
   <img src="classutil_1_1mvc_1_1_controller.png" usemap="#Controller_map" alt=""/>
   <map id="Controller_map" name="Controller_map">
-<area href="classutil_1_1mvc_1_1_ajax_controller.html" title="A base class for any controller which is supposed to handle ajax request. " alt="AjaxController" shape="rect" coords="0,56,232,80"/>
-<area href="classutil_1_1mvc_1_1_browser_controller.html" title="A base class for any controller that is made for handling requests from the browser. " alt="BrowserController" shape="rect" coords="484,56,716,80"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_add_teaching_team_member_controller.html" title="A class for handling the add teaching team member request. " alt="AddTeachingTeamMemberController" shape="rect" coords="242,112,474,136"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_all_professors_controller.html" title="Class for handling the getAllProfessors request. " alt="AllProfessorsController" shape="rect" coords="242,168,474,192"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_delete_teaching_team_member_controller.html" title="A class for handling the delete teaching. " alt="DeleteTeachingTeamMemberController" shape="rect" coords="242,224,474,248"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_get_teaching_team_controller.html" title="A class for handling the getTeachingTeam request. " alt="GetTeachingTeamController" shape="rect" coords="242,280,474,304"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_private_event_controller.html" title="Class for handling the create private event request. " alt="PrivateEventController" shape="rect" coords="242,336,474,360"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_professor_profile_controller.html" title="A class for handling the getProfessorProfile ajax request. " alt="ProfessorProfileController" shape="rect" coords="242,392,474,416"/>
-<area href="classct_1_1controllers_1_1ajax_1_1_test_controller.html" title="A controller for testing. " alt="TestController" shape="rect" coords="242,448,474,472"/>
-<area href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="CalendarPageController" shape="rect" coords="726,112,958,136"/>
-<area href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="LoginPageController" shape="rect" coords="726,168,958,192"/>
-<area href="classct_1_1controllers_1_1browser_1_1_private_events_controller.html" title="A class for generating the private events page. " alt="PrivateEventsController" shape="rect" coords="726,224,958,248"/>
-<area href="classct_1_1controllers_1_1browser_1_1_professor_profile_controller.html" title="A class for generating the private events page. " alt="ProfessorProfileController" shape="rect" coords="726,280,958,304"/>
-<area href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html" title="A class for representing the controller that handle the browser for the profile page. " alt="ProfilePageController" shape="rect" coords="726,336,958,360"/>
-<area href="classct_1_1controllers_1_1browser_1_1_static_export_controller.html" title="A class for generating the private events page. " alt="StaticExportController" shape="rect" coords="726,392,958,416"/>
-<area href="classct_1_1controllers_1_1browser_1_1_student_profile_controller.html" title="A class for generating the student profile page. " alt="StudentProfileController" shape="rect" coords="726,448,958,472"/>
+<area href="classutil_1_1mvc_1_1_ajax_controller.html" title="A base class for any controller which is supposed to handle ajax request. " alt="AjaxController" shape="rect" coords="0,56,242,80"/>
+<area href="classutil_1_1mvc_1_1_browser_controller.html" title="A base class for any controller that is made for handling requests from the browser. " alt="BrowserController" shape="rect" coords="504,56,746,80"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_add_fav_controller.html" alt="AddFavController" shape="rect" coords="252,112,494,136"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_add_indep_event_controller.html" alt="AddIndepEventController" shape="rect" coords="252,168,494,192"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_add_note_controller.html" alt="AddNoteController" shape="rect" coords="252,224,494,248"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_add_sub_event_controller.html" alt="AddSubEventController" shape="rect" coords="252,280,494,304"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_add_teaching_team_member_controller.html" title="A class for handling the add teaching team member request. " alt="AddTeachingTeamMemberController" shape="rect" coords="252,336,494,360"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_all_professors_controller.html" title="Class for handling the getAllProfessors request. " alt="AllProfessorsController" shape="rect" coords="252,392,494,416"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_calendar_base_data_controller.html" title="A class for handling the calendar base data request. " alt="CalendarBaseDataController" shape="rect" coords="252,448,494,472"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_create_global_event_controller.html" title="A class for handling the creation of global events ajax request. " alt="CreateGlobalEventController" shape="rect" coords="252,504,494,528"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_delete_event_controller.html" alt="DeleteEventController" shape="rect" coords="252,560,494,584"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_delete_fav_controller.html" alt="DeleteFavController" shape="rect" coords="252,616,494,640"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_delete_global_event_controller.html" title="A class for handling the global event deletion request. " alt="DeleteGlobalEventController" shape="rect" coords="252,672,494,696"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_delete_note_controller.html" alt="DeleteNoteController" shape="rect" coords="252,728,494,752"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_delete_private_event_controller.html" alt="DeletePrivateEventController" shape="rect" coords="252,784,494,808"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_delete_teaching_team_member_controller.html" title="A class for handling the delete teaching. " alt="DeleteTeachingTeamMemberController" shape="rect" coords="252,840,494,864"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_edit_academic_event_controller.html" alt="EditAcademicEventController" shape="rect" coords="252,896,494,920"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_edit_global_event_controller.html" title="A class for handling the Edit global event request. " alt="EditGlobalEventController" shape="rect" coords="252,952,494,976"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_edit_private_event_controller.html" alt="EditPrivateEventController" shape="rect" coords="252,1008,494,1032"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_event_categories_controller.html" title="A class for handling the get event category request. " alt="EventCategoriesController" shape="rect" coords="252,1064,494,1088"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_filter_controller.html" title="A class for handling the event selection with filters. " alt="FilterController" shape="rect" coords="252,1120,494,1144"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_event_type_controller.html" alt="GetEventTypeController" shape="rect" coords="252,1176,494,1200"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_global_events_by_student_controller.html" title="A class for handling the get global event by student controller. " alt="GetGlobalEventsByStudentController" shape="rect" coords="252,1232,494,1256"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_pathways_controller.html" title="A class for handling the get pathways request. " alt="GetPathwaysController" shape="rect" coords="252,1288,494,1312"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_private_event_controller.html" alt="GetPrivateEventController" shape="rect" coords="252,1344,494,1368"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_professor_available_courses_controller.html" title="A class for handling the get professor available courses request. " alt="GetProfessorAvailableCoursesController" shape="rect" coords="252,1400,494,1424"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_sub_event_controller.html" alt="GetSubEventController" shape="rect" coords="252,1456,494,1480"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_teaching_roles_controller.html" title="A class for handling the get teaching roles request. " alt="GetTeachingRolesController" shape="rect" coords="252,1512,494,1536"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_get_teaching_team_controller.html" title="A class for handling the getTeachingTeam request. " alt="GetTeachingTeamController" shape="rect" coords="252,1568,494,1592"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_private_event_controller.html" title="Class for handling the create private event request. " alt="PrivateEventController" shape="rect" coords="252,1624,494,1648"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_professor_profile_controller.html" title="A class for handling the getProfessorProfile ajax request. " alt="ProfessorProfileController" shape="rect" coords="252,1680,494,1704"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_student_profile_controller.html" title="A class for handling the get student profile request. " alt="StudentProfileController" shape="rect" coords="252,1736,494,1760"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_test_controller.html" title="A controller for testing. " alt="TestController" shape="rect" coords="252,1792,494,1816"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_view_event_controller.html" alt="ViewEventController" shape="rect" coords="252,1848,494,1872"/>
+<area href="classct_1_1controllers_1_1ajax_1_1_view_global_event_controller.html" title="A class for handling the view global event request. " alt="ViewGlobalEventController" shape="rect" coords="252,1904,494,1928"/>
+<area href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="CalendarPageController" shape="rect" coords="756,112,998,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="LoginPageController" shape="rect" coords="756,168,998,192"/>
+<area href="classct_1_1controllers_1_1browser_1_1_private_events_controller.html" title="A class for generating the private events page. " alt="PrivateEventsController" shape="rect" coords="756,224,998,248"/>
+<area href="classct_1_1controllers_1_1browser_1_1_professor_profile_controller.html" title="A class for generating the private events page. " alt="ProfessorProfileController" shape="rect" coords="756,280,998,304"/>
+<area href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html" title="A class for representing the controller that handle the browser for the profile page. " alt="ProfilePageController" shape="rect" coords="756,336,998,360"/>
+<area href="classct_1_1controllers_1_1browser_1_1_static_export_controller.html" title="A class for generating the private events page. " alt="StaticExportController" shape="rect" coords="756,392,998,416"/>
+<area href="classct_1_1controllers_1_1browser_1_1_student_profile_controller.html" title="A class for generating the student profile page. " alt="StudentProfileController" shape="rect" coords="756,448,998,472"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -223,8 +250,8 @@ Protected Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>util</b></li><li class="navelem"><b>mvc</b></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_controller.html">Controller</a></li>
-    <li class="footer">Generated on Tue Mar 3 2015 23:22:29 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespaceutil.html">util</a></li><li class="navelem"><a class="el" href="namespaceutil_1_1mvc.html">mvc</a></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_controller.html">Controller</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

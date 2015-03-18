@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -96,6 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_j.html#index_j"><span>j</span></a></li>
+      <li><a href="functions_k.html#index_k"><span>k</span></a></li>
       <li><a href="functions_l.html#index_l"><span>l</span></a></li>
       <li><a href="functions_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_n.html#index_n"><span>n</span></a></li>
@@ -128,7 +130,7 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -142,13 +144,13 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>TEMP_DATE_RANGE
-: <a class="el" href="classct_1_1models_1_1_event_model.html#a3e91bcab11e179d142782abe1fb169d3">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#a3e91bcab11e179d142782abe1fb169d3">EventModel</a>
 </li>
 <li>TEMP_DEADLINE
-: <a class="el" href="classct_1_1models_1_1_event_model.html#ac1f7d06ac945e26d95fea3105d7db361">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#ac1f7d06ac945e26d95fea3105d7db361">EventModel</a>
 </li>
 <li>TEMP_TIME_RANGE
-: <a class="el" href="classct_1_1models_1_1_event_model.html#aa863376939c0e39fa68c478679023a2d">EventModel</a>
+: <a class="el" href="classct_1_1models_1_1events_1_1_event_model.html#aa863376939c0e39fa68c478679023a2d">EventModel</a>
 </li>
 <li>tmp_name()
 : <a class="el" href="classutil_1_1superglobals_1_1_s_g___files.html#a8d4dbd8d94a16e08ef824bd31396216f">SG_Files</a>
@@ -159,11 +161,15 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 <li>transfer_pathway()
 : <a class="el" href="classct_1_1models_1_1_pathway_model.html#acae128addc58c0410d3c5d4ffadfc7e2">PathwayModel</a>
 </li>
+<li>TYPE_ACAD
+: <a class="el" href="classct_1_1models_1_1_file_model.html#abfcbe2c11d66b39e4c2bfb47401d7e0e">FileModel</a>
+</li>
 <li>TYPE_ACADEMIC
 : <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#a9e77fcef79736b547a4cc0124437882e">EventTypeFilter</a>
 </li>
 <li>TYPE_ALL
 : <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#a416fb6ab1ce0d3a0ce2b79dad5fe81e5">EventTypeFilter</a>
+, <a class="el" href="classct_1_1models_1_1filters_1_1_time_type_filter.html#a416fb6ab1ce0d3a0ce2b79dad5fe81e5">TimeTypeFilter</a>
 </li>
 <li>TYPE_BOOL
 : <a class="el" href="classutil_1_1_type_checker.html#a2008e61ac981f88cf7a8218c600077f5">TypeChecker</a>
@@ -171,14 +177,26 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 <li>TYPE_CHAR
 : <a class="el" href="classutil_1_1_type_checker.html#a015168405ecd475597a9211761798efb">TypeChecker</a>
 </li>
+<li>TYPE_DATE_RANGE
+: <a class="el" href="classct_1_1models_1_1filters_1_1_time_type_filter.html#ab2f3457856f134295551c5b9f87fe4e6">TimeTypeFilter</a>
+</li>
+<li>TYPE_DEADLINE
+: <a class="el" href="classct_1_1models_1_1filters_1_1_time_type_filter.html#a7dfdd475b70cb8ef4e166d38c444cabe">TimeTypeFilter</a>
+</li>
 <li>TYPE_ENUM
 : <a class="el" href="classutil_1_1_type_checker.html#a680dcb4933c5c24249d06e7d83bfb08d">TypeChecker</a>
 </li>
 <li>TYPE_EREG
 : <a class="el" href="classutil_1_1_type_checker.html#ac41846afbd051e499ad22491486c9364">TypeChecker</a>
 </li>
+<li>TYPE_FAVORITE
+: <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#afa395beb3483fdabd0d5ce8ce353e616">EventTypeFilter</a>
+</li>
 <li>TYPE_FILE
 : <a class="el" href="classutil_1_1_type_checker.html#a6e21fe27fed935d13d258f1b38282e08">TypeChecker</a>
+</li>
+<li>TYPE_GLOBAL
+: <a class="el" href="classct_1_1models_1_1_file_model.html#ab8123aa3a4a79c76a33c94d2d724963d">FileModel</a>
 </li>
 <li>TYPE_INDEPENDENT
 : <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#ad2876750d2b3e897eadc30f3ff13482a">EventTypeFilter</a>
@@ -201,6 +219,9 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 <li>TYPE_TEXT
 : <a class="el" href="classutil_1_1_type_checker.html#ae1fdaa7ba3f181a024bf1a6506dd169c">TypeChecker</a>
 </li>
+<li>TYPE_TIME_RANGE
+: <a class="el" href="classct_1_1models_1_1filters_1_1_time_type_filter.html#a0fee4d5a936ec94a7b0241513f17cf96">TimeTypeFilter</a>
+</li>
 <li>TYPE_TINYINT
 : <a class="el" href="classutil_1_1_type_checker.html#af61478fc2ca284288613e78deeb1e34b">TypeChecker</a>
 </li>
@@ -213,7 +234,7 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Mar 3 2015 23:22:29 for CalendarTool by
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
