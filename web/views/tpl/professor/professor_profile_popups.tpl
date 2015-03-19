@@ -221,14 +221,14 @@
                   <td class="text-bold width-80 vertical-middle">Récurrence</td>
                   <td><div class="float-left-10padright">
                       <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_recurrence" recurrence-id="1">jamais</span> <span class="caret"></span> </button>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_recurrence" recurrence-id="0">jamais</span> <span class="caret"></span> </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="1">jamais</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="2">tous les jours</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="3">toutes les semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="4">toutes les deux semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="5">tous les mois</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="6">tous les ans</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="0">jamais</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="1">tous les jours</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="2">toutes les semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="3">toutes les deux semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="4">tous les mois</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="5">tous les ans</a></li>
                         </ul>
                       </div>
                     </div>
@@ -245,7 +245,7 @@
                 <tr>
                   <td class="text-bold width-80 vertical-middle">Categorie</td>
                   <td><div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_type_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_type">Cours théorique</span> <span class="caret"></span> </button>
+                      <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_type_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_type" category-id="1">Cours théorique</span> <span class="caret"></span> </button>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_subevent_categories">
                         <!-- FILLED WITH ACADEMIC EVENTS CATEGORIES THROUGH AJAX -->
                       </ul>
@@ -351,11 +351,11 @@
             <td id="subevent-period"><table id="subevent_time">
                 <tr>
                   <td class="width-80 text-underline">Commence</td>
-                  <td id="subevent_startDate"><p class="marging-10-0" id="subevent_startDate"></p></td>
+                  <td><p class="marging-10-0" id="subevent_startDate"></p></td>
                 </tr>
                 <tr>
                   <td class="width-80 text-underline">Se termine</td>
-                  <td id="subevent_endDate"><p class="marging-10-0" id="subevent_endDate"></p></td>
+                  <td><p class="marging-10-0" id="subevent_endDate"></p></td>
                 </tr>
               </table></td>
           </tr>
@@ -376,3 +376,57 @@
     </div>
   </div>
 </div>
+
+<!-- NEW AND EDIT INDEPENDENT EVENT MODAL -->
+<div class="modal fade" id="new_indep_event_info" tabindex="-1" role="dialog" aria-labelledby="new_indep_event_modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="new_indep_event_title"><!--EVENT TITLE--></h4>
+      </div>
+      <div id="new_indep_event_info">
+        <table class="table" id="new_indep_event_info_table">
+          <tr>
+            <td class="text-bold width-80">Détails</td>
+            <td id="new-indep-event-details"></td>
+          </tr>
+          <tr>
+            <td class="text-bold width-80">Catégorie</td>
+            <td id="new-indep-event-category"></td>
+          </tr>
+          <tr>
+            <td class="text-bold width-80">Lieu</td>
+            <td id="new-indep-event-place"></td>
+          </tr>
+          <tr>
+            <td class="text-bold width-80">Quand</td>
+            <td id="new-indep-event-period"><table id="new-indep-event_time">
+                <tr>
+                  <td class="width-80 text-underline">Commence</td>
+                  <td><p class="marging-10-0" id="new_indep_event_startDate"></p></td>
+                </tr>
+                <tr>
+                  <td class="width-80 text-underline">Se termine</td>
+                  <td><p class="marging-10-0" id="new_indep_event_endDate"></p></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td class="text-bold width-80">Recurrence</td>
+            <td id="new_indep_event_recurrence"></td>
+          </tr>
+          <tr>
+            <td class="width-80">Commence</td>
+            <td id="new_indep_event_start_recurrence"></td>
+          </tr>
+          <tr>
+            <td class="width-80">Se termine</td>
+            <td id="new_indep_event_end_recurrence"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+>>>>>>> 1cf6be534201903db994a3c26cb0dc4f3786775a

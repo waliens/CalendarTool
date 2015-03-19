@@ -1,3 +1,4 @@
+
 // JavaScript Document
 var today = new Date();
 //update the navbar
@@ -84,7 +85,7 @@ function addIndependentEvent(indep_event){
 	event_name.setAttribute("id",indep_event.id);
 	event_name.setAttribute("event-name",indep_event.name);
 	event_name.innerHTML = indep_event.name;
-	event_name.onclick=function(e){subevent=e.target}
+	event_name.onclick=function(e){subevent=e.target};
 	var delete_icon=document.createElement('a');
 	var edit_icon=document.createElement('a');
 	edit_icon.className="edit";
@@ -178,6 +179,7 @@ $("#delete_indep_event_alert").on("click",".btn-primary",function(event){
 
 //populate event info when modal appears
 $("#event_info").on("show.bs.modal",function(event){
+	$("#edit_global_event .edit").removeClass("edit-disabled");
 	var event_id=event.relatedTarget.getAttribute('event-id');
 	$.ajax({
 		dataType : "json",
@@ -393,22 +395,28 @@ function get_recursion(recursion_id){
 	}
 
 function edit_global_event(){
-	var event_id=event.currentTarget.parentNode.getAttribute("event-id");
-	//initialize variables to hold old content of the event
-	edit_global_event_old={details:$("#event-details").text(),feedback:$("#event-feedback").text(),language:$("#event-lang").text()};
-	var language=edit_global_event_old.language.replace(/\s+/g, '');
-	var language_code=revert_convert_language(language);
-	//update modale view to make language, feedback and description editable
-	$("#event-details").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_details" value=\"'+edit_global_event_old.details+'">');
-	$("#event-feedback").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_feedback" value="'+edit_global_event_old.feedback+'">');
-	$("#event-lang").html('<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="edit_cours_language" data-toggle="dropdown" aria-expanded="true" language="'+language_code+'"> '+language+' <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_languages_list"><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li></ul></div>');
-	//display confirm and abort buttons and attach to the button the id of the event we are editing
-	$("#edit-global-event-buttons").removeClass("hidden");
-	$("#edit-global-event-buttons").attr("event-id",event_id);
+	if(!$("#edit_global_event .edit").hasClass("edit-disabled")){
+		//disable edit button
+		$("#edit_global_event .edit").addClass("edit-disabled");
+		var event_id=event.currentTarget.parentNode.getAttribute("event-id");
+		//initialize variables to hold old content of the event
+		edit_global_event_old={details:$("#event-details").text(),feedback:$("#event-feedback").text(),language:$("#event-lang").text()};
+		var language=edit_global_event_old.language.replace(/\s+/g, '');
+		var language_code=revert_convert_language(language);
+		//update modale view to make language, feedback and description editable
+		$("#event-details").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_details" value=\"'+edit_global_event_old.details+'">');
+		$("#event-feedback").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_feedback" value="'+edit_global_event_old.feedback+'">');
+		$("#event-lang").html('<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="edit_cours_language" data-toggle="dropdown" aria-expanded="true" language="'+language_code+'"> '+language+' <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_languages_list"><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li></ul></div>');
+		//display confirm and abort buttons and attach to the button the id of the event we are editing
+		$("#edit-global-event-buttons").removeClass("hidden");
+		$("#edit-global-event-buttons").attr("event-id",event_id);
 	}
+}
 	
 //confirm global event edit
 function  edit_global_event_confirm(){
+	//enable edit button
+	$("#edit_global_event .edit").removeClass("edit-disabled");
 	var event_id=$("#edit-global-event-buttons").attr("event-id");
 	var event_details=$("#edit_global_cours_details").val();
 	var event_lan=$("#edit_cours_language").attr("language");
@@ -442,6 +450,7 @@ function  edit_global_event_confirm(){
 
 //abort the edit of a global event
 function edit_global_event_abort(){
+	$("#edit_global_event .edit").removeClass("edit-disabled");
 	$("#event-details").html('');
 	$("#event-details").value(edit_global_event_old.details);
 	$("#event-feedback").html('');
@@ -820,8 +829,8 @@ function buildDatePicker(option,target) {
 		datepicker["new_subevent_dates"].setDateFormat("%Y-%m-%d");
 		datepicker["new_subevent_dates"].setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 		var t = new Date();
-		document.getElementById("new_subevent_endDate_datepicker").value = td.format("dddd DD MM YYYY");
-		document.getElementById("new_subevent_startDate_datepicker").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+		document.getElementById("new_subevent_endDate_datepicker").value = td.format("dddd DD MMM YYYY");
+		document.getElementById("new_subevent_startDate_datepicker").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 		datepicker["new_subevent_dates"].attachEvent("onClick", function(date){
 			$("#new_subevent_startDate_datepicker").val(convert_date($("#new_subevent_startDate_datepicker").val(),"dddd DD MMM YYYY"));
@@ -927,11 +936,11 @@ $("#new_subevent_creation_confirm").on("click",function(){
 		}
 
 	var entireDay=false;
-	if($("#new_subevent_startHour").val().length!=0&&$("#new_subevent_endHour").val().length!=0)
+	if($("#new_subevent_startHour").val().length==0&&$("#new_subevent_endHour").val().length==0)
 		entireDay=true;
 	var recurrence=$("#new_subevent_recurrence").attr("recurrence-id");
 	var end_recurrence;
-	if(recurrence!=1){
+	if(recurrence!=0){
 		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
 		}
 	var place=$("#new_subevent_place").val();
@@ -941,12 +950,12 @@ $("#new_subevent_creation_confirm").on("click",function(){
 	var feedback=$("#new_subevent_feedback_body").val();
 	var workload=$("#new_subevent_workload").val();
 	var pract_details=$("#new_soubevent_pract_details_body").val();
-	var pathways=$("#new_subevent_pathways_table input:checked");
+	var pathways=$("#new_subevent_pathways_table input");
 	var pathways_json=[];
-	var team=$("#new_subevent_team_table input:checked");
+	var team=$("#new_subevent_team_table input");
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++)
-		pathways_json.push({id:pathways[i].id,selected:team[i].checked});
+		pathways_json.push({id:pathways[i].id,selected:pathways[i].checked});
 	pathways_json=JSON.stringify(pathways_json);
 	for(var i=0;i<team.length;i++)
 		team_json.push({id:team[i].id,selected:team[i].checked});

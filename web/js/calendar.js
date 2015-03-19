@@ -1,3 +1,4 @@
+
 // JavaScript Document
 var filters={view:"month" ,all:"true",dateRange: {start: "01-03-2015", end: "31-03-2015"},courses: {isSet: 'false', id:[]},eventTypes: {isSet: 'false', id:[]},pathways: {isSet: 'false', id:[]},professors:{isSet: 'false', id:[]}};
 var today = new Date();
@@ -36,11 +37,6 @@ var modal_shown;
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#calendar_nav").addClass("active");
-
-//when clicking on today, next, prev, dayview, monthview, weekview we need to load new events (potentially)
-$("#calendar").on("click",[".fc-agendaDay-button",".fc-agendaWeek-button",".fc-month-button",".fc-today-button",".fc-icon-right-single-arrow",".fc-icon-left-single-arrow"],function(){
-	addEvents();
-	});
 	
 function getCurrentView(view){
 	switch (view){
@@ -301,6 +297,11 @@ $(document).ready(function() {
 	$("#delete_note .delete").popover({
 		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_note" onclick="delete_note()">Confirmer</button></div></div>'
 		});
+	//when clicking on today, next, prev, dayview, monthview, weekview we need to load new events (potentially)
+$("#calendar").on("click",(".fc-agendaDay-button,.fc-agendaWeek-button,.fc-month-button,.fc-today-button,.fc-icon-right-single-arrow,.fc-icon-left-single-arrow"),function(){
+	addEvents();
+	});
+	
 });
 
 //define the color of the event in the calendar based on the event type
@@ -1442,8 +1443,8 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
+	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
 		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
@@ -1805,4 +1806,5 @@ function submit_filters(){
 			}
 			} 
 		)
+>>>>>>> 1cf6be534201903db994a3c26cb0dc4f3786775a
 	}

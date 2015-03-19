@@ -46,6 +46,7 @@ class AddSubEventController extends AjaxController
 				"feedback" => $this->sg_post->value('feedback'),
 				"workload" => $this->sg_post->value('workload'),
 				"practical_details" => $this->sg_post->value('practical_details'));
+
 		// get event date
 		if($this->sg_post->value('limit') == "true")
 			$data['limit'] = $this->sg_post->value('start');
@@ -60,10 +61,11 @@ class AddSubEventController extends AjaxController
 			return;
 		}
 
+
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 1 //TODO change to 0
+		if($this->sg_post->value('recurrence') != 0
 				&& $this->sg_post->check("end-recurrence"))
 		{
 			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
