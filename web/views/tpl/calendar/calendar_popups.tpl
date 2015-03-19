@@ -68,7 +68,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="private_event_modal_header">Nouvel événement</h4>
         <div id='edit_private_event' class="hidden float-left-10padright" disabled=false><a class='edit' onclick='edit_private_event()'></a></div>
-        <div id='delete_private_event' class="hidden" disabled=false><a class='delete' onclick='delete_private_event()'></a></div>
+        <div id='delete_private_event' class="hidden" disabled=false><a tabindex="0" role="button"  class="delete" data-placement="right" data-toggle="popover" data-trigger="focus" data-title="Supprimer l'événement privé" data-content="Êtes-vous sûr de vouloir supprimer cet événement?"></a></div>
       </div>
       <!--modal body-->
       <div>

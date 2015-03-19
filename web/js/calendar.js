@@ -65,7 +65,6 @@ function addEvents(){
 				$.ajax({
 					dataType : "json",
 					type : 'POST',
-					async:false,
 					data: filters,
 					url: "index.php?src=ajax&req=102",
 					success : function(data, status) {
@@ -91,7 +90,7 @@ function addEvents(){
 								end=instance.end.replace("T00:00:00","");
 								}
 							//if the event is not already displayed we add its id to the list of displayed events and we display it
-								if(displayed_events.indexOf(instance.id)==-1){
+								if(true){
 									displayed_events.push(instance.id);
 									events.push({
 										id_server: instance.id,
@@ -119,7 +118,7 @@ function addEvents(){
 									end=instance.end.replace("T00:00:00","");
 									}
 								//if the event is not already displayed we add its id to the list of displayed events and we display it
-								if(displayed_events.indexOf(instance.id)==-1){
+								if(true){
 									displayed_events.push(instance.id);
 									events.push({
 										id_server: instance.id,
@@ -324,14 +323,24 @@ $(document).ready(function() {
 			$("#private_event_title").focus();
 		},
     })
-	//setup popover for delete button
+	
+	/*--------------------------SETTING UP POPOVERS-----------------------------*/
+	
+	//setup popover for delete note button
 	$("#delete_note .delete").popover({
 		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_note" onclick="delete_note()">Confirmer</button></div></div>'
 		});
+		//setup popover for delete note button
+	$("#delete_private_event .delete").popover({
+		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_private_event" onclick="delete_private_event()">Confirmer</button></div></div>'
+		});
+
+	/*--------------------------END SETTING UP POPOVERS-----------------------------*/
+
 	//when clicking on today, next, prev, dayview, monthview, weekview we need to load new events (potentially)
-$("#calendar").on("click",(".fc-agendaDay-button,.fc-agendaWeek-button,.fc-month-button,.fc-today-button,.fc-icon-right-single-arrow,.fc-icon-left-single-arrow"),function(){
-	addEvents();
-	});
+	$("#calendar").on("click",(".fc-agendaDay-button,.fc-agendaWeek-button,.fc-month-button,.fc-today-button,.fc-icon-right-single-arrow,.fc-icon-left-single-arrow"),function(){
+		addEvents();
+		});
 	
 });
 
@@ -651,7 +660,7 @@ function convert_date(date,formatDestination,formatOrigin){
 		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
 		if(chunks.length>1){
 			dd=chunks[1];
-			if(chunks[2].length<2)
+			if(chunks[2].length>2)
 				mm=convert_month(chunks[2]);
 			else mm=chunks[2];
 			yy=chunks[3];
@@ -730,6 +739,7 @@ $("#private_event_startHour").on("changeTime",function(){
 	})
 //populate private event modal
 function populate_private_event(event){
+	$("#delete_private_event .delete").attr("event-id",event.id_server);
 	var title=event.title;
 	var allDay=event.allDay;
 	var start=event.start.format("dddd DD MMM YYYY");
@@ -1157,11 +1167,28 @@ function create_private_event(){
 
 //delete private event
 function delete_private_event(){
-	$('#calendar').fullCalendar('removeEvents', event_id);
-	//hide the modal
-	$("#private_event").modal("hide");
-	//send delete to server
-	}
+	var event_id=$("#delete_private_event .delete").attr("event-id");
+	$.ajax({
+		dataType : "json",
+		type : 'POST',
+		url : "index.php?src=ajax&req=063",
+		data : {id:event_id,applyRecursive:"false"},
+		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+			$('#calendar').fullCalendar('removeEvents', event_id);
+			//hide the modal
+			$("#private_event").modal("hide");
+		},
+		error : function(data, status, errors) {
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+		}
+	});
+}
 
 //generate unique id for new private events
 function guid() {
