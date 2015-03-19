@@ -245,7 +245,7 @@
                 <tr>
                   <td class="text-bold width-80 vertical-middle">Categorie</td>
                   <td><div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_type_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_type">Cours théorique</span> <span class="caret"></span> </button>
+                      <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_type_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_type" category-id="1">Cours théorique</span> <span class="caret"></span> </button>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_subevent_categories">
                         <!-- FILLED WITH ACADEMIC EVENTS CATEGORIES THROUGH AJAX -->
                       </ul>

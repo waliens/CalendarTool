@@ -935,11 +935,11 @@ $("#new_subevent_creation_confirm").on("click",function(){
 		}
 
 	var entireDay=false;
-	if($("#new_subevent_startHour").val().length!=0&&$("#new_subevent_endHour").val().length!=0)
+	if($("#new_subevent_startHour").val().length==0&&$("#new_subevent_endHour").val().length==0)
 		entireDay=true;
 	var recurrence=$("#new_subevent_recurrence").attr("recurrence-id");
 	var end_recurrence;
-	if(recurrence!=1){
+	if(recurrence!=0){
 		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
 		}
 	var place=$("#new_subevent_place").val();
@@ -949,12 +949,12 @@ $("#new_subevent_creation_confirm").on("click",function(){
 	var feedback=$("#new_subevent_feedback_body").val();
 	var workload=$("#new_subevent_workload").val();
 	var pract_details=$("#new_soubevent_pract_details_body").val();
-	var pathways=$("#new_subevent_pathways_table input:checked");
+	var pathways=$("#new_subevent_pathways_table input");
 	var pathways_json=[];
-	var team=$("#new_subevent_team_table input:checked");
+	var team=$("#new_subevent_team_table input");
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++)
-		pathways_json.push({id:pathways[i].id,selected:team[i].checked});
+		pathways_json.push({id:pathways[i].id,selected:pathways[i].checked});
 	pathways_json=JSON.stringify(pathways_json);
 	for(var i=0;i<team.length;i++)
 		team_json.push({id:team[i].id,selected:team[i].checked});
