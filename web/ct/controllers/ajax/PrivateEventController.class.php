@@ -7,6 +7,7 @@
 
 namespace ct\controllers\ajax;
 
+use \DateTime;
 use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
@@ -62,7 +63,7 @@ class PrivateEventController extends AjaxController
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 6
+		if($this->sg_post->value('recurrence') != 1  
 			&& $this->sg_post->check("end-recurrence"))
 		{
 
