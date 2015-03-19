@@ -37,8 +37,9 @@
 		const GET_BY_STUDENT_NO_OPT = 6; /**< @brief Way of getting a list of global events : same as GET_BY_STUDENT but exclude 
 												courses for which the student is a free student*/ 
 		const GET_BY_STUDENT_OPT_ONLY = 7; /**< @brief Way of getting a list of global events : same as GET_BY_STUDENT but exclude 
-												courses for which the student is not a free student*/ 
-		
+												courses for which the student is not a free student*/
+		const GET_BY_ACAD_YEAR = 8; /**< @brief Get the global events by year */
+
 		/**
 		 * @brief Constructs a GlobalEventObject
 		 */
@@ -634,6 +635,9 @@
 				break;
 			case self::GET_BY_TEAM_MEMBER:
 				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, $column);
+				break;
+			case self::GET_BY_ACAD_YEAR:
+				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id);
 				break;
 			}
 
