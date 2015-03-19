@@ -66,7 +66,7 @@ class AddIndepEventController extends AjaxController
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 0
+		if($this->sg_post->value('recurrence') != 6
 				&& $this->sg_post->check("end-recurrence"))
 		{
 			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
@@ -78,8 +78,8 @@ class AddIndepEventController extends AjaxController
 
 		$this->add_output_data("id", $id_ret);
 
-		$pathway = $this->sg_post->value('pathways');
-		$team = $this->sg_post->value('teaching_team');
+		$pathway = $this->json2array($this->sg_post->value('pathways'));
+		$team = $this->json2array($this->sg_post->value('teaching_team'));
 
 		foreach($pathway as $key => $value){
 			foreach($id_ret as $o => $id)

@@ -25,7 +25,7 @@ class EditPrivateEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("id","name", "place", "type", "recurrenceId", "details","applyRecursive");
+		$keys = array("id","name", "place","limit","start", "type", "recurrenceId", "details","applyRecursive");
 	
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
@@ -43,8 +43,8 @@ class EditPrivateEventController extends AjaxController
 				"recurrence" => $this->sg_post->value('recurrenceId'));
 
 		// get event date
-		if($this->sg_post->check("limit") > 0){
-			$limit = new DateTime($this->sg_post->value("limit"));
+		if($this->sg_post->value("limit") == "true"){
+			$limit = new DateTime($this->sg_post->value("start"));
 			$model->setDate($this->sg_post->value("id"), "Deadline", $limit,null, true);
 		}
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
