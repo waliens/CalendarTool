@@ -127,6 +127,15 @@ class ViewEventController extends AjaxController
 					$ret['professor'] = implode(", ", $prof);
 				}
 			}
+			
+			if($ret['recurrence'] != intval(1)){
+				$ret["start_recurrence"] = $model->getStartRecurrence($ret['recurrence']);
+				$ret["end_recurrence"] = $model->getEndRecurrence($ret['recurrence']);
+			}
+			else {
+				$ret["start_recurrence"] = "";
+				$ret["end_recurrence"] = "";
+			}
 			$this->set_output_data($ret);
 		}
 	}

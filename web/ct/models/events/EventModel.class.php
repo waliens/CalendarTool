@@ -830,7 +830,45 @@ use \DateInterval;
 		
 		}
 		
-	
+	/**
+	 * @brief return the start recurrent of a recurrent event
+	 * @param int $recurrenceId
+	 * @retval false if error start of recurrence if ok
+	 */
+		public function getStartRecurrence($recurrenceId){
 		
+			$rId = $this->sql->quote($recurrenceId);
+			$query = "SELECT Start FROM event 
+						 NATURAL JOIN ( 
+					 	SELECT  Start  FROM time_range_event 
+					 	UNION ALL
+					 	SELECT  DATE(Start) AS Start FROM date_range_event 
+					 	UNION ALL 
+					 	SELECT `Limit` AS Start FROM deadline_event 
+					 ) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY Start ASC LIMIT 0,1";
+
+			return $this->sql->execute_query($query)[0];
+		}
+
+		/**
+		 * @brief return the end recurrent of a recurrent event
+		 * @param int $recurrenceId
+		 * @retval false if error end of recurrence if ok
+		 */
+		public function getEndRecurrence($recurrenceId){
+
+				
+			$rId = $this->sql->quote($recurrenceId);
+			$query = "SELECT End FROM event
+			NATURAL JOIN (
+			SELECT  End  FROM time_range_event
+			UNION ALL
+			SELECT  DATE(End) AS End FROM date_range_event
+			UNION ALL
+			SELECT `Limit` AS End FROM deadline_event
+			) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY End DESC LIMIT 0,1";
+		
+			return $this->sql->execute_query($query)[0];
+		}
 		
 	}

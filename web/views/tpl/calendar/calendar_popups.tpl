@@ -135,7 +135,7 @@
               <td>
               <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="private_event_type_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="private_event_type">Travail</span>
+                    <span id="private_event_type" category-id="11">Travail</span>
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">

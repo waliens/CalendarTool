@@ -1,5 +1,5 @@
 // JavaScript Document
-var filters={view:"month" ,all:"true",dateRange: {start: "01-03-2015", end: "31-03-2015"},courses: {isSet: 'false', id:[]},eventTypes: {isSet: 'false', id:[]},pathways: {isSet: 'false', id:[]},professors:{isSet: 'false', id:[]}};
+var filters={view:"month" ,all:"true",dateRange: {start: "23-02-2015", end: "05-04-2015"},courses: {isSet: 'false', id:[]},eventTypes: {isSet: 'false', id:[]},pathways: {isSet: 'false', id:[]},professors:{isSet: 'false', id:[]}};
 var today = new Date();
 var day = today.getDate();
 var month = today.getMonth()+1; //January is 0!
@@ -31,7 +31,8 @@ var new_event_datepicker;
 var private_event;
 var modal_shown;
 //holds displayed events ids in order not to duplicate them when new data is retrieved after changing the view mode 
-//var displayed_events=[];
+var displayed_events=[];
+
 
 //update the navbar
 $("#navbar li").removeClass("active");
@@ -50,7 +51,7 @@ function getCurrentView(view){
 
 //add events to the calendar when changing the view
 function addEvents(){
-	$("#calendar").fullCalendar( 'removeEvents');
+	//$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
 	filters.view=getCurrentView(current_view);
 	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
@@ -58,76 +59,96 @@ function addEvents(){
 	//we have to take into account the fact that server side date ranges are inclusive and so for all views but the day view we have to subtract 1 to the right boundary
 	if(filters.dateRange.end!=filters.dateRange.start)
 		filters.dateRange.end=$("#calendar").fullCalendar( 'getView' ).end.subtract(1, 'days').format("YYYY-MM-DD");
+	
 	$('#calendar').fullCalendar('addEventSource', {
 			events:function(start, end, timezone, callback){
-			$.ajax({
-				dataType : "json",
-				type : 'POST',
-				data: filters,
-				url: "index.php?src=ajax&req=102",
-				success : function(data, status) {
-					/** error checking */
-					if(data.error.error_code > 0)
-					{	
-						launch_error_ajax(data.error);
-						return;
+				$.ajax({
+					dataType : "json",
+					type : 'POST',
+					async:false,
+					data: filters,
+					url: "index.php?src=ajax&req=102",
+					success : function(data, status) {
+						/** error checking */
+						if(data.error.error_code > 0)
+						{	
+							launch_error_ajax(data.error);
+							return;
+						}
+	
+						var calendar_data=data;
+						var events = [];
+						//retireve all public events first
+						for(var i=0;i<calendar_data.events.public.length;i++){
+							var instance = calendar_data.events.public[i];
+							//chech the event type to accordingly set the event color
+							var color=getEventColor(instance);
+							//strip off the T00:00:00 for date range events
+							var start=instance.start;
+							var end=instance.end;
+							if(instance.timeType=="date_range"){
+								start=instance.start.replace("T00:00:00","");
+								end=instance.end.replace("T00:00:00","");
+								}
+							//if the event is not already displayed we add its id to the list of displayed events and we display it
+								if(displayed_events.indexOf(instance.id)==-1){
+									displayed_events.push(instance.id);
+									events.push({
+										id_server: instance.id,
+										id: guid(),
+										private: false,
+										title: instance.name,
+										start: start,
+										end: end,
+										recursive: instance.recursive,
+										color: color,
+										editable: false
+									});
+								}
+						}
+						//then retrieve private events
+						for(var i=0;i<calendar_data.events.private.length;i++){
+							var instance=calendar_data.events.private[i];
+							//if the event is not already displayed we add its id to the list of displayed events and we display it
+							//if($.inArray(instance.id,displayed_events)==-1){
+								//strip off the T00:00:00 for date range events
+								var start=instance.start;
+								var end=instance.end;
+								if(instance.timeType=="date_range"){
+									start=instance.start.replace("T00:00:00","");
+									end=instance.end.replace("T00:00:00","");
+									}
+								//if the event is not already displayed we add its id to the list of displayed events and we display it
+								if(displayed_events.indexOf(instance.id)==-1){
+									displayed_events.push(instance.id);
+									events.push({
+										id_server: instance.id,
+										id: guid(),
+										private: true,
+										title: instance.name,
+										start: start,
+										end: end,
+										recursive: instance.recursive,
+										color: '#8AC007'
+									});
+								}
+						}
+						callback(events);
+					},
+					error : function(data, status, errors) {
+						launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 					}
-
-					calendar_data=data;
-					var events = [];
-					//retireve all public events first
-					for(var i=0;i<calendar_data.events.public.length;i++){
-						var instance = calendar_data.events.public[i];
-						//chech the event type to accordingly set the event color
-						var color=getEventColor(instance);
-						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						//if($.inArray(instance.id,displayed_events)==-1){
-							events.push({
-								id_server: instance.id,
-								id: guid(),
-								private: false,
-								title: instance.name,
-								start: instance.start,
-								end: instance.end,
-								recursive: instance.recursive,
-								color: color,
-								editable: false
-							});
-							//displayed_events.push(instance.id);
-						//}
-					}
-					//then retrieve private events
-					for(var i=0;i<calendar_data.events.private.length;i++){
-						var instance=calendar_data.events.private[i];
-						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						//if($.inArray(instance.id,displayed_events)==-1){
-							events.push({
-								id_server: instance.id,
-								id: guid(),
-								private: true,
-								title: instance.name,
-								start: instance.start,
-								end: instance.end,
-								recursive: instance.recursive,
-								color: '#8AC007'
-							});
-							//displayed_events.push(instance.id);
-						//}
-					}
-					callback(events);
-				},
-				error : function(data, status, errors) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-			});
+				});
 			}
-			} 
-		)
+		})
 	}
 
 $(document).ready(function() {
 	//set moment locale to french
 	moment.locale('fr');
+	var start=moment(filters.dateRange.start);
+	var end=moment(filters.dateRange.end);
+	timezone="local";
 	//initialize the calendar...
     $('#calendar').fullCalendar({
 		lang: 'fr',
@@ -141,6 +162,7 @@ $(document).ready(function() {
 		eventLimit: true, // allow "more" link when too many events
 		fixedWeekCount: false, //each month only shows the weeks it contains (and not the default 6) 
 		//populate events
+		
 		events:   function(start, end, timezone, callback){
 			$.ajax({
 				dataType : "json",
@@ -162,39 +184,47 @@ $(document).ready(function() {
 						var instance = calendar_data.events.public[i];
 						//chech the event type to accordingly set the event color
 						var color=getEventColor(instance);
-						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						//if($.inArray(instance.id,displayed_events)==-1){
-							events.push({
-								id_server: instance.id,
-								id: guid(),
-								private: false,
-								title: instance.name,
-								start: instance.start,
-								end: instance.end,
-								recursive: instance.recursive,
-								color: color,
-								editable: false
-							});
-							//displayed_events.push(instance.id);
-						//}
+						//strip off the T00:00:00 for date range events
+						var start=instance.start;
+						var end=instance.end;
+						if(instance.timeType=="date_range"){
+							start=instance.start.replace("T00:00:00","");
+							end=instance.end.replace("T00:00:00","");
+							}
+						displayed_events.push(instance.id);
+						events.push({
+							id_server: instance.id,
+							id: guid(),
+							private: false,
+							title: instance.name,
+							start: start,
+							end: end,
+							recursive: instance.recursive,
+							color: color,
+							editable: false
+						});
 					}
 					//then retrieve private events
 					for(var i=0;i<calendar_data.events.private.length;i++){
 						var instance=calendar_data.events.private[i];
-						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						//if($.inArray(instance.id,displayed_events)==-1){
-							events.push({
-								id_server: instance.id,
-								id: guid(),
-								private: true,
-								title: instance.name,
-								start: instance.start,
-								end: instance.end,
-								recursive: instance.recursive,
-								color: '#8AC007'
-							});
-							//displayed_events.push(instance.id);
-						//}
+						//strip off the T00:00:00 for date range events
+						var start=instance.start;
+						var end=instance.end;
+						if(instance.timeType=="date_range"){
+							start=instance.start.replace("T00:00:00","");
+							end=instance.end.replace("T00:00:00","");
+							}
+						displayed_events.push(instance.id);
+						events.push({
+							id_server: instance.id,
+							id: guid(),
+							private: true,
+							title: instance.name,
+							start: start,
+							end: end,
+							recursive: instance.recursive,
+							color: '#8AC007'
+						});
 					}
 					callback(events);
 				},
@@ -270,6 +300,7 @@ $(document).ready(function() {
 		
 		//handle clicks within the calendar
 		dayClick: function(date, jsEvent, view) {
+			edit_existing_event=false;
 			var target = date.format();
 			buildDatePicker("private_event",target);
 			$("#private_event_title").prop("readonly",false);
@@ -810,7 +841,7 @@ function create_private_event(){
 	if($("#deadline input").prop("checked"))
 		limit=true;
 	var recurrence=$("#recurrence").text();
-	var recurrence_id=0;
+	var recurrence_id=1;
 	var end_recurrence;
 	var place=$("#private_event_place").val();
 	var details=$("#private_event_details").val();
@@ -1098,6 +1129,25 @@ function create_private_event(){
 		private_event.recurrence=recurrence;
 		$('#calendar').fullCalendar('updateEvent', private_event);
 		//send update to server
+		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start.format("YYYY-MM-DDTHH:mm:ss"), end:end.format("YYYY-MM-DDTHH:mm:ss"), type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+		$.ajax({
+				dataType : "json",
+				type : 'POST',
+				url : "index.php?src=ajax&req=065",
+				data : edit_event,
+				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
+					
+				},
+				error : function(xhr, status, error) {
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				}
+			});
 		}
 	//hide the modal
 	$("#private_event").modal("hide");
@@ -1126,6 +1176,7 @@ function guid() {
 //change the value of the dropdown stating the private event type
 function changePrivateEventType(){
 	$("#private_event_type").text(event.target.innerHTML);
+	$("#private_event_type").attr("category-id",event.target.getAttribute("category-id"))
 	}
 	
 function deadline(){
