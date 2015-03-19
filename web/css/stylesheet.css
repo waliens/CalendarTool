@@ -172,14 +172,14 @@ font-weight:100;
 	background:url("../imgs/delete-icon.png") -32px 0;
 	}
 	
-.delete-disabled{
+.delete-disabled,.edit-disabled{
 	cursor:not-allowed;
 	}	
 .edit{
 	background:url("../imgs/edit-icon.png") 0 0;
 	}
 	
-.edit:hover{
+.edit:hover,.edit-disabled{
 	background:url("../imgs/edit-icon.png") -32px 0;
 	}
 

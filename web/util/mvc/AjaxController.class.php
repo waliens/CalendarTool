@@ -29,7 +29,7 @@
 		const ERROR_ACTION_READ_DATA = 204; /**< @brief Action failure : cannot read data */
 		const ERROR_ACTION_SAVE_EXPORT = 205; /**< @brief Action failure : cannot save export settings */
 		const ERROR_ACTION_BAD_TEACHING_ROLE = 206; /**< @brief Action failure : cannot save the given teaching role for the given user */
-		
+
 		/* 3xx : missing data */
 		const ERROR_MISSING_DATA = 300; /**< @brief Missing data generic error (300) */
 		const ERROR_MISSING_USER = 301; /**< @brief User is missing */
@@ -163,8 +163,8 @@
 		private function is_valid_error_code($error_code)
 		{
 			return ($error_code >= 0 && $error_code <= 1) 
-					|| ($error_code >= 200 && $error_code <= 204)
-					|| ($error_code >= 300 && $error_code <= 306)
+					|| ($error_code >= 200 && $error_code <= 206)
+					|| ($error_code >= 300 && $error_code <= 304)
 					|| ($error_code >= 400 && $error_code <= 403)
 					|| ($error_code >= 500 && $error_code <= 500); 
 		}

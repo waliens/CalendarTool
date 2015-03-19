@@ -17,6 +17,13 @@ $(document).ready(function() {
 		//url : "json/professor-profile.json",
 		url: "index.php?src=ajax&req=022",
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var first_name=data.firstName;
 			var last_name=data.lastName;
 			var courses=data.courses;
@@ -30,8 +37,7 @@ $(document).ready(function() {
 				addIndependentEvent(indep_events[i]);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 });
@@ -128,12 +134,18 @@ $("#delete_global_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=033",
 			data : {id:event_id},
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
+
 				$("a[course-id='"+event.currentTarget.getAttribute("event-id")+"']").parent().parent().parent().remove();
 			},
 			error : function(xhr, status, error) {
-					  var err = eval("(" + xhr.responseText + ")");
-					  alert(err.Message);
-					}
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
 		});
 	
 	})
@@ -148,18 +160,25 @@ $("#delete_indep_event_alert").on("click",".btn-primary",function(event){
 			url : "index.php?src=ajax&req=083",
 			data : {id:event_id,applyRecursive:"false"},
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
+
 				$("#independent-events #"+event_id).parent().parent().remove()
 			},
 			error : function(xhr, status, error) {
-					  var err = eval("(" + xhr.responseText + ")");
-					  alert(err.Message);
-					}
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
 		});
 	
 	})
 
 //populate event info when modal appears
 $("#event_info").on("show.bs.modal",function(event){
+	$("#edit_global_event .edit").removeClass("edit-disabled");
 	var event_id=event.relatedTarget.getAttribute('event-id');
 	$.ajax({
 		dataType : "json",
@@ -167,6 +186,13 @@ $("#event_info").on("show.bs.modal",function(event){
 		//url : "json/globalevent-info.json",
 		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var global_event_id=data.id;
 			var global_event_id_ulg=data.id_ulg;
 			var global_event_name=data.name;
@@ -225,8 +251,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -284,6 +309,13 @@ $("#subevent_info").on("show.bs.modal",function(){
 		type : 'GET',
 		url : "index.php?src=ajax&req=051&event="+subevent_id,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var subevent_id=data.id;
 			var subevent_title=data.name;
 			var subevent_description=data.description;
@@ -339,8 +371,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 			$("#subevent-place").text(subevent_place);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 })
@@ -363,22 +394,28 @@ function get_recursion(recursion_id){
 	}
 
 function edit_global_event(){
-	var event_id=event.currentTarget.parentNode.getAttribute("event-id");
-	//initialize variables to hold old content of the event
-	edit_global_event_old={details:$("#event-details").text(),feedback:$("#event-feedback").text(),language:$("#event-lang").text()};
-	var language=edit_global_event_old.language.replace(/\s+/g, '');
-	var language_code=revert_convert_language(language);
-	//update modale view to make language, feedback and description editable
-	$("#event-details").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_details" value=\"'+edit_global_event_old.details+'">');
-	$("#event-feedback").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_feedback" value="'+edit_global_event_old.feedback+'">');
-	$("#event-lang").html('<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="edit_cours_language" data-toggle="dropdown" aria-expanded="true" language="'+language_code+'"> '+language+' <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_languages_list"><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li></ul></div>');
-	//display confirm and abort buttons and attach to the button the id of the event we are editing
-	$("#edit-global-event-buttons").removeClass("hidden");
-	$("#edit-global-event-buttons").attr("event-id",event_id);
+	if(!$("#edit_global_event .edit").hasClass("edit-disabled")){
+		//disable edit button
+		$("#edit_global_event .edit").addClass("edit-disabled");
+		var event_id=event.currentTarget.parentNode.getAttribute("event-id");
+		//initialize variables to hold old content of the event
+		edit_global_event_old={details:$("#event-details").text(),feedback:$("#event-feedback").text(),language:$("#event-lang").text()};
+		var language=edit_global_event_old.language.replace(/\s+/g, '');
+		var language_code=revert_convert_language(language);
+		//update modale view to make language, feedback and description editable
+		$("#event-details").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_details" value=\"'+edit_global_event_old.details+'">');
+		$("#event-feedback").html('<input type="text" class="form-control" aria-describedby="sizing-addon1" id="edit_global_cours_feedback" value="'+edit_global_event_old.feedback+'">');
+		$("#event-lang").html('<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="edit_cours_language" data-toggle="dropdown" aria-expanded="true" language="'+language_code+'"> '+language+' <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_languages_list"><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="FR">Français</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#" language="EN">Anglais</a></li></ul></div>');
+		//display confirm and abort buttons and attach to the button the id of the event we are editing
+		$("#edit-global-event-buttons").removeClass("hidden");
+		$("#edit-global-event-buttons").attr("event-id",event_id);
 	}
+}
 	
 //confirm global event edit
 function  edit_global_event_confirm(){
+	//enable edit button
+	$("#edit_global_event .edit").removeClass("edit-disabled");
 	var event_id=$("#edit-global-event-buttons").attr("event-id");
 	var event_details=$("#edit_global_cours_details").val();
 	var event_lan=$("#edit_cours_language").attr("language");
@@ -389,6 +426,13 @@ function  edit_global_event_confirm(){
 		url : "index.php?src=ajax&req=034",
 		data: {id:event_id,description:event_details,feedback:event_feedback,language:event_lan},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			$("#event-details").html('');
 			$("#event-details").text(event_details);
 			$("#event-feedback").html('');
@@ -398,14 +442,14 @@ function  edit_global_event_confirm(){
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	}
 
 //abort the edit of a global event
 function edit_global_event_abort(){
+	$("#edit_global_event .edit").removeClass("edit-disabled");
 	$("#event-details").html('');
 	$("#event-details").value(edit_global_event_old.details);
 	$("#event-feedback").html('');
@@ -444,6 +488,13 @@ $("#years_list").on("click","a",function(event){
 		url : "index.php?src=ajax&req=036",
 		data: {"year":year},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			$("#global_course_list").html("");
 			$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
 			$("#cours_language").html('Sélectionner langue <span class="caret"></span>');
@@ -457,8 +508,7 @@ $("#years_list").on("click","a",function(event){
 			}
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -500,12 +550,18 @@ $("#global_event_add_confirm").click(function(event){
 		url : "index.php?src=ajax&req=035",
 		data: new_course,
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			var cours_to_add={"id":data.id,"code":cours_id, "lib_cours_complet":$("#cours_to_add").text()}
 			addGlobalEvent(cours_to_add);
 			},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})	
@@ -548,15 +604,21 @@ $("#add-event-member").click(function(event){
 		url : "index.php?src=ajax&req=075",
 		data: {id_global_event:event_id},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			$("#add-event-member-conf-abort-buttons").removeClass("hidden");
 			$("#add-event-member").parent().addClass("hidden");
 			$("#event_team").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_role_list"></ul></div>');
 			for(var i=0;i<data.users.length;i++)
-				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.team[i].user_id+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
+				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.users[i].id_user+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
 			},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	//retrieve list of team roles
@@ -567,12 +629,18 @@ $("#add-event-member").click(function(event){
 		url : "index.php?src=ajax&req=074",
 		data: {lang:"FR"},
 		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+
 			for(var i=0;i<data.roles.length;i++)
 				$("#new_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
 			},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -616,7 +684,9 @@ $("#add-event-member-confirm").click(function(event){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	var member_id=event.currentTarget.getAttribute("member-id");
 	var member_fullname=$("#add_team_member_dropdown").text();
-	var member_role=$("#add_team_member_role_dropdown").text()
+	var member_role=$("#add_team_member_role_dropdown").attr("member-role-id");
+	var member_role_name=$("#add_team_member_role_dropdown").text();
+
 	$("#add-event-member-conf-abort-buttons").addClass("hidden");
 	$("#add-event-member").parent().removeClass("hidden");
 	$("#add_team_member_dropdown").parent().html("");
@@ -625,13 +695,20 @@ $("#add-event-member-confirm").click(function(event){
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=072",
-		data: {id_user:member_id, id_global_event:event_id, id_role:"2"},
-		success : function(data, status) {			
-			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
-			},
+
+		data: {id_user:member_id, id_global_event:event_id, id_role:member_role},
+		success : function(data, status) {	
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+
+			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role_name+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
+		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 	})
@@ -665,11 +742,13 @@ $("#add-subevent").click(function(){
 //populate new subevent modal	
 $("#new_subevent").on('show.bs.modal', function (event) {
 	var global_event_id=$("#new_subevent_creation_confirm").attr("global_event_id");
+
 	//clean eventual old data
 	$("#new_subevent_categories").html("");
 	$("#new_subevent_pathways_table").html("");
 	$("#new_subevent_team_table").html("");
 	//build datepicker
+
 	buildDatePicker("new_subevent_dates");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
@@ -679,6 +758,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_startHour").on("changeTime",function(){
 		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
 		})
+
 	//populate event categories
 	$.ajax({
 			dataType : "json",
@@ -853,6 +933,7 @@ $("#new_subevent_creation_confirm").on("click",function(){
 		if($("#new_subevent_endHour").val().length!=0)
 			end=end+"T"+$("#new_subevent_endHour").val();
 		}
+
 	var entireDay=false;
 	if($("#new_subevent_startHour").val().length!=0&&$("#new_subevent_endHour").val().length!=0)
 		entireDay=true;
@@ -863,6 +944,7 @@ $("#new_subevent_creation_confirm").on("click",function(){
 		}
 	var place=$("#new_subevent_place").val();
 	var category=$("#new_subevent_type").attr("category-id")
+
 	var details=$("#new_subevent_details").val();
 	var feedback=$("#new_subevent_feedback_body").val();
 	var workload=$("#new_subevent_workload").val();

@@ -38,6 +38,7 @@
 		public function __construct()
 		{
 			parent::__construct();
+
 			$this->req_status = array('waiting', 'accepted', 'cancelled', 'refused');
 			$this->type_checker = new TypeChecker();
 			$this->populate_targets();
@@ -247,6 +248,7 @@
 								  "Description" => $data['description'],
 								  "Status" => self::STATUS_WAITING);
 
+
 			$success = true; // true if no error occurred
 			$this->sql->transaction();
 
@@ -375,6 +377,7 @@
 			$this->sql->lock(array("modification_request READ"), "modification READ");
 
 			// get request
+
 			$query  =  "SELECT Id_Request AS request, Id_Event AS event, event_name, Id_Sender AS sender, 
 								Name AS sender_name, Surname AS sender_surname, Description AS description,
 								Status AS status
@@ -387,6 +390,7 @@
 
 			if(empty($request))
 				return array();
+
 
 			$request = $request[0];
 
