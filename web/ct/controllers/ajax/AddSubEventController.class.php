@@ -30,6 +30,7 @@ class AddSubEventController extends AjaxController
 		$keys = array("name", "details","limit","id_global_event", "where", "workload", "feedback", "practical_details", "type", "start", "recurrence", "pathway", "teachingTeam");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
+			
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
 			return;
 		}
@@ -64,7 +65,7 @@ class AddSubEventController extends AjaxController
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 1
+		if($this->sg_post->value('recurrence') != 0
 				&& $this->sg_post->check("end-recurrence"))
 		{
 			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
@@ -78,15 +79,15 @@ class AddSubEventController extends AjaxController
 	
 		$pathway = $this->json2array($this->sg_post->value('pathway'));
 		$team = $this->json2array($this->sg_post->value('teachingTeam'));
-		
+
 		foreach($pathway as $key => $value){
-			if($value['selected'] == "false"){
+			if(!$value['selected']){
 				foreach($id_ret as $o => $id)
 					$model->excludePathway($id, $value['id']);
 			}
 		}
 		foreach($team as $key => $value){
-			if($value['selected'] == "false"){
+			if(!$value['selected']){
 				foreach($id_ret as $o => $id)
 					$model->excludeMember($id, $value['id']);
 			}
