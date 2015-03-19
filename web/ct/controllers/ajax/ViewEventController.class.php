@@ -72,7 +72,7 @@ class ViewEventController extends AjaxController
 			$ret['id'] = $data['Id_Event'];
 			$ret['name'] = $data['Name'];
 			$ret['description'] = $data['Description'];
-			$ret['type'] = $data['EventType']; 
+			$ret['type'] = $data['DateType']; 
 			$ret['place'] = $data['Place'];
 			
 			$start = new DateTime($data['Start']);

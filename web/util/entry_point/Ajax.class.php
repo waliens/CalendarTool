@@ -7,7 +7,9 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\EditAcademicEventController;
+    use ct\controllers\ajax\ViewEventCalendarController;
+
+				use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
     use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
@@ -127,6 +129,8 @@
                 	return new EditAcademicEventController(true);
                 case "055":
                 	return new DeleteEventController("SUB");
+                case "056":
+                	return new ViewEventCalendarController("SUB")
                 	
                 /* Private Event related */
                 case "061":
@@ -139,6 +143,8 @@
                 	return new ViewEventController("PRIVATE");
                 case "065":
                 	return new EditPrivateEventController();
+                case "066":
+                	return new ViewEventCalendarController("PRIVATE");
 
 
                 /* Teaching role related */
@@ -161,7 +167,9 @@
                 case "084":
                 	return new ViewEventController("INDEP"); 
                 case '085':
-                	return new EditAcademicEventController(false);                   
+                	return new EditAcademicEventController(false);    
+                case "086":
+                	return new ViewEventCalendarController("INDEP");              
                     
                 /* Export related */
                 case "091":

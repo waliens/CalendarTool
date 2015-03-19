@@ -23,7 +23,7 @@ use \DateTime;
  * @brief Class for handling the control of event
  */
 
-class ViewEventController extends AjaxController
+class ViewEventCalendarController extends AjaxController
 {
 
 
@@ -72,7 +72,7 @@ class ViewEventController extends AjaxController
 			$ret['id'] = $data['Id_Event'];
 			$ret['name'] = $data['Name'];
 			$ret['description'] = $data['Description'];
-			$ret['type'] = $data['EventType']; 
+			$ret['type'] = $data['DateType']; 
 			$ret['place'] = $data['Place'];
 			
 			$start = new DateTime($data['Start']);
