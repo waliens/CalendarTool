@@ -108,7 +108,7 @@ class ViewEventController extends AjaxController
 				$ret['category_name'] = $data['Categ_Name_FR'];
 				
 			
-			$ret['recurrence'] = $data['Id_Recur_Category'];
+			$ret['recurrence'] = $data['Id_Recurrence'];
 			
 			$an = $model->get_annotation($eventId, $id);
 			if($an)
@@ -128,19 +128,14 @@ class ViewEventController extends AjaxController
 				}
 			}
 			
-			if($data['Id_Recurrence'] != intval(1)){
-				$ret["start_recurrence"] = $model->getStartRecurrence($ret['recurrence']);
-				$ret["end_recurrence"] = $model->getEndRecurrence($ret['recurrence']);
-			}
-			else {
-				$ret["start_recurrence"] = "";
-				$ret["end_recurrence"] = "";
-			}
+			$ret['favourite'] = $model->isFavorite($eventId, $id);
+			
 			$this->set_output_data($ret);
 		}
 	}
 
 
 }
+
 
 
