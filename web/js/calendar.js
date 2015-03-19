@@ -1442,8 +1442,8 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
+	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
 		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));

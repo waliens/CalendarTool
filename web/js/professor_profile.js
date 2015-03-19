@@ -828,8 +828,8 @@ function buildDatePicker(option,target) {
 		datepicker["new_subevent_dates"].setDateFormat("%Y-%m-%d");
 		datepicker["new_subevent_dates"].setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 		var t = new Date();
-		document.getElementById("new_subevent_endDate_datepicker").value = td.format("dddd DD MM YYYY");
-		document.getElementById("new_subevent_startDate_datepicker").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+		document.getElementById("new_subevent_endDate_datepicker").value = td.format("dddd DD MMM YYYY");
+		document.getElementById("new_subevent_startDate_datepicker").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 		datepicker["new_subevent_dates"].attachEvent("onClick", function(date){
 			$("#new_subevent_startDate_datepicker").val(convert_date($("#new_subevent_startDate_datepicker").val(),"dddd DD MMM YYYY"));
