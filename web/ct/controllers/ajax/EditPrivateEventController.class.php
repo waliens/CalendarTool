@@ -7,6 +7,7 @@
 
 namespace ct\controllers\ajax;
 
+use \DateTime;
 use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
@@ -25,8 +26,8 @@ class EditPrivateEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("id","name", "place", "type", "recurrenceId", "details","applyRecursive");
-	
+		$keys = array("id","name", "where","limit","start", "recursiveID", "details","applyRecursive");
+		
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
@@ -38,13 +39,12 @@ class EditPrivateEventController extends AjaxController
 
 		$data = array("name" => $this->sg_post->value('name'),
 				"description" => $this->sg_post->value('details'),
-				"place" => $this->sg_post->value('place'),
-				"id_category" => $this->sg_post->value('type'),
-				"recurrence" => $this->sg_post->value('recurrenceId'));
+				"place" => $this->sg_post->value('where'),
+				"recurrence" => $this->sg_post->value('recursiveID'));
 
 		// get event date
-		if($this->sg_post->check("limit") > 0){
-			$limit = new DateTime($this->sg_post->value("limit"));
+		if($this->sg_post->value("limit") == "true"){
+			$limit = new DateTime($this->sg_post->value("start"));
 			$model->setDate($this->sg_post->value("id"), "Deadline", $limit,null, true);
 		}
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
@@ -59,6 +59,9 @@ class EditPrivateEventController extends AjaxController
 			
 		}
 
+		
+		if($this->sg_post->check("type") > 0)
+			$data['id_category'] = $this->sg_post->value("type");
 
 		// get owner id
 		$data['id_owner'] = $this->connection->user_id();

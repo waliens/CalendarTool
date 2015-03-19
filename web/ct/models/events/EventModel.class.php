@@ -830,6 +830,10 @@ use \DateInterval;
 		
 		}
 		
+		public function isFavorite($eventId, $userId){
+			$ret = $this->sql->execute_query("SELECT Id_Event AS ret FROM favorite_event WHERE Id_Event = ? AND Id_Student  = ? ", array($event_id, $userId));
+			return isset($ret[0]['ret']);
+		}
 	/**
 	 * @brief return the start recurrent of a recurrent event
 	 * @param int $recurrenceId

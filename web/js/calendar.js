@@ -38,6 +38,7 @@ var displayed_events=[];
 $("#navbar li").removeClass("active");
 $("#calendar_nav").addClass("active");
 	
+//get calendar current view name	
 function getCurrentView(view){
 	switch (view){
 		case "month":
@@ -142,6 +143,7 @@ function addEvents(){
 		})
 	}
 
+//load calendar on document ready with events of the current month
 $(document).ready(function() {
 	//set moment locale to french
 	moment.locale('fr');
@@ -330,7 +332,7 @@ $(document).ready(function() {
 	$("#delete_note .delete").popover({
 		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_note" onclick="delete_note()">Confirmer</button></div></div>'
 		});
-		//setup popover for delete note button
+		//setup popover for delete private event button
 	$("#delete_private_event .delete").popover({
 		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_private_event" onclick="delete_private_event()">Confirmer</button></div></div>'
 		});
@@ -344,6 +346,9 @@ $(document).ready(function() {
 	
 });
 
+
+
+
 //define the color of the event in the calendar based on the event type
 function getEventColor(event){
 	if(event.type=="deadline")
@@ -353,6 +358,11 @@ function getEventColor(event){
 	else if(event.type=="exam")
 		return "#FFAE00" //ORANGE
 	}
+
+
+/*--------------------------------------------------------------------------*/
+/*--------------------------- MANAGE NOTE ----------------------------------*/
+/*--------------------------------------------------------------------------*/
 	
 //delete note when confirm deletion
 function delete_note() {
@@ -489,6 +499,12 @@ function edit_note(){
 	$("#mod_notes_btns").removeClass("hidden");
 	$("#notes_body").focus();
 	}
+
+
+/*------------------------------------------------------------------------------*/
+/*--------------------------- MANAGE NOTE END ----------------------------------*/
+/*------------------------------------------------------------------------------*/
+
 
 //edit event info	
 function edit_private_event(){
@@ -737,9 +753,42 @@ $("#private_event_endHour").on("changeTime",function(){
 $("#private_event_startHour").on("changeTime",function(){
 	$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
 	})
+
 //populate private event modal
 function populate_private_event(event){
-	$("#delete_private_event .delete").attr("event-id",event.id_server);
+	var event_id=event.id_server;
+	$("#delete_private_event .delete").attr("event-id",event_id);
+	$.ajax({
+		dataType : "json",
+		type : 'GET',
+		url : "index.php?src=ajax&req=066&event="+event_id,
+		async : true,
+		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}
+			//{id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, annotation, favourite}
+			$("#recurrence").text(get_recursion(data.recurrence));
+			$("#recurrence").attr("recurrence-id",data.recurrence);	
+			$("#private_event_place").value(data.place);
+			$("#event_place").text(data.place);
+			$("#private_event_category").text(data.category_name);
+			$("#private_event_category").attr("category-id",data.category_id);
+			$("#private_event_details").value(data.description);
+			$("#private_notes_body").value(data.annotation);
+			var event_type=data.type;
+			if(type=="date_range"){
+				
+				}
+		},
+		error : function(data, status, errors) {
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+		}
+	});
+	
 	var title=event.title;
 	var allDay=event.allDay;
 	var start=event.start.format("dddd DD MMM YYYY");
@@ -1106,7 +1155,7 @@ function create_private_event(){
 	
 					$('#calendar').fullCalendar('addEventSource', {
 						events:[{
-							id_server: id,
+							id_server: data.id,
 							id: guid(),
 							private: true,
 							title: title,
@@ -1180,7 +1229,7 @@ function delete_private_event(){
 				launch_error_ajax(data.error);
 				return;
 			}
-			$('#calendar').fullCalendar('removeEvents', event_id);
+			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id_server==event_id)return true});
 			//hide the modal
 			$("#private_event").modal("hide");
 		},
@@ -1884,4 +1933,22 @@ function submit_filters(){
 			}
 			} 
 		)
+	}
+	
+//translates recursion id
+function get_recursion(recursion_id){
+	switch(recursion_id){
+		case "6":
+			return "jamais";
+		case "1":
+			return "tous les jours";
+		case "2":
+			return "toutes les semaines";
+		case "3":
+			return "toutes les deux semaines";
+		case "4":
+			return "tous les mois";
+		case "5":
+			return "tous les ans"
+		}
 	}
