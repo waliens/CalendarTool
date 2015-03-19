@@ -27,9 +27,10 @@ class AddSubEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "details","id_global_event", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
+		$keys = array("name", "details","limit","id_global_event", "where", "workload", "feedback", "practical_details", "type", "start", "recurrence", "pathway", "teachingTeam");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
+			
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
 			return;
 		}
@@ -45,10 +46,9 @@ class AddSubEventController extends AjaxController
 				"feedback" => $this->sg_post->value('feedback'),
 				"workload" => $this->sg_post->value('workload'),
 				"practical_details" => $this->sg_post->value('practical_details'));
-			
 		// get event date
-		if($this->sg_post->check("limit") > 0)
-			$data['limit'] = $this->sg_post->value('limit');
+		if($this->sg_post->value('limit') == "true")
+			$data['limit'] = $this->sg_post->value('start');
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');
@@ -60,11 +60,10 @@ class AddSubEventController extends AjaxController
 			return;
 		}
 
-		
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 0
+		if($this->sg_post->value('recurrence') != 1 //TODO change to 0
 				&& $this->sg_post->check("end-recurrence"))
 		{
 			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
@@ -76,8 +75,8 @@ class AddSubEventController extends AjaxController
 
 		$this->add_output_data("id", $id_ret);
 	
-		$pathway = $this->sg_post->value('pathway');
-		$team = $this->sg_post->value('teaching_team');
+		$pathway = $this->json2array($this->sg_post->value('pathway'));
+		$team = $this->json2array($this->sg_post->value('teachingTeam'));
 		
 		foreach($pathway as $key => $value){
 			if($value['selected'] == "false"){
