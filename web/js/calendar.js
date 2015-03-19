@@ -36,11 +36,6 @@ var modal_shown;
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#calendar_nav").addClass("active");
-
-//when clicking on today, next, prev, dayview, monthview, weekview we need to load new events (potentially)
-$("#calendar").on("click",[".fc-agendaDay-button",".fc-agendaWeek-button",".fc-month-button",".fc-today-button",".fc-icon-right-single-arrow",".fc-icon-left-single-arrow"],function(){
-	addEvents();
-	});
 	
 function getCurrentView(view){
 	switch (view){
@@ -301,6 +296,11 @@ $(document).ready(function() {
 	$("#delete_note .delete").popover({
 		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_note" onclick="delete_note()">Confirmer</button></div></div>'
 		});
+	//when clicking on today, next, prev, dayview, monthview, weekview we need to load new events (potentially)
+$("#calendar").on("click",(".fc-agendaDay-button,.fc-agendaWeek-button,.fc-month-button,.fc-today-button,.fc-icon-right-single-arrow,.fc-icon-left-single-arrow"),function(){
+	addEvents();
+	});
+	
 });
 
 //define the color of the event in the calendar based on the event type
