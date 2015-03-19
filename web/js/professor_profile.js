@@ -1,4 +1,3 @@
-
 // JavaScript Document
 var today = new Date();
 //update the navbar
@@ -352,7 +351,9 @@ $("#subevent_info").on("show.bs.modal",function(){
 			var category_name=data.category_name;
 			var recurrence=get_recursion(data.recurrence);
 			$("#recurrence").text(recurrence);
-			if(recurrence=="jamais"){
+
+			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
+			if(recurrence=="1"){
 				$("#start-recurrence").parent().addClass("hidden");
 				$("#end-recurrence").parent().addClass("hidden");
 			}
@@ -379,17 +380,17 @@ $("#subevent_info").on("show.bs.modal",function(){
 
 function get_recursion(recursion_id){
 	switch(recursion_id){
-		case "1":
-			return "jamais";
-		case "2":
-			return "tous les jours";
-		case "3":
-			return "toutes les semaines";
-		case "4":
-			return "toutes les deux semaines";
-		case "5":
-			return "tous les mois";
 		case "6":
+			return "jamais";
+		case "1":
+			return "tous les jours";
+		case "2":
+			return "toutes les semaines";
+		case "3":
+			return "toutes les deux semaines";
+		case "4":
+			return "tous les mois";
+		case "5":
 			return "tous les ans"
 		}
 	}
@@ -940,7 +941,7 @@ $("#new_subevent_creation_confirm").on("click",function(){
 		entireDay=true;
 	var recurrence=$("#new_subevent_recurrence").attr("recurrence-id");
 	var end_recurrence;
-	if(recurrence!=0){
+	if(recurrence!=6){
 		end_recurrence=convert_date($("#new_subevent_recurrence_end").val(),"YYYY-MM-DD");
 		}
 	var place=$("#new_subevent_place").val();
