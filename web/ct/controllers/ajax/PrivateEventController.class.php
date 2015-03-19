@@ -67,7 +67,7 @@ class PrivateEventController extends AjaxController
 			&& $this->sg_post->check("end-recurrence"))
 		{
 
-			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
+			$endrec = new \DateTime($this->sg_post->value('end-recurrence'));
 			$id_ret = $model->createEventWithRecurrence($data, $this->sg_post->value('recurrence'), $endrec);
 		}
 		else

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<buildpath>
-	<buildpathentry kind="src" path="tests/unit_testing/ct.util.database"/>
-	<buildpathentry kind="src" path="tests/unit_testing/ct.util.superglobals"/>
-	<buildpathentry kind="src" path="tests/unit_testing/script_test"/>
-	<buildpathentry kind="src" path="web"/>
-	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
-</buildpath>
