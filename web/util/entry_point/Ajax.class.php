@@ -35,7 +35,7 @@
     use ct\controllers\ajax\StudentProfileController;
     use ct\controllers\ajax\GetTeachingRolesController;
     use ct\controllers\ajax\StaticExportController;
-    use ct\controllers\ajax\GetGlobalEventsByStudentController;
+    use ct\controllers\ajax\GetGlobalEventsByUserController;
     use ct\controllers\ajax\GetProfessorAvailableCoursesController;
     use ct\controllers\ajax\CreateGlobalEventController;
     use ct\controllers\ajax\EditGlobalEventController;
@@ -86,7 +86,7 @@
 
                 /* Global event related */
                 case "031":
-                	return new GetGlobalEventsByStudentController();
+                	return new GetGlobalEventsByUserController();
                 case "032":
                 	return new ViewGlobalEventController();
                 case "033":
