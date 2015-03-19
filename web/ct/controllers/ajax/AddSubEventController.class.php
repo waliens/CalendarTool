@@ -30,7 +30,6 @@ class AddSubEventController extends AjaxController
 		$keys = array("name", "details","limit","id_global_event", "where", "workload", "feedback", "practical_details", "type", "start", "recurrence", "pathway", "teachingTeam");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
-			
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
 			return;
 		}
@@ -65,7 +64,7 @@ class AddSubEventController extends AjaxController
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 0
+		if($this->sg_post->value('recurrence') != 1
 				&& $this->sg_post->check("end-recurrence"))
 		{
 			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
