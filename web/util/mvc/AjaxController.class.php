@@ -176,7 +176,7 @@
 		 */
 		final protected function json2array($json)
 		{
-			return json_decode($json);
+			return json_decode($json, true);
 		} 
 
 		/**

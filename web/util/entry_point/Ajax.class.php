@@ -41,6 +41,7 @@
     use ct\controllers\ajax\EditGlobalEventController;
     use ct\controllers\ajax\EventCategoriesController;
     use ct\controllers\ajax\GetTeamAddableUsers;
+    use ct\controllers\ajax\AddSubEventController;
 
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
