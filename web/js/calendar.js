@@ -303,6 +303,7 @@ $(document).ready(function() {
 			edit_existing_event=false;
 			var target = date.format();
 			buildDatePicker("private_event",target);
+			$("#private_event_modal_header").text("Nouvel événement privé")
 			$("#private_event_title").prop("readonly",false);
 			$("#private_event_startDate_datepicker").prop("disabled",false);
 			$("#private_event_startDate_datepicker").prop("readonly",true);
@@ -1081,40 +1082,40 @@ function create_private_event(){
 		//send data to server event with no recursion
 		var new_event={"name":title, "start":start.format("YYYY-MM-DD"), "end":end.format("YYYY-MM-DD"), "limit":limit, "recurrence":recurrence_id, "end-recurrence":"", "place":place, "details":details, "note":notes, "type":3}
 		$.ajax({
-						dataType : "json",
-						type : 'POST',
-						url : "index.php?src=ajax&req=61",
-						data : new_event,
-						success : function(data, status) {
-							/** error checking */
-							if(data.error.error_code > 0)
-							{	
-								launch_error_ajax(data.error);
-								return;
-							}
-
-							$('#calendar').fullCalendar('addEventSource', {
-								events:[{
-									id_server: id,
-									id: guid(),
-									private: true,
-									title: title,
-									start: start,
-									end: end,
-									allDay: allDay,
-									place: place,
-									details: details,
-									notes: notes,
-									color: "#8AC007",
-									editable: true
-									}]
-								} 
-							)
-						},
-						error : function(xhr, status, error) {
-							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-						}
-					});
+				dataType : "json",
+				type : 'POST',
+				url : "index.php?src=ajax&req=61",
+				data : new_event,
+				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
+	
+					$('#calendar').fullCalendar('addEventSource', {
+						events:[{
+							id_server: id,
+							id: guid(),
+							private: true,
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay,
+							place: place,
+							details: details,
+							notes: notes,
+							color: "#8AC007",
+							editable: true
+							}]
+						} 
+					)
+				},
+				error : function(xhr, status, error) {
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				}
+			});
 		}
 	}
 	//otherwise we are editing an existing one
