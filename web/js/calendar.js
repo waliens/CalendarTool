@@ -820,9 +820,10 @@ function create_private_event(){
 	if($("#deadline input").prop("checked"))
 		limit=true;
 	var recurrence=$("#recurrence").text();
-	var recurrence_id=1;
+	var recurrence_id=6;
 	var end_recurrence;
 	var place=$("#private_event_place").val();
+	var type=$("#private_event_type").attr("category-id")
 	var details=$("#private_event_details").val();
 	var notes=$("#private_notes_body").val();
 	//check if we are adding a new private event
@@ -1063,8 +1064,10 @@ function create_private_event(){
 			if(endHourSet)
 				end=end.format("YYYY-MM-DDTHH:mm:ss");
 			else end=end.format("YYYY-MM-DD");
+		
+		}
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":"", "place":place, "details":details, "note":notes, "type":3}
+		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":"", "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1100,7 +1103,6 @@ function create_private_event(){
 					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 			});
-		}
 	}
 	//otherwise we are editing an existing one
 	else{
