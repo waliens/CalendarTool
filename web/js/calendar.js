@@ -1,5 +1,12 @@
 // JavaScript Document
-var filters={view:"month" ,all:"true",dateRange: {start: "23-02-2015", end: "05-04-2015"},courses: {isSet: 'false', id:[]},eventTypes: {isSet: 'false', id:[]},pathways: {isSet: 'false', id:[]},professors:{isSet: 'false', id:[]}};
+var filters={view:"month" ,
+			 allEvent:{isSet:"true"},
+			 dateRange: {start: "23-02-2015", end: "05-04-2015"},
+			 courses: {isSet: 'false', id:[]},
+			 eventCategories: {isSet: 'false', id:[]},
+			 eventTypes: {isSet: 'false', id:[]},
+			 pathways: {isSet: 'false', id:[]},
+			 professors:{isSet: 'false', id:[]}};
 var today = new Date();
 var day = today.getDate();
 var month = today.getMonth()+1; //January is 0!
@@ -1604,7 +1611,7 @@ function setFilter(filter){
 					}
 			}
 			//save filter info in the filter object
-			filters.all="true";
+			filters.allEvent="true";
 			break;
 		
 		case "date_filter":
@@ -1661,7 +1668,7 @@ function unSetFilter(filter){
 	switch(filter){
 		case "all_events_filter":
 			$('input').removeAttr("disabled");
-			filters.all="false";
+			filters.allEvent="false";
 			break;
 		case "date_filter":
 			filters.dateRange.isSet="false";

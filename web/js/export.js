@@ -18,7 +18,7 @@ var startDate;
 var endDate;
 //filters for export
 var filters = {
-          	allEvents: {isSet: 'false'},
+          	allEvent: {isSet: 'false'},
 			dateRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
@@ -329,11 +329,11 @@ $("#all_events_filter").click(function(){
 				}
 		}
 		//save filter info in the filter object
-		filters.allEvents["isSet"]="true";
+		filters.allEvent["isSet"]="true";
 	}
 	else{
 		$('input').removeAttr("disabled");
-		filters.allEvents["isSet"]="false";
+		filters.allEvent["isSet"]="false";
 		}
 	})
 
