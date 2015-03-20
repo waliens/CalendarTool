@@ -9,7 +9,7 @@ var endDate;
 //filters for export
 var filters = {
           	allEvents: {isSet: 'false'},
-			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
+			dateRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
 			eventCategories: {isSet: 'false', id:[]},
@@ -406,9 +406,9 @@ function addProfessor(professor){
 function setFilter(filter){
 	switch(filter){
 		case "date_filter":
-			filters.dataRange.isSet="true";
-			filters.dataRange["startDate"]=convert_date($("#startDateFilter").val(),"YYYY-MM-DD");
-			filters.dataRange["endDate"]=convert_date($("#endDateFilter").val(),"YYYY-MM-DD");
+			filters.dateRange.isSet="true";
+			filters.dateRange["startDate"]=convert_date($("#startDateFilter").val(),"YYYY-MM-DD");
+			filters.dateRange["endDate"]=convert_date($("#endDateFilter").val(),"YYYY-MM-DD");
 			break;
 		case "course_filter":
 			filters.courses.isSet="true";
@@ -453,7 +453,7 @@ function unSetFilter(filter){
 	$("#filters #"+filter).attr("checked",false);
 	switch(filter){
 		case "date_filter":
-			filters.dataRange.isSet="false";
+			filters.dateRange.isSet="false";
 		break;
 		case "course_filter":
 			filters.courses.isSet="false";

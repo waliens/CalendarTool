@@ -32,6 +32,7 @@ var private_event;
 var modal_shown;
 //holds displayed events ids in order not to duplicate them when new data is retrieved after changing the view mode 
 var displayed_events=[];
+var events_source=[]
 
 
 //update the navbar
@@ -52,7 +53,6 @@ function getCurrentView(view){
 
 //add events to the calendar when changing the view
 function addEvents(){
-	//$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
 	filters.view=getCurrentView(current_view);
 	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
@@ -67,6 +67,7 @@ function addEvents(){
 					dataType : "json",
 					type : 'POST',
 					data: filters,
+					lazyFetching: false,
 					url: "index.php?src=ajax&req=102",
 					success : function(data, status) {
 						/** error checking */
@@ -75,6 +76,10 @@ function addEvents(){
 							launch_error_ajax(data.error);
 							return;
 						}
+						events_source=[]
+						$('.fc-event-container').remove();
+						$("#calendar").fullCalendar( 'removeEvents');
+						//$("#calendar").fullCalendar( 'removeEvents');
 	
 						var calendar_data=data;
 						var events = [];
@@ -90,49 +95,43 @@ function addEvents(){
 								start=instance.start.replace("T00:00:00","");
 								end=instance.end.replace("T00:00:00","");
 								}
-							//if the event is not already displayed we add its id to the list of displayed events and we display it
-								if(true){
-									displayed_events.push(instance.id);
-									events.push({
-										id_server: instance.id,
-										id: guid(),
-										private: false,
-										title: instance.name,
-										start: start,
-										end: end,
-										recursive: instance.recursive,
-										color: color,
-										editable: false
-									});
-								}
+							displayed_events.push(instance.id);
+							events.push({
+								id_server: instance.id,
+								id: guid(),
+								private: false,
+								title: instance.name,
+								start: start,
+								end: end,
+								recursive: instance.recursive,
+								color: color,
+								editable: false
+							});
 						}
 						//then retrieve private events
 						for(var i=0;i<calendar_data.events.private.length;i++){
 							var instance=calendar_data.events.private[i];
-							//if the event is not already displayed we add its id to the list of displayed events and we display it
-							//if($.inArray(instance.id,displayed_events)==-1){
-								//strip off the T00:00:00 for date range events
-								var start=instance.start;
-								var end=instance.end;
-								if(instance.timeType=="date_range"){
-									start=instance.start.replace("T00:00:00","");
-									end=instance.end.replace("T00:00:00","");
-									}
-								//if the event is not already displayed we add its id to the list of displayed events and we display it
-								if(true){
-									displayed_events.push(instance.id);
-									events.push({
-										id_server: instance.id,
-										id: guid(),
-										private: true,
-										title: instance.name,
-										start: start,
-										end: end,
-										recursive: instance.recursive,
-										color: '#8AC007'
-									});
+							//strip off the T00:00:00 for date range events
+							var start=instance.start;
+							var end=instance.end;
+							if(instance.timeType=="date_range"){
+								start=instance.start.replace("T00:00:00","");
+								end=instance.end.replace("T00:00:00","");
 								}
+							displayed_events.push(instance.id);
+							events_source.push
+							events.push({
+								id_server: instance.id,
+								id: guid(),
+								private: true,
+								title: instance.name,
+								start: start,
+								end: end,
+								recursive: instance.recursive,
+								color: '#8AC007'
+							});
 						}
+						events_source.push(events);
 						callback(events);
 					},
 					error : function(data, status, errors) {
@@ -1753,7 +1752,7 @@ function unSetFilter(filter){
 			filters.all="false";
 			break;
 		case "date_filter":
-			filters.dataRange.isSet="false";
+			filters.dateRange.isSet="false";
 		break;
 		case "course_filter":
 			filters.courses.isSet="false";
@@ -1866,7 +1865,7 @@ function reset_filters(){
 
 	
 function submit_filters(){
-	$("#calendar").fullCalendar( 'removeEvents');
+	//$("#calendar").fullCalendar( 'removeEvents');
 	//displayed_events.length=0;
 	$('#calendar').fullCalendar('addEventSource', {
 			events:function(start, end, timezone, callback){
@@ -1882,7 +1881,7 @@ function submit_filters(){
 						launch_error_ajax(data.error);
 						return;
 					}
-
+					$(".fc-event").remove();
 					calendar_data=data;
 					var events = [];
 					//retrieve all public events first
@@ -1893,15 +1892,10 @@ function submit_filters(){
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
 						if(!$.inArray(instance.id,displayed_events)==-1){
 							events.push({
-								id_server: instance.id,
 								id: guid(),
-								private: false,
 								title: instance.name,
 								start: instance.start,
 								end: instance.end,
-								recursive: instance.recursive,
-								color: color,
-								editable: false
 							});
 							displayed_events.push(instance.id);
 						}
@@ -1912,18 +1906,16 @@ function submit_filters(){
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
 						if(!$.inArray(instance.id,displayed_events)==-1){
 							events.push({
-								id_server: instance.id,
 								id: guid(),
-								private: true,
 								title: instance.name,
 								start: instance.start,
 								end: instance.end,
-								recursive: instance.recursive,
-								color: '#8AC007'
 							});
 							displayed_events.push(instance.id);
 						}
 					}
+					$(".fc-event").remove();
+					
 					callback(events);
 				},
 				error : function(xhr, status, error) {
