@@ -134,7 +134,7 @@
 	function insert_courses(SQLAbs $sql_abs)
 	{
 		// get courses data from file
-		$courses_data = file_into_array("ulg_data\\cours.txt");
+		$courses_data = file_into_array("ulg_data/cours.txt");
 
 		// insert them into the database
 		$query = "INSERT INTO ulg_course VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -180,7 +180,7 @@
 	function insert_pathways(SQLAbs $sql_abs)
 	{
 		// get pathways data from file
-		$pathways_data = file_into_array("ulg_data\\seqform.txt");
+		$pathways_data = file_into_array("ulg_data/seqform.txt");
 
 		// insert them into the database
 
@@ -224,7 +224,7 @@
 	function insert_teachers(SQLAbs $sql_abs)
 	{
 		// load teacher data from file into the array
-		$teachers_courses_info = file_into_array("ulg_data\\enseignant.txt");
+		$teachers_courses_info = file_into_array("ulg_data/enseignant.txt");
 
 		// lowercase the ulg id
 		$teachers_courses_info = ct\array_col_map($teachers_courses_info, "strtolower", "idulg_ens");
@@ -270,7 +270,7 @@
 	function insert_students(SQLAbs $sql_abs, $shuffle=false)
 	{
 		// load cursus data into an array
-		$student_courses_info = array_unique(file_into_array("ulg_data\\cursus.txt"), SORT_REGULAR);
+		$student_courses_info = array_unique(file_into_array("ulg_data/cursus.txt"), SORT_REGULAR);
 
 		// lowercase the ulg_id
 		$student_courses_info = ct\array_col_map($student_courses_info, "strtolower", "id_ulg");

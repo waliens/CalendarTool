@@ -90,6 +90,7 @@
 			 		$fac_mem = $this->sql->select_one("ulg_fac_staff", "Id_ULg_Fac_Staff = ".$this->sql->quote($user_ulg_id));
 
 			 		// insert user data
+			 		
 			 		$fac_mem_data = array("Id_ULg" => $user_ulg_id,
 			 							  "Name" => $fac_mem['Name'],
 			 							  "Surname" => $fac_mem['Surname']);

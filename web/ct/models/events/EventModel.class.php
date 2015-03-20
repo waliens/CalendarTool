@@ -160,7 +160,7 @@ use \DateInterval;
 							$arr[$key] = $this->sql->quote($value);	
 					}
 					elseif($this->fields[$key] == "text"){
-						$arr[$key] = htmlEntities($value, ENT_QUOTES);
+						$arr[$key] = htmlspecialchars($value);
 						$arr[$key] = nl2br($arr[$key]);
 						$arr[$key] = $this->sql->quote($arr[$key]);
 					}
@@ -831,7 +831,7 @@ use \DateInterval;
 		}
 		
 		public function isFavorite($eventId, $userId){
-			$ret = $this->sql->execute_query("SELECT Id_Event AS ret FROM favorite_event WHERE Id_Event = ? AND Id_Student  = ? ", array($event_id, $userId));
+			$ret = $this->sql->execute_query("SELECT Id_Event AS ret FROM favorite_event WHERE Id_Event = ? AND Id_Student  = ? ", array($eventId, $userId));
 			return isset($ret[0]['ret']);
 		}
 	/**
