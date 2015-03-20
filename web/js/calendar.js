@@ -32,6 +32,7 @@ var private_event;
 var modal_shown;
 //holds displayed events ids in order not to duplicate them when new data is retrieved after changing the view mode 
 var displayed_events=[];
+var events_source=[]
 
 
 //update the navbar
@@ -52,7 +53,8 @@ function getCurrentView(view){
 
 //add events to the calendar when changing the view
 function addEvents(){
-	//$("#calendar").fullCalendar( 'removeEvents');
+	$(".fc-event-container").remove();
+	$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
 	filters.view=getCurrentView(current_view);
 	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
@@ -61,111 +63,7 @@ function addEvents(){
 	if(filters.dateRange.end!=filters.dateRange.start)
 		filters.dateRange.end=$("#calendar").fullCalendar( 'getView' ).end.subtract(1, 'days').format("YYYY-MM-DD");
 	
-	$('#calendar').fullCalendar('addEventSource', {
-			events:function(start, end, timezone, callback){
 				$.ajax({
-					dataType : "json",
-					type : 'POST',
-					data: filters,
-					url: "index.php?src=ajax&req=102",
-					success : function(data, status) {
-						/** error checking */
-						if(data.error.error_code > 0)
-						{	
-							launch_error_ajax(data.error);
-							return;
-						}
-	
-						var calendar_data=data;
-						var events = [];
-						//retireve all public events first
-						for(var i=0;i<calendar_data.events.public.length;i++){
-							var instance = calendar_data.events.public[i];
-							//chech the event type to accordingly set the event color
-							var color=getEventColor(instance);
-							//strip off the T00:00:00 for date range events
-							var start=instance.start;
-							var end=instance.end;
-							if(instance.timeType=="date_range"){
-								start=instance.start.replace("T00:00:00","");
-								end=instance.end.replace("T00:00:00","");
-								}
-							//if the event is not already displayed we add its id to the list of displayed events and we display it
-								if(true){
-									displayed_events.push(instance.id);
-									events.push({
-										id_server: instance.id,
-										id: guid(),
-										private: false,
-										title: instance.name,
-										start: start,
-										end: end,
-										recursive: instance.recursive,
-										color: color,
-										editable: false
-									});
-								}
-						}
-						//then retrieve private events
-						for(var i=0;i<calendar_data.events.private.length;i++){
-							var instance=calendar_data.events.private[i];
-							//if the event is not already displayed we add its id to the list of displayed events and we display it
-							//if($.inArray(instance.id,displayed_events)==-1){
-								//strip off the T00:00:00 for date range events
-								var start=instance.start;
-								var end=instance.end;
-								if(instance.timeType=="date_range"){
-									start=instance.start.replace("T00:00:00","");
-									end=instance.end.replace("T00:00:00","");
-									}
-								//if the event is not already displayed we add its id to the list of displayed events and we display it
-								if(true){
-									displayed_events.push(instance.id);
-									events.push({
-										id_server: instance.id,
-										id: guid(),
-										private: true,
-										title: instance.name,
-										start: start,
-										end: end,
-										recursive: instance.recursive,
-										color: '#8AC007'
-									});
-								}
-						}
-						callback(events);
-					},
-					error : function(data, status, errors) {
-						launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-					}
-				});
-			}
-		})
-	}
-
-//load calendar on document ready with events of the current month
-$(document).ready(function() {
-	//set moment locale to french
-	moment.locale('fr');
-	var start=moment(filters.dateRange.start);
-	var end=moment(filters.dateRange.end);
-	timezone="local";
-	//initialize the calendar...
-    $('#calendar').fullCalendar({
-		lang: 'fr',
-		nextDayThreshold : "00:00:00",
-		header: {
-		left: 'prev,next today',
-		center: 'title',
-		right: 'month,agendaWeek,agendaDay'
-		},
-		editable: true,
-		eventLimit: true, // allow "more" link when too many events
-		fixedWeekCount: false, //each month only shows the weeks it contains (and not the default 6) 
-		//populate events
-		
-		events:   function(start, end, timezone, callback){
-			$.ajax({
 				dataType : "json",
 				type : 'POST',
 				data: filters,
@@ -193,7 +91,7 @@ $(document).ready(function() {
 							end=instance.end.replace("T00:00:00","");
 							}
 						displayed_events.push(instance.id);
-						events.push({
+						var newEvent={
 							id_server: instance.id,
 							id: guid(),
 							private: false,
@@ -203,7 +101,8 @@ $(document).ready(function() {
 							recursive: instance.recursive,
 							color: color,
 							editable: false
-						});
+						}
+						$('#calendar').fullCalendar( 'renderEvent', newEvent);
 					}
 					//then retrieve private events
 					for(var i=0;i<calendar_data.events.private.length;i++){
@@ -216,7 +115,7 @@ $(document).ready(function() {
 							end=instance.end.replace("T00:00:00","");
 							}
 						displayed_events.push(instance.id);
-						events.push({
+						var newEvent={
 							id_server: instance.id,
 							id: guid(),
 							private: true,
@@ -225,15 +124,36 @@ $(document).ready(function() {
 							end: end,
 							recursive: instance.recursive,
 							color: '#8AC007'
-						});
+						}
+						$('#calendar').fullCalendar( 'renderEvent', newEvent);
 					}
-					callback(events);
-				},
-				error : function(data, status, errors) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-			});
-			},
+					},
+					error : function(xhr, status, error) {
+						launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+					}
+				});
+	}
+
+//load calendar on document ready with events of the current month
+$(document).ready(function() {
+	//set moment locale to french
+	moment.locale('fr');
+	var start=moment(filters.dateRange.start);
+	var end=moment(filters.dateRange.end);
+	timezone="local";
+	//initialize the calendar...
+    $('#calendar').fullCalendar({
+		lang: 'fr',
+		nextDayThreshold : "00:00:00",
+		header: {
+		left: 'prev,next today',
+		center: 'title',
+		right: 'month,agendaWeek,agendaDay'
+		},
+		editable: true,
+		viewRender: function(view,element){addEvents();},
+		eventLimit: true, // allow "more" link when too many events
+		fixedWeekCount: false, //each month only shows the weeks it contains (and not the default 6) 
 			//handle click on event
 		eventClick: function(calEvent, jsEvent, view) {
 			var event_private=calEvent.private;
@@ -338,11 +258,6 @@ $(document).ready(function() {
 		});
 
 	/*--------------------------END SETTING UP POPOVERS-----------------------------*/
-
-	//when clicking on today, next, prev, dayview, monthview, weekview we need to load new events (potentially)
-	$("#calendar").on("click",(".fc-agendaDay-button,.fc-agendaWeek-button,.fc-month-button,.fc-today-button,.fc-icon-right-single-arrow,.fc-icon-left-single-arrow"),function(){
-		addEvents();
-		});
 	
 });
 
@@ -1862,7 +1777,7 @@ function reset_filters(){
 
 	
 function submit_filters(){
-	$("#calendar").fullCalendar( 'removeEvents');
+	//$("#calendar").fullCalendar( 'removeEvents');
 	//displayed_events.length=0;
 	$('#calendar').fullCalendar('addEventSource', {
 			events:function(start, end, timezone, callback){
@@ -1878,7 +1793,7 @@ function submit_filters(){
 						launch_error_ajax(data.error);
 						return;
 					}
-
+					$(".fc-event").remove();
 					calendar_data=data;
 					var events = [];
 					//retrieve all public events first
@@ -1889,15 +1804,10 @@ function submit_filters(){
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
 						if(!$.inArray(instance.id,displayed_events)==-1){
 							events.push({
-								id_server: instance.id,
 								id: guid(),
-								private: false,
 								title: instance.name,
 								start: instance.start,
 								end: instance.end,
-								recursive: instance.recursive,
-								color: color,
-								editable: false
 							});
 							displayed_events.push(instance.id);
 						}
@@ -1908,18 +1818,16 @@ function submit_filters(){
 						//if the event is not already displayed we add its id to the list of displayed events and we display it
 						if(!$.inArray(instance.id,displayed_events)==-1){
 							events.push({
-								id_server: instance.id,
 								id: guid(),
-								private: true,
 								title: instance.name,
 								start: instance.start,
 								end: instance.end,
-								recursive: instance.recursive,
-								color: '#8AC007'
 							});
 							displayed_events.push(instance.id);
 						}
 					}
+					$(".fc-event").remove();
+					
 					callback(events);
 				},
 				error : function(xhr, status, error) {

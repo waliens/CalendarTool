@@ -1,5 +1,15 @@
 // JavaScript Document
 var today = new Date();
+var year = today.getFullYear();
+var month=today.getMonth();
+var day=today.getDay();
+if(month>1&&month<9)
+	year=year-1;
+else if(month==9){
+	if(day<14)
+		year=year-1;
+	}
+	
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#menu_nav").addClass("active");
@@ -16,6 +26,11 @@ var filters = {
 			pathways: {isSet: 'false', id:[]},
 			professors:	{isSet: 'false', id:[]}
           };
+		  
+//set dateRange by default
+filters.dateRange.isSet=true;
+filters.dateRange.endDate=(year+1)+"-09-14";
+filters.dateRange.startDate=year+"-09-15";
  
 $(document).ready(function(){
 	//set moment locale to french
@@ -301,14 +316,14 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 
 
 
-//deals with the filter all_events which must disable all other when pressed and enable all when pressed again
+//deals with the filter all_events which must disable all other (but the date filter) when pressed and enable all when pressed again
 $("#all_events_filter").click(function(){
 	if($(this).prop('checked')){
-		//disable all other checkboxes
+		//disable all other checkboxes but the date filter
 		var checkboxes=$('input');
 		for(var i=0;i<checkboxes.length;i++){
 			var item=checkboxes.get(i);
-				if(item.id!="all_events_filter"){
+				if(item.id!="all_events_filter"&&item.id!="date_filter"){
 					item.disabled = true;
 					item.checked=false;
 				}
@@ -440,8 +455,8 @@ function setFilter(filter){
 	switch(filter){
 		case "date_filter":
 			filters.dateRange.isSet="true";
-			filters.dateRange["startDate"]=$("#startDate").val();
-			filters.dateRange["endDate"]=$("#endDate").val();
+			filters.dateRange["startDate"]=convert_date($("#startDateFilter").val(),"YYYY-MM-DD");
+			filters.dateRange["endDate"]=convert_date($("#endDateFilter").val(),"YYYY-MM-DD");
 			break;
 		case "course_filter":
 			filters.courses.isSet="true";

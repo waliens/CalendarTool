@@ -22,7 +22,6 @@ use \DateTime;
  * @class Event
  * @brief Class for handling the control of event
  */
-
 class ViewEventCalendarController extends AjaxController
 {
 
