@@ -407,8 +407,8 @@ function setFilter(filter){
 	switch(filter){
 		case "date_filter":
 			filters.dataRange.isSet="true";
-			filters.dataRange["startDate"]=$("#startDate").val();
-			filters.dataRange["endDate"]=$("#endDate").val();
+			filters.dataRange["startDate"]=convert_date($("#startDateFilter").val(),"YYYY-MM-DD");
+			filters.dataRange["endDate"]=convert_date($("#endDateFilter").val(),"YYYY-MM-DD");
 			break;
 		case "course_filter":
 			filters.courses.isSet="true";

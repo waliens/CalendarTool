@@ -1,4 +1,3 @@
-<<<<<<< Upstream, based on origin/web_interface
 // JavaScript Document
 
 //update the navbar
@@ -151,7 +150,6 @@ function populate_private_event(event){
 	$("#edit_event_btns").addClass("hidden");
 	}
 
-=======
 // JavaScript Document
 
 //update the navbar
@@ -304,4 +302,3 @@ function populate_private_event(event){
 	$("#edit_event_btns").addClass("hidden");
 	}
 
->>>>>>> c2f7999 few minor changes
