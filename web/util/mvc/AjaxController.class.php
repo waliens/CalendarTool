@@ -47,6 +47,7 @@
 
 		/* 5xx : format errror */
 		const ERROR_FORMAT_INVALID = 500; /**< @brief Generic error of data format */
+		const ERROR_DATE_FORMAT_INVALID = 501; /**< @brief Format error : date not formatted as exptected */
 
 		/**
 		 * @brief Constructs the AjaxController object
@@ -158,6 +159,10 @@
 			$this->error_msgs[self::ERROR_FORMAT_INVALID] 
 				= array("EN" => "Bad format", 
 						"FR" => "Format invalide");
+
+			$this->error_msgs[self::ERROR_DATE_FORMAT_INVALID] 
+				= array("EN" => "Bad format : date not formatted as expected", 
+						"FR" => "Format invalide : mauvais format de date");
 		}
 
 		/**
@@ -171,7 +176,7 @@
 					|| ($error_code >= 200 && $error_code <= 207)
 					|| ($error_code >= 300 && $error_code <= 305)
 					|| ($error_code >= 400 && $error_code <= 403)
-					|| ($error_code >= 500 && $error_code <= 500); 
+					|| ($error_code >= 500 && $error_code <= 501); 
 		}
 
 		/**
