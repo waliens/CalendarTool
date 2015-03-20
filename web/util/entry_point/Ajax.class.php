@@ -130,7 +130,7 @@
                 case "055":
                 	return new DeleteEventController("SUB");
                 case "056":
-                	return new ViewEventCalendarController("SUB")
+                	return new ViewEventCalendarController("SUB");
                 	
                 /* Private Event related */
                 case "061":
