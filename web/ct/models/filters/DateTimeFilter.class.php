@@ -38,8 +38,8 @@
 		{
 			if($mode == null) $mode = ($end == null ? self::MODE_AFTER : self::MODE_BETWEEN);
 
-			$this->start = \ct\date_fr2sql($start);
-			$this->end   = ($end == null) ? null : \ct\date_fr2sql($end);
+			$this->start = \ct\date_fullcalendar2sql($start);
+			$this->end   = ($end == null) ? null : \ct\date_fullcalendar2sql($end);
 
 			// check date formatting
 			if($this->start === false || $this->end === false)

@@ -36,10 +36,13 @@ INSERT INTO `event_category` (`Id_Category`, `Name_FR`, `Color`, `Description_FR
 (15, 'Loisirs', '', 'Loisirs (modélisme, bricolage,...)', 'Leisure', 'Leisure (model-making, DIY,...)'),
 (16, 'Musique', '', 'Musique (concert, répétition,...)', 'Music', 'Music (concert, rehearsal,...)'),
 (17, 'Anniversaire', '', 'Anniversaire', 'Birthday', 'Birthday'),
-(18, 'Autre ', '', 'Événement lié au travail (job d''étudiant,  travail personnel,...)', 'Other', 'Category for the events that cannot be associated with any other category');
+(18, 'Autre', '', 'Catégorie pour les événements ne pouvant être classés dans aucune autre catégorie', 'Other', 'Category for the events that cannot be associated with any other category'),
+(19, 'Examen oral', '', 'Examen oral', 'Oral exam', 'Oral exam'),
+(20, 'Examen écrit', '', 'Examen écrit', 'Written exam', 'Written exam'),
+(21, 'Interrogation', '', 'Interrogation écrite', 'Written test', 'Written test');
 
 INSERT INTO `academic_event_category` (`Id_Category`) VALUES
-(1), (2), (3), (4), (5), (6), (7), (8); 
+(1), (2), (3), (4), (5), (6), (7), (8), (19), (20), (21); 
 
 INSERT INTO `student_event_category` (`Id_Category`, `Id_Student`) VALUES
 (9, NULL), (10, NULL), (11, NULL), (12, NULL), (13, NULL), (14, NULL), (15, NULL), (16, NULL), (17, NULL), (18, NULL);

@@ -5,9 +5,9 @@
 	 * @brief Contains the ICSGenerator class
 	 */
 
-	namespace ct\models;
+	namespace ct;
 
-	use ct\ICSGenerator;
+	use \Smarty;
 	use ct\models\FilterCollectionModel;
 
 	/**
@@ -48,9 +48,10 @@
 			{
 				$ics_event = array();
 				
-				$ics_event['uid'] = $event['Id_Event']."@calendartool.ulg.ac.be";
+				$ics_event['uid'] = $event['Id_Event']."_".$event['Id_Event']."@calendartool.ulg.ac.be";
 				$ics_event['dtstamp'] = self::get_ics_date(date("Y-m-d H:i:s"));
 				$ics_event['dtstart'] = self::get_ics_date($event['Start']);
+				$ics_event['summary'] = self::get_ics_txt($event['Name']);
 
 				if(!empty($event['End']))
 					$ics_event['dtend'] = self::get_ics_date($event['End']);
@@ -85,7 +86,7 @@
 			if(!preg_match("#^([0-9]{4})[/-]([0-9]{2})[/-]([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})$#", $date, $matches))
 				return false;
 
-			return $matches[3].$matches[2].$matches[1]."T".$matches[4].$matches[5].$matches[6];
+			return $matches[1].$matches[2].$matches[3]."T".$matches[4].$matches[5].$matches[6];
 		}
 
 		/**
@@ -99,10 +100,10 @@
 			 * The following char must be escaped : '\', ';', ',' 
 			 * The newline character should be represented as linefeed '\n'
 			 */
-			$rep_map = array("\n?\r" => "\n", 
-							  ";"    => "\\;", 
-							  ","    => "\\,",
-							  "\\"   => "\\\\");
+			$rep_map = array("#\\n?\\r#" => "\n", 
+							  "#;#"    => "\\;", 
+							  "#,#"    => "\\,",
+							  "#\\\\#"   => "\\\\");
 
 			return preg_replace(array_keys($rep_map), array_values($rep_map), $text);
 		}

@@ -18,15 +18,15 @@ INSERT INTO `pathway` (`Id_Pathway`, `Name_Long`, `Name_Short`) VALUES
 ('ABINFO009901', 'Bachelier en sciences informatiques', 'Bac. sc. info.');
 
 INSERT INTO `user` (`Id_User`, `Id_ULg`, `Name`, `Surname`) VALUES
-(1, 's013194', 'Romain', 'Mormont'),
+(1, 's013194', 'Romain', 'Henry'),
 (2, 'u220236', 'Eric', 'Delhez'),
 (3, 's123578', 'Tom', 'Fastrez'),
-(4, 's131400', '', ''),
+(4, 's131400', 'Odile', 'Izem'),
 (5, 'u011975', 'Jacques', 'Verly'),
-(6, 's023178', '', ''),
+(6, 's023178', 'Patrick', 'Gérard'),
 (7, 'u216357', 'Benoît', 'Donnet'),
-(8, 's114310', '', ''),
-(9, 's101052', '', '');
+(8, 's114310', 'Morgane', 'Igliesias'),
+(9, 's101052', 'Pierre', 'Mortier');
 
 INSERT INTO `student` (`Id_Student`, `Mobile_User`) VALUES
 (1, 0), (3, 0), (4, 0), (6, 0), (8, 0), (9, 0);

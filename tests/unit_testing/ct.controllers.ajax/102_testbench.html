@@ -23,11 +23,12 @@
 
 			var request_id = "102", // put request id here
 				json_input = {view:'month', all:'false',
-							  dateRange: {start: "01-03-2015", end: "31-03-2015"},
+							  dateRange: {start: "01-03-2015", end: "31-04-2015"},
 							  courses: {isSet: 'false', id:[]},
 							  eventTypes: {isSet: 'false', id:[]},
+							  categories: {isSet: 'false', id:[]},
 							  pathways: {isSet: 'false', id:[]},
-							  professors:{isSet: 'true', id:[7,8,9]}};
+							  professors:{isSet: 'true', id:[7]}};
 
 			$("#input").text(JSON.stringify(json_input));
 			$("#req").text(request_id);

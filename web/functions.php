@@ -460,3 +460,13 @@
 		foreach($array as &$row)
 			$row[$col] = $callback($array[$col]);
 	}
+
+	/**
+	 * @brief Check whether the given string is either "true" or "false" (aka. bool string)
+	 * @param[in] string $bool The string to check
+	 * @retval bool True if the string is a boolean one, false otherwise
+	 */
+	function is_bool_str($bool)
+	{
+		return $bool === "true" || $bool === "false";
+	}

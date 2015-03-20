@@ -28,7 +28,8 @@
      */
     protected function get_content()
     {
-		return $this->smarty->fetch("student/static_export_body.tpl");
+      $this->smarty->assign("is_student", $this->connection->user_is_student());
+      return $this->smarty->fetch("student/static_export_body.tpl");
     }
 
     /**
@@ -36,16 +37,17 @@
      */
     protected function get_popups()
     {
-		return $this->smarty->fetch("student/static_export_popups.tpl");
+      $this->smarty->assign("is_student", $this->connection->user_is_student());
+      return $this->smarty->fetch("student/static_export_popups.tpl");
     }
 
-	/**
-	 * @copydoc BrowserController::get_footer_inc
-	 */
-	protected function get_footer_inc()
-	{
-		return $this->smarty->fetch("student/static_export_footer_inc.tpl");
-	}
+  	/**
+  	 * @copydoc BrowserController::get_footer_inc
+  	 */
+  	protected function get_footer_inc()
+  	{
+      return $this->smarty->fetch("student/static_export_footer_inc.tpl");
+  	}
 
     /**
      * @copydoc util\mvc\Controller::perform_action

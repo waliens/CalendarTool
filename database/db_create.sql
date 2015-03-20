@@ -408,11 +408,19 @@ CREATE TABLE IF NOT EXISTS `mobile_event_update`
 
 CREATE TABLE IF NOT EXISTS `event_export`
 (
+	`Id_Export` int(11) NOT NULL AUTO_INCREMENT,
 	`Id_User` int(11) NOT NULL,
 	`User_Hash` varchar(255) NOT NULL,
-	PRIMARY KEY(`Id_User`),
+	PRIMARY KEY(`Id_Export`),
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
 	UNIQUE KEY `User_Hash` (`User_Hash`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `dynamic_export`
+(
+	`Id_Export`	int(11) NOT NULL,
+	PRIMARY KEY(`Id_Export`),
+	FOREIGN KEY(`Id_Export`) REFERENCES `event_export`(`Id_Export`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `filter`
@@ -425,11 +433,11 @@ CREATE TABLE IF NOT EXISTS `filter`
 CREATE TABLE IF NOT EXISTS `export_filter`
 (
 	`Id_Filter` int(11) NOT NULL,
-	`Id_User` int(11) NOT NULL,
+	`Id_Export` int(11) NOT NULL,
 	`Value` text NOT NULL,
 	FOREIGN KEY(`Id_Filter`) REFERENCES `filter`(`Id_Filter`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_User`) REFERENCES `event_export`(`Id_User`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Filter`, `Id_User`)
+	FOREIGN KEY(`Id_Export`) REFERENCES `dynamic_export`(`Id_Export`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Filter`, `Id_Export`)
 ) ENGINE=InnoDB;
 
 --
