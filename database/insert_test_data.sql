@@ -141,6 +141,8 @@ INSERT INTO `event` (`Id_Event`, `Name`, `Description`, `Id_Recurrence`, `Place`
 (42, 'Repet Scheme', 'This lesson will be ok', 5, 'R3', 3),
 (43, 'Repet Scheme', 'This lesson will be ok', 5, 'R3', 3);
 
+-- event type data
+
 INSERT INTO `academic_event` (`Id_Event`, `Feedback`, `Workload`, `Practical_Details`) VALUES
 (1, '', 2, 'Bring your laptop'),
 (2, '', 1, 'Bring your courage'),
@@ -153,13 +155,6 @@ INSERT INTO `academic_event` (`Id_Event`, `Feedback`, `Workload`, `Practical_Det
 (41, '', 30, ''),
 (42, '', 30, ''),
 (43, '', 30, '');
-
--- event type data
-
-INSERT INTO `academic_event` (`Id_Event`, `Feedback`, `Workload`, `Practical_Details`) VALUES
-(1, '', 2, 'Bring your laptop'),
-(2, '', 1, 'Bring your courage'),
-(4, '', 35, 'It will be fun');
 
 INSERT INTO `independent_event` (`Id_Event`, `Id_Owner`, `Public`) VALUES
 (2, 7, 1);
