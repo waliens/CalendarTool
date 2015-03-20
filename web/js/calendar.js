@@ -555,7 +555,7 @@ function convert_month(month){
 		case "mars":
 			return "03";
 			break;
-		case "avri":
+		case "avr.":
 			return "04";
 			break;
 		case "mai":
@@ -573,13 +573,13 @@ function convert_month(month){
 		case "sept.":
 			return "09";
 			break;
-		case "octo.":
+		case "oct.":
 			return "10";
 			break;
-		case "nove.":
+		case "nov.":
 			return "11";
 			break;
-		case "dece.":
+		case "déc.":
 			return "12";
 			break;
 		
@@ -1065,15 +1065,12 @@ function create_private_event(){
 					break;
 			}
 		}
-		else{
-			if(startHourSet)
-				start=start.format("YYYY-MM-DDTHH:mm:ss");
-			else start=start.format("YYYY-MM-DD");
-			if(endHourSet)
-				end=end.format("YYYY-MM-DDTHH:mm:ss");
-			else end=end.format("YYYY-MM-DD");
-		
-		}
+		if(startHourSet)
+			start=start.format("YYYY-MM-DDTHH:mm:ss");
+		else start=start.format("YYYY-MM-DD");
+		if(endHourSet)
+			end=end.format("YYYY-MM-DDTHH:mm:ss");
+		else end=end.format("YYYY-MM-DD");
 		//send data to server event with no recursion
 		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":"", "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
