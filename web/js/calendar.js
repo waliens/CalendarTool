@@ -1749,7 +1749,7 @@ function unSetFilter(filter){
 			filters.all="false";
 			break;
 		case "date_filter":
-			filters.dataRange.isSet="false";
+			filters.dateRange.isSet="false";
 		break;
 		case "course_filter":
 			filters.courses.isSet="false";

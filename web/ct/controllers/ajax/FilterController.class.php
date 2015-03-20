@@ -27,7 +27,7 @@
 	 *  dateRange: {start: datetime, end: datetime},
 	 *  courses: {isSet: 'false', id:[]},
 	 *  eventTypes: {isSet: 'false', id:[]},
-	 *  categories:{isSer:'false', id:[]},
+	 *  eventCategories:{isSet:'false', id:[]},
 	 *  pathways: {isSet: 'false', id:[]},
 	 *  professors:{isSet: 'false', id:[]}} 
 	 */
@@ -49,9 +49,18 @@
 			$this->access_filter = null;
 
 			// check params :
-			$keys = array("all", "dateRange", "courses", "eventTypes", "categories", "pathways", "professors");
+			$keys = array("allEvent", "dateRange", "courses", "eventTypes", "eventCategories", "pathways", "professors");
 
 			if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
+			{
+				$this->set_error_predefined(AjaxController::ERROR_MISSING_INPUT_DATA);
+				return;
+			}
+
+			// check structure of allEvent 
+			$all_event = $this->sg_post->value("allEvent");
+
+			if(!isset($all_event['isSet']) || !\ct\is_bool_str($all_event['isSet']))
 			{
 				$this->set_error_predefined(AjaxController::ERROR_MISSING_INPUT_DATA);
 				return;
@@ -69,10 +78,10 @@
 				return;
 
 			// set the filters if necessary
-			if($this->sg_post->value("all") !== "true") 
+			if($all_event['isSet'] !== "true") 
 			{
 				// filters keys
-				$filter_keys = array("courses", "eventTypes", "categories", "pathways", "professors");
+				$filter_keys = array("courses", "eventTypes", "eventCategories", "pathways", "professors");
 
 				// extract filters
 				foreach($filter_keys as $key)
@@ -103,6 +112,7 @@
 			}
 			catch(\Exception $e)
 			{
+				$this->set_error_predefined(AjaxController::ERROR_DATE_FORMAT);
 				return false;
 			}
 
@@ -139,7 +149,7 @@
 			   	case "eventTypes": 
 			   		$filter = new EventTypeFilter($ids);
 			   		break;
-			   	case "categories":
+			   	case "eventCategories":
 			   		$filter = new EventCategoryFilter($ids);
 			   		break; 
 			    case "pathways": 

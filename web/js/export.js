@@ -9,10 +9,10 @@ var endDate;
 //filters for export
 var filters = {
           	allEvents: {isSet: 'false'},
-			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
+			dateRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
-			categories: {isSet: 'false', id:[]},
+			eventCategories: {isSet: 'false', id:[]},
 			pathways: {isSet: 'false', id:[]},
 			professors:	{isSet: 'false', id:[]}
           };
@@ -439,9 +439,9 @@ function addProfessor(professor){
 function setFilter(filter){
 	switch(filter){
 		case "date_filter":
-			filters.dataRange.isSet="true";
-			filters.dataRange["startDate"]=$("#startDate").val();
-			filters.dataRange["endDate"]=$("#endDate").val();
+			filters.dateRange.isSet="true";
+			filters.dateRange["startDate"]=$("#startDate").val();
+			filters.dateRange["endDate"]=$("#endDate").val();
 			break;
 		case "course_filter":
 			filters.courses.isSet="true";
@@ -458,10 +458,10 @@ function setFilter(filter){
 				});
 			break;
 		case "event_category_filter":
-			filters.categories.isSet="true";
+			filters.eventCategories.isSet="true";
 			var selectedCategories=$("#filter_alert input:checked");
 			selectedCategories.each(function (){
-				filters.categories.id.push(this.id);
+				filters.eventCategories.id.push(this.id);
 				});
 			break;
 		case "pathway_filter":
@@ -486,7 +486,7 @@ function unSetFilter(filter){
 	$("#filters #"+filter).attr("checked",false);
 	switch(filter){
 		case "date_filter":
-			filters.dataRange.isSet="false";
+			filters.dateRange.isSet="false";
 		break;
 		case "course_filter":
 			filters.courses.isSet="false";
@@ -499,9 +499,9 @@ function unSetFilter(filter){
 			filters.eventTypes.id.length=0;
 		break;
 		case "event_category_filter":
-			filters.categories.isSet="false";
+			filters.eventCategories.isSet="false";
 			//empty the array of ids'
-			filters.categories.id.length=0;
+			filters.eventCategories.id.length=0;
 		break;
 		case "pathway_filter":
 			filters.pathways.isSet="false";
