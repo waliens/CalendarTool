@@ -18,8 +18,8 @@ var startDate;
 var endDate;
 //filters for export
 var filters = {
-          	allEvents: {isSet: 'false'},
-			dateRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
+          	allEvent: {isSet: 'false'},
+			dateRange: {start: 'null', end: 'null'},
 			courses: {isSet: 'false', id:[]},
 			eventTypes: {isSet: 'false', id:[]},
 			eventCategories: {isSet: 'false', id:[]},
@@ -28,9 +28,8 @@ var filters = {
           };
 		  
 //set dateRange by default
-filters.dateRange.isSet=true;
-filters.dateRange.endDate=(year+1)+"-09-14";
-filters.dateRange.startDate=year+"-09-15";
+filters.dateRange.end=(year+1)+"-09-14";
+filters.dateRange.start=year+"-09-15";
  
 $(document).ready(function(){
 	//set moment locale to french
@@ -329,11 +328,11 @@ $("#all_events_filter").click(function(){
 				}
 		}
 		//save filter info in the filter object
-		filters.allEvents["isSet"]="true";
+		filters.allEvent["isSet"]="true";
 	}
 	else{
 		$('input').removeAttr("disabled");
-		filters.allEvents["isSet"]="false";
+		filters.allEvent["isSet"]="false";
 		}
 	})
 
@@ -454,9 +453,8 @@ function addProfessor(professor){
 function setFilter(filter){
 	switch(filter){
 		case "date_filter":
-			filters.dateRange.isSet="true";
-			filters.dateRange["startDate"]=convert_date($("#startDateFilter").val(),"YYYY-MM-DD");
-			filters.dateRange["endDate"]=convert_date($("#endDateFilter").val(),"YYYY-MM-DD");
+			filters.dateRange["start"]=convert_date($("#startDateFilter").val(),"YYYY-MM-DD");
+			filters.dateRange["end"]=convert_date($("#endDateFilter").val(),"YYYY-MM-DD");
 			break;
 		case "course_filter":
 			filters.courses.isSet="true";
@@ -501,7 +499,8 @@ function unSetFilter(filter){
 	$("#filters #"+filter).attr("checked",false);
 	switch(filter){
 		case "date_filter":
-			filters.dateRange.isSet="false";
+			filters.dateRange.end=(year+1)+"-09-14";
+			filters.dateRange.start=year+"-09-15";
 		break;
 		case "course_filter":
 			filters.courses.isSet="false";
@@ -572,8 +571,8 @@ $("#static_export").click(function(){
 					return;
 				}
 
-				$("#dynamic_export_download_alert").modal("show");
-				$("#dynamic_export_file").attr("href",data.url);
+				$("#static_export_download_alert").modal("show");
+				$("#static_export_file").attr("href",data.url);
 			},
 			error : function(data, status, errors) {
 				launch_error("Impossible de joindre le serveur (resp: '" + data.responseText + "')");
