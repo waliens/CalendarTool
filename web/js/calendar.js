@@ -615,6 +615,7 @@ function convert_date(date,formatDestination,formatOrigin){
 //sets the event recurrence
 function updateRecurrence(){
 	$("#recurrence").text(event.target.innerHTML);
+	$("#recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
 	if(event.target.innerHTML!="jamais"){
 		$("#recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
@@ -644,8 +645,10 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 	$("#private_event_endHour").parent().parent().removeClass("hidden");
 	$("#private_event_endHour").removeClass("hidden");
 	$("#recurrence").text("jamais");
+	$("#recurrence").attr("recurrence-id",6);
 	$("#recurrence_end_td").addClass("hidden");
 	$("#private_event_type").text("Travail");
+	$("private_event_type").attr("category-id",11);
 	$("#private_event_place").val("");
 	$("#private_event_place").parent().parent().removeClass("hidden");
 	$("#private_event_details").val("");

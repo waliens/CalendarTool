@@ -106,16 +106,16 @@
               <div class="float-left-10padright">
                 <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="recurrence_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="recurrence">jamais</span>
+                    <span id="recurrence" recurrence-id="6">jamais</span>
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">jamais</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les jours</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les semaines</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les deux semaines</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les mois</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les ans</a></li>
+                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="6">jamais</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="1">tous les jours</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="2">toutes les semaines</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="3">toutes les deux semaines</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="4">tous les mois</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="5">tous les ans</a></li>
                   </ul>
                 </div>
                 </div>
