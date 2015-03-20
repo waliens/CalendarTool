@@ -535,7 +535,7 @@ $("#static_export").click(function(){
 				$("#dynamic_export_download_alert").modal("show");
 				$("#dynamic_export_file").attr("href",data.url);
 			},
-			error : function(xhr, status, error) {
+			error : function(xhr, status, error) { 
 					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 		});
