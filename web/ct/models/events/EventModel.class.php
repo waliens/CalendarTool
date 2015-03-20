@@ -834,12 +834,14 @@ use \DateInterval;
 			$ret = $this->sql->execute_query("SELECT Id_Event AS ret FROM favorite_event WHERE Id_Event = ? AND Id_Student  = ? ", array($eventId, $userId));
 			return isset($ret[0]['ret']);
 		}
-	/**
-	 * @brief return the start recurrent of a recurrent event
-	 * @param int $recurrenceId
-	 * @retval false if error start of recurrence if ok
-	 */
-		public function getStartRecurrence($recurrenceId){
+
+		/**
+		 * @brief return the start recurrent of a recurrent event
+		 * @param int $recurrenceId
+		 * @retval bool|string false if error start of recurrence if ok
+		 */
+		public function getStartRecurrence($recurrenceId)
+		{
 		
 			$rId = $this->sql->quote($recurrenceId);
 			$query = "SELECT Start FROM event 
@@ -851,7 +853,9 @@ use \DateInterval;
 					 	SELECT `Limit` AS Start FROM deadline_event 
 					 ) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY Start ASC LIMIT 0,1";
 
-			return $this->sql->execute_query($query)[0];
+			$start_data = $this->sql->execute_query($query);
+
+			return empty($start_data) ? false : $start_data[0];
 		}
 
 		/**
@@ -871,8 +875,10 @@ use \DateInterval;
 			UNION ALL
 			SELECT `Limit` AS End FROM deadline_event
 			) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY End DESC LIMIT 0,1";
-		
-			return $this->sql->execute_query($query)[0];
+			
+			$end_data = $this->sql->execute_query($query);
+
+			return empty($end_data) ? false : $end_data[0];
 		}
 		
 	}
