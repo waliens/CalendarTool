@@ -102,6 +102,7 @@ class ViewEventController extends AjaxController
 			else
 				$eng = false;
 			
+			
 			if($eng)
  				$ret['category_name'] = $data['Categ_Name_EN'];
 			else
@@ -129,8 +130,8 @@ class ViewEventController extends AjaxController
 			}
 			
 			if($data['Id_Recurrence'] != intval(1)){
-				$ret["start_recurrence"] = $model->getStartRecurrence($ret['recurrence']);
-				$ret["end_recurrence"] = $model->getEndRecurrence($ret['recurrence']);
+				$ret["start_recurrence"] = $model->getStartRecurrence($data['Id_Recurrence']);
+				$ret["end_recurrence"] = $model->getEndRecurrence($data['Id_Recurrence']);
 			}
 			else {
 				$ret["start_recurrence"] = "";
