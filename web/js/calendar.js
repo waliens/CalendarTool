@@ -53,6 +53,8 @@ function getCurrentView(view){
 
 //add events to the calendar when changing the view
 function addEvents(){
+	$(".fc-event-container").remove();
+	$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
 	filters.view=getCurrentView(current_view);
 	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
