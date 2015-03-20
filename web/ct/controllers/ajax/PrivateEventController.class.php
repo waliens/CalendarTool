@@ -63,7 +63,7 @@ class PrivateEventController extends AjaxController
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 1  
+		if($this->sg_post->value('recurrence') != 6  
 			&& $this->sg_post->check("end-recurrence"))
 		{
 

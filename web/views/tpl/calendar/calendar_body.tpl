@@ -40,7 +40,7 @@
               </tr>
             </table>
             <div class="text-center">
-              <button type="button" class="btn btn-primary" onclick="submit_filters()" disabled="true" id="submit_filters">Ok</button>
+              <button type="button" class="btn btn-primary" onclick="addEvents()" disabled="true" id="submit_filters">Ok</button>
               <button type="button" class="btn btn-default" onclick="reset_filters()">Reset</button>
             </div>
           </div>

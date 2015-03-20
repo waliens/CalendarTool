@@ -13,6 +13,7 @@ use ct\models\events\IndependentEventModel;
 
 use ct\models\events\GlobalEventModel;
 use ct\models\events\SubEventModel;
+use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use \DateTime;

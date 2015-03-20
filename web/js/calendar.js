@@ -7,6 +7,7 @@ var filters={view:"month" ,
 			 eventTypes: {isSet: 'false', id:[]},
 			 pathways: {isSet: 'false', id:[]},
 			 professors:{isSet: 'false', id:[]}};
+
 var today = new Date();
 var day = today.getDate();
 var month = today.getMonth()+1; //January is 0!
@@ -156,7 +157,17 @@ $(document).ready(function() {
 		left: 'prev,next today',
 		center: 'title',
 		right: 'month,agendaWeek,agendaDay'
+		//right: 'agendaSixMonth,month,agendaWeek,agendaDay'
 		},
+		/*views: {
+			agendaSixMonth: {
+				type: 'agenda',
+				duration: { months: 6 },
+				buttonText: 'Semestre',
+				start: moment("2014-09-15"),
+				end: moment("2015-09-14")
+			}
+		},*/
 		editable: true,
 		viewRender: function(view,element){addEvents();},
 		eventLimit: true, // allow "more" link when too many events
@@ -303,7 +314,7 @@ function delete_note() {
 				}
 				// TODO
 			},
-			error : function(data, status, errors) {
+			error : function(xhr, status, error) {
 				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 			}
 		});
@@ -353,7 +364,7 @@ function save_note(){
 					}
 					//TODO
 				},
-				error : function(data, status, errors) {
+				error : function(xhr, status, error) {
 					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 			});
@@ -374,7 +385,7 @@ function save_note(){
 					}
 					//TODO
 				},
-				error : function(data, status, errors) {
+				error : function(xhr, status, error) {
 					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
 			});
@@ -702,7 +713,7 @@ function populate_private_event(event){
 				
 				}
 		},
-		error : function(data, status, errors) {
+		error : function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
@@ -766,7 +777,7 @@ function populate_public_event(event){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "index.php?src=ajax&req=051&event="+event_id,
+		url : "index.php?src=ajax&req=056&event="+event_id,
 		async : true,
 		success : function(data, status) {
 			/** error checking */
@@ -785,7 +796,7 @@ function populate_public_event(event){
 			$("#event_category").attr("category-id",data.category_id);
 			$("#notes_body").text(data.annotation);
 		},
-		error : function(data, status, errors) {
+		error : function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
@@ -885,7 +896,7 @@ function create_private_event(){
 									} 
 								)
 							},
-							error : function(data, status, errors) {
+							error : function(xhr, status, error) {
 								launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 							}
 						});
@@ -1151,7 +1162,7 @@ function delete_private_event(){
 			//hide the modal
 			$("#private_event").modal("hide");
 		},
-		error : function(data, status, errors) {
+		error : function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
@@ -1247,7 +1258,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							for (var i = 0; i < courses.length; i++)
 								addCourse(courses[i]);
 						},
-						error : function(data, status, errors) {
+						error : function(xhr, status, error) {
 							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
@@ -1343,7 +1354,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								cell1.appendChild(acad_category_tag);
 								var input=document.createElement('input');
 								input.type='checkbox';
-								input.id=academic_categories[i].name;
+								input.id=academic_categories[i].id;
 								cell2.className="text-center";
 								cell2.appendChild(input);
 								if(student_categories[i]!=null){
@@ -1371,7 +1382,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								cell3.appendChild(student_category_tag);
 								var input=document.createElement('input');
 								input.type='checkbox';
-								input.id=student_categories[i].name;
+								input.id=student_categories[i].id;
 								cell4.className="text-center";
 								cell4.appendChild(input);
 							}
@@ -1415,7 +1426,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							for (var i = 0; i < pathways.length; i++)
 								addPathway(pathways[i]);
 						},
-						error : function(data, status, errors) {
+						error : function(xhr, status, error) {
 							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
@@ -1454,7 +1465,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							for (var i = 0; i < professors.length; i++)
 								addProfessor(professors[i]);
 						},
-						error : function(data, status, errors) {
+						error : function(xhr, status, error) {
 							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
@@ -1495,25 +1506,6 @@ function buildDatepickerFilter() {
 		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
 		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
 	});
-	/*startDate = new dhtmlXCalendarObject("startDateFilter");
-	endDate = new dhtmlXCalendarObject("endDateFilter");
-	startDate.setDateFormat("%Y-%m-%d");
-	endDate.setDateFormat("%Y-%m-%d");
-	startDate.setDate(td.format("YYYY-MM-DD"));
-	byId("startDateFilter").value = td.format("dddd DD MM YYYY");
-	endDate.setDate(td.add(1,"day").format("YYYY-MM-DD"));
-	byId("endDateFilter").value = td.format("dddd DD MM YYYY");
-	startDate.hideTime();
-	endDate.hideTime();	
-	startDate.setSensitiveRange(null,convert_date($("#endDateFilter").val(),"YYYY-MM-DD"));
-	endDate.setSensitiveRange(convert_date($("#startDateFilter").val(),"YYYY-MM-DD"),null);
-	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
-	startDate.attachEvent("onClick", function(date){
-		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
-	});
-	endDate.attachEvent("onClick", function(date){
-		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
-	});*/
 }
 
 function setSensFilter(id, k) {
@@ -1611,7 +1603,8 @@ function setFilter(filter){
 					}
 			}
 			//save filter info in the filter object
-			filters.allEvent="true";
+
+			filters.allEvent.isSet="true";
 			break;
 		
 		case "date_filter":
@@ -1668,7 +1661,7 @@ function unSetFilter(filter){
 	switch(filter){
 		case "all_events_filter":
 			$('input').removeAttr("disabled");
-			filters.allEvent="false";
+			filters.allEvent.isSet="false";
 			break;
 		case "date_filter":
 			filters.dateRange.isSet="false";
@@ -1752,7 +1745,7 @@ $("#static_export").click(function(){
 				$("#dynamic_export_download_alert").modal("show");
 				$("#dynamic_export_file").attr("href",data.url);
 			},
-			error : function(data, status, errors) {
+			error : function(xhr, status, error) {
 				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 			}
 		});
@@ -1778,73 +1771,8 @@ $("#filter_alert").on('hidden.bs.modal', function (e) {
 function reset_filters(){
 	//the reset is equivalent to select only the all events filter
 	setFilter("all_events_filter");
-	
-	submit_filters();
-	}
-
-	
-function submit_filters(){
-	//$("#calendar").fullCalendar( 'removeEvents');
-	//displayed_events.length=0;
-	$('#calendar').fullCalendar('addEventSource', {
-			events:function(start, end, timezone, callback){
-			$.ajax({
-				dataType : "json",
-				type : 'POST',
-				data: filters,
-				url: "index.php?src=ajax&req=102",
-				success : function(data, status) {
-					/** error checking */
-					if(data.error.error_code > 0)
-					{	
-						launch_error_ajax(data.error);
-						return;
-					}
-					$(".fc-event").remove();
-					calendar_data=data;
-					var events = [];
-					//retrieve all public events first
-					for(var i=0;i<calendar_data.events.public.length;i++){
-						var instance = calendar_data.events.public[i];
-						//chech the event type to accordingly set the event color
-						var color=getEventColor(instance);
-						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						if(!$.inArray(instance.id,displayed_events)==-1){
-							events.push({
-								id: guid(),
-								title: instance.name,
-								start: instance.start,
-								end: instance.end,
-							});
-							displayed_events.push(instance.id);
-						}
-					}
-					//then retrieve private events
-					for(var i=0;i<calendar_data.events.private.length;i++){
-						var instance=calendar_data.events.private[i];
-						//if the event is not already displayed we add its id to the list of displayed events and we display it
-						if(!$.inArray(instance.id,displayed_events)==-1){
-							events.push({
-								id: guid(),
-								title: instance.name,
-								start: instance.start,
-								end: instance.end,
-							});
-							displayed_events.push(instance.id);
-						}
-					}
-					$(".fc-event").remove();
-					
-					callback(events);
-				},
-				error : function(xhr, status, error) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-			});
-			}
-			} 
-		)
-
+	//update displayed events based on the selected filters
+	addEvents();
 	}
 	
 //translates recursion id

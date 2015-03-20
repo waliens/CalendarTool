@@ -320,6 +320,9 @@ $("#subevent_info").on("show.bs.modal",function(){
 			var subevent_title=data.name;
 			var subevent_description=data.description;
 			var subevent_place=data.place;
+			if(subevent_place==null)
+				$("#subevent-place").parent().hide();
+			else $("#subevent-place").parent().show();
 			var subevent_type=data.type;
 			var subevent_start=moment(data.startDay);
 			if(data.startTime!=""){
@@ -331,7 +334,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 			else $("#subevent_startDate").text(subevent_start.format("dddd, MMMM Do YYYY"));
 			var subevent_end;
 			if(data.endDay!=""){
-				$("#subevent_endDate").parent().removeClass("hidden");
+				$("#subevent_endDate").parent().parent().removeClass("hidden");
 				$("#subevent_startDate").prev().removeClass("hidden");
 				subevent_end=moment(data.endDay);
 				if(data.endTime!=""){
@@ -343,7 +346,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 				else $("#subevent_endDate").text(subevent_end.format("dddd, MMMM Do YYYY"));
 			}
 			else {
-				$("#subevent_endDate").parent().addClass("hidden");
+				$("#subevent_endDate").parent().parent().addClass("hidden");
 				$("#subevent_startDate").prev().addClass("hidden");
 			}
 			var deadline=data.deadline;
@@ -353,7 +356,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 			$("#recurrence").text(recurrence);
 
 			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
-			if(recurrence=="1"){
+			if(recurrence=="jamais"){
 				$("#start-recurrence").parent().addClass("hidden");
 				$("#end-recurrence").parent().addClass("hidden");
 			}
@@ -880,6 +883,48 @@ function convert_date(date,formatDestination,formatOrigin){
 		date_standard=yy+"-"+mm+"-"+dd;
 		var d = moment(date_standard);
 		return d.format(formatDestination);
+	}
+	
+function convert_month(month){
+	switch(month){
+		case "janv.":
+			return "01";
+			break;
+		case "févr.":
+			return "02";
+			break;
+		case "mars":
+			return "03";
+			break;
+		case "avr.":
+			return "04";
+			break;
+		case "mai":
+			return "05";
+			break;
+		case "juin":
+			return "06";
+			break;
+		case "juil.":
+			return "07";
+			break;
+		case "août":
+			return "08";
+			break;
+		case "sept.":
+			return "09";
+			break;
+		case "octo.":
+			return "10";
+			break;
+		case "nove.":
+			return "11";
+			break;
+		case "dece.":
+			return "12";
+			break;
+		
+		}
 	}
 	
 //defines valid interval of dates for the date picker
