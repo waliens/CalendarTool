@@ -82,7 +82,7 @@ function addEvents(){
 					for(var i=0;i<calendar_data.events.public.length;i++){
 						var instance = calendar_data.events.public[i];
 						//chech the event type to accordingly set the event color
-						var color=getEventColor(instance);
+						var color=instance.color;
 						//strip off the T00:00:00 for date range events
 						var start=instance.start;
 						var end=instance.end;
@@ -110,6 +110,7 @@ function addEvents(){
 						//strip off the T00:00:00 for date range events
 						var start=instance.start;
 						var end=instance.end;
+						var color=instance.color
 						if(instance.timeType=="date_range"){
 							start=instance.start.replace("T00:00:00","");
 							end=instance.end.replace("T00:00:00","");
@@ -123,7 +124,7 @@ function addEvents(){
 							start: start,
 							end: end,
 							recursive: instance.recursive,
-							color: '#8AC007'
+							color: color
 						}
 						$('#calendar').fullCalendar( 'renderEvent', newEvent);
 					}
@@ -270,16 +271,6 @@ $(document).ready(function() {
 	/*--------------------------END SETTING UP POPOVERS-----------------------------*/
 	
 });
-
-//define the color of the event in the calendar based on the event type
-function getEventColor(event){
-	if(event.type=="deadline")
-		return "#FF0000" //RED
-	else if(event.type=="class")
-		return "#2400FF" //BLUE
-	else if(event.type=="exam")
-		return "#FFAE00" //ORANGE
-	}
 
 /*--------------------------------------------------------------------------*/
 /*--------------------------- MANAGE NOTE ----------------------------------*/
@@ -800,7 +791,9 @@ function create_private_event(){
 	var type=$("#private_event_type").text();
 	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
 	var startHour=$("#private_event_startHour").val();
+	var startHourSet=false;
 	if(startHour!=""){
+		startHourSet=true;
 		//divide minutes from hours
 		startHour=startHour.split(":");
 		start.minute(startHour[1]);
@@ -808,7 +801,9 @@ function create_private_event(){
 	}
 	var end=moment(convert_date($("#private_event_endDate_datepicker").val(), "YYYY-MM-DD"));
 	var endHour=$("#private_event_endHour").val();
+	var endHourSet=false;
 	if(endHour!=""){
+		endHourSet=true;
 		//divide minutes from hours
 		endHour=endHour.split(":");
 		end.minute(endHour[1]);
@@ -872,7 +867,7 @@ function create_private_event(){
 
 								$('#calendar').fullCalendar('addEventSource', {
 									events:[{
-										id_server: id,
+										id_server: id[0],
 										id: id_event,
 										private: true,
 										title: title,
@@ -1059,8 +1054,14 @@ function create_private_event(){
 			}
 		}
 		else{
+			if(startHourSet)
+				start=start.format("YYYY-MM-DDTHH:mm:ss");
+			else start=start.format("YYYY-MM-DD");
+			if(endHourSet)
+				end=end.format("YYYY-MM-DDTHH:mm:ss");
+			else end=end.format("YYYY-MM-DD");
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":start.format("YYYY-MM-DD"), "end":end.format("YYYY-MM-DD"), "limit":limit, "recurrence":recurrence_id, "end-recurrence":"", "place":place, "details":details, "note":notes, "type":3}
+		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":"", "place":place, "details":details, "note":notes, "type":3}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
