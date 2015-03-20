@@ -9,7 +9,7 @@
     
     use ct\controllers\ajax\ViewEventCalendarController;
 
-				use ct\controllers\ajax\EditAcademicEventController;
+	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
     use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
@@ -130,7 +130,7 @@
                 case "055":
                 	return new DeleteEventController("SUB");
                 case "056":
-                	return new ViewEventCalendarController("SUB")
+                	return new ViewEventCalendarController("SUB");
                 	
                 /* Private Event related */
                 case "061":
