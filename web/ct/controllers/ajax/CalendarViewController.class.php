@@ -51,8 +51,8 @@
 			foreach ($events as &$event) 
 			{
 				$f_event = $this->format_event_data($event);
-
-				if($event['EventType'] === "student")
+				
+				if($event['EventType'] === "student_event")
 					$private[] = $f_event;
 				else
 					$public[] = $f_event;
