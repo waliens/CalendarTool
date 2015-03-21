@@ -79,7 +79,7 @@ INSERT INTO `global_event` (`Id_Global_Event`, `ULg_Identifier`, `Name_Short`, `
 (2, 'INFO2047-1', 'Introduction à la programmation', 'Introduction à la programmation, 12h Th, 12h Pr, DONNET Benoît, FONTENEAU Raphaël', 7, 'Q1', '', '', 12, 12, 0, 0, 'FR', 2014),
 (3, 'DROI0724-1', 'Droit et activités de l''ingénieur', 'Droit et activités de l''ingénieur, 30h Th, BIQUET Christine, CLESSE Jacques, LECOCQ Pascale, VANBRABANT Bernard, Suppl: CHICHOYAN Daisy, GOL Déborah, VERCHEVAL Cécile', 11, 'Q1', 'Un cours super amusant et présentiel', '', 30, 0, 0, 0, 'FR', 2014),
 (4, 'MATH0495-1', 'Eléments du calcul des probabilités ', 'Eléments du calcul des probabilités , 15h Th, 15h Pr, 5h Proj., GRIBOMONT Pascal', 13, 'Q1', '50% de réussite', '', 15, 15, 5, 0, 'FR', 2014),
-(5, 'INFO0054-1', 'Programmation fonctionnelle', 'Programmation fonctionnelle, 30h Th, 25h Pr, 15h Proj., GRIBOMONT Pascal', 13, 'Q2', 'Now in english', '', 30, 25, 15, 0, 'EN', 2014);
+(5, 'INFO0054-1', 'Programmation fonctionnelle', 'Programmation fonctionnelle, 30h Th, 25h Pr, 15h Proj., GRIBOMONT Pascal', 13, 'Q2', 'Now in english', '', 30, 25, 15, 0, 'FR', 2014);
 
 INSERT INTO `global_event_pathway` (`Id_Global_Event`, `Id_Pathway`) VALUES
 (2, 'ABICIV000201'),
