@@ -77,7 +77,7 @@
 
 			// get the subevents
 			$filter_collection = new FilterCollectionModel();
-			$event_type = new EventTypeFilter(EventTypeFilter::TYPE_SUB_EVENT);
+			$event_type = new EventTypeFilter(EventTypeFilter::TYPE_SUB_EVENT_RECUR);
 			$glob_filter = new GlobalEventFilter(array($id_data['id']));
 			$filter_collection->add_filter($glob_filter);
 			$filter_collection->add_filter($event_type);

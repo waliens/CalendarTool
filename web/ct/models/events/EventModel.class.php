@@ -846,16 +846,15 @@ use \DateInterval;
 			$rId = $this->sql->quote($recurrenceId);
 			$query = "SELECT Start FROM event 
 						 NATURAL JOIN ( 
-					 	SELECT  Start  FROM time_range_event 
+					 	SELECT  Id_Event, Start  FROM time_range_event 
 					 	UNION ALL
-					 	SELECT  DATE(Start) AS Start FROM date_range_event 
+					 	SELECT  Id_Event, DATE(Start) AS Start FROM date_range_event 
 					 	UNION ALL 
-					 	SELECT `Limit` AS Start FROM deadline_event 
+					 	SELECT Id_Event, `Limit` AS Start FROM deadline_event 
 					 ) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY Start ASC LIMIT 0,1";
 
 			$start_data = $this->sql->execute_query($query);
-
-			return empty($start_data) ? false : $start_data[0];
+			return empty($start_data) ? false : $start_data[0]['Start'];
 		}
 
 		/**
@@ -867,18 +866,18 @@ use \DateInterval;
 
 				
 			$rId = $this->sql->quote($recurrenceId);
-			$query = "SELECT End FROM event
-			NATURAL JOIN (
-			SELECT  End  FROM time_range_event
-			UNION ALL
-			SELECT  DATE(End) AS End FROM date_range_event
-			UNION ALL
-			SELECT `Limit` AS End FROM deadline_event
-			) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY End DESC LIMIT 0,1";
+			$query = "SELECT End FROM event 
+						 NATURAL JOIN ( 
+					 	SELECT Id_Event, End  FROM time_range_event 
+					 	UNION ALL
+					 	SELECT Id_Event, DATE(End) AS End FROM date_range_event 
+					 	UNION ALL 
+					 	SELECT Id_Event, `Limit` AS End FROM deadline_event 
+					 ) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY End DESC LIMIT 0,1";
 			
-			$end_data = $this->sql->execute_query($query);
-
-			return empty($end_data) ? false : $end_data[0];
+			$end_data = $this->sql->execute_query($query, array($rId));
+			
+			return empty($end_data) ? false : $end_data[0]['End'];
 		}
 		
 	}
