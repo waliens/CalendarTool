@@ -1,14 +1,8 @@
 // JavaScript Document
 var today = new Date();
 var year = today.getFullYear();
-var month=today.getMonth();
+var month=today.getMonth()+1; //January is 0
 var day=today.getDay();
-if(month>1&&month<9)
-	year=year-1;
-else if(month==9){
-	if(day<14)
-		year=year-1;
-	}
 	
 //update the navbar
 $("#navbar li").removeClass("active");
@@ -27,9 +21,26 @@ var filters = {
 			professors:	{isSet: 'false', id:[]}
           };
 		  
-//set dateRange by default
-filters.dateRange.end=(year+1)+"-09-14";
-filters.dateRange.start=year+"-09-15";
+//set dateRange by default to current semester
+if(month==1){//we are in January so we want to retrieve first semester
+	filters.dateRange.start=(year-1)+"-09-15";
+	filters.dateRange.end=year+"-01-31";
+}
+else if(month>1&&month<=9){
+	if(month==9&day>15){
+		filters.dateRange.start=year+"-09-15";
+		filters.dateRange.end=(year+1)+"-01-31";
+		}
+		
+	else {//we are in period between January and September 14 so we want to retrieve the second semester
+		filters.dateRange.start=year+"-02-01";
+		filters.dateRange.end=year+"-09-14";
+		}
+	}
+else {//we are in the period between 15 Sep and 31 Dec so we want to retrieve the first semester
+	filters.dateRange.start=year+"-09-15";
+	filters.dateRange.end=(year+1)+"-01-31";
+	}
  
 $(document).ready(function(){
 	//set moment locale to french

@@ -1,21 +1,47 @@
 // JavaScript Document
 var filters={view:"month" ,
 			 allEvent:{isSet:"true"},
-			 dateRange: {start: "23-02-2015", end: "05-04-2015"},
+			 dateRange: {start: "", end: ""},
 			 courses: {isSet: 'false', id:[]},
 			 eventCategories: {isSet: 'false', id:[]},
 			 eventTypes: {isSet: 'false', id:[]},
 			 pathways: {isSet: 'false', id:[]},
-			 professors:{isSet: 'false', id:[]}};
+			 professors:{isSet: 'false', id:[]}
+			 };
 
 var today = new Date();
 var day = today.getDate();
 var month = today.getMonth()+1; //January is 0!
+var year = today.getFullYear();
+
+//setup vars for semester view
+var startSemester;
+var endSemester;
+if(month==1){//we are in January so we want to retrieve first semester
+	startSemester=(year-1)+"-09-15";
+	endSemester=year+"-02-01";
+}
+else if(month>1&&month<=9){
+	if(month==9&day>15){
+		startSemester=year+"-09-15";
+		endSemester=(year+1)+"-02-01";
+		}
+		
+	else {//we are in period between January and September 14 so we want to retrieve the second semester
+		startSemester=year+"-02-01";
+		endSemester=year+"-09-15";
+		}
+	}
+else {//we are in the period between 15 Sep and 31 Dec so we want to retrieve the first semester
+	startSemester=year+"-09-15";
+	endSemester=(year+1)+"-02-01";
+	}	
+
+//transform the month in two digits notation
 if(month<10)
 	month="0"+month;
 if (day<10)
 	day="0"+day;
-var year = today.getFullYear();
 var minutes = today.getMinutes();
 var hours = today.getHours();
 var calendar_data;
@@ -56,11 +82,16 @@ function getCurrentView(view){
 		return "week";
 		case "agendaDay":
 		return "day";
+		case "agendaSixMonth":
+		return "semester";
 		}
 	}
 
 //add events to the calendar when changing the view
 function addEvents(){
+	//setting up filters daterange
+	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
+	filters.dateRange.end= $("#calendar").fullCalendar( 'getView' ).end.format("YYYY-MM-DD");
 	$(".fc-event-container").remove();
 	$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
@@ -157,18 +188,20 @@ $(document).ready(function() {
 		header: {
 		left: 'prev,next today',
 		center: 'title',
-		right: 'month,agendaWeek,agendaDay'
-		//right: 'agendaSixMonth,month,agendaWeek,agendaDay'
+		//right: 'month,agendaWeek,agendaDay'
+		right: 'agendaSixMonth,month,agendaWeek,agendaDay'
 		},
-		/*views: {
+		views: {
 			agendaSixMonth: {
-				type: 'agenda',
+				type: 'month',
 				duration: { months: 6 },
 				buttonText: 'Semestre',
-				start: moment("2014-09-15"),
-				end: moment("2015-09-14")
+				start: $.fullCalendar.moment(startSemester),
+				end: $.fullCalendar.moment(endSemester),
+				intervalStart: $.fullCalendar.moment(startSemester),
+				intervalEnd: $.fullCalendar.moment(endSemester),
 			}
-		},*/
+		},
 		editable: true,
 		viewRender: function(view,element){addEvents();},
 		eventLimit: true, // allow "more" link when too many events
@@ -276,8 +309,7 @@ $(document).ready(function() {
 		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_private_event" onclick="delete_private_event()">Confirmer</button></div></div>'
 		});
 
-	/*--------------------------END SETTING UP POPOVERS-----------------------------*/
-	
+	/*--------------------------END SETTING UP POPOVERS-----------------------------*/	
 });
 
 /*--------------------------------------------------------------------------*/
