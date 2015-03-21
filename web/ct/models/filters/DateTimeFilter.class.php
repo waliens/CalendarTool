@@ -45,6 +45,13 @@
 			if($this->start === false || $this->end === false)
 				throw new \Exception("Date mal formattée");
 
+			// append time if missing to make it a datetime
+			if(!$this->is_datetime($this->start))
+				$this->start = \ct\trim_append_after($this->start, " 00:00:00");
+			
+			if(!$this->is_datetime($this->end))
+				$this->end = \ct\trim_append_after($this->end, " 23:59:59");
+
 			// check if start is before end if necessary
 			if($this->end !== null && \ct\date_cmp($this->start, $this->end) > 0)
 				throw new \Exception("La date 'start' doit précéder la date 'end'");
@@ -64,6 +71,16 @@
 		{
 			return $mode === self::MODE_AFTER || $mode === self::MODE_BEFORE || 
 						($mode === self::MODE_BETWEEN && $this->end !== null); 
+		}
+
+		/**
+		 * @brief Checks whether the given string is a SQL datetime
+		 * @param[in] string $str The string to check
+		 * @retval bool True if the string is a datetime 
+		 */
+		public function is_datetime($str)
+		{
+			return preg_match("#^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$#", $str);
 		}
 
 		/**

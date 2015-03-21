@@ -260,7 +260,7 @@
 	{
 		$matches = array();
 
-		if(!preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})(?: (.+))?#", $sql_date, $matches))
+		if(!preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})(?: (.+))?$#", $sql_date, $matches))
 			return $sql_date;
 
 		return $matches[3].$sep.$matches[2].$sep.$matches[1]." ".$matches[4];
@@ -275,7 +275,7 @@
 	{
 		$matches = array();
 
-		if(!preg_match("#^([0-9]{4}-[0-9]{2}-[0-9]{2})(?: (.+))?#", $sql_date, $matches))
+		if(!preg_match("#^([0-9]{4}-[0-9]{2}-[0-9]{2})(?: (.+))?$#", $sql_date, $matches))
 			return $sql_date;
 
 		$ret_date = $matches[1];
@@ -295,7 +295,7 @@
 	{
 		$matches = array();
 
-		if(!preg_match("#^([0-9]{4}-[0-9]{2}-[0-9]{2})(?:T(.*))?#", $full_cal_date, $matches))
+		if(!preg_match("#^([0-9]{4}-[0-9]{2}-[0-9]{2})(?:T(.*))?$#", $full_cal_date, $matches))
 			return $full_cal_date;
 
 		$ret_date = $matches[1];
@@ -315,7 +315,7 @@
 	{
 		$matches = array();
 
-		if(!preg_match("#^([0-9]{2})[/-]([0-9]{2})[/-]([0-9]{4})(.*)#", $fr_date, $matches))
+		if(!preg_match("#^([0-9]{2})[/-]([0-9]{2})[/-]([0-9]{4})(.*)$#", $fr_date, $matches))
 			return $fr_date;
 
 		return $matches[3]."-".$matches[2]."-".$matches[1].$matches[4];
@@ -469,4 +469,16 @@
 	function is_bool_str($bool)
 	{
 		return $bool === "true" || $bool === "false";
+	}
+
+ 	/**
+ 	 * @brief Append the $append string after $to_trim after applying trim on the latter
+ 	 * @param[in] string $to_trim The string to be trimmed
+ 	 * @param[in] string $append  The string to append
+ 	 * @retval string The resulting string 
+ 	 */
+	function trim_append_after($to_trim, $append)
+	{
+		$to_trim = trim($to_trim);
+		return $to_trim.$append;
 	}
