@@ -865,50 +865,34 @@ function create_private_event(){
 					var event_end;
 					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
-						if(startHour!="")
+						if(startHourSet)
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 						else event_start=start.format("YYYY-MM-DD")
-						if(endHour!="")
-							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-						else event_end=end.format("YYYY-MM-DD")
-						var new_private_event={"name":title, "start":event_start, "end":event_end, "recurrence": recurrence_id, "end-recurrence":end_recurrence.format("YYYY-MM-DD"), "place":place, "details":details, "note":notes, "type":"11"}
-						$.ajax({
-							dataType : "json",
-							type : 'POST',
-							url : "index.php?src=ajax&req=061",
-							data : new_private_event,
-							success : function(data, status) {
-								/** error checking */
-								if(data.error.error_code > 0)
-								{	
-									launch_error_ajax(data.error);
-									return;
-								}
-
-								$('#calendar').fullCalendar('addEventSource', {
-									events:[{
-										id_server: id[0],
-										id: id_event,
-										private: true,
-										title: title,
-										start: event_start,
-										end: event_end,
-										allDay: allDay,
-										place: place,
-										details: details,
-										notes: notes,
-										color: "#8AC007",
-										editable: true
-										}]
-									} 
-								)
-							},
-							error : function(xhr, status, error) {
-								launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+						if(!limit){
+							if(endHourSet)
+								event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+							else event_end=end.format("YYYY-MM-DD")
 							}
-						});
+						$('#calendar').fullCalendar('addEventSource', {
+								events:[{
+									id_server: id[0],
+									id: id_event,
+									private: true,
+									title: title,
+									start: event_start,
+									end: event_end,
+									allDay: allDay,
+									place: place,
+									details: details,
+									notes: notes,
+									color: "#8AC007",
+									editable: true
+									}]
+								} 
+							)
 						start.add(offset,"day");
-						end.add(offset,"day");
+						if(!limit)
+							end.add(offset,"day");
 					}
 					break;
 				case "tous les semaines":
@@ -924,12 +908,14 @@ function create_private_event(){
 					var event_end;
 					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
-						if(startHour!="")
+						if(startHourSet)
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 						else event_start=start.format("YYYY-MM-DD")
-						if(endHour!="")
-							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-						else event_end=end.format("YYYY-MM-DD");
+						if(!limit){
+							if(endHourSet)
+								event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+							else event_end=end.format("YYYY-MM-DD")
+							}
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
 								id_server: id,
@@ -948,7 +934,8 @@ function create_private_event(){
 							} 
 						)
 						start.add(offset,"day");
-						end.add(offset,"day");
+						if(!limit)
+							end.add(offset,"day");
 					}
 					break;
 				case "tous les deux semaines":
@@ -964,12 +951,14 @@ function create_private_event(){
 					var event_end;
 					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
-						if(startHour!="")
+						if(startHourSet)
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 						else event_start=start.format("YYYY-MM-DD")
-						if(endHour!="")
-							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-						else event_end=end.format("YYYY-MM-DD");
+						if(!limit){
+							if(endHourSet)
+								event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+							else event_end=end.format("YYYY-MM-DD")
+							}
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
 								id_server: id,
@@ -988,7 +977,8 @@ function create_private_event(){
 							} 
 						)
 						start.add(offset,"day");
-						end.add(offset,"day");
+						if(!limit)
+							end.add(offset,"day");
 					}
 					break;
 				case "tous les mois":
@@ -1004,12 +994,14 @@ function create_private_event(){
 					var event_end;
 					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
-						if(startHour!="")
+						if(startHourSet)
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 						else event_start=start.format("YYYY-MM-DD")
-						if(endHour!="")
-							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-						else event_end=end.format("YYYY-MM-DD");
+						if(!limit){
+							if(endHourSet)
+								event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+							else event_end=end.format("YYYY-MM-DD")
+							}
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
 								id_server: id,
@@ -1028,7 +1020,8 @@ function create_private_event(){
 							} 
 						)
 						start.add(offset,"month");
-						end.add(offset,"month");
+						if(!limit)
+							end.add(offset,"month");
 					}
 					break;
 				case "tous les ans":
@@ -1044,12 +1037,14 @@ function create_private_event(){
 					var event_end;
 					var id_event=guid();
 					while(start.isBefore(end_recurrence)){
-						if(startHour!="")
+						if(startHourSet)
 							event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 						else event_start=start.format("YYYY-MM-DD")
-						if(endHour!="")
-							event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-						else event_end=end.format("YYYY-MM-DD");
+						if(!limit){
+							if(endHourSet)
+								event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
+							else event_end=end.format("YYYY-MM-DD")
+							}
 						$('#calendar').fullCalendar('addEventSource', {
 							events:[{
 								id_server: id,
@@ -1068,7 +1063,8 @@ function create_private_event(){
 							} 
 						)
 						start.add(offset,"year");
-						end.add(offset,"year");
+						if(!limit)
+							end.add(offset,"year");
 					}
 					break;
 			}
@@ -1076,11 +1072,14 @@ function create_private_event(){
 		if(startHourSet)
 			start=start.format("YYYY-MM-DDTHH:mm:ss");
 		else start=start.format("YYYY-MM-DD");
-		if(endHourSet)
-			end=end.format("YYYY-MM-DDTHH:mm:ss");
-		else end=end.format("YYYY-MM-DD");
+		if(!limit){
+			if(endHourSet)
+				end=end.format("YYYY-MM-DDTHH:mm:ss");
+			else end=end.format("YYYY-MM-DD");
+		}
+		else end="";
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":"", "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence.format("YYYY-MM-DD"), "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
