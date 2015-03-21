@@ -780,7 +780,7 @@ function populate_public_event(event){
 				launch_error_ajax(data.error);
 				return;
 			}
-
+			
 			//{id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, start_recurrence, end_recurrence, favourite}
 			$("#event-title").text(data.name);
 			$("#event_place").text(data.place);
@@ -789,6 +789,9 @@ function populate_public_event(event){
 			$("#event_category").text(data.category_name);
 			$("#event_category").attr("category-id",data.category_id);
 			$("#notes_body").text(data.annotation);
+			//check if place and details are filled otherwise hide them
+			isSet($("#event_place"));
+			isSet($("#event_details"));
 		},
 		error : function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -1794,4 +1797,11 @@ function get_recursion(recursion_id){
 		case "5":
 			return "tous les ans"
 		}
+	}
+	
+//hide field if not set
+function isSet(field){
+	if(field.text()=="")
+		field.parent().parent().hide();
+	else field.parent().parent().show();
 	}
