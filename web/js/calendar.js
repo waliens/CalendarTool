@@ -693,77 +693,80 @@ function populate_private_event(event){
 				launch_error_ajax(data.error);
 				return;
 			}
-			//{id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, annotation, favourite}
-			$("#recurrence").text(get_recursion(data.recurrence));
-			$("#recurrence").attr("recurrence-id",data.recurrence);	
-			$("#private_event_place").value(data.place);
-			$("#event_place").text(data.place);
-			$("#private_event_category").text(data.category_name);
-			$("#private_event_category").attr("category-id",data.category_id);
-			$("#private_event_details").value(data.description);
-			$("#private_notes_body").value(data.annotation);
+			//{id, name, description, place, professor, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, recurrence_type, favourite, annotation}
+			var recurrence_type=6;
+			$("#recurrence").text(get_recursion(data.recurrence_type));
+			$("#recurrence").attr("recurrence-id",recurrence_type);	
+			$("#private_event_place").val(data.place);
+			$("#private_event_type").text(data.category_name);
+			$("#private_event_type").attr("category-id",data.category_id);
+			$("#private_event_details").val(data.description);
+			$("#private_notes_body").val(data.annotation);
 			var event_type=data.type;
-			if(type=="date_range"){
-				
+			var title=data.name;
+			var type=data.type;
+			var start=event.start.format("dddd DD MMM YYYY");
+			var place=data.place;
+			var details=data.description;
+			var notes=data.annotation;
+			buildDatePicker("private_event",start);
+			//check if event has start hour
+			var startHour;
+			var endHour;
+			if(type!="date_range"){
+				$("#private_event_startHour").removeClass("hidden");
+				 $("#private_event_endHour").removeClass("hidden");
+				startHour=event.start.format("HH:mm");
+				$("#private_event_startHour").val(startHour);
+				if(type!="deadline"){
+					endHour=event.end.format("HH:mm");
+					$("#private_event_endHour").val(endHour);
 				}
-		},
-		error : function(xhr, status, error) {
-			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-		}
-	});
-	
-	var title=event.title;
-	var allDay=event.allDay;
-	var start=event.start.format("dddd DD MMM YYYY");
-	buildDatePicker("private_event",start);
-	//check if event has start hour
-	var startHour;
-	if(!allDay){
-		startHour=event.start.format("HH:mm");
-		$("#private_event_startHour").val(startHour);
-		endHour=event.end.format("HH:mm");
-		$("#private_event_endHour").val(endHour);
-	}
-	else $("#private_event_startHour").addClass("hidden");
-	//check if the event as an end date
-	if(event.end){
-		var end=event.end.format("dddd DD MMM YYYY");
-		$("#private_event_endDate_datepicker").val(end);
-	}
-	else 	$("#private_event_endDate_datepicker").parent().parent().addClass("hidden"); 
-	var place=event.place;
-	var details=event.details;
-	var notes=event.notes;
-	//populate modal title
-	$("#private_event_modal_header").text(title);
-	//adds edit/delete icons next to title
-	$("#edit_private_event").removeClass('hidden');
-	$("#delete_private_event").removeClass('hidden');
-	$("#private_event_modal_header").addClass("float-left-10padright");
-	//populate modal fields
-	$("#private_event_title").val(title);
-	$("#private_event_title").prop("readonly",true);
-	$("#deadline input").prop("disabled",true);
-	$("#private_event_startDate_datepicker").val(start);
-	$("#private_event_startDate_datepicker").prop("readonly",true);
-	$("#private_event_startDate_datepicker").prop("disabled",true);
-	//$("#private_event_startHour").prop("readonly",true);
-	$("#private_event_endDate_datepicker").prop("readonly",true);
-	$("#private_event_endDate_datepicker").prop("disabled",true);
-	//$("#private_event_endHour").prop("readonly",true);
-	$("#private_event_place").val(place);
-	$("#private_event_place").prop("readonly",true);
-	$("#private_event_details").val(details);
-	$("#private_event_details").prop("readonly",true);
-	$("#recurrence_btn").prop("disabled",true);
-	$("#private_event_type_btn").prop("disabled",true);
-	if(notes!=""){
-		$("#private_notes_body").val(notes);
-		$("#private_notes_body").prop("readonly",true);
-	}
-	else $("#private_notes_body").parent().parent().addClass("hidden");
-	//hides button used when creating a new event
-	$("#edit_event_btns").addClass("hidden");
+			}
+			else{
+				 $("#private_event_startHour").addClass("hidden");
+				 $("#private_event_endHour").addClass("hidden");
+				}
+
+			//check if the event as an end date
+			if(event.end){
+				var end=event.end.format("dddd DD MMM YYYY");
+				$("#private_event_endDate_datepicker").val(end);
+			}
+			else 	$("#private_event_endDate_datepicker").parent().parent().addClass("hidden"); 
+			//populate modal title
+			$("#private_event_modal_header").text(title);
+			//adds edit/delete icons next to title
+			$("#edit_private_event").removeClass("hidden");
+			$("#delete_private_event").removeClass("hidden");
+			$("#private_event_modal_header").addClass("float-left-10padright");
+			//populate modal fields
+			$("#private_event_title").val(title);
+			$("#private_event_title").prop("readonly",true);
+			$("#deadline input").prop("disabled",true);
+			$("#private_event_startDate_datepicker").val(start);
+			$("#private_event_startDate_datepicker").prop("readonly",true);
+			$("#private_event_startDate_datepicker").prop("disabled",true);
+			//$("#private_event_startHour").prop("readonly",true);
+			$("#private_event_endDate_datepicker").prop("readonly",true);
+			$("#private_event_endDate_datepicker").prop("disabled",true);
+			//$("#private_event_endHour").prop("readonly",true);
+			$("#private_event_place").prop("readonly",true);
+			$("#private_event_details").prop("readonly",true);
+			$("#recurrence_btn").prop("disabled",true);
+			$("#private_event_type_btn").prop("disabled",true);
+			if(notes!=""){
+				$("#private_notes_body").val(notes);
+				$("#private_notes_body").prop("readonly",true);
+			}
+			else $("#private_notes_body").parent().parent().addClass("hidden");
+			//hides button used when creating a new event
+			$("#edit_event_btns").addClass("hidden");
+				},
+				error : function(xhr, status, error) {
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				}
+		});
 	}
 	
 function populate_public_event(event){
@@ -828,8 +831,10 @@ function create_private_event(){
 	if(!startHour && !endHour)
 		allDay=true;
 	var limit=false;
-	if($("#deadline input").prop("checked"))
+	if($("#deadline input").prop("checked")){
 		limit=true;
+		end="";
+	}
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=6;
 	var end_recurrence;
@@ -1088,24 +1093,47 @@ function create_private_event(){
 						launch_error_ajax(data.error);
 						return;
 					}
-	
-					$('#calendar').fullCalendar('addEventSource', {
-						events:[{
-							id_server: data.id,
-							id: guid(),
-							private: true,
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay,
-							place: place,
-							details: details,
-							notes: notes,
-							color: "#8AC007",
-							editable: true
-							}]
-						} 
-					)
+					if(data.id.length>1){
+						var new_event_id=guid();
+						for(var i=0;i<data.id.length;i++){
+							$('#calendar').fullCalendar('addEventSource', {
+								events:[{
+									id_server: data.id[i],
+									id: new_event_id,
+									private: true,
+									title: title,
+									start: start,
+									end: end,
+									allDay: allDay,
+									place: place,
+									details: details,
+									notes: notes,
+									color: "#8AC007",
+									editable: true
+									}]
+								} 
+							)
+						}
+					}
+					else{
+						$('#calendar').fullCalendar('addEventSource', {
+								events:[{
+									id_server: data.id[i],
+									id: guid(),
+									private: true,
+									title: title,
+									start: start,
+									end: end,
+									allDay: allDay,
+									place: place,
+									details: details,
+									notes: notes,
+									color: "#8AC007",
+									editable: true
+									}]
+								} 
+							)
+						}
 				},
 				error : function(xhr, status, error) {
 					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -1802,6 +1830,6 @@ function get_recursion(recursion_id){
 //hide field if not set
 function isSet(field){
 	if(field.text()=="")
-		field.parent().parent().hide();
-	else field.parent().parent().show();
+		field.parent().parent().addClass("hidden");
+	else field.parent().parent().removeClass("hidden");
 	}
