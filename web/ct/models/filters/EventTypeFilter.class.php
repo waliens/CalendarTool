@@ -21,7 +21,8 @@
 		const TYPE_INDEPENDENT = 0x2;/**< @brief The type to keep : only independent event */
 		const TYPE_ACADEMIC = 0x3;/**< @brief The type to keep : only academic event */
 		const TYPE_STUDENT = 0x4;/**< @brief The type to keep : only student event */
-		const TYPE_ALL = 0x7;/**< @brief The type to keep : all types of events (not including TYPE_FAVORITE */
+		const TYPE_SUB_EVENT_RECUR = 0x10; /**< @brief The type to keep : only the subevents but with only one occurence of recurrent event */
+		const TYPE_ALL = 0x7;/**< @brief The type to keep : all types of events (not including TYPE_FAVORITE and TYPE_SUB_RECUR */
 		const TYPE_FAVORITE = 0x8; /**< @brief The type to keep : only favorite event */
 
 		/**
@@ -42,7 +43,7 @@
 		 */
 		public function valid_mask($mask)
 		{
-			return $mask > 0 && $mask <= 15;
+			return $mask > 0 && $mask <= 16;
 		}
 
 		/** 
@@ -88,6 +89,10 @@
 					$queries[] = "( SELECT Id_Event FROM sub_event ) ";
 				if($this->do_keep(self::TYPE_INDEPENDENT))
 					$queries[] = "( SELECT Id_Event FROM independent_event ) ";
+				if($this->do_keep(self::TYPE_SUB_EVENT_RECUR)){
+					$queries[] = "( SELECT Id_Event FROM sub_event NATURAL JOIN (SELECT Id_Event FROM event WHERE Id_Recurrence != 1 GROUP BY Id_Recurrence ) as ooo  )";
+					$queries[] = "( SELECT Id_Event FROM event NATURAL JOIN sub_event WHERE Id_Recurrence=1 )";
+				}
 			}
 
 			if($this->do_keep(self::TYPE_STUDENT))
