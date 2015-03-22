@@ -710,6 +710,7 @@ $('#private_event_title, #private_event_startHour').keyup(function () {
 			$('#edit_event_btns .btn-primary').prop("disabled", false);
 		else $('#edit_event_btns .btn-primary').prop("disabled", true);
     } 
+	else $('#edit_event_btns .btn-primary').prop("disabled", true);
 });
 	
 //reset new event modal content after display
@@ -890,6 +891,7 @@ function create_private_event(){
 	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
 	var startHour=$("#private_event_startHour").val();
 	var startHourSet=false;
+	var endHourSet=false;
 	if(startHour!=""){
 		startHourSet=true;
 		//divide minutes from hours
@@ -897,27 +899,30 @@ function create_private_event(){
 		start.minute(startHour[1]);
 		start.hour(startHour[0]); 
 	}
-	var end=moment(convert_date($("#private_event_endDate_datepicker").val(), "YYYY-MM-DD"));
-	var endHour=$("#private_event_endHour").val();
-	var endHourSet=false;
-	if(endHour!=""){
-		endHourSet=true;
-		//divide minutes from hours
-		endHour=endHour.split(":");
-		end.minute(endHour[1]);
-		end.hour(endHour[0]); 
-	}
-	//check if the event is an allDay event
-	var allDay=false;
-	if(!startHour && !endHour)
-		allDay=true;
 	var limit=false;
 	if($("#deadline input").prop("checked")){
 		limit=true;
 		end="";
 	}
+	else{
+		var end=moment(convert_date($("#private_event_endDate_datepicker").val(), "YYYY-MM-DD"));
+		var endHour=$("#private_event_endHour").val();
+		
+		if(endHour!=""){
+			endHourSet=true;
+			//divide minutes from hours
+			endHour=endHour.split(":");
+			end.minute(endHour[1]);
+			end.hour(endHour[0]); 
+		}
+	}
+	//check if the event is an allDay event
+	var allDay=false;
+	if(!startHour && !endHour)
+		allDay=true;
+	
 	var recurrence=$("#recurrence").text();
-	var recurrence_id=6;
+	var recurrence_id=$("#recurrence").attr("recurrence-id");
 	var end_recurrence;
 	var lastday=$('#calendar').fullCalendar('getView').end;
 	var place=$("#private_event_place").val();
@@ -927,14 +932,20 @@ function create_private_event(){
 	//check if we are adding a new private event
 	if(!edit_existing_event){
 		if(startHourSet)
-			start=start.format("YYYY-MM-DDTHH:mm:ss");
-		else start=start.format("YYYY-MM-DD");
+			startstring=start.format("YYYY-MM-DDTHH:mm:ss");
+		else startstring=start.format("YYYY-MM-DD");
 		if(!limit){
 			if(endHourSet)
-				end=end.format("YYYY-MM-DDTHH:mm:ss");
-			else end=end.format("YYYY-MM-DD");
+				endstring=end.format("YYYY-MM-DDTHH:mm:ss");
+			else endstring=end.format("YYYY-MM-DD");
 		}
-		else end="";
+		else {
+			end=start;
+			end=end.add(1,"minute");
+			endstring=end.format("YYYY-MM-DDTHH:mm:ss");	
+		}
+		end=endstring;
+		start=startstring;
 		if(recurrence_id!=6)
 			end_recurrence=end_recurrence.format("YYYY-MM-DD");
 		else end_recurrence=""
