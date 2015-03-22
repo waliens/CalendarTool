@@ -1213,6 +1213,7 @@ function create_private_event(){
 				}
 			});
 		}
+		
 	//hide the modal
 	$("#private_event").modal("hide");
 	
