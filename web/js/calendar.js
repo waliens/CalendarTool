@@ -1152,7 +1152,7 @@ function create_private_event(){
 					else{
 						$('#calendar').fullCalendar('addEventSource', {
 								events:[{
-									id_server: data.id[i],
+									id_server: data.id[0],
 									id: guid(),
 									private: true,
 									title: title,
