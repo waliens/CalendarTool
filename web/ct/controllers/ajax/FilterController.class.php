@@ -18,6 +18,7 @@
 	use ct\models\filters\ProfessorFilter;
 	use ct\models\filters\EventCategoryFilter;
 	use ct\models\filters\EventTypeFilter;
+	use ct\models\filters\TimeTypeFilter;
 
 	/**
 	 * @class FilterController
@@ -138,7 +139,7 @@
 				return false;
 
 			// convert the string ids to actual integers
-			if($key !== "eventType")
+			if($key !== "eventTypes")
 				$ids = array_map("intval", $query_entry['id']);
 
 			switch ($key) {
@@ -148,7 +149,7 @@
 
 			   	case "eventTypes": 
 
-					if(!empty($query_entry['timeType']))
+					if(isset($query_entry['timeType']) && !empty($query_entry['timeType']))
 					{
 						$ids = array_map("intval", $query_entry['timeType']);
 						// build the mask
@@ -156,7 +157,7 @@
 						array_push($this->filters, new TimeTypeFilter($ids));
 					}
 
-					if(!empty($query_entry['eventType']))
+					if(isset($query_entry['eventType']) && !empty($query_entry['eventType']))
 					{
 						$ids = array_map("intval", $query_entry['eventType']);
 						// build the mask
@@ -232,7 +233,7 @@
 
 			    case "eventTypes": 
 
-			    	if(!isset($query_entry['timeType'], $query_entry['eventType']) || 
+			    	if((!isset($query_entry['timeType']) && !isset($query_entry['eventType'])) || 
 			    			(count($query_entry['timeType']) === 0 && count($query_entry['eventType'] === 0)))
 			    	{
 			    		$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);

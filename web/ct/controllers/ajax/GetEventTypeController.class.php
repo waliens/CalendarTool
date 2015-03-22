@@ -47,7 +47,7 @@ class GetEventTypeController extends AjaxController
 		array_push($time_types, array("id" => TimeTypeFilter::TYPE_DATE_RANGE, "name" => "Evénements sur la journée (date range)"));
 		array_push($time_types, array("id" => TimeTypeFilter::TYPE_DEADLINE, "name" => "Echéances (deadline)"));
 
-		$this->add_output_data('time_type', $time_types);
+		$this->add_output_data('date_type', $time_types);
 	}
 }
 
