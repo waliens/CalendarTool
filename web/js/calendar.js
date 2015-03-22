@@ -293,7 +293,8 @@ $(document).ready(function() {
 			edit_existing_event=false;
 			var target = date.format();
 			buildDatePicker("private_event",target);
-			$("#private_event_modal_header").text("Nouvel événement privé")
+			$("#private_event_modal_header").text("Nouvel événement privé");
+			$("#private_event_modal_header").removeClass("float-left-10padright");
 			$("#private_event_title").prop("readonly",false);
 			$("#private_event_startDate_datepicker").prop("disabled",false);
 			$("#private_event_startDate_datepicker").prop("readonly",true);
@@ -686,12 +687,14 @@ function updateRecurrence(){
 	}
 	
 //enable nev event confirm button only when requierd fields are inserted
-$('#private_event_title').keyup(function () {
+$('#private_event_title, #private_event_startHour').keyup(function () {
+	//when the title has been defined
     if( $('#private_event_title').val().length > 0) {
-        $('#edit_event_btns .btn-primary').prop("disabled", false);
-    } else {
-        $('#edit_event_btns .btn-primary').prop("disabled", true);
-    }   
+		//enable if deadline is not selected or is selected and also an hour has been provided
+		if($("#deadline input:checked").length==1&&$("#private_event_startHour").val().length>0||$("#deadline input:checked").length==0)
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
+		else $('#edit_event_btns .btn-primary').prop("disabled", true);
+    } 
 });
 	
 //reset new event modal content after display
@@ -728,6 +731,9 @@ $("#private_event_endHour").on("changeTime",function(){
 	})
 $("#private_event_startHour").on("changeTime",function(){
 	$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
+	if($("#private_event_title").val().length>0)
+		$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
 
 //populate private event modal
@@ -1267,7 +1273,12 @@ function changePrivateEventType(){
 	
 function deadline(){
 	$("#private_event_endDate").parent().toggleClass("hidden");
-	datepicker["private_event"].setSensitiveRange(null, null);
+	if($("#deadline input:checked")){
+		datepicker["private_event"].setSensitiveRange(null, null);
+		if($("#private_event_endHour").val().length==0)
+			$('#edit_event_btns .btn-primary').prop("disabled", true);
+		else $('#edit_event_btns .btn-primary').prop("disabled", false);
+	}
 	
 }
 	
