@@ -133,37 +133,56 @@
 			if(isset($query_entry['isSet']) && $query_entry['isSet'] !== "true")
 				return true;
 
-			if(!isset($query_entry['id']) || count($query_entry['id']) == 0)
-			{
-				$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);
-				return;
-			}
+			// check validity of the field
+			if(!$this->check_filter_field($key))
+				return false;
 
 			// convert the string ids to actual integers
-			$ids = array_map("intval", $query_entry['id']);
+			if($key !== "eventType")
+				$ids = array_map("intval", $query_entry['id']);
 
 			switch ($key) {
 				case "courses": 
-					$filter = new GlobalEventFilter($ids);
-					break; 
+					array_push($this->filters, new GlobalEventFilter($ids));
+					break;
+
 			   	case "eventTypes": 
-			   		$filter = new EventTypeFilter($ids);
+
+					if(!empty($query_entry['timeType']))
+					{
+						$ids = array_map("intval", $query_entry['timeType']);
+						// build the mask
+						$ids = array_reduce($ids, "\ct\bitwise_or", 0);
+						array_push($this->filters, new TimeTypeFilter($ids));
+					}
+
+					if(!empty($query_entry['eventType']))
+					{
+						$ids = array_map("intval", $query_entry['eventType']);
+						// build the mask
+						$ids = array_reduce($ids, "\ct\bitwise_or", 0);
+						array_push($this->filters, new EventTypeFilter($ids));
+					}
+
 			   		break;
+
 			   	case "eventCategories":
-			   		$filter = new EventCategoryFilter($ids);
-			   		break; 
+			   		array_push($this->filters, new EventCategoryFilter($ids));
+			   		break;
+
 			    case "pathways": 
-			    	$filter = new PathwayFilter($ids);
-			    	break; 
-			    case "professors": 
-			    	$filter = new ProfessorFilter($ids);
+			    	array_push($this->filters, new PathwayFilter($ids));
 			    	break;
+
+			    case "professors": 
+			    	array_push($this->filters, new ProfessorFilter($ids));
+			    	break;
+
 				default:
 					trigger_error("Filter item key is invalid", E_USER_ERROR);
 					break;
 			}
 
-			array_push($this->filters, $filter);
 			return true;
 		}
 
@@ -184,5 +203,48 @@
 		{
 			// user cannot use the pathway filters
 			return !($this->connection->user_is_student() && $this->sg_post->value("pathways")['isSet'] === "true");
+		}
+
+
+		/**
+		 * @brief Checks whether the field input structure for the given key is valid 
+		 * @retval bool True if the structure is valid, false otherwise
+		 * @note The error is set if the error is not valid
+		 */
+		private function check_filter_field($key)
+		{
+			$query_entry = $this->sg_post->value($key);
+
+			switch($key)
+			{
+				case "courses": 
+			   	case "eventCategories":
+			    case "pathways":  
+			    case "professors": 
+			    	
+			    	if(!isset($query_entry['id']) || count($query_entry['id']) == 0)
+			    	{
+			    		$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);
+						return false;
+			    	}
+
+			    	break;
+
+			    case "eventTypes": 
+
+			    	if(!isset($query_entry['timeType'], $query_entry['eventType']) || 
+			    			(count($query_entry['timeType']) === 0 && count($query_entry['eventType'] === 0)))
+			    	{
+			    		$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);
+			    		return false;
+			    	}
+
+			    	break;
+				default:
+					trigger_error("Filter item key is invalid", E_USER_ERROR);
+					break;
+			}
+
+			return true;
 		}
 	}
