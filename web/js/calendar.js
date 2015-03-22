@@ -1110,8 +1110,11 @@ function create_private_event(){
 			else end=end.format("YYYY-MM-DD");
 		}
 		else end="";
+		if(recurrence_id!=6)
+			end_recurrence=end_recurrence.format("YYYY-MM-DD");
+		else end_recurrence=""
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence.format("YYYY-MM-DD"), "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
