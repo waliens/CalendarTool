@@ -1169,7 +1169,7 @@ function create_private_event(){
 									place: place,
 									details: details,
 									notes: notes,
-									color: "#8AC007",
+									color: getColor(type),
 									editable: true
 									}]
 								} 
@@ -1871,7 +1871,7 @@ function get_recursion(recursion_id){
 	
 //returns category color
 function getColor(category){
-	switch(category){
+	switch(parseInt(category)){
 		case 1:
 			return "#00a3c7";
 			break;
