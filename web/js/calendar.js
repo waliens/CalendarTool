@@ -422,18 +422,14 @@ $(document).ready(function() {
 			}
     })
 	
-	/*--------------------------SETTING UP POPOVERS-----------------------------*/
+	/*--------------------------SETTING UP NOTE POPOVER-----------------------------*/
 	
 	//setup popover for delete note button
 	$("#delete_note .delete").popover({
 		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_note" onclick="delete_note()">Confirmer</button></div></div>'
 		});
-		//setup popover for delete private event button
-	$("#delete_private_event .delete").popover({
-		template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_private_event" onclick="delete_private_event()">Confirmer</button></div></div>'
-		});
 
-	/*--------------------------END SETTING UP POPOVERS-----------------------------*/	
+	/*--------------------------END SETTING UP POPOVER-----------------------------*/	
 });
 
 /*--------------------------------------------------------------------------*/
@@ -538,15 +534,6 @@ function save_note(){
 			});
 	}
 }
-	
-/*//checks if the event is recursive and eventually asks if we want to apply the modification to all instances or not; 
-function recursive_check(){
-	if(event_recursive){
-		$("#recursive_event_popup").popover({
-		template: '<div class="popover" role="tooltip"><div class="arrow"></div><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer"><div><button type="button" class="btn btn-primary" onclick="confirm_edit_event_norecurrence()">Seulement cet événement</button><button type="button" class="btn btn-default" onclick="confirm_edit_event_withrecurrence()">&Eacute;vénements à venir</button></div><button type="button" class="btn btn-default" onclick="abort_edit_event()">Annuler</button></div></div>',
-		});
-	}
-}*/
 	
 function abort_note(){
 	//abort the insertion of a new note
@@ -868,9 +855,8 @@ function populate_private_event(event){
 				return;
 			}
 			//{id, name, description, place, professor, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, recurrence_type, favourite, annotation}
-			var recurrence_type=6;
 			$("#recurrence").text(get_recursion(data.recurrence_type));
-			$("#recurrence").attr("recurrence-id",recurrence_type);	
+			$("#recurrence").attr("recurrence-id",data.recurrence_type);	
 			$("#private_event_place").val(data.place);
 			$("#private_event_type").text(data.category_name);
 			$("#private_event_type").attr("category-id",data.category_id);
@@ -917,6 +903,18 @@ function populate_private_event(event){
 			//adds edit/delete icons next to title
 			$("#edit_private_event").removeClass("hidden");
 			$("#delete_private_event").removeClass("hidden");
+			//define delete popup alert based on whether the event is private or not
+			if(data.recurrence_type!=6){//the event is recurrent
+				$("#delete_private_event .delete").popover({
+					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Supprimer événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="confirm_delete_event_norecurrence()">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="confirm_delete_event_withrecurrence()">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
+					});				
+			}
+			else{//event is not recurrent
+				//setup popover for delete private event button
+				$("#delete_private_event .delete").popover({
+					template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_private_event" onclick="delete_private_event()">Confirmer</button></div></div>'
+					});
+				}
 			$("#private_event_modal_header").addClass("float-left-10padright");
 			//populate modal fields
 			$("#private_event_title").val(title);
