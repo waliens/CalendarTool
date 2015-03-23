@@ -281,7 +281,7 @@ use \DateInterval;
 		 * @param DateTime $start the start of the event (or the deadline)
 		 * @param DateTime $end the end of the event 
 		 * @param boolean $update if it's already set to an other value
-		 * @retval mixed true if execute correctly error_info if not
+		 * @retval boolean
 		 */
 		public function setDate($id, $type, $start, $end = NULL, $update = false){
 			$a = false;
@@ -310,19 +310,13 @@ use \DateInterval;
 					return false;
 					break;	
 			}
+			$a = true;
 			if($update){
-				if(!is_int($id))
-					return -1;
-				$a = $this->sql->update($table, $data, "Id_Event=".$id);
-
+				$a = $this->delete_time_type($id);
 			}
-			else
-				$a = $this->sql->insert($table, $data);
+			$a &= $this->sql->insert($table, $data);
 
-			if($a)
-				return true;
-			$this->error .= "\n Date Error";
-			return false;
+			return $a;
 		}
 
 		/**
