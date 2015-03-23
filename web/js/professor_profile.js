@@ -474,7 +474,7 @@ $("#add_global_event_alert").on("show.bs.modal",function(){
 	$("#global_event_add_confirm").prop("disabled",true);
 	$('#years_list').html("");
 	$("#selected_year").html('Année <span class="caret"></span>');
-	$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
+	$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
 	$("#global_course_list").html("");
 	$("#new_global_cours_details").val("");
 	$("#new_global_cours_feedback").val("");
@@ -574,7 +574,7 @@ $("#global_event_add_confirm").click(function(event){
 
 //enable add global event button when course, language and year are selected
 $("#add_global_event_alert").on("click","#global_course_list li,#languages_list li",function() {
-	if($("#cours_language").text()!="Sélectionner langue "&&$("#cours_to_add").text()!="Sélectionnez cours ")
+	if($("#cours_language").text()!="Sélectionner langue "&&$("#cours_to_add").text()!="Sélectionner cours ")
 		$("#global_event_add_confirm").prop("disabled",false);
 	else $("#global_event_add_confirm").prop("disabled",true);
 });
