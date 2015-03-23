@@ -101,7 +101,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							var cell2=row.insertCell(1);
 							var cell3=row.insertCell(2);
 							cell1.innerHTML="ID";
-							cell1.className="min-width-100"
+							cell1.className="min-width-110"
 							cell2.innerHTML="Title";
 							cell3.innerHTML="Choisir";
 							filter_alert.append(table);
