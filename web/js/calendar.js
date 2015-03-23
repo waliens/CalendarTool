@@ -149,11 +149,25 @@ function addEvents(){
 								}
 									
 							}
+						else if(instance.timeType=="deadline"){
+							end=start;
+							var chunks=end.split("T");
+							end=chunks[0];
+							var time=chunks[1];
+							var hour=time.split(":")[0];
+							var minute=time.split(":")[1];
+							end=moment(end);
+							end.hour(hour);
+							end.minute(minute);
+							end=end.add(1,"minute");
+							end=end.format("YYYY-MM-DDTHH:mm:ss");
+							}
 						displayed_events.push(instance.id);
 						var newEvent={
 							id_server: instance.id,
 							id: guid(),
 							private: false,
+							timeType:instance.timeType,
 							title: instance.name,
 							start: start,
 							end: end,
@@ -178,11 +192,25 @@ function addEvents(){
 									end=endmoment.format("YYYY-MM-DD");	
 								}
 							}
+						else if(instance.timeType=="deadline"){
+							end=start;
+							var chunks=end.split("T");
+							end=chunks[0];
+							var time=chunks[1];
+							var hour=time.split(":")[0];
+							var minute=time.split(":")[1];
+							end=moment(end);
+							end.hour(hour);
+							end.minute(minute);
+							end=end.add(1,"minute");
+							end=end.format("YYYY-MM-DDTHH:mm:ss");
+							}
 						displayed_events.push(instance.id);
 						var newEvent={
 							id_server: instance.id,
 							id: guid(),
 							private: true,
+							timeType:instance.timeType,
 							title: instance.name,
 							start: start,
 							end: end,
@@ -276,10 +304,20 @@ $(document).ready(function() {
 				else {
 					event_all_day=false;
 					$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.start.format("HH:mm"));
-					$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
-					$("#endDate").removeClass("hidden");
-					$("#endDate_label").removeClass("hidden");
-					$("#startDate_label").removeClass("hidden");
+					if(calEvent.timeType!="deadline"){
+						$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
+						$("#endDate").removeClass("hidden");
+						$("#endDate_label").removeClass("hidden");
+						$("#startDate_label").removeClass("hidden");
+						$("#deadline_public_event").addClass("hidden");
+					}
+					else{
+						$("#endDate_label").addClass("hidden");
+						$("#startDate_label").addClass("hidden");
+						$("#deadline_public_event").removeClass("hidden");
+						$("#deadline_public_event input").prop("checked","checked");
+						}
+					
 				}
 				//populate place,prof and details
 				$("#event_place").text(calEvent.place);
@@ -790,11 +828,11 @@ function populate_private_event(event){
 			var endHour;
 			if(type!="date_range"){
 				$("#private_event_startHour").removeClass("hidden");
-				 $("#private_event_endHour").removeClass("hidden");
 				startHour=event.start.format("HH:mm");
 				$("#private_event_startHour").val(startHour);
 				$("#private_event_startHour").prop("disabled",true);
 				if(type!="deadline"){
+					$("#private_event_endHour").removeClass("hidden");
 					endHour=event.end.format("HH:mm");
 					$("#private_event_endHour").val(endHour);
 				}
@@ -805,8 +843,8 @@ function populate_private_event(event){
 				 $("#private_event_endHour").addClass("hidden");
 				}
 
-			//check if the event as an end date
-			if(event.end){
+			//check if the event as an end date (excluding case in which it's a deadline
+			if(event.end&&type!="deadline"){
 				if(type=="date_range"&&!event.end.isSame(start))
 					event.end.subtract(1,"day");
 				var end=event.end.format("dddd DD MMM YYYY");
