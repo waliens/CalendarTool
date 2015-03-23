@@ -176,7 +176,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="new_subevent_modal_header">Nouvel sous-événement</h4>
+        <h4 class="modal-title" id="new_subevent_modal_header">Nouveau sous-événement</h4>
       </div>
       <!--modal body-->
       <div class="modal-body">

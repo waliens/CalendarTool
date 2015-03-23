@@ -378,6 +378,10 @@ $(document).ready(function() {
 			$("#delete_private_event").addClass('hidden');
 			$("#private_event_title").focus();
 		},
+		//function to be called when private event is dragged and dropped
+		drop:function( date, jsEvent, ui ) { 
+			
+		}
     })
 	
 	/*--------------------------SETTING UP POPOVERS-----------------------------*/
@@ -564,7 +568,6 @@ function edit_private_event(){
 		$("#private_event_place").removeClass("hidden");
 		$("#private_event_details").prop("readonly",false);
 		$("#private_event_details").removeClass("hidden");
-		$("#recurrence_btn").prop("disabled",false);
 		$("#private_event_type_btn").prop("disabled",false);
 		$("#private_notes_body").prop("readonly",false);
 		$("#private_notes_body").parent().parent().removeClass("hidden");
@@ -942,6 +945,29 @@ function populate_public_event(event){
 	});
 	}
 	
+
+//update event after drag and drop
+function confirm_drag_drop(event){
+	var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=61",
+			data : new_event,
+			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+				error : function(xhr, status, error) {
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				}
+			}
+		});
+	}
+
 //update the calendar with the new event or confirm the edit of an existing event
 function create_private_event(){
 	var title=$("#private_event_title").val();
