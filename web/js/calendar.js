@@ -146,6 +146,7 @@ function addEvents(){
 						//strip off the T00:00:00 for date range events
 						var start=instance.start;
 						var end=instance.end;
+						var recurrent=false;
 						if(instance.timeType=="date_range"){
 							start=instance.start.replace("T00:00:00","");
 							end=instance.end.replace("T00:00:00","");
@@ -169,9 +170,14 @@ function addEvents(){
 							end=end.format("YYYY-MM-DDTHH:mm:ss");
 							}
 						var id;
-						if(instance.recursive!=1)//the event is recurrent
+						if(instance.recursive!=1){//the event is recurrent
 							id=instance.recursive;
-						else id=guid();
+							recurrent=true;
+						}
+						else {
+							id=guid();
+							recurrent=false;
+						}
 						var newEvent={
 							id_server: instance.id,
 							id: id,
@@ -180,7 +186,7 @@ function addEvents(){
 							title: instance.name,
 							start: start,
 							end: end,
-							recursive: instance.recursive,
+							recursive: recurrent,
 							color: color,
 							editable: false
 						}
@@ -215,9 +221,14 @@ function addEvents(){
 							end=end.format("YYYY-MM-DDTHH:mm:ss");
 							}
 						var id;
-						if(instance.recursive!=1)//the event is recurrent
+						if(instance.recursive!=1){//the event is recurrent
 							id=instance.recursive;
-						else id=guid();
+							recurrent=true;
+						}
+						else {
+							id=guid();
+							recurrent=false;
+						}
 						var newEvent={
 							id_server: instance.id,
 							id: id,
@@ -226,7 +237,7 @@ function addEvents(){
 							title: instance.name,
 							start: start,
 							end: end,
-							recursive: instance.recursive,
+							recursive: recurrent,
 							color: color
 						}
 						$('#calendar').fullCalendar( 'renderEvent', newEvent);
@@ -379,9 +390,36 @@ $(document).ready(function() {
 			$("#private_event_title").focus();
 		},
 		//function to be called when private event is dragged and dropped
-		drop:function( date, jsEvent, ui ) { 
-			
-		}
+		eventDrop:
+			function(event, delta, revertFunc) {
+				//$("#event_recursive_dragdrop_alert").modal("show");
+				var revert=false;
+				if(event.recurrence){//the event is recurrent
+					if (!confirm("Cet événement est récurrent. Etes-vous sûr de ce changement?")){
+						revertFunc();
+						revert=true;	
+					}
+				}
+				if(!revert){
+					$.ajax({
+						dataType : "json",
+						type : 'POST',
+						url : "index.php?src=ajax&req=131",
+						data : {id:event.id_server,start:event.start,end:event.end,allDay:event.allDay},
+						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+						},
+						error : function(xhr, status, error) {
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+						}
+					});
+				}
+			}
     })
 	
 	/*--------------------------SETTING UP POPOVERS-----------------------------*/
@@ -976,6 +1014,7 @@ function create_private_event(){
 	var startHour=$("#private_event_startHour").val();
 	var startHourSet=false;
 	var endHourSet=false;
+	var recurrent=false;
 	if(startHour!=""){
 		startHourSet=true;
 		//divide minutes from hours
@@ -1030,9 +1069,14 @@ function create_private_event(){
 		}
 		endjson=endstring;
 		startjson=startstring;
-		if(recurrence_id!=6)
+		if(recurrence_id!=6){
 			end_recurrence=convert_date($("#recurrence_end").val(),"YYYY-MM-DD");
-		else end_recurrence=""
+			recurrent=true;	
+		}
+		else {
+			end_recurrence=""
+			recurrent=false;
+		}
 		//send data to server event with no recursion
 		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
@@ -1054,223 +1098,65 @@ function create_private_event(){
 						if(end_recurrence!="")
 							end_recurrence=moment(convert_date(end_recurrence, "YYYY-MM-DD"));
 						var offset;
+						var offset_type;
 						switch(recurrence){
 							case "tous les jours":
 								offset=1;
+								offset_type="day";
 								recurrence_id=1;
-								//if user doesn't specify end of the recursion we set it to one year
-								if(end_recurrence==""){
-									end_recurrence=new moment(start);
-									end_recurrence.add(1,"year");
-								}
-								var id_event=guid();
-								var i=0;
-								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
-									$('#calendar').fullCalendar('addEventSource', {
-											events:[{
-												id_server: data.id[i],
-												id: id_event,
-												private: true,
-												title: title,
-												start: start,
-												end: end,
-												allDay: allDay,
-												place: place,
-												details: details,
-												notes: notes,
-												color: getColor(type),
-												editable: true
-												}]
-											} 
-										)
-									i++;
-									start.add(offset,"day");
-									end.add(offset,"day");
-								}
 								break;
-							case "tous les semaines":
+							case "toutes les semaines":
 								offset=7;
+								offset_type="day";
 								recurrence_id=2;
-								//if user doesn't specify end of the recursion we set it to one year
-								if(end_recurrence==""){
-									end_recurrence=new moment(start);
-									end_recurrence.add(1,"year");
-								}
-								//build start date in format required by fullcalendar.io
-								var event_start;
-								var event_end;
-								var id_event=guid();
-								var i=0;
-								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
-									if(startHourSet)
-										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
-									else event_start=start.format("YYYY-MM-DD")
-									if(!limit){
-										if(endHourSet)
-											event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-										else event_end=end.format("YYYY-MM-DD")
-										}
-									$('#calendar').fullCalendar('addEventSource', {
-										events:[{
-											id_server: data.id[i],
-											id: id_event,
-											private: true,
-											title: title,
-											start: event_start,
-											end: event_end,
-											allDay: allDay,
-											place: place,
-											details: details,
-											notes: notes,
-											color: getColor(type),
-											editable: true
-											}]
-										} 
-									)
-									i++;
-									start.add(offset,"day");
-									if(!limit)
-										end.add(offset,"day");
-								}
 								break;
-							case "tous les deux semaines":
-								var i=0;
+							case "toutes les deux semaines":
 								offset=14;
+								offset_type="day";
 								recurrence_id=3
-								//if user doesn't specify end of the recursion we set it to one year
-								if(end_recurrence==""){
-									end_recurrence=new moment(start);
-									end_recurrence.add(1,"year");
-								}
-								//build start date in format required by fullcalendar.io
-								var event_start;
-								var event_end;
-								var id_event=guid();
-								var i=0;
-								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
-									if(startHourSet)
-										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
-									else event_start=start.format("YYYY-MM-DD")
-									if(!limit){
-										if(endHourSet)
-											event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-										else event_end=end.format("YYYY-MM-DD")
-										}
-									$('#calendar').fullCalendar('addEventSource', {
-										events:[{
-											id_server: data.id[i],
-											id: id_event,
-											private: true,
-											title: title,
-											start: event_start,
-											end: event_end,
-											allDay: allDay,
-											place: place,
-											details: details,
-											notes: notes,
-											color: getColor(type),
-											editable: true
-											}]
-										} 
-									)
-									i++;
-									start.add(offset,"day");
-									if(!limit)
-										end.add(offset,"day");
-								}
 								break;
 							case "tous les mois":
-								var i=0;
 								offset=1;
+								offset_type="month";
 								recurrence_id=4;
-								//if user doesn't specify end of the recursion we set it to one year
-								if(end_recurrence==""){
-									end_recurrence=new moment(start);
-									end_recurrence.add(1,"year");
-								}
-								//build start date in format required by fullcalendar.io
-								var event_start;
-								var event_end;
-								var id_event=guid();
-								var i=0;
-								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
-									if(startHourSet)
-										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
-									else event_start=start.format("YYYY-MM-DD")
-									if(!limit){
-										if(endHourSet)
-											event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-										else event_end=end.format("YYYY-MM-DD")
-										}
-									$('#calendar').fullCalendar('addEventSource', {
-										events:[{
-											id_server: data.id[i],
-											id: id_event,
-											private: true,
-											title: title,
-											start: event_start,
-											end: event_end,
-											allDay: allDay,
-											place: place,
-											details: details,
-											notes: notes,
-											color: getColor(type),
-											editable: true
-											}]
-										} 
-									)
-									i++;
-									start.add(offset,"month");
-									if(!limit)
-										end.add(offset,"month");
-								}
 								break;
 							case "tous les ans":
-								var i=0;
 								offset=1;
+								offset_type="year";
 								recurrence_id=5;
-								//if user doesn't specify end of the recursion we set it to one year
-								if(end_recurrence==""){
-									end_recurrence=new moment(start);
-									end_recurrence.add(10,"year");
-								}
-								//build start date in format required by fullcalendar.io
-								var event_start;
-								var event_end;
-								var id_event=guid();
-								var i=0;
-								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
-									if(startHourSet)
-										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
-									else event_start=start.format("YYYY-MM-DD")
-									if(!limit){
-										if(endHourSet)
-											event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-										else event_end=end.format("YYYY-MM-DD")
-										}
-									$('#calendar').fullCalendar('addEventSource', {
-										events:[{
-											id_server: data.id[i],
-											id: id_event,
-											private: true,
-											title: title,
-											start: event_start,
-											end: event_end,
-											allDay: allDay,
-											place: place,
-											details: details,
-											notes: notes,
-											color: getColor(type),
-											editable: true
-											}]
-										} 
-									)
-									i++;
-									start.add(offset,"year");
-									if(!limit)
-										end.add(offset,"year");
-								}
 								break;
+						}
+						//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
+						if(end_recurrence==""){
+							end_recurrence=new moment(start);
+							if(recurrence=="tous les ans")
+								end_recurrence.add(10,"year");
+							else end_recurrence.add(1,"year");
+						}
+						var id_event=guid();
+						var i=0;
+						while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
+							$('#calendar').fullCalendar('addEventSource', {
+									events:[{
+										id_server: data.id[i],
+										id: id_event,
+										private: true,
+										title: title,
+										start: start,
+										end: end,
+										allDay: allDay,
+										place: place,
+										details: details,
+										notes: notes,
+										recurrence: recurrent,
+										color: getColor(type),
+										editable: true
+										}]
+									} 
+								)
+							i++;
+							start.add(offset,offset_type);
+							end.add(offset,offset_type);
 						}
 					}
 					//event is not recursive
