@@ -66,7 +66,8 @@ var private_event;
 var modal_shown;
 //holds displayed events ids in order not to duplicate them when new data is retrieved after changing the view mode 
 var displayed_events=[];
-var events_source=[]
+var events_source=[];
+var semester=false;
 
 
 //update the navbar
@@ -96,20 +97,27 @@ function addEvents(){
 	$(".fc-event-container").remove();
 	$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
-	if(current_view=="agendaSixMonth"){
-		//$("#calendar").fullCalendar('gotoDate', moment(startSemester) )
-		var date=moment(startSemester).subtract(1,"month");
-		//hide dates that do not belong to the semester
-		while(date.isBefore(moment(startSemester))){
-			$("td .fc-day-number[data-date='"+date.format("YYYY-MM-DD")+"']").addClass("fc-other-month");
-			date.add(1,"day");
-			}
-		date=moment(endSemester).add(1,"month");
-		while(date.isAfter(moment(endSemester))||date.isSame(moment(endSemester))){
-			$("td .fc-day-number[data-date='"+date.format("YYYY-MM-DD")+"']").addClass("fc-other-month");
-			date.subtract(1,"day");
-			}
+	if(current_view=="agendaSixMonth"&&!semester){
+		semester=true;
+		$("#calendar").fullCalendar('gotoDate', moment(startSemester) )
+		
 	}
+	else{
+		semester=false;
+		var current_view=$("#calendar").fullCalendar( 'getView' ).name;
+		if(current_view=="agendaSixMonth"){
+			var date=$("#calendar").fullCalendar( 'getView' ).start;
+			//hide dates that do not belong to the semester
+			while(date.isBefore(moment(startSemester))){
+				$("td .fc-day-number[data-date='"+date.format("YYYY-MM-DD")+"']").addClass("fc-other-month");
+				date.add(1,"day");
+				}
+			date=$("#calendar").fullCalendar( 'getView' ).end;
+			while(date.isAfter(moment(endSemester).subtract(1,"day"))){
+				$("td .fc-day-number[data-date='"+date.format("YYYY-MM-DD")+"']").addClass("fc-other-month");
+				date.subtract(1,"day");
+				}
+			}
 	filters.view=getCurrentView(current_view);
 	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
 	filters.dateRange.end=$("#calendar").fullCalendar( 'getView' ).end.format("YYYY-MM-DD");
@@ -225,6 +233,7 @@ function addEvents(){
 					}
 				});
 	}
+	}
 
 //load calendar on document ready with events of the current month
 $(document).ready(function() {
@@ -250,12 +259,12 @@ $(document).ready(function() {
 				buttonText: 'Semestre',
 			}
 		},
-		/*loading: function(isLoading,view){
-			if(isLoading){
+		loading: function(isLoading,view){
+			if(!isLoading){
 				if(view.title=="agendaSixMonth")
 					$("#calendar").fullCalendar('gotoDate', moment(startSemester) );
 				}
-			},*/
+			},
 		editable: true,
 		viewRender: function(view,element){addEvents();},
 		eventLimit: true, // allow "more" link when too many events
@@ -782,10 +791,16 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 //setup timepickers of new event modal
 $(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
 $("#private_event_endHour").on("changeTime",function(){
-	$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
+	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
+	if(startDate.isSame(endDate))
+		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
 	})
 $("#private_event_startHour").on("changeTime",function(){
-	$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
+	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
+	if(startDate.isSame(endDate))
+		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
 	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
 	if($("#private_event_title").val().length>0)
 		$('#edit_event_btns .btn-primary').prop("disabled", false);
@@ -986,7 +1001,7 @@ function create_private_event(){
 		end=endstring;
 		start=startstring;
 		if(recurrence_id!=6)
-			end_recurrence=end_recurrence.format("YYYY-MM-DD");
+			end_recurrence=convert_date($("#recurrence_end").val(),"YYYY-MM-DD");
 		else end_recurrence=""
 		//send data to server event with no recursion
 		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
@@ -1018,20 +1033,11 @@ function create_private_event(){
 									end_recurrence=new moment(start);
 									end_recurrence.add(1,"year");
 								}
-								//build start date in format required by fullcalendar.io
+								var id_event=guid();
 								var event_start;
 								var event_end;
-								var id_event=guid();
 								while(moment(start).isBefore(end_recurrence)&&moment(start).isBefore(lastday)){
 									var i=0;
-									if(startHourSet)
-										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
-									else event_start=start.format("YYYY-MM-DD")
-									if(!limit){
-										if(endHourSet)
-											event_end=end.format("YYYY-MM-DD")+"T"+endHour[0]+":"+endHour[1];
-										else event_end=end.format("YYYY-MM-DD")
-										}
 									$('#calendar').fullCalendar('addEventSource', {
 											events:[{
 												id_server: data.id[i],
@@ -1049,10 +1055,36 @@ function create_private_event(){
 												}]
 											} 
 										)
-									i++
+									i++;
+									var chunksStart=start.split("T");
+									start=moment(chunksStart[0]);
+									var hasStartHour=false;
+									if(chunksStart.lengtsh>1){
+										hasStartHour=true;
+										var chunksHour=chunksStart[1].split(":")
+										start.hour(chunksHour[0]);
+										start.minute(chunksHour[1]);
+									}
 									start.add(offset,"day");
-									if(!limit)
+									if(hasStartHour)
+										event_start=start.format("YYYY-MM-DDTHH:mm:ss");
+									else event_start=start.format("YYYY-MM-DD");
+									var hasEndHour=false;
+									
+									if(!limit){
+										var chunksEnd=end.split("T");
+										end=moment(chunksEnd[0]);
+										if(chunksEnd.lengtsh>1){
+											hasEndHour=true;
+											var chunksHour=chunksEnd[1].split(":")
+											end.hour(chunksHour[0]);
+											end.minute(chunksHour[1]);
+										}
 										end.add(offset,"day");
+										if(hasEndHour)
+											event_end=end.format("YYYY-MM-DDTHH:mm:ss");
+										else event_end=end.format("YYYY-MM-DD");
+									}
 								}
 								break;
 							case "tous les semaines":
