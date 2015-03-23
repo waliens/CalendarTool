@@ -19,6 +19,7 @@
                 <div id="endDate" style="float:none"></div>
               </div></td>
           </tr>
+          <tr id="deadline_public_event"><td class="text-bold">Deadline</td><td><input type="checkbox" aria-label="" disabled="disabled"></td></tr>
           <tr>
             <td class="text-bold width-80">Où</td>
             <td><div id="event_place"></div></td>
