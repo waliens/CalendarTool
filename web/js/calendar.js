@@ -1266,15 +1266,24 @@ function create_private_event(){
 	else{
 		private_event.title=title;
 		private_event.start=start;
-		private_event.end=end;
+		if($("#deadline input").prop("checked")){
+			end=moment(start);
+			end=end.add(1,"minute");
+			private_event.end=end;
+			end=""
+			}
+		else private_event.end=end;
 		private_event.place=place;
 		private_event.details=details;
 		private_event.notes=notes;
 		private_event.allDay=allDay;
 		private_event.recurrence=recurrence;
+		private_event.color=getColor($("#private_event_type").attr("category-id"));
 		$('#calendar').fullCalendar('updateEvent', private_event);
 		//send update to server
-		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start.format("YYYY-MM-DDTHH:mm:ss"), end:end.format("YYYY-MM-DDTHH:mm:ss"), type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+		if(end!="")
+			end=end.format("YYYY-MM-DDTHH:mm:ss");
+		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start.format("YYYY-MM-DDTHH:mm:ss"), end:end, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1346,7 +1355,7 @@ function deadline(){
 	if($("#deadline input:checked").length>0){
 		$("#private_event_endDate").parent().addClass("hidden");
 		datepicker["private_event"].setSensitiveRange(null, null);
-		if($("#private_event_endHour").val().length==0)
+		if($("#private_event_startHour").val().length==0)
 			$('#edit_event_btns .btn-primary').prop("disabled", true);
 		else $('#edit_event_btns .btn-primary').prop("disabled", false);
 	}
