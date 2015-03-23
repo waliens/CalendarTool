@@ -64,8 +64,6 @@ var new_event_datepicker;
 //holds the private event on click in case of update of its data
 var private_event;
 var modal_shown;
-//holds displayed events ids in order not to duplicate them when new data is retrieved after changing the view mode 
-var displayed_events=[];
 var events_source=[];
 var semester=false;
 
@@ -170,10 +168,13 @@ function addEvents(){
 							end=end.add(1,"minute");
 							end=end.format("YYYY-MM-DDTHH:mm:ss");
 							}
-						displayed_events.push(instance.id);
+						var id;
+						if(instance.recursive!=1)//the event is recurrent
+							id=instance.recursive;
+						else id=guid();
 						var newEvent={
 							id_server: instance.id,
-							id: guid(),
+							id: id,
 							private: false,
 							timeType:instance.timeType,
 							title: instance.name,
@@ -213,10 +214,13 @@ function addEvents(){
 							end=end.add(1,"minute");
 							end=end.format("YYYY-MM-DDTHH:mm:ss");
 							}
-						displayed_events.push(instance.id);
+						var id;
+						if(instance.recursive!=1)//the event is recurrent
+							id=instance.recursive;
+						else id=guid();
 						var newEvent={
 							id_server: instance.id,
-							id: guid(),
+							id: id,
 							private: true,
 							timeType:instance.timeType,
 							title: instance.name,
@@ -994,17 +998,17 @@ function create_private_event(){
 			else endstring=end.format("YYYY-MM-DD");
 		}
 		else {
-			end=start;
+			end=new moment(start);
 			end=end.add(1,"minute");
 			endstring=end.format("YYYY-MM-DDTHH:mm:ss");	
 		}
-		end=endstring;
-		start=startstring;
+		endjson=endstring;
+		startjson=startstring;
 		if(recurrence_id!=6)
 			end_recurrence=convert_date($("#recurrence_end").val(),"YYYY-MM-DD");
 		else end_recurrence=""
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":start, "end":end, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1034,18 +1038,16 @@ function create_private_event(){
 									end_recurrence.add(1,"year");
 								}
 								var id_event=guid();
-								var event_start;
-								var event_end;
-								while(moment(start).isBefore(end_recurrence)&&moment(start).isBefore(lastday)){
-									var i=0;
+								var i=0;
+								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
 									$('#calendar').fullCalendar('addEventSource', {
 											events:[{
 												id_server: data.id[i],
 												id: id_event,
 												private: true,
 												title: title,
-												start: event_start,
-												end: event_end,
+												start: start,
+												end: end,
 												allDay: allDay,
 												place: place,
 												details: details,
@@ -1056,35 +1058,8 @@ function create_private_event(){
 											} 
 										)
 									i++;
-									var chunksStart=start.split("T");
-									start=moment(chunksStart[0]);
-									var hasStartHour=false;
-									if(chunksStart.lengtsh>1){
-										hasStartHour=true;
-										var chunksHour=chunksStart[1].split(":")
-										start.hour(chunksHour[0]);
-										start.minute(chunksHour[1]);
-									}
 									start.add(offset,"day");
-									if(hasStartHour)
-										event_start=start.format("YYYY-MM-DDTHH:mm:ss");
-									else event_start=start.format("YYYY-MM-DD");
-									var hasEndHour=false;
-									
-									if(!limit){
-										var chunksEnd=end.split("T");
-										end=moment(chunksEnd[0]);
-										if(chunksEnd.lengtsh>1){
-											hasEndHour=true;
-											var chunksHour=chunksEnd[1].split(":")
-											end.hour(chunksHour[0]);
-											end.minute(chunksHour[1]);
-										}
-										end.add(offset,"day");
-										if(hasEndHour)
-											event_end=end.format("YYYY-MM-DDTHH:mm:ss");
-										else event_end=end.format("YYYY-MM-DD");
-									}
+									end.add(offset,"day");
 								}
 								break;
 							case "tous les semaines":
@@ -1099,8 +1074,8 @@ function create_private_event(){
 								var event_start;
 								var event_end;
 								var id_event=guid();
-								while(moment(start).isBefore(end_recurrence)&&moment(start).isBefore(lastday)){
-									var i=0;
+								var i=0;
+								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
 									if(startHourSet)
 										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 									else event_start=start.format("YYYY-MM-DD")
@@ -1145,7 +1120,8 @@ function create_private_event(){
 								var event_start;
 								var event_end;
 								var id_event=guid();
-								while(moment(start).isBefore(end_recurrence)&&moment(start).isBefore(lastday)){
+								var i=0;
+								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
 									if(startHourSet)
 										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 									else event_start=start.format("YYYY-MM-DD")
@@ -1190,7 +1166,8 @@ function create_private_event(){
 								var event_start;
 								var event_end;
 								var id_event=guid();
-								while(moment(start).isBefore(end_recurrence)&&moment(start).isBefore(lastday)){
+								var i=0;
+								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
 									if(startHourSet)
 										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 									else event_start=start.format("YYYY-MM-DD")
@@ -1235,7 +1212,8 @@ function create_private_event(){
 								var event_start;
 								var event_end;
 								var id_event=guid();
-								while(moment(start).isBefore(end_recurrence)&&moment(start).isBefore(lastday)){
+								var i=0;
+								while(end.isBefore(end_recurrence)&&end.isBefore(lastday)){
 									if(startHourSet)
 										event_start=start.format("YYYY-MM-DD")+"T"+startHour[0]+":"+startHour[1];
 									else event_start=start.format("YYYY-MM-DD")
