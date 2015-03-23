@@ -948,7 +948,7 @@ function populate_public_event(event){
 
 //update event after drag and drop
 function confirm_drag_drop(event){
-	var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
+	var new_data={"id":id,"start":start, "end":end};
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
@@ -961,10 +961,10 @@ function confirm_drag_drop(event){
 					launch_error_ajax(data.error);
 					return;
 				}
+			},
 				error : function(xhr, status, error) {
 					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 				}
-			}
 		});
 	}
 
