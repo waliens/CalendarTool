@@ -46,7 +46,6 @@
 			$this->filters = array();
 			$this->event_mod = new EventModel();
 			$this->access_filter = null;
-			//$this->sql->set_dump_mode();
 		}
 
 		/**

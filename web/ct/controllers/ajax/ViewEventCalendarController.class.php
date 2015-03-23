@@ -31,16 +31,9 @@ class ViewEventCalendarController extends AjaxController
 	{
 		parent::__construct();
 		$model;
-		$sub = false;
-		$priv = false;
-		$indep = false;
-		
-		if($type == "SUB")
-			$sub = true;
-		if($type == "PRIVATE")
-			$priv = true;
-		if($type == "INDEP")
-			$indep = true;
+		$sub = $type == "SUB";
+		$priv = $type == "PRIVATE";
+		$indep = $type == "INDEP";
 		
 		$id = $this->connection->user_id();
 		
@@ -74,6 +67,7 @@ class ViewEventCalendarController extends AjaxController
 			$ret['description'] = $data['Description'];
 			$ret['type'] = $data['DateType']; 
 			$ret['place'] = $data['Place'];
+			$ret['recurrence_type'] = $data['Id_Recur_Category'];
 			
 			$start = new DateTime($data['Start']);
 			

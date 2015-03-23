@@ -482,3 +482,14 @@
 		$to_trim = trim($to_trim);
 		return $to_trim.$append;
 	}
+
+	/**
+	 * @brief Apply a bitwise OR between its arguments
+	 * @param int $arg1 Argument 1
+	 * @param int $arg2 Argument 2
+	 * @retval int Bitwise OR
+	 */
+	function bitwise_or($arg1, $arg2)
+	{
+		return $arg1 | $arg2;
+	}
