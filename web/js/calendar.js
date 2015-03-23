@@ -540,12 +540,13 @@ function edit_private_event(){
 		$("#deadline input").prop("disabled",false);
 		$("#private_event_startHour").removeClass("hidden");
 		$("#private_event_startHour").prop("disabled",false);
-		$("#private_event_endDate").parent().removeClass("hidden");
-		$("#private_event_endDate").prop("disabled",false);
-		$("#private_event_endDate_datepicker").prop("disabled",false);
-		$("#private_event_endDate_datepicker").removeClass("hidden");
-		//$("#private_event_endHour").prop("readonly",false);
-		$("#private_event_endHour").removeClass("hidden");
+		if(!$("#deadline input").prop("checked")){
+			$("#private_event_endDate").parent().removeClass("hidden");
+			$("#private_event_endDate").prop("disabled",false);
+			$("#private_event_endDate_datepicker").prop("disabled",false);
+			$("#private_event_endDate_datepicker").removeClass("hidden");
+			$("#private_event_endHour").removeClass("hidden");
+		}
 		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
 		$("#private_event_details").prop("readonly",false);
@@ -1352,14 +1353,19 @@ function changePrivateEventType(){
 	}
 	
 function deadline(){
-	if($("#deadline input:checked").length>0){
+	if($("#deadline input").prop("checked")){
 		$("#private_event_endDate").parent().addClass("hidden");
 		datepicker["private_event"].setSensitiveRange(null, null);
 		if($("#private_event_startHour").val().length==0)
 			$('#edit_event_btns .btn-primary').prop("disabled", true);
 		else $('#edit_event_btns .btn-primary').prop("disabled", false);
 	}
-	else $("#private_event_endDate").parent().removeClass("hidden");
+	else{ 
+		$("#private_event_endDate").prop("disabled",false);
+		$("#private_event_endDate_datepicker").prop("disabled",false);
+		$("#private_event_endDate_datepicker").removeClass("hidden");	
+		$("#private_event_endDate").parent().removeClass("hidden");
+		}
 }
 	
 /*-----------------------------------------------------*/	
