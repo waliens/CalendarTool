@@ -394,18 +394,21 @@ $(document).ready(function() {
 			function(event, delta, revertFunc) {
 				//$("#event_recursive_dragdrop_alert").modal("show");
 				var revert=false;
-				if(event.recurrence){//the event is recurrent
+				if(event.recursive){//the event is recurrent
 					if (!confirm("Cet événement est récurrent. Etes-vous sûr de ce changement?")){
 						revertFunc();
 						revert=true;	
 					}
 				}
 				if(!revert){
+					var end;
+					if(event.end)
+						end=event.end.format("YYYY-MM-DDTHH:mm:ss");
 					$.ajax({
 						dataType : "json",
 						type : 'POST',
 						url : "index.php?src=ajax&req=131",
-						data : {id:event.id_server,start:event.start,end:event.end,allDay:event.allDay},
+						data : {id:event.id_server,start:event.start.format("YYYY-MM-DDTHH:mm:ss"),end:end,allDay:event.allDay},
 						success : function(data, status) {
 							/** error checking */
 							if(data.error.error_code > 0)
