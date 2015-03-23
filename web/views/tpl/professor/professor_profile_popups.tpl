@@ -163,7 +163,7 @@
         </div>
       </div>
       <div class="modal-footer hidden text-center" id="edit-global-event-buttons">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="edit-global-event-abort" onclick="edit_global_event_abort()">Annuler</button>
+        <button type="button" class="btn btn-default" id="edit-global-event-abort" onclick="edit_global_event_abort()">Annuler</button>
         <button type="button" class="btn btn-primary" id="edit-global-event-confirm" onclick="edit_global_event_confirm()">Confirmer</button>
       </div>
     </div>

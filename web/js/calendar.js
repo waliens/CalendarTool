@@ -907,15 +907,15 @@ function populate_private_event(event){
 			$("#edit_private_event").removeClass("hidden");
 			$("#delete_private_event").removeClass("hidden");
 			//define delete popup alert based on whether the event is private or not
-			if(data.recurrence_type!=6){//the event is recurrent
+			if(data.recurrence_type!="6"){//the event is recurrent
 				$("#delete_private_event .delete").popover({
-					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Supprimer événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="confirm_delete_event_norecurrence()">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="confirm_delete_event_withrecurrence()">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
+					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Supprimer événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="delete_private_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="delete_private_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
 					});				
 			}
 			else{//event is not recurrent
 				//setup popover for delete private event button
 				$("#delete_private_event .delete").popover({
-					template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_private_event" onclick="delete_private_event()">Confirmer</button></div></div>'
+					template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="modal-footer"><button type="button" class="btn btn-default">Annuler</button><button type="button" class="btn btn-primary id="confirm_delete_private_event" onclick="delete_private_event(false)">Confirmer</button></div></div>'
 					});
 				}
 			$("#private_event_modal_header").addClass("float-left-10padright");
@@ -1234,13 +1234,13 @@ function create_private_event(){
 }
 
 //delete private event
-function delete_private_event(){
+function delete_private_event(applyRecursive){
 	var event_id=$("#delete_private_event .delete").attr("event-id");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=063",
-		data : {id:event_id,applyRecursive:"false"},
+		data : {id:event_id,applyRecursive:applyRecursive},
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
