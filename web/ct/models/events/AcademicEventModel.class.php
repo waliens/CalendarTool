@@ -155,7 +155,7 @@ class AcademicEventModel extends EventModel{
 			$event['name'] = $this->getEvent(array("name"), array("Id_event" => $value))[0]['Name'];
 			$pathEvent = $this->getPathways($value);
 			foreach($pathEvent as $o => $path){
-				if(in_array($path['id'], $pathways){
+				if(in_array($path['id'], $pathways)){
 					$event["pathway_name"] = $path['name_short'];
 					array_push($ret, $event);
 				}
