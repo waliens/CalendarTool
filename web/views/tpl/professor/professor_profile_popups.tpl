@@ -163,7 +163,7 @@
         </div>
       </div>
       <div class="modal-footer hidden text-center" id="edit-global-event-buttons">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="edit-global-event-abort" onclick="edit_global_event_abort()">Annuler</button>
+        <button type="button" class="btn btn-default" id="edit-global-event-abort" onclick="edit_global_event_abort()">Annuler</button>
         <button type="button" class="btn btn-primary" id="edit-global-event-confirm" onclick="edit_global_event_confirm()">Confirmer</button>
       </div>
     </div>
@@ -176,7 +176,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="new_subevent_modal_header">Nouvel sous-événement</h4>
+        <h4 class="modal-title" id="new_subevent_modal_header">Nouveau sous-événement</h4>
       </div>
       <!--modal body-->
       <div class="modal-body">

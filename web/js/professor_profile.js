@@ -183,7 +183,6 @@ $("#event_info").on("show.bs.modal",function(event){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		//url : "json/globalevent-info.json",
 		url : "index.php?src=ajax&req=032&event="+event_id,
 		success : function(data, status) {
 			/** error checking */
@@ -279,6 +278,9 @@ function populateSubevent(item){
 	a.onclick=function(e){showSubeventModal=true; subevent=e.target}
 	cell.appendChild(a);
 	row.appendChild(cell);
+	var cell2=document.createElement("td");
+	cell2.innerHTML='<div class="text-center"><a class="delete" subevent-id="'+item.id+'"></a></div>';
+	row.appendChild(cell2);
 	table.append(row);
 	}
 
@@ -293,7 +295,6 @@ function populateTeamMember(member){
 	var cell2=document.createElement("td");
 	cell2.innerHTML=member.role;
 	row.appendChild(cell2);
-	table.append(row);
 	var cell3=document.createElement("td");
 	cell3.innerHTML='<div class="text-center"><a class="delete" member-id="'+member.user+'"></a></div>';
 	row.appendChild(cell3);
@@ -456,11 +457,11 @@ function  edit_global_event_confirm(){
 function edit_global_event_abort(){
 	$("#edit_global_event .edit").removeClass("edit-disabled");
 	$("#event-details").html('');
-	$("#event-details").value(edit_global_event_old.details);
+	$("#event-details").text(edit_global_event_old.details);
 	$("#event-feedback").html('');
-	$("#event-feedback").value(edit_global_event_old.feedback);
+	$("#event-feedback").text(edit_global_event_old.feedback);
 	$("#event-lang").html('');
-	$("#event-lang").value(edit_global_event_old.language);
+	$("#event-lang").text(edit_global_event_old.language);
 	$("#edit-global-event-buttons").addClass("hidden");
 	}
 	
@@ -473,7 +474,7 @@ $("#add_global_event_alert").on("show.bs.modal",function(){
 	$("#global_event_add_confirm").prop("disabled",true);
 	$('#years_list').html("");
 	$("#selected_year").html('Année <span class="caret"></span>');
-	$("#cours_to_add").html('Sélectionnez cours <span class="caret"></span>');
+	$("#cours_to_add").html('Sélectionner cours <span class="caret"></span>');
 	$("#global_course_list").html("");
 	$("#new_global_cours_details").val("");
 	$("#new_global_cours_feedback").val("");
@@ -573,7 +574,7 @@ $("#global_event_add_confirm").click(function(event){
 
 //enable add global event button when course, language and year are selected
 $("#add_global_event_alert").on("click","#global_course_list li,#languages_list li",function() {
-	if($("#cours_language").text()!="Sélectionner langue "&&$("#cours_to_add").text()!="Sélectionnez cours ")
+	if($("#cours_language").text()!="Sélectionner langue "&&$("#cours_to_add").text()!="Sélectionner cours ")
 		$("#global_event_add_confirm").prop("disabled",false);
 	else $("#global_event_add_confirm").prop("disabled",true);
 });
@@ -861,7 +862,7 @@ function convert_date(date,formatDestination,formatOrigin){
 		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
 		if(chunks.length>1){
 			dd=chunks[1];
-			if(chunks[2].length<2)
+			if(chunks[2].length>2)//it's a 4 letters string of the month to be translated into two digits string
 				mm=convert_month(chunks[2]);
 			else mm=chunks[2];
 			yy=chunks[3];
@@ -1065,3 +1066,23 @@ function addTeamWithCheckbox(team){
 	cell2.className="text-center";
 	cell2.appendChild(input);
 	}
+	
+	
+//delete subevent function	
+$("#subevents_info_accordion").on("click",".delete",function(event){
+	var event_id=event.currentTarget.getAttribute("subevent-id");
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=055",
+			data: {id:event_id,applyRecursive:false},
+			async : true,
+			success : function(data, status) {
+				$("#subevents_table #"+event_id).parent().parent().remove();
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	})	
