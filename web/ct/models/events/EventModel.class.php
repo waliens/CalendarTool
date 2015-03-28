@@ -355,6 +355,8 @@ use \DateInterval;
 			$qmark_array = array_fill(0, count($ids), "?");
 			$id_array_str = "(".implode(", ", $qmark_array).")";
 
+			$this->sql->set_dump_mode();
+
 			$query  =  "SELECT * FROM event 
 						NATURAL JOIN 
 						(
@@ -364,7 +366,7 @@ use \DateInterval;
 						  
 						  UNION ALL
 
-						  SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 'date_range' AS DateType
+						  SELECT Id_Event, DATE_FORMAT(Start, '%Y-%m-%d') AS Start, DATE_FORMAT(End, '%Y-%m-%d') AS End, 'date_range' AS DateType
 						  FROM date_range_event
 						  WHERE Id_Event IN ".$id_array_str."
 
