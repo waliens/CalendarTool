@@ -355,8 +355,6 @@ use \DateInterval;
 			$qmark_array = array_fill(0, count($ids), "?");
 			$id_array_str = "(".implode(", ", $qmark_array).")";
 
-			$this->sql->set_dump_mode();
-
 			$query  =  "SELECT * FROM event 
 						NATURAL JOIN 
 						(
