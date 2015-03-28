@@ -48,8 +48,8 @@ class GetPrivateEventController extends AjaxController
 			$f_event['name'] = $event['Name'];
 			$f_event['recurrence'] = $event['Id_Recurrence'] > 1;
 			$f_event['recurrence_type'] = $event['Id_Recur_Category'];
-			$f_event['start'] = \ct\sql2fullcalendar($event['Start']);
-			$f_event['end'] = \ct\sql2fullcalendar($event['End']);
+			$f_event['start'] = \ct\date_sql2fullcalendar($event['Start']);
+			$f_event['end'] = \ct\date_sql2fullcalendar($event['End']);
 
 			$out_events[] = $f_event; 
 		}
