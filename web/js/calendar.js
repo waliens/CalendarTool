@@ -601,6 +601,42 @@ function edit_private_event(){
 		$("#private_notes_body").parent().parent().removeClass("hidden");
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
+		//populate event category list
+		$.ajax({
+				dataType : "json",
+				type : 'POST',
+				url : "index.php?src=ajax&req=047",
+				data: {lang:"FR"},
+				async : true,
+				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
+
+					var student_categories=data.student;
+					var academic_categories=data.academic;
+					var dropdown=document.getElementById("private_event_categories_dropdown");
+					dropdown.innerHTML="";
+					for (i=0; i < academic_categories.length; i++){
+						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+academic_categories[i].id+'">'+academic_categories[i].name+'</a>'
+						var li=document.createElement("li");
+						li.innerHTML=a_tab;
+						dropdown.appendChild(li);
+					}
+					for(i=0;i<student_categories.length;i++){
+						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+student_categories[i].id+'">'+student_categories[i].name+'</a>'
+						var li=document.createElement("li");
+						li.innerHTML=a_tab;
+						dropdown.appendChild(li);
+					}
+				},
+				error : function(xhr, status, error) {
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				}
+			});
 	}
 }
 	

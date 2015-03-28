@@ -116,8 +116,8 @@ function populate_private_event(event){
 			$("#recurrence").text(get_recursion(data.recurrence));
 			$("#recurrence").attr("recurrence-id",data.recurrence);	
 			$("#private_event_place").val(data.place);
-			$("#private_event_type").text(data.category_name);
-			$("#private_event_type").attr("category-id",data.category_id);
+			$("#private_event_category").text(data.category_name);
+			$("#private_event_category").attr("category-id",data.category_id);
 			$("#private_event_details").val(data.description);
 			$("#private_notes_body").val(data.annotation);
 			var event_type=data.type;
@@ -142,6 +142,7 @@ function populate_private_event(event){
 				$("#private_event_startHour").prop("disabled",true);
 				if(type!="deadline"){
 					$("#private_event_endHour").removeClass("hidden");
+					$("#private_event_endHour").prop("disabled",true);
 					endHourChunks=data.endTime.split(":");
 					endHour=moment(data.endDay);
 					endHour.hours(endHourChunks[0]);
@@ -200,7 +201,7 @@ function populate_private_event(event){
 			$("#private_event_place").prop("readonly",true);
 			$("#private_event_details").prop("readonly",true);
 			$("#recurrence_btn").prop("disabled",true);
-			$("#private_event_type_btn").prop("disabled",true);
+			$("#private_event_category_btn").prop("disabled",true);
 			if(notes!=""){
 				$("#private_notes_body").val(notes);
 				$("#private_notes_body").prop("readonly",true);
@@ -235,16 +236,53 @@ function edit_private_event(){
 			$("#private_event_endDate_datepicker").prop("disabled",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
+			$("#private_event_endHour").prop("disabled",false);
 		}
 		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
 		$("#private_event_details").prop("readonly",false);
 		$("#private_event_details").removeClass("hidden");
-		$("#private_event_type_btn").prop("disabled",false);
+		$("#private_event_category_btn").prop("disabled",false);
 		$("#private_notes_body").prop("readonly",false);
 		$("#private_notes_body").parent().parent().removeClass("hidden");
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
+		//populate event category list
+		$.ajax({
+				dataType : "json",
+				type : 'POST',
+				url : "index.php?src=ajax&req=047",
+				data: {lang:"FR"},
+				async : true,
+				success : function(data, status) {
+					/** error checking */
+					if(data.error.error_code > 0)
+					{	
+						launch_error_ajax(data.error);
+						return;
+					}
+
+					var student_categories=data.student;
+					var academic_categories=data.academic;
+					var dropdown=document.getElementById("private_event_categories_dropdown");
+					dropdown.innerHTML="";
+					for (i=0; i < academic_categories.length; i++){
+						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+academic_categories[i].id+'">'+academic_categories[i].name+'</a>'
+						var li=document.createElement("li");
+						li.innerHTML=a_tab;
+						dropdown.appendChild(li);
+					}
+					for(i=0;i<student_categories.length;i++){
+						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+student_categories[i].id+'">'+student_categories[i].name+'</a>'
+						var li=document.createElement("li");
+						li.innerHTML=a_tab;
+						dropdown.appendChild(li);
+					}
+				},
+				error : function(xhr, status, error) {
+					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+				}
+			});
 	}
 }
 	
@@ -272,7 +310,7 @@ function abort_edit_event(){
 function confirm_edit_private_event(){
 	var event_id=$("#edit_event_btns .btn-primary").attr("event-id");
 	var title=$("#private_event_title").val();
-	var type=$("#private_event_type").text();
+	var type=$("#private_event_category").text();
 	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
 	var startHour=$("#private_event_startHour").val();
 	var startHourSet=false;
@@ -311,7 +349,7 @@ function confirm_edit_private_event(){
 	var recurrence_id=$("#recurrence").attr("recurrence-id");
 	var end_recurrence;
 	var place=$("#private_event_place").val();
-	var type=$("#private_event_type").attr("category-id")
+	var type=$("#private_event_category").attr("category-id")
 	var details=$("#private_event_details").val();
 	var notes=$("#private_notes_body").val();
 	if($("#deadline input").prop("checked")){
@@ -322,7 +360,7 @@ function confirm_edit_private_event(){
 	//send update to server
 	if(end!="")
 		end=end.format("YYYY-MM-DDTHH:mm:ss");
-	var edit_event={id:event_id, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start.format("YYYY-MM-DDTHH:mm:ss"), end:end, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+	var edit_event={id:event_id, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start.format("YYYY-MM-DDTHH:mm:ss"), end:end, type:$("#private_event_category").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
@@ -517,7 +555,7 @@ function buildMoment(date){
 	var dateMoment;
 	var dateString;
 	if(date!=""){
-		var dateChunks=date.split(" ");//split date and time
+		var dateChunks=date.split("T");//split date and time
 		dateMoment=moment(dateChunks[0]);
 		if(dateChunks.length==2){//if there is also a time
 			var hourChunks=dateChunks[1].split(":")//split hour and minute
@@ -532,6 +570,6 @@ function buildMoment(date){
 
 //change the value of the dropdown stating the private event type
 function changePrivateEventType(){
-	$("#private_event_type").text(event.target.innerHTML);
-	$("#private_event_type").attr("category-id",event.target.getAttribute("category-id"))
+	$("#private_event_category").text(event.target.innerHTML);
+	$("#private_event_category").attr("category-id",event.target.getAttribute("category-id"))
 	}
