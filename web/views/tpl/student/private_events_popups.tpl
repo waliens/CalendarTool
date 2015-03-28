@@ -1,17 +1,3 @@
-<!--DELETE ALERT-->
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="delete_alert">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-body">
-      <!--ALERT CONTENT-->
-      </div>
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal" id="delete_confirm">Oui</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete_abort">Non</button>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- PRIVATE EVENT ALERT -->
 <div class="modal fade" id="private_event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -122,10 +108,10 @@
             </tr>
             <tr>
               <td colspan="2"><div class='text-center' id='edit_event_btns'>
-                  <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="create_private_event();">
+                  <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="confirm_edit_private_event();">
                   Confirmer
                   </button>
-                  <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
+                  <button type='button' class='btn btn-default' data-dismiss="modal" onclick="abort_edit_event();">Annuler</button>
                 </div></td>
             </tr>
           </table>

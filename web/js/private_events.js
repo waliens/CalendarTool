@@ -40,50 +40,37 @@ function addEvent(item){
 	event_tag.innerHTML = item.name;
 	event_tag.setAttribute("data-toggle","modal");
 	event_tag.setAttribute("data-target","#private_event");
-	var delete_icon=document.createElement('a');
-	var edit_icon=document.createElement('a');
-	edit_icon.className="edit";
-	edit_icon.setAttribute("event-id",item.id);
-	delete_icon.className="delete";
-	//link the delete icon to the delete alert
-	delete_icon.setAttribute("data-toggle","modal");
-	delete_icon.setAttribute("data-target","#delete_alert");
-	delete_icon.setAttribute("event-id",item.id);
-	delete_icon.setAttribute("event-name",item.name);
-	delete_icon.setAttribute("recurrence",item.recurrence);
-	var div_container1=document.createElement("div");
-	div_container1.className="text-center";
-	var div_container2=document.createElement("div");
-	div_container2.className="text-center";
-	div_container1.appendChild(edit_icon);
-	div_container2.appendChild(delete_icon);
+	var recurrence=get_recursion(item.recurrence_type);
+	var event_recurrence=document.createElement("p");
+	event_recurrence.innerText=recurrence;
+	var start=buildMoment(item.start);	
+	var event_start=document.createElement('p');
+	event_start.innerText=start;
+	var end="";
+	if(item.end!="")
+		end=buildMoment(item.end);
+	var event_end=document.createElement('p');
+	event_end.innerText=end;
 	var row=private_events_table.insertRow(-1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
 	var cell3=row.insertCell(2);
+	var cell4=row.insertCell(3);
 	cell1.appendChild(event_tag);
-	cell2.appendChild(div_container1);
-	cell3.appendChild(div_container2);
+	cell2.appendChild(event_start);
+	cell3.appendChild(event_end);
+	cell4.appendChild(event_recurrence);
 	}
-	
-//populate delete private event alert
-$('#delete_alert').on('show.bs.modal', function (event) {
-	var private_event = $(event.relatedTarget);
-	var recurrence = private_event.attr("recurrence");
-	$("#delete_alert .modal-body").html("Êtes-vous sûr de vouloir supprimer l'événement <span class='text-bold'>"+private_event.attr("event-name")+"</span>");
-	$("#delete_confirm").attr("event-id",private_event.attr("event-id"));
-});
-
 
 
 //delete private event
-$("#delete_confirm").click(function(){
-	var event_id=$("#delete_confirm").attr("event-id");
+function delete_private_event(recurrence){
+	var event_id=$("#delete_private_event .delete").attr("event-id");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=063",
-		data:{id:event_id,applyRecursive:false},
+		data:{id:event_id,applyRecursive:recurrence},
 		async : true,
 		success : function(data, status) {
 			/** error checking */
@@ -92,13 +79,14 @@ $("#delete_confirm").click(function(){
 				launch_error_ajax(data.error);
 				return;
 			}
-			$(".delete[event-id='"+event_id+"']").parent().parent().parent().remove();
+			$("#private_event").modal("hide");
+			$("#private_events a[event-id='"+event_id+"']").parent().parent().remove();
 		},
 		error : function(xhr, status, error) {
 						launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
-});
+}
 
 
 //populate private event modal on modal display
@@ -112,6 +100,7 @@ $("#private_event").on('show.bs.modal', function (event) {
 function populate_private_event(event){
 	var event_id=event.relatedTarget.getAttribute("event-id");
 	$("#delete_private_event .delete").attr("event-id",event_id);
+	$("#edit_event_btns button").attr("event-id",event_id);
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
@@ -144,12 +133,20 @@ function populate_private_event(event){
 			var endHour;
 			if(type!="date_range"){
 				$("#private_event_startHour").removeClass("hidden");
-				startHour=moment(data.startHour).format("HH:mm");
+				startHourChunks=data.startTime.split(":");
+				startHour=moment(data.startDay);
+				startHour.hours(startHourChunks[0]);
+				startHour.minutes(startHourChunks[1]);
+				startHour=startHour.format("HH:mm");
 				$("#private_event_startHour").val(startHour);
 				$("#private_event_startHour").prop("disabled",true);
 				if(type!="deadline"){
 					$("#private_event_endHour").removeClass("hidden");
-					endHour=moment(data.endHour).format("HH:mm");
+					endHourChunks=data.endTime.split(":");
+					endHour=moment(data.endDay);
+					endHour.hours(endHourChunks[0]);
+					endHour.minutes(endHourChunks[1]);
+					endHour=endHour.format("HH:mm");
 					$("#private_event_endHour").val(endHour);
 				}
 				//else $("#new_event_startDate").prev().addClass("hidden");
@@ -174,7 +171,7 @@ function populate_private_event(event){
 			$("#edit_private_event").removeClass("hidden");
 			$("#delete_private_event").removeClass("hidden");
 			//define delete popup alert based on whether the event is private or not
-			if(data.recurrence_type!="6"){//the event is recurrent
+			if(data.recurrence!="6"){//the event is recurrent
 				$("#delete_private_event .delete").popover({
 					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Supprimer événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="delete_private_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="delete_private_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
 					});				
@@ -217,6 +214,137 @@ function populate_private_event(event){
 				}
 		});
 	}
+
+//edit event info	
+function edit_private_event(){
+	if(!$("#edit_private_event .edit").attr("disabled")){
+		edit_existing_event=true;
+		//prevent the modal to hide before we either confirm the new note or we abort
+		$(".modal-backdrop").off("click");
+		//prevent the button from being pressed again
+		$("#edit_private_event .edit").attr("disabled",true);
+		//make all event info editable
+		$("#private_event_title").prop("readonly",false);
+		$("#private_event_startDate_datepicker").prop("disabled",false);
+		$("#deadline input").prop("disabled",false);
+		$("#private_event_startHour").removeClass("hidden");
+		$("#private_event_startHour").prop("disabled",false);
+		if(!$("#deadline input").prop("checked")){
+			$("#private_event_endDate").parent().removeClass("hidden");
+			$("#private_event_endDate").prop("disabled",false);
+			$("#private_event_endDate_datepicker").prop("disabled",false);
+			$("#private_event_endDate_datepicker").removeClass("hidden");
+			$("#private_event_endHour").removeClass("hidden");
+		}
+		$("#private_event_place").prop("readonly",false);
+		$("#private_event_place").removeClass("hidden");
+		$("#private_event_details").prop("readonly",false);
+		$("#private_event_details").removeClass("hidden");
+		$("#private_event_type_btn").prop("disabled",false);
+		$("#private_notes_body").prop("readonly",false);
+		$("#private_notes_body").parent().parent().removeClass("hidden");
+		$("#edit_event_btns").removeClass("hidden");
+		$("#edit_event_btns .btn-primary").prop("disabled",false);
+	}
+}
+	
+//abort edit info
+function abort_edit_event(){
+	//bind edit button to handler
+	$("#edit_private_event .edit").attr("disabled",false);
+	//rollback event info
+	$("#startDate").html(event_date_start);
+	$("#endDate").html(event_date_start);
+	$("#event_place").text(event_place);
+	$("#event_details").text(event_details);
+	//make all event info non editable
+	$("#event_place").prop('contenteditable',"false");
+	$("#event_place").removeClass("box");
+	$("#event_details").prop('contenteditable',"false");
+	$("#event_details").removeClass("box");
+	//hide save, abort buttons
+	$("#edit_event_btns").addClass("hidden");
+	//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
+	$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
+	}
+
+//confirm the edit of an existing event
+function confirm_edit_private_event(){
+	var event_id=$("#edit_event_btns .btn-primary").attr("event-id");
+	var title=$("#private_event_title").val();
+	var type=$("#private_event_type").text();
+	var start=moment(convert_date($("#private_event_startDate_datepicker").val(), "YYYY-MM-DD"));
+	var startHour=$("#private_event_startHour").val();
+	var startHourSet=false;
+	var endHourSet=false;
+	var recurrent=false;
+	if(startHour!=""){
+		startHourSet=true;
+		//divide minutes from hours
+		startHour=startHour.split(":");
+		start.minute(startHour[1]);
+		start.hour(startHour[0]); 
+	}
+	var limit=false;
+	if($("#deadline input").prop("checked")){
+		limit=true;
+		end="";
+	}
+	else{
+		var end=moment(convert_date($("#private_event_endDate_datepicker").val(), "YYYY-MM-DD"));
+		var endHour=$("#private_event_endHour").val();
+		
+		if(endHour!=""){
+			endHourSet=true;
+			//divide minutes from hours
+			endHour=endHour.split(":");
+			end.minute(endHour[1]);
+			end.hour(endHour[0]); 
+		}
+	}
+	//check if the event is an allDay event
+	var allDay=false;
+	if(!startHour && !endHour)
+		allDay=true;
+	
+	var recurrence=$("#recurrence").text();
+	var recurrence_id=$("#recurrence").attr("recurrence-id");
+	var end_recurrence;
+	var place=$("#private_event_place").val();
+	var type=$("#private_event_type").attr("category-id")
+	var details=$("#private_event_details").val();
+	var notes=$("#private_notes_body").val();
+	if($("#deadline input").prop("checked")){
+		end=moment(start);
+		end=end.add(1,"minute");
+		end=""
+		}
+	//send update to server
+	if(end!="")
+		end=end.format("YYYY-MM-DDTHH:mm:ss");
+	var edit_event={id:event_id, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start.format("YYYY-MM-DDTHH:mm:ss"), end:end, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=065",
+			data : edit_event,
+			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+				
+			},
+			error : function(xhr, status, error) {
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
+		});
+				
+	//hide the modal
+	$("#private_event").modal("hide");
+}
 
 //builds the object datepicker
 function buildDatePicker(option,target) {
@@ -383,4 +511,27 @@ function get_recursion(recursion_id){
 		case "5":
 			return "tous les ans"
 		}
+	}
+	
+function buildMoment(date){
+	var dateMoment;
+	var dateString;
+	if(date!=""){
+		var dateChunks=date.split(" ");//split date and time
+		dateMoment=moment(dateChunks[0]);
+		if(dateChunks.length==2){//if there is also a time
+			var hourChunks=dateChunks[1].split(":")//split hour and minute
+			dateMoment=moment(dateChunks[0]+" "+hourChunks[0]+":"+hourChunks[1]);
+		}
+	}
+	if(dateMoment._f=="YYYY-MM-DD HH:mm")
+		dateString=dateMoment.format("ddd DD MMM YYYY HH:mm");
+	else dateString=dateMoment.format("ddd DD MMM YYYY");
+	return dateString;
+}
+
+//change the value of the dropdown stating the private event type
+function changePrivateEventType(){
+	$("#private_event_type").text(event.target.innerHTML);
+	$("#private_event_type").attr("category-id",event.target.getAttribute("category-id"))
 	}
