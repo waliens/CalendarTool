@@ -242,9 +242,6 @@ function addEvents(){
 						}
 						$('#calendar').fullCalendar( 'renderEvent', newEvent);
 					}
-					var deadlines=data.upperView;
-					for(i=0;i<deadlines.length;i++)
-						addDeadline(deadlines[i]);
 					},
 					error : function(xhr, status, error) {
 						launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -427,6 +424,27 @@ $(document).ready(function() {
 				}
 			}
     })
+	
+	//load deadlines, favourites and upcoming events
+	$.ajax({
+			dataType : "json",
+			type : 'GET',
+			url : "index.php?src=ajax&req=101",
+			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+					var deadlines=data.upcomingDeadlines;
+					for(i=0;i<deadlines.length;i++)
+						addDeadline(deadlines[i]);
+			},
+			error : function(xhr, status, error) {
+				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+			}
+		});	
 	
 	/*--------------------------SETTING UP NOTE POPOVER-----------------------------*/
 	
