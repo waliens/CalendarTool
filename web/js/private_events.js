@@ -573,3 +573,50 @@ function changePrivateEventType(){
 	$("#private_event_category").text(event.target.innerHTML);
 	$("#private_event_category").attr("category-id",event.target.getAttribute("category-id"))
 	}
+
+//triggered when the deadline checkbox is selected
+function deadline(){
+	if($("#deadline input").prop("checked")){
+		$("#private_event_endDate").parent().addClass("hidden");
+		datepicker["private_event"].setSensitiveRange(null, null);
+		if($("#private_event_startHour").val().length==0)
+			$('#edit_event_btns .btn-primary').prop("disabled", true);
+		else $('#edit_event_btns .btn-primary').prop("disabled", false);
+	}
+	else{ 
+		$("#private_event_endDate").prop("disabled",false);
+		$("#private_event_endDate_datepicker").prop("disabled",false);
+		$("#private_event_endDate_datepicker").removeClass("hidden");	
+		$("#private_event_endDate").parent().removeClass("hidden");
+		}
+}
+
+//enable new/edit event confirm button only when requierd fields are inserted
+$('#private_event_title, #private_event_startHour').keyup(function () {
+	//when the title has been defined
+    if( $('#private_event_title').val().length > 0) {
+		//enable if deadline is not selected or is selected and also an hour has been provided
+		if($("#deadline input:checked").length==1&&$("#private_event_startHour").val().length>0||$("#deadline input:checked").length==0)
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
+		else $('#edit_event_btns .btn-primary').prop("disabled", true);
+    } 
+	else $('#edit_event_btns .btn-primary').prop("disabled", true);
+})
+
+//setup timepickers of new event modal
+$(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
+$("#private_event_endHour").on("changeTime",function(){
+	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
+	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
+	if(startDate.isSame(endDate))
+		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	})
+$("#private_event_startHour").on("changeTime",function(){
+	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
+	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
+	if(startDate.isSame(endDate))
+		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
+	if($("#private_event_title").val().length>0)
+		$('#edit_event_btns .btn-primary').prop("disabled", false);
+	})

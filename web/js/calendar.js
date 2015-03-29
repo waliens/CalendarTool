@@ -820,7 +820,7 @@ function updateRecurrence(){
 	else $("#recurrence_end_td").addClass("hidden");
 	}
 	
-//enable nev event confirm button only when requierd fields are inserted
+//enable new/edit event confirm button only when requierd fields are inserted
 $('#private_event_title, #private_event_startHour').keyup(function () {
 	//when the title has been defined
     if( $('#private_event_title').val().length > 0) {
