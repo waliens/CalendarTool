@@ -242,6 +242,9 @@ function addEvents(){
 						}
 						$('#calendar').fullCalendar( 'renderEvent', newEvent);
 					}
+					var deadlines=data.upperView;
+					for(i=0;i<deadlines.length;i++)
+						addDeadline(deadlines[i]);
 					},
 					error : function(xhr, status, error) {
 						launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -434,6 +437,38 @@ $(document).ready(function() {
 
 	/*--------------------------END SETTING UP POPOVER-----------------------------*/	
 });
+
+//add deadlines to the calendar upperview
+function addDeadline(item){
+	var private_events_table=document.getElementById("deadlines");
+    var event_tag=document.createElement('a');
+	event_tag.setAttribute("event-id",item.id);
+	event_tag.innerHTML = item.name;
+	event_tag.setAttribute("data-toggle","modal");
+	event_tag.setAttribute("data-target","#private_event");
+	var recurrence=get_recursion(item.recurrence_type);
+	var event_recurrence=document.createElement("p");
+	event_recurrence.innerText=recurrence;
+	var start=buildMoment(item.start);	
+	var event_start=document.createElement('p');
+	event_start.innerText=start;
+	var end="";
+	if(item.end!="")
+		end=buildMoment(item.end);
+	var event_end=document.createElement('p');
+	event_end.innerText=end;
+	var row=private_events_table.insertRow(-1);
+	var cell1=row.insertCell(0);
+	var cell2=row.insertCell(1);
+	var cell3=row.insertCell(2);
+	var cell4=row.insertCell(3);
+	cell1.appendChild(event_tag);
+	cell2.appendChild(event_start);
+	cell3.appendChild(event_end);
+	cell4.appendChild(event_recurrence);
+	}
+
+
 
 /*--------------------------------------------------------------------------*/
 /*--------------------------- MANAGE NOTE ----------------------------------*/
