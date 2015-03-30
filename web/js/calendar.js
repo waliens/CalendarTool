@@ -650,6 +650,7 @@ function edit_private_event(){
 			$("#private_event_endDate_datepicker").prop("disabled",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
+			$("#private_event_startHour").prop("disabled",false);
 		}
 		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
@@ -982,6 +983,7 @@ function populate_private_event(event){
 				$("#private_event_startHour").prop("disabled",true);
 				if(type!="deadline"){
 					$("#private_event_endHour").removeClass("hidden");
+					$("#private_event_endHour").prop("disabled",true);
 					endHour=event.end.format("HH:mm");
 					$("#private_event_endHour").val(endHour);
 				}
