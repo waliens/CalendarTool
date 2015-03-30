@@ -301,6 +301,29 @@ function populateTeamMember(member){
 	table.append(row);
 	}
 
+//populate add new indep event modal
+$("#new_indepevent").on("show.bs.modal",function(){
+	//populate categories dropdown
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=047",
+			data: {lang:"FR"},
+			async : true,
+			success : function(data, status) {
+				var categories=data.academic;
+				$("#new_indepevent_categories").html("");
+				for (var i=0; i < categories.length; i++)
+					$("#new_indepevent_categories").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changeSubEventType("#new_indepevent_categories")" category-id="'+categories[i].id+'">'+categories[i].name+'</a></li>');
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	
+	})
+
 //displays info of subevents and independent events
 $("#subevent_info").on("show.bs.modal",function(){
 	//get subevent info
@@ -774,8 +797,9 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 			async : true,
 			success : function(data, status) {
 				var categories=data.academic;
+				$("#new_subevent_categories").html("");
 				for (var i=0; i < categories.length; i++)
-					$("#new_subevent_categories").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changeSubEventType()" category-id="'+categories[i].id+'">'+categories[i].name+'</a></li>');
+					$("#new_subevent_categories").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changeSubEventType("#new_subevent_type")" category-id="'+categories[i].id+'">'+categories[i].name+'</a></li>');
 			},
 			error : function(xhr, status, error) {
 			  var err = eval("(" + xhr.responseText + ")");
@@ -962,9 +986,9 @@ function updateRecurrence(){
 	}
 	
 //change the value of the dropdown stating the private event type
-function changeSubEventType(){
-	$("#new_subevent_type").text(event.target.innerHTML);
-	$("#new_subevent_type").attr("category-id",event.target.getAttribute("category-id"))
+function changeSubEventType(tag){
+	$(tag).text(event.target.innerHTML);
+	$(tag).attr("category-id",event.target.getAttribute("category-id"))
 	}
 	
 //confirm creation new subevent
