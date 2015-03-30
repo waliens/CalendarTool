@@ -438,8 +438,27 @@ $(document).ready(function() {
 					return;
 				}
 					var deadlines=data.upcomingDeadlines;
+					document.getElementById("deadlines").innerHTML="";
 					for(i=0;i<deadlines.length;i++)
 						addDeadline(deadlines[i]);
+					//add the table headers
+					var deadlines_table=document.getElementById("deadlines");
+    				var row=deadlines_table.insertRow(0);
+					var cell1=row.insertCell(0);
+					var cell2=row.insertCell(1);
+					var cell3=row.insertCell(2);
+					var titleHeader=document.createElement('p');
+					titleHeader.className="text-bold";
+					var whenHeader=document.createElement('p');
+					whenHeader.className="text-bold";
+					var recurrenceHeader=document.createElement('p');
+					recurrenceHeader.className="text-bold";
+					titleHeader.innerHTML="Titre"
+					cell1.appendChild(titleHeader);
+					whenHeader.innerHTML="Quand";
+					cell2.appendChild(whenHeader);
+					recurrenceHeader.innerHTML="Récurrence";
+					cell3.appendChild(recurrenceHeader);
 			},
 			error : function(xhr, status, error) {
 				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -464,32 +483,25 @@ $("#private_event").on("show.bs.modal",function(){
 
 //add deadlines to the calendar upperview
 function addDeadline(item){
-	var private_events_table=document.getElementById("deadlines");
+	var deadlines_table=document.getElementById("deadlines");
     var event_tag=document.createElement('a');
 	event_tag.setAttribute("event-id",item.id);
 	event_tag.innerHTML = item.name;
 	event_tag.setAttribute("data-toggle","modal");
 	event_tag.setAttribute("data-target","#private_event");
-	var recurrence=get_recursion(item.recurrence_type);
+	var recurrence=get_recursion(item.recurrence_id);
 	var event_recurrence=document.createElement("p");
 	event_recurrence.innerText=recurrence;
-	var start=buildMoment(item.start);	
-	var event_start=document.createElement('p');
-	event_start.innerText=start;
-	var end="";
-	if(item.end!="")
-		end=buildMoment(item.end);
-	var event_end=document.createElement('p');
-	event_end.innerText=end;
-	var row=private_events_table.insertRow(-1);
+	var limit=buildMoment(item.limit);	
+	var event_limit=document.createElement('p');
+	event_limit.innerText=limit;
+	var row=deadlines_table.insertRow(0);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
 	var cell3=row.insertCell(2);
-	var cell4=row.insertCell(3);
 	cell1.appendChild(event_tag);
-	cell2.appendChild(event_start);
-	cell3.appendChild(event_end);
-	cell4.appendChild(event_recurrence);
+	cell2.appendChild(event_limit);
+	cell3.appendChild(event_recurrence);
 	}
 
 
@@ -2120,3 +2132,20 @@ function isSet(field){
 		field.parent().parent().addClass("hidden");
 	else field.parent().parent().removeClass("hidden");
 	}
+
+function buildMoment(date){
+	var dateMoment;
+	var dateString;
+	if(date!=""){
+		var dateChunks=date.split("T");//split date and time
+		dateMoment=moment(dateChunks[0]);
+		if(dateChunks.length==2){//if there is also a time
+			var hourChunks=dateChunks[1].split(":")//split hour and minute
+			dateMoment=moment(dateChunks[0]+" "+hourChunks[0]+":"+hourChunks[1]);
+		}
+	}
+	if(dateMoment._f=="YYYY-MM-DD HH:mm")
+		dateString=dateMoment.format("ddd DD MMM YYYY HH:mm");
+	else dateString=dateMoment.format("ddd DD MMM YYYY");
+	return dateString;
+}
