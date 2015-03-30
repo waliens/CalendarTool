@@ -90,16 +90,11 @@
 
 			// add filters
 			$filter_collection->add_filter($this->datetime_filter);
-			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_ACADEMIC));
 
 			// add access filter
 			$filter_collection->add_access_filter($this->access_filter);
 
 			$upcoming = $filter_collection->get_events();
-
-			// extract useful data
-			$transform = array("Id_Event" => "id", "Start" => "start", "Name" => "name");
-			$upcoming = \ct\darray_transform($upcoming, $transform);
 
 			// extract useful data
 			$upcoming = $this->convert_event_array($upcoming, false);
@@ -170,11 +165,11 @@
 				$curr['recurrence_id'] = $event['Id_Recurrence'];
 
 				if($deadline)
-					$curr['limit'] = \ct\date_sql2fullcalendar($event['start']);
+					$curr['limit'] = \ct\date_sql2fullcalendar($event['Start']);
 				else
 				{
 					$curr['start'] = \ct\date_sql2fullcalendar($event['Start']);
-					$curr['end'] = \ct\date_sql2fullcalendar($event['end']);
+					$curr['end'] = \ct\date_sql2fullcalendar($event['End']);
 				}
 
 				$out_events[] = $curr;
