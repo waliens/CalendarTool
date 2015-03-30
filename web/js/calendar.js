@@ -456,6 +456,12 @@ $(document).ready(function() {
 	/*--------------------------END SETTING UP POPOVER-----------------------------*/	
 });
 
+//populate event categories of private event modal when creating a new private event
+$("#private_event").on("show.bs.modal",function(){
+	//populate event categories
+	populate_private_event_categories_dropdown();
+	})
+
 //add deadlines to the calendar upperview
 function addDeadline(item){
 	var private_events_table=document.getElementById("deadlines");
@@ -655,7 +661,12 @@ function edit_private_event(){
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
 		//populate event category list
-		$.ajax({
+		populate_private_event_categories_dropdown();
+	}
+}
+
+function populate_private_event_categories_dropdown(){
+	$.ajax({
 				dataType : "json",
 				type : 'POST',
 				url : "index.php?src=ajax&req=047",
@@ -691,7 +702,6 @@ function edit_private_event(){
 				}
 			});
 	}
-}
 	
 //abort edit info
 function abort_edit_event(){
@@ -1546,7 +1556,6 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'POST',
-						//url : "json/event_categories.json",
 						url : "index.php?src=ajax&req=047",
 						data: {lang:"FR"},
 						async : true,
