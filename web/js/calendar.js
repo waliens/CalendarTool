@@ -387,7 +387,7 @@ $(document).ready(function() {
 			$("#private_event").modal("show");
 			$("#edit_private_event").addClass('hidden');
 			$("#delete_private_event").addClass('hidden');
-			$("#private_event_title").focus();
+			setTimeInterval(date,view);
 		},
 		//function to be called when private event is dragged and dropped
 		eventDrop:
@@ -480,6 +480,31 @@ $("#private_event").on("show.bs.modal",function(){
 	//populate event categories
 	populate_private_event_categories_dropdown();
 	})
+	
+//set time intervals of new private event
+function setTimeInterval(date,view){
+	//get current calendar view
+	var current_view=getCurrentView(view.name);
+	//if the view is the day or week view we load in the time pickers the start and end hour where the user clicked
+	//otherwise we select the current hour
+	var startHour;
+	var minutes;
+	var endHour;
+	if(current_view=="day"||current_view=="week"){
+		startHour=date.hours();
+		minutes=date.minutes();
+		endHour=date.add(1,"hour").hours();
+		}
+	else{
+		var currentTime=new Date();
+		currentTime=moment(currentTime);
+		startHour=currentTime.hours();
+		endHour=currentTime.add(1,"hour").hours();
+		minutes="00";
+		}
+	$("#private_event_startHour").val(startHour+":"+minutes);
+	$("#private_event_endHour").val(endHour+":"+minutes)
+	}
 
 //add deadlines to the calendar upperview
 function addDeadline(item){

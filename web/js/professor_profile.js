@@ -787,7 +787,15 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_startHour").on("changeTime",function(){
 		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
 		})
-
+	//populate time pickers
+	var currentTime=new Date();
+	currentTime=moment(currentTime);
+	var	startHour=currentTime.hours();
+	var	endHour=currentTime.add(1,"hour").hours();
+	var	minutes="00";
+	$("#new_subevent_startHour").val(startHour+":"+minutes);
+	$("#new_subevent_endHour").val(endHour+":"+minutes)
+	
 	//populate event categories
 	$.ajax({
 			dataType : "json",
