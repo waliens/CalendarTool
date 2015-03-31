@@ -16,7 +16,7 @@
       </div>
       <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
         <table class="table" id="user-mandatory-courses">
-        <tr><td class="min-width-100">Course ID</td><td>Title</td></tr>
+        <tr><td class="min-width-100">Course Code</td><td>Titre</td></tr>
           <!--FILLED BY AJAX WITH LIST MANDATORY COURSES-->
         </table>
       </div>
@@ -27,7 +27,7 @@
       </div>
       <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
         <table class="table" id="user-optional-courses">
-        <tr><td class="min-width-100">Course ID</td><td>Title</td><td class="text-center">Sélectionner</td></tr>
+        <tr><td class="min-width-100">Course Code</td><td>Titre</td><td class="text-center">Sélectionner</td></tr>
           <!--FILLED BY AJAX WITH LIST OPTIONAL COURSES-->
         </table>
       </div>
