@@ -7,7 +7,7 @@ var subevent;
 //var holding values to abort global event modification
 var edit_global_event_old;
 //dates picker
-var datepicker={"new_subevent_dates":0,"edit_subevent_dates":0,"recurrence_date":0}
+var datepicker={"new_subevent_dates":0,"edit_subevent_dates":0,"new_indepevent_dates":0,"new_subevent_recurrence_end":0,"new_indepevent_recurrence_end":0}
 
 $(document).ready(function() {
 	//populate user profile  info and courses, both optional and mandatory
@@ -315,6 +315,23 @@ $("#new_indepevent").on("show.bs.modal",function(){
 				$("#new_indepevent_categories").html("");
 				for (var i=0; i < categories.length; i++)
 					$("#new_indepevent_categories").append("<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick=\"changeEventType(\'#new_indepevent_type\')\" category-id="+categories[i].id+">"+categories[i].name+"</a></li>");
+				buildDatePicker("#new_indepevent");
+				//setup timepickers of new subevent modal
+				$("#new_indepevent .time").timepicker({ 'forceRoundTime': true });
+				$("#new_indepevent_endHour").on("changeTime",function(){
+					$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
+					})
+				$("#new_indepevent_startHour").on("changeTime",function(){
+					$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
+					})
+				//populate time pickers
+				var currentTime=new Date();
+				currentTime=moment(currentTime);
+				var	startHour=currentTime.hours();
+				var	endHour=currentTime.add(1,"hour").hours();
+				var	minutes="00";
+				$("#new_indepevent_startHour").val(startHour+":"+minutes);
+				$("#new_indepevent_endHour").val(endHour+":"+minutes)
 			},
 			error : function(xhr, status, error) {
 			  var err = eval("(" + xhr.responseText + ")");
@@ -778,7 +795,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_team_table").html("");
 	//build datepicker
 
-	buildDatePicker("new_subevent_dates");
+	buildDatePicker("#new_subevent");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
 	$("#new_subevent_endHour").on("changeTime",function(){
@@ -844,7 +861,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	
 //builds the object datepicker
 function buildDatePicker(option,target) {
-	if(option=="new_subevent_dates"){
+	if(option=="#new_subevent"||option=="#new_indepevent"){
 		//build current date
 		var td = new Date();
 		var dd = td.getDate();
@@ -861,26 +878,31 @@ function buildDatePicker(option,target) {
 		
 		td = yyyy+'-'+mm+'-'+dd;
 		td = moment(today);
-		datepicker["new_subevent_dates"]= new dhtmlXCalendarObject(["new_subevent_startDate_datepicker","new_subevent_endDate_datepicker"]);
-		datepicker["new_subevent_dates"].hideTime();
-		datepicker["new_subevent_dates"].setDateFormat("%Y-%m-%d");
-		datepicker["new_subevent_dates"].setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+		
+		datepicker[option+"_dates"]= new dhtmlXCalendarObject([option+"_startDate_datepicker",option+"_endDate_datepicker"]);
+		datepicker[option+"_dates"].hideTime();
+		datepicker[option+"_dates"].setDateFormat("%Y-%m-%d");
+		datepicker[option+"_dates"].setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 		var t = new Date();
-		document.getElementById("new_subevent_endDate_datepicker").value = td.format("dddd DD MMM YYYY");
-		document.getElementById("new_subevent_startDate_datepicker").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
+		$(option+"_endDate_datepicker").val(td.format("dddd DD MMM YYYY"));
+		$(option+"_startDate_datepicker").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
-		datepicker["new_subevent_dates"].attachEvent("onClick", function(date){
-			$("#new_subevent_startDate_datepicker").val(convert_date($("#new_subevent_startDate_datepicker").val(),"dddd DD MMM YYYY"));
-			$("#new_subevent_endDate_datepicker").val(convert_date($("#new_subevent_endDate_datepicker").val(),"dddd DD MMM YYYY"));
+		datepicker[option+"_dates"].attachEvent("onClick", function(date){
+			$(option+"_startDate_datepicker").val(convert_date($(option+"_startDate_datepicker").val(),"dddd DD MMM YYYY"));
+			$(option+"_endDate_datepicker").val(convert_date($(option+"_endDate_datepicker").val(),"dddd DD MMM YYYY"));
 		});
 	}
-	else if(option=="new_subevent_recurrence_end"){
-		datepicker[option] = new dhtmlXCalendarObject("new_subevent_recurrence_end");
+	else if(option=="#new_subevent_recurrence_end"||option=="#new_indepevent_recurrence_end"){
+		var tag;
+		if(option=="#new_subevent_recurrence_end")
+			tag="new_subevent";
+		else tag="new_indepevent";
+		datepicker[option] = new dhtmlXCalendarObject("#"+tag+"_recurrence_end");
 		datepicker[option].setDateFormat("%Y-%m-%d");
-		setSens("new_subevent_endDate_datepicker","min","new_subevent_recurrence_end");
+		setSens(tag+"_endDate_datepicker","min",tag+"_recurrence_end");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			$("#new_subevent_recurrence_end").val(convert_date($("#new_subevent_recurrence_end").val(),"dddd DD MMM YYYY"));
+			$("#"+tag+"_recurrence_end").val(convert_date($("#"+tag+"_recurrence_end").val(),"dddd DD MMM YYYY"));
 		});
 		}
 }
@@ -969,12 +991,12 @@ function setSens(id, k, datepicker_instance) {
 }
 
 //hide/show the end date and hour based on whether the checkbox deadline is selected or not
-function deadline(){
-	$("#new_subevent_endDate").parent().toggleClass("hidden");
+function deadline(tag){
+	$(tag+"_endDate").parent().toggleClass("hidden");
 	//disable/enable range sensibility for date and hour
-	var checked=$("#new_subevent_deadline input").prop('checked');
+	var checked=$(tag+"_deadline input").prop('checked');
 	if(checked){
-		datepicker["new_subevent_dates"].clearInsensitiveDays();
+		datepicker[tag+"_dates"].clearInsensitiveDays();
 		}
 	else{
 		
@@ -988,7 +1010,7 @@ function updateRecurrence(tag){
 	if(event.target.innerHTML!="jamais"){
 		$(tag+"_recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
-		buildDatePicker(tag+"_recurrence_end");
+		buildDatePicker("#"+tag+"_recurrence_end");
 		}
 	else $(tag+"_recurrence_end_td").addClass("hidden");
 	}

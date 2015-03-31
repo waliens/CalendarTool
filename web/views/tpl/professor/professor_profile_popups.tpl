@@ -213,7 +213,7 @@
                       </tr>
                       <tr id="new_subevent_deadline">
                         <td>Deadline</td>
-                        <td><input type="checkbox" aria-label="" onclick="deadline();"></td>
+                        <td><input type="checkbox" aria-label="" onclick="deadline('#new_subevent');"></td>
                       </tr>
                     </table></td>
                 </tr>
@@ -367,7 +367,7 @@
                       </tr>
                       <tr id="new_indepevent_deadline">
                         <td>Deadline</td>
-                        <td><input type="checkbox" aria-label="" onclick="deadline();"></td>
+                        <td><input type="checkbox" aria-label="" onclick="deadline('#new_indepevent');"></td>
                       </tr>
                     </table></td>
                 </tr>
