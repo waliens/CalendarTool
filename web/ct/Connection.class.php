@@ -56,9 +56,9 @@
 
 			// set the http headers variables
 			$this->extract_http_headers();
-			$this->remote_user = "s060934"; // 3e BAC 
+		//	$this->remote_user = "s060934"; // 3e BAC 
 		//	$this->remote_user = "s114352"; // 2e BAC
-		//	$this->remote_user = "u013317"; // Pascal Gribaumont
+			$this->remote_user = "u013317"; // Pascal Gribaumont
 			$this->host = "";
 			$this->connect($this->remote_user);
 			// check host

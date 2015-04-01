@@ -415,6 +415,11 @@
                   <td><label for="new_indepevent_details" class="sr-only">Détails</label>
                     <input class="form-control" id="new_indepevent_details" placeholder="Détails de l'événement"></td>
                 </tr>
+                <tr id="new_indepevent_pract_details">
+                  <td class="text-bold width-80">Détails pratiques</td>
+                  <td><label for="new_indepevent_pract_details_body" class="sr-only">Détails pratiques</label>
+                    <input class="form-control" id="new_indepevent_pract_details_body" placeholder="Détails pratiques pour l'étudiants"></td>
+                </tr>
                 </table>
               </form>
             </div>
