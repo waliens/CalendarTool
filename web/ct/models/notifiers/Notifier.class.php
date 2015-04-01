@@ -3,6 +3,7 @@
 	/**
 	 * @file
 	 * @brief Contains the Notifier class
+	 * 
 	 */
 
 	namespace ct\models\notifiers;

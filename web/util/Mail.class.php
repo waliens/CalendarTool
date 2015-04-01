@@ -3,6 +3,7 @@
 	/**
 	 * @file
 	 * @brief Contains the mail class
+	*
 	 */
 
 	namespace util;
