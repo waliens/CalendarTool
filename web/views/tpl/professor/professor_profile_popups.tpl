@@ -405,6 +405,11 @@
                       </ul>
                     </div></td>
                 </tr>
+                 <tr>
+                  <td class="text-bold width-80 vertical-middle">Charge de Travail</td>
+                  <td><label for="new_indepevent_workload" class="sr-only">Charge de Travail</label>
+                    <input type="number" name="points" min="0" max="1000" step="1" value="30" class="form-control" id="new_indepevent_workload" placeholder="new_indepevent_workload"></td>
+                </tr>
                 <tr>
                   <td class="text-bold width-80 vertical-middle">Lieu</td>
                   <td><label for="new_indepevent_place" class="sr-only">Lieu</label>
@@ -414,6 +419,11 @@
                   <td class="text-bold width-80 vertical-middle">Détails</td>
                   <td><label for="new_indepevent_details" class="sr-only">Détails</label>
                     <input class="form-control" id="new_indepevent_details" placeholder="Détails de l'événement"></td>
+                </tr>
+                <tr id="new_indepevent_feedback">
+                  <td class="text-bold width-80">Feedback</td>
+                  <td><label for="new_indepevent_feedback_body" class="sr-only">Feedback</label>
+                    <input class="form-control" id="new_indepevent_feedback_body" placeholder="Feedback pour l'événement"></td>
                 </tr>
                 <tr id="new_indepevent_pract_details">
                   <td class="text-bold width-80">Détails pratiques</td>
