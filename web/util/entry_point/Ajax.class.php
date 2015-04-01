@@ -7,7 +7,9 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\ViewEventCalendarController;
+    use ct\controllers\ajax\EditDaD;
+
+				use ct\controllers\ajax\ViewEventCalendarController;
 
 	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
@@ -184,6 +186,9 @@
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
+                    
+                case "141":
+                	return new EditDaD();
 
                 default:
                     return null;
