@@ -7,11 +7,9 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\EditDaD;
-
-				use ct\controllers\ajax\ViewEventCalendarController;
-
-	use ct\controllers\ajax\EditAcademicEventController;
+    use ct\controllers\ajax\EditDragNDropController;
+    use ct\controllers\ajax\ViewEventCalendarController;
+    use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
     use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
@@ -46,6 +44,7 @@
     use ct\controllers\ajax\EventCategoriesController;
     use ct\controllers\ajax\GetTeamAddableUsers;
     use ct\controllers\ajax\AddSubEventController;
+    use ct\controllers\ajax\GetUsersAndPathwaysController;
 
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -171,7 +170,9 @@
                 case '085':
                 	return new EditAcademicEventController(false);    
                 case "086":
-                	return new ViewEventCalendarController("INDEP");              
+                	return new ViewEventCalendarController("INDEP");   
+                case "087":
+                    return new GetUsersAndPathwaysController();           
                     
                 /* Export related */
                 case "091":
@@ -186,9 +187,10 @@
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
-                    
+                
+                /* DragNDrop */
                 case "141":
-                	return new EditDaD();
+                	return new EditDragNDropController();
 
                 default:
                     return null;
