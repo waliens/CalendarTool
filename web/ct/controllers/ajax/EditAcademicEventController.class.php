@@ -6,6 +6,8 @@
 
 namespace ct\controllers\ajax;
 
+use ct\models\notifiers\EventModificationNotifier;
+
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
@@ -51,9 +53,10 @@ class EditAcademicEventController extends AjaxController
 				"recurrence" => $this->sg_post->value('recurrenceId'));
 
 		// get event date
-		if($this->sg_post->check("limit") > 0){
-			$limit = new DateTime($this->sg_post->value("limit"));
+		if($this->sg_post->check_keys(array("limit", "start")) > 0){
+			$limit = new DateTime($this->sg_post->value("start"));
 			$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
+			new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
 		}
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
@@ -64,6 +67,7 @@ class EditAcademicEventController extends AjaxController
 				$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
 			else
 				$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
+			new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
 				
 		}
 
