@@ -886,10 +886,10 @@ function buildDatePicker(option,target) {
 		datepicker[option+"_dates"]= new dhtmlXCalendarObject([option+"_startDate_datepicker",option+"_endDate_datepicker"]);
 		datepicker[option+"_dates"].hideTime();
 		datepicker[option+"_dates"].setDateFormat("%Y-%m-%d");
-		datepicker[option+"_dates"].setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+		datepicker[option+"_dates"].setDate(td.format("YYYY-MM-DD"),td.format("YYYY-MM-DD"));
 		var t = new Date();
 		$(option+"_endDate_datepicker").val(td.format("dddd DD MMM YYYY"));
-		$(option+"_startDate_datepicker").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
+		$(option+"_startDate_datepicker").val(td.format("dddd DD MMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 		datepicker[option+"_dates"].attachEvent("onClick", function(date){
 			$(option+"_startDate_datepicker").val(convert_date($(option+"_startDate_datepicker").val(),"dddd DD MMM YYYY"));
