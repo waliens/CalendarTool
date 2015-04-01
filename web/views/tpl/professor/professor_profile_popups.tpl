@@ -153,10 +153,10 @@
               <div id="event_team"> 
                 <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </div>
-              <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-event-member">Ajouter équipe</a> </div>
-              <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
-                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
-                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+              <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add_member">Ajouter équipe</a> </div>
+              <div class="modal-footer hidden text-center" id="add_member_conf_abort_buttons">
+                <button type="button" class="btn btn-default" id="add_member_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_member_confirm" disabled="disabled">Confirmer</button>
               </div>
             </div>
           </div>
@@ -303,9 +303,9 @@
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </table>
             	</div>
-            <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
-                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
-                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+            <div class="modal-footer hidden text-center" id="add_member_conf_abort_buttons">
+                <button type="button" class="btn btn-default" id="add_member_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_member_confirm" disabled="disabled">Confirmer</button>
               </div>
             </div>
             
@@ -452,14 +452,15 @@
               <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-indepevent" href="#indepevent_team_accordion" aria-expanded="false" aria-controls="indepevent_team_accordion">Équipe</a> </h4>
             </div>
             <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="indepevent_team_accordion"> 
-              	<div id="new_indepevent_team"> 
-                <table id="new_indepevent_team_table" class="table">
+              	<div id="new_indepevent_team" style="padding-top: 10px;"> 
+                <table id="new_indepevent_team_table" class="table hidden">
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </table>
             	</div>
-            <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
-                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
-                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+            <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indepevent-member">Ajouter équipe</a> </div>
+            <div class="modal-footer hidden text-center" id="add-indepevent-member-conf-abort-buttons">
+                <button type="button" class="btn btn-default" id="add_indepevent_member_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_indepevent_member_confirm" disabled="disabled">Confirmer</button>
               </div>
             </div>
             

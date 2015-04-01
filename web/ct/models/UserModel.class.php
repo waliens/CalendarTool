@@ -213,4 +213,14 @@
 		{
 			return $this->sql->count("student", "Id_Student = ".$this->sql->quote($user_id)) > 0;
 		}
+		
+		/**
+		* @brief Checks whether the user having the given id exists in the user table
+		* @param[in] string $user_id the id of the user
+		* @retval bool True if the user exists, false otherwise
+		*/
+		public function user_id_exists($user_id)
+		{
+		return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
+		}
 	}
