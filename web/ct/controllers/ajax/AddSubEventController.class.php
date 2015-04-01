@@ -10,6 +10,7 @@ namespace ct\controllers\ajax;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use ct\models\events\SubEventModel;
+
 use \DateTime;
 
 
@@ -27,10 +28,9 @@ class AddSubEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "details","limit","id_global_event", "where", "workload", "feedback", "practical_details", "type", "start", "recurrence", "pathway", "teachingTeam");
+		$keys = array("name", "details","limit", "start", "id_global_event", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
-			
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
 			return;
 		}
@@ -46,7 +46,7 @@ class AddSubEventController extends AjaxController
 				"feedback" => $this->sg_post->value('feedback'),
 				"workload" => $this->sg_post->value('workload'),
 				"practical_details" => $this->sg_post->value('practical_details'));
-
+			
 		// get event date
 		if($this->sg_post->value('limit') == "true")
 			$data['limit'] = $this->sg_post->value('start');
@@ -73,7 +73,6 @@ class AddSubEventController extends AjaxController
 		}
 		else
 			$id_ret[0] = $model->createEvent($data);
-
 
 		$this->add_output_data("id", $id_ret);
 	

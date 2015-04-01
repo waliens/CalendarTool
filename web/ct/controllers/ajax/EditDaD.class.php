@@ -10,6 +10,8 @@ use \DateTime;
 use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\SG_Post;
+use util\superglobals\Superglobal;
+
 
 
 class EditDaD extends AjaxController
@@ -22,7 +24,7 @@ class EditDaD extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("id", "start", "limit");
+		$keys = array("id", "start");
 
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
@@ -35,7 +37,7 @@ class EditDaD extends AjaxController
 
 
 		// get event date
-		if($this->sg_post->value("limit") == "true"){
+		if($this->sg_post->check_keys(array("limit")) > 0 && $this->sg_post->value("limit") == "true"){
 			$limit = new DateTime($this->sg_post->value("start"));
 			$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
 		}
@@ -54,6 +56,8 @@ class EditDaD extends AjaxController
 			$this->set_error_predefined(self::ERROR_MISSING_DATA);
 			return;			
 		}
+		
+		$this->set_error_predefined(self::ERROR_OK);
 	}
 }
 
