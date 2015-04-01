@@ -1261,7 +1261,7 @@ function create_private_event(){
 			recurrent=true;	
 		}
 		else {
-			end_recurrence=""
+			end_recurrence_json=""
 			recurrent=false;
 		}
 		//send data to server event with no recursion
