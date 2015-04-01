@@ -18,23 +18,23 @@ var year = today.getFullYear();
 var startSemester;
 var endSemester;
 if(month==1){//we are in January so we want to retrieve first semester
-	startSemester=(year-1)+"-09-15";
-	endSemester=year+"-02-01";
+	startSemester=moment((year-1)+"-09-15");
+	endSemester=moment(year+"-02-01");
 }
 else if(month>1&&month<=9){
 	if(month==9&day>15){
-		startSemester=year+"-09-15";
-		endSemester=(year+1)+"-02-01";
+		startSemester=moment(year+"-09-15");
+		endSemester=moment((year+1)+"-02-01");
 		}
 		
 	else {//we are in period between January and September 14 so we want to retrieve the second semester
-		startSemester=year+"-02-01";
-		endSemester=year+"-09-15";
+		startSemester=moment(year+"-02-01");
+		endSemester=moment(year+"-09-15");
 		}
 	}
 else {//we are in the period between 15 Sep and 31 Dec so we want to retrieve the first semester
-	startSemester=year+"-09-15";
-	endSemester=(year+1)+"-02-01";
+	startSemester=moment(year+"-09-15");
+	endSemester=moment((year+1)+"-02-01");
 	}	
 
 //transform the month in two digits notation
@@ -66,6 +66,8 @@ var private_event;
 var modal_shown;
 var events_source=[];
 var semester=false;
+var nextSemester=false;
+var prevSemester=false;
 
 
 //update the navbar
@@ -76,13 +78,13 @@ $("#calendar_nav").addClass("active");
 function getCurrentView(view){
 	switch (view){
 		case "month":
-		return view;
+			return view;
 		case "agendaWeek":
-		return "week";
+			return "week";
 		case "agendaDay":
-		return "day";
+			return "day";
 		case "agendaSixMonth":
-		return "semester";
+			return "semester";
 		}
 	}
 
@@ -95,27 +97,44 @@ function addEvents(){
 	$(".fc-event-container").remove();
 	$("#calendar").fullCalendar( 'removeEvents');
 	var current_view=$("#calendar").fullCalendar( 'getView' ).name;
-	if(current_view=="agendaSixMonth"&&!semester){
+	if(current_view=="agendaSixMonth"&&!semester){	
 		semester=true;
-		$("#calendar").fullCalendar('gotoDate', moment(startSemester) )
+		$("#calendar").fullCalendar('gotoDate', startSemester);
 		
 	}
 	else{
-		semester=false;
 		var current_view=$("#calendar").fullCalendar( 'getView' ).name;
 		if(current_view=="agendaSixMonth"){
+			/*if(semester){
+				if(startSemester.month()==1){//1 is february - we are in the second semester and we clicked next
+							startSemester.month(8);//next semester starts in september
+							startSemester.day(15)
+							endSemester.month(1);//and finishes the 31 of january - but we set the 1st of Feb because it's exclusive
+							endSemester.day(1);
+							endSemester.add(1,"year");
+						}
+				else {//we are in the second semester and we clicked next
+					startSemester.month(1);//next semester starts in february
+					startSemester.day(1);
+					startSemester.add(1,"year");
+					endSemester.month(8);//and finishes it the 14th of September - we set it to 15th since it's exclusive 
+					endSemester.day(15);
+					endSemester.add(1,"year");
+					}
+			}*/
 			var date=$("#calendar").fullCalendar( 'getView' ).start;
 			//hide dates that do not belong to the semester
 			while(date.isBefore(moment(startSemester))){
 				$("td .fc-day-number[data-date='"+date.format("YYYY-MM-DD")+"']").addClass("fc-other-month");
 				date.add(1,"day");
-				}
+			}
 			date=$("#calendar").fullCalendar( 'getView' ).end;
 			while(date.isAfter(moment(endSemester).subtract(1,"day"))){
 				$("td .fc-day-number[data-date='"+date.format("YYYY-MM-DD")+"']").addClass("fc-other-month");
 				date.subtract(1,"day");
-				}
 			}
+			semester=false;
+		}
 	filters.view=getCurrentView(current_view);
 	filters.dateRange.start=$("#calendar").fullCalendar( 'getView' ).start.format("YYYY-MM-DD");
 	filters.dateRange.end=$("#calendar").fullCalendar( 'getView' ).end.format("YYYY-MM-DD");
@@ -274,14 +293,14 @@ $(document).ready(function() {
 				buttonText: 'Semestre',
 			}
 		},
-		loading: function(isLoading,view){
-			if(!isLoading){
-				if(view.title=="agendaSixMonth")
-					$("#calendar").fullCalendar('gotoDate', moment(startSemester) );
-				}
-			},
 		editable: true,
-		viewRender: function(view,element){addEvents();},
+		viewRender: function(view,element){
+			var current_view=getCurrentView(view.name);
+			if(current_view=="semester")
+				$(".fc-left").hide();
+			else $(".fc-left").show();
+			addEvents();	
+			},
 		eventLimit: true, // allow "more" link when too many events
 		fixedWeekCount: false, //each month only shows the weeks it contains (and not the default 6) 
 			//handle click on event
@@ -402,13 +421,16 @@ $(document).ready(function() {
 				}
 				if(!revert){
 					var end;
+					var limit=false;
 					if(event.end)
 						end=event.end.format("YYYY-MM-DDTHH:mm:ss");
+					if(event.timeType=="deadline")
+						limit=true;
 					$.ajax({
 						dataType : "json",
 						type : 'POST',
-						url : "index.php?src=ajax&req=131",
-						data : {id:event.id_server,start:event.start.format("YYYY-MM-DDTHH:mm:ss"),end:end,allDay:event.allDay},
+						url : "index.php?src=ajax&req=141",
+						data : {id:event.id_server,start:event.start.format("YYYY-MM-DDTHH:mm:ss"),end:end,allDay:event.allDay,limit:limit},
 						success : function(data, status) {
 							/** error checking */
 							if(data.error.error_code > 0)
@@ -441,24 +463,31 @@ $(document).ready(function() {
 					document.getElementById("deadlines").innerHTML="";
 					for(i=0;i<deadlines.length;i++)
 						addDeadline(deadlines[i]);
-					//add the table headers
+					//add the table headers if there's at least a deadline
 					var deadlines_table=document.getElementById("deadlines");
-    				var row=deadlines_table.insertRow(0);
+					var row=deadlines_table.insertRow(0);
 					var cell1=row.insertCell(0);
-					var cell2=row.insertCell(1);
-					var cell3=row.insertCell(2);
-					var titleHeader=document.createElement('p');
-					titleHeader.className="text-bold";
-					var whenHeader=document.createElement('p');
-					whenHeader.className="text-bold";
-					var recurrenceHeader=document.createElement('p');
-					recurrenceHeader.className="text-bold";
-					titleHeader.innerHTML="Titre"
-					cell1.appendChild(titleHeader);
-					whenHeader.innerHTML="Quand";
-					cell2.appendChild(whenHeader);
-					recurrenceHeader.innerHTML="Récurrence";
-					cell3.appendChild(recurrenceHeader);
+					if(deadlines.length>0){
+						var cell2=row.insertCell(1);
+						var cell3=row.insertCell(2);
+						var titleHeader=document.createElement('p');
+						titleHeader.className="text-bold";
+						var whenHeader=document.createElement('p');
+						whenHeader.className="text-bold";
+						var recurrenceHeader=document.createElement('p');
+						recurrenceHeader.className="text-bold";
+						titleHeader.innerHTML="Titre"
+						cell1.appendChild(titleHeader);
+						whenHeader.innerHTML="Quand";
+						cell2.appendChild(whenHeader);
+						recurrenceHeader.innerHTML="Récurrence";
+						cell3.appendChild(recurrenceHeader);
+					}
+					else{
+						var noDeadlines=document.createElement("p");
+						noDeadlines.innerHTML="Vous n'avez pas deadlines à venir dans les deux prochaines semaines"
+						cell1.appendChild(noDeadlines);
+						}
 			},
 			error : function(xhr, status, error) {
 				launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -474,6 +503,38 @@ $(document).ready(function() {
 
 	/*--------------------------END SETTING UP POPOVER-----------------------------*/	
 });
+
+
+/*$("#calendar").on("click",".fc-next-button",function(){
+	var current_view=getCurrentView($("#calendar").fullCalendar( 'getView' ).name);
+	if(current_view=="semester"){
+		if(semester){
+			if(startSemester.month()==1){//1 is february - we are in the second semester and we clicked next
+				startSemester.month(8);//next semester starts in september
+				startSemester.day(15)
+				endSemester.month(1);//and finishes the 31 of january - but we set the 1st of Feb because it's exclusive
+				endSemester.day(1);
+				endSemester.add(1,"year");
+			}
+			else {//we are in the second semester and we clicked next
+				startSemester.month(1);//next semester starts in february
+				startSemester.day(1);
+				startSemester.add(1,"year");
+				endSemester.month(8);//and finishes it the 14th of September - we set it to 15th since it's exclusive 
+				endSemester.day(15);
+				endSemester.add(1,"year");
+			}
+		}
+	addEvents();
+	}
+})
+
+$("#calendar").on("click",".fc-prev-button",function(){
+	nextSemester=false;
+	prevSemester=true;
+})*/
+
+
 
 //populate event categories of private event modal when creating a new private event
 $("#private_event").on("show.bs.modal",function(){
