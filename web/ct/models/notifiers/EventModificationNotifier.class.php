@@ -1,18 +1,12 @@
 <?php
-
-use ct\models\events\IndependentEventModel;
-
-use ct\models\events\SubEventModel;
-
 namespace  ct\models\notifiers;
 
+use ct\models\events\IndependentEventModel;
+use ct\models\events\SubEventModel;
 use ct\models\events\GlobalEventModel;
-
 use ct\models\UserModel;
-
 use ct\models\events\AcademicEventModel;
-
-use ct\models\notifiers;
+use ct\models\notifiers\Notifier;
 
 /**
  * @class EventModificationNotifier
@@ -133,7 +127,7 @@ class EventModificationNotifier extends Notifier {
 			$students = $gM->get_list_student($idGlob);
 			$path = $this->model->getPathways($this->id);
 			foreach($path as $o => $value){
-				foreach($student as $a => $stu){
+				foreach($students as $a => $stu){
 					if($value["id"] == $stu['pathway'])
 						array_push($studentsMails, $uM->get_user_email($stu['id']));
 				}
