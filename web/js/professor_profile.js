@@ -1080,11 +1080,72 @@ $("#new_subevent_creation_confirm").on("click",function(){
 		});
 	})
 	
+//confirm creation new indep event
+$("#new_indepevent_creation_confirm").on("click",function(){
+	var title=$("#new_indepevent_title").val();
+	var deadline=$("#new_indepevent_deadline input").prop("checked");
+	var start=convert_date($("#new_indepevent_startDate_datepicker").val(),"YYYY-MM-DD");
+	var end;
+	if($("#new_indepevent_startHour").val().length!=0)
+		start=start+"T"+$("#new_indepevent_startHour").val();
+	if(!deadline){
+		end=convert_date($("#new_indepevent_endDate_datepicker").val(),"YYYY-MM-DD");
+		if($("#new_indepevent_endHour").val().length!=0)
+			end=end+"T"+$("#new_indepevent_endHour").val();
+		}
+	var entireDay=false;
+	if($("#new_indepevent_startHour").val().length==0&&$("#new_indepevent_endHour").val().length==0)
+		entireDay=true;
+	var recurrence=$("#new_indepevent_recurrence").attr("recurrence-id");
+	var end_recurrence;
+	if(recurrence!=6){
+		end_recurrence=convert_date($("#new_indepevent_recurrence_end").val(),"YYYY-MM-DD");
+		}
+	var place=$("#new_indepevent_place").val();
+	var category=$("#new_indepevent_type").attr("category-id")
+	var details=$("#new_indepevent_details").val();
+	var pract_details=$("#new_indepevent_pract_details_body").val();
+	var pathways=$("#new_indepevent_pathways_table input");
+	var pathways_json=[];
+	var team=$("#new_indepevent_team_table input");
+	var team_json=[];
+	for(var i=0;i<pathways.length;i++)
+		pathways_json.push({id:pathways[i].id,selected:pathways[i].checked});
+	pathways_json=JSON.stringify(pathways_json);
+	for(var i=0;i<team.length;i++)
+		team_json.push({id:team[i].id,selected:team[i].checked});
+	team_json=JSON.stringify(team_json);
+	//populate the server with the new indepevent data
+	//{id, name, details, where, limit, start, end, type, recursiveID, applyRecursive, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], }
+	var new_event={name:title, details:details, practical_details:pract_details, where:place, limit:deadline, start:start, end:end, type:category, recursiveID:recurrence, "end-recurrence":end_recurrence, pathway:pathways_json, teachingTeam: team_json, attachments:""}
+	$.ajax({
+			dataType : "json",
+			type : 'POST',
+			url : "index.php?src=ajax&req=081",
+			data: new_event,
+			async : true,
+			success : function(data, status) {
+				$('#new_indepevent').modal('hide');
+			},
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+	})
+	
 //enable create new subevent confirm button
 $("#new_subevent input").on("keyup", function(){
 if($("#new_subevent_title").val()!="")
 	$("#new_subevent_creation_confirm").attr("disabled",false)
 else $("#new_subevent_creation_confirm").attr("disabled",true)
+})
+
+//enable create new indep event confirm button
+$("#new_indepevent input").on("keyup", function(){
+if($("#new_indepevent_title").val()!="")
+	$("#new_indepevent_creation_confirm").attr("disabled",false)
+else $("#new_indepevent_creation_confirm").attr("disabled",true)
 })
 
 //add the pathway to the list in the subevent alert
