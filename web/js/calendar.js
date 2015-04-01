@@ -1256,9 +1256,9 @@ function create_private_event(){
 				if(recurrence=="tous les ans")
 					end_recurrence.add(10,"year");
 				else end_recurrence.add(1,"year");
-				end_recurrence_json=end_recurrence.format("YYYY-MM-DD");
 			}
 			else end_recurrence=moment(convert_date($("#recurrence_end").val(),"YYYY-MM-DD"));
+			end_recurrence_json=end_recurrence.format("YYYY-MM-DD");
 			recurrent=true;	
 		}
 		else {
