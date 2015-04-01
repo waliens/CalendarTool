@@ -109,7 +109,7 @@ use \DateInterval;
 						 SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN, Description_FR 
 							AS Categ_Desc_FR, Name_EN AS Categ_Name_EN, Name_FR AS Categ_Name_FR
 						 	FROM event_category 
-					) AS categ NATURAL JOIN recurrence NATURAL JOIN recurrence_category ".$whereClause." ;";
+					) AS categ NATURAL JOIN recurrence NATURAL JOIN recurrence_category ".$whereClause." ORDER BY Start ;";
 
 						
 			return   $this->sql->execute_query($query);
@@ -281,7 +281,7 @@ use \DateInterval;
 		 * @param DateTime $start the start of the event (or the deadline)
 		 * @param DateTime $end the end of the event 
 		 * @param boolean $update if it's already set to an other value
-		 * @retval mixed true if execute correctly error_info if not
+		 * @retval boolean
 		 */
 		public function setDate($id, $type, $start, $end = NULL, $update = false){
 			$a = false;
@@ -310,19 +310,13 @@ use \DateInterval;
 					return false;
 					break;	
 			}
+			$a = true;
 			if($update){
-				if(!is_int($id))
-					return -1;
-				$a = $this->sql->update($table, $data, "Id_Event=".$id);
-
+				$a = $this->delete_time_type($id);
 			}
-			else
-				$a = $this->sql->insert($table, $data);
+			$a &= $this->sql->insert($table, $data);
 
-			if($a)
-				return true;
-			$this->error .= "\n Date Error";
-			return false;
+			return $a;
 		}
 
 		/**
@@ -370,7 +364,7 @@ use \DateInterval;
 						  
 						  UNION ALL
 
-						  SELECT Id_Event, DATE(Start) AS Start, DATE(End) AS End, 'date_range' AS DateType
+						  SELECT Id_Event, DATE_FORMAT(Start, '%Y-%m-%d') AS Start, DATE_FORMAT(End, '%Y-%m-%d') AS End, 'date_range' AS DateType
 						  FROM date_range_event
 						  WHERE Id_Event IN ".$id_array_str."
 
@@ -801,7 +795,7 @@ use \DateInterval;
 		 * @warning NEVER USE WITH 1
 		 */
 		public function deleteEventRecurrence($idRec){
-			return   $this->sql->delete("recurrence", "Id_Recurrence = ". $this->sql->quote($idRec));
+			return   $this->sql->delete("event", "Id_Recurrence = ". $this->sql->quote($idRec));
 		}
 		
 		/**
@@ -834,24 +828,27 @@ use \DateInterval;
 			$ret = $this->sql->execute_query("SELECT Id_Event AS ret FROM favorite_event WHERE Id_Event = ? AND Id_Student  = ? ", array($eventId, $userId));
 			return isset($ret[0]['ret']);
 		}
-	/**
-	 * @brief return the start recurrent of a recurrent event
-	 * @param int $recurrenceId
-	 * @retval false if error start of recurrence if ok
-	 */
-		public function getStartRecurrence($recurrenceId){
+
+		/**
+		 * @brief return the start recurrent of a recurrent event
+		 * @param int $recurrenceId
+		 * @retval bool|string false if error start of recurrence if ok
+		 */
+		public function getStartRecurrence($recurrenceId)
+		{
 		
 			$rId = $this->sql->quote($recurrenceId);
 			$query = "SELECT Start FROM event 
 						 NATURAL JOIN ( 
-					 	SELECT  Start  FROM time_range_event 
+					 	SELECT  Id_Event, Start  FROM time_range_event 
 					 	UNION ALL
-					 	SELECT  DATE(Start) AS Start FROM date_range_event 
+					 	SELECT  Id_Event, DATE(Start) AS Start FROM date_range_event 
 					 	UNION ALL 
-					 	SELECT `Limit` AS Start FROM deadline_event 
+					 	SELECT Id_Event, `Limit` AS Start FROM deadline_event 
 					 ) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY Start ASC LIMIT 0,1";
 
-			return $this->sql->execute_query($query)[0];
+			$start_data = $this->sql->execute_query($query);
+			return empty($start_data) ? false : $start_data[0]['Start'];
 		}
 
 		/**
@@ -863,16 +860,18 @@ use \DateInterval;
 
 				
 			$rId = $this->sql->quote($recurrenceId);
-			$query = "SELECT End FROM event
-			NATURAL JOIN (
-			SELECT  End  FROM time_range_event
-			UNION ALL
-			SELECT  DATE(End) AS End FROM date_range_event
-			UNION ALL
-			SELECT `Limit` AS End FROM deadline_event
-			) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY End DESC LIMIT 0,1";
-		
-			return $this->sql->execute_query($query)[0];
+			$query = "SELECT End FROM event 
+						 NATURAL JOIN ( 
+					 	SELECT Id_Event, End  FROM time_range_event 
+					 	UNION ALL
+					 	SELECT Id_Event, DATE(End) AS End FROM date_range_event 
+					 	UNION ALL 
+					 	SELECT Id_Event, `Limit` AS End FROM deadline_event 
+					 ) AS time_data WHERE Id_Recurrence =".$rId." ORDER BY End DESC LIMIT 0,1";
+			
+			$end_data = $this->sql->execute_query($query, array($rId));
+			
+			return empty($end_data) ? false : $end_data[0]['End'];
 		}
 		
 	}

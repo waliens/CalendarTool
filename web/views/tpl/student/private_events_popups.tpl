@@ -1,17 +1,3 @@
-<!--DELETE ALERT-->
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="delete_alert">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-body">
-      <!--ALERT CONTENT-->
-      </div>
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal" id="delete_confirm">Oui</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete_abort">Non</button>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- PRIVATE EVENT ALERT -->
 <div class="modal fade" id="private_event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -32,6 +18,11 @@
               <td><label for="private_event_title" class="sr-only">Titre</label>
                 <input id="private_event_title" class="form-control" placeholder="Titre de l'événement" required autofocus></td>
             </tr>
+           <!-- <tr>
+              <td class="text-bold width-80 vertical-middle">Type</td>
+              <td><label for="private_event_datetype" class="sr-only">Type</label>
+                <input class="form-control" id="private_event_datetype" placeholder="Type de l'événement (eg. deadline, jour entier)"></td>
+            </tr>-->
             <tr>
               <td class="text-bold width-80">Quand</td>
               <td><table id="private_event_time">
@@ -86,21 +77,11 @@
               <td class="text-bold width-80 vertical-middle">Categorie</td>
               <td>
               <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" id="private_event_type_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="private_event_type" category-id="11">Travail</span>
+                  <button class="btn btn-default dropdown-toggle" type="button" id="private_event_category_btn" data-toggle="dropdown" aria-expanded="true">
+                    <span id="private_event_category" category-id="11">Travail</span>
                     <span class="caret"></span>
                   </button>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="11">Travail</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="9">Sport</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="10">Chapi</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="12">Restaurant</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="13">Soirée</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="14">Personnel</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="15">Loisir</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="16">Musique</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="17">Anniversaire</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="18">Autre</a></li>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="private_event_categories_dropdown">
                   </ul>
                 </div>
                 </td>
@@ -122,10 +103,10 @@
             </tr>
             <tr>
               <td colspan="2"><div class='text-center' id='edit_event_btns'>
-                  <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="create_private_event();">
+                  <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="confirm_edit_private_event();">
                   Confirmer
                   </button>
-                  <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
+                  <button type='button' class='btn btn-default' data-dismiss="modal" onclick="abort_edit_event();">Annuler</button>
                 </div></td>
             </tr>
           </table>

@@ -9,6 +9,9 @@ namespace ct\models\events;
  *
  */
 use ct\models\FileModel;
+use ct\models\filters\PathwayFilter;
+use ct\models\filters\DateTimeFilter;
+use ct\models\FilterCollectionModel;
 
 class AcademicEventModel extends EventModel{
 
@@ -114,7 +117,12 @@ class AcademicEventModel extends EventModel{
 	//Those functions are particularized in sub classes
 	public function getTeam($eventId, $lang = null) { return array(); }
 	public function getPathways($eventId) { return array(); }
-	
+
+	/**
+	 * @brief usefull to know if an user is part of a team
+	 * @param unknown_type $eventId
+	 * @param unknown_type $userId
+	 */
 	public function isInTeam($eventId, $userId){
 		$team = $this->getTeam($eventId);
 		foreach($team as $key => $value){
@@ -122,6 +130,39 @@ class AcademicEventModel extends EventModel{
 				return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * @brief Detect if there is some event for the give pathways happening in the give start end interval
+	 * @param DateTime $start
+	 * @param DateTime $end
+	 * @param array $pathways
+	 * @retval array  array of array("id", "name", "pathway_name") of the conflict false if no conflict
+	 */
+	public function conflictWarning($start, $end, $pathways){
+		
+		$filt = new PathwayFilter($pathways);
+		$filt2 = new DateTimeFilter($start->format("d-m-Y H:i:s"), $end->format("d-m-Y H:i:s"));
+		
+		$col = new FilterCollectionModel();
+		$col->add_filter($filt1);
+		$col->add_filter($filt2);
+		
+		$ids = $col->get_filtered_events_ids();
+		$ret = array();
+		foreach($ids as $key => $value){
+			$event = array("id" => $value);
+			$event['name'] = $this->getEvent(array("name"), array("Id_event" => $value))[0]['Name'];
+			$pathEvent = $this->getPathways($value);
+			foreach($pathEvent as $o => $path){
+				if(in_array($path['id'], $pathways)){
+					$event["pathway_name"] = $path['name_short'];
+					array_push($ret, $event);
+				}
+			}
+		}
+		return empty($ret) ? false : $ret;
+		
 	}
 	
 	

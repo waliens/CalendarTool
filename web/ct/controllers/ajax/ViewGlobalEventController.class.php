@@ -14,6 +14,7 @@
 	use ct\models\filters\GlobalEventFilter;
 	use ct\models\filters\EventTypeFilter;
 	use ct\models\filters\AccessFilter;
+	use ct\models\filters\RecurrenceFilter;
 	use ct\models\FilterCollectionModel;
 
 	/** 
@@ -77,18 +78,33 @@
 
 			// get the subevents
 			$filter_collection = new FilterCollectionModel();
+
+			// set filters
 			$event_type = new EventTypeFilter(EventTypeFilter::TYPE_SUB_EVENT);
 			$glob_filter = new GlobalEventFilter(array($id_data['id']));
+			$recur_filter = new RecurrenceFilter(false, true); // dont add all the occurrences of recursive events
+
+			$filter_collection->add_filter($recur_filter);
 			$filter_collection->add_filter($glob_filter);
 			$filter_collection->add_filter($event_type);
 			$filter_collection->add_access_filter(new AccessFilter());
 
+			$formatted_glob['subevents'] = array();
 			$subevents = $filter_collection->get_events();
 
-			$sub_trans_array = array("Id_Event" => "id", "Name" => "name");
-			$formatted_glob['subevents'] = \ct\darray_transform($subevents, $sub_trans_array);
+			foreach ($subevents as &$subevent) 
+			{
+				$f_event = array();
+				$f_event['id'] = $subevent['Id_Event'];
+				$f_event['name'] = $subevent['Name'];
+				$f_event['recurrence'] = $subevent['Id_Recurrence'] > 1;
+				$f_event['recurrence_type'] = $subevent['Id_Recur_Category'];
+				$f_event['start'] = $subevent['Start'];
+				$f_event['end'] = $subevent['End'];
 
-
+				$formatted_glob['subevents'][] = $f_event; 
+			}
+			
 			// set the output 
 			$this->set_output_data($formatted_glob);
 		}

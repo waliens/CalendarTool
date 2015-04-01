@@ -52,7 +52,7 @@ class EditPrivateEventController extends AjaxController
 			
 			$start = new DateTime($this->sg_post->value('start'));
 			$end = new DateTime($this->sg_post->value('end'));
-			if($start->format("H:i:s") == "0:0:0")
+			if($start->format("H:i:s") == "0:0:0" && $end->format("H:i:s") == "0:0:0")
 				$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
 			else 
 				$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);				

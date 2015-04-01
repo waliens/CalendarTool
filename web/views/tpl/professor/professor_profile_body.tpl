@@ -15,7 +15,7 @@
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <table class="table" id="global_events">
         <tr class="text-bold">
-          <td class="min-width-100">Course ID</td>
+          <td class="min-width-100">Course Code</td>
           <td>Titre</td>
           <td class="width-30">Supprimer</td>
         </tr>
@@ -46,7 +46,7 @@
         <tr>
       <td colspan="3">
       <div class="text-center">
-        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event">Ajouter événement indépendant</a>
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event" data-toggle="modal" data-target="#new_indepevent">Ajouter événement indépendant</a>
       </div>
       </td>
       </tr>
