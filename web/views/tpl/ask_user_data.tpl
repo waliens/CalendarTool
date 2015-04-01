@@ -4,15 +4,17 @@
       <h3 class="panel-title text-center">L'équipe du CalendarTool vous souhaite la bienvenue!</h3>
     </div>
     <div class="panel-body">
-      <div><p> Avant que vous ne commenciez à utiliser notre plateforme et afin de vous assurer un confort d'utilisation maximum, nous aurions besoin de quelques informations à votre sujet. </p></div><br>
-      <form class="form-ask-data">
+      <div><p> Avant que vous ne commenciez à utiliser notre plateforme et afin de vous assurer un confort d'utilisation maximum, nous aurions besoin de quelques informations à votre sujet. </p></div>
+      {if isset($error) && !empty($error)} <div><p><strong>Attention</strong> : {$error}</p></div> {/if}
+      <form class="form-ask-data" action="index.php?page=ask_data" method="POST">
         <label for="surname" class="sr-only">Votre nom : </label>
-        <input type="text" name="surname" id="surname" class="form-control" placeholder="Nom" required autofocus {if isset($surname)}value="{$surname}"{/if}><br>
+        <input type="text" name="surname" id="surname" class="form-control" placeholder="Nom" required autofocus {if isset($surname) && !empty($surname)}value="{$surname}"{/if}><br>
         <label for="name" class="sr-only">Votre prénom : </label>
-        <input type="text" name="name" id="name" class="form-control" placeholder="Prénom" required {if isset($name)}value="{$name}"{/if}><br>
+        <input type="text" name="name" id="name" class="form-control" placeholder="Prénom" required {if isset($name) && !empty($name)}value="{$name}"{/if}><br>
         <label for="email" class="sr-only">Votre email ULg : </label>
-        <input type="text" name="email" id="email" class="form-control" placeholder="Email" required {if isset($email)}value="{$email}"{/if}><br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+        <input type="text" name="email" id="email" class="form-control" placeholder="Email ULg" required {if isset($email) && !empty($mail)}value="{$email}"{/if}><br>
+        
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
       </form>
     </div>
   </div>
