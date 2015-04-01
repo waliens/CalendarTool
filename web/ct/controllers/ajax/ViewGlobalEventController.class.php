@@ -89,6 +89,7 @@
 			$filter_collection->add_filter($event_type);
 			$filter_collection->add_access_filter(new AccessFilter());
 
+			$formatted_glob['subevents'] = array();
 			$subevents = $filter_collection->get_events();
 
 			foreach ($subevents as &$subevent) 
