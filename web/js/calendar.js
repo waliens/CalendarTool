@@ -1044,7 +1044,9 @@ $("#private_event_startHour").on("changeTime",function(){
 //populate private event modal
 function populate_private_event(event){
 	var event_id=event.id_server;
+	var event_id_fc=event.id
 	$("#delete_private_event .delete").attr("event-id",event_id);
+	$("#delete_private_event .delete").attr("event-id-fc",event_id_fc);
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
@@ -1413,6 +1415,7 @@ function create_private_event(){
 //delete private event
 function delete_private_event(applyRecursive){
 	var event_id=$("#delete_private_event .delete").attr("event-id");
+	var event_id_fc=$("#delete_private_event .delete").attr("event-id-fc");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
@@ -1425,7 +1428,7 @@ function delete_private_event(applyRecursive){
 				launch_error_ajax(data.error);
 				return;
 			}
-			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id_server==event_id)return true});
+			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id==event_id_fc)return true});
 			//hide the modal
 			$("#private_event").modal("hide");
 		},
