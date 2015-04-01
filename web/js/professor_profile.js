@@ -714,7 +714,6 @@ $("#add_member").click(function(event){
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
-		//url :"json/team-members-roles.json",
 		url : "index.php?src=ajax&req=074",
 		data: {lang:"FR"},
 		success : function(data, status) {
