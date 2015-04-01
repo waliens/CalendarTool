@@ -189,15 +189,21 @@
 			if($user_id == null) $user_id = Connection::get_instance()->user_id();
 			return $this->sql->select_one("user", "Id_User = ".$this->sql->quote($user_id));
 		}
-		
+
 		/**
-		 * @brief Checks whether the user having the given id exists in the user table
-		 * @param[in] string $user_id the id of the user
-		 * @retval bool True if the user exists, false otherwise
+		 * @brief Get the list of all the registered users 
+		 * @retval array The user data
+		 * @note The array contains the following data :
+		 * <ul>
+		 * 	<li> Id_User : user id </li>
+		 * 	<li> Id_ULg : user ulg id </li>
+		 * 	<li> Name : user name </li>
+		 * 	<li> Surname : user surname </li>
+		 * </ul>
 		 */
-		public function user_id_exists($user_id)
+		public function get_users()
 		{
-			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
+			return $this->sql->select("user");
 		}
 
 		/**
