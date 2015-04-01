@@ -1102,7 +1102,9 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 		end_recurrence=convert_date($("#new_indepevent_recurrence_end").val(),"YYYY-MM-DD");
 		}
 	var place=$("#new_indepevent_place").val();
-	var category=$("#new_indepevent_type").attr("category-id")
+	var category=$("#new_indepevent_type").attr("category-id");
+	var feedback=$("#new_indepevent_feedback_body").val();
+	var workload=$("#new_indepevent_workload").val();
 	var details=$("#new_indepevent_details").val();
 	var pract_details=$("#new_indepevent_pract_details_body").val();
 	var pathways=$("#new_indepevent_pathways_table input");
@@ -1116,8 +1118,8 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 		team_json.push({id:team[i].id,selected:team[i].checked});
 	team_json=JSON.stringify(team_json);
 	//populate the server with the new indepevent data
-	//{id, name, details, where, limit, start, end, type, recursiveID, applyRecursive, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], }
-	var new_event={name:title, details:details, practical_details:pract_details, where:place, limit:deadline, start:start, end:end, type:category, recursiveID:recurrence, "end-recurrence":end_recurrence, pathway:pathways_json, teachingTeam: team_json, attachments:""}
+	//"name", "details", "limit","where", "start", "workload", "feedback", "practical_details", "type", "recurrence", "pathways", "teaching_team" et "end" si limit = false
+	var new_event={name:title, details:details, practical_details:pract_details, where:place, limit:deadline, start:start, end:end, type:category, workload:workload, feedback:feedback, recurrence:recurrence, "end-recurrence":end_recurrence, pathways:pathways_json, teaching_team: team_json, attachments:""}
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
