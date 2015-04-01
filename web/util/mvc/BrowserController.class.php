@@ -35,12 +35,11 @@
 		 */
 		protected function get_starter()
 		{
-			$includes = $this->get_includes();
+			$includes = $this->get_includes().$this->get_default_includes();
 			$this->smarty->assign("title", $this->get_title());
 			$this->smarty->assign("includes", $includes);
 			return $this->smarty->fetch("starter.tpl");
 		}
-
 
 		/**
 		 * @brief Return as a string the html code of the popups frame to add to the page footer
@@ -53,11 +52,29 @@
 		}
 
 		/**
+		 * @brief Return the default popups in string
+		 * @retval string The default popups html code
+		 */
+		protected final function get_default_popups()
+		{
+			return $this->smarty->fetch("popups_default.tpl");
+		}
+
+		/**
 		 * @brief Return as a string the html code of the includes frame to add to the page starter
 		 * @retval string The html code of the popups
 		 * @note Re-implement this functon for adding some includes to a page
 		 */
 		protected function get_includes()
+		{
+			return "";
+		}
+
+		/**
+		 * @brief Return the default includes in string
+		 * @retval string The default includes html code
+		 */
+		protected final function get_default_includes()
 		{
 			return $this->smarty->fetch("includes_default.tpl");
 		}
@@ -78,7 +95,7 @@
 		 */
 		protected function get_footer()
 		{
-			$popups = $this->get_popups();
+			$popups = $this->get_popups().$this->get_default_popups();
 			$this->smarty->assign("popups", $popups);
 			$this->smarty->assign("footer_inc", $this->get_footer_inc());
 			return $this->smarty->fetch("footer.tpl");

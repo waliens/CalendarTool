@@ -25,7 +25,7 @@
 
 		/** 
 		 * @brief Construct a TimeTypeFilter 
-		 * @param[in] string $types The flag association specifying the event time types 
+		 * @param[in] int $types The flag association specifying the event time types 
 		 */
 		public function __construct($types)
 		{

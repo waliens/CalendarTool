@@ -103,14 +103,9 @@ class SubEventModel extends AcademicEventModel{
 	 * @param int $userId
 	 * @retval Boolean
 	 */
-	public function excludeMember($eventId, $userId){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
-			return false;
-		}
-				
+	public function excludeMember($eventId, $userId){	
 		$idGlob = $this->getIdGlobal($eventId);
-		if(!$idGlob)
-			return false;
+
 		
 		return $this->sql->insert("sub_event_excluded_member", array("Id_Event" => $eventId, "Id_User" => $userId, "Id_Global_Event" => $idGlob));
 	}
@@ -145,20 +140,13 @@ class SubEventModel extends AcademicEventModel{
 	 * @retval Boolean
 	 */
 	public function excludePathway($eventId, $pathwayId){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
-			//TODO SET ERROR
-			return false;
-		}
 		$pM = new PathwayModel();
 		if(!$pM->pathway_exists($pathwayId)){
 			return false;
 		}
-	
-		$idGlob = $this->getIdGlobal($eventId);
-		if(!$idGlob)
-			return false;
-	
-		return $this->sql->insert("sub_event_excluded_pathway", array("Id_Event" => $eventId, "Id_Pathway" => $pathwayId, "Id_Global_Event" => $idGlob));
+		
+		$idG = $this->getIdGlobal($eventId);
+		return $this->sql->insert("sub_event_excluded_pathway", array("Id_Event" => $this->sql->quote($eventId), "Id_Pathway" => $this->sql->quote($pathwayId), "Id_Global_Event" => $idG));
 	}
 	
 	/**

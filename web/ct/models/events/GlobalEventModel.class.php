@@ -37,8 +37,9 @@
 		const GET_BY_STUDENT_NO_OPT = 6; /**< @brief Way of getting a list of global events : same as GET_BY_STUDENT but exclude 
 												courses for which the student is a free student*/ 
 		const GET_BY_STUDENT_OPT_ONLY = 7; /**< @brief Way of getting a list of global events : same as GET_BY_STUDENT but exclude 
-												courses for which the student is not a free student*/ 
-		
+												courses for which the student is not a free student*/
+		const GET_BY_ACAD_YEAR = 8; /**< @brief Get the global events by year */
+
 		/**
 		 * @brief Constructs a GlobalEventObject
 		 */
@@ -285,7 +286,8 @@
 		 * 	<li>ulg_id: the course ulg id</li>
 		 * 	<li>name_short : the short name</li>
 		 * 	<li>name_long : name_long</li>
-		 * 	<li>owner_name: the owners id</li>
+		 * 	<li>owner: the owners id</li>
+		 * 	<li>owner_name: the owner name</li>
 		 * 	<li>owner_surname : the owner surname</li>
 		 * 	<li>period : the string identifying the period of the year at which the course take place</li>
 		 * 	<li>desc : the global event description</li>
@@ -307,7 +309,7 @@
 				return array();
 
 			$query  =  "SELECT Id_Global_Event AS id, ULg_Identifier AS ulg_id, Name_Short AS name_short,
-							   Name_Long AS name_long, owner_name, owner_surname, Period AS period, 
+							   Name_Long AS name_long, Id_Owner As owner, owner_name, owner_surname, Period AS period, 
 							   Description AS `desc`, Feedback AS feedback, Workload_Th AS wk_th,
 							   Workload_Pr AS wk_pr, Workload_Au AS wk_au, Workload_St AS wk_st,
 							   Language AS lang, CONCAT(Acad_Start_Year, '-', Acad_Start_Year + 1) AS acad_year
@@ -633,6 +635,9 @@
 				break;
 			case self::GET_BY_TEAM_MEMBER:
 				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, $column);
+				break;
+			case self::GET_BY_ACAD_YEAR:
+				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id);
 				break;
 			}
 
@@ -1021,8 +1026,8 @@
 
 		/**
 		 * @brief Get the optionnal events to which the student has already subscribed or not
-		 * @param[in] int $user_id   The user id (optionnal, default: the currently connected user)
-		 * @param[in] int $acad_year The year starting the academic year (optionnal, default: current one)
+		 * @param[in] int $user_id   	   The user id (optionnal, default: the currently connected user)
+		 * @param[in] int $start_acad_year The year starting the academic year (optionnal, default: current one)
  		 * @retval array A multidimensionnal array containing the optionnal global events of the given user
 		 * @note Each row of the returned array contains the following fields :
 		 * <ul>
@@ -1094,5 +1099,50 @@
 							  WHERE Acad_Start_Year = ? );";
 
 			return $this->sql->execute_query($query, array($user_id, $acad_year));
+		}
+
+		/** 
+		 * @brief Return a list of user that could be added to the teaching team of an event
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @retval array A multidimensionnal array of which the row contains the user's info :
+		 * <ul>
+		 *  <li>name: user name</li>
+		 *  <li>surname: user surname</li>
+		 *  <li>id: user id</li>
+		 * </ul>
+		 */
+		public function get_team_addable_users(array $id_data)
+		{
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			$query  =  "SELECT Name AS name, Surname AS surname, Id_User AS id
+						FROM user
+						WHERE Id_User NOT IN ( SELECT Id_User FROM teaching_team_member WHERE Id_Global_Event = ? );";
+
+			return $this->sql->execute_query($query, array($id_glob));
+		}
+
+		/**
+		 * @brief Check wether the given user is the owner of the given global event
+		 * @param[in] array $id_data The data for identifying the global event
+		 * @param[in] int $user_id   The user id (optionnal, default: the currently connected user)
+ 		 * @retval bool True if the user is the owner of the given global event, false otherwise
+		 */
+		public function is_global_event_owner(array $id_data, $user_id)
+		{
+			if($user_id == null) $user_id = $this->connection->user_id();
+
+			// extract global event id
+			$id_glob = $this->get_global_event_id($id_data);
+
+			if($id_glob < 0)
+				return false;
+
+			return $this->sql->count("global_event", "Id_Owner = ".$this->sql->quote($user_id)." 
+														AND Id_Global_Event = ".$this->sql->quote($id_glob)) > 0;
 		}
 	}

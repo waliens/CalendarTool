@@ -1,5 +1,9 @@
 // JavaScript Document
 var today = new Date();
+var year = today.getFullYear();
+var month=today.getMonth()+1; //January is 0
+var day=today.getDay();
+	
 //update the navbar
 $("#navbar li").removeClass("active");
 $("#menu_nav").addClass("active");
@@ -8,14 +12,35 @@ var startDate;
 var endDate;
 //filters for export
 var filters = {
-          	allEvents: {isSet: 'false'},
-			dataRange: {isSet: 'false', startDate: 'null', endDate: 'null'},
+          	allEvent: {isSet: 'false'},
+			dateRange: {start: 'null', end: 'null'},
 			courses: {isSet: 'false', id:[]},
-			eventTypes: {isSet: 'false', id:[]},
+			eventTypes: {isSet: 'false', timeType:[], eventType:[]},
 			eventCategories: {isSet: 'false', id:[]},
 			pathways: {isSet: 'false', id:[]},
 			professors:	{isSet: 'false', id:[]}
           };
+		  
+//set dateRange by default to current semester
+if(month==1){//we are in January so we want to retrieve first semester
+	filters.dateRange.start=(year-1)+"-09-15";
+	filters.dateRange.end=year+"-01-31";
+}
+else if(month>1&&month<=9){
+	if(month==9&day>15){
+		filters.dateRange.start=year+"-09-15";
+		filters.dateRange.end=(year+1)+"-01-31";
+		}
+		
+	else {//we are in period between January and September 14 so we want to retrieve the second semester
+		filters.dateRange.start=year+"-02-01";
+		filters.dateRange.end=year+"-09-14";
+		}
+	}
+else {//we are in the period between 15 Sep and 31 Dec so we want to retrieve the first semester
+	filters.dateRange.start=year+"-09-15";
+	filters.dateRange.end=(year+1)+"-01-31";
+	}
  
 $(document).ready(function(){
 	//set moment locale to french
@@ -57,6 +82,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=031", 
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var courses=data.courses;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
@@ -68,16 +100,16 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							var cell1=row.insertCell(0);
 							var cell2=row.insertCell(1);
 							var cell3=row.insertCell(2);
-							cell1.innerHTML="ID";
-							cell1.className="min-width-100"
-							cell2.innerHTML="Title";
+							cell1.innerHTML="Code";
+							cell1.className="min-width-110"
+							cell2.innerHTML="Titre";
 							cell3.innerHTML="Choisir";
 							filter_alert.append(table);
 							for (var i = 0; i < courses.length; i++)
 								addCourse(courses[i]);
 						},
 						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+							launch_error("Impossible de joindre le serveur (resp: '" + data.responseText + "')");
 						}
 					});
 				break;
@@ -91,6 +123,12 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=041",
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
 							var date_types=data.date_type;
 							var event_types=data.event_type;
 							//populate the filter list
@@ -102,18 +140,62 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 							row.className="text-bold";
 							var cell1=row.insertCell(0);
 							var cell2=row.insertCell(1);
-							cell1.innerHTML="Type";
+							cell1.innerHTML="Catégorie Temporelle";
 							cell2.innerHTML="Choisir";
 							cell2.className="text-center"
+							var cell3=row.insertCell(2);
+							var cell4=row.insertCell(3);
+							cell3.innerHTML="Type d'événement";
+							cell4.innerHTML="Choisir";
+							cell4.className="text-center"
 							filter_alert.append(table);
-							for (var i = 0; i < date_types.length; i++)
-								addType(date_types[i]);
-							for (var i = 0; i < event_types.length; i++)
-								addType(event_types[i]);
+							var i=0;
+							for (i; i < date_types.length; i++){
+								var date_type_tag=document.createElement('p');
+								date_type_tag.innerHTML = date_types[i].name;
+								var table=document.getElementById("events_types_filter_table");
+								var row=table.insertRow(-1);
+								var cell1=row.insertCell(0);
+								var cell2=row.insertCell(1);
+								cell1.appendChild(date_type_tag);
+								var input=document.createElement('input');
+								input.type='checkbox';
+								input.id=date_types[i].id;
+								cell2.className="text-center";
+								cell2.appendChild(input);
+								if(event_types[i]!=null){
+									var event_type_tag=document.createElement('p');
+									event_type_tag.innerHTML = event_types[i].name;
+									var cell3=row.insertCell(2);
+									var cell4=row.insertCell(3);
+									cell3.appendChild(event_type_tag);
+									var input=document.createElement('input');
+									input.type='checkbox';
+									input.id=event_types[i].id;
+									cell4.className="text-center";
+									cell4.appendChild(input);
+								}
+							}
+							var j=i;
+							for(j;j<event_types.length;j++){
+								var table=document.getElementById("events_types_filter_table");
+								var row=table.insertRow(-1);
+								var cell1=row.insertCell(0);
+								var cell2=row.insertCell(1);
+								var event_type_tag=document.createElement('p');
+								event_type_tag.innerHTML = event_types[j].name;
+								var cell3=row.insertCell(2);
+								var cell4=row.insertCell(3);
+								cell3.appendChild(event_type_tag);
+								var input=document.createElement('input');
+								input.type='checkbox';
+								input.id=event_types[j].id;
+								cell4.className="text-center";
+								cell4.appendChild(input);
+							}
 						},
 						error : function(xhr, status, error) {
-						  var err = eval("(" + xhr.responseText + ")");
-						  alert(err.Message);
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 						}
 					});
 				break;
@@ -128,6 +210,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						data: {lang:"FR"},
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var student_categories=data.student;
 							var academic_categories=data.academic;
 							//populate the filter list
@@ -175,26 +264,26 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 									cell4.appendChild(input);
 								}
 							}
-							for(var j=i;j<student_categories.length;j++){
+							var j=i;
+							for(j;j<student_categories.length;j++){
 								var table=document.getElementById("events_categories_filter_table");
 								var row=table.insertRow(-1);
 								var cell1=row.insertCell(0);
 								var cell2=row.insertCell(1);
 								var student_category_tag=document.createElement('p');
-								student_category_tag.innerHTML = student_categories[i].name;
+								student_category_tag.innerHTML = student_categories[j].name;
 								var cell3=row.insertCell(2);
 								var cell4=row.insertCell(3);
 								cell3.appendChild(student_category_tag);
 								var input=document.createElement('input');
 								input.type='checkbox';
-								input.id=student_categories[i].name;
+								input.id=student_categories[j].name;
 								cell4.className="text-center";
 								cell4.appendChild(input);
 							}
 						},
 						error : function(xhr, status, error) {
-						  var err = eval("(" + xhr.responseText + ")");
-						  alert(err.Message);
+							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");					
 						}
 					});
 			break;	
@@ -208,6 +297,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=111",
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var pathways=data.pathways;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
@@ -226,7 +322,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								addPathway(pathways[i]);
 						},
 						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+							launch_error("Impossible de joindre le serveur (resp: '" + data.responseText + "')");
 						}
 					});
 				break;
@@ -240,6 +336,13 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 						url : "index.php?src=ajax&req=021",
 						async : true,
 						success : function(data, status) {
+							/** error checking */
+							if(data.error.error_code > 0)
+							{	
+								launch_error_ajax(data.error);
+								return;
+							}
+
 							var professors=data.professors;
 							//populate the filter list
 							var filter_alert=$("#filter_alert .modal-body");
@@ -258,7 +361,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								addProfessor(professors[i]);
 						},
 						error : function(data, status, errors) {
-							// Inserire un messagio di errore
+							launch_error("Impossible de joindre le serveur (resp: '" + data.responseText + "')");
 						}
 					});
 				break;
@@ -268,24 +371,24 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 
 
 
-//deals with the filter all_events which must disable all other when pressed and enable all when pressed again
+//deals with the filter all_events which must disable all other (but the date filter) when pressed and enable all when pressed again
 $("#all_events_filter").click(function(){
 	if($(this).prop('checked')){
-		//disable all other checkboxes
+		//disable all other checkboxes but the date filter
 		var checkboxes=$('input');
 		for(var i=0;i<checkboxes.length;i++){
 			var item=checkboxes.get(i);
-				if(item.id!="all_events_filter"){
+				if(item.id!="all_events_filter"&&item.id!="date_filter"){
 					item.disabled = true;
 					item.checked=false;
 				}
 		}
 		//save filter info in the filter object
-		filters.allEvents["isSet"]="true";
+		filters.allEvent["isSet"]="true";
 	}
 	else{
 		$('input').removeAttr("disabled");
-		filters.allEvents["isSet"]="false";
+		filters.allEvent["isSet"]="false";
 		}
 	})
 
@@ -313,8 +416,8 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MM YYYY");
+	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
+	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
 		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
@@ -406,9 +509,8 @@ function addProfessor(professor){
 function setFilter(filter){
 	switch(filter){
 		case "date_filter":
-			filters.dataRange.isSet="true";
-			filters.dataRange["startDate"]=$("#startDate").val();
-			filters.dataRange["endDate"]=$("#endDate").val();
+			filters.dateRange["start"]=convert_date($("#startDateFilter").val(),"YYYY-MM-DD");
+			filters.dateRange["end"]=convert_date($("#endDateFilter").val(),"YYYY-MM-DD");
 			break;
 		case "course_filter":
 			filters.courses.isSet="true";
@@ -419,9 +521,13 @@ function setFilter(filter){
 			break;
 		case "event_type_filter":
 			filters.eventTypes.isSet="true";
-			var selectedTypes=$("#filter_alert input:checked");
-			selectedTypes.each(function (){
-				filters.eventTypes.id.push(this.id);
+			var selectedEventTypes=$('#events_types_filter_table tbody td:nth-child(4) input:checked');
+			var selectedTimeTyps=$('#events_types_filter_table tbody td:nth-child(2) input:checked')
+			selectedEventTypes.each(function (){
+				filters.eventTypes.eventType.push(this.id);
+				});
+			selectedTimeTyps.each(function (){
+				filters.eventTypes.timeType.push(this.id);
 				});
 			break;
 		case "event_category_filter":
@@ -453,7 +559,8 @@ function unSetFilter(filter){
 	$("#filters #"+filter).attr("checked",false);
 	switch(filter){
 		case "date_filter":
-			filters.dataRange.isSet="false";
+			filters.dateRange.end=(year+1)+"-09-14";
+			filters.dateRange.start=year+"-09-15";
 		break;
 		case "course_filter":
 			filters.courses.isSet="false";
@@ -463,7 +570,8 @@ function unSetFilter(filter){
 		case "event_type_filter":
 			filters.eventTypes.isSet="false";
 			//empty the array of ids'
-			filters.eventTypes.id.length=0;
+			filters.eventTypes.timeType.length=0;
+			filters.eventTypes.eventType.length=0;
 		break;
 		case "event_category_filter":
 			filters.eventCategories.isSet="false";
@@ -517,11 +625,18 @@ $("#static_export").click(function(){
 			url : "index.php?src=ajax&req=091",
 			data : filters,
 			success : function(data, status) {
-				$("#dynamic_export_download_alert").modal("show");
-				$("#dynamic_export_file").attr("href",data.url);
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}
+
+				$("#static_export_download_alert").modal("show");
+				$("#static_export_file").attr("href",data.url);
 			},
 			error : function(data, status, errors) {
-				// Inserire un messagio di errore
+				launch_error("Impossible de joindre le serveur (resp: '" + data.responseText + "')");
 			}
 		});
 });

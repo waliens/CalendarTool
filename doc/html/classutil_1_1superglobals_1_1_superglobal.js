@@ -9,6 +9,7 @@ var classutil_1_1superglobals_1_1_superglobal =
     [ "is_set", "classutil_1_1superglobals_1_1_superglobal.html#ac25ca2e2dd14511265fc16fa2fb87402", null ],
     [ "set_value", "classutil_1_1superglobals_1_1_superglobal.html#a9f9d9a20632bd68069955e65ba1296b8", null ],
     [ "value", "classutil_1_1superglobals_1_1_superglobal.html#ad57b7892cb0ff5a8492c266366323a3e", null ],
+    [ "values", "classutil_1_1superglobals_1_1_superglobal.html#aadce2f89101bce9889fb4c7be796316b", null ],
     [ "$superglobal", "classutil_1_1superglobals_1_1_superglobal.html#a88a8ba097fdca3d32429af9868b6aa6e", null ],
     [ "CHK_ALL", "classutil_1_1superglobals_1_1_superglobal.html#ab470e80d06e872a2247dbe15dd32cea9", null ],
     [ "CHK_ISSET", "classutil_1_1superglobals_1_1_superglobal.html#ae0dc2fa64b63c12a61fbdc3893ad4cfb", null ],

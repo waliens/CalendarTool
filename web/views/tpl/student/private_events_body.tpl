@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
       <table class="table" id="private_events">
-        <tr class="text-bold"><td>Événement</td><td class="width-30">Modifier</td><td class="width-30">Supprimer</td></tr>
+        <tr class="text-bold"><td>Événement</td><td class="min-width-100">Commence</td><td class="min-width-100">Se termine</td><td class="width-30">Récurrence</td></tr>
         <!--FILLED WITH LIST PRIVATE EVENTS THROUGH AJAX-->    
         </table>
     </div>

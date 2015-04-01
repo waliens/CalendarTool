@@ -23,7 +23,7 @@
 		private $type_checker; /**< @brief A TypeChecker object */
 		private $event_mod; /**< @brief An event model */
 
-		const STATUS_SENT = "sent"; /**< @brief Status string constant : sent */
+		const STATUS_WAITING = "waiting"; /**< @brief Status string constant : waiting */
 		const STATUS_ACCEPTED = "accepted"; /**< @brief Status string constant : accepted */
 		const STATUS_CANCELLED = "cancelled"; /**< @brief Status string constant : cancelled */
 		const STATUS_REFUSED = "refused"; /**< @brief Status string constant : refused */
@@ -38,7 +38,8 @@
 		public function __construct()
 		{
 			parent::__construct();
-			$this->req_status = array('sent', 'accepted', 'cancelled', 'refused');
+
+			$this->req_status = array('waiting', 'accepted', 'cancelled', 'refused');
 			$this->type_checker = new TypeChecker();
 			$this->populate_targets();
 			$this->event_mod = new EventModel();
@@ -102,6 +103,7 @@
  					$error_desc['targets'] = "Au moins une modification demandée est impossible";
  					break;
  				}
+
  				// set a type for the type checker
  				$this->type_checker->set_type($this->targets[$target['target_id']['Type']]);
 
@@ -244,7 +246,8 @@
 			$request_data = array("Id_Event" => $data['event'], 
 								  "Id_Sender" => $data['sender'],
 								  "Description" => $data['description'],
-								  "Status" => self::STATUS_SENT);
+								  "Status" => self::STATUS_WAITING);
+
 
 			$success = true; // true if no error occurred
 			$this->sql->transaction();
@@ -323,16 +326,29 @@
 			{
 			case "to_deadline": 
 				$ret['proposition'] = $matches[1];
+				$ret['name'] = "Changer une deadline";
 				break;
 			case "to_time_range":
+				$ret['proposition'] = array("start" => $matches[1], "end" => $matches[2]);
+				$ret['name'] = "Changer en un événement 'time range'";
+				break;
 			case "to_date_range":
 				$ret['proposition'] = array("start" => $matches[1], "end" => $matches[2]);
+				$ret['name'] = "Changer en un événement 'date range'";
 				break;
 			case "change_date":
 				$ret['proposition'] = array("what" => $matches[1], "date" => $matches[2]);
+				if($matches[1] === "start")
+					$ret['name'] = "Changer la date de début";
+				else
+					$ret['name'] = "Changer la date de fin";
 				break;
 			case "change_time":
 				$ret['proposition'] = array("what" => $matches[1], "time" => $matches[2]);
+				if($matches[1] === "start")
+					$ret['name'] = "Changer les date et heure de début";
+				else
+					$ret['name'] = "Changer les date et heure de fin";
 				break;
 			default: 
 				return null;
@@ -346,26 +362,39 @@
 		 * @param[in] int $req_id The modification request id
 		 * @retval array An array structured as the $data array of the insert_modification_request function
 		 * @note In addition of the index present in the $data array of the insert_modification_request function,
-		 * some fields status and request are added containing respectively the status of the request and the request
-		 * id.
+		 * the following fields are added : 
+		 * <ul>
+		 *  <li>status : the request status (waiting, refused, cancelled, accepted)</li>
+		 *  <li>request : request id</li>
+		 *  <li>sender_name : the name of the sender</li>
+		 *  <li>sender_surname : the surname of the sende</li>
+		 *  <li>event_name : the name of the event</li>
+		 * </ul>
+		 * Moreover, the targets array contain a 'name' key mapping the target human-readable name
 		 */
 		public function get_modification_request($req_id)
 		{
 			$this->sql->lock(array("modification_request READ"), "modification READ");
 
 			// get request
-			$request = $this->sql->select_one("modification_request", 
-											  "Id_Request = ".$this->sql->quote($req_id), 
-											  array("Id_Request AS request", 
-											  		"Id_Event AS event",
-											  		"Id_Sender AS sender", 
-											  		"Description AS description",
-											  		"Status AS status"));
+
+			$query  =  "SELECT Id_Request AS request, Id_Event AS event, event_name, Id_Sender AS sender, 
+								Name AS sender_name, Surname AS sender_surname, Description AS description,
+								Status AS status
+						FROM modification 
+						NATURAL JOIN ( SELECT Id_Event, Name AS event_name FROM Event ) as events
+						INNER JOIN user ON user.Id_User = modification.Id_Sender
+						WHERE Id_Request = ?;";
+
+			$request = $this->sql->execute_query($query, array($req_id));
 
 			if(empty($request))
 				return array();
 
-			// get modif
+
+			$request = $request[0];
+
+			// get modifications
 			$query  =  "SELECT * FROM 
 						( SELECT Id_Target, Proposition FROM modification WHERE Id_Request = ? ) as modif 
 						NATURAL JOIN 
@@ -403,7 +432,7 @@
 							NATURAL JOIN
 							(
 							    SELECT Id_Event FROM `independent_event` WHERE Id_Owner = ?
-							    UNION
+							    UNION ALL
 							    SELECT Id_Event FROM sub_event NATURAL JOIN 
 							    ( SELECT Id_Global_Event FROM global_event WHERE Id_Owner = ? ) AS glob
 							) as owned_event";
@@ -443,7 +472,7 @@
 		 */
 		private function valid_status($status)
 		{
-			return preg_match("#^(accepted|sent|refused|cancelled)$#", $status);
+			return preg_match("#^(accepted|waiting|refused|cancelled)$#", $status);
 		}
 
 		/**

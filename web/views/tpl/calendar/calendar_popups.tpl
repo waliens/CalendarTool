@@ -19,6 +19,7 @@
                 <div id="endDate" style="float:none"></div>
               </div></td>
           </tr>
+          <tr id="deadline_public_event"><td class="text-bold">Deadline</td><td><input type="checkbox" aria-label="" disabled="disabled"></td></tr>
           <tr>
             <td class="text-bold width-80">Où</td>
             <td><div id="event_place"></div></td>
@@ -68,7 +69,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="private_event_modal_header">Nouvel événement</h4>
         <div id='edit_private_event' class="hidden float-left-10padright" disabled=false><a class='edit' onclick='edit_private_event()'></a></div>
-        <div id='delete_private_event' class="hidden" disabled=false><a class='delete' onclick='delete_private_event()'></a></div>
+        <div id='delete_private_event' class="hidden" disabled=false><a tabindex="0" role="button"  class="delete" data-placement="right" data-toggle="popover" data-trigger="focus" data-title="Supprimer l'événement privé" data-content="Êtes-vous sûr de vouloir supprimer cet événement?"></a></div>
       </div>
       <!--modal body-->
       <div>
@@ -106,16 +107,16 @@
               <div class="float-left-10padright">
                 <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="recurrence_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="recurrence">jamais</span>
+                    <span id="recurrence" recurrence-id="6">jamais</span>
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">jamais</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les jours</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les semaines</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">toutes les deux semaines</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les mois</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()">tous les ans</a></li>
+                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="6">jamais</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="1">tous les jours</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="2">toutes les semaines</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="3">toutes les deux semaines</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="4">tous les mois</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence()" recurrence-id="5">tous les ans</a></li>
                   </ul>
                 </div>
                 </div>
@@ -135,20 +136,10 @@
               <td>
               <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="private_event_type_btn" data-toggle="dropdown" aria-expanded="true">
-                    <span id="private_event_type">Travail</span>
+                    <span id="private_event_type" category-id="11">Travail</span>
                     <span class="caret"></span>
                   </button>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="11">Travail</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="9">Sport</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="10">Chapi</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="12">Restaurant</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="13">Soirée</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="14">Personnel</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="15">Loisir</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="16">Musique</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="17">Anniversaire</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="18">Autre</a></li>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="private_event_categories_dropdown">
                   </ul>
                 </div>
                 </td>
@@ -198,4 +189,17 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="event_recursive_dragdrop_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog">
+<div class="alert alert-danger alert-dismissible fade in" role="alert">
+      <h4 id="oh-snap!-you-got-an-error!">Oh snap! You got an error!<a class="anchorjs-link" href="#oh-snap!-you-got-an-error!"><span class="anchorjs-icon"></span></a></h4>
+      <p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
+      <p>
+        <button type="button" class="btn btn-danger">Take this action</button>
+        <button type="button" class="btn btn-default">Or do this</button>
+      </p>
+</div>
+    </div>
 </div>

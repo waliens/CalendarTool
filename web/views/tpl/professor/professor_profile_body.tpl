@@ -46,7 +46,7 @@
         <tr>
       <td colspan="3">
       <div class="text-center">
-        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event">Ajouter événement indépendant</a>
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event" data-toggle="modal" data-target="#new_indepevent">Ajouter événement indépendant</a>
       </div>
       </td>
       </tr>

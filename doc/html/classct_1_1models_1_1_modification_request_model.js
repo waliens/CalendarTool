@@ -14,5 +14,5 @@ var classct_1_1models_1_1_modification_request_model =
     [ "STATUS_ACCEPTED", "classct_1_1models_1_1_modification_request_model.html#a6f80c53f025dbcfa3b742820a5f472c8", null ],
     [ "STATUS_CANCELLED", "classct_1_1models_1_1_modification_request_model.html#a0e22a60db07645715da9995e43076bba", null ],
     [ "STATUS_REFUSED", "classct_1_1models_1_1_modification_request_model.html#aa25a7729a5d70def79d5519811fefbea", null ],
-    [ "STATUS_SENT", "classct_1_1models_1_1_modification_request_model.html#aae72d31bfbec2b0724b39d73462853fe", null ]
+    [ "STATUS_WAITING", "classct_1_1models_1_1_modification_request_model.html#aa749408a5c624adc0df9ccfaf2b1a7ce", null ]
 ];

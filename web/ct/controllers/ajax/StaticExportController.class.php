@@ -27,9 +27,18 @@
 			if($this->error_isset())
 				return;
 
+			// reset the output data array that was formatted by the FilterCollection constructor
+			$this->reset_output_data();
+
 			$exp_mod = new ExportModel();
 
-			if(!$exp_mod->set_export_filters($this->get_filters()))
-				$this->set_error_predefined(AjaxController::ERROR_ACTION_SAVE_EXPORT);
+			if(!$exp_mod->generate_static_export_file($this->get_filters()))
+			{
+				$this->set_error_predefined(AjaxController::ERROR_ACTION_CREATE_STATIC_EXPORT);
+				return false;
+			}
+
+			$url = $exp_mod->get_export_file_path(ExportModel::EXPORT_TYPE_STATIC);
+			$this->add_output_data("url", $url);
 		}
 	}

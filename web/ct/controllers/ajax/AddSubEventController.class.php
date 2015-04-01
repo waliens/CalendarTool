@@ -10,6 +10,7 @@ namespace ct\controllers\ajax;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use ct\models\events\SubEventModel;
+
 use \DateTime;
 
 
@@ -47,7 +48,7 @@ class AddSubEventController extends AjaxController
 				"practical_details" => $this->sg_post->value('practical_details'));
 			
 		// get event date
-		if($this->sg_post->value("limit") == "true")
+		if($this->sg_post->value('limit') == "true")
 			$data['limit'] = $this->sg_post->value('start');
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
@@ -60,11 +61,11 @@ class AddSubEventController extends AjaxController
 			return;
 		}
 
-		
+
 		// check for recurrence
 		$id_ret = array(); // new private event id
 
-		if($this->sg_post->value('recurrence') != 0
+		if($this->sg_post->value('recurrence') != 6
 				&& $this->sg_post->check("end-recurrence"))
 		{
 			$endrec = new DateTime($this->sg_post->value('end-recurrence'));
@@ -73,20 +74,19 @@ class AddSubEventController extends AjaxController
 		else
 			$id_ret[0] = $model->createEvent($data);
 
-
 		$this->add_output_data("id", $id_ret);
 	
-		$pathway = $this->sg_post->value('pathway');
-		$team = $this->sg_post->value('teaching_team');
-		
+		$pathway = $this->json2array($this->sg_post->value('pathway'));
+		$team = $this->json2array($this->sg_post->value('teachingTeam'));
+
 		foreach($pathway as $key => $value){
-			if($value['selected'] == "false"){
+			if(!$value['selected']){
 				foreach($id_ret as $o => $id)
 					$model->excludePathway($id, $value['id']);
 			}
 		}
 		foreach($team as $key => $value){
-			if($value['selected'] == "false"){
+			if(!$value['selected']){
 				foreach($id_ret as $o => $id)
 					$model->excludeMember($id, $value['id']);
 			}

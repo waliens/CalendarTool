@@ -18,21 +18,28 @@
 	use ct\models\filters\ProfessorFilter;
 	use ct\models\filters\EventCategoryFilter;
 	use ct\models\filters\EventTypeFilter;
+	use ct\models\filters\TimeTypeFilter;
 
 	/**
 	 * @class FilterController
 	 * @brief A class for handling the event selection with filters
+	 * @note This class perform a basic preprocessing on a query containing event filters in the following form
+	 * {all:'true', 
+	 *  dateRange: {start: datetime, end: datetime},
+	 *  courses: {isSet: 'false', id:[]},
+	 *  eventTypes: {isSet: 'false', id:[]},
+	 *  eventCategories:{isSet:'false', id:[]},
+	 *  pathways: {isSet: 'false', id:[]},
+	 *  professors:{isSet: 'false', id:[]}} 
 	 */
 	class FilterController extends AjaxController
 	{
 		private $filters; /**< @brief Array of filters */
-		private $access_filter; /**< @brief An access filter */
 
 		/**
 		 * @brief Construct the FilterController object and process the request
-		 * @note Set the output data array with the events. The output data array is structured as an array mapped by
-		 * the key "events" and containing the keys "publicEvents" and "privateEvents" :
-		 * {events:{publicEvents:[{id, name, timeType, start, end, recursive}], privateEvents:[{id, name, timeType, start, end, recursive}]}}}
+		 * @note Only initialize the filters according to the array input data. The filters can be obtained in the 
+		 * derived classes with the get_filters function. An access filter is never created.
 		 */
 		public function __construct()
 		{
@@ -43,11 +50,27 @@
 			$this->access_filter = null;
 
 			// check params :
-			$keys = array("all", "dateRange", "courses", "eventTypes", "pathways", "professors");
+			$keys = array("allEvent", "dateRange", "courses", "eventTypes", "eventCategories", "pathways", "professors");
 
 			if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 			{
 				$this->set_error_predefined(AjaxController::ERROR_MISSING_INPUT_DATA);
+				return;
+			}
+
+			// check structure of allEvent 
+			$all_event = $this->sg_post->value("allEvent");
+
+			if(!isset($all_event['isSet']) || !\ct\is_bool_str($all_event['isSet']))
+			{
+				$this->set_error_predefined(AjaxController::ERROR_MISSING_INPUT_DATA);
+				return;
+			}
+
+			// check whether the user only used filters he was authorized to use
+			if(!$this->only_authorized_filters())
+			{
+				$this->set_error_predefined(AjaxController::ERROR_ACCESS_PROFESSOR_REQUIRED);
 				return;
 			}
 			
@@ -56,24 +79,16 @@
 				return;
 
 			// set the filters if necessary
-			if($this->sg_post->value("all") !== "true") 
+			if($all_event['isSet'] !== "true") 
 			{
 				// filters keys
-				$filter_keys = array("courses", "eventTypes", "pathways", "professors");
+				$filter_keys = array("courses", "eventTypes", "eventCategories", "pathways", "professors");
 
 				// extract filters
 				foreach($filter_keys as $key)
 					if(!$this->extract_filter_from_query($key))
 						return;
-
-				// add access filter
-				$this->access_filter = new AccessFilter();						
 			}
-
-			// structure the data to match the output format
-			$events = $this->extract_events();
-
-			$this->add_output_data("events", $events);
 		}
 
 
@@ -98,6 +113,7 @@
 			}
 			catch(\Exception $e)
 			{
+				$this->set_error_predefined(AjaxController::ERROR_DATE_FORMAT);
 				return false;
 			}
 
@@ -108,7 +124,7 @@
 		 * @brief Extract the filter corresponding to the word from the query 
 		 * @param[in] string $key The key in the input data array corresponding to the filter to extract
 		 * @retval bool True if the query was successfully processed (added or not), false on error
-		 * @note If an error occurs, then the error field is set with the appropriate error
+		 * @note If an error occurs, then the returned error field is set with the appropriate error
 		 * @note The key must exist in the input data array
 		 */
 		private function extract_filter_from_query($key)
@@ -118,89 +134,57 @@
 			if(isset($query_entry['isSet']) && $query_entry['isSet'] !== "true")
 				return true;
 
-			if(!isset($query_entry['id']) || count($query_entry['id']) == 0)
-			{
-				$this->set_error_predefined(self::ERROR_MISSING_ID);
+			// check validity of the field
+			if(!$this->check_filter_field($key))
 				return false;
-			}
 
 			// convert the string ids to actual integers
-			$ids = array_map("intval", $query_entry['id']);
+			if($key !== "eventTypes")
+				$ids = array_map("intval", $query_entry['id']);
 
 			switch ($key) {
 				case "courses": 
-					$filter = new GlobalEventFilter($ids);
-					break; 
+					array_push($this->filters, new GlobalEventFilter($ids));
+					break;
+
 			   	case "eventTypes": 
-			   		$filter = new EventCategoryFilter($ids);
-			   		break; 
+
+					if(isset($query_entry['timeType']) && !empty($query_entry['timeType']))
+					{
+						$ids = array_map("intval", $query_entry['timeType']);
+						// build the mask
+						$ids = array_reduce($ids, "\ct\bitwise_or", 0);
+						array_push($this->filters, new TimeTypeFilter($ids));
+					}
+
+					if(isset($query_entry['eventType']) && !empty($query_entry['eventType']))
+					{
+						$ids = array_map("intval", $query_entry['eventType']);
+						// build the mask
+						$ids = array_reduce($ids, "\ct\bitwise_or", 0);
+						array_push($this->filters, new EventTypeFilter($ids));
+					}
+
+			   		break;
+
+			   	case "eventCategories":
+			   		array_push($this->filters, new EventCategoryFilter($ids));
+			   		break;
+
 			    case "pathways": 
-			    	$filter = new PathwayFilter($ids);
-			    	break; 
-			    case "professors": 
-			    	$filter = new ProfessorFilter($ids);
+			    	array_push($this->filters, new PathwayFilter($ids));
 			    	break;
+
+			    case "professors": 
+			    	array_push($this->filters, new ProfessorFilter($ids));
+			    	break;
+
 				default:
 					trigger_error("Filter item key is invalid", E_USER_ERROR);
 					break;
 			}
 
-			array_push($this->filters, $filter);
 			return true;
-		}
-
-		/** 
-		 * @brief Format the event array 
-		 * @param[in] array $events The event array
-		 * @retval The formatted array
-		 * @note The columns (Id_Event, Name, Start, End, Id_Recurrence, Datetype) are renamed to
-		 * (id, name, start, end, recursive, timeType) and the dates are converted to the french format
-		 */
-		protected function format_events(array &$events)
-		{
-			// data for columns renaming
-			$out_keys = array("Id_Event" => "id", "Name" => "name", 
-							  "Start" => "start", "End" => "end", 
-							  "Id_Recurrence" => "recursive", 
-							  "DateType" => "timeType", "Color"=>"color");
-
-			$renamed = \ct\darray_transform($events, $out_keys);
-			$start_formatted = \ct\array_col_map($renamed, "\ct\date_sql2fullcalendar", "start");
-			return \ct\array_col_map($start_formatted, "\ct\date_sql2fullcalendar", "end");
-		}
-
-		/**
-		 * @brief Extract the filtered event
-		 * @retval array An array containing the filtered events 
-		 */
-		private function extract_events()
-		{
-			$filter_collection = new FilterCollectionModel();
-
-			$events_array = array();
-
-			// public events : academic
-			$types_map = array("public" => EventTypeFilter::TYPE_ACADEMIC,
-							   "private" => EventTypeFilter::TYPE_STUDENT);
-
-			foreach ($types_map as $output_key => $event_type) 
-			{
-				$type_filter = new EventTypeFilter($event_type);
-
-				$filter_collection->add_filters($this->get_filters());
-				$filter_collection->add_filter($type_filter);
-				
-				if($this->get_access_filter() != null) // add access filter if it is set
-					$filter_collection->add_access_filter($this->get_access_filter());
-
-				$events = $filter_collection->get_events();
-
-				$events_array[$output_key] = $this->format_events($events);
-
-				$filter_collection->reset();
-			}
-
-			return $events_array;
 		}
 
 		/**
@@ -213,11 +197,55 @@
 		}
 
 		/**
-		 * @brief Return the access filter 
-		 * @retval AccessFilter The access filter
+		 * @brief Checks if the set filters are only authorized filter for the currently connected user
+		 * @retval bool True if the filters used are all valid, false otherwise
 		 */
-		protected function get_access_filter()
+		protected function only_authorized_filters()
 		{
-			return $this->access_filter;
+			// user cannot use the pathway filters
+			return !($this->connection->user_is_student() && $this->sg_post->value("pathways")['isSet'] === "true");
+		}
+
+
+		/**
+		 * @brief Checks whether the field input structure for the given key is valid 
+		 * @retval bool True if the structure is valid, false otherwise
+		 * @note The error is set if the error is not valid
+		 */
+		private function check_filter_field($key)
+		{
+			$query_entry = $this->sg_post->value($key);
+
+			switch($key)
+			{
+				case "courses": 
+			   	case "eventCategories":
+			    case "pathways":  
+			    case "professors": 
+			    	
+			    	if(!isset($query_entry['id']) || count($query_entry['id']) == 0)
+			    	{
+			    		$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);
+						return false;
+			    	}
+
+			    	break;
+
+			    case "eventTypes": 
+
+			    	if((!isset($query_entry['timeType']) && !isset($query_entry['eventType'])) || 
+			    			(count($query_entry['timeType']) === 0 && count($query_entry['eventType'] === 0)))
+			    	{
+			    		$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);
+			    		return false;
+			    	}
+
+			    	break;
+				default:
+					trigger_error("Filter item key is invalid", E_USER_ERROR);
+					break;
+			}
+
+			return true;
 		}
 	}

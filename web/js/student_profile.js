@@ -241,6 +241,9 @@ $("#subevent_info").on("show.bs.modal",function(){
 			var subevent_title=data.name;
 			var subevent_description=data.description;
 			var subevent_place=data.place;
+			if(subevent_place==null)
+				$("#subevent-place").parent().hide();
+			else $("#subevent-place").parent().show();
 			var subevent_type=data.type;
 			var subevent_start=moment(data.startDay);
 			if(data.startTime!=""){
@@ -300,17 +303,17 @@ $("#subevent_info").on("show.bs.modal",function(){
 
 function get_recursion(recursion_id){
 	switch(recursion_id){
-		case "1":
-			return "jamais";
-		case "2":
-			return "tous les jours";
-		case "3":
-			return "toutes les semaines";
-		case "4":
-			return "toutes les deux semaines";
-		case "5":
-			return "tous les mois";
 		case "6":
+			return "jamais";
+		case "1":
+			return "tous les jours";
+		case "2":
+			return "toutes les semaines";
+		case "3":
+			return "toutes les deux semaines";
+		case "4":
+			return "tous les mois";
+		case "5":
 			return "tous les ans"
 		}
 	}

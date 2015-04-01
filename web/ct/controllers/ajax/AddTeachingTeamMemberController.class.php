@@ -10,6 +10,7 @@
 	use util\mvc\AjaxController;	
 	use util\superglobals\Superglobal;
 	use ct\models\events\GlobalEventModel;
+	use ct\models\UserModel;
 
 	/**
 	 * @class AddTeachingTeamMemberController
@@ -42,6 +43,17 @@
 			if(!$this->has_access())
 			{
 				$this->set_error_predefined(AjaxController::ERROR_ACCESS_PROFESSOR_REQUIRED);
+				return;
+			}
+
+			// check whether the given user can be given the given role
+			$user_mod = new UserModel();
+			$is_student = $user_mod->user_is_student($this->sg_post->value("id_user"));
+			$role = $this->sg_post->value("id_role");
+
+			if($is_student XOR $role == GlobalEventModel::ROLE_ID_TS)
+			{
+				$this->set_error_predefined(AjaxController::ERROR_ACTION_BAD_TEACHING_ROLE);
 				return;
 			}
 

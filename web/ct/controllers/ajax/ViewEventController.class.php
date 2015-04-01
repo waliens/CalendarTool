@@ -13,6 +13,7 @@ use ct\models\events\IndependentEventModel;
 
 use ct\models\events\GlobalEventModel;
 use ct\models\events\SubEventModel;
+use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use \DateTime;
@@ -72,7 +73,7 @@ class ViewEventController extends AjaxController
 			$ret['id'] = $data['Id_Event'];
 			$ret['name'] = $data['Name'];
 			$ret['description'] = $data['Description'];
-			$ret['type'] = $data['EventType']; 
+			$ret['type'] = $data['DateType']; 
 			$ret['place'] = $data['Place'];
 			
 			$start = new DateTime($data['Start']);
@@ -102,13 +103,14 @@ class ViewEventController extends AjaxController
 			else
 				$eng = false;
 			
+			
 			if($eng)
  				$ret['category_name'] = $data['Categ_Name_EN'];
 			else
 				$ret['category_name'] = $data['Categ_Name_FR'];
 				
 			
-			$ret['recurrence'] = $data['Id_Recurrence'];
+			$ret['recurrence'] = $data['Id_Recur_Category'];
 			
 			$an = $model->get_annotation($eventId, $id);
 			if($an)
@@ -126,6 +128,15 @@ class ViewEventController extends AjaxController
 					}
 					$ret['professor'] = implode(", ", $prof);
 				}
+			}
+			
+			if($data['Id_Recurrence'] != intval(1)){
+				$ret["start_recurrence"] = $model->getStartRecurrence($data['Id_Recurrence']);
+				$ret["end_recurrence"] = $model->getEndRecurrence($data['Id_Recurrence']);
+			}
+			else {
+				$ret["start_recurrence"] = "";
+				$ret["end_recurrence"] = "";
 			}
 			$this->set_output_data($ret);
 		}

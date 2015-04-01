@@ -27,7 +27,9 @@
 		const ERROR_ACTION_UPDATE_DATA = 202; /**< @brief Action failure : cannot update data */
 		const ERROR_ACTION_DELETE_DATA = 203; /**< @brief Action failure : cannot delete data */
 		const ERROR_ACTION_READ_DATA = 204; /**< @brief Action failure : cannot read data */
-		const ERROR_ACTION_SAVE_EXPORT = 205; /**< @brief Action failure : cannot save export settings */
+		const ERROR_ACTION_CREATE_STATIC_EXPORT = 205; /**< @brief Action failure : cannot save export settings */
+		const ERROR_ACTION_BAD_TEACHING_ROLE = 206; /**< @brief Action failure : cannot save the given teaching role for the given user */
+		const ERROR_ACTION_FILTER_EXTRACTION = 207; /**< @brief Action failure : cannot extract filters from query */
 
 		/* 3xx : missing data */
 		const ERROR_MISSING_DATA = 300; /**< @brief Missing data generic error (300) */
@@ -45,6 +47,7 @@
 
 		/* 5xx : format errror */
 		const ERROR_FORMAT_INVALID = 500; /**< @brief Generic error of data format */
+		const ERROR_DATE_FORMAT_INVALID = 501; /**< @brief Format error : date not formatted as exptected */
 
 		/**
 		 * @brief Constructs the AjaxController object
@@ -70,84 +73,96 @@
 
 			/* 000 : no error */
 			$this->error_msgs[self::ERROR_OK]
-				= array("EN" => "No error.", 
-						"FR" => "Pas d'erreur.");
+				= array("EN" => "No error", 
+						"FR" => "Pas d'erreur");
 
 			$this->error_msgs[self::ERROR]
-				= array("EN" => "An error occurred.", 
-						"FR" => "Une erreur s'est produite.");
+				= array("EN" => "An error occurred", 
+						"FR" => "Une erreur s'est produite");
 
 			/* 200 : action failure */
 			$this->error_msgs[self::ERROR_ACTION_FAILURE] 
-				= array("EN" => "Failure : impossible to perform the requested action.", 
-						"FR" => "Echec : impossible de traiter l'action demandée.");
+				= array("EN" => "Failure : impossible to perform the requested action", 
+						"FR" => "Echec : impossible de traiter l'action demandée");
 
 			$this->error_msgs[self::ERROR_ACTION_ADD_DATA] 
-				= array("EN" => "Failure : impossible to add the sent data.", 
-						"FR" => "Echec : impossible d'ajouter les données envoyées.");
+				= array("EN" => "Failure : impossible to add the sent data", 
+						"FR" => "Echec : impossible d'ajouter les données envoyées");
 
 			$this->error_msgs[self::ERROR_ACTION_UPDATE_DATA] 
 				= array("EN" => "Failure : impossible to update the requested data", 
-						"FR" => "Echec : impossible de mettre à jour les données demandées.");
+						"FR" => "Echec : impossible de mettre à jour les données demandées");
 
 			$this->error_msgs[self::ERROR_ACTION_DELETE_DATA] 
-				= array("EN" => "Failure : impossible to delete the requested data.", 
-						"FR" => "Echec : impossible de supprimer les données demandées.");
+				= array("EN" => "Failure : impossible to delete the requested data", 
+						"FR" => "Echec : impossible de supprimer les données demandées");
 
 			$this->error_msgs[self::ERROR_ACTION_READ_DATA] 
-				= array("EN" => "Failure : impossible to fetch the requested data.", 
-						"FR" => "Echec : impossible de récupérer les données demandées.");
+				= array("EN" => "Failure : impossible to fetch the requested data", 
+						"FR" => "Echec : impossible de récupérer les données demandées");
 
-			$this->error_msgs[self::ERROR_ACTION_SAVE_EXPORT] 
-				= array("EN" => "Failure : impossible to save the export settings.", 
-						"FR" => "Echec : impossible de sauver les options d'export.");
+			$this->error_msgs[self::ERROR_ACTION_CREATE_STATIC_EXPORT] 
+				= array("EN" => "Failure : impossible to generate the static export file", 
+						"FR" => "Echec : impossible de générer le fichier d'export statique");
+			
+			$this->error_msgs[self::ERROR_ACTION_BAD_TEACHING_ROLE] 
+				= array("EN" => "Failure : impossible for the given user to have the given role", 
+						"FR" => "Echec : impossible d'associer ce role à l'utilisateur donné");
+
+			$this->error_msgs[self::ERROR_ACTION_FILTER_EXTRACTION] 
+				= array("EN" => "Failure : impossible for to extract the filters from the query", 
+						"FR" => "Echec : impossible d'extraire les filtres depuis les requêtes");
 
 			/* 300 : missing */
 			$this->error_msgs[self::ERROR_MISSING_DATA] 
-				= array("EN" => "Missing data.", 
-						"FR" => "Données manquantes.");
+				= array("EN" => "Missing data", 
+						"FR" => "Données manquantes");
 
 			$this->error_msgs[self::ERROR_MISSING_USER] 
-				= array("EN" => "User not found : the user you're looking for was not found.", 
-						"FR" => "Utilisateur manquant : l'utilisateur recherché n'a pas été trouvé.");
+				= array("EN" => "User not found : the user you're looking for was not found", 
+						"FR" => "Utilisateur manquant : l'utilisateur recherché n'a pas été trouvé");
 
 			$this->error_msgs[self::ERROR_MISSING_EVENT] 
 				= array("EN" => "Event not found : the event you were looking for wasn't found", 
-						"FR" => "Evénement manquant : l'événement recherché n'a pas été trouvé.");
+						"FR" => "Evénement manquant : l'événement recherché n'a pas été trouvé");
 
 			$this->error_msgs[self::ERROR_MISSING_GLOBAL_EVENT] 
-				= array("EN" => "Global event not found : the global event you're looking for wasn't found.", 
-						"FR" => "Evénement global manquant : l'événement global recherché n'a pas été trouvé.");
+				= array("EN" => "Global event not found : the global event you're looking for wasn't found", 
+						"FR" => "Evénement global manquant : l'événement global recherché n'a pas été trouvé");
 
 			$this->error_msgs[self::ERROR_MISSING_ID] 
-				= array("EN" => "Missing id : the data identifier is missing.", 
-						"FR" => "Identifiant manquant : l'identifiant des données recherchées est manquant.");
+				= array("EN" => "Missing id : the data identifier is missing", 
+						"FR" => "Identifiant manquant : l'identifiant des données recherchées est manquant");
 
 			$this->error_msgs[self::ERROR_MISSING_INPUT_DATA] 
-				= array("EN" => "Missing input data : some fields of the JSON array are missing or empty.", 
-						"FR" => "Données d'entrée manquante : des champs de tableau JSON sont manquants ou vides.");
+				= array("EN" => "Missing input data : some fields of the JSON array are missing or empty", 
+						"FR" => "Données d'entrée manquante : des champs de tableau JSON sont manquants ou vides");
 
 			/* 400 : access denied */
 			$this->error_msgs[self::ERROR_ACCESS_DENIED] 
-				= array("EN" => "Access denied : these information are not accessible from your account.", 
-						"FR" => "Accès refusé : ces données ne sont pas accessible depuis votre compte.");
+				= array("EN" => "Access denied : these information are not accessible from your account", 
+						"FR" => "Accès refusé : ces données ne sont pas accessible depuis votre compte");
 
 			$this->error_msgs[self::ERROR_ACCESS_ROOT_REQUIRED] 
-				= array("EN" => "Access denied : only the root user can access these information or perform this operation.", 
-						"FR" => "Accès refusé : seul le root peut accéder à ces données ou effectuer cette opération.");
+				= array("EN" => "Access denied : only the root user can access these information or perform this operation", 
+						"FR" => "Accès refusé : seul le root peut accéder à ces données ou effectuer cette opération");
 
 			$this->error_msgs[self::ERROR_ACCESS_STUDENT_REQUIRED] 
-				= array("EN" => "Access denied : only a student can access these information or perform this operation.", 
-						"FR" => "Accès refusé : seul un étudiant peut accéder à ces données ou effectuer cette opération.");
+				= array("EN" => "Access denied : only a student can access these information or perform this operation", 
+						"FR" => "Accès refusé : seul un étudiant peut accéder à ces données ou effectuer cette opération");
 
 			$this->error_msgs[self::ERROR_ACCESS_PROFESSOR_REQUIRED] 
-				= array("EN" => "Access denied : only a professor can access these information or perform this operation.", 
-						"FR" => "Accès refusé : seul un professeur peut accéder à ces données ou effectuer cette opération.");
+				= array("EN" => "Access denied : only a professor can access these information or perform this operation", 
+						"FR" => "Accès refusé : seul un professeur peut accéder à ces données ou effectuer cette opération");
 
 			/* 500 : format error */
 			$this->error_msgs[self::ERROR_FORMAT_INVALID] 
 				= array("EN" => "Bad format", 
 						"FR" => "Format invalide");
+
+			$this->error_msgs[self::ERROR_DATE_FORMAT_INVALID] 
+				= array("EN" => "Bad format : date not formatted as expected", 
+						"FR" => "Format invalide : mauvais format de date");
 		}
 
 		/**
@@ -158,10 +173,10 @@
 		private function is_valid_error_code($error_code)
 		{
 			return ($error_code >= 0 && $error_code <= 1) 
-					|| ($error_code >= 200 && $error_code <= 204)
+					|| ($error_code >= 200 && $error_code <= 207)
 					|| ($error_code >= 300 && $error_code <= 305)
 					|| ($error_code >= 400 && $error_code <= 403)
-					|| ($error_code >= 500 && $error_code <= 500); 
+					|| ($error_code >= 500 && $error_code <= 501); 
 		}
 
 		/**
@@ -171,7 +186,7 @@
 		 */
 		final protected function json2array($json)
 		{
-			return json_decode($json);
+			return json_decode($json, true);
 		} 
 
 		/**
@@ -283,6 +298,14 @@
 		protected function get_output_data()
 		{
 			return $this->output_data;
+		}
+
+		/**
+		 * @brief Reset the output data array (delete any content)
+		 */
+		protected function reset_output_data()
+		{
+			$this->output_data = array();
 		}
 
 		/**

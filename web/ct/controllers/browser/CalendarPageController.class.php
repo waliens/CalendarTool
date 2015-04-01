@@ -29,6 +29,7 @@
 		 */
 		protected function get_content()
 		{
+			$this->smarty->assign("student", $this->connection->user_is_student());
 			return $this->smarty->fetch("calendar/calendar_body.tpl");
 		}
 		
@@ -37,7 +38,8 @@
 		 */
 		protected function get_popups()
 		{
-		  return $this->smarty->fetch("calendar/calendar_popups.tpl");
+			$this->smarty->assign("student", $this->connection->user_is_student());
+			return $this->smarty->fetch("calendar/calendar_popups.tpl");
 		}
 	
 		/**
@@ -45,7 +47,8 @@
 		 */
 		protected function get_footer_inc()
 		{
-		  return $this->smarty->fetch("calendar/calendar_footer_inc.tpl");
+			$this->smarty->assign("student", $this->connection->user_is_student());
+			return $this->smarty->fetch("calendar/calendar_footer_inc.tpl");
 		}
 
 		/**

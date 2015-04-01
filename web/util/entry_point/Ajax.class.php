@@ -7,7 +7,11 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\EditAcademicEventController;
+    use ct\controllers\ajax\EditDaD;
+
+				use ct\controllers\ajax\ViewEventCalendarController;
+
+	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
     use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
@@ -35,11 +39,13 @@
     use ct\controllers\ajax\StudentProfileController;
     use ct\controllers\ajax\GetTeachingRolesController;
     use ct\controllers\ajax\StaticExportController;
-    use ct\controllers\ajax\GetGlobalEventsByStudentController;
+    use ct\controllers\ajax\GetGlobalEventsByUserController;
     use ct\controllers\ajax\GetProfessorAvailableCoursesController;
     use ct\controllers\ajax\CreateGlobalEventController;
     use ct\controllers\ajax\EditGlobalEventController;
     use ct\controllers\ajax\EventCategoriesController;
+    use ct\controllers\ajax\GetTeamAddableUsers;
+    use ct\controllers\ajax\AddSubEventController;
 
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -85,7 +91,7 @@
 
                 /* Global event related */
                 case "031":
-                	return new GetGlobalEventsByStudentController();
+                	return new GetGlobalEventsByUserController();
                 case "032":
                 	return new ViewGlobalEventController();
                 case "033":
@@ -125,6 +131,8 @@
                 	return new EditAcademicEventController(true);
                 case "055":
                 	return new DeleteEventController("SUB");
+                case "056":
+                	return new ViewEventCalendarController("SUB");
                 	
                 /* Private Event related */
                 case "061":
@@ -137,6 +145,8 @@
                 	return new ViewEventController("PRIVATE");
                 case "065":
                 	return new EditPrivateEventController();
+                case "066":
+                	return new ViewEventCalendarController("PRIVATE");
 
 
                 /* Teaching role related */
@@ -148,6 +158,8 @@
                     return new DeleteTeachingTeamMemberController();
                 case "074":
                     return new GetTeachingRolesController();
+                case "075":
+                    return new GetTeamAddableUsers();
 
 				/* Independant Event related */ 
                 case "081":
@@ -157,7 +169,9 @@
                 case "084":
                 	return new ViewEventController("INDEP"); 
                 case '085':
-                	return new EditAcademicEventController(false);                   
+                	return new EditAcademicEventController(false);    
+                case "086":
+                	return new ViewEventCalendarController("INDEP");              
                     
                 /* Export related */
                 case "091":
@@ -172,6 +186,9 @@
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
+                    
+                case "141":
+                	return new EditDaD();
 
                 default:
                     return null;

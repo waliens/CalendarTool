@@ -8,6 +8,7 @@ var classutil_1_1mvc_1_1_category_model =
     [ "get_item", "classutil_1_1mvc_1_1_category_model.html#a7eed8be48b18148b9a3b3643daae28f0", null ],
     [ "get_items", "classutil_1_1mvc_1_1_category_model.html#a63e91ce3cdf2e9c22e1c3c89c5905712", null ],
     [ "get_where_key_clause", "classutil_1_1mvc_1_1_category_model.html#a2a05109bd845fc4845cfeabc0c260882", null ],
+    [ "set_columns", "classutil_1_1mvc_1_1_category_model.html#a631a8b3ce3d33a7630e34c4b7fda1422", null ],
     [ "$categ_col_name", "classutil_1_1mvc_1_1_category_model.html#a066e6a4d47b28441996e8906dd85dc88", null ],
     [ "$category_table", "classutil_1_1mvc_1_1_category_model.html#a65b50279a0e27be269f2183c0b290339", null ],
     [ "$id_col_name", "classutil_1_1mvc_1_1_category_model.html#a0f01f8fcd5a7652a7bb6877e082e92fc", null ],

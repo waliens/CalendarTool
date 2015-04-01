@@ -90,6 +90,7 @@
 			 		$fac_mem = $this->sql->select_one("ulg_fac_staff", "Id_ULg_Fac_Staff = ".$this->sql->quote($user_ulg_id));
 
 			 		// insert user data
+			 		
 			 		$fac_mem_data = array("Id_ULg" => $user_ulg_id,
 			 							  "Name" => $fac_mem['Name'],
 			 							  "Surname" => $fac_mem['Surname']);
@@ -130,8 +131,6 @@
 			return $this->sql->count("user", "Id_ULg = ".$this->sql->quote($user_ulg_id)) > 0;
 		}
 
-		
-		
 		/**
 		 * @brief Checks whether the ulg id is correctly formatted
 		 * @param[in] string $ulg_id The ulg identifier to check
@@ -189,15 +188,23 @@
 			return $this->sql->select_one("user", "Id_User = ".$this->sql->quote($user_id));
 		}
 		
-		
 		/**
 		 * @brief Checks whether the user having the given id exists in the user table
 		 * @param[in] string $user_id the id of the user
 		 * @retval bool True if the user exists, false otherwise
 		 */
-		public function user_id_exists($user__id)
+		public function user_id_exists($user_id)
 		{
-			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_ulg_id)) > 0;
+			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
 		}
-		
+
+		/**
+		 * @brief Checks whether the given user is a student
+		 * @param[in] string $user_id the id of the user
+		 * @retval bool True if the user is a student, false otherwise
+		 */
+		public function user_is_student($user_id)
+		{
+			return $this->sql->count("student", "Id_Student = ".$this->sql->quote($user_id)) > 0;
+		}
 	}

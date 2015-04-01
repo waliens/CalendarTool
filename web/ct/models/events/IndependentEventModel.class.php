@@ -43,12 +43,11 @@ class IndependentEventModel extends AcademicEventModel{
 	
 		$datas = array_intersect_key($datas, $this->fields_ind);
 		$datas["Id_Event"] = $ret;
-		$a = $this->sql->insert($this->table[2], $datas);
-
+		$a = $this->sql->insert("independent_event", $datas);
 		if($a)
 			return $ret;
 		else
-			return $this->sql->error_info();
+			return false;
 	}
 	
 	/**

@@ -7,45 +7,55 @@
 
 namespace ct\controllers\ajax;
 
-
-use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
+use ct\models\filters\EventTypeFilter;
+use ct\models\filters\RecurrenceFilter;
+use ct\models\filters\AccessFilter;
+use ct\models\FilterCollectionModel;
 
 /**
- * @class Event
- * @brief Class for handling the control of event
+ * @class GetPrivateEventController
+ * @brief Class for handling the 062 request (get private events)
  */
-
 class GetPrivateEventController extends AjaxController
 {
-
-		
+	/**
+	 * @brief Construct the GetPrivateEventController object
+	 */
 	public function __construct() 
 	{
 		parent::__construct();
 
-
 		// create private event
-		$model = new StudentEventModel();
+		$event_filter = new EventTypeFilter(EventTypeFilter::TYPE_STUDENT);
+		$recur_filter = new RecurrenceFilter(false, true);
+		$acces_filter = new AccessFilter();
 
-		// get owner id
-		$id = $this->connection->user_id();
-		
-		$ret = array(); 
-		
-		$ret_sql = $model->getEvent(array("id_owner" => $id), array("id_event", "name", "id_recurrence"));
-		
-		foreach($ret_sql as $key => $value){
-			array_push($ret, array("name" => $value["Name"], "id" => $value['Id_Event'], "recurrence" => $value['Id_Recurrence']));
+ 		$filter_collection = new FilterCollectionModel();
+ 		$filter_collection->add_filter($event_filter);
+ 		$filter_collection->add_filter($recur_filter);
+ 		$filter_collection->add_access_filter($acces_filter);
+
+ 		$events = $filter_collection->get_events();
+ 		$out_events = array();
+
+ 		// format events for output
+		foreach ($events as &$event) 
+		{
+			$f_event = array();
+			$f_event['id'] = $event['Id_Event'];
+			$f_event['name'] = $event['Name'];
+			$f_event['recurrence'] = $event['Id_Recurrence'] > 1;
+			$f_event['recurrence_type'] = $event['Id_Recur_Category'];
+			$f_event['start'] = \ct\date_sql2fullcalendar($event['Start']);
+			$f_event['end'] = \ct\date_sql2fullcalendar($event['End']);
+
+			$out_events[] = $f_event; 
 		}
 
-		 $this->add_output_data('events', $ret);
-		if(!$ret_sql)
-			$this->set_error_predefined(self::ERROR_ACTION_READ_DATA);
+		$this->add_output_data("events", $out_events);
 	}
-	
-
 }
 
 
