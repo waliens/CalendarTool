@@ -749,7 +749,7 @@ function edit_private_event(){
 			$("#private_event_endDate_datepicker").prop("disabled",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
-			$("#private_event_startHour").prop("disabled",false);
+			$("#private_event_endHour").prop("disabled",false);
 		}
 		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
