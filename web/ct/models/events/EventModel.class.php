@@ -109,7 +109,7 @@ use \DateInterval;
 						 SELECT Id_Category, Color, Description_EN AS Categ_Desc_EN, Description_FR 
 							AS Categ_Desc_FR, Name_EN AS Categ_Name_EN, Name_FR AS Categ_Name_FR
 						 	FROM event_category 
-					) AS categ NATURAL JOIN recurrence NATURAL JOIN recurrence_category ".$whereClause." ;";
+					) AS categ NATURAL JOIN recurrence NATURAL JOIN recurrence_category ".$whereClause." ORDER BY Start ;";
 
 						
 			return   $this->sql->execute_query($query);
