@@ -57,18 +57,22 @@ class IndependentEventModel extends AcademicEventModel{
 	 * @retval boolean true if ok
 	 */
 	public function setTeam($eventId, array $teamMembers){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
+	/*	if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
 			//TODO SET ERROR
 			return false;
-		}
+		}*/
 		
 		$userM = new UserModel();
 		$toinsert = array();
 		foreach ($teamMembers as $key => $value){
 			if(!$userM->user_id_exists($value['id'])){
+		
 				return false;	
 			}
-			array_push($toinsert, array($this->sql->quote($eventId),  $this->sql->quote($value['id']), $this->sql->quote($value['role'])));
+			$arr = array($eventId,  
+						$value['id'], 
+						$value['role']);
+			array_push($toinsert, $arr);
 		}
 		$collumn = array("Id_Event", "Id_User", "Id_Role");
 		$this->sql->insert_batch("independent_event_manager", $toinsert, $collumn);
