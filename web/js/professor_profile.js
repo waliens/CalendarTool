@@ -92,7 +92,7 @@ function addIndependentEvent(indep_event){
 	//link the delete icon to the delete alert
 	delete_icon.setAttribute("data-toggle","modal");
 	delete_icon.setAttribute("data-target","#delete_indep_event_alert");
-	delete_icon.setAttribute("course-code",indep_event.code);
+	//delete_icon.setAttribute("course-code",indep_event.code);
 	delete_icon.setAttribute("course-id",indep_event.id);
 	delete_icon.setAttribute("course-name",indep_event.name);
 	var div_container1=document.createElement("div");
@@ -345,6 +345,10 @@ $("#new_indepevent").on("show.bs.modal",function(){
 $("#subevent_info").on("show.bs.modal",function(){
 	//get subevent info
 	var subevent_id=subevent.getAttribute('id');
+	var reqId=051;//subevent by default
+	
+	if($("#independent-events #"+subevent_id+"").length>0)
+		reqId=084;
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
@@ -1128,6 +1132,8 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 			async : true,
 			success : function(data, status) {
 				$('#new_indepevent').modal('hide');
+				var indep_event={id:data.id, name:title}
+				addIndependentEvent(indep_event);
 			},
 			error : function(xhr, status, error) {
 			  var err = eval("(" + xhr.responseText + ")");
