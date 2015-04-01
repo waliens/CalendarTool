@@ -187,7 +187,7 @@
                 case "111":
                     return new GetPathwaysController();
                     
-                case "141":
+                case "131":
                 	return new EditDaD();
 
                 default:
