@@ -53,7 +53,7 @@ class IndependentEventModel extends AcademicEventModel{
 	/**
 	 * @brief add members to a team 
 	 * @param int $eventId the id of the event
-	 * @param array $teamMembers a multidimentionnal array st array(array(Id_User, Id_Role) , array(Id_User,...
+	 * @param array $teamMembers a multidimentionnal array st array(array(id, role) , array(id,...
 	 * @retval boolean true if ok
 	 */
 	public function setTeam($eventId, array $teamMembers){
