@@ -153,10 +153,10 @@
               <div id="event_team"> 
                 <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </div>
-              <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-event-member">Ajouter équipe</a> </div>
-              <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
-                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
-                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+              <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add_member">Ajouter équipe</a> </div>
+              <div class="modal-footer hidden text-center" id="add_member_conf_abort_buttons">
+                <button type="button" class="btn btn-default" id="add_member_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_member_confirm" disabled="disabled">Confirmer</button>
               </div>
             </div>
           </div>
@@ -303,9 +303,9 @@
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </table>
             	</div>
-            <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
-                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
-                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+            <div class="modal-footer hidden text-center" id="add_member_conf_abort_buttons">
+                <button type="button" class="btn btn-default" id="add_member_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_member_confirm" disabled="disabled">Confirmer</button>
               </div>
             </div>
             
@@ -452,14 +452,15 @@
               <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-indepevent" href="#indepevent_team_accordion" aria-expanded="false" aria-controls="indepevent_team_accordion">Équipe</a> </h4>
             </div>
             <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="indepevent_team_accordion"> 
-              	<div id="new_indepevent_team"> 
-                <table id="new_indepevent_team_table" class="table">
+              	<div id="new_indepevent_team" style="padding-top: 10px;"> 
+                <table id="new_indepevent_team_table" class="table hidden">
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </table>
             	</div>
-            <div class="modal-footer hidden text-center" id="add-event-member-conf-abort-buttons">
-                <button type="button" class="btn btn-default" id="add-event-member-abort">Annuler</button>
-                <button type="button" class="btn btn-primary" id="add-event-member-confirm" disabled="disabled">Confirmer</button>
+            <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indepevent-member">Ajouter équipe</a> </div>
+            <div class="modal-footer hidden text-center" id="add-indepevent-member-conf-abort-buttons">
+                <button type="button" class="btn btn-default" id="add_indepevent_member_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_indepevent_member_confirm" disabled="disabled">Confirmer</button>
               </div>
             </div>
             
@@ -524,59 +525,6 @@
           <tr>
             <td class="width-80">Se termine</td>
             <td id="end-recurrence"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- NEW AND EDIT INDEPENDENT EVENT MODAL -->
-<div class="modal fade" id="new_indep_event_info" tabindex="-1" role="dialog" aria-labelledby="new_indep_event_modal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="new_indep_event_title"><!--EVENT TITLE--></h4>
-      </div>
-      <div id="new_indep_event_info">
-        <table class="table" id="new_indep_event_info_table">
-          <tr>
-            <td class="text-bold width-80">Détails</td>
-            <td id="new-indep-event-details"></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Catégorie</td>
-            <td id="new-indep-event-category"></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Lieu</td>
-            <td id="new-indep-event-place"></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Quand</td>
-            <td id="new-indep-event-period"><table id="new-indep-event_time">
-                <tr>
-                  <td class="width-80 text-underline">Commence</td>
-                  <td><p class="marging-10-0" id="new_indep_event_startDate"></p></td>
-                </tr>
-                <tr>
-                  <td class="width-80 text-underline">Se termine</td>
-                  <td><p class="marging-10-0" id="new_indep_event_endDate"></p></td>
-                </tr>
-              </table></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Recurrence</td>
-            <td id="new_indep_event_recurrence"></td>
-          </tr>
-          <tr>
-            <td class="width-80">Commence</td>
-            <td id="new_indep_event_start_recurrence"></td>
-          </tr>
-          <tr>
-            <td class="width-80">Se termine</td>
-            <td id="new_indep_event_end_recurrence"></td>
           </tr>
         </table>
       </div>

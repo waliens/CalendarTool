@@ -420,17 +420,18 @@ $(document).ready(function() {
 					}
 				}
 				if(!revert){
+					var start=event.start.format("YYYY-MM-DD")+"T"+event.start.format("HH:mm:ss");
 					var end;
 					var limit=false;
 					if(event.end)
-						end=event.end.format("YYYY-MM-DDTHH:mm:ss");
+						end=event.end.format("YYYY-MM-DD")+"T"+event.end.format("HH:mm:ss");
 					if(event.timeType=="deadline")
 						limit=true;
 					$.ajax({
 						dataType : "json",
 						type : 'POST',
-						url : "index.php?src=ajax&req=141",
-						data : {id:event.id_server,start:event.start.format("YYYY-MM-DDTHH:mm:ss"),end:end,allDay:event.allDay,limit:limit},
+						url : "index.php?src=ajax&req=131",
+						data : {id:event.id_server,start:start,end:end,allDay:event.allDay,limit:limit},
 						success : function(data, status) {
 							/** error checking */
 							if(data.error.error_code > 0)
@@ -1181,29 +1182,6 @@ function populate_public_event(event){
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
-	}
-	
-
-//update event after drag and drop
-function confirm_drag_drop(event){
-	var new_data={"id":id,"start":start, "end":end};
-	$.ajax({
-			dataType : "json",
-			type : 'POST',
-			url : "index.php?src=ajax&req=61",
-			data : new_event,
-			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}
-			},
-				error : function(xhr, status, error) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-		});
 	}
 
 //update the calendar with the new event or confirm the edit of an existing event
