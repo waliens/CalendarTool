@@ -9,6 +9,7 @@ namespace ct\controllers\ajax;
 use \DateTime;
 use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
+use util\superglobals\SG_Post;
 
 
 class EditDaD extends AjaxController
