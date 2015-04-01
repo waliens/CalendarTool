@@ -80,6 +80,28 @@
 		}
 
 		/**
+		 * @brief Perform a check on the given keys are the superglobal
+		 * @param[in] array    $keys 	 The keys to check
+		 * @param[in] int      $chk 	 Define the type of check to perform (see below) (default: null => CHK_ISSET | CHK_NOT_EMPTY)
+		 * @param[in] function $callback A predicate taking the value associated with one key as argument and returning
+		 * true if this value is valid, false otherwise (default: null => callback not evaluated)
+		 * @retval int The negative error code specifying which check has failed (see ERR_* class negative constants) if it has failed, ERR_OK otherwise
+		 * 
+		 * @note The function return ERR_OK if none of the keys returned an error, otherwise it returns the error code of the first error encountered
+		 */
+		public function check_keys(array $keys, $chk = null, $callback = null)
+		{
+			foreach ($keys as $key) 
+			{
+				$code = $this->check($key, $chk, $callback);
+				if($code < 0)
+					return $code;
+			}
+
+			return self::ERR_OK;
+		}
+
+		/**
 		 * @brief Check if the value (associated with a key) is empty
 		 * @param mixed $value A reference to the value to check
 		 * @retval bool True if the value is empty, false otherwise
@@ -134,4 +156,43 @@
 		{
 			return $this->superglobal[$key];
 		}
-	};
+
+		/**
+		 * @brief Return the values associated with the given keys (keeping the mapping)
+		 * @param[in] array $keys Depends on the value of $trans (see later)
+		 * @param[in] array $trans An array mapping the wanted key 
+		 * @retval array The array mapping the wanted keys and their values
+		 *
+		 * If $trans is false, then the desired keys are kept to map the desired values and
+		 * $keys is a array of which the values are these keys.
+		 *
+		 * If $trans is true, then the desired keys are the keys of the $keys array and this array
+		 * maps the actual keys to the new keys' values (or "" if the key must be conserved as such)
+		 */
+		public function values(array $keys, $trans=false)
+		{
+			$out_array = array();
+
+			if(!$trans)
+				foreach ($keys as $key) 
+					$out_array[$key] = $this->value($key);
+			else
+			{
+				foreach (array_keys($keys) as $key) 
+					$out_array[$key] = $this->value($key);
+				$out_array = \ct\array_keys_transform($out_array, $keys);
+			}
+
+			return $out_array;
+		}
+		
+		/**
+		 * @brief Set the given value for the given key in the superglobal
+		 * @param[in] string $key The key
+		 * @param[in] string $value The value
+		 */
+		public function set_value($key, $value)
+		{
+			$this->superglobal[$key] = $value;
+		}
+	}

@@ -15,6 +15,7 @@
 	 */
 	class CalendarPageController extends BrowserController
 	{
+		
 		/**
 		 * @brief Construct the CalendarPageController object
 		 */
@@ -28,7 +29,26 @@
 		 */
 		protected function get_content()
 		{
-			return $this->smarty->fetch("calendar_body.tpl");
+			$this->smarty->assign("student", $this->connection->user_is_student());
+			return $this->smarty->fetch("calendar/calendar_body.tpl");
+		}
+		
+		/**
+		 * @copydoc BrowserController::get_popups
+		 */
+		protected function get_popups()
+		{
+			$this->smarty->assign("student", $this->connection->user_is_student());
+			return $this->smarty->fetch("calendar/calendar_popups.tpl");
+		}
+	
+		/**
+		 * @copydoc BrowserController::get_footer_inc
+		 */
+		protected function get_footer_inc()
+		{
+			$this->smarty->assign("student", $this->connection->user_is_student());
+			return $this->smarty->fetch("calendar/calendar_footer_inc.tpl");
 		}
 
 		/**

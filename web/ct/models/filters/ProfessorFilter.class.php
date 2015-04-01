@@ -7,7 +7,7 @@
 
 	namespace ct\models\filters;
 
-	use \ct\models\GlobalEventModel;
+	use \ct\models\events\GlobalEventModel;
 
 	/**
 	 * @class ProfessorFilter
@@ -23,7 +23,7 @@
 		 */
 		public function __construct(array $ids)
 		{
-			$this->prof_ids = array_unique(array_filter($ids, "\ct\is_positive_integer", SORT_NUMERIC);
+			$this->prof_ids = array_unique(array_filter($ids, "\ct\is_positive_integer"), SORT_NUMERIC);
 		}
 
 		/**
@@ -41,14 +41,14 @@
 		public function get_sql_query()
 		{
 			$role_id = GlobalEventModel::ROLE_ID_PROFESSOR;
-			$ids_str = implode(", ", $this->prof_ids);(".$ids_str.")
+			$ids_str = implode(", ", $this->prof_ids);(".$ids_str.");
 			$where_clause = "Id_Role = ".$role_id." AND Id_User IN (".$ids_str.")";
 
 			return "( SELECT Id_Event FROM sub_event NATURAL JOIN
 					  ( SELECT Id_Global_Event FROM teaching_team_member WHERE ".$where_clause.") AS glob_events )
 					UNION ALL
-					( SELECT Id_Event FROM independant_event NATURAL JOIN
-					  ( SELECT Id_Event FROM event_manager WHERE ".$where_clause.") AS indep_event )";
+					( SELECT Id_Event FROM independent_event NATURAL JOIN
+					  ( SELECT Id_Event FROM independent_event_manager WHERE ".$where_clause.") AS indep_event )";
 		}
 
 		/**

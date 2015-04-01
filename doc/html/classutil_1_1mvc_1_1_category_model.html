@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_category_model.ht
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -122,8 +123,10 @@ Inheritance diagram for CategoryModel:</div>
  <div class="center">
   <img src="classutil_1_1mvc_1_1_category_model.png" usemap="#CategoryModel_map" alt=""/>
   <map id="CategoryModel_map" name="CategoryModel_map">
-<area href="classutil_1_1mvc_1_1_model.html" title="Base class for models. " alt="Model" shape="rect" coords="0,0,124,24"/>
-<area href="classct_1_1models_1_1_teaching_role_model.html" title="A class for handling teaching role data related database queries. " alt="TeachingRoleModel" shape="rect" coords="0,112,124,136"/>
+<area href="classutil_1_1mvc_1_1_model.html" title="Base class for models. " alt="Model" shape="rect" coords="176,0,342,24"/>
+<area href="classct_1_1models_1_1events_1_1_event_category_model.html" title="A class for handling event categories related database queries. " alt="EventCategoryModel" shape="rect" coords="0,112,166,136"/>
+<area href="classct_1_1models_1_1events_1_1_recurrence_category_model.html" title="Class for handling category model. " alt="RecurrenceCategoryModel" shape="rect" coords="176,112,342,136"/>
+<area href="classct_1_1models_1_1_teaching_role_model.html" title="A class for handling teaching role data related database queries. " alt="TeachingRoleModel" shape="rect" coords="352,112,518,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -152,6 +155,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a631a8b3ce3d33a7630e34c4b7fda1422"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a631a8b3ce3d33a7630e34c4b7fda1422">set_columns</a> ($categ_col_name, array $other_col_name=null)</td></tr>
+<tr class="memdesc:a631a8b3ce3d33a7630e34c4b7fda1422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change association of columns and names.  <a href="#a631a8b3ce3d33a7630e34c4b7fda1422">More...</a><br/></td></tr>
+<tr class="separator:a631a8b3ce3d33a7630e34c4b7fda1422"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a835e5c8e4b8d7c2165a00df753200871"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_category_model.html#a835e5c8e4b8d7c2165a00df753200871">get_columns_string</a> ($id_first=false)</td></tr>
 <tr class="memdesc:a835e5c8e4b8d7c2165a00df753200871"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string containing the columns' names of the table for using it in a sql query.  <a href="#a835e5c8e4b8d7c2165a00df753200871">More...</a><br/></td></tr>
 <tr class="separator:a835e5c8e4b8d7c2165a00df753200871"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -265,7 +271,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
     <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$table_name</td><td>The name of the table containing the categories </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$id_col_name</td><td>Array containing the name of the table columns composing the key of table </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$categ_col_name</td><td>The name of the table column containing the name of the category </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$other_col_name</td><td>The name of the other field describing a categort </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$other_col_name</td><td>The name of the other field describing a category </td></tr>
   </table>
   </dd>
 </dl>
@@ -501,6 +507,49 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 
 </div>
 </div>
+<a class="anchor" id="a631a8b3ce3d33a7630e34c4b7fda1422"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">set_columns </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$categ_col_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$other_col_name</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Change association of columns and names. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$categ_col_name</td><td>The name of the table column containing the name of the category </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$other_col_name</td><td>The name of the other field describing a category (optional, default: previous one) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Documents/BitBucket/CalendarTool/web/util/mvc/<a class="el" href="_category_model_8class_8php.html">CategoryModel.class.php</a></li>
 </ul>
@@ -509,8 +558,8 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>util</b></li><li class="navelem"><b>mvc</b></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_category_model.html">CategoryModel</a></li>
-    <li class="footer">Generated on Fri Feb 20 2015 15:15:34 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespaceutil.html">util</a></li><li class="navelem"><a class="el" href="namespaceutil_1_1mvc.html">mvc</a></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_category_model.html">CategoryModel</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

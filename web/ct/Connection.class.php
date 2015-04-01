@@ -5,7 +5,8 @@
 	 * @brief Contains the Connection class
 	 */
 
-	namespace util;
+	namespace ct;
+
 
 	use util\superglobals\Superglobal;
 	use util\superglobals\SG_Session;
@@ -56,12 +57,18 @@
 			// set the http headers variables
 			$this->extract_http_headers();
 
+
+		//	$this->remote_user = "s060934"; // 3e BAC 
+		//	$this->remote_user = "s114352"; // 2e BAC
+			$this->remote_user = "u013317"; // Pascal Gribaumont
+			$this->host = "";
+			$this->connect($this->remote_user);
 			// check host
-			if(!$this->check_host()) // host different from the reverse proxy 
-			{
-				http_response_code(401);
-				exit();
-			}
+			// if(!$this->check_host()) // host different from the reverse proxy 
+			// {
+			// 	http_response_code(401);
+			// 	exit();
+			// }
 
 			if(!$this->is_connected()) // no previous connection
 				$this->connect($this->remote_user);
@@ -206,7 +213,8 @@
 
 			session_destroy();
 
-			new Redirection("http://www.intranet.ulg.ac.be/logout");
+			//new Redirection("http://www.intranet.ulg.ac.be/logout");
+			exit();
 		}
 
 		/**
@@ -215,5 +223,23 @@
 		public function disconnect_root()
 		{
 			unset($_SESSION['root_id']);
+		}
+
+		/**
+		 * @brief Check whether the user is a student
+		 * @retval bool True if the user is a student, false otherwise
+		 */
+		public function user_is_student()
+		{
+			return preg_match("#^[sS][0-9]{6}$#", $this->user_ulg_id());
+		}
+
+		/**
+		 * @brief Check whether the user is a faculty staff
+		 * @retval bool True if the user is a faculty staff member, false otherwise
+		 */
+		public function user_is_faculty_staff()
+		{
+			return preg_match("#^[uU][0-9]{6}$#", $this->user_ulg_id());
 		}
 	}

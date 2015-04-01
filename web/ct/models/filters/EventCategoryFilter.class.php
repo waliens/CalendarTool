@@ -23,7 +23,7 @@
 		 */
 		public function __construct(array $ids)
 		{
-			$this->ids = array_unique(array_filter($ids, "\ct\is_positive_integer"), SORT_NUMERIC);
+			$this->ids = array_unique(array_filter($ids, "\ct\is_valid_id"), SORT_NUMERIC);
 		}
 
 		/**

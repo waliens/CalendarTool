@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `student_pathway`
 	`Id_Student` int(11) NOT NULL,
 	`Acad_Start_Year` year NOT NULL,
 	FOREIGN KEY(`Id_Student`) REFERENCES `student`(`Id_Student`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Student`, `Id_Pathway`, `Acad_Start_Year`)
 ) ENGINE=InnoDB;
 
@@ -154,7 +155,6 @@ CREATE TABLE IF NOT EXISTS `teaching_role`
 	`Id_Role` int(11) NOT NULL AUTO_INCREMENT,
 	`Role_EN` varchar(255) NOT NULL, 
 	`Role_FR` varchar(255) NOT NULL,
-	`Description` text NOT NULL,
 	PRIMARY KEY(`Id_Role`)
 ) ENGINE=InnoDB;
 
@@ -172,9 +172,11 @@ CREATE TABLE IF NOT EXISTS `teaching_team_member`
 CREATE TABLE IF NOT EXISTS `event_category`
 (
 	`Id_Category` int(11) NOT NULL AUTO_INCREMENT,
-	`Name` varchar(255) NOT NULL,
+	`Name_FR` varchar(255) NOT NULL,
+	`Name_EN` varchar(255) NOT NULL,
+	`Description_FR` text NOT NULL,
+	`Description_EN` text NOT NULL,
 	`Color` varchar(7) NOT NULL,
-	`Description` text NOT NULL,
 	PRIMARY KEY(`Id_Category`)
 ) ENGINE=InnoDB;
 
@@ -195,15 +197,16 @@ CREATE TABLE IF NOT EXISTS `student_event_category`
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `recurrence_category`
-(	
-	`Id_Recur_Category` int(11) NOT NULL AUTO_INCREMENT,
-	`Recur_Category` varchar(255) NOT NULL,
+(
+	`Id_Recur_Category` int(11) NOT NULL AUTO_INCREMENT, -- ID 6 for category "never"
+	`Recur_Category_EN` varchar(255) NOT NULL,
+	`Recur_Category_FR` varchar(255) NOT NULL,
 	PRIMARY KEY(`Id_Recur_Category`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `recurrence`
 (
-	`Id_Recurrence` int(11) NOT NULL AUTO_INCREMENT,
+	`Id_Recurrence` int(11) NOT NULL AUTO_INCREMENT, -- ID 1 for non reccurent event
 	`Id_Recur_Category` int(11) NOT NULL,
 	FOREIGN KEY(`Id_Recur_Category`) REFERENCES `recurrence_category`(`Id_Recur_Category`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Recurrence`)
@@ -214,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `event`
 	`Id_Event` int(11) NOT NULL AUTO_INCREMENT,
 	`Name` varchar(255) NOT NULL,
 	`Description` text NOT NULL, 
-	`Id_Recurrence` int(11),
+	`Id_Recurrence` int(11) NOT NULL, -- ID 1 for non reccurent event
 	`Place` varchar(255),
 	`Id_Category` int(11) NOT NULL,
 	PRIMARY KEY(`Id_Event`),
@@ -246,13 +249,6 @@ CREATE TABLE IF NOT EXISTS `time_range_event`
 	`End` datetime NOT NULL,
 	FOREIGN KEY(`Id_Event`) REFERENCES `event`(`Id_Event`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Event`)
-) ENGINE=InnoDB;
-
-CREATE TABLE IF NOT EXISTS `sub_event`
-(
-	`Id_Event` int(11) NOT NULL,
-	`Id_Global_Event` int(11) NOT NULL,
-	FOREIGN KEY(`Id_Global_Event`) REFERENCES `global_event`(`Id_Global_Event`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `favorite_event`
@@ -293,15 +289,6 @@ CREATE TABLE IF NOT EXISTS `academic_event`
 	PRIMARY KEY(`Id_Event`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `academic_event_pathways`
-(
-	`Id_Academic_Event` int(11) NOT NULL,
-	`Id_Pathway` varchar(20) NOT NULL,
-	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_Academic_Event`) REFERENCES `academic_event`(`Id_Event`) ON DELETE CASCADE,
-	PRIMARY KEY(`Id_Academic_Event`,`Id_Pathway`)
-) ENGINE=InnoDB;
-
 CREATE TABLE IF NOT EXISTS `sub_event`
 (
 	`Id_Event` int(11) NOT NULL, 
@@ -321,7 +308,26 @@ CREATE TABLE IF NOT EXISTS `independent_event`
 	PRIMARY KEY(`Id_Event`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `event_manager`
+CREATE TABLE IF NOT EXISTS `sub_event_excluded_pathway`
+(
+	`Id_Event` int(11) NOT NULL, 
+	`Id_Pathway` varchar(20) NOT NULL,
+	`Id_Global_Event` int(11) NOT NULL,
+	FOREIGN KEY(`Id_Global_Event`, `Id_Pathway`) REFERENCES `global_event_pathway`(`Id_Global_Event`, `Id_Pathway`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Event`) REFERENCES `sub_event`(`Id_Event`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Event`, `Id_Pathway`, `Id_Global_Event`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `independent_event_pathway`
+(
+	`Id_Event` int(11) NOT NULL,
+	`Id_Pathway` varchar(20) NOT NULL,
+	FOREIGN KEY(`Id_Pathway`) REFERENCES `pathway`(`Id_Pathway`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Event`) REFERENCES `independent_event`(`Id_Event`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Event`,`Id_Pathway`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `independent_event_manager`
 (
 	`Id_Event` int(11) NOT NULL,
 	`Id_User` int(11) NOT NULL,
@@ -330,6 +336,16 @@ CREATE TABLE IF NOT EXISTS `event_manager`
 	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Role`) REFERENCES `teaching_role`(`Id_Role`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Event`,`Id_User`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `sub_event_excluded_team_member`
+(
+	`Id_Event` int(11) NOT NULL,
+	`Id_User` int(11) NOT NULL,
+	`Id_Global_Event` int(11) NOT NULL,
+	FOREIGN KEY(`Id_Event`) REFERENCES `sub_event`(`Id_Event`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_User`, `Id_Global_Event`) REFERENCES `teaching_team_member`(`Id_User`, `Id_Global_Event`) ON DELETE CASCADE,
+	PRIMARY KEY(`Id_Event`, `Id_User`, `Id_Global_Event`)  
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `academic_event_file`
@@ -346,7 +362,7 @@ CREATE TABLE IF NOT EXISTS `modification_request`
 	`Id_Request` int(11) NOT NULL AUTO_INCREMENT,
 	`Id_Event` int(11) NOT NULL,
 	`Id_Sender` int(11) NOT NULL,
-	`Status` enum('sent', 'accepted', 'cancelled', 'refused') NOT NULL,
+	`Status` enum('waiting', 'accepted', 'cancelled', 'refused') NOT NULL,
 	`Description` text NOT NULL,
 	PRIMARY KEY(`Id_Request`),
 	FOREIGN KEY(`Id_Event`) REFERENCES `event`(`Id_Event`) ON DELETE CASCADE,
@@ -393,10 +409,18 @@ CREATE TABLE IF NOT EXISTS `mobile_event_update`
 CREATE TABLE IF NOT EXISTS `event_export`
 (
 	`Id_Export` int(11) NOT NULL AUTO_INCREMENT,
-	`User_Hash` varchar(255) NOT NULL,
 	`Id_User` int(11) NOT NULL,
+	`User_Hash` varchar(255) NOT NULL,
 	PRIMARY KEY(`Id_Export`),
-	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE
+	FOREIGN KEY(`Id_User`) REFERENCES `user`(`Id_User`) ON DELETE CASCADE,
+	UNIQUE KEY `User_Hash` (`User_Hash`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `dynamic_export`
+(
+	`Id_Export`	int(11) NOT NULL,
+	PRIMARY KEY(`Id_Export`),
+	FOREIGN KEY(`Id_Export`) REFERENCES `event_export`(`Id_Export`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `filter`
@@ -410,9 +434,9 @@ CREATE TABLE IF NOT EXISTS `export_filter`
 (
 	`Id_Filter` int(11) NOT NULL,
 	`Id_Export` int(11) NOT NULL,
-	`Value` varchar(255) NOT NULL,
+	`Value` text NOT NULL,
 	FOREIGN KEY(`Id_Filter`) REFERENCES `filter`(`Id_Filter`) ON DELETE CASCADE,
-	FOREIGN KEY(`Id_Export`) REFERENCES `event_export`(`Id_Export`) ON DELETE CASCADE,
+	FOREIGN KEY(`Id_Export`) REFERENCES `dynamic_export`(`Id_Export`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_Filter`, `Id_Export`)
 ) ENGINE=InnoDB;
 
@@ -475,77 +499,4 @@ CREATE TABLE IF NOT EXISTS `ulg_has_course`
 	PRIMARY KEY(`Id_ULg_Student`, `Id_Course`)
 ) ENGINE=InnoDB;
 
---
--- Procedures
---
 
-DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_academic`( IN  `event_id` INT( 11 ) , OUT `type_ok` BOOLEAN )
-    READS SQL DATA
-    COMMENT 'Checks whether an event is an academic event'
-SELECT 
-EXISTS (
-
-SELECT * 
-FROM  `academic_event` 
-WHERE  `Id_Event` = event_id
-)
-INTO type_ok$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_date_range`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
-    NO SQL
-    COMMENT 'Checks whether an event is a date range event'
-SELECT 
-	EXISTS( SELECT * 
-           	FROM `date_range_event` 
-           	WHERE `Id_Event` = event_id ) INTO type_ok$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_deadline`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
-    READS SQL DATA
-    COMMENT 'Checks whether an event is a deadline event'
-SELECT 
-	EXISTS( SELECT * 
-           	FROM `deadline_event` 
-           	WHERE `Id_Event` = event_id ) INTO type_ok$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_indep_event`( IN  `event_id` INT( 11 ) , OUT `type_ok` BOOLEAN )
-    READS SQL DATA
-    COMMENT 'Checks whether an event is a independent event'
-SELECT 
-EXISTS (
-
-SELECT * 
-FROM  `independent_event` 
-WHERE  `Id_Event` = event_id
-)
-INTO type_ok$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_student`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
-    READS SQL DATA
-    COMMENT 'Checks whether an event is a student event'
-SELECT 
-	EXISTS( SELECT * 
-           	FROM `student_event` 
-           	WHERE `Id_Event` = event_id ) INTO type_ok$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_sub_event`( IN  `event_id` INT( 11 ) , OUT `type_ok` BOOLEAN )
-    READS SQL DATA
-    COMMENT 'Checks whether an event is a subevent'
-SELECT 
-EXISTS (
-
-SELECT * 
-FROM  `sub_event` 
-WHERE  `Id_Event` = event_id
-)
-INTO type_ok$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `event_is_time_range`(IN `event_id` INT(11), OUT `type_ok` BOOLEAN)
-    READS SQL DATA
-    COMMENT 'Checks whether an event is a time range event'
-SELECT 
-	EXISTS( SELECT * 
-           	FROM `time_range_event`
-           	WHERE `Id_Event` = event_id  ) INTO type_ok$$
-
-DELIMITER ;

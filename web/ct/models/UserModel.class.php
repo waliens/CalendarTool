@@ -7,9 +7,10 @@
 
 	namespace ct\models;
 
-	require_once("functions.php");
+	use ct\array_flatten;
 
 	use util\mvc\Model;
+	use ct\Connection;
 
 	/**
 	 * @class UserModel
@@ -91,6 +92,7 @@
 			 		$fac_mem = $this->sql->select_one("ulg_fac_staff", "Id_ULg_Fac_Staff = ".$this->sql->quote($user_ulg_id));
 
 			 		// insert user data
+			 		
 			 		$fac_mem_data = array("Id_ULg" => $user_ulg_id,
 			 							  "Name" => $fac_mem['Name'],
 			 							  "Surname" => $fac_mem['Surname']);
@@ -149,5 +151,76 @@
 		public static function is_student_id($ulg_id)
 		{
 			return \ct\starts_with($ulg_id, "s");
+		}
+
+		/**
+		 * @brief Returns the list of professors registered on the platform
+		 * @retval array An array containing the professors
+		 * @note A professor is described by the following items (given by array key) :
+		 * <ul>
+		 *  <li>Id_User : user id </li>
+		 *  <li>Id_ULg : user ulg id </li>
+		 *  <li>Name : user name </li>
+		 *  <li>Surname : user surname </li>
+		 * </ul>
+		 */
+		public function get_professors()
+		{
+			$query  =  "SELECT * FROM user NATURAL JOIN
+						(SELECT Id_Faculty_Member AS Id_User FROM faculty_staff_member ) AS fac_meme";
+
+			return $this->sql->execute_query($query);
+		}
+
+		/**
+		 * @brief Get the given user data
+		 * @param[in] int $user_id The user id (optionnal, default: the currently connected user data)
+		 * @retval array The user data
+		 * @note The array contains the following data :
+		 * <ul>
+		 * 	<li> Id_User : user id </li>
+		 * 	<li> Id_ULg : user ulg id </li>
+		 * 	<li> Name : user name </li>
+		 * 	<li> Surname : user surname </li>
+		 * </ul>
+		 */
+		public function get_user($user_id=null)
+		{
+			if($user_id == null) $user_id = Connection::get_instance()->user_id();
+			return $this->sql->select_one("user", "Id_User = ".$this->sql->quote($user_id));
+		}
+		
+		/**
+		 * @brief Checks whether the user having the given id exists in the user table
+		 * @param[in] string $user_id the id of the user
+		 * @retval bool True if the user exists, false otherwise
+		 */
+		public function user_id_exists($user_id)
+		{
+			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
+		}
+
+		/**
+		 * @brief Checks whether the given user is a student
+		 * @param[in] string $user_id the id of the user
+		 * @retval bool True if the user is a student, false otherwise
+		 */
+		public function user_is_student($user_id)
+		{
+			return $this->sql->count("student", "Id_Student = ".$this->sql->quote($user_id)) > 0;
+		}
+		
+		/**
+		 * @brief Get a list of all student following a same pathway
+		 * @param[in] string $path the pathwayt
+		 * @return array with a list of id or false if error
+		 */
+		public function get_student_by_pathway($path){
+			$query = "SELECT Id_Student as id FROM student_pathway WHERE Id_Pathway = ?";
+			$ret = $this->sql->execute_query($query, array($path));
+			if(!$ret)
+				return false;
+			else 
+				return array_flatten($ret);
 		}
 	}

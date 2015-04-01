@@ -1,7 +1,5 @@
 <?php
 
-	namespace ct;
-
 	// set include path to the path of the index.php file
 	set_include_path(dirname(__FILE__));
 
@@ -16,8 +14,6 @@
 	use ct\Connection;
 
 	$connection = Connection::get_instance();
-
-	header('Content-Type: text/html; charset=utf-8');
 
 	if(!isset($_GET['src']) || empty($_GET['src']))
 		$src = "browser";

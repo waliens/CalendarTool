@@ -7,7 +7,6 @@
 
 	namespace util\superglobals;
 
-	require_once("functions.php");
 
 	/**
 	 * @class SG_Session
@@ -24,5 +23,5 @@
 				session_start();
 			
 			$this->superglobal = &$_SESSION;
-		} 
+		}
 	}

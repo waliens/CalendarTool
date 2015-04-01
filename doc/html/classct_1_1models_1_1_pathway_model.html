@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classct_1_1models_1_1_pathway_model.ht
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -137,6 +138,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a182a66be0e420ea31cd180e9d89f2bb5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_pathway_model.html#a182a66be0e420ea31cd180e9d89f2bb5">pathway_exists</a> ($pathway_id)</td></tr>
 <tr class="memdesc:a182a66be0e420ea31cd180e9d89f2bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the pathway having the given id exists.  <a href="#a182a66be0e420ea31cd180e9d89f2bb5">More...</a><br/></td></tr>
 <tr class="separator:a182a66be0e420ea31cd180e9d89f2bb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12e0e97b4b4a0ac2629c5fb761ead9f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_pathway_model.html#a12e0e97b4b4a0ac2629c5fb761ead9f3">get_pathways</a> ()</td></tr>
+<tr class="memdesc:a12e0e97b4b4a0ac2629c5fb761ead9f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the list of pathways.  <a href="#a12e0e97b4b4a0ac2629c5fb761ead9f3">More...</a><br/></td></tr>
+<tr class="separator:a12e0e97b4b4a0ac2629c5fb761ead9f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7b7558615b2c2f3d8c65932d50a48a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1_pathway_model.html#aa7b7558615b2c2f3d8c65932d50a48a3">get_pathway_by_student</a> ($stud_id=null, $acad_year=null)</td></tr>
+<tr class="memdesc:aa7b7558615b2c2f3d8c65932d50a48a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the pathway of a student for a given academic year.  <a href="#aa7b7558615b2c2f3d8c65932d50a48a3">More...</a><br/></td></tr>
+<tr class="separator:aa7b7558615b2c2f3d8c65932d50a48a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classutil_1_1mvc_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classutil_1_1mvc_1_1_model')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_model.html">Model</a></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685 inherit pub_methods_classutil_1_1mvc_1_1_model"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a095c5d389db211932136b53f25f39685"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_model.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
@@ -190,6 +197,70 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for handling database queries related to pathways. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa7b7558615b2c2f3d8c65932d50a48a3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_pathway_by_student </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$stud_id</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$acad_year</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the pathway of a student for a given academic year. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$stud_id</td><td>The student id </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$acad_year</td><td>The year starting the academic year </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>An array containing the pathway info : Id_Pathway, Name_Long, Name_Short. An empty array if the student has no pathway </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a12e0e97b4b4a0ac2629c5fb761ead9f3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_pathways </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the list of pathways. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>The pathways array containing the keys (Id_Pathway, Name_Long, Name_Short) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a182a66be0e420ea31cd180e9d89f2bb5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -297,8 +368,8 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>ct</b></li><li class="navelem"><b>models</b></li><li class="navelem"><a class="el" href="classct_1_1models_1_1_pathway_model.html">PathwayModel</a></li>
-    <li class="footer">Generated on Fri Feb 20 2015 15:15:34 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespacect.html">ct</a></li><li class="navelem"><a class="el" href="namespacect_1_1models.html">models</a></li><li class="navelem"><a class="el" href="classct_1_1models_1_1_pathway_model.html">PathwayModel</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:55 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

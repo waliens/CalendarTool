@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classct_1_1models_1_1filters_1_1_event
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,7 +114,7 @@ $(document).ready(function(){initNavTree('classct_1_1models_1_1filters_1_1_event
 </div><!--header-->
 <div class="contents">
 
-<p>A class for filtering event according to their type (student, academic,...)  
+<p>A class for filtering event according to their type (student, academic,... and also favourite events)  
  <a href="classct_1_1models_1_1filters_1_1_event_type_filter.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for EventTypeFilter:</div>
@@ -127,9 +128,9 @@ Inheritance diagram for EventTypeFilter:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a66c0bd71b182b3e6d120705f4e011f0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#a66c0bd71b182b3e6d120705f4e011f0c">__construct</a> (array $types)</td></tr>
-<tr class="memdesc:a66c0bd71b182b3e6d120705f4e011f0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html" title="A class for filtering event according to their type (student, academic,...) ">EventTypeFilter</a> object for filtering the given types of event.  <a href="#a66c0bd71b182b3e6d120705f4e011f0c">More...</a><br/></td></tr>
-<tr class="separator:a66c0bd71b182b3e6d120705f4e011f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a861d89042fc81c69f00fff72b34ce59a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#a861d89042fc81c69f00fff72b34ce59a">__construct</a> ($types)</td></tr>
+<tr class="memdesc:a861d89042fc81c69f00fff72b34ce59a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html" title="A class for filtering event according to their type (student, academic,... and also favourite events)...">EventTypeFilter</a> object for filtering the given types of event.  <a href="#a861d89042fc81c69f00fff72b34ce59a">More...</a><br/></td></tr>
+<tr class="separator:a861d89042fc81c69f00fff72b34ce59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8dc775e8133cad1c37ad1af2149b7fca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#a8dc775e8133cad1c37ad1af2149b7fca">valid_mask</a> ($mask)</td></tr>
 <tr class="memdesc:a8dc775e8133cad1c37ad1af2149b7fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the given mask is valid.  <a href="#a8dc775e8133cad1c37ad1af2149b7fca">More...</a><br/></td></tr>
 <tr class="separator:a8dc775e8133cad1c37ad1af2149b7fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,27 +178,31 @@ const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="separator:a6b511cbc2e5c215dc4240c2847cb5a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a416fb6ab1ce0d3a0ce2b79dad5fe81e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a416fb6ab1ce0d3a0ce2b79dad5fe81e5"></a>
 const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#a416fb6ab1ce0d3a0ce2b79dad5fe81e5">TYPE_ALL</a> = 0x7</td></tr>
-<tr class="memdesc:a416fb6ab1ce0d3a0ce2b79dad5fe81e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type to keep : all types of events. <br/></td></tr>
+<tr class="memdesc:a416fb6ab1ce0d3a0ce2b79dad5fe81e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type to keep : all types of events (not including TYPE_FAVORITE. <br/></td></tr>
 <tr class="separator:a416fb6ab1ce0d3a0ce2b79dad5fe81e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa395beb3483fdabd0d5ce8ce353e616"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afa395beb3483fdabd0d5ce8ce353e616"></a>
+const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#afa395beb3483fdabd0d5ce8ce353e616">TYPE_FAVORITE</a> = 0x8</td></tr>
+<tr class="memdesc:afa395beb3483fdabd0d5ce8ce353e616"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type to keep : only favorite event. <br/></td></tr>
+<tr class="separator:afa395beb3483fdabd0d5ce8ce353e616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A class for filtering event according to their type (student, academic,...) </p>
+<div class="textblock"><p>A class for filtering event according to their type (student, academic,... and also favourite events) </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a66c0bd71b182b3e6d120705f4e011f0c"></a>
+<a class="anchor" id="a861d89042fc81c69f00fff72b34ce59a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">__construct </td>
           <td>(</td>
-          <td class="paramtype">array&#160;</td>
+          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>$types</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructs a <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html" title="A class for filtering event according to their type (student, academic,...) ">EventTypeFilter</a> object for filtering the given types of event. </p>
+<p>Constructs a <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html" title="A class for filtering event according to their type (student, academic,... and also favourite events)...">EventTypeFilter</a> object for filtering the given types of event. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$types</td><td>A combination of TYPE_* masks indicating the type of events to keep (for instance : EventTypeFilter::SUB_EVENT | <a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html#a6b511cbc2e5c215dc4240c2847cb5a32" title="The type to keep : only student event. ">EventTypeFilter::TYPE_STUDENT</a>) </td></tr>
@@ -350,8 +355,8 @@ The query should return a table with one 'Id_Event' column containing the events
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>ct</b></li><li class="navelem"><b>models</b></li><li class="navelem"><b>filters</b></li><li class="navelem"><a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html">EventTypeFilter</a></li>
-    <li class="footer">Generated on Fri Feb 20 2015 15:15:34 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespacect.html">ct</a></li><li class="navelem"><a class="el" href="namespacect_1_1models.html">models</a></li><li class="navelem"><a class="el" href="namespacect_1_1models_1_1filters.html">filters</a></li><li class="navelem"><a class="el" href="classct_1_1models_1_1filters_1_1_event_type_filter.html">EventTypeFilter</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

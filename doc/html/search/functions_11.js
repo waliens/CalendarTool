@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['select',['select',['../classutil_1_1database_1_1_s_q_l_abstract.html#ad0e21a3c98ae9f8d8f1f69cc5753bec6',1,'util::database::SQLAbstract']]],
-  ['select_5fone',['select_one',['../classutil_1_1database_1_1_s_q_l_abstract.html#ae63a959b340077023870b5bcd4f5c568',1,'util::database::SQLAbstract']]],
-  ['set_5fassociation_5fmode',['set_association_mode',['../classct_1_1models_1_1_filter_collection_model.html#a4aa9fff8108ba944f5d220c72ed2f8ed',1,'ct::models::FilterCollectionModel']]],
-  ['set_5fdomain_5fname',['set_domain_name',['../classutil_1_1_u_r_l.html#a3dacfb5f6029aa9c4504f9be98819310',1,'util::URL']]],
-  ['set_5fdump_5fmode',['set_dump_mode',['../classutil_1_1database_1_1_s_q_l_abstract.html#a8dc0c0e58a3e2d53d8fa1be24988e958',1,'util::database::SQLAbstract']]],
-  ['set_5ftype',['set_type',['../classutil_1_1_type_checker.html#a424a47491438d0e72cc283f9c8b0c16a',1,'util::TypeChecker']]],
-  ['setdate',['setDate',['../classct_1_1model_1_1_event_model.html#ad081f9cbba63b142397963a5106e53d5',1,'ct::model::EventModel']]],
-  ['size',['size',['../classutil_1_1superglobals_1_1_s_g___files.html#a5afef95cbdd25be3915515992f42d1ed',1,'util::superglobals::SG_Files']]]
+  ['removeasfavorite',['removeAsFavorite',['../classct_1_1models_1_1events_1_1_event_model.html#a22b229212c28421fbadadaf0ea09d3fe',1,'ct::models::events::EventModel']]],
+  ['removefromteam',['removeFromTeam',['../classct_1_1models_1_1events_1_1_independent_event_model.html#a5af5726f77f411fefde6a288f503eaa1',1,'ct::models::events::IndependentEventModel']]],
+  ['removepathway',['removePathway',['../classct_1_1models_1_1events_1_1_independent_event_model.html#aa99972810dfbfb841a872aead63671d0',1,'ct::models::events::IndependentEventModel']]],
+  ['reset',['reset',['../classct_1_1models_1_1_filter_collection_model.html#a4a20559544fdf4dcb457e258dc976cf8',1,'ct::models::FilterCollectionModel']]],
+  ['reset_5ftime_5ftype_5fdate_5frange',['reset_time_type_date_range',['../classct_1_1models_1_1events_1_1_event_model.html#a6055387fe644f2747cdc65d4ff2b2fad',1,'ct::models::events::EventModel']]],
+  ['reset_5ftime_5ftype_5fdeadline',['reset_time_type_deadline',['../classct_1_1models_1_1events_1_1_event_model.html#a87e86e6f158d30ab9c11a53307e9c266',1,'ct::models::events::EventModel']]],
+  ['reset_5ftime_5ftype_5ftime_5frange',['reset_time_type_time_range',['../classct_1_1models_1_1events_1_1_event_model.html#ada3a75b8ca6ed0429ccbe9cd948cf126',1,'ct::models::events::EventModel']]],
+  ['rollback',['rollback',['../classutil_1_1database_1_1_s_q_l_abstract.html#afa549adf79e3f8c09fe8f903dd5fbfa7',1,'util::database::SQLAbstract']]],
+  ['rows_5fcompare_5ffn',['rows_compare_fn',['../namespacect.html#aa531a16b15610b16130b4b52af8f9bae',1,'ct']]]
 ];

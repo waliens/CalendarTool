@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classutil_1_1mvc_1_1_browser_controlle
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -121,10 +122,14 @@ Inheritance diagram for BrowserController:</div>
  <div class="center">
   <img src="classutil_1_1mvc_1_1_browser_controller.png" usemap="#BrowserController_map" alt=""/>
   <map id="BrowserController_map" name="BrowserController_map">
-<area href="classutil_1_1mvc_1_1_controller.html" title="Superclass of any controller class. " alt="Controller" shape="rect" coords="159,0,308,24"/>
-<area href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="CalendarPageController" shape="rect" coords="0,112,149,136"/>
-<area href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="LoginPageController" shape="rect" coords="159,112,308,136"/>
-<area href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html" title="A class for representing the controller that handle the browser for the profile page. " alt="ProfilePageController" shape="rect" coords="318,112,467,136"/>
+<area href="classutil_1_1mvc_1_1_controller.html" title="Superclass of any controller class. " alt="Controller" shape="rect" coords="510,0,670,24"/>
+<area href="classct_1_1controllers_1_1browser_1_1_calendar_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="CalendarPageController" shape="rect" coords="0,112,160,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_login_page_controller.html" title="A class for representing the controller that handle the browser for the calendar page. " alt="LoginPageController" shape="rect" coords="170,112,330,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_private_events_controller.html" title="A class for generating the private events page. " alt="PrivateEventsController" shape="rect" coords="340,112,500,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_professor_profile_controller.html" title="A class for generating the private events page. " alt="ProfessorProfileController" shape="rect" coords="510,112,670,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_profile_page_controller.html" title="A class for representing the controller that handle the browser for the profile page. " alt="ProfilePageController" shape="rect" coords="680,112,840,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_static_export_controller.html" title="A class for generating the private events page. " alt="StaticExportController" shape="rect" coords="850,112,1010,136"/>
+<area href="classct_1_1controllers_1_1browser_1_1_student_profile_controller.html" title="A class for generating the student profile page. " alt="StudentProfileController" shape="rect" coords="1020,112,1180,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -161,15 +166,14 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:ac01f0421cdf853d8bdac45fcd181dc28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the additionnal title of the page.  <a href="#ac01f0421cdf853d8bdac45fcd181dc28">More...</a><br/></td></tr>
 <tr class="separator:ac01f0421cdf853d8bdac45fcd181dc28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3658f6c15c7cf0c195fd3a24c878b16a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#a3658f6c15c7cf0c195fd3a24c878b16a">get_footer</a> ()</td></tr>
-<tr class="memdesc:a3658f6c15c7cf0c195fd3a24c878b16a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string containing the HTML code containing thefooter of the HTML page.  <a href="#a3658f6c15c7cf0c195fd3a24c878b16a">More...</a><br/></td></tr>
+<tr class="memdesc:a3658f6c15c7cf0c195fd3a24c878b16a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string containing the HTML code of the page's footer.  <a href="#a3658f6c15c7cf0c195fd3a24c878b16a">More...</a><br/></td></tr>
 <tr class="separator:a3658f6c15c7cf0c195fd3a24c878b16a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b7a6e909f05576624caffc103e8f9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#af9b7a6e909f05576624caffc103e8f9f">get_footer_inc</a> ()</td></tr>
+<tr class="memdesc:af9b7a6e909f05576624caffc103e8f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string containing the HTML code of the footer's includes.  <a href="#af9b7a6e909f05576624caffc103e8f9f">More...</a><br/></td></tr>
+<tr class="separator:af9b7a6e909f05576624caffc103e8f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5c96b134b24ec7120296945f11f251e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_browser_controller.html#ae5c96b134b24ec7120296945f11f251e">get_content</a> ()</td></tr>
 <tr class="memdesc:ae5c96b134b24ec7120296945f11f251e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string containing the HTML code of the content of the HTML page.  <a href="#ae5c96b134b24ec7120296945f11f251e">More...</a><br/></td></tr>
 <tr class="separator:ae5c96b134b24ec7120296945f11f251e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classutil_1_1mvc_1_1_controller"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classutil_1_1mvc_1_1_controller')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classutil_1_1mvc_1_1_controller.html">Controller</a></td></tr>
-<tr class="memitem:a9bca36b8a8e8c0a1918ef0be04a63148 inherit pro_methods_classutil_1_1mvc_1_1_controller"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_controller.html#a9bca36b8a8e8c0a1918ef0be04a63148">perform_action</a> ()</td></tr>
-<tr class="memdesc:a9bca36b8a8e8c0a1918ef0be04a63148 inherit pro_methods_classutil_1_1mvc_1_1_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">If an action should executed from a request, the code for executing this action should be placed into this function.  <a href="#a9bca36b8a8e8c0a1918ef0be04a63148">More...</a><br/></td></tr>
-<tr class="separator:a9bca36b8a8e8c0a1918ef0be04a63148 inherit pro_methods_classutil_1_1mvc_1_1_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -200,7 +204,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ac3ae29e9ccbb2006fa26fd9eb2c12117 inherit pro_attribs_classutil_1_1mvc_1_1_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d9c79b9b86b3f5891c6d3892f12c6a0 inherit pro_attribs_classutil_1_1mvc_1_1_controller"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d9c79b9b86b3f5891c6d3892f12c6a0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1mvc_1_1_controller.html#a0d9c79b9b86b3f5891c6d3892f12c6a0">$connection</a></td></tr>
-<tr class="memdesc:a0d9c79b9b86b3f5891c6d3892f12c6a0 inherit pro_attribs_classutil_1_1mvc_1_1_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classutil_1_1_connection.html" title="A class for handling an user connection and accessing information about the currently connected user...">Connection</a> object. <br/></td></tr>
+<tr class="memdesc:a0d9c79b9b86b3f5891c6d3892f12c6a0 inherit pro_attribs_classutil_1_1mvc_1_1_controller"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connection object. <br/></td></tr>
 <tr class="separator:a0d9c79b9b86b3f5891c6d3892f12c6a0 inherit pro_attribs_classutil_1_1mvc_1_1_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -258,13 +262,45 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return a string containing the HTML code containing thefooter of the HTML page. </p>
+<p>Return a string containing the HTML code of the page's footer. </p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">string</td><td>End of the HTML page </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="af9b7a6e909f05576624caffc103e8f9f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_footer_inc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a string containing the HTML code of the footer's includes. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">string</td><td>The code of the footer's includes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Re-implement this function for adding an additionnal title </dd></dl>
 
 </div>
 </div>
@@ -429,8 +465,8 @@ Additional Inherited Members</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>util</b></li><li class="navelem"><b>mvc</b></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_browser_controller.html">BrowserController</a></li>
-    <li class="footer">Generated on Fri Feb 20 2015 15:15:34 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespaceutil.html">util</a></li><li class="navelem"><a class="el" href="namespaceutil_1_1mvc.html">mvc</a></li><li class="navelem"><a class="el" href="classutil_1_1mvc_1_1_browser_controller.html">BrowserController</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

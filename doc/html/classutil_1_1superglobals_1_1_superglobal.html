@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classutil_1_1superglobals_1_1_superglo
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -136,9 +137,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a24c36c616c849529b7aeefdfdad519c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a24c36c616c849529b7aeefdfdad519c6">check</a> ($key, $chk=null, $callback=null)</td></tr>
 <tr class="memdesc:a24c36c616c849529b7aeefdfdad519c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a check on the given key in the superglobal.  <a href="#a24c36c616c849529b7aeefdfdad519c6">More...</a><br/></td></tr>
 <tr class="separator:a24c36c616c849529b7aeefdfdad519c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9abd378168fb8d5b6294603e6944df7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a9abd378168fb8d5b6294603e6944df7c">check_keys</a> (array $keys, $chk=null, $callback=null)</td></tr>
+<tr class="memdesc:a9abd378168fb8d5b6294603e6944df7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a check on the given keys are the superglobal.  <a href="#a9abd378168fb8d5b6294603e6944df7c">More...</a><br/></td></tr>
+<tr class="separator:a9abd378168fb8d5b6294603e6944df7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad57b7892cb0ff5a8492c266366323a3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#ad57b7892cb0ff5a8492c266366323a3e">value</a> ($key)</td></tr>
 <tr class="memdesc:ad57b7892cb0ff5a8492c266366323a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the value associated with the given key in the superglobal array.  <a href="#ad57b7892cb0ff5a8492c266366323a3e">More...</a><br/></td></tr>
 <tr class="separator:ad57b7892cb0ff5a8492c266366323a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadce2f89101bce9889fb4c7be796316b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#aadce2f89101bce9889fb4c7be796316b">values</a> (array $keys, $trans=false)</td></tr>
+<tr class="memdesc:aadce2f89101bce9889fb4c7be796316b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the values associated with the given keys (keeping the mapping)  <a href="#aadce2f89101bce9889fb4c7be796316b">More...</a><br/></td></tr>
+<tr class="separator:aadce2f89101bce9889fb4c7be796316b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f9d9a20632bd68069955e65ba1296b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#a9f9d9a20632bd68069955e65ba1296b8">set_value</a> ($key, $<a class="el" href="classutil_1_1superglobals_1_1_superglobal.html#ad57b7892cb0ff5a8492c266366323a3e">value</a>)</td></tr>
+<tr class="memdesc:a9f9d9a20632bd68069955e65ba1296b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the given value for the given key in the superglobal.  <a href="#a9f9d9a20632bd68069955e65ba1296b8">More...</a><br/></td></tr>
+<tr class="separator:a9f9d9a20632bd68069955e65ba1296b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -266,6 +276,55 @@ CHK_ALL = CHK_TRIM | CHK_ISSET </li>
 <li>
 Check if the key is set and the value not empty = CHK_ISSET | CHK_NOT_EMPTY </li>
 </ul>
+
+</div>
+</div>
+<a class="anchor" id="a9abd378168fb8d5b6294603e6944df7c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">check_keys </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$keys</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$chk</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$callback</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform a check on the given keys are the superglobal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$keys</td><td>The keys to check </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">int</td><td class="paramname">$chk</td><td>Define the type of check to perform (see below) (default: null =&gt; CHK_ISSET | CHK_NOT_EMPTY) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">function</td><td class="paramname">$callback</td><td>A predicate taking the value associated with one key as argument and returning true if this value is valid, false otherwise (default: null =&gt; callback not evaluated) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">int</td><td>The negative error code specifying which check has failed (see ERR_* class negative constants) if it has failed, ERR_OK otherwise</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>The function return ERR_OK if none of the keys returned an error, otherwise it returns the error code of the first error encountered </dd></dl>
 
 </div>
 </div>
@@ -441,6 +500,41 @@ Check if the key is set and the value not empty = CHK_ISSET | CHK_NOT_EMPTY </li
 
 </div>
 </div>
+<a class="anchor" id="a9f9d9a20632bd68069955e65ba1296b8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">set_value </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the given value for the given key in the superglobal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">string</td><td class="paramname">$value</td><td>The value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ad57b7892cb0ff5a8492c266366323a3e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -465,6 +559,49 @@ Check if the key is set and the value not empty = CHK_ISSET | CHK_NOT_EMPTY </li
 
 </div>
 </div>
+<a class="anchor" id="aadce2f89101bce9889fb4c7be796316b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">values </td>
+          <td>(</td>
+          <td class="paramtype">array&#160;</td>
+          <td class="paramname"><em>$keys</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$trans</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the values associated with the given keys (keeping the mapping) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$keys</td><td>Depends on the value of $trans (see later) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramtype">array</td><td class="paramname">$trans</td><td>An array mapping the wanted key </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">array</td><td>The array mapping the wanted keys and their values</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If $trans is false, then the desired keys are kept to map the desired values and $keys is a array of which the values are these keys.</p>
+<p>If $trans is true, then the desired keys are the keys of the $keys array and this array maps the actual keys to the new keys' values (or "" if the key must be conserved as such) </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Documents/BitBucket/CalendarTool/web/util/superglobals/<a class="el" href="_superglobal_8class_8php.html">Superglobal.class.php</a></li>
 </ul>
@@ -473,8 +610,8 @@ Check if the key is set and the value not empty = CHK_ISSET | CHK_NOT_EMPTY </li
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>util</b></li><li class="navelem"><b>superglobals</b></li><li class="navelem"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html">Superglobal</a></li>
-    <li class="footer">Generated on Fri Feb 20 2015 15:15:34 for CalendarTool by
+    <li class="navelem"><a class="el" href="namespaceutil.html">util</a></li><li class="navelem"><a class="el" href="namespaceutil_1_1superglobals.html">superglobals</a></li><li class="navelem"><a class="el" href="classutil_1_1superglobals_1_1_superglobal.html">Superglobal</a></li>
+    <li class="footer">Generated on Mon Mar 16 2015 17:27:56 for CalendarTool by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
