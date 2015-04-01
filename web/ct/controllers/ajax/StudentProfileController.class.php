@@ -56,7 +56,7 @@
 
 			// get the user name and surname
 			$user = $user_mod->get_user();
-			$trans_user = array("Name" => "firstName", "Surname" => "lastName");
+			$trans_user = array("Name" => "firstName", "Surname" => "lastName", "Email" => "email");
 			$user = \ct\array_keys_transform($user, $trans_user);
 
 			// set the output data array
