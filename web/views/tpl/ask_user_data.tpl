@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
       <div><p> Avant que vous ne commenciez à utiliser notre plateforme et afin de vous assurer un confort d'utilisation maximum, nous aurions besoin de quelques informations à votre sujet. </p></div>
-      {if isset($error) && !empty($error)} <div><p><strong>Attention</strong> : {$error}</p></div> {/if}
+      {if isset($error) && !empty($error)} <div><p><strong><span style="color: #D50000;">Attention</span></strong> : {$error}</p></div> {/if}
       <form class="form-ask-data form-group" action="index.php?page=ask_data" method="POST">
         <label for="surname">Nom</label>
         <input type="text" name="surname" id="surname" class="form-control" placeholder="Nom" required autofocus {if isset($surname) && !empty($surname)}value="{$surname}"{/if}><br>

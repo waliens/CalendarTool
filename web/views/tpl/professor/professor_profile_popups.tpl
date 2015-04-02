@@ -443,6 +443,11 @@
               <table id="new_indepevent_pathways_table" class="table">
               <!--FILLED BY AJAX WITH LIST AVAILABLE PATHWAYS--> 
               </table>
+               <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indepevent-pathway">Ajouter Section</a> </div>
+            <div class="modal-footer hidden text-center" id="add_indepevent_pathway_conf_abort_buttons">
+                <button type="button" class="btn btn-default" id="add_indepevent_pathway_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_indepevent_pathway_confirm" disabled="disabled">Confirmer</button>
+              </div>
             </div>
             </div>
             

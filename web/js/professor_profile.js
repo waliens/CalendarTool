@@ -311,18 +311,30 @@ $("#new_indepevent").on("show.bs.modal",function(){
 			data: {lang:"FR"},
 			async : true,
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
 				var categories=data.academic;
 				$("#new_indepevent_categories").html("");
 				for (var i=0; i < categories.length; i++)
 					$("#new_indepevent_categories").append("<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick=\"changeEventType(\'#new_indepevent_type\')\" category-id="+categories[i].id+">"+categories[i].name+"</a></li>");
-				buildDatePicker("#new_indepevent");
+				buildDatePicker("new_indepevent");
 				//setup timepickers of new subevent modal
-				$("#new_indepevent .time").timepicker({ 'forceRoundTime': true });
+				$("#new_indepevent .time").timepicker({ 'forceRoundTime': true,'step':1 });
 				$("#new_indepevent_endHour").on("changeTime",function(){
-					$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
+					//check if start and end day are the same and if so we set the maxTime of startHour
+					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
+						$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
+					else $("#new_indepevent_startHour").timepicker("option",{maxTime:"24:00"});
 					})
 				$("#new_indepevent_startHour").on("changeTime",function(){
-					$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
+					//check if start and end day are the same and if so we set the minTime of endHour
+					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
+						$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
+					else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
 					})
 				//populate time pickers
 				var currentTime=new Date();
@@ -344,10 +356,18 @@ $("#new_indepevent").on("show.bs.modal",function(){
 			type : 'GET',
 			url : "index.php?src=ajax&req=087",
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
+				
 				//{pathways:[{id, name}], users:[{id, name, surname}, roles:{id, role}]}
 				var team_members=data.users;
 				var roles=data.roles;
 				var pathways=data.pathways;
+				
 				//populate team members dropdown
 				$("#new_indepevent_team_table").html("");
 				$("#new_indepevent_team_table").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>');
@@ -356,7 +376,13 @@ $("#new_indepevent").on("show.bs.modal",function(){
 					$("#new_indepevent_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+team_members[i].id+'">'+team_members[i].name+"\t"+team_members[i].surname+'</a></li>');
 				
 				for(var i=0;i<roles.length;i++)
-					$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
+					$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+roles[i].id+'">'+roles[i].role+'</a></li>');
+				
+				//populate pathways dropdown
+				$("#new_indepevent_pathways_talble").html("");
+				$("#new_indepevent_pathways_talble").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_pathway_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner une section <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_pathway_list"></ul></div>');
+				for(var i=0;i<pathways.length;i++)
+					$("#new_indepevent_pathways_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" pathway-id="'+pathways[i].id+'">'+pathways[i].name+'</a></li>');
 			}
 			,
 			error : function(xhr, status, error) {
@@ -379,6 +405,20 @@ $("#add_indepevent_member_abort").click(function(){
 	$("#add_indepevent_member_conf_abort_buttons").addClass("hidden");
 	$("#add-indepevent-member").removeClass("hidden");
 	})
+
+//display abort-confirm button to add pathway to an independent event
+$("#add-indepevent-pathway").click(function(){
+	$("#new_indepevent_pathway_table").removeClass("hidden");
+	$("#add_indepevent_pathway_conf_abort_buttons").removeClass("hidden");
+	$("#add-indepevent-pathway").addClass("hidden");
+	});
+	
+$("#add_indepevent_pathway_abort").click(function(){
+	$("#new_indepevent_pathway_table").addClass("hidden");
+	$("#add_indepevent_pathway_conf_abort_buttons").addClass("hidden");
+	$("#add-indepevent-pathway").removeClass("hidden");
+	})
+
 
 //displays info of subevents and independent events
 $("#subevent_info").on("show.bs.modal",function(){
@@ -870,7 +910,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_team_table").html("");
 	//build datepicker
 
-	buildDatePicker("#new_subevent");
+	buildDatePicker("new_subevent");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
 	$("#new_subevent_endHour").on("changeTime",function(){
@@ -936,7 +976,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	
 //builds the object datepicker
 function buildDatePicker(option,target) {
-	if(option=="#new_subevent"||option=="#new_indepevent"){
+	if(option=="new_subevent"||option=="new_indepevent"){
 		//build current date
 		var td = new Date();
 		var dd = td.getDate();
@@ -956,16 +996,25 @@ function buildDatePicker(option,target) {
 		
 		datepicker[option+"_dates"]= new dhtmlXCalendarObject([option+"_startDate_datepicker",option+"_endDate_datepicker"]);
 		datepicker[option+"_dates"].hideTime();
-		datepicker[option+"_dates"].setDateFormat("%Y-%m-%d");
-		datepicker[option+"_dates"].setDate(td.format("YYYY-MM-DD"),td.format("YYYY-MM-DD"));
-		var t = new Date();
-		$(option+"_endDate_datepicker").val(td.format("dddd DD MMM YYYY"));
-		$(option+"_startDate_datepicker").val(td.format("dddd DD MMM YYYY"));
-		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
-		datepicker[option+"_dates"].attachEvent("onClick", function(date){
-			$(option+"_startDate_datepicker").val(convert_date($(option+"_startDate_datepicker").val(),"dddd DD MMM YYYY"));
-			$(option+"_endDate_datepicker").val(convert_date($(option+"_endDate_datepicker").val(),"dddd DD MMM YYYY"));
-		});
+		datepicker[option+"_dates"].setDateFormat("%l %d %F %Y");
+		datepicker[option+"_dates"].setDate(td.format("dddd DD MMMM YYYY"),td.format("dddd DD MMMM YYYY"));
+
+		$("#"+option+"_endDate_datepicker").val(td.format("dddd DD MMMM YYYY"));
+		$("#"+option+"_startDate_datepicker").val(td.format("dddd DD MMMM YYYY"));
+		
+		datepicker[option+"_dates"].attachEvent("onShow",function(date){
+			var checked=$("#"+option+"_deadline input").prop('checked');
+			if(checked)
+				datepicker[option+"_dates"].clearSensitiveRange();
+			});
+		datepicker[option+"_dates"].attachEvent("onClick",function(date){
+			//if start day and end day are different we have to enable all 24hours range for time pickers
+			if($("#"+option+"_endDate_datepicker").val()!=$("#"+option+"_startDate_datepicker").val()){
+				$("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
+				$("#new_indepevent_startHour").timepicker("option",{maxTime:"24:00"});
+				}
+			})
+
 	}
 	else if(option=="#new_subevent_recurrence_end"||option=="#new_indepevent_recurrence_end"){
 		var tag;
@@ -1061,21 +1110,13 @@ function convert_month(month){
 function setSens(id, k, datepicker_instance) {
 	// update range
 	if (k == "min")
-		datepicker[datepicker_instance].setSensitiveRange(convert_date(document.getElementById(id).value,"YYYY-MM-DD"), null);
-	else datepicker[datepicker_instance].setSensitiveRange(null, convert_date(document.getElementById(id).value,"YYYY-MM-DD"));
+		datepicker[datepicker_instance].setSensitiveRange($("#"+id).val(), null);
+	else datepicker[datepicker_instance].setSensitiveRange(null, $("#"+id).val());
 }
 
 //hide/show the end date and hour based on whether the checkbox deadline is selected or not
 function deadline(tag){
 	$(tag+"_endDate").parent().toggleClass("hidden");
-	//disable/enable range sensibility for date and hour
-	var checked=$(tag+"_deadline input").prop('checked');
-	if(checked){
-		datepicker[tag+"_dates"].clearInsensitiveDays();
-		}
-	else{
-		
-		}
 	}
 	
 //sets the new subevent recurrence

@@ -1030,6 +1030,8 @@ $("#private_event_endHour").on("changeTime",function(){
 	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
 	if(startDate.isSame(endDate))
 		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+		$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
 $("#private_event_startHour").on("changeTime",function(){
 	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
@@ -1037,7 +1039,7 @@ $("#private_event_startHour").on("changeTime",function(){
 	if(startDate.isSame(endDate))
 		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
 	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-	if($("#private_event_title").val().length>0)
+	if($("#private_event_title").val().length>0&&$("#private_event_endHour").val().length>0)
 		$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
 
