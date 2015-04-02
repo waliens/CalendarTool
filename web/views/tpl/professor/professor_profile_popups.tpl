@@ -458,7 +458,7 @@
               </table>
             	</div>
             <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indepevent-member">Ajouter équipe</a> </div>
-            <div class="modal-footer hidden text-center" id="add-indepevent-member-conf-abort-buttons">
+            <div class="modal-footer hidden text-center" id="add_indepevent_member_conf_abort_buttons">
                 <button type="button" class="btn btn-default" id="add_indepevent_member_abort">Annuler</button>
                 <button type="button" class="btn btn-primary" id="add_indepevent_member_confirm" disabled="disabled">Confirmer</button>
               </div>

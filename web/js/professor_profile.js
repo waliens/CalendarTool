@@ -349,8 +349,8 @@ $("#new_indepevent").on("show.bs.modal",function(){
 				var roles=data.roles;
 				var pathways=data.pathways;
 				//populate team members dropdown
-				$("#indepevent_team_table").html("");
-				$("#indepevent_team_table").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>');
+				$("#new_indepevent_team_table").html("");
+				$("#new_indepevent_team_table").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>');
 			
 				for(var i=0;i<team_members.length;i++)
 					$("#new_indepevent_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+team_members[i].id+'">'+team_members[i].name+"\t"+team_members[i].surname+'</a></li>');
@@ -369,14 +369,14 @@ $("#new_indepevent").on("show.bs.modal",function(){
 	
 //display abort-confirm button to add team member to an independent event
 $("#add-indepevent-member").click(function(){
-	$("#indepevent_team_table").removeClass("hidden");
+	$("#new_indepevent_team_table").removeClass("hidden");
 	$("#add_indepevent_member_conf_abort_buttons").removeClass("hidden");
 	$("#add-indepevent-member").addClass("hidden");
 	});
 	
 $("#add_indepevent_member_abort").click(function(){
-	$("#indepevent_team_table").addClass("hidden");
-	$("#add-indepevent_member_conf_abort_buttons").addClass("hidden");
+	$("#new_indepevent_team_table").addClass("hidden");
+	$("#add_indepevent_member_conf_abort_buttons").addClass("hidden");
 	$("#add-indepevent-member").removeClass("hidden");
 	})
 
