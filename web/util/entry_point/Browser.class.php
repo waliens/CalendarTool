@@ -14,6 +14,7 @@
     use ct\controllers\browser\PrivateEventsController;
     use ct\controllers\browser\CalendarPageController;
     use ct\controllers\browser\ProfessorProfileController;
+    use ct\controllers\browser\AskUserDataController;
 
     use ct\Connection;
 
@@ -58,6 +59,8 @@
                 return new StaticExportController();
             case "private_events":
                 return new PrivateEventsController();
+            case "ask_data":
+                return new AskUserDataController();
             default:
                 return new CalendarPageController();
             }
