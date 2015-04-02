@@ -244,6 +244,7 @@
 			return $this->sql->count("user", 
 									 "Id_User = ".$this->sql->quote($user_id)." AND ". 
 									 "LENGTH(Name) > 0 AND LENGTH(Surname) AND LENGTH(Email) > 0") > 0;
+		}
 		
 		/**
 		* @brief Checks whether the user having the given id exists in the user table
