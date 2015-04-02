@@ -239,6 +239,25 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#subevents_info").html(subevents_table);
 			for(var i=0;i<subevents.length;i++)
 				populateSubevent(subevents[i]);
+			//add the table headers if there's at least a subevent
+			var row=subevents_table.insertRow(0);
+			var cell1=row.insertCell(0);
+			if(subevents.length>0){
+				var cell2=row.insertCell(1);
+				var cell3=row.insertCell(2);
+				var titleHeader=document.createElement('p');
+				titleHeader.className="text-bold";
+				var whenHeader=document.createElement('p');
+				whenHeader.className="text-bold";
+				var recurrenceHeader=document.createElement('p');
+				recurrenceHeader.className="text-bold";
+				titleHeader.innerHTML="Titre"
+				cell1.appendChild(titleHeader);
+				whenHeader.innerHTML="Quand";
+				cell2.appendChild(whenHeader);
+				recurrenceHeader.innerHTML="Récurrence";
+				cell3.appendChild(recurrenceHeader);
+			}
 			var team_table=document.createElement("table");
 			team_table.className="table";
 			team_table.id="team_table";
@@ -268,7 +287,9 @@ function addPathway(pathway){
 function populateSubevent(item){
 	table=$("#subevents_table");
 	var row=document.createElement("tr");
-	var cell=document.createElement("td");
+	var cell1=document.createElement("td");
+	var cell2=document.createElement("td");
+	var cell3=document.createElement("td");
 	var a=document.createElement("a");
 	a.setAttribute("data-dismiss","modal");
 	a.setAttribute("data-target","#subevent_info");
@@ -276,11 +297,15 @@ function populateSubevent(item){
 	a.innerHTML=item.name;
 	a.id=item.id;
 	a.onclick=function(e){showSubeventModal=true; subevent=e.target}
-	cell.appendChild(a);
-	row.appendChild(cell);
-	var cell2=document.createElement("td");
-	cell2.innerHTML='<div class="text-center"><a class="delete" subevent-id="'+item.id+'"></a></div>';
+	cell1.appendChild(a);
+	row.appendChild(cell1);
+	cell2.innerHTML=item.start;
 	row.appendChild(cell2);
+	cell3.innerHTML=get_recursion(item.recurrence_type);
+	row.appendChild(cell3);
+	var cell4=document.createElement("td");
+	cell4.innerHTML='<div class="text-center"><a class="delete" subevent-id="'+item.id+'"></a></div>';
+	row.appendChild(cell4);
 	table.append(row);
 	}
 
@@ -1069,13 +1094,22 @@ function convert_month(month){
 		case "janv.":
 			return "01";
 			break;
+		case "janvier":
+			return "01";
+			break;
 		case "févr.":
+			return "02";
+			break;
+		case "février":
 			return "02";
 			break;
 		case "mars":
 			return "03";
 			break;
 		case "avr.":
+			return "04";
+			break;
+		case "avril":
 			return "04";
 			break;
 		case "mai":
@@ -1087,19 +1121,34 @@ function convert_month(month){
 		case "juil.":
 			return "07";
 			break;
+		case "juillet":
+			return "07";
+			break;
 		case "août":
 			return "08";
 			break;
 		case "sept.":
 			return "09";
 			break;
+		case "septembre":
+			return "09";
+			break;
 		case "octo.":
+			return "10";
+			break;
+		case "octobre":
 			return "10";
 			break;
 		case "nove.":
 			return "11";
 			break;
+		case "novembre":
+			return "11";
+			break;
 		case "dece.":
+			return "12";
+			break;
+		case "decembre":
 			return "12";
 			break;
 		
