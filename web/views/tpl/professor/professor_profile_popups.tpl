@@ -223,12 +223,12 @@
                       <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_recurrence" recurrence-id="6">jamais</span> <span class="caret"></span> </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="6">jamais</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="1">tous les jours</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="2">toutes les semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="3">toutes les deux semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="4">tous les mois</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="5">tous les ans</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="6">jamais</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="1">tous les jours</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="2">toutes les semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="3">toutes les deux semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="4">tous les mois</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="5">tous les ans</a></li>
                         </ul>
                       </div>
                     </div>
@@ -377,12 +377,12 @@
                       <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="new_indepevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_indepevent_recurrence" recurrence-id="6">jamais</span> <span class="caret"></span> </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="6">jamais</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="1">tous les jours</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="2">toutes les semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="3">toutes les deux semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="4">tous les mois</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="5">tous les ans</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="6">jamais</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="1">tous les jours</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="2">toutes les semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="3">toutes les deux semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="4">tous les mois</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="5">tous les ans</a></li>
                         </ul>
                       </div>
                     </div>

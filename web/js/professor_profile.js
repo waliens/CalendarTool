@@ -489,7 +489,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "index.php?src=ajax&req=051&event="+subevent_id,
+		url : "index.php?src=ajax&req="+reqId+"&event="+subevent_id,
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
@@ -963,7 +963,6 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_pathways_table").html("");
 	$("#new_subevent_team_table").html("");
 	//build datepicker
-
 	buildDatePicker("new_subevent");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
@@ -1070,18 +1069,15 @@ function buildDatePicker(option,target) {
 			})
 
 	}
-	else if(option=="#new_subevent_recurrence_end"||option=="#new_indepevent_recurrence_end"){
+	else if(option=="new_subevent_recurrence_end"||option=="new_indepevent_recurrence_end"){
 		var tag;
-		if(option=="#new_subevent_recurrence_end")
+		if(option=="new_subevent_recurrence_end")
 			tag="new_subevent";
 		else tag="new_indepevent";
-		datepicker[option] = new dhtmlXCalendarObject("#"+tag+"_recurrence_end");
-		datepicker[option].setDateFormat("%Y-%m-%d");
+		datepicker[option] = new dhtmlXCalendarObject(tag+"_recurrence_end");
+		datepicker[option].hideTime();
+		datepicker[option].setDateFormat("%l %d %F %Y");
 		setSens(tag+"_endDate_datepicker","min",tag+"_recurrence_end");
-		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
-		datepicker[option].attachEvent("onClick", function(date){
-			$("#"+tag+"_recurrence_end").val(convert_date($("#"+tag+"_recurrence_end").val(),"dddd DD MMM YYYY"));
-		});
 		}
 }
 
@@ -1199,14 +1195,14 @@ function deadline(tag){
 	
 //sets the new subevent recurrence
 function updateRecurrence(tag){
-	$(tag+"_recurrence").html(event.target.innerHTML);
-	$(tag+"_recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
+	$("#"+tag+"_recurrence").html(event.target.innerHTML);
+	$("#"+tag+"_recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
 	if(event.target.innerHTML!="jamais"){
-		$(tag+"_recurrence_end_td").removeClass("hidden");
+		$("#"+tag+"_recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
-		buildDatePicker("#"+tag+"_recurrence_end");
+		buildDatePicker(tag+"_recurrence_end");
 		}
-	else $(tag+"_recurrence_end_td").addClass("hidden");
+	else $("#"+tag+"_recurrence_end_td").addClass("hidden");
 	}
 	
 //change the value of the dropdown stating the event type
