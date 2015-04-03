@@ -88,6 +88,9 @@ function addIndependentEvent(indep_event){
 	var delete_icon=document.createElement('a');
 	var edit_icon=document.createElement('a');
 	edit_icon.className="edit";
+	edit_icon.setAttribute("data-toggle","modal");
+	edit_icon.setAttribute("data-target","#academic_event_edit_modal");
+	edit_icon.setAttribute("event-id",indep_event.id);
 	delete_icon.className="delete";
 	//link the delete icon to the delete alert
 	delete_icon.setAttribute("data-toggle","modal");
@@ -485,6 +488,105 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 	var req="056";//subevent by default
 	
 	if($("#independent-events #"+subevent_id+"").length>0)
+		req="084";
+	$.ajax({
+		dataType : "json",
+		type : 'GET',
+		url : "index.php?src=ajax&req="+req+"&event="+subevent_id,
+		async: true,
+		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+			//{name, details, pract_details, where, limit, start, end, type, recursiveID, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], softAdd}
+			var academic_event_id=data.id;
+			var academic_event_title=data.name;
+			var academic_event_description=data.description;
+			var academic_event_place=data.place;
+			if(academic_event_place==null)
+				$("#academic_event_place").parent().hide();
+			else $("#academic_event_place").parent().show();
+			var academic_event_type=data.type;
+			var academic_event_start=moment(data.startDay);
+			if(data.startTime!=""){
+				var chunks=data.startTime.split(":");
+				academic_event_start.set("hour",chunks[0]);
+				academic_event_start.set("minute",chunks[1]);
+				$("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY, h:mm a"));
+			}
+			else $("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY"));
+			var academic_event_end;
+			if(data.endDay!=""){
+				$("#academic_event_end").parent().parent().removeClass("hidden");
+				$("#academic_event_start").prev().removeClass("hidden");
+				academic_event_end=moment(data.endDay);
+				if(data.endTime!=""){
+					var chunks=data.endTime.split(":");
+					academic_event_end.set("hour",chunks[0]);
+					academic_event_end.set("minute",chunks[1]);
+					$("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY, h:mm a"));
+				}
+				else $("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY"));
+			}
+			else {
+				$("#academic_event_end").parent().parent().addClass("hidden");
+				$("#academic_event_start").prev().addClass("hidden");
+			}
+			var deadline=data.deadline;
+			if(deadline=="false"){
+				$("#academic_event_deadline input").hide();
+				$("#academic_event_deadline input").prop("checked",false);
+				}
+			else {
+				$("#academic_event_deadline input").show();
+				$("#academic_event_deadline input").prop("checked",true);
+			}
+			var category_id=data.category_id;
+			var category_name=data.category_name;
+			var recurrence=get_recursion(data.recurrence);
+			//var academic_event_pract_details=data.pract_details;
+			$("#academic_event_recurrence").html(recurrence);
+
+			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
+			if(recurrence=="jamais")
+				$("#academic_event_recurrence_end").parent().addClass("hidden");
+			else{
+				$("#academic_event_recurrence_end").parent().removeClass("hidden");
+				var end_recurrence=moment(data.end_recurrence);
+				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
+				}
+			var favourite=data.favourite;
+			var team=data.team;
+			var pathways=data.pathways;
+			//populate alert with global event data
+			$("#academic_event_title").html(academic_event_title);
+			$("#academic_event_details").html(academic_event_description);
+			$("#academic_event_category").html(category_name);
+			$("#academic_event_place").html(academic_event_place);
+			//$("#academic_event_pract_details_body").html(academic_event_pract_details);
+			$("#academic_event_team_table").html("");
+			for(var i=0;i<team.length;i++)
+				$("#academic_event_team_table").append("<p team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></p>")
+			$("#academic_event_pathways_table").html("");
+			for(var i=0;i<pathways.length;i++)
+				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>")
+			
+		},
+		error: function(xhr, status, error) {
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
+		}
+	});
+})
+
+//edit academic event
+$("#academic_event_edit_modal").on("show.bs.modal",function(){
+	//get subevent info
+	var event_id=event.target.getAttribute("event-id");
+	var req="056";//subevent by default
+	if($("#independent-events #"+event_id+"").length>0)
 		req="084";
 	$.ajax({
 		dataType : "json",

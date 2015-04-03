@@ -215,3 +215,13 @@ padding: 5px;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
+
+.date-picker{
+	width: 55%;
+  float: left;
+  margin-right: 10px;
+	}
+	
+.time{
+	width:40%;
+	}

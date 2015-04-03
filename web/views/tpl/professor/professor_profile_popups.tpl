@@ -544,7 +544,7 @@
                   <td class="text-bold width-80 vertical-middle">Détails</td>
                   <td id="academic_event_details"></td>
                 </tr>
-<!--                <tr id="academic_event_pract_details">
+                <!--                <tr id="academic_event_pract_details">
                   <td class="text-bold width-80">Détails pratiques</td>
                   <td id="academic_event_pract_details_body"></td>
                 </tr>-->
@@ -558,6 +558,135 @@
                 </tr>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---EDIT ACADEMIC EVENT-->
+<div class="modal fade" id="academic_event_edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="edit_academic_modal_header">Nouveau sous-événement</h4>
+      </div>
+      <!--modal body-->
+      <div class="modal-body">
+        <div class="panel-group width-100 center" id="accordion-edit-academic-event" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" style="height:42px" role="tab" id="headingOne">
+              <h4 class="panel-title float-left"><a data-toggle="collapse" data-parent="#accordion-edit-academic-event" href="#edit_academic_event_info" aria-expanded="true" aria-controls="edit_academic_event_info">Info</a></h4>
+            </div>
+            <div id="edit_academic_event_info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+              <form class="form-group">
+                <!-- Table -->
+                <table class="table">
+                  <tr>
+                    <td class="text-bold width-80 vertical-middle">Titre</td>
+                    <td><label for="edit_academic_event_title" class="sr-only">Titre</label>
+                      <input id="edit_academic_event_title" class="form-control" placeholder="Titre de l'événement" required autofocus></td>
+                  </tr>
+                  <tr>
+                    <td class="text-bold width-80">Quand</td>
+                    <td><table id="edit_academic_event_time">
+                        <tr>
+                          <td class="width-80 text-underline">Commence</td>
+                          <td id="edit_academic_event_startDate"><label for="edit_academic_event_startDate_datepicker" class="sr-only">Commence</label>
+                            <input class="form-control date-picker" id="edit_academic_event_startDate_datepicker" onclick="setSens('edit_academic_event_endDate_datepicker', 'max', 'edit_academic_event_dates');">
+                            <label for="edit_academic_event_startHour" class="sr-only">Commence Heure</label>
+                            <input class="time form-control" id="edit_academic_event_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                        </tr>
+                        <tr>
+                          <td class="width-80 text-underline">Se termine</td>
+                          <td id="edit_academic_event_endDate"><label for="edit_academic_event_endDate_datepicker" class="sr-only">Se termine</label>
+                            <input class="marging-10-0 form-control date-picker" id="edit_academic_event_endDate_datepicker" onclick="setSens('edit_academic_event_startDate_datepicker', 'min','edit_academic_event_dates');">
+                            <label for="edit_academic_event_endHour" class="sr-only">Se termine Heure</label>
+                            <input class="marging-10-0 time form-control" id="edit_academic_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                        </tr>
+                        <tr id="edit_academic_event_deadline">
+                          <td>Deadline</td>
+                          <td><input type="checkbox" aria-label="" onclick="deadline('#edit_academic_event');"></td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                  <tr>
+                    <td class="text-bold width-80 vertical-middle">Récurrence</td>
+                    <td>
+                          <p id="edit_academic_event_recurrence" recurrence-id="6">jamais</p>
+                            <p><span class="text-bold">Fin:</span> <span id="edit_academic_event_recurrence_end"></span></p></td>
+                  </tr>
+                  <tr>
+                    <td class="text-bold width-80 vertical-middle">Categorie</td>
+                    <td><div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="edit_academic_event_type_btn" data-toggle="dropdown" aria-expanded="true"> <span id="edit_academic_event_type" category-id="1">Cours théorique</span> <span class="caret"></span> </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="edit_academic_event_categories">
+                          <!-- FILLED WITH ACADEMIC EVENTS CATEGORIES THROUGH AJAX -->
+                        </ul>
+                      </div></td>
+                  </tr>
+                  <tr>
+                    <td class="text-bold width-80 vertical-middle">Charge de Travail</td>
+                    <td><label for="edit_academic_event_workload" class="sr-only">Charge de Travail</label>
+                      <input type="number" name="points" min="0" max="1000" step="1" value="30" class="form-control" id="edit_academic_event_workload" placeholder="edit_academic_event_workload"></td>
+                  </tr>
+                  <tr>
+                    <td class="text-bold width-80 vertical-middle">Lieu</td>
+                    <td><label for="edit_academic_event_place" class="sr-only">Lieu</label>
+                      <input class="form-control" id="edit_academic_event_place" placeholder="Lieu de l'événement"></td>
+                  </tr>
+                  <tr>
+                    <td class="text-bold width-80 vertical-middle">Détails</td>
+                    <td><label for="edit_academic_event_details" class="sr-only">Détails</label>
+                      <input class="form-control" id="edit_academic_event_details" placeholder="Détails de l'événement"></td>
+                  </tr>
+                  <tr id="new_soubevent_feedback">
+                    <td class="text-bold width-80">Feedback</td>
+                    <td><label for="edit_academic_event_feedback_body" class="sr-only">Feedback</label>
+                      <input class="form-control" id="edit_academic_event_feedback_body" placeholder="Feedback pour l'événement"></td>
+                  </tr>
+                  <tr id="new_soubevent_pract_details">
+                    <td class="text-bold width-80">Détails pratiques</td>
+                    <td><label for="new_soubevent_pract_details_body" class="sr-only">Détails pratiques</label>
+                      <input class="form-control" id="new_soubevent_pract_details_body" placeholder="Détails pratiques pour l'étudiants"></td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-edit-academic-event" href="#edit_academic_event_pathways" aria-expanded="false" aria-controls="edit_academic_event_pathways">Sections</a> </h4>
+            </div>
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" id="edit_academic_event_pathways">
+              <table id="edit_academic_event_pathways_table" class="table">
+                <!--FILLED BY AJAX WITH LIST PATHWAYS OF GLOBAL EVENT-->
+              </table>
+            </div>
+          </div>
+          <div class="panel panel-default" style="margin-bottom: 10px;">
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-edit-academic-event" href="#edit_academic_team" aria-expanded="false" aria-controls="edit_academic_team">Équipe</a> </h4>
+            </div>
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="edit_academic_team">
+              <table id="edit_academic_event_team_table" class="table">
+                <!--FILLED BY AJAX WITH LIST EVENT TEAM-->
+              </table>
+              <div class="modal-footer hidden text-center" id="add_member_conf_abort_buttons">
+                <button type="button" class="btn btn-default" id="add_member_abort">Annuler</button>
+                <button type="button" class="btn btn-primary" id="add_member_confirm" disabled="disabled">Confirmer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class='text-center' id='edit_academic_event_btns'>
+            <button type='button' class='btn btn-primary' type="submit" disabled="disabled" id="edit_academic_event_creation_confirm">
+            Confirmer
+            </button>
+            <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
           </div>
         </div>
       </div>
