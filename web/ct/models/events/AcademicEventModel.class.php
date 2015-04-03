@@ -199,12 +199,16 @@ class AcademicEventModel extends EventModel{
 		$ids = $col->get_filtered_events_ids();
 		$ret = array();
 		foreach($ids as $key => $value){
-			$event = array("id" => $value);
-			$event['name'] = $this->getEvent(array("name"), array("Id_event" => $value))[0]['Name'];
+			$event = $this->getEvent(array("name", "start", "end"), array("id_event" => $value));
+			$eventRet['name'] = $event['Name'];
+			$eventRet['start'] = $event['Start'];
+			$eventRet['end'] = $event['End'];
+			
 			$pathEvent = $this->getPathways($value);
 			foreach($pathEvent as $o => $path){
 				if(in_array($path['id'], $pathways)){
-					$event["pathway_name"] = $path['name_short'];
+					$eventRet["pathway"] = $path['name_short'];
+					
 					array_push($ret, $event);
 				}
 			}
