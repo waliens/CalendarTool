@@ -23,8 +23,8 @@
 		 */
 		private function __construct()
 		{
-			$user = "root";
-			$pass = "";
+			$user = "calendartool";
+			$pass = "hZpX3s9QM54TTzEZ";
 			$host = "localhost";
 			$db   = "calendar_tool";
 

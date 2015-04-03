@@ -28,7 +28,10 @@
 		 */
 		public function check_upload($key)
 		{
-			return $this->check($key, Superglobal::CHK_ISSET) && $this->value($key)['error'] == \UPLOAD_ERR_OK; 
+			if(!$this->check($key, Superglobal::CHK_ISSET))
+				return false;
+			$value = $this->value($key);
+			return $value['error'] == \UPLOAD_ERR_OK;
 		}
 
 		/**
