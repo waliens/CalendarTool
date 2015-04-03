@@ -2,7 +2,7 @@
 
 //update the navbar
 $("#navbar li").removeClass("active");
-$("#menu_nav").addClass("active");
+$("#private_events").addClass("active");
 
 //dates picker
 var datepicker = {"private_event":0,"recurrence_end":0};

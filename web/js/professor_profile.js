@@ -481,15 +481,16 @@ $("#new_indepevent_team_table").on("click",".delete",function(event){
 //displays info of subevents and independent events
 $("#subevent_info").on("show.bs.modal",function(){
 	//get subevent info
-	var subevent_id=subevent.getAttribute('id');
-	var reqId=051;//subevent by default
+	var subevent_id=subevent.id;
+	var req="056";//subevent by default
 	
 	if($("#independent-events #"+subevent_id+"").length>0)
-		reqId=084;
+		req="084";
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "index.php?src=ajax&req="+reqId+"&event="+subevent_id,
+		url : "index.php?src=ajax&req="+req+"&event="+subevent_id,
+		async: true,
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
@@ -688,6 +689,7 @@ $("#years_list").on("click","a",function(event){
 			$("#new_global_cours_details").html("");
 			$("#new_global_cours_feedback").html("");
 			var courses=data.courses;
+			$("$global_course_list").html("");
 			for(var i=0;i<courses.length;i++){
 				//var shortText=courses[i].nameShort;
 				//shortText = jQuery.trim(shortText).substring(0, 40) + "...";
@@ -698,6 +700,11 @@ $("#years_list").on("click","a",function(event){
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
+	})
+
+$("#cours_to_add").click(function(){
+	if($("#global_course_list li").length==0)
+		$("#global_course_list").append("<li><p style='padding:0 5px;'>Pas de cours disponible pour l'année sélectionnée</p></li>")
 	})
 	
 //update the selected cours to be added in the add new cours modal
@@ -883,6 +890,7 @@ $("#add_indepevent_member_confirm").click(function(event){
 	})
 
 function add_team_member_confirm(option,event){
+	var reqId;
 	var text="";
 	var global_event_id="";
 	var indep_event_id="";
@@ -898,12 +906,12 @@ function add_team_member_confirm(option,event){
 	
 	if(option=="indepevent"){
 		text="indepevent_";
-		reqId=88;
+		reqId="088";
 		indep_event_id=event.currentTarget.getAttribute("event-id");
 		data={id_event:indep_event_id,id_user:member_id, id_role:member_role};
 	}
 	else {
-		reqId=72
+		reqId="072";
 		global_event_id=event.currentTarget.getAttribute("event-id");
 		data= {id_user:member_id, id_global_event:global_event_id, id_role:member_role};	
 	}
