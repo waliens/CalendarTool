@@ -209,11 +209,11 @@ $("#event_info").on("show.bs.modal",function(event){
 			var subevents=data.subevents;
 			var team=data.team;
 			//populate alert with global event data
-			$("#add-event-member-conf-abort-buttons").addClass("hidden");
-			$("#add-event-member").attr("event-id",global_event_id);
+			$("#add_member_conf_abort_buttons").addClass("hidden");
+			$("#add_member").attr("event-id",global_event_id);
 			$("#add-subevent").attr("event-id",global_event_id);
-			$("#add-event-member-abort").attr("event-id",global_event_id);
-			$("#add-event-member-confirm").attr("event-id",global_event_id);
+			$("#add_member_abort").attr("event-id",global_event_id);
+			$("#add_member_confirm").attr("event-id",global_event_id);
 			$("#event-title").html(global_event_id_ulg+"\t"+global_event_name_short);
 			$("#event-details").html(global_event_description);
 			$("#event-feedback").html(global_event_feedback);
@@ -338,7 +338,46 @@ $("#new_indepevent").on("show.bs.modal",function(){
 			  alert(err.Message);
 			}
 		});
+		//retrieve list of team members, roles and pathways
+		$.ajax({
+			dataType : "json",
+			type : 'GET',
+			url : "index.php?src=ajax&req=087",
+			success : function(data, status) {
+				//{pathways:[{id, name}], users:[{id, name, surname}, roles:{id, role}]}
+				var team_members=data.users;
+				var roles=data.roles;
+				var pathways=data.pathways;
+				//populate team members dropdown
+				$("#indepevent_team_table").html("");
+				$("#indepevent_team_table").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>');
+			
+				for(var i=0;i<team_members.length;i++)
+					$("#new_indepevent_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+team_members[i].id+'">'+team_members[i].name+"\t"+team_members[i].surname+'</a></li>');
+				
+				for(var i=0;i<roles.length;i++)
+					$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
+			}
+			,
+			error : function(xhr, status, error) {
+			  var err = eval("(" + xhr.responseText + ")");
+			  alert(err.Message);
+			}
+		});
+		
+	})
 	
+//display abort-confirm button to add team member to an independent event
+$("#add-indepevent-member").click(function(){
+	$("#indepevent_team_table").removeClass("hidden");
+	$("#add_indepevent_member_conf_abort_buttons").removeClass("hidden");
+	$("#add-indepevent-member").addClass("hidden");
+	});
+	
+$("#add_indepevent_member_abort").click(function(){
+	$("#indepevent_team_table").addClass("hidden");
+	$("#add-indepevent_member_conf_abort_buttons").addClass("hidden");
+	$("#add-indepevent-member").removeClass("hidden");
 	})
 
 //displays info of subevents and independent events
@@ -644,7 +683,7 @@ function revert_convert_language(ln){
 	}
 	
 //add team member to global event
-$("#add-event-member").click(function(event){
+$("#add_member").click(function(event){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	//retrieve list of team members that can be added
 	$.ajax({
@@ -661,8 +700,8 @@ $("#add-event-member").click(function(event){
 				return;
 			}	
 
-			$("#add-event-member-conf-abort-buttons").removeClass("hidden");
-			$("#add-event-member").parent().addClass("hidden");
+			$("#add_member_conf_abort_buttons").removeClass("hidden");
+			$("#add_member").parent().addClass("hidden");
 			$("#event_team").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_team_members_role_list"></ul></div>');
 			for(var i=0;i<data.users.length;i++)
 				$("#new_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+data.users[i].id_user+'">'+data.users[i].name+"\t"+data.users[i].surname+'</a></li>');
@@ -695,58 +734,92 @@ $("#add-event-member").click(function(event){
 	});
 	})
 
-//update the team members dropdown with the selected value
-$("#event_team").on("click","#new_team_members_list a",function(event){
+//update the team members dropdown with the selected value for subevent and independent event
+$("#event_team").on("click","#new_team_members_list a",function(event){update_team_member_dropdown("event_team",event)})
+	
+$("#new_indepevent_team").on("click","#new_indepevent_team_members_list a",function(event){update_team_member_dropdown("new_indepevent_team",event)});	
+
+function update_team_member_dropdown(dropdown,event){
 	var team_member=event.currentTarget.innerText;
-	$("#add_team_member_dropdown").html(team_member+' <span class="caret"></span>');
-	$("#add_team_member_dropdown").attr("member-id",event.currentTarget.getAttribute("member-id"));
-	$("#add-event-member-abort").attr("member-id",event.currentTarget.getAttribute("member-id"));
-	$("#add-event-member-confirm").attr("member-id",event.currentTarget.getAttribute("member-id"));
+	var text="";
+	if(dropdown=="new_indepevent_team")
+		text="indepevent_";	
+	$("#add_"+text+"team_member_dropdown").html(team_member+' <span class="caret"></span>');
+	$("#add_"+text+"team_member_dropdown").attr("member-id",event.currentTarget.getAttribute("member-id"));
+	$("#add_"+text+"event_member_abort").attr("member-id",event.currentTarget.getAttribute("member-id"));
+	$("#add_"+text+"member_confirm").attr("member-id",event.currentTarget.getAttribute("member-id"));
 	//enable add team member button when both team member and role have been selected
-	if($("#add_team_member_dropdown").attr("member-id")&&$("#add_team_member_role_dropdown").attr("member-role-id"))
-		$("#add-event-member-confirm").removeAttr("disabled");
-	})
+	if($("#add_"+text+"team_member_dropdown").attr("member-id")&&$("#add_"+text+"team_member_role_dropdown").attr("member-role-id"))
+		$("#add_"+text+"_member_confirm").removeAttr("disabled");
+	}
 	
 //update the team member role dropdown with the selected value
-$("#event_team").on("click","#new_team_members_role_list a",function(event){
-	var role=event.currentTarget.innerText;
-	$("#add_team_member_role_dropdown").html(role+' <span class="caret"></span>');
-	$("#add_team_member_role_dropdown").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
-	$("#add-event-member-abort").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
-	$("#add-event-member-confirm").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
-	//enable add team member button when both team member and role have been selected
-	if($("#add_team_member_dropdown").attr("member-id")&&$("#add_team_member_role_dropdown").attr("member-role-id"))
-		$("#add-event-member-confirm").removeAttr("disabled");
-	})
+$("#event_team").on("click","#new_team_members_role_list a",function(event){update_team_member_role_dropdown("event_team",event)});
 	
+$("#new_indepevent_team").on("click","#new_indepevent_team_members_role_list a",function(event){update_team_member_role_dropdown("new_indepevent_team",event)});	
 
+function update_team_member_role_dropdown(option,event){
+	var role=event.currentTarget.innerText;
+	var text="";
+	if(option=="new_indepevent_team")
+		text="indepevent_"
+	$("#add_"+text+"team_member_role_dropdown").html(role+' <span class="caret"></span>');
+	$("#add_"+text+"team_member_role_dropdown").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
+	$("#add_"+text+"member_abort").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
+	$("#add_"+text+"member_confirm").attr("member-role-id",event.currentTarget.getAttribute("member-role-id"));
+	//enable add team member button when both team member and role have been selected
+	if($("#add_"+text+"team_member_dropdown").attr("member-id")&&$("#add_"+text+"team_member_role_dropdown").attr("member-role-id"))
+		$("#add_"+text+"member_confirm").removeAttr("disabled");
+	}
 	
 //abort add team member
-$("#add-event-member-abort").click(function(event){
+$("#add_member_abort").click(function(event){
 	$("#add_team_member_dropdown").parent().html("");
 	$("#add_team_member_role_dropdown").parent().html("");
-	$("#add-event-member-conf-abort-buttons").addClass("hidden");
-	$("#add-event-member").parent().removeClass("hidden");
+	$("#add_member_conf_abort_buttons").addClass("hidden");
+	$("#add_member").parent().removeClass("hidden");
 	})
 
-//confirm add team member
-$("#add-event-member-confirm").click(function(event){
-	var event_id=event.currentTarget.getAttribute("event-id");
-	var member_id=event.currentTarget.getAttribute("member-id");
-	var member_fullname=$("#add_team_member_dropdown").text();
-	var member_role=$("#add_team_member_role_dropdown").attr("member-role-id");
-	var member_role_name=$("#add_team_member_role_dropdown").text();
+//confirm add team member to global event
+$("#add_member_confirm").click(function(event){
+	add_team_member_confirm("globalevent",event);
+	})
+//confirm add team member to indep event
+$("#add_indepevent_member_confirm").click(function(event){
+	add_team_member_confirm("indepevent",event);
+	})
 
-	$("#add-event-member-conf-abort-buttons").addClass("hidden");
-	$("#add-event-member").parent().removeClass("hidden");
-	$("#add_team_member_dropdown").parent().html("");
-	$("#add_team_member_role_dropdown").parent().html("");
+function add_team_member_confirm(option,event){
+	var text="";
+	var global_event_id="";
+	var indep_event_id="";
+	var member_id=event.currentTarget.getAttribute("member-id");
+	var member_fullname=$("#add_"+text+"team_member_dropdown").text();
+	var member_role=$("#add_"+text+"team_member_role_dropdown").attr("member-role-id");
+	var member_role_name=$("#add_"+text+"team_member_role_dropdown").text();
+	var data;
+	$("#add_"+text+"member_conf_abort_buttons").addClass("hidden");
+	$("#add_member").parent().removeClass("hidden");
+	$("#add_"+text+"team_member_dropdown").parent().html("");
+	$("#add_"+text+"team_member_role_dropdown").parent().html("");
+	
+	if(option=="indepevent"){
+		text="indepevent_";
+		reqId=88;
+		indep_event_id=event.currentTarget.getAttribute("event-id");
+		data={id_event:indep_event_id,id_user:member_id, id_role:member_role};
+	}
+	else {
+		reqId=72
+		global_event_id=event.currentTarget.getAttribute("event-id");
+		data= {id_user:member_id, id_global_event:global_event_id, id_role:member_role};	
+	}
+	
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
-		url : "index.php?src=ajax&req=072",
-
-		data: {id_user:member_id, id_global_event:event_id, id_role:member_role},
+		url : "index.php?src=ajax&req="+reqId,
+		data: data,
 		success : function(data, status) {	
 			/** error checking */
 			if(data.error.error_code > 0)
@@ -755,18 +828,17 @@ $("#add-event-member-confirm").click(function(event){
 				return;
 			}
 
-			$('#team_table tr:last').after('<tr><td>'+member_fullname+'</td><td>'+member_role_name+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
+			$("#"+text+"team_table tr:last").after('<tr><td>'+member_fullname+'</td><td>'+member_role_name+'</td><td><div class="text-center"><a class="delete" member-id="'+member_id+'"></a></div></td></tr>');
 		},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
-	})
-
+	}
 //remove team member
 $("#event_team").on("click",".delete",function(event){
 	if(!$(this).hasClass("delete-disabled")){
-		var event_id=$("#add-event-member").attr("event-id");
+		var event_id=$("#add_member").attr("event-id");
 		var member_id=event.currentTarget.getAttribute("member-id");
 		$.ajax({
 			dataType : "json",
@@ -886,10 +958,10 @@ function buildDatePicker(option,target) {
 		datepicker[option+"_dates"]= new dhtmlXCalendarObject([option+"_startDate_datepicker",option+"_endDate_datepicker"]);
 		datepicker[option+"_dates"].hideTime();
 		datepicker[option+"_dates"].setDateFormat("%Y-%m-%d");
-		datepicker[option+"_dates"].setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+		datepicker[option+"_dates"].setDate(td.format("YYYY-MM-DD"),td.format("YYYY-MM-DD"));
 		var t = new Date();
 		$(option+"_endDate_datepicker").val(td.format("dddd DD MMM YYYY"));
-		$(option+"_startDate_datepicker").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
+		$(option+"_startDate_datepicker").val(td.format("dddd DD MMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 		datepicker[option+"_dates"].attachEvent("onClick", function(date){
 			$(option+"_startDate_datepicker").val(convert_date($(option+"_startDate_datepicker").val(),"dddd DD MMM YYYY"));
@@ -1113,7 +1185,7 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 	var pract_details=$("#new_indepevent_pract_details_body").val();
 	var pathways=$("#new_indepevent_pathways_table input");
 	var pathways_json=[];
-	var team=$("#new_indepevent_team_table input");
+	var team=$("#indepevent_team_table input");
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++)
 		pathways_json.push({id:pathways[i].id,selected:pathways[i].checked});

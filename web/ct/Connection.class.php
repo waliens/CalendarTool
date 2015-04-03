@@ -60,6 +60,7 @@
 
 		//	$this->remote_user = "s060934"; // 3e BAC 
 		//	$this->remote_user = "s114352"; // 2e BAC
+		//	$this->remote_user = "s023178";
 			$this->remote_user = "u013317"; // Pascal Gribaumont
 			$this->host = "";
 			$this->connect($this->remote_user);
@@ -74,6 +75,10 @@
 				$this->connect($this->remote_user);
 			else if($this->user_ulg_id() !== $this->remote_user || !$this->user_mod->user_exists($this->user_ulg_id())) 
 				$this->disconnect(); // previous ulg id doesn't match the current or user does not exists
+
+			// redirect the user if he hasn't given his credentials yet
+			if(isset($_GET['page']) && $_GET['page'] !== "ask_data" && !$this->user_mod->user_subscription_complete($this->user_id()))
+				new Redirection("index.php?page=ask_data");
 		}
 
 		/**

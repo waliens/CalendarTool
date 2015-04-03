@@ -180,6 +180,7 @@
 		 * 	<li> Id_ULg : user ulg id </li>
 		 * 	<li> Name : user name </li>
 		 * 	<li> Surname : user surname </li>
+		 *  <li> Email : user email </li>
 		 * </ul>
 		 */
 		public function get_user($user_id=null)
@@ -197,6 +198,7 @@
 		 * 	<li> Id_ULg : user ulg id </li>
 		 * 	<li> Name : user name </li>
 		 * 	<li> Surname : user surname </li>
+		 *  <li> Email : user email </li>
 		 * </ul>
 		 */
 		public function get_users()
@@ -212,5 +214,45 @@
 		public function user_is_student($user_id)
 		{
 			return $this->sql->count("student", "Id_Student = ".$this->sql->quote($user_id)) > 0;
+		}
+
+		/**
+		 * @brief Update the user data
+		 * @param[in] array $data The array containing the new data : ('name', 'surname', 'email')
+		 * @param[in] int $user_id The user id (optionnal, default: the currently connected user data)
+		 * @retval bool True on success, false on error
+		 */
+		public function update_user(array $data, $user_id = null)
+		{
+			if($user_id == null) $user_id = Connection::get_instance()->user_id();
+
+			$update_data = array("Name" => $data['name'],
+								 "Surname" => $data['surname'],
+								 "Email" => $data['email']);
+
+			return $this->sql->update("user", $this->sql->quote_all($update_data), "Id_User = ".$this->sql->quote($user_id));
+		}	
+
+		/**
+		 * @brief Return true whether the user has completed its subscription on the platform 
+		 * @param[in] string $user_id The user identifier (ptionnal, default: currently connected user)
+		 * @retval bool True if the user is subscribed, false otherwise
+		 * @note The subscription is complete when the user has registered his name, surname and email
+		 */
+		public function user_subscription_complete($user_id)
+		{
+			return $this->sql->count("user", 
+									 "Id_User = ".$this->sql->quote($user_id)." AND ". 
+									 "LENGTH(Name) > 0 AND LENGTH(Surname) AND LENGTH(Email) > 0") > 0;
+		}
+		
+		/**
+		* @brief Checks whether the user having the given id exists in the user table
+		* @param[in] string $user_id the id of the user
+		* @retval bool True if the user exists, false otherwise
+		*/
+		public function user_id_exists($user_id)
+		{
+			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
 		}
 	}

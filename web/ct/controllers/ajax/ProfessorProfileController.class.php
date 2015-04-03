@@ -46,7 +46,7 @@
 
 			// the prof data
 			$prof_data = $user_mod->get_user();
-			$prof_data = \ct\array_keys_transform($prof_data, array("Name" => "firstName", "Surname" => "lastName"));
+			$prof_data = \ct\array_keys_transform($prof_data, array("Name" => "firstName", "Surname" => "lastName", "Email" => "email"));
 
 			// get courses data
 			$glob_events = $glob_mod->get_global_events_by_user_role();
