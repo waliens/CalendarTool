@@ -66,7 +66,7 @@
 			}
 
 			// check validity of the email field
-			if(!preg_match("#^.+@.+ulg\.ac\.be$#", $this->sg_post->value("email")))
+			if(!preg_match("#^.+@.*ulg\.ac\.be$#", $this->sg_post->value("email")))
 			{
 				$this->error = "email ULg invalide!";
 				return false;
