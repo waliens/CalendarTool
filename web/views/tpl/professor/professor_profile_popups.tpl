@@ -482,53 +482,104 @@
 </div>
 
 <!-- SubEvent and Independent event info-->
-<div class="modal fade" id="subevent_info" tabindex="-1" role="dialog" aria-labelledby="subevent-modal" aria-hidden="true">
+<div class="modal fade" id="academic_event_info_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="subevent-title"><!--EVENT TITLE--></h4>
+        <h4 class="modal-title" id="academic_event_title">&Eacute;vénement Academic</h4>
       </div>
-      <div id="subevent-info">
-        <table class="table" id="global_events">
-          <tr>
-            <td class="text-bold width-80">Détails</td>
-            <td id="subevent-details"></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Catégorie</td>
-            <td id="subevent-category"></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Lieu</td>
-            <td id="subevent-place"></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Quand</td>
-            <td id="subevent-period"><table id="subevent_time">
+      <!--modal body-->
+      <div class="modal-body">
+        <div class="panel-group width-100 center" id="accordion-academic-event" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" style="height:42px" role="tab" id="headingOne">
+              <h4 class="panel-title float-left"><a data-toggle="collapse" data-parent="#accordion-academic-event" href="#academic_event_info" aria-expanded="true" aria-controls="academic_event_info">Info</a></h4>
+            </div>
+            <div id="academic_event_info" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <!-- Table -->
+                <table class="table">
                 <tr>
-                  <td class="width-80 text-underline">Commence</td>
-                  <td><p class="marging-10-0" id="subevent_startDate"></p></td>
+                  <td class="text-bold width-80">Quand</td>
+                  <td><table id="academic_event_time">
+                      <tr>
+                        <td class="width-80 text-underline">Commence</td>
+                        <td id="academic_event_start"></td>
+                      </tr>
+                      <tr>
+                        <td class="width-80 text-underline">Se termine</td>
+                        <td id="academic_event_end"></td>
+                      </tr>
+                      <tr id="academic_event_deadline">
+                        <td>Deadline</td>
+                        <td><input type="checkbox" aria-label="" disabled="disabled"></td>
+                      </tr>
+                    </table></td>
                 </tr>
                 <tr>
-                  <td class="width-80 text-underline">Se termine</td>
-                  <td><p class="marging-10-0" id="subevent_endDate"></p></td>
+                  <td class="text-bold width-80 vertical-middle">Récurrence</td>
+                  <td id="academic_event_recurrence">
+                 </td>
                 </tr>
-              </table></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Recurrence</td>
-            <td id="recurrence"></td>
-          </tr>
-          <tr>
-            <td class="width-80">Commence</td>
-            <td id="start-recurrence"></td>
-          </tr>
-          <tr>
-            <td class="width-80">Se termine</td>
-            <td id="end-recurrence"></td>
-          </tr>
-        </table>
+                <tr>
+                <td class="text-bold width-80 vertical-middle">Fin de la récurrence</td>
+                <td id="academic_event_recurrence_end"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Categorie</td>
+                  <td id="academic_event_type"><div class="dropdown">
+                     </td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Charge de Travail</td>
+                  <td id="academic_event_workload"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Lieu</td>
+                  <td id="academic_event_place"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Détails</td>
+                  <td id="academic_event_details"></td>
+                </tr>
+                <tr id="academic_event_feedback">
+                  <td class="text-bold width-80">Feedback</td>
+                  <td id="academic_event_feedback_body"></td>
+                </tr>
+                <tr id="academic_event_pract_details">
+                  <td class="text-bold width-80">Détails pratiques</td>
+                  <td id="academic_event_pract_details_body"></td>
+                </tr>
+                </table>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-academic-event" href="#academic_event_pathways" aria-expanded="false" aria-controls="academic_event_pathways">Sections</a> </h4>
+            </div>
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" id="academic_event_pathways"> 
+              <div> 
+              <table id="academic_event_pathways_table" class="table">
+              <!--FILLED BY AJAX WITH LIST PATHWAYS OF GLOBAL EVENT--> 
+              </table>
+            </div>
+            </div>
+            
+          </div>
+          <div class="panel panel-default" style="margin-bottom: 10px;">
+            <div class="panel-heading" role="tab">
+              <h4 class="panel-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-academic-event" href="#academic_event_team_accordion" aria-expanded="false" aria-controls="academic_event_team_accordion">Équipe</a> </h4>
+            </div>
+            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="academic_event_team_accordion"> 
+              	<div id="academic_event_team"> 
+                <table id="academic_event_team_table" class="table">
+              <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
+              </table>
+            	</div>
+            </div>
+            
+          </div>
+        </div>
       </div>
     </div>
   </div>

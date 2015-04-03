@@ -80,7 +80,7 @@ function addIndependentEvent(indep_event){
     var event_name=document.createElement('a');
 	//link the event link to the event info pane
 	event_name.setAttribute("data-toggle","modal");
-	event_name.setAttribute("data-target","#subevent_info");
+	event_name.setAttribute("data-target","#academic_event_info_modal");
 	event_name.setAttribute("id",indep_event.id);
 	event_name.setAttribute("event-name",indep_event.name);
 	event_name.innerHTML = indep_event.name;
@@ -292,7 +292,7 @@ function populateSubevent(item){
 	var cell3=document.createElement("td");
 	var a=document.createElement("a");
 	a.setAttribute("data-dismiss","modal");
-	a.setAttribute("data-target","#subevent_info");
+	a.setAttribute("data-target","#academic_event_info_modal");
 	a.setAttribute("data-toggle","modal");
 	a.innerHTML=item.name;
 	a.id=item.id;

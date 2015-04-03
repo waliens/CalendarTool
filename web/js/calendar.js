@@ -293,7 +293,7 @@ $(document).ready(function() {
 				buttonText: 'Semestre',
 			}
 		},
-		height: 650,
+		height: 550,
 		editable: true,
 		viewRender: function(view,element){
 			var current_view=getCurrentView(view.name);
