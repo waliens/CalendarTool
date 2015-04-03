@@ -689,6 +689,7 @@ $("#years_list").on("click","a",function(event){
 			$("#new_global_cours_details").html("");
 			$("#new_global_cours_feedback").html("");
 			var courses=data.courses;
+			$("$global_course_list").html("");
 			for(var i=0;i<courses.length;i++){
 				//var shortText=courses[i].nameShort;
 				//shortText = jQuery.trim(shortText).substring(0, 40) + "...";
@@ -699,6 +700,11 @@ $("#years_list").on("click","a",function(event){
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
+	})
+
+$("#cours_to_add").click(function(){
+	if($("#global_course_list li").length==0)
+		$("#global_course_list").append("<li><p style='padding:0 5px;'>Pas de cours disponible pour l'année sélectionnée</p></li>")
 	})
 	
 //update the selected cours to be added in the add new cours modal
