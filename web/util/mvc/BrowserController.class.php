@@ -38,6 +38,7 @@
 			$includes = $this->get_includes().$this->get_default_includes();
 			$this->smarty->assign("title", $this->get_title());
 			$this->smarty->assign("includes", $includes);
+			$this->smarty->assign("is_student", $this->connection->user_is_student());
 			return $this->smarty->fetch("starter.tpl");
 		}
 
