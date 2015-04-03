@@ -394,9 +394,7 @@ $("#new_indepevent").on("show.bs.modal",function(){
 				var pathways=data.pathways;
 				
 				//populate team members dropdown
-				$("#new_indepevent_team_table").html("");
-				$("#new_indepevent_team_table").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>');
-			
+				$("#new_indepevent_team_table").html("");			
 				for(var i=0;i<team_members.length;i++)
 					$("#new_indepevent_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+team_members[i].id+'">'+team_members[i].name+"\t"+team_members[i].surname+'</a></li>');
 				
@@ -425,25 +423,58 @@ $("#new_indepevents_pathways").on("click","#new_indepevent_pathways_list a",func
 	$("#new_indepevent_pathways_list a[pathway-id='"+pathway_id+"']").parent().hide();
 	})	
 	
-//delete pathwa from indep event
+//delete pathway from indep event
 $("#new_indepevents_pathways").on("click","#new_indepevent_pathways_table .delete",function(event){
 	var pathway_id=event.currentTarget.getAttribute("pathway-id");
 	$("#new_indepevent_pathways_table td[pathway-id='"+pathway_id+"']").parent().remove();
 	//add the deleted pathway to the list of the available to add back in
 	$("#new_indepevent_pathways_list a[pathway-id='"+pathway_id+"']").parent().show();
 	});
-
-//display abort-confirm button to add team member to an independent event
-$("#add-indepevent-member").click(function(){
-	$("#new_indepevent_team_table").removeClass("hidden");
-	$("#add_indepevent_member_conf_abort_buttons").removeClass("hidden");
-	$("#add-indepevent-member").addClass("hidden");
-	});
 	
-$("#add_indepevent_member_abort").click(function(){
-	$("#new_indepevent_team_table").addClass("hidden");
-	$("#add_indepevent_member_conf_abort_buttons").addClass("hidden");
-	$("#add-indepevent-member").removeClass("hidden");
+//add team member to indep event
+$("#new_indepevent_team_members_role_list").on("click","a",function(event){
+	var member_id=$("#add_indepevent_team_member_dropdown").attr("member-id");
+	var role_id=event.currentTarget.getAttribute("member-role-id");
+	//if, when selecting a team member role, we've also already selected a team member, we add it to the list
+	if(member_id!=""){
+		var team_member=$("#add_indepevent_team_member_dropdown").text();
+		var team_role=event.currentTarget.innerText;
+		$("#new_indepevent_team_table").append("<tr><td member-id="+member_id+">"+team_member+"</td><td member-role-id="+role_id+">"+team_role+"</td><td><div class='text-center'><a class='delete' member-id="+member_id+"></a></div></td></td></tr>");
+		$("#new_indepevent_team_members_list a[member-id='"+member_id+"']").parent().hide();
+		
+		//reset the ids of member and role
+		$("#add_indepevent_team_member_role_dropdown").attr("role_id","");
+		$("#add_indepevent_team_member_dropdown").attr("member-id","");
+		$("#add_indepevent_team_member_role_dropdown").html("Sélectionner un role <span class='caret'></span> ");
+		$("#add_indepevent_team_member_dropdown").html("Ajouter un membre de l'équipe <span class='caret'></span> ");
+		
+		}
+	else update_team_member_role_dropdown("new_indepevent_team",event);
+	})
+	
+$("#new_indepevent_team_members_list").on("click","a",function(event){
+	var role_id=$("#add_indepevent_team_member_role_dropdown").attr("member-role-id");
+	var member_id=event.currentTarget.getAttribute("member-id");
+	if(role_id!=""){
+		var team_member=event.currentTarget.innerText;
+		var team_role=$("#add_indepevent_team_member_role_dropdown").text();
+		$("#new_indepevent_team_table").append("<tr><td>"+team_member+"</td><td>"+team_role+"</td><td><div class='text-center'><a class='delete' member-id="+member_id+"></a></div></td></td></tr>");
+		$("#new_indepevent_team_members_list a[member-id='"+member_id+"']").parent().hide();
+		//reset the ids of member and role
+		$("#add_indepevent_team_member_role_dropdown").attr("role_id","");
+		$("#add_indepevent_team_member_dropdown").attr("member-id","");
+		$("#add_indepevent_team_member_role_dropdown").html("Sélectionner un role <span class='caret'></span> ");
+		$("#add_indepevent_team_member_dropdown").html("Ajouter un membre de l'équipe <span class='caret'></span> ");
+		}
+	else update_team_member_dropdown("new_indepevent_team",event);
+	})
+
+
+//delete indepevent team member
+$("#new_indepevent_team_table").on("click",".delete",function(event){
+	var member_id=event.currentTarget.getAttribute("member-id");
+	$("#new_indepevent_team_table .delete[member-id="+member_id+"]").parent().parent().parent().remove();
+	$("#new_indepevent_team_members_list a[member-id='"+member_id+"']").parent().show();
 	})
 
 
@@ -802,8 +833,6 @@ $("#add_member").click(function(event){
 
 //update the team members dropdown with the selected value for subevent and independent event
 $("#event_team").on("click","#new_team_members_list a",function(event){update_team_member_dropdown("event_team",event)})
-	
-$("#new_indepevent_team").on("click","#new_indepevent_team_members_list a",function(event){update_team_member_dropdown("new_indepevent_team",event)});	
 
 function update_team_member_dropdown(dropdown,event){
 	var team_member=event.currentTarget.innerText;
@@ -820,9 +849,7 @@ function update_team_member_dropdown(dropdown,event){
 	}
 	
 //update the team member role dropdown with the selected value
-$("#event_team").on("click","#new_team_members_role_list a",function(event){update_team_member_role_dropdown("event_team",event)});
-	
-$("#new_indepevent_team").on("click","#new_indepevent_team_members_role_list a",function(event){update_team_member_role_dropdown("new_indepevent_team",event)});	
+$("#event_team").on("click","#new_team_members_role_list a",function(event){update_team_member_role_dropdown("event_team",event)});	
 
 function update_team_member_role_dropdown(option,event){
 	var role=event.currentTarget.innerText;
@@ -1274,15 +1301,18 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 	var workload=$("#new_indepevent_workload").val();
 	var details=$("#new_indepevent_details").val();
 	var pract_details=$("#new_indepevent_pract_details_body").val();
-	var pathways=$("#new_indepevent_pathways_table input");
+	var pathways=$("#new_indepevent_pathways_table td[pathway-id]");
 	var pathways_json=[];
-	var team=$("#indepevent_team_table input");
+	var team=$("#new_indepevent_team_table tr");
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++)
-		pathways_json.push({id:pathways[i].id,selected:pathways[i].checked});
+		pathways_json.push({id:pathways[i].attr("pathway-id")});
 	pathways_json=JSON.stringify(pathways_json);
-	for(var i=0;i<team.length;i++)
-		team_json.push({id:team[i].id,selected:team[i].checked});
+	for(var i=0;i<team.length;i++){
+		var member_id=team[i].querySelector('[member-id]').getAttribute("member-id");
+		var role_id=team[i].querySelector('[member-role-id]').getAttribute("member-role-id");
+		team_json.push({id:member_id,role:role_id});
+	}
 	team_json=JSON.stringify(team_json);
 	//populate the server with the new indepevent data
 	//"name", "details", "limit","where", "start", "workload", "feedback", "practical_details", "type", "recurrence", "pathways", "teaching_team" et "end" si limit = false

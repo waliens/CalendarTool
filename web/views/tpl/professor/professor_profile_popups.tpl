@@ -455,11 +455,11 @@
             </div>
             <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="indepevent_team_accordion"> 
               	<div id="new_indepevent_team" style="padding-top: 10px;"> 
-                <table id="new_indepevent_team_table" class="table hidden">
+                <table id="new_indepevent_team_table" class="table">
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </table>
+              <div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" member-id="">Ajouter un membre de l'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" member-role-id="">Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>
             	</div>
-            <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indepevent-member">Ajouter équipe</a> </div>
             <div class="modal-footer hidden text-center" id="add_indepevent_member_conf_abort_buttons">
                 <button type="button" class="btn btn-default" id="add_indepevent_member_abort">Annuler</button>
                 <button type="button" class="btn btn-primary" id="add_indepevent_member_confirm" disabled="disabled">Confirmer</button>
