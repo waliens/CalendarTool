@@ -479,7 +479,7 @@ $("#new_indepevent_team_table").on("click",".delete",function(event){
 
 
 //displays info of subevents and independent events
-$("#subevent_info").on("show.bs.modal",function(){
+$("#academic_event_info_modal").on("show.bs.modal",function(){
 	//get subevent info
 	var subevent_id=subevent.id;
 	var req="056";//subevent by default
@@ -498,65 +498,79 @@ $("#subevent_info").on("show.bs.modal",function(){
 				launch_error_ajax(data.error);
 				return;
 			}	
-
-			var subevent_id=data.id;
-			var subevent_title=data.name;
-			var subevent_description=data.description;
-			var subevent_place=data.place;
-			if(subevent_place==null)
-				$("#subevent-place").parent().hide();
-			else $("#subevent-place").parent().show();
-			var subevent_type=data.type;
-			var subevent_start=moment(data.startDay);
+			//{name, details, pract_details, where, limit, start, end, type, recursiveID, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], softAdd}
+			var academic_event_id=data.id;
+			var academic_event_title=data.name;
+			var academic_event_description=data.description;
+			var academic_event_place=data.place;
+			if(academic_event_place==null)
+				$("#academic_event_place").parent().hide();
+			else $("#academic_event_place").parent().show();
+			var academic_event_type=data.type;
+			var academic_event_start=moment(data.startDay);
 			if(data.startTime!=""){
 				var chunks=data.startTime.split(":");
-				subevent_start.set("hour",chunks[0]);
-				subevent_start.set("minute",chunks[1]);
-				$("#subevent_startDate").html(subevent_start.format("dddd, MMMM Do YYYY, h:mm a"));
+				academic_event_start.set("hour",chunks[0]);
+				academic_event_start.set("minute",chunks[1]);
+				$("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY, h:mm a"));
 			}
-			else $("#subevent_startDate").html(subevent_start.format("dddd, MMMM Do YYYY"));
-			var subevent_end;
+			else $("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY"));
+			var academic_event_end;
 			if(data.endDay!=""){
-				$("#subevent_endDate").parent().parent().removeClass("hidden");
-				$("#subevent_startDate").prev().removeClass("hidden");
-				subevent_end=moment(data.endDay);
+				$("#academic_event_end").parent().parent().removeClass("hidden");
+				$("#academic_event_start").prev().removeClass("hidden");
+				academic_event_end=moment(data.endDay);
 				if(data.endTime!=""){
 					var chunks=data.endTime.split(":");
-					subevent_end.set("hour",chunks[0]);
-					subevent_end.set("minute",chunks[1]);
-					$("#subevent_endDate").html(subevent_end.format("dddd, MMMM Do YYYY, h:mm a"));
+					academic_event_end.set("hour",chunks[0]);
+					academic_event_end.set("minute",chunks[1]);
+					$("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY, h:mm a"));
 				}
-				else $("#subevent_endDate").html(subevent_end.format("dddd, MMMM Do YYYY"));
+				else $("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY"));
 			}
 			else {
-				$("#subevent_endDate").parent().parent().addClass("hidden");
-				$("#subevent_startDate").prev().addClass("hidden");
+				$("#academic_event_end").parent().parent().addClass("hidden");
+				$("#academic_event_start").prev().addClass("hidden");
 			}
 			var deadline=data.deadline;
+			if(deadline=="false"){
+				$("#academic_event_deadline input").hide();
+				$("#academic_event_deadline input").prop("checked",false);
+				}
+			else {
+				$("#academic_event_deadline input").show();
+				$("#academic_event_deadline input").prop("checked",true);
+			}
 			var category_id=data.category_id;
 			var category_name=data.category_name;
 			var recurrence=get_recursion(data.recurrence);
-			$("#recurrence").html(recurrence);
+			//var academic_event_pract_details=data.pract_details;
+			$("#academic_event_recurrence").html(recurrence);
 
 			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
-			if(recurrence=="jamais"){
-				$("#start-recurrence").parent().addClass("hidden");
-				$("#end-recurrence").parent().addClass("hidden");
-			}
+			if(recurrence=="jamais")
+				$("#academic_event_recurrence_end").parent().addClass("hidden");
 			else{
-				$("#start-recurrence").parent().removeClass("hidden");
-				$("#end-recurrence").parent().removeClass("hidden");
-				var start_recurrence=moment(data.start_recurrence);
+				$("#academic_event_recurrence_end").parent().removeClass("hidden");
 				var end_recurrence=moment(data.end_recurrence);
-				$("#start-recurrence").html(start_recurrence.format("dddd, MMMM Do YYYY"));
-				$("#end-recurrence").html(end_recurrence.format("dddd, MMMM Do YYYY"));
+				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
 				}
 			var favourite=data.favourite;
+			var team=data.team;
+			var pathways=data.pathways;
 			//populate alert with global event data
-			$("#subevent-title").html(subevent_title);
-			$("#subevent-details").html(subevent_description);
-			$("#subevent-category").html(category_name);
-			$("#subevent-place").html(subevent_place);
+			$("#academic_event_title").html(academic_event_title);
+			$("#academic_event_details").html(academic_event_description);
+			$("#academic_event_category").html(category_name);
+			$("#academic_event_place").html(academic_event_place);
+			//$("#academic_event_pract_details_body").html(academic_event_pract_details);
+			$("#academic_event_team_table").html("");
+			for(var i=0;i<team.length;i++)
+				$("#academic_event_team_table").append("<p team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></p>")
+			$("#academic_event_pathways_table").html("");
+			for(var i=0;i<pathways.length;i++)
+				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>")
+			
 		},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
@@ -1310,7 +1324,7 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 	var team=$("#new_indepevent_team_table tr");
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++)
-		pathways_json.push({id:pathways[i].attr("pathway-id")});
+		pathways[i].getAttribute("pathway-id");
 	pathways_json=JSON.stringify(pathways_json);
 	for(var i=0;i<team.length;i++){
 		var member_id=team[i].querySelector('[member-id]').getAttribute("member-id");
