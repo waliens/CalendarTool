@@ -125,8 +125,19 @@ class ViewEventController extends AjaxController
 							$ret['id'] = $ret['user'];
 							unset($ret['user']);
 							return $ret; }, $team);
-				}
+				
 				$ret['team'] = $team;
+				
+				$path = $model->getPathways($eventId);
+				$path = array_map(function($arr){
+					$ret = $arr;
+					$ret['id'] = $ret['Id_Pathway']
+					$ret['name'] = $ret['Name_Long'];
+					unset($ret['user']);
+					return $ret;
+				}, $path);
+				
+				$ret['pathways'] = $path;
 			}
 			
 			if($data['Id_Recurrence'] != intval(1)){
