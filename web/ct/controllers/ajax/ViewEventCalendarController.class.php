@@ -112,14 +112,14 @@ class ViewEventCalendarController extends AjaxController
 			
 			if($indep || $sub){
 				$team = $model->getTeam($eventId);
-				if($team){
-					$prof = array();
-					foreach($team as $key => $value){
-						if($value["role"] == "Professor" || $value["role"] == "Professeur") // Attention hardcodé
-							array_push($prof, $value["name"]." ".$value['surname']);
-					}
-					$ret['professor'] = implode(", ", $prof);
-				}
+				$team = array_map(function($arr){
+					$ret = $arr;
+					$ret['id'] = $ret['user'];
+					unset($ret['user']);
+					return $ret;
+				}, $team);
+				
+				$ret['team'] = $team;
 			}
 			
 			$ret['favourite'] = $model->isFavorite($eventId, $id);

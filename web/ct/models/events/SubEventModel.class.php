@@ -65,6 +65,53 @@ class SubEventModel extends AcademicEventModel{
 			return false;
 	}
 
+	
+	/**
+	 * @brief create a range of identical events with the same recur number
+	 * @param array $data the data (as you will insert if you only insert one) (erxept the date)
+	 * @param int $n le nombre de fois que l'on veut inserer un event
+	 * @return boolean|array false if error if ok an array containings ids newly inserted
+	 */
+	public function createBatchEvent($data, $n){
+		$datas = $data;
+		$ret = parent::createBatchEvent($data, $n);
+	
+		if(!$ret)
+			return false;
+	
+		$datas = $this->checkParams($data, true, true);
+		if($datas == -1)
+			return false;
+	
+		if(isset($datas['Id_Event'])){
+			return false;
+		}
+	
+	
+		$datas = array_intersect_key($datas, $this->fields_sb);
+		//Unquote stuff
+		$datas = array_map("\ct\unquote", $datas);
+		$datas['Id_Global_Event'] = \ct\get_numeric($datas['Id_Global_Event']);
+		$datas["Id_Event"] = "";
+		$key = array_keys($datas);
+		$values = array();
+	
+		for($i = 0; $i < $n; ++$i) {
+			$datas["Id_Event"] = $ret[$i];
+			$d = \ct\array_flatten($datas);
+			array_push($values, $d);
+		}
+			
+	
+	
+		$a = $this->sql->insert_batch("sub_event", $values, $key);
+		if($a){
+			return $ret;
+		}
+		else
+			return false;
+	
+	}
 	/**
 	 * @brief return the team members of a subevent
 	 * @param int $eventId
@@ -87,7 +134,7 @@ class SubEventModel extends AcademicEventModel{
 		else
 			$lang_col = "Role_EN AS role";
 		
-		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Id_Role AS id_role
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ".$idGlob." AND Id_User NOT in 
 							(SELECT Id_User FROM sub_event_excluded_team_member WHERE Id_Event = ".$this->sql->quote($eventId)." AND Id_Global_Event = ".$idGlob."))
