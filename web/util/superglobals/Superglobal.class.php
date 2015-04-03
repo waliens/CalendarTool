@@ -94,8 +94,10 @@
 			foreach ($keys as $key) 
 			{
 				$code = $this->check($key, $chk, $callback);
-				if($code < 0)
+				if($code < 0){
+					echo $key;
 					return $code;
+				}
 			}
 
 			return self::ERR_OK;
