@@ -404,8 +404,7 @@ $("#new_indepevent").on("show.bs.modal",function(){
 					$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+roles[i].id+'">'+roles[i].role+'</a></li>');
 				
 				//populate pathways dropdown
-				$("#new_indepevent_pathways_talble").html("");
-				$("#new_indepevent_pathways_talble").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_pathway_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner une section <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_pathway_list"></ul></div>');
+				$("#new_indepevent_pathways_list").html("");
 				for(var i=0;i<pathways.length;i++)
 					$("#new_indepevent_pathways_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" pathway-id="'+pathways[i].id+'">'+pathways[i].name+'</a></li>');
 			}
@@ -418,6 +417,22 @@ $("#new_indepevent").on("show.bs.modal",function(){
 		
 	})
 	
+//add pathway to indep event
+$("#new_indepevents_pathways").on("click","#new_indepevent_pathways_list a",function(event){
+	var pathway_id=event.currentTarget.getAttribute("pathway-id");
+	$("#new_indepevent_pathways_table").append("<tr><td pathway-id="+pathway_id+">"+event.currentTarget.innerHTML+"</td><td><div class='text-center'><a class='delete' pathway-id="+pathway_id+"></a></div></td></tr>");
+	//hide the selected pathway from the dropdown
+	$("#new_indepevent_pathways_list a[pathway-id='"+pathway_id+"']").parent().hide();
+	})	
+	
+//delete pathwa from indep event
+$("#new_indepevents_pathways").on("click","#new_indepevent_pathways_table .delete",function(event){
+	var pathway_id=event.currentTarget.getAttribute("pathway-id");
+	$("#new_indepevent_pathways_table td[pathway-id='"+pathway_id+"']").parent().remove();
+	//add the deleted pathway to the list of the available to add back in
+	$("#new_indepevent_pathways_list a[pathway-id='"+pathway_id+"']").parent().show();
+	});
+
 //display abort-confirm button to add team member to an independent event
 $("#add-indepevent-member").click(function(){
 	$("#new_indepevent_team_table").removeClass("hidden");
@@ -429,19 +444,6 @@ $("#add_indepevent_member_abort").click(function(){
 	$("#new_indepevent_team_table").addClass("hidden");
 	$("#add_indepevent_member_conf_abort_buttons").addClass("hidden");
 	$("#add-indepevent-member").removeClass("hidden");
-	})
-
-//display abort-confirm button to add pathway to an independent event
-$("#add-indepevent-pathway").click(function(){
-	$("#new_indepevent_pathway_table").removeClass("hidden");
-	$("#add_indepevent_pathway_conf_abort_buttons").removeClass("hidden");
-	$("#add-indepevent-pathway").addClass("hidden");
-	});
-	
-$("#add_indepevent_pathway_abort").click(function(){
-	$("#new_indepevent_pathway_table").addClass("hidden");
-	$("#add_indepevent_pathway_conf_abort_buttons").addClass("hidden");
-	$("#add-indepevent-pathway").removeClass("hidden");
 	})
 
 
