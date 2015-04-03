@@ -223,12 +223,12 @@
                       <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="new_subevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_subevent_recurrence" recurrence-id="6">jamais</span> <span class="caret"></span> </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="6">jamais</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="1">tous les jours</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="2">toutes les semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="3">toutes les deux semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="4">tous les mois</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_subevent')" recurrence-id="5">tous les ans</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="6">jamais</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="1">tous les jours</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="2">toutes les semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="3">toutes les deux semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="4">tous les mois</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_subevent')" recurrence-id="5">tous les ans</a></li>
                         </ul>
                       </div>
                     </div>
@@ -377,12 +377,12 @@
                       <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="new_indepevent_recurrence_btn" data-toggle="dropdown" aria-expanded="true"> <span id="new_indepevent_recurrence" recurrence-id="6">jamais</span> <span class="caret"></span> </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="6">jamais</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="1">tous les jours</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="2">toutes les semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="3">toutes les deux semaines</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="4">tous les mois</a></li>
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('#new_indepevent')" recurrence-id="5">tous les ans</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="6">jamais</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="1">tous les jours</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="2">toutes les semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="3">toutes les deux semaines</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="4">tous les mois</a></li>
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="updateRecurrence('new_indepevent')" recurrence-id="5">tous les ans</a></li>
                         </ul>
                       </div>
                     </div>
@@ -443,6 +443,8 @@
               <table id="new_indepevent_pathways_table" class="table">
               <!--FILLED BY AJAX WITH LIST AVAILABLE PATHWAYS--> 
               </table>
+              <div class="dropdown text-center marg-bot-10"><button class="btn btn-primary dropdown-toggle padding-6-55" type="button" id="add_indepevent_pathway_dropdown" data-toggle="dropdown" aria-expanded="true" >Ajouter Section <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_pathways_list"></ul></div>
+               
             </div>
             </div>
             
@@ -453,12 +455,12 @@
             </div>
             <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" id="indepevent_team_accordion"> 
               	<div id="new_indepevent_team" style="padding-top: 10px;"> 
-                <table id="new_indepevent_team_table" class="table hidden">
+                <table id="new_indepevent_team_table" class="table">
               <!--FILLED BY AJAX WITH LIST EVENT TEAM--> 
               </table>
+              <div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" member-id="">Ajouter un membre de l'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" member-role-id="">Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>
             	</div>
-            <div class="text-center marg-bot-10"> <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indepevent-member">Ajouter équipe</a> </div>
-            <div class="modal-footer hidden text-center" id="add-indepevent-member-conf-abort-buttons">
+            <div class="modal-footer hidden text-center" id="add_indepevent_member_conf_abort_buttons">
                 <button type="button" class="btn btn-default" id="add_indepevent_member_abort">Annuler</button>
                 <button type="button" class="btn btn-primary" id="add_indepevent_member_confirm" disabled="disabled">Confirmer</button>
               </div>

@@ -394,6 +394,7 @@ $(document).ready(function() {
 			$("#private_event_endDate_datepicker").prop("disabled",false);
 			$("#private_event_endDate_datepicker").prop("readonly",true);
 			$("#private_event_startHour").prop("disabled",false);
+			$("#private_event_endHour").prop("disabled",false);
 			$("#private_event_place").prop("readonly",false);
 			$("#recurrence_btn").prop("disabled",false);
 			$("#private_event_type_btn").prop("disabled",false);
@@ -749,7 +750,7 @@ function edit_private_event(){
 			$("#private_event_endDate_datepicker").prop("disabled",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
-			$("#private_event_startHour").prop("disabled",false);
+			$("#private_event_endHour").prop("disabled",false);
 		}
 		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
@@ -1029,6 +1030,8 @@ $("#private_event_endHour").on("changeTime",function(){
 	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
 	if(startDate.isSame(endDate))
 		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+		$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
 $("#private_event_startHour").on("changeTime",function(){
 	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
@@ -1036,14 +1039,16 @@ $("#private_event_startHour").on("changeTime",function(){
 	if(startDate.isSame(endDate))
 		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
 	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-	if($("#private_event_title").val().length>0)
+	if($("#private_event_title").val().length>0&&$("#private_event_endHour").val().length>0)
 		$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
 
 //populate private event modal
 function populate_private_event(event){
 	var event_id=event.id_server;
+	var event_id_fc=event.id
 	$("#delete_private_event .delete").attr("event-id",event_id);
+	$("#delete_private_event .delete").attr("event-id-fc",event_id_fc);
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
@@ -1225,6 +1230,7 @@ function create_private_event(){
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=$("#recurrence").attr("recurrence-id");
 	var end_recurrence;
+	var end_recurrence_json;
 	var lastday=$('#calendar').fullCalendar('getView').end;
 	var place=$("#private_event_place").val();
 	var type=$("#private_event_type").attr("category-id")
@@ -1248,15 +1254,23 @@ function create_private_event(){
 		endjson=endstring;
 		startjson=startstring;
 		if(recurrence_id!=6){
-			end_recurrence=convert_date($("#recurrence_end").val(),"YYYY-MM-DD");
+			//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
+			if($("#recurrence_end").val()==""){
+				end_recurrence=new moment(start);
+				if(recurrence=="tous les ans")
+					end_recurrence.add(10,"year");
+				else end_recurrence.add(1,"year");
+			}
+			else end_recurrence=moment(convert_date($("#recurrence_end").val(),"YYYY-MM-DD"));
+			end_recurrence_json=end_recurrence.format("YYYY-MM-DD");
 			recurrent=true;	
 		}
 		else {
-			end_recurrence=""
+			end_recurrence_json=""
 			recurrent=false;
 		}
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1272,9 +1286,6 @@ function create_private_event(){
 					var id=guid();
 					//check if the event is recursive
 					if(recurrence!="jamais"){
-						end_recurrence=$("#recurrence_end").val();
-						if(end_recurrence!="")
-							end_recurrence=moment(convert_date(end_recurrence, "YYYY-MM-DD"));
 						var offset;
 						var offset_type;
 						switch(recurrence){
@@ -1303,13 +1314,6 @@ function create_private_event(){
 								offset_type="year";
 								recurrence_id=5;
 								break;
-						}
-						//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
-						if(end_recurrence==""){
-							end_recurrence=new moment(start);
-							if(recurrence=="tous les ans")
-								end_recurrence.add(10,"year");
-							else end_recurrence.add(1,"year");
 						}
 						var id_event=guid();
 						var i=0;
@@ -1413,6 +1417,7 @@ function create_private_event(){
 //delete private event
 function delete_private_event(applyRecursive){
 	var event_id=$("#delete_private_event .delete").attr("event-id");
+	var event_id_fc=$("#delete_private_event .delete").attr("event-id-fc");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
@@ -1425,7 +1430,7 @@ function delete_private_event(applyRecursive){
 				launch_error_ajax(data.error);
 				return;
 			}
-			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id_server==event_id)return true});
+			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id==event_id_fc)return true});
 			//hide the modal
 			$("#private_event").modal("hide");
 		},
@@ -1458,7 +1463,10 @@ function deadline(){
 		datepicker["private_event"].setSensitiveRange(null, null);
 		if($("#private_event_startHour").val().length==0)
 			$('#edit_event_btns .btn-primary').prop("disabled", true);
-		else $('#edit_event_btns .btn-primary').prop("disabled", false);
+		else {
+			if($("#private_event_title").val().length>0)
+				$('#edit_event_btns .btn-primary').prop("disabled", false);
+			}
 	}
 	else{ 
 		$("#private_event_endDate").prop("disabled",false);

@@ -239,6 +239,25 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#subevents_info").html(subevents_table);
 			for(var i=0;i<subevents.length;i++)
 				populateSubevent(subevents[i]);
+			//add the table headers if there's at least a subevent
+			var row=subevents_table.insertRow(0);
+			var cell1=row.insertCell(0);
+			if(subevents.length>0){
+				var cell2=row.insertCell(1);
+				var cell3=row.insertCell(2);
+				var titleHeader=document.createElement('p');
+				titleHeader.className="text-bold";
+				var whenHeader=document.createElement('p');
+				whenHeader.className="text-bold";
+				var recurrenceHeader=document.createElement('p');
+				recurrenceHeader.className="text-bold";
+				titleHeader.innerHTML="Titre"
+				cell1.appendChild(titleHeader);
+				whenHeader.innerHTML="Quand";
+				cell2.appendChild(whenHeader);
+				recurrenceHeader.innerHTML="Récurrence";
+				cell3.appendChild(recurrenceHeader);
+			}
 			var team_table=document.createElement("table");
 			team_table.className="table";
 			team_table.id="team_table";
@@ -268,7 +287,9 @@ function addPathway(pathway){
 function populateSubevent(item){
 	table=$("#subevents_table");
 	var row=document.createElement("tr");
-	var cell=document.createElement("td");
+	var cell1=document.createElement("td");
+	var cell2=document.createElement("td");
+	var cell3=document.createElement("td");
 	var a=document.createElement("a");
 	a.setAttribute("data-dismiss","modal");
 	a.setAttribute("data-target","#subevent_info");
@@ -276,11 +297,15 @@ function populateSubevent(item){
 	a.innerHTML=item.name;
 	a.id=item.id;
 	a.onclick=function(e){showSubeventModal=true; subevent=e.target}
-	cell.appendChild(a);
-	row.appendChild(cell);
-	var cell2=document.createElement("td");
-	cell2.innerHTML='<div class="text-center"><a class="delete" subevent-id="'+item.id+'"></a></div>';
+	cell1.appendChild(a);
+	row.appendChild(cell1);
+	cell2.innerHTML=item.start;
 	row.appendChild(cell2);
+	cell3.innerHTML=get_recursion(item.recurrence_type);
+	row.appendChild(cell3);
+	var cell4=document.createElement("td");
+	cell4.innerHTML='<div class="text-center"><a class="delete" subevent-id="'+item.id+'"></a></div>';
+	row.appendChild(cell4);
 	table.append(row);
 	}
 
@@ -311,18 +336,30 @@ $("#new_indepevent").on("show.bs.modal",function(){
 			data: {lang:"FR"},
 			async : true,
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
 				var categories=data.academic;
 				$("#new_indepevent_categories").html("");
 				for (var i=0; i < categories.length; i++)
 					$("#new_indepevent_categories").append("<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick=\"changeEventType(\'#new_indepevent_type\')\" category-id="+categories[i].id+">"+categories[i].name+"</a></li>");
-				buildDatePicker("#new_indepevent");
+				buildDatePicker("new_indepevent");
 				//setup timepickers of new subevent modal
-				$("#new_indepevent .time").timepicker({ 'forceRoundTime': true });
+				$("#new_indepevent .time").timepicker({ 'forceRoundTime': true,'step':1 });
 				$("#new_indepevent_endHour").on("changeTime",function(){
-					$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
+					//check if start and end day are the same and if so we set the maxTime of startHour
+					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
+						$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
+					else $("#new_indepevent_startHour").timepicker("option",{maxTime:"24:00"});
 					})
 				$("#new_indepevent_startHour").on("changeTime",function(){
-					$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
+					//check if start and end day are the same and if so we set the minTime of endHour
+					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
+						$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
+					else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
 					})
 				//populate time pickers
 				var currentTime=new Date();
@@ -344,19 +381,30 @@ $("#new_indepevent").on("show.bs.modal",function(){
 			type : 'GET',
 			url : "index.php?src=ajax&req=087",
 			success : function(data, status) {
+				/** error checking */
+				if(data.error.error_code > 0)
+				{	
+					launch_error_ajax(data.error);
+					return;
+				}	
+				
 				//{pathways:[{id, name}], users:[{id, name, surname}, roles:{id, role}]}
 				var team_members=data.users;
 				var roles=data.roles;
 				var pathways=data.pathways;
+				
 				//populate team members dropdown
-				$("#indepevent_team_table").html("");
-				$("#indepevent_team_table").append('<div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un membre de l\'équipe <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_list"></ul></div><div class="dropdown" style="margin-left: 10px;margin-bottom: 10px;"><button class="btn btn-default dropdown-toggle" type="button" id="add_indepevent_team_member_role_dropdown" data-toggle="dropdown" aria-expanded="true" >Sélectionner un role <span class="caret"></span> </button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="new_indepevent_team_members_role_list"></ul></div>');
-			
+				$("#new_indepevent_team_table").html("");			
 				for(var i=0;i<team_members.length;i++)
 					$("#new_indepevent_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+team_members[i].id+'">'+team_members[i].name+"\t"+team_members[i].surname+'</a></li>');
 				
 				for(var i=0;i<roles.length;i++)
-					$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+data.roles[i].id+'">'+data.roles[i].role+'</a></li>');
+					$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+roles[i].id+'">'+roles[i].role+'</a></li>');
+				
+				//populate pathways dropdown
+				$("#new_indepevent_pathways_list").html("");
+				for(var i=0;i<pathways.length;i++)
+					$("#new_indepevent_pathways_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" pathway-id="'+pathways[i].id+'">'+pathways[i].name+'</a></li>');
 			}
 			,
 			error : function(xhr, status, error) {
@@ -367,18 +415,68 @@ $("#new_indepevent").on("show.bs.modal",function(){
 		
 	})
 	
-//display abort-confirm button to add team member to an independent event
-$("#add-indepevent-member").click(function(){
-	$("#indepevent_team_table").removeClass("hidden");
-	$("#add_indepevent_member_conf_abort_buttons").removeClass("hidden");
-	$("#add-indepevent-member").addClass("hidden");
+//add pathway to indep event
+$("#new_indepevents_pathways").on("click","#new_indepevent_pathways_list a",function(event){
+	var pathway_id=event.currentTarget.getAttribute("pathway-id");
+	$("#new_indepevent_pathways_table").append("<tr><td pathway-id="+pathway_id+">"+event.currentTarget.innerHTML+"</td><td><div class='text-center'><a class='delete' pathway-id="+pathway_id+"></a></div></td></tr>");
+	//hide the selected pathway from the dropdown
+	$("#new_indepevent_pathways_list a[pathway-id='"+pathway_id+"']").parent().hide();
+	})	
+	
+//delete pathway from indep event
+$("#new_indepevents_pathways").on("click","#new_indepevent_pathways_table .delete",function(event){
+	var pathway_id=event.currentTarget.getAttribute("pathway-id");
+	$("#new_indepevent_pathways_table td[pathway-id='"+pathway_id+"']").parent().remove();
+	//add the deleted pathway to the list of the available to add back in
+	$("#new_indepevent_pathways_list a[pathway-id='"+pathway_id+"']").parent().show();
 	});
 	
-$("#add_indepevent_member_abort").click(function(){
-	$("#indepevent_team_table").addClass("hidden");
-	$("#add-indepevent_member_conf_abort_buttons").addClass("hidden");
-	$("#add-indepevent-member").removeClass("hidden");
+//add team member to indep event
+$("#new_indepevent_team_members_role_list").on("click","a",function(event){
+	var member_id=$("#add_indepevent_team_member_dropdown").attr("member-id");
+	var role_id=event.currentTarget.getAttribute("member-role-id");
+	//if, when selecting a team member role, we've also already selected a team member, we add it to the list
+	if(member_id!=""){
+		var team_member=$("#add_indepevent_team_member_dropdown").text();
+		var team_role=event.currentTarget.innerText;
+		$("#new_indepevent_team_table").append("<tr><td member-id="+member_id+">"+team_member+"</td><td member-role-id="+role_id+">"+team_role+"</td><td><div class='text-center'><a class='delete' member-id="+member_id+"></a></div></td></td></tr>");
+		$("#new_indepevent_team_members_list a[member-id='"+member_id+"']").parent().hide();
+		
+		//reset the ids of member and role
+		$("#add_indepevent_team_member_role_dropdown").attr("role_id","");
+		$("#add_indepevent_team_member_dropdown").attr("member-id","");
+		$("#add_indepevent_team_member_role_dropdown").html("Sélectionner un role <span class='caret'></span> ");
+		$("#add_indepevent_team_member_dropdown").html("Ajouter un membre de l'équipe <span class='caret'></span> ");
+		
+		}
+	else update_team_member_role_dropdown("new_indepevent_team",event);
 	})
+	
+$("#new_indepevent_team_members_list").on("click","a",function(event){
+	var role_id=$("#add_indepevent_team_member_role_dropdown").attr("member-role-id");
+	var member_id=event.currentTarget.getAttribute("member-id");
+	if(role_id!=""){
+		var team_member=event.currentTarget.innerText;
+		var team_role=$("#add_indepevent_team_member_role_dropdown").text();
+		$("#new_indepevent_team_table").append("<tr><td>"+team_member+"</td><td>"+team_role+"</td><td><div class='text-center'><a class='delete' member-id="+member_id+"></a></div></td></td></tr>");
+		$("#new_indepevent_team_members_list a[member-id='"+member_id+"']").parent().hide();
+		//reset the ids of member and role
+		$("#add_indepevent_team_member_role_dropdown").attr("role_id","");
+		$("#add_indepevent_team_member_dropdown").attr("member-id","");
+		$("#add_indepevent_team_member_role_dropdown").html("Sélectionner un role <span class='caret'></span> ");
+		$("#add_indepevent_team_member_dropdown").html("Ajouter un membre de l'équipe <span class='caret'></span> ");
+		}
+	else update_team_member_dropdown("new_indepevent_team",event);
+	})
+
+
+//delete indepevent team member
+$("#new_indepevent_team_table").on("click",".delete",function(event){
+	var member_id=event.currentTarget.getAttribute("member-id");
+	$("#new_indepevent_team_table .delete[member-id="+member_id+"]").parent().parent().parent().remove();
+	$("#new_indepevent_team_members_list a[member-id='"+member_id+"']").parent().show();
+	})
+
 
 //displays info of subevents and independent events
 $("#subevent_info").on("show.bs.modal",function(){
@@ -391,7 +489,7 @@ $("#subevent_info").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "index.php?src=ajax&req=051&event="+subevent_id,
+		url : "index.php?src=ajax&req="+reqId+"&event="+subevent_id,
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
@@ -714,7 +812,6 @@ $("#add_member").click(function(event){
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
-		//url :"json/team-members-roles.json",
 		url : "index.php?src=ajax&req=074",
 		data: {lang:"FR"},
 		success : function(data, status) {
@@ -736,8 +833,6 @@ $("#add_member").click(function(event){
 
 //update the team members dropdown with the selected value for subevent and independent event
 $("#event_team").on("click","#new_team_members_list a",function(event){update_team_member_dropdown("event_team",event)})
-	
-$("#new_indepevent_team").on("click","#new_indepevent_team_members_list a",function(event){update_team_member_dropdown("new_indepevent_team",event)});	
 
 function update_team_member_dropdown(dropdown,event){
 	var team_member=event.currentTarget.innerText;
@@ -754,9 +849,7 @@ function update_team_member_dropdown(dropdown,event){
 	}
 	
 //update the team member role dropdown with the selected value
-$("#event_team").on("click","#new_team_members_role_list a",function(event){update_team_member_role_dropdown("event_team",event)});
-	
-$("#new_indepevent_team").on("click","#new_indepevent_team_members_role_list a",function(event){update_team_member_role_dropdown("new_indepevent_team",event)});	
+$("#event_team").on("click","#new_team_members_role_list a",function(event){update_team_member_role_dropdown("event_team",event)});	
 
 function update_team_member_role_dropdown(option,event){
 	var role=event.currentTarget.innerText;
@@ -870,8 +963,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	$("#new_subevent_pathways_table").html("");
 	$("#new_subevent_team_table").html("");
 	//build datepicker
-
-	buildDatePicker("#new_subevent");
+	buildDatePicker("new_subevent");
 	//setup timepickers of new subevent modal
 	$(".time").timepicker({ 'forceRoundTime': true });
 	$("#new_subevent_endHour").on("changeTime",function(){
@@ -937,7 +1029,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	
 //builds the object datepicker
 function buildDatePicker(option,target) {
-	if(option=="#new_subevent"||option=="#new_indepevent"){
+	if(option=="new_subevent"||option=="new_indepevent"){
 		//build current date
 		var td = new Date();
 		var dd = td.getDate();
@@ -957,29 +1049,35 @@ function buildDatePicker(option,target) {
 		
 		datepicker[option+"_dates"]= new dhtmlXCalendarObject([option+"_startDate_datepicker",option+"_endDate_datepicker"]);
 		datepicker[option+"_dates"].hideTime();
-		datepicker[option+"_dates"].setDateFormat("%Y-%m-%d");
-		datepicker[option+"_dates"].setDate(td.format("YYYY-MM-DD"),td.format("YYYY-MM-DD"));
-		var t = new Date();
-		$(option+"_endDate_datepicker").val(td.format("dddd DD MMM YYYY"));
-		$(option+"_startDate_datepicker").val(td.format("dddd DD MMM YYYY"));
-		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
-		datepicker[option+"_dates"].attachEvent("onClick", function(date){
-			$(option+"_startDate_datepicker").val(convert_date($(option+"_startDate_datepicker").val(),"dddd DD MMM YYYY"));
-			$(option+"_endDate_datepicker").val(convert_date($(option+"_endDate_datepicker").val(),"dddd DD MMM YYYY"));
-		});
+		datepicker[option+"_dates"].setDateFormat("%l %d %F %Y");
+		datepicker[option+"_dates"].setDate(td.format("dddd DD MMMM YYYY"),td.format("dddd DD MMMM YYYY"));
+
+		$("#"+option+"_endDate_datepicker").val(td.format("dddd DD MMMM YYYY"));
+		$("#"+option+"_startDate_datepicker").val(td.format("dddd DD MMMM YYYY"));
+		
+		datepicker[option+"_dates"].attachEvent("onShow",function(date){
+			var checked=$("#"+option+"_deadline input").prop('checked');
+			if(checked)
+				datepicker[option+"_dates"].clearSensitiveRange();
+			});
+		datepicker[option+"_dates"].attachEvent("onClick",function(date){
+			//if start day and end day are different we have to enable all 24hours range for time pickers
+			if($("#"+option+"_endDate_datepicker").val()!=$("#"+option+"_startDate_datepicker").val()){
+				$("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
+				$("#new_indepevent_startHour").timepicker("option",{maxTime:"24:00"});
+				}
+			})
+
 	}
-	else if(option=="#new_subevent_recurrence_end"||option=="#new_indepevent_recurrence_end"){
+	else if(option=="new_subevent_recurrence_end"||option=="new_indepevent_recurrence_end"){
 		var tag;
-		if(option=="#new_subevent_recurrence_end")
+		if(option=="new_subevent_recurrence_end")
 			tag="new_subevent";
 		else tag="new_indepevent";
-		datepicker[option] = new dhtmlXCalendarObject("#"+tag+"_recurrence_end");
-		datepicker[option].setDateFormat("%Y-%m-%d");
+		datepicker[option] = new dhtmlXCalendarObject(tag+"_recurrence_end");
+		datepicker[option].hideTime();
+		datepicker[option].setDateFormat("%l %d %F %Y");
 		setSens(tag+"_endDate_datepicker","min",tag+"_recurrence_end");
-		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
-		datepicker[option].attachEvent("onClick", function(date){
-			$("#"+tag+"_recurrence_end").val(convert_date($("#"+tag+"_recurrence_end").val(),"dddd DD MMM YYYY"));
-		});
 		}
 }
 
@@ -1021,13 +1119,22 @@ function convert_month(month){
 		case "janv.":
 			return "01";
 			break;
+		case "janvier":
+			return "01";
+			break;
 		case "févr.":
+			return "02";
+			break;
+		case "février":
 			return "02";
 			break;
 		case "mars":
 			return "03";
 			break;
 		case "avr.":
+			return "04";
+			break;
+		case "avril":
 			return "04";
 			break;
 		case "mai":
@@ -1039,19 +1146,34 @@ function convert_month(month){
 		case "juil.":
 			return "07";
 			break;
+		case "juillet":
+			return "07";
+			break;
 		case "août":
 			return "08";
 			break;
 		case "sept.":
 			return "09";
 			break;
+		case "septembre":
+			return "09";
+			break;
 		case "octo.":
+			return "10";
+			break;
+		case "octobre":
 			return "10";
 			break;
 		case "nove.":
 			return "11";
 			break;
+		case "novembre":
+			return "11";
+			break;
 		case "dece.":
+			return "12";
+			break;
+		case "decembre":
 			return "12";
 			break;
 		
@@ -1062,33 +1184,25 @@ function convert_month(month){
 function setSens(id, k, datepicker_instance) {
 	// update range
 	if (k == "min")
-		datepicker[datepicker_instance].setSensitiveRange(convert_date(document.getElementById(id).value,"YYYY-MM-DD"), null);
-	else datepicker[datepicker_instance].setSensitiveRange(null, convert_date(document.getElementById(id).value,"YYYY-MM-DD"));
+		datepicker[datepicker_instance].setSensitiveRange($("#"+id).val(), null);
+	else datepicker[datepicker_instance].setSensitiveRange(null, $("#"+id).val());
 }
 
 //hide/show the end date and hour based on whether the checkbox deadline is selected or not
 function deadline(tag){
 	$(tag+"_endDate").parent().toggleClass("hidden");
-	//disable/enable range sensibility for date and hour
-	var checked=$(tag+"_deadline input").prop('checked');
-	if(checked){
-		datepicker[tag+"_dates"].clearInsensitiveDays();
-		}
-	else{
-		
-		}
 	}
 	
 //sets the new subevent recurrence
 function updateRecurrence(tag){
-	$(tag+"_recurrence").html(event.target.innerHTML);
-	$(tag+"_recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
+	$("#"+tag+"_recurrence").html(event.target.innerHTML);
+	$("#"+tag+"_recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
 	if(event.target.innerHTML!="jamais"){
-		$(tag+"_recurrence_end_td").removeClass("hidden");
+		$("#"+tag+"_recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
-		buildDatePicker("#"+tag+"_recurrence_end");
+		buildDatePicker(tag+"_recurrence_end");
 		}
-	else $(tag+"_recurrence_end_td").addClass("hidden");
+	else $("#"+tag+"_recurrence_end_td").addClass("hidden");
 	}
 	
 //change the value of the dropdown stating the event type
@@ -1183,15 +1297,18 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 	var workload=$("#new_indepevent_workload").val();
 	var details=$("#new_indepevent_details").val();
 	var pract_details=$("#new_indepevent_pract_details_body").val();
-	var pathways=$("#new_indepevent_pathways_table input");
+	var pathways=$("#new_indepevent_pathways_table td[pathway-id]");
 	var pathways_json=[];
-	var team=$("#indepevent_team_table input");
+	var team=$("#new_indepevent_team_table tr");
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++)
-		pathways_json.push({id:pathways[i].id,selected:pathways[i].checked});
+		pathways_json.push({id:pathways[i].attr("pathway-id")});
 	pathways_json=JSON.stringify(pathways_json);
-	for(var i=0;i<team.length;i++)
-		team_json.push({id:team[i].id,selected:team[i].checked});
+	for(var i=0;i<team.length;i++){
+		var member_id=team[i].querySelector('[member-id]').getAttribute("member-id");
+		var role_id=team[i].querySelector('[member-role-id]').getAttribute("member-role-id");
+		team_json.push({id:member_id,role:role_id});
+	}
 	team_json=JSON.stringify(team_json);
 	//populate the server with the new indepevent data
 	//"name", "details", "limit","where", "start", "workload", "feedback", "practical_details", "type", "recurrence", "pathways", "teaching_team" et "end" si limit = false
