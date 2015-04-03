@@ -8,11 +8,8 @@
     namespace util\entry_point;
     
     use ct\controllers\ajax\UpdateTeamMember;
-
-				use ct\controllers\ajax\EditDaD;
-
-				use ct\controllers\ajax\ViewEventCalendarController;
-
+    use ct\controllers\ajax\EditDaD;
+    use ct\controllers\ajax\ViewEventCalendarController;
 	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
     use ct\controllers\ajax\EditPrivateEventController;
@@ -48,6 +45,7 @@
     use ct\controllers\ajax\EventCategoriesController;
     use ct\controllers\ajax\GetTeamAddableUsers;
     use ct\controllers\ajax\AddSubEventController;
+    use ct\controllers\ajax\GetUsersAndPathwaysController;
 
     use util\superglobals\Superglobal;
     use util\superglobals\SG_Get;
@@ -176,6 +174,8 @@
                 	return new ViewEventCalendarController("INDEP");   
                 case "088":
                 	return new UpdateTeamMember(true);
+                case "087":
+                    return new GetUsersAndPathwaysController();
                 case "089":
                 	return new UpdateTeamMember(false);          
                     
