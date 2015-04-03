@@ -6,7 +6,7 @@ var day=today.getDay();
 	
 //update the navbar
 $("#navbar li").removeClass("active");
-$("#menu_nav").addClass("active");
+$("#static_export").addClass("active");
 //datepickers
 var startDate;
 var endDate;
