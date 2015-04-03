@@ -134,7 +134,7 @@ class SubEventModel extends AcademicEventModel{
 		else
 			$lang_col = "Role_EN AS role";
 		
-		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role
+		$query = "SELECT Id_User AS user, Name AS name, Surname AS surname, role, Id_Role AS id_role
 						FROM  user NATURAL JOIN
 						( SELECT * FROM teaching_team_member WHERE Id_Global_Event = ".$idGlob." AND Id_User NOT in 
 							(SELECT Id_User FROM sub_event_excluded_team_member WHERE Id_Event = ".$this->sql->quote($eventId)." AND Id_Global_Event = ".$idGlob."))
