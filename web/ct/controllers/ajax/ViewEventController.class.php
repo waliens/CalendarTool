@@ -153,7 +153,7 @@ class ViewEventController extends AjaxController
 			$this->set_output_data($ret);
 		}
 	}
-
+}
 
 
 

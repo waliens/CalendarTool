@@ -200,16 +200,16 @@
                         <tr>
                           <td class="width-80 text-underline">Commence</td>
                           <td id="new_subevent_startDate"><label for="new_subevent_startDate_datepicker" class="sr-only">Commence</label>
-                            <input id="new_subevent_startDate_datepicker" onclick="setSens('new_subevent_endDate_datepicker', 'max', 'new_subevent_dates');">
+                            <input class="date-picker form-control" id="new_subevent_startDate_datepicker" onclick="setSens('new_subevent_endDate_datepicker', 'max', 'new_subevent_dates');">
                             <label for="new_subevent_startHour" class="sr-only">Commence Heure</label>
-                            <input class="marging-10-0 time" id="new_subevent_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                            <input class="time form-control" id="new_subevent_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
                         </tr>
                         <tr>
                           <td class="width-80 text-underline">Se termine</td>
                           <td id="new_subevent_endDate"><label for="new_subevent_endDate_datepicker" class="sr-only">Se termine</label>
-                            <input class="marging-10-0" id="new_subevent_endDate_datepicker" onclick="setSens('new_subevent_startDate_datepicker', 'min','new_subevent_dates');">
+                            <input class="marging-10-0 form-control date-picker" id="new_subevent_endDate_datepicker" onclick="setSens('new_subevent_startDate_datepicker', 'min','new_subevent_dates');">
                             <label for="new_subevent_endHour" class="sr-only">Se termine Heure</label>
-                            <input class="marging-10-0 time" id="new_subevent_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                            <input class="marging-10-0 time form-control" id="new_subevent_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
                         </tr>
                         <tr id="new_subevent_deadline">
                           <td>Deadline</td>
@@ -352,16 +352,16 @@
                         <tr>
                           <td class="width-80 text-underline">Commence</td>
                           <td id="new_indepevent_startDate"><label for="new_indepevent_startDate_datepicker" class="sr-only">Commence</label>
-                            <input id="new_indepevent_startDate_datepicker" onclick="setSens('new_indepevent_endDate_datepicker', 'max', 'new_indepevent_dates');">
+                            <input class="form-control date-picker"id="new_indepevent_startDate_datepicker" onclick="setSens('new_indepevent_endDate_datepicker', 'max', 'new_indepevent_dates');">
                             <label for="new_indepevent_startHour" class="sr-only">Commence Heure</label>
-                            <input class="marging-10-0 time" id="new_indepevent_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                            <input class="form-control time" id="new_indepevent_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
                         </tr>
                         <tr>
                           <td class="width-80 text-underline">Se termine</td>
                           <td id="new_indepevent_endDate"><label for="new_indepevent_endDate_datepicker" class="sr-only">Se termine</label>
-                            <input class="marging-10-0" id="new_indepevent_endDate_datepicker" onclick="setSens('new_indepevent_startDate_datepicker', 'min','new_indepevent_dates');">
+                            <input class="marging-10-0 form-control date-picker" id="new_indepevent_endDate_datepicker" onclick="setSens('new_indepevent_startDate_datepicker', 'min','new_indepevent_dates');">
                             <label for="new_indepevent_endHour" class="sr-only">Se termine Heure</label>
-                            <input class="marging-10-0 time" id="new_indepevent_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                            <input class="marging-10-0 time form-control" id="new_indepevent_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
                         </tr>
                         <tr id="new_indepevent_deadline">
                           <td>Deadline</td>
