@@ -112,14 +112,28 @@ class ViewEventCalendarController extends AjaxController
 			
 			if($indep || $sub){
 				$team = $model->getTeam($eventId);
-				$team = array_map(function($arr){
+				
+				if(is_array($team))
+					$team = array_map(function($arr){
+						$ret = $arr;
+						$ret['id'] = $ret['user'];
+						unset($ret['user']);
+						return $ret;
+					}, $team);
+					
+				$ret['team'] = $team;
+				
+				$path = $model->getPathways($eventId);
+				if(is_array($path))
+				$path = array_map(function($arr){
 					$ret = $arr;
-					$ret['id'] = $ret['user'];
+					$ret['id'] = $ret['Id_Pathway'];
+					$ret['name'] = $ret['Name_Long'];
 					unset($ret['user']);
 					return $ret;
-				}, $team);
+				}, $path);
 				
-				$ret['team'] = $team;
+				$ret['pathways'] = $path;
 			}
 			
 			$ret['favourite'] = $model->isFavorite($eventId, $id);
