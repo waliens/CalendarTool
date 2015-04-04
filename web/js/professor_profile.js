@@ -591,7 +591,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "index.php?src=ajax&req="+req+"&event="+subevent_id,
+		url : "index.php?src=ajax&req="+req+"&event="+event_id,
 		async: true,
 		success : function(data, status) {
 			/** error checking */
@@ -606,72 +606,71 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			var academic_event_description=data.description;
 			var academic_event_place=data.place;
 			if(academic_event_place==null)
-				$("#academic_event_place").parent().hide();
-			else $("#academic_event_place").parent().show();
+				$("#edit_academic_event_place").parent().hide();
+			else $("#edit_academic_event_place").parent().show();
 			var academic_event_type=data.type;
 			var academic_event_start=moment(data.startDay);
+			$("#edit_academic_event_startDate_datepicker").val(academic_event_start.format("dddd, MMMM Do YYYY"));
 			if(data.startTime!=""){
+				$("#edit_academic_event_startHour").show();
 				var chunks=data.startTime.split(":");
-				academic_event_start.set("hour",chunks[0]);
-				academic_event_start.set("minute",chunks[1]);
-				$("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY, h:mm a"));
+				$("#edit_academic_event_startHour").val(chunks[0]+":"+chunks[1]);
 			}
-			else $("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY"));
+			else $("#edit_academic_event_startHour").hide();
 			var academic_event_end;
 			if(data.endDay!=""){
-				$("#academic_event_end").parent().parent().removeClass("hidden");
-				$("#academic_event_start").prev().removeClass("hidden");
+				$("#edit_academic_event_endDate").parent().parent().show();
 				academic_event_end=moment(data.endDay);
+				$("#edit_academic_event_endDate_datepicker").val(academic_event_end.format("dddd, MMMM Do YYYY"))
 				if(data.endTime!=""){
+					$("#edit_academic_event_endHour").show();
 					var chunks=data.endTime.split(":");
-					academic_event_end.set("hour",chunks[0]);
-					academic_event_end.set("minute",chunks[1]);
-					$("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY, h:mm a"));
+					$("#edit_academic_event_endHour").val(chunks[0]+":"+chunks[1]);
 				}
-				else $("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY"));
+				else $("#edit_academic_event_endHour").hide();
 			}
 			else {
-				$("#academic_event_end").parent().parent().addClass("hidden");
-				$("#academic_event_start").prev().addClass("hidden");
+				$("#edit_academic_event_end").parent().parent().hide();
+				$("#edit_academic_event_start").prev().hide();
 			}
 			var deadline=data.deadline;
 			if(deadline=="false"){
-				$("#academic_event_deadline input").hide();
-				$("#academic_event_deadline input").prop("checked",false);
+				$("#edit_academic_event_deadline input").hide();
+				$("#edit_academic_event_deadline input").prop("checked",false);
 				}
 			else {
-				$("#academic_event_deadline input").show();
-				$("#academic_event_deadline input").prop("checked",true);
+				$("#edit_academic_event_deadline input").show();
+				$("#edit_academic_event_deadline input").prop("checked",true);
 			}
 			var category_id=data.category_id;
 			var category_name=data.category_name;
 			var recurrence=get_recursion(data.recurrence);
 			//var academic_event_pract_details=data.pract_details;
-			$("#academic_event_recurrence").html(recurrence);
+			$("#edit_academic_event_recurrence").val(recurrence);
 
 			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
 			if(recurrence=="jamais")
-				$("#academic_event_recurrence_end").parent().addClass("hidden");
+				$("#edit_academic_event_recurrence_end").parent().hide();
 			else{
-				$("#academic_event_recurrence_end").parent().removeClass("hidden");
+				$("#edit_academic_event_recurrence_end").parent().show();
 				var end_recurrence=moment(data.end_recurrence);
-				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
+				$("#edit_academic_event_recurrence_end").val(end_recurrence.format("dddd, MMMM Do YYYY"));
 				}
 			var favourite=data.favourite;
 			var team=data.team;
 			var pathways=data.pathways;
 			//populate alert with global event data
-			$("#academic_event_title").html(academic_event_title);
-			$("#academic_event_details").html(academic_event_description);
-			$("#academic_event_category").html(category_name);
-			$("#academic_event_place").html(academic_event_place);
-			//$("#academic_event_pract_details_body").html(academic_event_pract_details);
-			$("#academic_event_team_table").html("");
+			$("#edit_academic_event_title").val(academic_event_title);
+			$("#edit_academic_event_details").val(academic_event_description);
+			$("#edit_academic_event_category").val(category_name);
+			$("#edit_academic_event_place").val(academic_event_place);
+			//$("#academic_event_pract_details_body").val(academic_event_pract_details);
+			$("#edit_academic_event_team_table").val("");
 			for(var i=0;i<team.length;i++)
-				$("#academic_event_team_table").append("<p team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></p>")
-			$("#academic_event_pathways_table").html("");
+				$("#edit_academic_event_team_table").append("<tr><td team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></td></tr>")
+			$("#edit_academic_event_pathways_table").val("");
 			for(var i=0;i<pathways.length;i++)
-				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>")
+				$("#edit_academic_event_pathways_table").append("<tr><td pathway-id="+pathways[i].id+">"+pathways[i].name+"</td></tr>")
 			
 		},
 		error: function(xhr, status, error) {
