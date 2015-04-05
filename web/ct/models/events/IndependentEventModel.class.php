@@ -175,10 +175,7 @@ class IndependentEventModel extends AcademicEventModel{
 	 * @retval array|boolean if error
 	 */
 	public function getPathways($eventId){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
-			//TODO SET ERROR
-			return false;
-		}
+	
 		return $this->sql->select("independent_event_pathway NATURAL JOIN pathway", "Id_Event=".$eventId, array("Id_Pathway", "Name_Long", "Name_Short"));
 	}
 	
