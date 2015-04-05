@@ -15,6 +15,7 @@
 	use ct\models\FilterCollectionModel;
 	use ct\models\filters\EventTypeFilter;
 	use ct\models\filters\AccessFilter;
+	use ct\models\filters\RecurrenceFilter;
 
 	/**
 	 * @class ProfessorProfileController 
@@ -55,6 +56,7 @@
 			// get independent events
 			$filter_collection = new FilterCollectionModel();
 			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_INDEPENDENT));
+			$filter_collection->add_filter(new RecurrenceFilter(false, true));
 			$filter_collection->add_access_filter(new AccessFilter());
 
 			$indep_events = $filter_collection->get_events();

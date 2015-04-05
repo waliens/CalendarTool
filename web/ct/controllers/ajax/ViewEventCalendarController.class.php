@@ -124,6 +124,7 @@ class ViewEventCalendarController extends AjaxController
 				$ret['team'] = $team;
 				
 				$path = $model->getPathways($eventId);
+				
 				if(is_array($path))
 				$path = array_map(function($arr){
 					$ret = $arr;
