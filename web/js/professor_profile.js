@@ -804,7 +804,7 @@ $("#years_list").on("click","a",function(event){
 			$("#new_global_cours_details").html("");
 			$("#new_global_cours_feedback").html("");
 			var courses=data.courses;
-			$("$global_course_list").html("");
+			$("#global_course_list").html("");
 			for(var i=0;i<courses.length;i++){
 				//var shortText=courses[i].nameShort;
 				//shortText = jQuery.trim(shortText).substring(0, 40) + "...";
