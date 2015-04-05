@@ -544,10 +544,19 @@
                   <td class="text-bold width-80 vertical-middle">Détails</td>
                   <td id="academic_event_details"></td>
                 </tr>
-                <!--                <tr id="academic_event_pract_details">
+                <tr id="academic_event_pract_details">
                   <td class="text-bold width-80">Détails pratiques</td>
                   <td id="academic_event_pract_details_body"></td>
-                </tr>-->
+                </tr>
+                <tr>
+                    <td class="text-bold width-80 vertical-middle">Charge de Travail</td>
+                    <td id="academic_event_workload">
+                    </td>
+                  </tr>
+                  <tr id="new_soubevent_feedback">
+                    <td class="text-bold width-80">Feedback</td>
+                    <td id="academic_event_feedback_body"></td>
+                  </tr>
                 <tr>
                   <td class="text-bold width-80">Sections</td>
                   <td id="academic_event_pathways_table" class="table"><!--FILLED BY AJAX WITH LIST PATHWAYS--></td>
@@ -642,15 +651,15 @@
                     <td><label for="edit_academic_event_details" class="sr-only">Détails</label>
                       <input class="form-control" id="edit_academic_event_details" placeholder="Détails de l'événement"></td>
                   </tr>
-                  <tr id="new_soubevent_feedback">
+                  <tr id="edit_academic_event_feedback">
                     <td class="text-bold width-80">Feedback</td>
                     <td><label for="edit_academic_event_feedback_body" class="sr-only">Feedback</label>
                       <input class="form-control" id="edit_academic_event_feedback_body" placeholder="Feedback pour l'événement"></td>
                   </tr>
-                  <tr id="new_soubevent_pract_details">
+                  <tr id="edit_academic_event_pract_details">
                     <td class="text-bold width-80">Détails pratiques</td>
-                    <td><label for="new_soubevent_pract_details_body" class="sr-only">Détails pratiques</label>
-                      <input class="form-control" id="new_soubevent_pract_details_body" placeholder="Détails pratiques pour l'étudiants"></td>
+                    <td><label for="edit_academic_event_pract_details_body" class="sr-only">Détails pratiques</label>
+                      <input class="form-control" id="edit_academic_event_pract_details_body" placeholder="Détails pratiques pour l'étudiants"></td>
                   </tr>
                 </table>
               </form>
@@ -683,7 +692,7 @@
         </div>
         <div class="modal-footer">
           <div class='text-center' id='edit_academic_event_btns'>
-            <button type='button' class='btn btn-primary' type="submit" disabled="disabled" id="edit_academic_event_creation_confirm">
+            <button type='button' class='btn btn-primary' type="submit" id="edit_academic_event_creation_confirm">
             Confirmer
             </button>
             <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>

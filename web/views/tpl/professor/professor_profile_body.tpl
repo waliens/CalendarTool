@@ -39,6 +39,8 @@
       <table class="table" id="independent-events">
         <tr class="text-bold">
           <td>Titre</td>
+          <!--<td>Quand</td>
+          <td>Récurrence</td>-->
           <td class="width-30">Modifier</td>
           <td class="width-30">Supprimer</td>
         </tr>
