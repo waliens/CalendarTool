@@ -705,7 +705,7 @@ function edit_private_event(){
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
 		//populate event category list
-		populate_event_categories_dropdown("private_event_categories_dropdown");
+		populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
 	}
 }
 	
