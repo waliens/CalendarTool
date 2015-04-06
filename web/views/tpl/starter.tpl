@@ -12,6 +12,9 @@
 
   <title>MyULG Calendar Tool {if !empty($title)}- {$title}{/if}</title>
 
+  <script>
+    var student = {$is_student_str};
+  </script>
   <!-- Custom styles for this template -->
   {$includes}
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
