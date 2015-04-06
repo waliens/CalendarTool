@@ -949,18 +949,20 @@ use \DateInterval;
 		/**
 		 * Shift all the event from the same recur of a certain amount of days
 		 * @param int $idRec
-		 * @param string $table
 		 * @param DateInterval $shift
 		 */
-		public function setDateRecur($idRec, $table, $shift){
+		public function setDateRecur($idRec, $shift){
 			$days = $shift->days;
 			$query ="";
-			if($table = "deadline_event")
-				$query = "UPDATE ".$this->sql->quote($table)." NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
+			$query = "UPDATE deadline_event NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
 						 WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
-			else 
-				$query = "UPDATE ".$this->sql->quote($table)." NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAYS), 
+			$ret = $this->sql->execute_query($query);
+			$query = "UPDATE time_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY), 
 						End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
-			return $this->sql->execute_query($query);
+			$ret |= $this->sql->execute_query($query);
+			$query = "UPDATE date_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY),
+			End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			$ret |= $this->sql->execute_query($query);
+			return $ret;
 		}
 	}
