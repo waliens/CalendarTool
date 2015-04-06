@@ -118,7 +118,7 @@ class ViewEventController extends AjaxController
 			else 
 				$ret['annotation'] = "";
 			
-			if($indep || $sub){
+			if($indep || $sub) {
 				$team = $model->getTeam($eventId);
 				if(is_array($team))
 					$team = array_map(function($arr){
