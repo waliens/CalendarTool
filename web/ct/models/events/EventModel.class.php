@@ -120,7 +120,6 @@ use \DateInterval;
 		
 		/**
 		 * @brief Get an event from the bdd (this function check the args)
-		 * @param $type type of event
 		 * @param $requestedData what we want to obtain (nothing for *)
 		 * @param $infoData what we know about the event
 		 * @retval mixed an array containing the data false otherwise

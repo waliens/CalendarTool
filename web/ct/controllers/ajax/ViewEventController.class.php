@@ -118,7 +118,7 @@ class ViewEventController extends AjaxController
 			else 
 				$ret['annotation'] = "";
 			
-			if($indep || $sub){
+			if($indep || $sub) {
 				$team = $model->getTeam($eventId);
 				if(is_array($team))
 					$team = array_map(function($arr){
@@ -130,16 +130,20 @@ class ViewEventController extends AjaxController
 				$ret['team'] = $team;
 				
 				$path = $model->getPathways($eventId);
+
 				if(is_array($path))
 					$path = array_map(function($arr){
 						$ret = $arr;
-						$ret['id'] = $ret['Id_Pathway'];
-						$ret['name'] = $ret['Name_Long'];
+						$ret['id'] = $ret['id'];
+						$ret['name'] = $ret['name_long'];
 						unset($ret['user']);
 						return $ret;
 					}, $path);
 				
 				$ret['pathways'] = $path;
+				$ret['pract_details'] = $data['Practical_Details'];
+				$ret['workload'] = $data['Workload'];
+				$ret['feedback'] = $data['Feedback'];
 			}
 			
 			if($data['Id_Recurrence'] != intval(1)){

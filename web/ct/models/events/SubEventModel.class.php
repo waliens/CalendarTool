@@ -162,23 +162,16 @@ class SubEventModel extends AcademicEventModel{
 	 * @param int $eventId
 	 * @retval array (id,name_long, name_short)
 	 */
-	public function getPathways($eventId){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_sub_event($eventId)){
-			return false;
-		}
-		
+	public function getPathways($eventId)
+	{	
 		$idGlob = $this->getIdGlobal($eventId);
+
+		if(!$idGlob)
+			return false;
 		
-		$query  =  "SELECT Id_Pathway AS id, Name_Long AS name_long, Name_Short AS name_short
-		FROM pathway NATURAL JOIN
-		( SELECT Id_Pathway
-		FROM global_event_pathway
-		WHERE Id_Global_Event = ? AND NOT Id_Pathway NOT IN (SELECT Id_Pathway FROM sub_event_excluded_pathway WHERE Id_Event  = ?)) AS paths;";
-		
-		return $this->sql->execute_query($query, array($idGlob, $eventId));
+		$glob_mod = new GlobalEventModel();
+		return $glob_mod->get_global_event_pathways(array("id" => $idGlob));
 	}
-	
-	
 	
 	/**
 	 * @brief exclude a pathway for a specific sub event

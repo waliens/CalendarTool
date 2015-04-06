@@ -50,8 +50,27 @@ class AcademicEventModel extends EventModel{
 		else
 			return false;
 	}
-	
-	
+
+	/**
+	 * @copydoc EventModel::getEvent
+	 */
+	public function getEvent (array $infoData = null, array $requestedData = null)
+	{
+		$event = parent::getEvent($infoData, $requestedData);
+
+		// check whether the getEvent has worked
+		if(!$event)
+			return false;
+					
+		if($requestedData != null || !isset($infoData['id_event']))
+			return $event;
+		
+		// get the academic event data
+		$acad_event = $this->sql->select_one("academic_event", "Id_Event = ".$this->sql->quote($infoData['id_event']));
+
+		return !!$acad_event ? array(array_merge($event[0], $acad_event)) : $event;
+	}
+
 	/**
 	 * @brief create a range of identical events with the same recur number
 	 * @param array $data the data (as you will insert if you only insert one) (erxept the date)
@@ -199,7 +218,7 @@ class AcademicEventModel extends EventModel{
 		$ids = $col->get_filtered_events_ids();
 		$ret = array();
 		foreach($ids as $key => $value){
-			$event = $this->getEvent(array("name", "start", "end"), array("id_event" => $value));
+			$event = $this->getEvent(array("id_event" => $value), array("name", "start", "end"));
 			$eventRet['name'] = $event['Name'];
 			$eventRet['start'] = $event['Start'];
 			$eventRet['end'] = $event['End'];
