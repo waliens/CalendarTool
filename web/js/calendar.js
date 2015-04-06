@@ -680,6 +680,7 @@ function edit_private_event(){
 		//make all event info editable
 		$("#private_event_title").prop("readonly",false);
 		$("#private_event_startDate_datepicker").prop("disabled",false);
+		$("#private_event_startDate_datepicker").prop("readonly",false);
 		$("#deadline input").prop("disabled",false);
 		$("#private_event_startHour").removeClass("hidden");
 		$("#private_event_startHour").prop("disabled",false);
@@ -687,6 +688,7 @@ function edit_private_event(){
 			$("#private_event_endDate").parent().removeClass("hidden");
 			$("#private_event_endDate").prop("disabled",false);
 			$("#private_event_endDate_datepicker").prop("disabled",false);
+			$("#private_event_endDate_datepicker").prop("readonly",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
 			$("#private_event_endHour").prop("disabled",false);
@@ -1148,14 +1150,14 @@ function populate_public_event(event){
 			isSet($("#event_place"));
 			isSet($("#event_details"));
 			//check if it's an all day event
-			if(calEvent.allDay){
+			if(data.startHour==""&&data.endHour==""){
 				event_all_day=true;
-				$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY'));
+				var start=new momement(data.startDay);
+				$("#startDate").text(start.format('dddd DD MMM YYYY'));
 				//check if there's an end date
-				if(calEvent.end){
-					if(!calEvent.end.isSame(calEvent.start))
-						calEvent.end.subtract(1,"day");
-					$("#endDate").text(calEvent.end.format('dddd DD MMM YYYY'));
+				if(data.end!=""){
+					var end=new moment(data.end);
+					$("#endDate").text(end.format('dddd DD MMM YYYY'));
 					
 					$("#endDate").removeClass("hidden");
 					$("#endDate_label").removeClass("hidden");
@@ -1169,9 +1171,11 @@ function populate_public_event(event){
 			}
 			else {
 				event_all_day=false;
-				$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.start.format("HH:mm"));
-				if(calEvent.timeType!="deadline"){
-					$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
+				var start=new moment(data.startDay);
+				var timeStart=data.startTime.split(":")
+				$("#startDate").text(start.format('dddd DD MMM YYYY')+" "+timeStart[0]+":"+timeStart[1]);
+				if(data.type!="deadline"){
+					$("#endDate").text(start.format('dddd DD MMM YYYY')+" "+timeStart[0]+":"+timeStart[1]);
 					$("#endDate").removeClass("hidden");
 					$("#endDate_label").removeClass("hidden");
 					$("#startDate_label").removeClass("hidden");
@@ -1186,15 +1190,15 @@ function populate_public_event(event){
 				
 			}
 			//populate place,prof and details
-			$("#event_place").text(calEvent.place);
-			$("#event_owner").text(calEvent.owner);
+			$("#event_place").text(data.place);
+			$("#event_owner").text(data.professor);
 			$("#event_owner").parent().parent().removeClass("hidden");
-			$("#event_details").text(calEvent.details);
+			$("#event_details").text(data.details);
 			//check if the event has notes or not
 			if($("#notes_body")){
 				$("#add_notes").addClass("hidden");
 				$("#notes").removeClass("hidden");
-				$("#notes_body").text(calEvent.notes);
+				$("#notes_body").text(data.notes);
 			}
 			else{
 				$("#add_notes").removeClass('hidden');
