@@ -21,7 +21,6 @@ class IndependentEventModel extends AcademicEventModel{
 		$this->fields_ind = array("Id_Event" => "int", "Id_Owner" => "int", "Public" => "bool");
 
 		$this->table[2]= "independent_event";
-	
 	}
 	
 	/**
@@ -204,6 +203,34 @@ class IndependentEventModel extends AcademicEventModel{
 		
 		$a =  $this->sql->delete("independent_event_pathway", $data);
 		
+	}
+
+	/**
+	 * @brief Return the list of users that can be added to the indep. event team
+	 * @param[in] int $eventId The identifier of the event
+	 * @retval array|bool An array containing the Id_User, Name and Surname of the people that can be added to the indep. event team
+	 */
+	public function getAddableUsers($eventId)
+	{
+		$query  =  "SELECT Id_User, Name, Surname FROM user
+		 			WHERE Id_User NOT IN ( SELECT Id_User FROM independent_event_manager WHERE Id_Event = ? )
+		 			ORDER BY Name;";
+
+		return $this->sql->execute_query($query, array($eventId));
+	}
+
+	/**
+	 * @brief Return the list of pathways that can still be associated with the event
+	 * @param[in] int $eventId The identifier of the event
+	 * @retval array|bool An array containing the Id_Pathway, Name_Long, Name_Short of the pathways that can be associated
+	 */
+	public function getAddablePathways($eventId)
+	{
+		$query  =  "SELECT Id_Pathway, Name_Long, Name_Short FROM pathway
+		 			WHERE Id_Pathway NOT IN ( SELECT Id_Pathway FROM independent_event_pathway WHERE Id_Event = ? )
+		 			ORDER BY Name_Long;";
+
+		return $this->sql->execute_query($query, array($eventId));
 	}
 }
 
