@@ -1455,7 +1455,9 @@ function delete_private_event(applyRecursive){
 				launch_error_ajax(data.error);
 				return;
 			}
-			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id==event_id_fc)return true});
+			if(applyRecursive)
+				$('#calendar').fullCalendar('removeEvents', function(element){if(element.id==event_id_fc)return true});
+			else $('#calendar').fullCalendar('removeEvents', function(element){if(element.id_server==event_id)return true});
 			//hide the modal
 			$("#private_event").modal("hide");
 		},
