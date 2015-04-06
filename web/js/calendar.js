@@ -312,9 +312,9 @@ $(document).ready(function() {
 				modal_shown="#private_event";
 				}
 			else{	//public event
-				$("#event_info").attr("event-id",calEvent.id_server);
-				$("#event_info").modal("show");
-				modal_shown="#event_info";
+				$("#academic_event_info_modal").attr("event-id",calEvent.id_server);
+				$("#academic_event_info_modal").modal("show");
+				modal_shown="#academic_event_info_modal";
 				populate_public_event(calEvent);
 				}
 			
@@ -322,31 +322,33 @@ $(document).ready(function() {
 		
 		//handle clicks within the calendar
 		dayClick: function(date, jsEvent, view) {
-			edit_existing_event=false;
-			var target = date.format();
-			buildDatePicker("private_event",target);
-			$("#private_event_modal_header").text("Nouvel événement privé");
-			$("#private_event_modal_header").removeClass("float-left-10padright");
-			$("#private_event_title").prop("readonly",false);
-			$("#private_event_startDate_datepicker").prop("disabled",false);
-			$("#private_event_startDate_datepicker").prop("readonly",false);
-			$("#private_event_endDate_datepicker").prop("disabled",false);
-			$("#private_event_endDate_datepicker").prop("readonly",false);
-			$("#private_event_startHour").prop("disabled",false);
-			$("#private_event_endHour").prop("disabled",false);
-			$("#private_event_place").prop("readonly",false);
-			$("#recurrence_btn").prop("disabled",false);
-			$("#private_event_type_btn").prop("disabled",false);
-			$("#private_event_details").prop("readonly",false);
-			$("#deadline input").prop("disabled",false);
-			//$("#private_event_startHour").prop("readonly",false);
-			//$("#private_event_endHour").prop("readonly",false);
-			$("#private_notes_body").prop("readonly",false);
-			$("#edit_event_btns").removeClass("hidden");
-			$("#private_event").modal("show");
-			$("#edit_private_event").addClass('hidden');
-			$("#delete_private_event").addClass('hidden');
-			setTimeInterval(date,view);
+			if(student){
+				edit_existing_event=false;
+				var target = date.format();
+				buildDatePicker("private_event",target);
+				$("#private_event_modal_header").text("Nouvel événement privé");
+				$("#private_event_modal_header").removeClass("float-left-10padright");
+				$("#private_event_title").prop("readonly",false);
+				$("#private_event_startDate_datepicker").prop("disabled",false);
+				$("#private_event_startDate_datepicker").prop("readonly",false);
+				$("#private_event_endDate_datepicker").prop("disabled",false);
+				$("#private_event_endDate_datepicker").prop("readonly",false);
+				$("#private_event_startHour").prop("disabled",false);
+				$("#private_event_endHour").prop("disabled",false);
+				$("#private_event_place").prop("readonly",false);
+				$("#recurrence_btn").prop("disabled",false);
+				$("#private_event_type_btn").prop("disabled",false);
+				$("#private_event_details").prop("readonly",false);
+				$("#deadline input").prop("disabled",false);
+				//$("#private_event_startHour").prop("readonly",false);
+				//$("#private_event_endHour").prop("readonly",false);
+				$("#private_notes_body").prop("readonly",false);
+				$("#edit_event_btns").removeClass("hidden");
+				$("#private_event").modal("show");
+				$("#edit_private_event").addClass('hidden');
+				$("#delete_private_event").addClass('hidden');
+				setTimeInterval(date,view);
+			}
 		},
 		//function to be called when private event is dragged and dropped
 		eventDrop:
@@ -591,7 +593,7 @@ function save_note(){
 		$("#edit_note").removeClass("hidden");
 		$("#delete_note").removeClass("hidden");
 		//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
-		$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
+		$(".modal-backdrop").on("click",function(){$("#academic_event_info_modal").modal("hide")});
 	if(edit_existing_note){
 		//send new data to server
 		$.ajax({
@@ -762,7 +764,7 @@ function abort_edit_event(){
 	//hide save, abort buttons
 	$("#edit_event_btns").addClass("hidden");
 	//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
-	$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
+	$(".modal-backdrop").on("click",function(){$("#academic_event_info_modal").modal("hide")});
 	}
 	
 //builds the object datepicker
@@ -1125,77 +1127,95 @@ function populate_private_event(event){
 	
 function populate_public_event(event){
 	var event_id=event.id_server;
+	var req="056";//subevent by default
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "index.php?src=ajax&req=056&event="+event_id,
-		async : true,
+		url : "index.php?src=ajax&req="+req+"&event="+event_id,
+		async: true,
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
 			{	
 				launch_error_ajax(data.error);
 				return;
+			}	
+			//{name, details, pract_details, where, limit, start, end, type, recursiveID, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], softAdd}
+			var academic_event_id=data.id;
+			var academic_event_title=data.name;
+			var academic_event_description=data.description;
+			var academic_event_place=data.place;
+			if(academic_event_place==null)
+				$("#academic_event_place").parent().hide();
+			else $("#academic_event_place").parent().show();
+			var academic_event_type=data.type;
+			var academic_event_start=moment(data.startDay);
+			if(data.startTime!=""){
+				var chunks=data.startTime.split(":");
+				academic_event_start.set("hour",chunks[0]);
+				academic_event_start.set("minute",chunks[1]);
+				$("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY, h:mm a"));
 			}
-			
-			//{id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, start_recurrence, end_recurrence, favourite}
-			$("#event-title").text(data.name);
-			$("#event_place").text(data.place);
-			$("#event_owner").text(data.professor);
-			$("#event_details").text(data.description);
-			$("#event_category").text(data.category_name);
-			$("#event_category").attr("category-id",data.category_id);
-			$("#notes_body").text(data.annotation);
-			//check if place and details are filled otherwise hide them
-			isSet($("#event_place"));
-			isSet($("#event_details"));
-			//check if it's an all day event
-			if(data.startHour==""&&data.endHour==""){
-				event_all_day=true;
-				var start=new momement(data.startDay);
-				$("#startDate").text(start.format('dddd DD MMM YYYY'));
-				//check if there's an end date
-				if(data.end!=""){
-					var end=new moment(data.end);
-					$("#endDate").text(end.format('dddd DD MMM YYYY'));
-					
-					$("#endDate").removeClass("hidden");
-					$("#endDate_label").removeClass("hidden");
-					$("#startDate_label").removeClass("hidden");
+			else $("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY"));
+			var academic_event_end;
+			if(data.endDay!=""){
+				$("#academic_event_end").parent().removeClass("hidden");
+				academic_event_end=moment(data.endDay);
+				if(data.endTime!=""){
+					var chunks=data.endTime.split(":");
+					academic_event_end.set("hour",chunks[0]);
+					academic_event_end.set("minute",chunks[1]);
+					$("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY, h:mm a"));
 				}
-				else {
-					$("#endDate").addClass("hidden");
-					$("#endDate_label").addClass("hidden");
-					$("#startDate_label").addClass("hidden");
-				}
+				else $("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY"));
 			}
 			else {
-				event_all_day=false;
-				var start=new moment(data.startDay);
-				var timeStart=data.startTime.split(":")
-				$("#startDate").text(start.format('dddd DD MMM YYYY')+" "+timeStart[0]+":"+timeStart[1]);
-				if(data.type!="deadline"){
-					$("#endDate").text(start.format('dddd DD MMM YYYY')+" "+timeStart[0]+":"+timeStart[1]);
-					$("#endDate").removeClass("hidden");
-					$("#endDate_label").removeClass("hidden");
-					$("#startDate_label").removeClass("hidden");
-					$("#deadline_public_event").addClass("hidden");
-				}
-				else{
-					$("#endDate_label").addClass("hidden");
-					$("#startDate_label").addClass("hidden");
-					$("#deadline_public_event").removeClass("hidden");
-					$("#deadline_public_event input").prop("checked","checked");
-					}
-				
+				$("#academic_event_end").parent().addClass("hidden");
 			}
-			//populate place,prof and details
-			$("#event_place").text(data.place);
-			$("#event_owner").text(data.professor);
-			$("#event_owner").parent().parent().removeClass("hidden");
-			$("#event_details").text(data.details);
+			var deadline=data.deadline;
+			if(deadline=="false")
+				$("#academic_event_deadline").hide();
+			else {
+				$("#academic_event_deadline").show();
+				$("#academic_event_deadline input").prop("checked",true);
+			}
+			var category_id=data.category_id;
+			var category_name=data.category_name;
+			var recurrence=get_recursion(data.recurrence);
+			//var academic_event_pract_details=data.pract_details;
+			$("#academic_event_recurrence").html(recurrence);
+
+			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
+			if(recurrence=="Jamais")
+				$("#academic_event_recurrence_end").parent().addClass("hidden");
+			else{
+				$("#academic_event_recurrence_end").parent().removeClass("hidden");
+				var end_recurrence=moment(data.end_recurrence);
+				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
+				}
+			var pract_details=data.pract_details;
+			var feedback=data.feedback;
+			var workload=data.workload;
+			var favourite=data.favourite;
+			var team=data.team;
+			var pathways=data.pathways;
+			//populate alert with global event data
+			$("#academic_event_title").html(academic_event_title);
+			$("#academic_event_details").html(academic_event_description);
+			$("#academic_event_category").html(category_name);
+			$("#academic_event_place").html(academic_event_place);
+			$("#academic_event_pract_details_body").html(pract_details);
+			$("#academic_event_feedback_body").html(feedback);
+			$("#academic_event_workload").html(workload);
+			$("#academic_event_team_table").html("");
+			for(var i=0;i<team.length;i++)
+				$("#academic_event_team_table").append("<p team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></p>")
+			$("#academic_event_pathways_table").html("");
+			for(var i=0;i<pathways.length;i++)
+				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>");
 			//check if the event has notes or not
-			if($("#notes_body")){
+			$("#notes_body").text(data.annotation);
+			if($("#notes_body").text()!=""){
 				$("#add_notes").addClass("hidden");
 				$("#notes").removeClass("hidden");
 				$("#notes_body").text(data.notes);
@@ -1204,10 +1224,8 @@ function populate_public_event(event){
 				$("#add_notes").removeClass('hidden');
 				$("#notes").addClass("hidden");
 				}
-				
-			
 		},
-		error : function(xhr, status, error) {
+		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});

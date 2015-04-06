@@ -28,7 +28,7 @@
        L'exportation statique est prêt à être téléchargé.
       </div>
       <div class="modal-footer text-center">
-        <a id="static_export_file" role="button" target="_self" href="" tabindex="0" class="btn btn-primary padding-6-55" data-dismiss="modal">Télécharger</a>
+        <a id="static_export_file" target="_blank" href="" class="btn btn-primary padding-6-55">Télécharger</a>
       </div>
       </div>
   </div>

@@ -2,7 +2,7 @@
 
 //update the navbar
 $("#navbar li").removeClass("active");
-$("#private_events").addClass("active");
+$("#private_events_page").addClass("active");
 
 //dates picker
 var datepicker = {"private_event":0,"recurrence_end":0};
@@ -170,6 +170,7 @@ function populate_private_event(event){
 			$("#private_event_modal_header").text(title);
 			//adds edit/delete icons next to title
 			$("#edit_private_event").removeClass("hidden");
+			$("#edit_private_event .edit").attr("disabled",false);
 			$("#delete_private_event").removeClass("hidden");
 			//define delete popup alert based on whether the event is private or not
 			if(data.recurrence!="6"){//the event is recurrent
@@ -227,6 +228,7 @@ function edit_private_event(){
 		//make all event info editable
 		$("#private_event_title").prop("readonly",false);
 		$("#private_event_startDate_datepicker").prop("disabled",false);
+		$("#private_event_startDate_datepicker").prop("readonly",false);
 		$("#deadline input").prop("disabled",false);
 		$("#private_event_startHour").removeClass("hidden");
 		$("#private_event_startHour").prop("disabled",false);
@@ -234,6 +236,7 @@ function edit_private_event(){
 			$("#private_event_endDate").parent().removeClass("hidden");
 			$("#private_event_endDate").prop("disabled",false);
 			$("#private_event_endDate_datepicker").prop("disabled",false);
+			$("#private_event_endDate_datepicker").prop("readonly",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
 			$("#private_event_endHour").prop("disabled",false);
@@ -286,7 +289,7 @@ function edit_private_event(){
 	}
 }
 	
-//abort edit info
+/*//abort edit info
 function abort_edit_event(){
 	//bind edit button to handler
 	$("#edit_private_event .edit").attr("disabled",false);
@@ -304,7 +307,7 @@ function abort_edit_event(){
 	$("#edit_event_btns").addClass("hidden");
 	//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
 	$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
-	}
+	}*/
 
 //confirm the edit of an existing event
 function confirm_edit_private_event(){

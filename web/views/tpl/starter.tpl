@@ -32,7 +32,7 @@
           <li id="calendar_nav" class="active"><a href="index.php">Calendrier</a></li>
           <li id="profile_nav"><a href="?page=profile">Profil</a></li>
           <li id="static_export_page"><a href="?page=static_export">Export statique</a></li>
-          {if $is_student}<li id="private_events"><a href="?page=private_events">&Eacute;venements privés</a></li>{/if}
+          {if $is_student}<li id="private_events_page"><a href="?page=private_events">&Eacute;vénements privés</a></li>{/if}
           <li><a href="?page=disonnect">Déconnexion</a></li>
         </ul>
       </div>

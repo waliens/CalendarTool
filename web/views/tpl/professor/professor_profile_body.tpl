@@ -1,7 +1,7 @@
 <div class="container marg-top-40">
   <div class="panel panel-primary width-70 center marg-bot-40">
     <div class="panel-heading">
-      <h3 class="panel-title text-center">Profile</h3>
+      <h3 class="panel-title text-center">Profil</h3>
     </div>
     <div class="panel-body">
       <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Membre de la faculté</span></p>
@@ -15,7 +15,7 @@
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <table class="table" id="global_events">
         <tr class="text-bold">
-          <td class="min-width-100">Course Code</td>
+          <td class="min-width-100">Code</td>
           <td>Titre</td>
           <td class="width-30">Supprimer</td>
         </tr>
