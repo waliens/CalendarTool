@@ -103,6 +103,8 @@ class ViewEventController extends AjaxController
 			else
 				$eng = false;
 			
+			if($indep)
+				$ret['owner_id'] = $data['Id_Owner'];
 			
 			if($eng)
  				$ret['category_name'] = $data['Categ_Name_EN'];
