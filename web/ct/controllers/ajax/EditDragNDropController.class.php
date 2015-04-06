@@ -71,8 +71,13 @@ class EditDragNDropController extends AjaxController
 			$previous_date = $model->getEvent(array("id_event" => $this->sg_post->value("id")), array("start"))[0]["Start"];
 			$oldStart = new DateTime($previous_date);
 			$start = new DateTime($this->sg_post->value('start'));
-			$shift = $oldStart->diff($start);
-
+			$shift = $oldStart->diff($start, false);
+			$shift = $shift->days;
+			if($oldStart > $start){
+				$shift *= -1;
+			}
+			
+			var_dump($shift);
 			$ret = $model->setDateRecur($recId, $shift);
 			
 			if(!$ret){

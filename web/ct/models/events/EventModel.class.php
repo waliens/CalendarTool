@@ -949,10 +949,10 @@ use \DateInterval;
 		/**
 		 * Shift all the event from the same recur of a certain amount of days
 		 * @param int $idRec
-		 * @param DateInterval $shift
+		 * @param int $shift
 		 */
 		public function setDateRecur($idRec, $shift){
-			$days = $shift->days;
+			$days = $shift;
 			$query ="";
 			$query = "UPDATE deadline_event NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
 						 WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
