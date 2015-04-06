@@ -134,7 +134,6 @@ class ViewEventController extends AjaxController
 				if(is_array($path))
 					$path = array_map(function($arr){
 						$ret = $arr;
-						$ret['id'] = $ret['id'];
 						$ret['name'] = $ret['name_long'];
 						unset($ret['user']);
 						return $ret;
