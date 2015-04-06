@@ -525,9 +525,9 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 				var chunks=data.startTime.split(":");
 				academic_event_start.set("hour",chunks[0]);
 				academic_event_start.set("minute",chunks[1]);
-				$("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY, h:mm a"));
+				$("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY, h:mm a"));
 			}
-			else $("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY"));
+			else $("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY"));
 			var academic_event_end;
 			if(data.endDay!=""){
 				$("#academic_event_end").parent().removeClass("hidden");
@@ -536,9 +536,9 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 					var chunks=data.endTime.split(":");
 					academic_event_end.set("hour",chunks[0]);
 					academic_event_end.set("minute",chunks[1]);
-					$("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY, h:mm a"));
+					$("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY, h:mm a"));
 				}
-				else $("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY"));
+				else $("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY"));
 			}
 			else {
 				$("#academic_event_end").parent().addClass("hidden");
@@ -562,7 +562,7 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 			else{
 				$("#academic_event_recurrence_end").parent().removeClass("hidden");
 				var end_recurrence=moment(data.end_recurrence);
-				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
+				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
 				}
 			var pract_details=data.pract_details;
 			var feedback=data.feedback;
@@ -625,7 +625,9 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			var academic_event_place=data.place;
 			var academic_event_type=data.type;
 			var academic_event_start=moment(data.startDay);
-			$("#edit_academic_event_startDate_datepicker").val(academic_event_start.format("dddd, MMMM Do YYYY"));
+			//build datepicker
+			buildDatePicker("edit_academic_event");
+			$("#edit_academic_event_startDate_datepicker").val(academic_event_start.format("dddd Do MMMM YYYY"));
 			if(data.startTime!=""){
 				var chunks=data.startTime.split(":");
 				$("#edit_academic_event_startHour").val(chunks[0]+":"+chunks[1]);
@@ -633,14 +635,12 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			var academic_event_end;
 			if(data.endDay!=""){
 				academic_event_end=moment(data.endDay);
-				$("#edit_academic_event_endDate_datepicker").val(academic_event_end.format("dddd, MMMM Do YYYY"))
+				$("#edit_academic_event_endDate_datepicker").val(academic_event_end.format("dddd Do MMMM YYYY"))
 				if(data.endTime!=""){
 					var chunks=data.endTime.split(":");
 					$("#edit_academic_event_endHour").val(chunks[0]+":"+chunks[1]);
 				}
 			}
-			//build datepicker
-			buildDatePicker("edit_academic_event");
 			//setup timepickers of new subevent modal
 			$(".time").timepicker({ 'forceRoundTime': true,'step':1  });
 			$("#edit_academic_event_endHour").on("changeTime",function(){
@@ -676,7 +676,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				$("#edit_academic_event_recurrence").html(recurrence);
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
 				var end_recurrence=moment(data.end_recurrence);
-				$("#edit_academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
+				$("#edit_academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
 				//add popup to confirm button
 				$("#edit_academic_event_creation_confirm").popover({
 					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_academic_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_academic_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
