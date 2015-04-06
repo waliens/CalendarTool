@@ -363,7 +363,7 @@ $("#new_indepevent").on("show.bs.modal",function(){
 					//check if start and end day are the same and if so we set the minTime of endHour
 					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
 						$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
-					else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
+					else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
 					})
 				//populate time pickers
 				var currentTime=new Date();
@@ -1270,7 +1270,7 @@ function buildDatePicker(option,target) {
 		datepicker[option+"_dates"].attachEvent("onClick",function(date){
 			//if start day and end day are different we have to enable all 24hours range for time pickers
 			if($("#"+option+"_endDate_datepicker").val()!=$("#"+option+"_startDate_datepicker").val()){
-				$("#"+option+"_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
+				$("#"+option+"_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
 				$("#"+option+"_startHour").timepicker("option",{maxTime:"24:00"});
 				}
 			})
