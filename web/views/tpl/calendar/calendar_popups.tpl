@@ -1,47 +1,85 @@
-<!-- EVENT INFO ALERT -->
-
-<div class="modal fade" id="event_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- SubEvent and Independent event info-->
+<div class="modal fade" id="academic_event_info_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="event-title"><!--EVENT TITLE--></h4>
+        <h4 class="modal-title" id="academic_event_title">&Eacute;vénement Academic</h4>
       </div>
       <!--modal body-->
-      <div> 
-        <!-- Table -->
-        <table class="table">
-          <tr>
-            <td class="text-bold width-80">Quand</td>
-            <td><div id="event_time"><span id="startDate_label" class="float-left-10padright text-underline">Commence</span>
-                <div id="startDate" style="float:none"></div>
-                <span id="endDate_label" class="float-left-10padright text-underline">Se termine</span>
-                <div id="endDate" style="float:none"></div>
-              </div></td>
-          </tr>
-          <tr id="deadline_public_event"><td class="text-bold">Deadline</td><td><input type="checkbox" aria-label="" disabled="disabled"></td></tr>
-          <tr>
-            <td class="text-bold width-80">Où</td>
-            <td><div id="event_place"></div></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Categorie</td>
-            <td><div id="event_category"></div></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Professeur</td>
-            <td><div id="event_owner"></div></td>
-          </tr>
-          <tr>
-            <td class="text-bold width-80">Plus info</td>
-            <td><div id="event_details"></div></td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer text-center" id="add_notes">
+      <div class="modal-body">
+        <div class="panel-group width-100 center">
+          <div class="panel panel-default">
+            <div class="panel-heading" style="height:42px">
+              <h4 class="panel-title float-left">Info</h4>
+            </div>
+            <div id="academic_event_info"> 
+              <!-- Table -->
+              <table class="table">
+                <tr>
+                  <td class="text-bold width-80">Quand</td>
+                  <td><table id="academic_event_time">
+                      <tr>
+                        <td class="width-80 text-underline">Commence</td>
+                        <td id="academic_event_start"></td>
+                      </tr>
+                      <tr>
+                        <td class="width-80 text-underline">Se termine</td>
+                        <td id="academic_event_end"></td>
+                      </tr>
+                      <tr id="academic_event_deadline">
+                        <td>Deadline</td>
+                        <td><input type="checkbox" aria-label="" disabled="disabled"></td>
+                      </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Récurrence</td>
+                  <td id="academic_event_recurrence"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Fin de la récurrence</td>
+                  <td id="academic_event_recurrence_end"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Categorie</td>
+                  <td id="academic_event_category"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Lieu</td>
+                  <td id="academic_event_place"></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80 vertical-middle">Détails</td>
+                  <td id="academic_event_details"></td>
+                </tr>
+                <tr id="academic_event_pract_details">
+                  <td class="text-bold width-80">Détails pratiques</td>
+                  <td id="academic_event_pract_details_body"></td>
+                </tr>
+                <tr>
+                    <td class="text-bold width-80 vertical-middle">Charge de Travail</td>
+                    <td id="academic_event_workload">
+                    </td>
+                  </tr>
+                  <tr id="new_soubevent_feedback">
+                    <td class="text-bold width-80">Feedback</td>
+                    <td id="academic_event_feedback_body"></td>
+                  </tr>
+                <tr>
+                  <td class="text-bold width-80">Sections</td>
+                  <td id="academic_event_pathways_table" class="table"><!--FILLED BY AJAX WITH LIST PATHWAYS--></td>
+                </tr>
+                <tr>
+                  <td class="text-bold width-80">&Eacute;quipe</td>
+                  <td id="academic_event_team_table" class="table"><!--FILLED BY AJAX WITH LIST TEAM MEMBERS--></td>
+                </tr>
+              </table>
+            </div>
+                  <div class="modal-footer text-center" id="add_notes">
         <button type="button" class="btn btn-primary" onclick="add_note()">Ajouter note</button>
       </div>
-      <div id="notes">
+             <div id="notes">
         <table class="table">
           <tr>
             <td class="text-bold width-80 vertical-middle">Note</td>
@@ -56,6 +94,9 @@
               </div></td>
           </tr>
         </table>
+      </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -87,16 +128,16 @@
                   <tr>
                     <td class="width-80 text-underline">Commence</td>
                     <td id="new_event_startDate"><label for="new_event_startDate_datepicker" class="sr-only">Commence</label>
-                      <input id="private_event_startDate_datepicker" onclick="setSens('private_event_endDate_datepicker', 'max', 'private_event');">
+                      <input class="form-control date-picker" id="private_event_startDate_datepicker" onclick="setSens('private_event_endDate_datepicker', 'max', 'private_event');">
                       <label for="private_event_startHour" class="sr-only">Commence Heure</label>
-                      <input class="marging-10-0 time" id="private_event_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                      <input class="time form-control" id="private_event_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
                   </tr>
                   <tr>
                     <td class="width-80 text-underline">Se termine</td>
                     <td id="private_event_endDate"><label for="private_event_endDate_datepicker" class="sr-only">Se termine</label>
-                      <input class="marging-10-0" id="private_event_endDate_datepicker" onclick="setSens('private_event_startDate_datepicker', 'min','private_event');">
+                      <input class="marging-10-0 form-control date-picker" id="private_event_endDate_datepicker" onclick="setSens('private_event_startDate_datepicker', 'min','private_event');">
                       <label for="private_event_endHour" class="sr-only">Se termine Heure</label>
-                      <input class="marging-10-0 time" id="private_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                      <input class="marging-10-0 time form-control" id="private_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
                   </tr>
                   <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline();"></td></tr>
                 </table></td>

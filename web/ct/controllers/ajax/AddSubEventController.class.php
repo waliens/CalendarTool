@@ -28,7 +28,7 @@ class AddSubEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "details","limit", "start", "id_global_event", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
+		$keys = array("name", "details","limit", "start", "id_global_event", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teachingTeam");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);

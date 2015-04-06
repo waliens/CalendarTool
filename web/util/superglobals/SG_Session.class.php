@@ -19,6 +19,7 @@
 		 */
 		public function __construct()
 		{
+			parent::__construct();
 			if(!\ct\session_started())
 				session_start();
 			

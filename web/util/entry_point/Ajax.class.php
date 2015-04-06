@@ -7,9 +7,10 @@
 
     namespace util\entry_point;
     
+    use ct\controllers\ajax\UpdateTeamMember;
     use ct\controllers\ajax\EditDragNDropController;
     use ct\controllers\ajax\ViewEventCalendarController;
-    use ct\controllers\ajax\EditAcademicEventController;
+	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
     use ct\controllers\ajax\EditPrivateEventController;
     use ct\controllers\ajax\GetSubEventController;
@@ -21,7 +22,6 @@
     use ct\controllers\ajax\GetEventTypeController;
     use ct\controllers\ajax\DeleteNoteController;
     use ct\controllers\ajax\AddNoteController;
-    use ct\controllers\ajax\AddNote;
     use ct\controllers\ajax\TestController;
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
@@ -171,8 +171,12 @@
                 	return new EditAcademicEventController(false);    
                 case "086":
                 	return new ViewEventCalendarController("INDEP");   
+                case "088":
+                	return new UpdateTeamMember(true);
                 case "087":
-                    return new GetUsersAndPathwaysController();           
+                    return new GetUsersAndPathwaysController();
+                case "089":
+                	return new UpdateTeamMember(false);          
                     
                 /* Export related */
                 case "091":
@@ -187,9 +191,8 @@
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
-                
-                /* DragNDrop */
-                case "141":
+                    
+                case "131":
                 	return new EditDragNDropController();
 
                 default:

@@ -1,10 +1,10 @@
 <div class="container marg-top-40">
   <div class="panel panel-primary width-70 center marg-bot-40">
     <div class="panel-heading">
-      <h3 class="panel-title text-center">Profile</h3>
+      <h3 class="panel-title text-center">Profil</h3>
     </div>
     <div class="panel-body">
-      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Professeur</span></p>
+      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Membre de la faculté</span></p>
       <p><span class="text-info text-bold">Nom: </span><span id="user-name"><!--USERNAME--></span></p>
     </div>
   </div>
@@ -15,7 +15,7 @@
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <table class="table" id="global_events">
         <tr class="text-bold">
-          <td class="min-width-100">Course Code</td>
+          <td class="min-width-100">Code</td>
           <td>Titre</td>
           <td class="width-30">Supprimer</td>
         </tr>
@@ -39,12 +39,13 @@
       <table class="table" id="independent-events">
         <tr class="text-bold">
           <td>Titre</td>
-          <td class="width-30">Modifier</td>
-          <td class="width-30">Supprimer</td>
+          <td>Quand</td>
+          <td>Récurrence</td>
+          <td class="width-30">Modifier/Supprimer</td>
         </tr>
         <!--FILLED BY AJAX WITH LIST INDEPENDENT EVENTS-->
         <tr>
-      <td colspan="3">
+      <td colspan="4">
       <div class="text-center">
         <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event" data-toggle="modal" data-target="#new_indepevent">Ajouter événement indépendant</a>
       </div>

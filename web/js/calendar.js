@@ -176,17 +176,12 @@ function addEvents(){
 									
 							}
 						else if(instance.timeType=="deadline"){
-							end=start;
-							var chunks=end.split("T");
-							end=chunks[0];
+							end="";
+							var chunks=start.split("T");
 							var time=chunks[1];
 							var hour=time.split(":")[0];
-							var minute=time.split(":")[1];
-							end=moment(end);
-							end.hour(hour);
-							end.minute(minute);
-							end=end.add(1,"minute");
-							end=end.format("YYYY-MM-DDTHH:mm:ss");
+							start=start.split("T")[0];
+							title=hour+" "+title;
 							}
 						var id;
 						if(instance.recursive!=1){//the event is recurrent
@@ -214,6 +209,7 @@ function addEvents(){
 					//then retrieve private events
 					for(var i=0;i<calendar_data.events.private.length;i++){
 						var instance=calendar_data.events.private[i];
+						var title=instance.name;
 						//strip off the T00:00:00 for date range events
 						var start=instance.start;
 						var end=instance.end;
@@ -227,17 +223,12 @@ function addEvents(){
 								}
 							}
 						else if(instance.timeType=="deadline"){
-							end=start;
-							var chunks=end.split("T");
-							end=chunks[0];
+							end="";
+							var chunks=start.split("T");
 							var time=chunks[1];
 							var hour=time.split(":")[0];
-							var minute=time.split(":")[1];
-							end=moment(end);
-							end.hour(hour);
-							end.minute(minute);
-							end=end.add(1,"minute");
-							end=end.format("YYYY-MM-DDTHH:mm:ss");
+							start=start.split("T")[0];
+							title=hour+" "+title;
 							}
 						var id;
 						if(instance.recursive!=1){//the event is recurrent
@@ -253,7 +244,7 @@ function addEvents(){
 							id: id,
 							private: true,
 							timeType:instance.timeType,
-							title: instance.name,
+							title: title,
 							start: start,
 							end: end,
 							recursive: recurrent,
@@ -293,6 +284,7 @@ $(document).ready(function() {
 				buttonText: 'Semestre',
 			}
 		},
+		height: 550,
 		editable: true,
 		viewRender: function(view,element){
 			var current_view=getCurrentView(view.name);
@@ -320,93 +312,43 @@ $(document).ready(function() {
 				modal_shown="#private_event";
 				}
 			else{	//public event
-				$("#event_info").attr("event-id",calEvent.id_server);
-				$("#event_info").modal("show");
-				modal_shown="#event_info";
+				$("#academic_event_info_modal").attr("event-id",calEvent.id_server);
+				$("#academic_event_info_modal").modal("show");
+				modal_shown="#academic_event_info_modal";
 				populate_public_event(calEvent);
-				//check if it's an all day event
-				if(calEvent.allDay){
-					event_all_day=true;
-					$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY'));
-					//check if there's an end date
-					if(calEvent.end){
-						if(!calEvent.end.isSame(calEvent.start))
-							calEvent.end.subtract(1,"day");
-						$("#endDate").text(calEvent.end.format('dddd DD MMM YYYY'));
-						
-						$("#endDate").removeClass("hidden");
-						$("#endDate_label").removeClass("hidden");
-						$("#startDate_label").removeClass("hidden");
-					}
-					else {
-						$("#endDate").addClass("hidden");
-						$("#endDate_label").addClass("hidden");
-						$("#startDate_label").addClass("hidden");
-					}
-				}
-				else {
-					event_all_day=false;
-					$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.start.format("HH:mm"));
-					if(calEvent.timeType!="deadline"){
-						$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
-						$("#endDate").removeClass("hidden");
-						$("#endDate_label").removeClass("hidden");
-						$("#startDate_label").removeClass("hidden");
-						$("#deadline_public_event").addClass("hidden");
-					}
-					else{
-						$("#endDate_label").addClass("hidden");
-						$("#startDate_label").addClass("hidden");
-						$("#deadline_public_event").removeClass("hidden");
-						$("#deadline_public_event input").prop("checked","checked");
-						}
-					
-				}
-				//populate place,prof and details
-				$("#event_place").text(calEvent.place);
-				$("#event_owner").text(calEvent.owner);
-				$("#event_owner").parent().parent().removeClass("hidden");
-				$("#event_details").text(calEvent.details);
-				//check if the event has notes or not
-				if($("#notes_body")){
-					$("#add_notes").addClass("hidden");
-					$("#notes").removeClass("hidden");
-					$("#notes_body").text(calEvent.notes);
-				}
-				else{
-					$("#add_notes").removeClass('hidden');
-					$("#notes").addClass("hidden");
-					}
 				}
 			
 		},
 		
 		//handle clicks within the calendar
 		dayClick: function(date, jsEvent, view) {
-			edit_existing_event=false;
-			var target = date.format();
-			buildDatePicker("private_event",target);
-			$("#private_event_modal_header").text("Nouvel événement privé");
-			$("#private_event_modal_header").removeClass("float-left-10padright");
-			$("#private_event_title").prop("readonly",false);
-			$("#private_event_startDate_datepicker").prop("disabled",false);
-			$("#private_event_startDate_datepicker").prop("readonly",true);
-			$("#private_event_endDate_datepicker").prop("disabled",false);
-			$("#private_event_endDate_datepicker").prop("readonly",true);
-			$("#private_event_startHour").prop("disabled",false);
-			$("#private_event_place").prop("readonly",false);
-			$("#recurrence_btn").prop("disabled",false);
-			$("#private_event_type_btn").prop("disabled",false);
-			$("#private_event_details").prop("readonly",false);
-			$("#deadline input").prop("disabled",false);
-			//$("#private_event_startHour").prop("readonly",false);
-			//$("#private_event_endHour").prop("readonly",false);
-			$("#private_notes_body").prop("readonly",false);
-			$("#edit_event_btns").removeClass("hidden");
-			$("#private_event").modal("show");
-			$("#edit_private_event").addClass('hidden');
-			$("#delete_private_event").addClass('hidden');
-			setTimeInterval(date,view);
+			if(student){
+				edit_existing_event=false;
+				var target = date.format();
+				buildDatePicker("private_event",target);
+				$("#private_event_modal_header").text("Nouvel événement privé");
+				$("#private_event_modal_header").removeClass("float-left-10padright");
+				$("#private_event_title").prop("readonly",false);
+				$("#private_event_startDate_datepicker").prop("disabled",false);
+				$("#private_event_startDate_datepicker").prop("readonly",false);
+				$("#private_event_endDate_datepicker").prop("disabled",false);
+				$("#private_event_endDate_datepicker").prop("readonly",false);
+				$("#private_event_startHour").prop("disabled",false);
+				$("#private_event_endHour").prop("disabled",false);
+				$("#private_event_place").prop("readonly",false);
+				$("#recurrence_btn").prop("disabled",false);
+				$("#private_event_type_btn").prop("disabled",false);
+				$("#private_event_details").prop("readonly",false);
+				$("#deadline input").prop("disabled",false);
+				//$("#private_event_startHour").prop("readonly",false);
+				//$("#private_event_endHour").prop("readonly",false);
+				$("#private_notes_body").prop("readonly",false);
+				$("#edit_event_btns").removeClass("hidden");
+				$("#private_event").modal("show");
+				$("#edit_private_event").addClass('hidden');
+				$("#delete_private_event").addClass('hidden');
+				setTimeInterval(date,view);
+			}
 		},
 		//function to be called when private event is dragged and dropped
 		eventDrop:
@@ -420,17 +362,18 @@ $(document).ready(function() {
 					}
 				}
 				if(!revert){
+					var start=event.start.format("YYYY-MM-DD")+"T"+event.start.format("HH:mm:ss");
 					var end;
 					var limit=false;
 					if(event.end)
-						end=event.end.format("YYYY-MM-DDTHH:mm:ss");
+						end=event.end.format("YYYY-MM-DD")+"T"+event.end.format("HH:mm:ss");
 					if(event.timeType=="deadline")
 						limit=true;
 					$.ajax({
 						dataType : "json",
 						type : 'POST',
-						url : "index.php?src=ajax&req=141",
-						data : {id:event.id_server,start:event.start.format("YYYY-MM-DDTHH:mm:ss"),end:end,allDay:event.allDay,limit:limit},
+						url : "index.php?src=ajax&req=131",
+						data : {id:event.id_server,start:start,end:end,allDay:event.allDay,limit:limit},
 						success : function(data, status) {
 							/** error checking */
 							if(data.error.error_code > 0)
@@ -539,7 +482,7 @@ $("#calendar").on("click",".fc-prev-button",function(){
 //populate event categories of private event modal when creating a new private event
 $("#private_event").on("show.bs.modal",function(){
 	//populate event categories
-	populate_private_event_categories_dropdown();
+	populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
 	})
 	
 //set time intervals of new private event
@@ -650,7 +593,7 @@ function save_note(){
 		$("#edit_note").removeClass("hidden");
 		$("#delete_note").removeClass("hidden");
 		//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
-		$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
+		$(".modal-backdrop").on("click",function(){$("#academic_event_info_modal").modal("hide")});
 	if(edit_existing_note){
 		//send new data to server
 		$.ajax({
@@ -739,6 +682,7 @@ function edit_private_event(){
 		//make all event info editable
 		$("#private_event_title").prop("readonly",false);
 		$("#private_event_startDate_datepicker").prop("disabled",false);
+		$("#private_event_startDate_datepicker").prop("readonly",false);
 		$("#deadline input").prop("disabled",false);
 		$("#private_event_startHour").removeClass("hidden");
 		$("#private_event_startHour").prop("disabled",false);
@@ -746,9 +690,10 @@ function edit_private_event(){
 			$("#private_event_endDate").parent().removeClass("hidden");
 			$("#private_event_endDate").prop("disabled",false);
 			$("#private_event_endDate_datepicker").prop("disabled",false);
+			$("#private_event_endDate_datepicker").prop("readonly",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
-			$("#private_event_startHour").prop("disabled",false);
+			$("#private_event_endHour").prop("disabled",false);
 		}
 		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
@@ -760,47 +705,9 @@ function edit_private_event(){
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
 		//populate event category list
-		populate_private_event_categories_dropdown();
+		populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
 	}
 }
-
-function populate_private_event_categories_dropdown(){
-	$.ajax({
-				dataType : "json",
-				type : 'POST',
-				url : "index.php?src=ajax&req=047",
-				data: {lang:"FR"},
-				async : true,
-				success : function(data, status) {
-					/** error checking */
-					if(data.error.error_code > 0)
-					{	
-						launch_error_ajax(data.error);
-						return;
-					}
-
-					var student_categories=data.student;
-					var academic_categories=data.academic;
-					var dropdown=document.getElementById("private_event_categories_dropdown");
-					dropdown.innerHTML="";
-					for (i=0; i < academic_categories.length; i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+academic_categories[i].id+'">'+academic_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-					for(i=0;i<student_categories.length;i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+student_categories[i].id+'">'+student_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-				},
-				error : function(xhr, status, error) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-			});
-	}
 	
 //abort edit info
 function abort_edit_event(){
@@ -819,7 +726,7 @@ function abort_edit_event(){
 	//hide save, abort buttons
 	$("#edit_event_btns").addClass("hidden");
 	//re-enable the backdrop of the modal (when clicking outside of the modal it closes)
-	$(".modal-backdrop").on("click",function(){$("#event_info").modal("hide")});
+	$(".modal-backdrop").on("click",function(){$("#academic_event_info_modal").modal("hide")});
 	}
 	
 //builds the object datepicker
@@ -837,24 +744,24 @@ function buildDatePicker(option,target) {
 			datepicker[option] = new dhtmlXCalendarObject([elements[0].attr("id"),elements[1].attr("id")]);
 		else datepicker[option] = new dhtmlXCalendarObject(elements[0].attr("id"))
 		//set date format
-		datepicker[option].setDateFormat("%d-%m-%Y");
-		byId("startDate_datepicker").value = convert_date(event_date_start,"dddd DD MMM YYYY");
+		datepicker[option].setDateFormat("%l %d %F %Y");
+		$("#startDate_datepicker").val(convert_date(event_date_start,"dddd DD MMMM YYYY"));
 		if($("#endDate_datepicker").length>0)
-			byId("endDate_datepicker").value = convert_date(event_date_end,"dddd DD MMM YYYY");
+			$("#endDate_datepicker").val(convert_date(event_date_end,"dddd DD MMMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
+			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
 		});
 	}
 	//datepicker to be built for the end recursion
 	else if(option=="recurrence_end"){
 		datepicker[option] = new dhtmlXCalendarObject("recurrence_end");
-		datepicker[option].setDateFormat("%d-%m-%Y");
+		datepicker[option].setDateFormat("%l %d %F %Y");
 		setSens("private_event_endDate_datepicker","min","recurrence_end");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMM YYYY"));
+			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMMM YYYY"));
 		});
 		}
 	
@@ -865,12 +772,12 @@ function buildDatePicker(option,target) {
 		//set date format
 		datepicker[option].setDateFormat("%d-%m-%Y");
 		datepicker[option].setDate(target);	
-		elements[0].val(convert_date(target,"dddd DD MMM YYYY"));
-		elements[1].val(convert_date(target,"dddd DD MMM YYYY"));
+		elements[0].val(convert_date(target,"dddd DD MMMM YYYY"));
+		elements[1].val(convert_date(target,"dddd DD MMMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
+			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
 		});
 	}
 	//hide the time in the datepicker tool
@@ -893,86 +800,10 @@ function setSens(id, k, datepicker_instance) {
 function byId(id) {
 	return document.getElementById(id);
 }
-
-function convert_month(month){
-	switch(month){
-		case "janv.":
-			return "01";
-			break;
-		case "févr.":
-			return "02";
-			break;
-		case "mars":
-			return "03";
-			break;
-		case "avr.":
-			return "04";
-			break;
-		case "mai":
-			return "05";
-			break;
-		case "juin":
-			return "06";
-			break;
-		case "juil.":
-			return "07";
-			break;
-		case "août":
-			return "08";
-			break;
-		case "sept.":
-			return "09";
-			break;
-		case "oct.":
-			return "10";
-			break;
-		case "nov.":
-			return "11";
-			break;
-		case "déc.":
-			return "12";
-			break;
-		
-		}
-	}
-
-//converts date formats	
-function convert_date(date,formatDestination,formatOrigin){
-		var dd;
-		var mm;
-		var yy;
-		var chunks=date.split(" ");
-		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
-		if(chunks.length>1){
-			dd=chunks[1];
-
-			if(chunks[2].length>2)
-				mm=convert_month(chunks[2]);
-			else mm=chunks[2];
-			yy=chunks[3];
-		}
-		else {
-			chunks=date.split("-");
-			if(chunks[0].length==4){
-				dd=chunks[2];
-				mm=chunks[1];
-				yy=chunks[0];
-			}
-			else{
-				dd=chunks[0];
-				mm=chunks[1];
-				yy=chunks[2];
-
-				}
-		}
-		date_standard=yy+"-"+mm+"-"+dd;
-		var d = moment(date_standard);
-		return d.format(formatDestination);
-	}
 	
 //sets the event recurrence
 function updateRecurrence(){
-	$("#recurrence").text(event.target.innerHTML);
+	$("#recurrence").text(event.target.innerText);
 	$("#recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
 	if(event.target.innerHTML!="jamais"){
 		$("#recurrence_end_td").removeClass("hidden");
@@ -1024,25 +855,29 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 //setup timepickers of new event modal
 $(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
 $("#private_event_endHour").on("changeTime",function(){
-	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
-	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
-	if(startDate.isSame(endDate))
+	//check if start and end day are the same and if so we set the maxTime of startHour
+	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
 		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	else $("#private_event_startHour").timepicker("option",{maxTime:"24:00"});
+	if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
-$("#private_event_startHour").on("changeTime",function(){
-	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
-	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
-	if(startDate.isSame(endDate))
+	$("#private_event_startHour").on("changeTime",function(){
+	//check if start and end day are the same and if so we set the minTime of endHour
+	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
 		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+	else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
 	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-	if($("#private_event_title").val().length>0)
-		$('#edit_event_btns .btn-primary').prop("disabled", false);
-	})
+		if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
+})
 
 //populate private event modal
 function populate_private_event(event){
 	var event_id=event.id_server;
+	var event_id_fc=event.id
 	$("#delete_private_event .delete").attr("event-id",event_id);
+	$("#delete_private_event .delete").attr("event-id-fc",event_id_fc);
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
@@ -1066,7 +901,8 @@ function populate_private_event(event){
 			var event_type=data.type;
 			var title=data.name;
 			var type=data.type;
-			var start=event.start.format("dddd DD MMM YYYY");
+			var start=data.startDay;
+			var end=data.endDay;
 			var place=data.place;
 			var details=data.description;
 			var notes=data.annotation;
@@ -1074,16 +910,16 @@ function populate_private_event(event){
 			//check if event has start hour
 			var startHour;
 			var endHour;
-			if(type!="date_range"){
+			if(data.type!="date_range"){
 				$("#private_event_startHour").removeClass("hidden");
-				startHour=event.start.format("HH:mm");
-				$("#private_event_startHour").val(startHour);
+				startHour=data.startTime.split(":");
+				$("#private_event_startHour").val(startHour[0]+":"+startHour[1]); 
 				$("#private_event_startHour").prop("disabled",true);
 				if(type!="deadline"){
 					$("#private_event_endHour").removeClass("hidden");
 					$("#private_event_endHour").prop("disabled",true);
-					endHour=event.end.format("HH:mm");
-					$("#private_event_endHour").val(endHour);
+					endHour=data.endTime.split(":");
+					$("#private_event_endHour").val(endHour[0]+":"+endHour[1]);
 				}
 				//else $("#new_event_startDate").prev().addClass("hidden");
 			}
@@ -1093,10 +929,9 @@ function populate_private_event(event){
 				}
 
 			//check if the event as an end date (excluding case in which it's a deadline
-			if(event.end&&type!="deadline"){
-				if(type=="date_range"&&!event.end.isSame(start))
-					event.end.subtract(1,"day");
-				var end=event.end.format("dddd DD MMM YYYY");
+			if(end!=""&&type!="deadline"){
+				var end=new moment(end);
+				end=end.format("dddd DD MMM YYYY");
 				$("#private_event_endDate_datepicker").val(end);
 			}
 			else 	$("#private_event_endDate_datepicker").parent().parent().addClass("hidden"); 
@@ -1125,6 +960,8 @@ function populate_private_event(event){
 			if(data.deadline=="true")
 				$("#deadline input").prop("checked",true);
 			$("#new_event_startDate").prev().removeClass("hidden");
+			start=new moment(start);
+			start=start.format("dddd DD MMM YYYY");
 			$("#private_event_startDate_datepicker").val(start);
 			$("#private_event_startDate_datepicker").prop("readonly",true);
 			$("#private_event_startDate_datepicker").prop("disabled",true);
@@ -1152,58 +989,108 @@ function populate_private_event(event){
 	
 function populate_public_event(event){
 	var event_id=event.id_server;
+	var req="056";//subevent by default
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		url : "index.php?src=ajax&req=056&event="+event_id,
-		async : true,
+		url : "index.php?src=ajax&req="+req+"&event="+event_id,
+		async: true,
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
 			{	
 				launch_error_ajax(data.error);
 				return;
+			}	
+			//{name, details, pract_details, where, limit, start, end, type, recursiveID, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], softAdd}
+			var academic_event_id=data.id;
+			var academic_event_title=data.name;
+			var academic_event_description=data.description;
+			var academic_event_place=data.place;
+			if(academic_event_place==null)
+				$("#academic_event_place").parent().hide();
+			else $("#academic_event_place").parent().show();
+			var academic_event_type=data.type;
+			var academic_event_start=moment(data.startDay);
+			if(data.startTime!=""){
+				var chunks=data.startTime.split(":");
+				academic_event_start.set("hour",chunks[0]);
+				academic_event_start.set("minute",chunks[1]);
+				$("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY, h:mm a"));
 			}
-			
-			//{id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, start_recurrence, end_recurrence, favourite}
-			$("#event-title").text(data.name);
-			$("#event_place").text(data.place);
-			$("#event_owner").text(data.professor);
-			$("#event_details").text(data.description);
-			$("#event_category").text(data.category_name);
-			$("#event_category").attr("category-id",data.category_id);
+			else $("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY"));
+			var academic_event_end;
+			if(data.endDay!=""){
+				$("#academic_event_end").parent().removeClass("hidden");
+				academic_event_end=moment(data.endDay);
+				if(data.endTime!=""){
+					var chunks=data.endTime.split(":");
+					academic_event_end.set("hour",chunks[0]);
+					academic_event_end.set("minute",chunks[1]);
+					$("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY, h:mm a"));
+				}
+				else $("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY"));
+			}
+			else {
+				$("#academic_event_end").parent().addClass("hidden");
+			}
+			var deadline=data.deadline;
+			if(deadline=="false")
+				$("#academic_event_deadline").hide();
+			else {
+				$("#academic_event_deadline").show();
+				$("#academic_event_deadline input").prop("checked",true);
+			}
+			var category_id=data.category_id;
+			var category_name=data.category_name;
+			var recurrence=get_recursion(data.recurrence);
+			//var academic_event_pract_details=data.pract_details;
+			$("#academic_event_recurrence").html(recurrence);
+
+			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
+			if(recurrence=="Jamais")
+				$("#academic_event_recurrence_end").parent().addClass("hidden");
+			else{
+				$("#academic_event_recurrence_end").parent().removeClass("hidden");
+				var end_recurrence=moment(data.end_recurrence);
+				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
+				}
+			var pract_details=data.pract_details;
+			var feedback=data.feedback;
+			var workload=data.workload;
+			var favourite=data.favourite;
+			var team=data.team;
+			var pathways=data.pathways;
+			//populate alert with global event data
+			$("#academic_event_title").html(academic_event_title);
+			$("#academic_event_details").html(academic_event_description);
+			$("#academic_event_category").html(category_name);
+			$("#academic_event_place").html(academic_event_place);
+			$("#academic_event_pract_details_body").html(pract_details);
+			$("#academic_event_feedback_body").html(feedback);
+			$("#academic_event_workload").html(workload);
+			$("#academic_event_team_table").html("");
+			for(var i=0;i<team.length;i++)
+				$("#academic_event_team_table").append("<p team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></p>")
+			$("#academic_event_pathways_table").html("");
+			for(var i=0;i<pathways.length;i++)
+				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>");
+			//check if the event has notes or not
 			$("#notes_body").text(data.annotation);
-			//check if place and details are filled otherwise hide them
-			isSet($("#event_place"));
-			isSet($("#event_details"));
+			if($("#notes_body").text()!=""){
+				$("#add_notes").addClass("hidden");
+				$("#notes").removeClass("hidden");
+				$("#notes_body").text(data.notes);
+			}
+			else{
+				$("#add_notes").removeClass('hidden');
+				$("#notes").addClass("hidden");
+				}
 		},
-		error : function(xhr, status, error) {
+		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
-	}
-	
-
-//update event after drag and drop
-function confirm_drag_drop(event){
-	var new_data={"id":id,"start":start, "end":end};
-	$.ajax({
-			dataType : "json",
-			type : 'POST',
-			url : "index.php?src=ajax&req=61",
-			data : new_event,
-			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}
-			},
-				error : function(xhr, status, error) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-		});
 	}
 
 //update the calendar with the new event or confirm the edit of an existing event
@@ -1247,6 +1134,7 @@ function create_private_event(){
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=$("#recurrence").attr("recurrence-id");
 	var end_recurrence;
+	var end_recurrence_json;
 	var lastday=$('#calendar').fullCalendar('getView').end;
 	var place=$("#private_event_place").val();
 	var type=$("#private_event_type").attr("category-id")
@@ -1270,15 +1158,23 @@ function create_private_event(){
 		endjson=endstring;
 		startjson=startstring;
 		if(recurrence_id!=6){
-			end_recurrence=convert_date($("#recurrence_end").val(),"YYYY-MM-DD");
+			//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
+			if($("#recurrence_end").val()==""){
+				end_recurrence=new moment(start);
+				if(recurrence=="tous les ans")
+					end_recurrence.add(10,"year");
+				else end_recurrence.add(1,"year");
+			}
+			else end_recurrence=moment(convert_date($("#recurrence_end").val(),"YYYY-MM-DD"));
+			end_recurrence_json=end_recurrence.format("YYYY-MM-DD");
 			recurrent=true;	
 		}
 		else {
-			end_recurrence=""
+			end_recurrence_json=""
 			recurrent=false;
 		}
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1294,9 +1190,6 @@ function create_private_event(){
 					var id=guid();
 					//check if the event is recursive
 					if(recurrence!="jamais"){
-						end_recurrence=$("#recurrence_end").val();
-						if(end_recurrence!="")
-							end_recurrence=moment(convert_date(end_recurrence, "YYYY-MM-DD"));
 						var offset;
 						var offset_type;
 						switch(recurrence){
@@ -1325,13 +1218,6 @@ function create_private_event(){
 								offset_type="year";
 								recurrence_id=5;
 								break;
-						}
-						//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
-						if(end_recurrence==""){
-							end_recurrence=new moment(start);
-							if(recurrence=="tous les ans")
-								end_recurrence.add(10,"year");
-							else end_recurrence.add(1,"year");
 						}
 						var id_event=guid();
 						var i=0;
@@ -1435,6 +1321,7 @@ function create_private_event(){
 //delete private event
 function delete_private_event(applyRecursive){
 	var event_id=$("#delete_private_event .delete").attr("event-id");
+	var event_id_fc=$("#delete_private_event .delete").attr("event-id-fc");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
@@ -1447,7 +1334,9 @@ function delete_private_event(applyRecursive){
 				launch_error_ajax(data.error);
 				return;
 			}
-			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id_server==event_id)return true});
+			if(applyRecursive)
+				$('#calendar').fullCalendar('removeEvents', function(element){if(element.id==event_id_fc)return true});
+			else $('#calendar').fullCalendar('removeEvents', function(element){if(element.id_server==event_id)return true});
 			//hide the modal
 			$("#private_event").modal("hide");
 		},
@@ -1467,12 +1356,6 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
-
-//change the value of the dropdown stating the private event type
-function changePrivateEventType(){
-	$("#private_event_type").text(event.target.innerHTML);
-	$("#private_event_type").attr("category-id",event.target.getAttribute("category-id"))
-	}
 	
 function deadline(){
 	if($("#deadline input").prop("checked")){
@@ -1480,7 +1363,10 @@ function deadline(){
 		datepicker["private_event"].setSensitiveRange(null, null);
 		if($("#private_event_startHour").val().length==0)
 			$('#edit_event_btns .btn-primary').prop("disabled", true);
-		else $('#edit_event_btns .btn-primary').prop("disabled", false);
+		else {
+			if($("#private_event_title").val().length>0)
+				$('#edit_event_btns .btn-primary').prop("disabled", false);
+			}
 	}
 	else{ 
 		$("#private_event_endDate").prop("disabled",false);
@@ -1844,8 +1730,8 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
+	$("#endDateFilter").val(td.format("dddd DD MMM YYYY"));
+	$("#startDateFilter").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
 		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));

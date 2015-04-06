@@ -149,7 +149,7 @@
 		if(preg_match("#Smarty#", $class))
 			include_once("util/Smarty/libs/Smarty.class.php");
 		elseif(preg_match("#phpSec#", $class))
-			include_once("util/".preg_replace("#\\\\#", "/", $class).".class.php");
+			include_once("util/".preg_replace("#\\\\#", "/", $class).".php");
 		else
 			include_once(preg_replace("#\\\\#", "/", $class).".class.php");
 	}
@@ -493,3 +493,26 @@
 	{
 		return $arg1 | $arg2;
 	}
+	
+	/**
+	 * @brief return the numeric value of a string (work with quoted strings)
+	 * @param string $val the string
+	 * @return int number (if wrong return $val)
+	 */
+	function get_numeric($val) {
+		$var = unquote($val);
+		if (is_numeric($var)) {
+			return $var + 0;
+		}
+		return $val;
+	}
+	
+	/**
+	 * @brief unquote a given string
+	 * @param string $string
+	 */
+	function unquote($string){
+		return preg_replace("#'#", "", $string);
+		
+	}
+	

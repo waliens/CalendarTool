@@ -18,6 +18,7 @@
 	{
 		protected $pdo; /**< @brief pdo object */
 		protected $sql; /**< @brief sql abstract object */
+		protected $filter; /**< @brief phpSec Filter object */
 
 		const LOCKMODE_NO_LOCK = 1; /**< @brief Lock behaviour : no lock must be acquired */
 		const LOCKMODE_LOCK    = 2; /**< @brief Lock behaviour : only acquire the lock (no unlock) */
@@ -30,6 +31,8 @@
 		{
 			$this->pdo = Database::get_instance()->get_handle();
 			$this->sql = SQLAbstract_PDO::buildByPDO($this->pdo);
+			$psl = new \phpSec\Core();
+			$this->filter = $psl['text/filter'];
 		}
 
 		/**

@@ -6,7 +6,7 @@ var day=today.getDay();
 	
 //update the navbar
 $("#navbar li").removeClass("active");
-$("#menu_nav").addClass("active");
+$("#static_export_page").addClass("active");
 //datepickers
 var startDate;
 var endDate;
@@ -248,7 +248,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								cell1.appendChild(acad_category_tag);
 								var input=document.createElement('input');
 								input.type='checkbox';
-								input.id=academic_categories[i].name;
+								input.id=academic_categories[i].id;
 								cell2.className="text-center";
 								cell2.appendChild(input);
 								if(student_categories[i]!=null){
@@ -259,7 +259,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 									cell3.appendChild(student_category_tag);
 									var input=document.createElement('input');
 									input.type='checkbox';
-									input.id=student_categories[i].name;
+									input.id=student_categories[i].id;
 									cell4.className="text-center";
 									cell4.appendChild(input);
 								}
@@ -277,7 +277,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								cell3.appendChild(student_category_tag);
 								var input=document.createElement('input');
 								input.type='checkbox';
-								input.id=student_categories[j].name;
+								input.id=student_categories[j].id;
 								cell4.className="text-center";
 								cell4.appendChild(input);
 							}
@@ -413,26 +413,19 @@ function buildDatepickerFilter() {
 	td = moment(today);
 	filterDates= new dhtmlXCalendarObject(["startDateFilter","endDateFilter"]);
 	filterDates.hideTime();
-	filterDates.setDateFormat("%Y-%m-%d");
-	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+	filterDates.setDateFormat("%l %d %F %Y");
+	filterDates.setDate(td.format("dddd DD MMMM YYYY"),td.format("dddd DD MMMM YYYY"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
-	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
-	filterDates.attachEvent("onClick", function(date){
-		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
-		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
-	});
+	byId("endDateFilter").value = td.format("dddd DD MMMM YYYY");
+	byId("startDateFilter").value = td.format("dddd DD MMMM YYYY");
 }
 
 
 function setSens(id, k) {
 // update range
-	if (k == "min") {
-		filterDates.setSensitiveRange(convert_date(byId(id).value,"YYYY-MM-DD"), null);
-	} else {
-		filterDates.setSensitiveRange(null, convert_date(byId(id).value,"YYYY-MM-DD"));
-	}
+	if (k == "min")
+		filterDates.setSensitiveRange(byId(id).value, null);
+	else filterDates.setSensitiveRange(null, byId(id).value);
 }
 function byId(id) {
 	return document.getElementById(id);
@@ -615,7 +608,7 @@ $("input").click(function(){
 	else $("#static_export").attr("disabled",true);
 	});
 
-//send data to server after filters comple
+//send data to server after filters completion
 $("#static_export").click(function(){
 	//UNCOMMENT FOLLOWING LINE FOR TESTING WITHOUT SERVER
 	//$("#dynamic_export_download_alert").modal("show");
@@ -640,41 +633,6 @@ $("#static_export").click(function(){
 			}
 		});
 });
-
-
-//converts date formats	
-//converts date formats	
-function convert_date(date,formatDestination,formatOrigin){
-		var dd;
-		var mm;
-		var yy;
-		var chunks=date.split(" ");
-		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
-		if(chunks.length>1){
-			dd=chunks[1];
-			if(chunks[2].length<2)
-				mm=convert_month(chunks[2]);
-			else mm=chunks[2];
-			yy=chunks[3];
-		}
-		else {
-			chunks=date.split("-");
-			if(chunks[0].length==4){
-				dd=chunks[2];
-				mm=chunks[1];
-				yy=chunks[0];
-			}
-			else{
-				dd=chunks[0];
-				mm=chunks[1];
-				yy=chunks[2];
-
-				}
-		}
-		date_standard=yy+"-"+mm+"-"+dd;
-		var d = moment(date_standard);
-		return d.format(formatDestination);
-	}
 	
 //enable filter ok button when at least one checkbox is selected
 $("#filter_alert").on("click", $("#filter_alert input"),function(){

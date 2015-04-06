@@ -113,7 +113,7 @@
 			}
 			catch(\Exception $e)
 			{
-				$this->set_error_predefined(AjaxController::ERROR_DATE_FORMAT);
+				$this->set_error_predefined(AjaxController::ERROR_DATE_FORMAT_INVALID);
 				return false;
 			}
 
@@ -139,7 +139,7 @@
 				return false;
 
 			// convert the string ids to actual integers
-			if($key !== "eventTypes")
+			if($key !== "eventTypes" && $key !== "pathways")
 				$ids = array_map("intval", $query_entry['id']);
 
 			switch ($key) {
@@ -172,7 +172,7 @@
 			   		break;
 
 			    case "pathways": 
-			    	array_push($this->filters, new PathwayFilter($ids));
+			    	array_push($this->filters, new PathwayFilter($query_entry['id']));
 			    	break;
 
 			    case "professors": 
@@ -203,7 +203,8 @@
 		protected function only_authorized_filters()
 		{
 			// user cannot use the pathway filters
-			return !($this->connection->user_is_student() && $this->sg_post->value("pathways")['isSet'] === "true");
+			$pathway_filter = $this->sg_post->value("pathways");
+			return !($this->connection->user_is_student() && $pathway_filter['isSet'] === "true");
 		}
 
 
@@ -233,8 +234,10 @@
 
 			    case "eventTypes": 
 
-			    	if((!isset($query_entry['timeType']) && !isset($query_entry['eventType'])) || 
-			    			(count($query_entry['timeType']) === 0 && count($query_entry['eventType'] === 0)))
+			    	$isset_event = isset($query_entry['eventType']) && count($query_entry['eventType']) !== 0;
+			    	$isset_time = isset($query_entry['timeType']) && count($query_entry['timeType']) !== 0;
+
+			    	if(!$isset_event && !$isset_time)
 			    	{
 			    		$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);
 			    		return false;

@@ -208,3 +208,20 @@ padding: 5px;
 .border-radius-4{
 	border-radius:4px !important;
 	}
+	
+/*fix display issue of date picker*/
+.dhtmlxcalendar_dhx_skyblue * {
+    -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.date-picker{
+	width: 55%;
+  float: left;
+  margin-right: 10px;
+	}
+	
+.time{
+	width:40%;
+	}

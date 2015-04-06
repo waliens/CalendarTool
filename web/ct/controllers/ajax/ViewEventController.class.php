@@ -103,6 +103,8 @@ class ViewEventController extends AjaxController
 			else
 				$eng = false;
 			
+			if($indep)
+				$ret['owner_id'] = $data['Id_Owner'];
 			
 			if($eng)
  				$ret['category_name'] = $data['Categ_Name_EN'];
@@ -118,16 +120,31 @@ class ViewEventController extends AjaxController
 			else 
 				$ret['annotation'] = "";
 			
-			if($indep || $sub){
+			if($indep || $sub) {
 				$team = $model->getTeam($eventId);
-				if($team){
-					$prof = array();
-					foreach($team as $key => $value){
-						if($value["role"] == "Professor" || $value["role"] == "Professeur") // Attention hardcodé
-							array_push($prof, $value["name"]." ".$value['surname']);
-					}
-					$ret['professor'] = implode(", ", $prof);
-				}
+				if(is_array($team))
+					$team = array_map(function($arr){
+								$ret = $arr;
+								$ret['id'] = $ret['user'];
+								unset($ret['user']);
+								return $ret; }, $team);
+					
+				$ret['team'] = $team;
+				
+				$path = $model->getPathways($eventId);
+
+				if(is_array($path))
+					$path = array_map(function($arr){
+						$ret = $arr;
+						$ret['name'] = $ret['name_long'];
+						unset($ret['user']);
+						return $ret;
+					}, $path);
+				
+				$ret['pathways'] = $path;
+				$ret['pract_details'] = $data['Practical_Details'];
+				$ret['workload'] = $data['Workload'];
+				$ret['feedback'] = $data['Feedback'];
 			}
 			
 			if($data['Id_Recurrence'] != intval(1)){
@@ -141,8 +158,7 @@ class ViewEventController extends AjaxController
 			$this->set_output_data($ret);
 		}
 	}
-
-
 }
+
 
 

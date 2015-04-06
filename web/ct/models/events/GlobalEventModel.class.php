@@ -77,8 +77,12 @@
 			if($acad_year == null) $acad_year = \ct\get_academic_year();
 			if($lang == null) $lang = self::LANG_FR;
 
-			if(!checkdate(1, 1, $acad_year)) // check whether the year is valid
-				return 0;
+			// check input data
+			if(!checkdate(1, 1, $acad_year)) // year
+				return false;
+
+			if(!$this->valid_lang($lang)) // language
+				return false;
 
 			$success = true;
 
@@ -235,8 +239,8 @@
 			if($id_glob < 0)
 				return false;
 
-			$update_array = array("Description" => $data['desc'],
-								  "Feedback" => $data['feedback']);
+			$update_array = array("Description" => $this->filter->f($data['desc']),
+								  "Feedback" => $this->filter->f($data['feedback']));
 
 			// check if the language must be updated
 			if(isset($data['lang']))
@@ -614,7 +618,7 @@
 		private function get_global_ids($method, $identifier)
 		{
 			$quoted_id = $this->sql->quote($identifier);
-			$column = array("Id_Global_Event");
+			$column = array("DISTINCT Id_Global_Event");
 
 			switch($method)
 			{
@@ -637,7 +641,7 @@
 				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, $column);
 				break;
 			case self::GET_BY_ACAD_YEAR:
-				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id);
+				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id, $column);
 				break;
 			}
 

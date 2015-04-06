@@ -8,9 +8,12 @@
 	namespace ct\controllers\ajax;
 
 	use util\mvc\AjaxController;
+	use util\superglobals\Superglobal;
+
 	use ct\models\UserModel;
 	use ct\models\PathwayModel;
 	use ct\models\TeachingRoleModel;
+	use ct\models\events\IndependentEventModel;
 
 	/**
 	 * @class GetUsersAndPathwaysController
@@ -32,14 +35,37 @@
 				return;
 			}
 
-			// get the users
-			$user_mod = new UserModel();
-			$users = $user_mod->get_users();
+			// true if the list of pathways must be restricted to the addable ones
+			$do_restrict = false;
+
+			if($this->sg_post->check("id_event", Superglobal::CHK_ISSET) > 0)
+			{
+				$id_event = $this->sg_post->value("id_event");
+				$do_restrict = true;
+				$indep_mod = new IndependentEventModel();
+			}
+
+			// check whether the independent event managers must be excluded
+			if($do_restrict)
+				$users = $indep_mod->getAddableUsers($id_event); // get only addable user
+			else 
+			{
+				// get the all users
+				$user_mod = new UserModel();
+				$users = $user_mod->get_users();
+			}
+			
 			$users = \ct\darray_transform($users, array("Name" => "name", "Surname" => "surname", "Id_User" => "id"));
-		
+
 			// get the pathways 
-			$path_mod = new PathwayModel();
-			$paths = $path_mod->get_pathways();
+			if($do_restrict)
+				$paths = $indep_mod->getAddablePathways($id_event); // get only addable pathways
+			else
+			{
+				$path_mod = new PathwayModel();
+				$paths = $path_mod->get_pathways();
+			}
+
 			$paths = \ct\darray_transform($paths, array("Id_Pathway" => "id", "Name_Long" => "name"));
 
 			// get the roles

@@ -36,7 +36,8 @@
 
 		const POLICY_AS_STUDENT = 1; /**< @brief Events followed by the user as a student only */
 		const POLICY_AS_TEACHING_STUDENT = 2; /**< @brief Events followed by the user as a teaching student only */
-		const POLICY_AS_FACULTY_MEMBER = 4; /**< @brief Events followed by the user as a faculty member only */
+		const POLICY_AS_FACULTY_MEMBER = 4; /**< @brief All events except the private events */
+		const POLICY_AS_FACULTY_MEMBER_OWN = 8; /**< @brief Events followed by the user as a faculty member only ¨/
 
 		/**
 		 * @brief Construct the AccessFilter 
@@ -103,7 +104,7 @@
 		 */
 		private function valid_policy($policy)
 		{
-			return $policy == 1 || $policy == 2 || $policy == 3 || $policy == 4;
+			return $policy == 1 || $policy == 2 || $policy == 3 || $policy == 4 || $policy = 8;
 		}
 
 		/** 
@@ -158,8 +159,8 @@
 
 		private function get_as_faculty_member_query()
 		{
-			return $this->get_as_team_member_query(array(GlobalEventModel::ROLE_ID_TA,
-														 GlobalEventModel::ROLE_ID_PROFESSOR));
+			return "SELECT Id_Event FROM event  
+					WHERE Id_Event NOT IN ( SELECT Id_Event FROM student_event )";
 		}
 
 		/**
@@ -208,7 +209,9 @@
 						  $this->get_as_teaching_student_query().")";
 			case self::POLICY_AS_FACULTY_MEMBER:
 				return $this->get_as_faculty_member_query();
-				
+			case self::POLICY_AS_FACULTY_MEMBER_OWN:
+				return $this->get_as_team_member_query(array(GlobalEventModel::ROLE_ID_PROFESSOR, 
+												GlobalEventModel::ROLE_ID_TA));
 			default:
 				trigger_error("Invalid policy", E_USER_WARNING);
 			}
