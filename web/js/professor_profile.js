@@ -248,6 +248,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			if(subevents.length>0){
 				var cell2=row.insertCell(1);
 				var cell3=row.insertCell(2);
+				var cell4=row.insertCell(3);
 				var titleHeader=document.createElement('p');
 				titleHeader.className="text-bold";
 				var whenHeader=document.createElement('p');
@@ -307,7 +308,7 @@ function populateSubevent(item){
 	cell3.innerHTML=get_recursion(item.recurrence_type);
 	row.appendChild(cell3);
 	var cell4=document.createElement("td");
-	cell4.innerHTML='<div class="text-center"><a class="delete" subevent-id="'+item.id+'"></a></div>';
+	cell4.innerHTML='<div class="text-center"><a class="edit" event-id="'+item.id+'"></a><a class="delete" event-id="'+item.id+'"></a></div>';
 	row.appendChild(cell4);
 	table.append(row);
 	}
@@ -485,7 +486,7 @@ $("#new_indepevent_team_table").on("click",".delete",function(event){
 $("#academic_event_info_modal").on("show.bs.modal",function(){
 	//get subevent info
 	var subevent_id=subevent.id;
-	var req="056";//subevent by default
+	var req="051";//subevent by default
 	
 	if($("#independent-events #"+subevent_id+"").length>0)
 		req="084";
@@ -520,8 +521,7 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 			else $("#academic_event_start").html(academic_event_start.format("dddd, MMMM Do YYYY"));
 			var academic_event_end;
 			if(data.endDay!=""){
-				$("#academic_event_end").parent().parent().removeClass("hidden");
-				$("#academic_event_start").prev().removeClass("hidden");
+				$("#academic_event_end").parent().removeClass("hidden");
 				academic_event_end=moment(data.endDay);
 				if(data.endTime!=""){
 					var chunks=data.endTime.split(":");
@@ -532,8 +532,7 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 				else $("#academic_event_end").html(academic_event_end.format("dddd, MMMM Do YYYY"));
 			}
 			else {
-				$("#academic_event_end").parent().parent().addClass("hidden");
-				$("#academic_event_start").prev().addClass("hidden");
+				$("#academic_event_end").parent().addClass("hidden");
 			}
 			var deadline=data.deadline;
 			if(deadline=="false")
@@ -584,11 +583,16 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 	});
 })
 
+$("#subevents_info_accordion").on("click",".edit",function(){
+	$("#event_info").modal("hide");
+	$("#academic_event_edit_modal").modal("show");
+	})
+
 //edit academic event
 $("#academic_event_edit_modal").on("show.bs.modal",function(){
 	//get subevent info
 	var event_id=event.target.getAttribute("event-id");
-	var req="056";//subevent by default
+	var req="051";//subevent by default
 	if($("#independent-events #"+event_id+"").length>0)
 		req="084";
 	$("#edit_academic_event_creation_confirm").attr("event-id",event_id);
@@ -1195,7 +1199,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 				var categories=data.academic;
 				$("#new_subevent_categories").html("");
 				for (var i=0; i < categories.length; i++)
-					$("#new_subevent_categories").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="changeEventType("#new_subevent_type")" category-id="'+categories[i].id+'">'+categories[i].name+'</a></li>');
+					$("#new_subevent_categories").append("<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick=\"changeEventType(\'#new_subevent_type\')\" category-id="+categories[i].id+">"+categories[i].name+"</a></li>");
 			},
 			error : function(xhr, status, error) {
 			  var err = eval("(" + xhr.responseText + ")");
@@ -1585,7 +1589,7 @@ function addTeamWithCheckbox(team){
 	
 //delete subevent function	
 $("#subevents_info_accordion").on("click",".delete",function(event){
-	var event_id=event.currentTarget.getAttribute("subevent-id");
+	var event_id=event.currentTarget.getAttribute("event-id");
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
@@ -1601,3 +1605,14 @@ $("#subevents_info_accordion").on("click",".delete",function(event){
 			}
 		});
 	})	
+	
+$("#new_indepevent").on("show.bs.modal",function(event){
+	$("#new_indepevent_title").val();
+	$("#new_indepevent_recurrence").html("jamais");
+	$("#new_indepevent_recurrence").attr("recurrence-id",6);
+	$("#new_indepevent_recurrence_end").hide();
+	$("#new_indepevent_type").html("Cours théorique");
+	$("#new_indepevent_type").attr("category-id",1);
+	$("#new_indepevent_workload").val(30);
+	$("#new_indepevent_place").
+	})
