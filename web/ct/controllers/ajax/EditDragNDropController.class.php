@@ -69,15 +69,15 @@ class EditDragNDropController extends AjaxController
 			$previous_date = $model->getEvent(array("id_event" => $this->sg_post->value("id")), array("start"))[0]["Start"];
 			$oldStart = new DateTime($previous_date);
 			$start = new DateTime($this->sg_post->value('start'));
-			$shift = $oldStart->diff($start);
-			$table;
-			if($this->sg_post->check_keys(array("limit")) > 0 && $this->sg_post->value("limit") == "true")
-					$table = "deadline_event";
-			elseif($start->format("H:i:s") == "0:0:0" && $end->format("H:i:s") == "0:0:0")
-					$table = "date_range_event";
-			else
-					$table = "time_range_event";
-			$ret = $model->setDateRecur($recId, $table, $shift);
+
+			$shift = $oldStart->diff($start, false);
+			$shift = $shift->days;
+			if($oldStart > $start){
+				$shift *= -1;
+			}
+			
+			$ret = $model->setDateRecur($recId, $shift);
+
 			
 			if(!$ret){
 				$this->set_error_predefined(self::ERROR_ACTION_UPDATE_DATA);
