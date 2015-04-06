@@ -4,7 +4,7 @@
       <h3 class="panel-title text-center">Profile</h3>
     </div>
     <div class="panel-body">
-      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Professeur</span></p>
+      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Membre de la faculté</span></p>
       <p><span class="text-info text-bold">Nom: </span><span id="user-name"><!--USERNAME--></span></p>
     </div>
   </div>
