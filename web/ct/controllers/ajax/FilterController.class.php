@@ -139,7 +139,7 @@
 				return false;
 
 			// convert the string ids to actual integers
-			if($key !== "eventTypes")
+			if($key !== "eventTypes" && $key !== "pathways")
 				$ids = array_map("intval", $query_entry['id']);
 
 			switch ($key) {
@@ -172,7 +172,7 @@
 			   		break;
 
 			    case "pathways": 
-			    	array_push($this->filters, new PathwayFilter($ids));
+			    	array_push($this->filters, new PathwayFilter($query_entry['id']));
 			    	break;
 
 			    case "professors": 
