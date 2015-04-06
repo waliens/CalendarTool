@@ -6,7 +6,7 @@ var day=today.getDay();
 	
 //update the navbar
 $("#navbar li").removeClass("active");
-$("#static_export").addClass("active");
+$("#static_export_page").addClass("active");
 //datepickers
 var startDate;
 var endDate;
@@ -608,7 +608,7 @@ $("input").click(function(){
 	else $("#static_export").attr("disabled",true);
 	});
 
-//send data to server after filters comple
+//send data to server after filters completion
 $("#static_export").click(function(){
 	//UNCOMMENT FOLLOWING LINE FOR TESTING WITHOUT SERVER
 	//$("#dynamic_export_download_alert").modal("show");
