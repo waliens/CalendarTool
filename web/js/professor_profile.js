@@ -110,7 +110,7 @@ function addIndependentEvent(indep_event){
 	var when=document.createElement("p");
 	when.innerHTML=indep_event.start;
 	var recurrence=document.createElement("p");
-	recurrence.innerHTML=indep_event.recurrence_type;
+	recurrence.innerHTML=get_recursion(indep_event.recurrence_type);
 	cell1.appendChild(event_name);
 	cell2.appendChild(when);
 	cell3.appendChild(recurrence);

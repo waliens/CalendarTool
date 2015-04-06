@@ -80,13 +80,13 @@ class AddSubEventController extends AjaxController
 		$team = $this->json2array($this->sg_post->value('teachingTeam'));
 
 		foreach($pathway as $key => $value){
-			if($value['selected']==="false"){
+			if(!$value['selected']){
 				foreach($id_ret as $o => $id)
 					$model->excludePathway($id, $value['id']);
 			}
 		}
 		foreach($team as $key => $value){
-			if($value['selected']==="false"){
+			if(!$value['selected']){
 				foreach($id_ret as $o => $id)
 					$model->excludeMember($id, $value['id']);
 			}
