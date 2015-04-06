@@ -175,7 +175,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			subevents_table.className="table";
 			subevents_table.id="subevents_table";
 			$("#subevents_info").html(subevents_table);
-			if(subevents.length>1){
+			if(subevents.length>0){
 				var row=subevents_table.insertRow(0);
 				var cell1=row.insertCell(0);
 				var cell2=row.insertCell(1);
