@@ -169,8 +169,17 @@ class SubEventModel extends AcademicEventModel{
 		if(!$idGlob)
 			return false;
 		
-		$glob_mod = new GlobalEventModel();
-		return $glob_mod->get_global_event_pathways(array("id" => $idGlob));
+		$query  =  "SELECT Id_Pathway AS id, Name_Long AS name_long, Name_Short AS name_short 
+					FROM pathway NATURAL JOIN
+					( SELECT Id_Pathway FROM 
+					  ( SELECT * FROM global_event_pathway WHERE Id_Global_Event = ? ) AS glbs_path
+					  WHERE Id_Pathway NOT IN 
+					  	( SELECT Id_Pathway 
+					  	  FROM sub_event_excluded_pathway 
+					  	  WHERE Id_Global_Event = ? AND Id_Event = ? ) 
+					) AS sub_paths;";
+
+		return $this->sql->execute_query($query, array($idGlob, $idGlob, $eventId));
 	}
 	
 	/**
