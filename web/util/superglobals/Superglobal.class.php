@@ -38,7 +38,7 @@
 		private $debug_mode;
 		
 		public function __construct(){
-			$debug_mode = false;
+			$debug_mode = true;
 		}
 		
 		/**
