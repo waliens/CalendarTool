@@ -214,9 +214,10 @@ class IndependentEventModel extends AcademicEventModel{
 	{
 		$query  =  "SELECT Id_User, Name, Surname FROM user
 		 			WHERE Id_User NOT IN ( SELECT Id_User FROM independent_event_manager WHERE Id_Event = ? )
+		 					AND Id_User != ?
 		 			ORDER BY Name;";
 
-		return $this->sql->execute_query($query, array($eventId));
+		return $this->sql->execute_query($query, array($eventId, Connection::get_instance()->user_id()));
 	}
 
 	/**
@@ -228,9 +229,10 @@ class IndependentEventModel extends AcademicEventModel{
 	{
 		$query  =  "SELECT Id_Pathway, Name_Long, Name_Short FROM pathway
 		 			WHERE Id_Pathway NOT IN ( SELECT Id_Pathway FROM independent_event_pathway WHERE Id_Event = ? )
+		 					AND Id_User != ?
 		 			ORDER BY Name_Long;";
 
-		return $this->sql->execute_query($query, array($eventId));
+		return $this->sql->execute_query($query, array($eventId, Connection::get_instance()->user_id()));
 	}
 }
 
