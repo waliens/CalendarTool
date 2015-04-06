@@ -245,7 +245,7 @@ use \DateInterval;
 		 */
 		public function modifyEvent($from, $to, $recur = false){
 
-			$table = implode(" JOIN ", $this->table);
+			$table = implode(" NATURAL JOIN ", $this->table);
 			
 			$data = $this->checkParams($to, true, true);
 			if($data == -1){
@@ -263,15 +263,20 @@ use \DateInterval;
 			$whereClause = array();
 			$i = 0;
 			foreach($where as $key => $value){
-				if($key == "Id_Event")
+				 /*if($key == "Id_Event")
 					$whereClause[$i] = "event.". $key ." = '".$value."'"; //removing ambiguity
-				else
-					$whereClause[$i] = $key ." = '".$value."'";
+				else */
+					$whereClause[$i] = $key ." = ".$value."";
 				$i++;
 			}
 			$imp =  implode(" AND ", $whereClause);
-			$a = $this->sql->update($table, $data, $imp);
-	
+			$d = array();
+		
+			foreach($data as $key => $value){
+				array_push($d, $key. " = ".$value."");
+			}
+			$query = "UPDATE ".$table." SET ". implode(", ", $d). " WHERE ".$imp.";";
+			return $this->sql->execute_query($query);
 		}
 		/**
 		 * @brief 
