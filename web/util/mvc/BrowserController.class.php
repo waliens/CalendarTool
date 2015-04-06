@@ -39,7 +39,7 @@
 			$this->smarty->assign("title", $this->get_title());
 			$this->smarty->assign("includes", $includes);
 			$this->smarty->assign("is_student", $this->connection->user_is_student());
-			$this->smarty->assign("is_student_str", $this->connection()->user_is_student() ? "true" : "false");
+			$this->smarty->assign("is_student_str", $this->connection->user_is_student() ? "true" : "false");
 			return $this->smarty->fetch("starter.tpl");
 		}
 
