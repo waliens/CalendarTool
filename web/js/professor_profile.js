@@ -1605,14 +1605,20 @@ $("#subevents_info_accordion").on("click",".delete",function(event){
 			}
 		});
 	})	
-	
+
+//clean data from the new indep event modal on show	
 $("#new_indepevent").on("show.bs.modal",function(event){
-	$("#new_indepevent_title").val();
+	$("#new_indepevent_title").val("");
 	$("#new_indepevent_recurrence").html("jamais");
 	$("#new_indepevent_recurrence").attr("recurrence-id",6);
-	$("#new_indepevent_recurrence_end").hide();
+	$("#new_indepevent_recurrence_end_td").addClass("hidden");
 	$("#new_indepevent_type").html("Cours théorique");
 	$("#new_indepevent_type").attr("category-id",1);
 	$("#new_indepevent_workload").val(30);
-	$("#new_indepevent_place").
+	$("#new_indepevent_place").val("");
+	$("#new_indepevent_details").val("");
+	$("#new_indepevent_feedback_body").val("");
+	$("#new_indepevent_pract_details_body").val("");
+	$("#new_indepevent_pathways_table").html("");
+	$("#new_indepevent_team_table").html("");
 	})
