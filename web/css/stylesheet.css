@@ -48,7 +48,7 @@ body {
 /*footer*/
 #footer{
 position: absolute;
-bottom: 30px;
+margin: 20px 0;
 font-size: 12px;
 font-weight: bold;
 line-height: 20px;
@@ -78,10 +78,150 @@ width: 100%;
 	font-weight:bold;
 	}
 	
+.text-underline{
+	text-decoration:underline;
+	}
+	
 .marg-bot-40{
 	margin-bottom:40px;
+	}
+
+.marg-bot-10{
+	margin-bottom:10px;
 	}
 	
 .marg-top-40{
 	margin-top:40px;
+	}
+.marging-10-0{
+	margin:10px 0;
+	}
+	
+.margin-left-10{
+	margin-left:10px;
+	}
+	
+.float-left{
+	float:left;
+	margin-right:40px;
+	}
+	
+.float-right{
+	float:right;
+	}
+	
+.float-left:last-of-type{
+	margin-right:0;
+	}
+	
+#user-optional-courses .checkbox, #user-mandatory-courses .checkbox{
+	margin-top:0;
+	} 
+	
+.min-width-80{
+	min-width:80px;
+	}
+	
+.min-width-90{
+	min-width:90px;
+	}
+
+.min-width-100{
+	min-width:100px;
+	}
+	
+.min-width-110{
+	min-width:110px;
+	}
+	
+.width-30{
+	width:30px;
+	}
+	
+.width-80{
+	width:80px;
+	}
+	
+.common_text{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+font-size: 14px;
+line-height: 1.42857143;
+color: #333;
+font-weight:100;
+	}
+	
+.padding-6-55{
+	padding:6px 55px;
+	}
+
+.div-32{
+	width:32px;
+	height:32px;
+	overflow:hidden;
+	}
+
+.edit, .delete{
+	background-repeat: no-repeat;
+	width:32px;
+	height:32px;
+	cursor:pointer;
+	display:inline-block;
+	}
+	
+.delete{
+	background:url("../imgs/delete-icon.png") 0 0;
+	}
+
+.delete:hover,.delete-disabled{
+	background:url("../imgs/delete-icon.png") -32px 0;
+	}
+	
+.delete-disabled,.edit-disabled{
+	cursor:not-allowed;
+	}	
+.edit{
+	background:url("../imgs/edit-icon.png") 0 0;
+	}
+	
+.edit:hover,.edit-disabled{
+	background:url("../imgs/edit-icon.png") -32px 0;
+	}
+
+a{
+cursor:pointer;	
+	}
+	
+.box{
+	border: 1px solid #aaa;
+padding: 5px;
+	}
+	
+.vertical-middle{
+	vertical-align:middle !important;
+	}
+	
+.float-left-10padright{
+	float:left;
+	padding-right:10px;
+	}
+	
+.border-radius-4{
+	border-radius:4px !important;
+	}
+	
+/*fix display issue of date picker*/
+.dhtmlxcalendar_dhx_skyblue * {
+    -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.date-picker{
+	width: 55%;
+  float: left;
+  margin-right: 10px;
+	}
+	
+.time{
+	width:40%;
 	}

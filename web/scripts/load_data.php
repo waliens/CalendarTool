@@ -11,17 +11,17 @@
 	 */
 
 	// inclusions
-	require_once("util/database/Database.class.php");
-	require_once("util/database/SQLAbstract.class.php");
-	require_once("util/database/SQLAbstract_PDO.class.php");
+	require_once("../util/database/Database.class.php");
+	require_once("../util/database/SQLAbstract.class.php");
+	require_once("../util/database/SQLAbstract_PDO.class.php");
 
-	require_once("functions.php");
+	require_once("../functions.php");
 
 	// namespace
 	use util\database\Database as Database;
 	use util\database\SQLAbstract_PDO as SQLAbs;
 
-	// functions 
+	// functions
 	/**
 	 * @brief Creates an array that maps the values indexed by the column index (indexing a string) and a subarray containing the rows
 	 * of which the value index by column were the same (the $column_index field is removed).
@@ -51,7 +51,7 @@
 		$ret_array = array();
 
 		// create the subarrays
-		foreach ($array as $row) 
+		foreach ($array as $row)
 		{
 			$row_constants = ct\subarray($row, $constant_columns);
 
@@ -71,7 +71,7 @@
 			// add one new row to the subarray
 			$subarray_row = array();
 
-			foreach ($keys_to_extract as $key) 
+			foreach ($keys_to_extract as $key)
 				$subarray_row[$key] = $row[$key];
 
 			if(!empty($subarray_row))
@@ -82,7 +82,7 @@
 		$last_row = $curr_constants;
 		$last_row['varying'] = $curr_subarray;
 		$ret_array[] = $last_row;
-	
+
 		return $ret_array;
 	}
 
@@ -104,7 +104,7 @@
 		{
 			echo "Error : cannot open file '".$file."'";
 			return null;
-		}	
+		}
 
 		$content_array = array_filter(preg_split("#(\\r|\\n|\\r\\n)#U", $file_content));
 
@@ -134,7 +134,7 @@
 	function insert_courses(SQLAbs $sql_abs)
 	{
 		// get courses data from file
-		$courses_data = file_into_array("scripts\\ulg_data\\cours.txt");
+		$courses_data = file_into_array("ulg_data/cours.txt");
 
 		// insert them into the database
 		$query = "INSERT INTO ulg_course VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -144,7 +144,7 @@
 
 		$sql_abs->transaction();
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 0;");
-		$success &= $sql_abs->execute_query("TRUNCATE TABLE ulg_course;");
+		$success &= $sql_abs->execute_query("DELETE FROM ulg_course WHERE 1;");
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 1;");
 
 		foreach($courses_data as $course)
@@ -180,7 +180,7 @@
 	function insert_pathways(SQLAbs $sql_abs)
 	{
 		// get pathways data from file
-		$pathways_data = file_into_array("scripts\\ulg_data\\seqform.txt");
+		$pathways_data = file_into_array("ulg_data/seqform.txt");
 
 		// insert them into the database
 
@@ -188,18 +188,16 @@
 
 		$sql_abs->transaction();
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 0;");
-		$success &= $sql_abs->execute_query("TRUNCATE TABLE ulg_pathway;");
+		$success &= $sql_abs->execute_query("DELETE FROM ulg_pathway WHERE 1;");
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 1;");
+
 
 		$query = "INSERT INTO ulg_pathway VALUES (?, ?, ?);";
 		$stmt = $sql_abs->prepare_query($query);
 
-
 		foreach($pathways_data as $pathway)
 		{
-			$success &= $stmt->execute(array($pathway['code_ae'],
-											 $pathway['lib_ae'],
-											 $pathway['lib_long_ae']));
+			$success &= $stmt->execute(array($pathway['code_ae'], $pathway['lib_ae'], $pathway['lib_long_ae']));
 
 			if(!$success)
 				break;
@@ -224,7 +222,10 @@
 	function insert_teachers(SQLAbs $sql_abs)
 	{
 		// load teacher data from file into the array
-		$teachers_courses_info = file_into_array("scripts\\ulg_data\\enseignant.txt");
+		$teachers_courses_info = file_into_array("ulg_data/enseignant.txt");
+
+		// lowercase the ulg id
+		$teachers_courses_info = ct\array_col_map($teachers_courses_info, "strtolower", "idulg_ens");
 
 		$teachers_info = common_regroup($teachers_courses_info, array("idulg_ens", "nom_ens", "prenom_ens"));
 
@@ -232,8 +233,8 @@
 
 		$sql_abs->transaction();
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 0;");
-		$success &=	$sql_abs->execute_query("TRUNCATE TABLE ulg_fac_staff;");
-		$success &= $sql_abs->execute_query("TRUNCATE TABLE ulg_course_team_member");
+		$success &= $sql_abs->execute_query("DELETE FROM ulg_fac_staff WHERE 1;");
+		$success &= $sql_abs->execute_query("DELETE FROM ulg_course_team_member WHERE 1;");
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 1;");
 
 		// insert teachers
@@ -242,8 +243,8 @@
 		// insert teacher courses
 		$teacher_courses = array();
 
-		foreach($teachers_info as $teacher)	
-			foreach ($teacher['varying'] as $course) 
+		foreach($teachers_info as $teacher)
+			foreach ($teacher['varying'] as $course)
 				array_push($teacher_courses, array($teacher['idulg_ens'], $course['code_cours']));
 
 		$sql_abs->insert_batch("ulg_course_team_member", $teacher_courses);
@@ -267,7 +268,10 @@
 	function insert_students(SQLAbs $sql_abs, $shuffle=false)
 	{
 		// load cursus data into an array
-		$student_courses_info = array_unique(file_into_array("scripts\\ulg_data\\cursus.txt"), SORT_REGULAR);
+		$student_courses_info = array_unique(file_into_array("ulg_data/cursus.txt"), SORT_REGULAR);
+
+		// lowercase the ulg_id
+		$student_courses_info = ct\array_col_map($student_courses_info, "strtolower", "id_ulg");
 
 		$students_info = common_regroup($student_courses_info, array("id_ulg", "code_ae"));
 
@@ -279,8 +283,8 @@
 
 		$sql_abs->transaction();
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 0;");
-		$success &=	$sql_abs->execute_query("TRUNCATE TABLE ulg_student;");
-		$success &= $sql_abs->execute_query("TRUNCATE TABLE ulg_has_course");
+		$success &= $sql_abs->execute_query("DELETE FROM ulg_student WHERE 1;");
+		$success &= $sql_abs->execute_query("DELETE FROM ulg_has_course WHERE 1");
 		$success &= $sql_abs->execute_query("SET foreign_key_checks = 1;");
 
 		// add students : make a batch insert because one per one is too slow
@@ -289,25 +293,38 @@
 		// add students' courses
 		$tuples = array();
 
-		foreach ($students_info as $student) 
-			foreach ($student['varying'] as $course) 
+		foreach ($students_info as $student)
+			foreach ($student['varying'] as $course)
 				array_push($tuples, array($student['id_ulg'], $course['code_cours']));
-	
+
 		$success &= $sql_abs->insert_batch("ulg_has_course", $tuples);
 
 		if($success)
 			$sql_abs->commit();
 		else
 			$sql_abs->rollback();
-		
+
 		return $success;
 	}
 
+	function print_success($bool)
+	{
+		echo ($bool ? " success" : " failure")."!\n";
+	}
+
+	function arr(array $arr)
+	{
+		echo "<pre>"; print_r($arr); echo "</pre>";
+	}
 	// database connection
-	$db = Database::get_instance(); 
+	$db = Database::get_instance();
 	$sql_abs = SQLAbs::buildByPDO($db->get_handle());
 
-	insert_pathways($sql_abs);
-	insert_courses($sql_abs);
-	insert_students($sql_abs, true);
-	insert_teachers($sql_abs);
+	echo "Inserting pathways...";
+	print_success(insert_pathways($sql_abs));
+	echo "Inserting courses...";
+	print_success(insert_courses($sql_abs));
+	echo "Inserting students...";
+	print_success(insert_students($sql_abs, true));
+	echo "Inserting teachers...";
+	print_success(insert_teachers($sql_abs));

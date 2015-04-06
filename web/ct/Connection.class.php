@@ -7,6 +7,7 @@
 
 	namespace ct;
 
+
 	use util\superglobals\Superglobal;
 	use util\superglobals\SG_Session;
 	use util\superglobals\SG_Post;
@@ -56,17 +57,28 @@
 			// set the http headers variables
 			$this->extract_http_headers();
 
+
+		//	$this->remote_user = "s060934"; // 3e BAC 
+		//	$this->remote_user = "s114352"; // 2e BAC
+		//	$this->remote_user = "s023178";
+			$this->remote_user = "u013317"; // Pascal Gribaumont
+			$this->host = "";
+			$this->connect($this->remote_user);
 			// check host
-			if(!$this->check_host()) // host different from the reverse proxy 
-			{
-				http_response_code(401);
-				exit();
-			}
+			// if(!$this->check_host()) // host different from the reverse proxy 
+			// {
+			// 	http_response_code(401);
+			// 	exit();
+			// }
 
 			if(!$this->is_connected()) // no previous connection
 				$this->connect($this->remote_user);
 			else if($this->user_ulg_id() !== $this->remote_user || !$this->user_mod->user_exists($this->user_ulg_id())) 
 				$this->disconnect(); // previous ulg id doesn't match the current or user does not exists
+
+			// redirect the user if he hasn't given his credentials yet
+			if(isset($_GET['page']) && $_GET['page'] !== "ask_data" && !$this->user_mod->user_subscription_complete($this->user_id()))
+				new Redirection("index.php?page=ask_data");
 		}
 
 		/**
@@ -206,7 +218,8 @@
 
 			session_destroy();
 
-			new Redirection("http://www.intranet.ulg.ac.be/logout");
+			//new Redirection("http://www.intranet.ulg.ac.be/logout");
+			exit();
 		}
 
 		/**
@@ -216,5 +229,23 @@
 		{
 			unset($_SESSION['root_id']);
 			session_regenerate_id(true); // regenerate id to avoid session fixation
+		}
+
+		/**
+		 * @brief Check whether the user is a student
+		 * @retval bool True if the user is a student, false otherwise
+		 */
+		public function user_is_student()
+		{
+			return preg_match("#^[sS][0-9]{6}$#", $this->user_ulg_id());
+		}
+
+		/**
+		 * @brief Check whether the user is a faculty staff
+		 * @retval bool True if the user is a faculty staff member, false otherwise
+		 */
+		public function user_is_faculty_staff()
+		{
+			return preg_match("#^[uU][0-9]{6}$#", $this->user_ulg_id());
 		}
 	}

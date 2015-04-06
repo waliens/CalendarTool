@@ -35,17 +35,81 @@
 		 */
 		protected function get_starter()
 		{
-			$this->smarty->assign("title", "");
+			$includes = $this->get_includes().$this->get_default_includes();
+			$this->smarty->assign("title", $this->get_title());
+			$this->smarty->assign("includes", $includes);
+			$this->smarty->assign("is_student", $this->connection->user_is_student());
 			return $this->smarty->fetch("starter.tpl");
 		}
 
 		/**
-		 * @brief Return a string containing the HTML code containing thefooter of the HTML page
+		 * @brief Return as a string the html code of the popups frame to add to the page footer
+		 * @retval string The html code of the popups
+		 * @note Re-implement this function for adding some popups to a page
+		 */
+		protected function get_popups()
+		{
+			return "";
+		}
+
+		/**
+		 * @brief Return the default popups in string
+		 * @retval string The default popups html code
+		 */
+		protected final function get_default_popups()
+		{
+			return $this->smarty->fetch("popups_default.tpl");
+		}
+
+		/**
+		 * @brief Return as a string the html code of the includes frame to add to the page starter
+		 * @retval string The html code of the popups
+		 * @note Re-implement this functon for adding some includes to a page
+		 */
+		protected function get_includes()
+		{
+			return "";
+		}
+
+		/**
+		 * @brief Return the default includes in string
+		 * @retval string The default includes html code
+		 */
+		protected final function get_default_includes()
+		{
+			return $this->smarty->fetch("includes_default.tpl");
+		}
+		
+		/**
+		 * @brief Return the additionnal title of the page 
+		 * @return string The additionnal title
+		 * @note Re-implement this function for adding an additionnal title
+		 */
+		protected function get_title()
+		{
+			return "";
+		}
+
+		/**
+		 * @brief Return a string containing the HTML code of the page's footer
 		 * @retval string End of the HTML page
 		 */
 		protected function get_footer()
 		{
+			$popups = $this->get_popups().$this->get_default_popups();
+			$this->smarty->assign("popups", $popups);
+			$this->smarty->assign("footer_inc", $this->get_footer_inc());
 			return $this->smarty->fetch("footer.tpl");
+		}
+
+		/**
+		 * @brief Return a string containing the HTML code of the footer's includes
+		 * @retval string The code of the footer's includes
+		 * @note Re-implement this function for adding an additionnal title
+		 */
+		protected function get_footer_inc()
+		{
+			return "";
 		}
 
 		/**

@@ -7,7 +7,6 @@
 
 	namespace util\superglobals;
 
-	require_once("functions.php");
 
 	/**
 	 * @class SG_Session
@@ -20,9 +19,10 @@
 		 */
 		public function __construct()
 		{
+			parent::__construct();
 			if(!\ct\session_started())
 				session_start();
 			
 			$this->superglobal = &$_SESSION;
-		} 
+		}
 	}

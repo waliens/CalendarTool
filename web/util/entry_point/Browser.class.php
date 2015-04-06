@@ -9,9 +9,14 @@
     
     use util\superglobals\SG_Get;
 
-    use ct\controllers\browser\ProfilePageController;
-    use ct\controllers\browser\LoginPageController;
+    use ct\controllers\browser\StudentProfileController;
+    use ct\controllers\browser\StaticExportController;
+    use ct\controllers\browser\PrivateEventsController;
     use ct\controllers\browser\CalendarPageController;
+    use ct\controllers\browser\ProfessorProfileController;
+    use ct\controllers\browser\AskUserDataController;
+
+    use ct\Connection;
 
     /**
      * @class Browser
@@ -25,6 +30,7 @@
          */
         public function __construct()
         {
+            header('Content-Type: text/html; charset=utf-8');
             $this->spg_get = new SG_Get();
         }
 
@@ -38,12 +44,23 @@
             else
                 $page = $_GET['page'];
 
+            $connection = Connection::get_instance();
+
             switch($page)
             {
             case "profile":
-                return new ProfilePageController();
-            case "login":
-                return new LoginPageController();
+
+                if($connection->user_is_student())
+                    return new StudentProfileController();
+                else
+                    return new ProfessorProfileController();
+
+            case "static_export":
+                return new StaticExportController();
+            case "private_events":
+                return new PrivateEventsController();
+            case "ask_data":
+                return new AskUserDataController();
             default:
                 return new CalendarPageController();
             }

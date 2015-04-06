@@ -93,7 +93,6 @@
 				$query .= "LIMIT ".$limit_first.", ".$limit_nb;
 
 			$query .= ";";
-
 			return $this->execute_query($query);
 		}
 
@@ -179,6 +178,7 @@
 			$col_count = ($columns != null ? count($columns) : (empty($values) ? 0 : count($values[0])));
 			$qmark_str_array = array_fill(0, count($values), "(".implode(",", array_fill(0, $col_count, "?")).")");
 			$data_array = $this->array_flatten($values);
+			
 			return $this->execute_query($query.implode(",", $qmark_str_array).";", $data_array);
 		}
 
