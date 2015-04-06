@@ -45,11 +45,11 @@
 								( SELECT Id_Event, Id_Recurrence FROM `event` WHERE Id_Recurrence > 1 ) AS recurrent
 								NATURAL JOIN 
 								( 
-									SELECT Id_Event, Start FROM `time_range_event`
+									SELECT Id_Event, Start FROM `time_range_event` WHERE Start >= NOW()
 									UNION ALL
-									SELECT Id_Event, CAST(Start AS DATETIME) AS Start FROM `date_range_event`
+									SELECT Id_Event, CAST(Start AS DATETIME) AS Start FROM `date_range_event` WHERE CAST(Start AS DATETIME)  >= NOW()
 									UNION ALL
-									SELECT Id_Event, `Limit` AS Start FROM `deadline_event`
+									SELECT Id_Event, `Limit` AS Start FROM `deadline_event` WHERE `Limit` >= NOW()
 								) AS time_data
 								GROUP BY Id_Recurrence
 							) AS date_recur
