@@ -130,11 +130,12 @@ class ViewEventController extends AjaxController
 				$ret['team'] = $team;
 				
 				$path = $model->getPathways($eventId);
+
 				if(is_array($path))
 					$path = array_map(function($arr){
 						$ret = $arr;
-						$ret['id'] = $ret['Id_Pathway'];
-						$ret['name'] = $ret['Name_Long'];
+						$ret['id'] = $ret['id'];
+						$ret['name'] = $ret['name_long'];
 						unset($ret['user']);
 						return $ret;
 					}, $path);
