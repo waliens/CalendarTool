@@ -113,7 +113,7 @@
 			}
 			catch(\Exception $e)
 			{
-				$this->set_error_predefined(AjaxController::ERROR_DATE_FORMAT);
+				$this->set_error_predefined(AjaxController::ERROR_DATE_FORMAT_INVALID);
 				return false;
 			}
 
@@ -234,8 +234,10 @@
 
 			    case "eventTypes": 
 
-			    	if((!isset($query_entry['timeType']) && !isset($query_entry['eventType'])) || 
-			    			(count($query_entry['timeType']) === 0 && count($query_entry['eventType'] === 0)))
+			    	$isset_event = isset($query_entry['eventType']) && count($query_entry['eventType']) !== 0;
+			    	$isset_time = isset($query_entry['timeType']) && count($query_entry['timeType']) !== 0;
+
+			    	if(!$isset_event && !$isset_time)
 			    	{
 			    		$this->set_error_predefined(AjaxController::ERROR_ACTION_FILTER_EXTRACTION);
 			    		return false;
