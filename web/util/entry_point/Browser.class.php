@@ -14,6 +14,7 @@
     use ct\controllers\browser\PrivateEventsController;
     use ct\controllers\browser\CalendarPageController;
     use ct\controllers\browser\ProfessorProfileController;
+    use ct\controllers\browser\AskUserDataController;
 
     use ct\Connection;
 
@@ -29,6 +30,7 @@
          */
         public function __construct()
         {
+            header('Content-Type: text/html; charset=utf-8');
             $this->spg_get = new SG_Get();
         }
 
@@ -57,6 +59,8 @@
                 return new StaticExportController();
             case "private_events":
                 return new PrivateEventsController();
+            case "ask_data":
+                return new AskUserDataController();
             default:
                 return new CalendarPageController();
             }

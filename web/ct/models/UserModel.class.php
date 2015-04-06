@@ -7,9 +7,8 @@
 
 	namespace ct\models;
 
-	require_once("functions.php");
-
 	use util\mvc\Model;
+	use ct\Connection;
 
 	/**
 	 * @class UserModel
@@ -91,6 +90,7 @@
 			 		$fac_mem = $this->sql->select_one("ulg_fac_staff", "Id_ULg_Fac_Staff = ".$this->sql->quote($user_ulg_id));
 
 			 		// insert user data
+			 		
 			 		$fac_mem_data = array("Id_ULg" => $user_ulg_id,
 			 							  "Name" => $fac_mem['Name'],
 			 							  "Surname" => $fac_mem['Surname']);
@@ -101,6 +101,32 @@
 			 		$success &= $this->sql->execute_query($query, array($user_ulg_id));
 			 	} 
 			}
+
+			if($success)
+				$this->sql->commit();
+			else
+				$this->sql->rollback();
+
+			return $success;
+		}
+
+		/**
+		 * @brief Create an accout for a faculty staff member that is not in the databas
+		 * @param[in] string $user_ulg_id The faculty staff member user_ulg_id
+		 * @retval bool True if the addition has succeeded, false otherwise
+		 */
+		public function create_unknown_faculty_staff($user_ulg_id)
+		{
+			if(self::is_student_id($user_ulg_id))
+				return false;
+
+			$this->sql->transaction();
+
+			$user_data = array("Id_ULg" => $this->sql->quote($user_ulg_id));
+			$success = $this->sql->insert("user", $user_data);
+
+			$fac_staff_data = array("Id_Faculty_Member" => $this->sql->last_insert_id());
+			$success &= $this->sql->insert("faculty_staff_member", $fac_staff_data);
 
 			if($success)
 				$this->sql->commit();
@@ -149,5 +175,110 @@
 		public static function is_student_id($ulg_id)
 		{
 			return \ct\starts_with($ulg_id, "s");
+		}
+
+		/**
+		 * @brief Returns the list of professors registered on the platform
+		 * @retval array An array containing the professors
+		 * @note A professor is described by the following items (given by array key) :
+		 * <ul>
+		 *  <li>Id_User : user id </li>
+		 *  <li>Id_ULg : user ulg id </li>
+		 *  <li>Name : user name </li>
+		 *  <li>Surname : user surname </li>
+		 * </ul>
+		 */
+		public function get_professors()
+		{
+			$query  =  "SELECT * FROM user NATURAL JOIN
+						(SELECT Id_Faculty_Member AS Id_User FROM faculty_staff_member ) AS fac_meme";
+
+			return $this->sql->execute_query($query);
+		}
+
+		/**
+		 * @brief Get the given user data
+		 * @param[in] int $user_id The user id (optionnal, default: the currently connected user data)
+		 * @retval array The user data
+		 * @note The array contains the following data :
+		 * <ul>
+		 * 	<li> Id_User : user id </li>
+		 * 	<li> Id_ULg : user ulg id </li>
+		 * 	<li> Name : user name </li>
+		 * 	<li> Surname : user surname </li>
+		 *  <li> Email : user email </li>
+		 * </ul>
+		 */
+		public function get_user($user_id=null)
+		{
+			if($user_id == null) $user_id = Connection::get_instance()->user_id();
+			return $this->sql->select_one("user", "Id_User = ".$this->sql->quote($user_id));
+		}
+
+		/**
+		 * @brief Get the list of all the registered users 
+		 * @retval array The user data
+		 * @note The array contains the following data :
+		 * <ul>
+		 * 	<li> Id_User : user id </li>
+		 * 	<li> Id_ULg : user ulg id </li>
+		 * 	<li> Name : user name </li>
+		 * 	<li> Surname : user surname </li>
+		 *  <li> Email : user email </li>
+		 * </ul>
+		 */
+		public function get_users()
+		{
+			return $this->sql->select("user");
+		}
+
+		/**
+		 * @brief Checks whether the given user is a student
+		 * @param[in] string $user_id the id of the user
+		 * @retval bool True if the user is a student, false otherwise
+		 */
+		public function user_is_student($user_id)
+		{
+			return $this->sql->count("student", "Id_Student = ".$this->sql->quote($user_id)) > 0;
+		}
+
+		/**
+		 * @brief Update the user data
+		 * @param[in] array $data The array containing the new data : ('name', 'surname', 'email')
+		 * @param[in] int $user_id The user id (optionnal, default: the currently connected user data)
+		 * @retval bool True on success, false on error
+		 */
+		public function update_user(array $data, $user_id = null)
+		{
+			if($user_id == null) $user_id = Connection::get_instance()->user_id();
+
+			$update_data = array("Name" => $data['name'],
+								 "Surname" => $data['surname'],
+								 "Email" => $data['email']);
+
+			return $this->sql->update("user", $this->sql->quote_all($update_data), "Id_User = ".$this->sql->quote($user_id));
+		}	
+
+		/**
+		 * @brief Return true whether the user has completed its subscription on the platform 
+		 * @param[in] string $user_id The user identifier (ptionnal, default: currently connected user)
+		 * @retval bool True if the user is subscribed, false otherwise
+		 * @note The subscription is complete when the user has registered his name, surname and email
+		 */
+		public function user_subscription_complete($user_id)
+		{
+			return $this->sql->count("user", 
+									 "Id_User = ".$this->sql->quote($user_id)." AND ". 
+									 "LENGTH(Name) > 0 AND LENGTH(Surname) AND LENGTH(Email) > 0") > 0;
+		}
+		
+		/**
+		* @brief Checks whether the user having the given id exists in the user table
+		* @param[in] string $user_id the id of the user
+		* @retval bool True if the user exists, false otherwise
+		*/
+		public function user_id_exists($user_id)
+		{
+			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
 		}
 	}

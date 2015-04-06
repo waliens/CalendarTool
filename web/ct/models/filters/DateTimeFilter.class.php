@@ -8,6 +8,9 @@
 	namespace ct\models\filters;
 
 	require_once("functions.php");
+
+	use util\database\Database;
+	use util\database\SQLAbstract_PDO;
 	
 	/**
 	 * @class DateTimeFilter
@@ -35,15 +38,22 @@
 		{
 			if($mode == null) $mode = ($end == null ? self::MODE_AFTER : self::MODE_BETWEEN);
 
-			$this->start = \ct\date_fr2sql($start);
-			$this->end   = ($end == null) ? null : \ct\date_fr2sql($end);
+			$this->start = \ct\date_fullcalendar2sql($start);
+			$this->end   = ($end == null) ? null : \ct\date_fullcalendar2sql($end);
 
 			// check date formatting
 			if($this->start === false || $this->end === false)
 				throw new \Exception("Date mal formattée");
 
+			// append time if missing to make it a datetime
+			if(!$this->is_datetime($this->start))
+				$this->start = \ct\trim_append_after($this->start, " 00:00:00");
+			
+			if(!$this->is_datetime($this->end))
+				$this->end = \ct\trim_append_after($this->end, " 23:59:59");
+
 			// check if start is before end if necessary
-			if($this->end !== null && \ct\date_cmp($this->start, $this->end) >= 0)
+			if($this->end !== null && \ct\date_cmp($this->start, $this->end) > 0)
 				throw new \Exception("La date 'start' doit précéder la date 'end'");
 
 			if(!$this->valid_mode($mode))
@@ -59,8 +69,18 @@
 		 */
 		public function valid_mode($mode)
 		{
-			return ($mode >= 0 && $mode <= 2)
-					&& ($mode === self::MODE_BETWEEN && $this->end !== null); 
+			return $mode === self::MODE_AFTER || $mode === self::MODE_BEFORE || 
+						($mode === self::MODE_BETWEEN && $this->end !== null); 
+		}
+
+		/**
+		 * @brief Checks whether the given string is a SQL datetime
+		 * @param[in] string $str The string to check
+		 * @retval bool True if the string is a datetime 
+		 */
+		public function is_datetime($str)
+		{
+			return preg_match("#^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$#", $str);
 		}
 
 		/**
@@ -116,13 +136,15 @@
 		 *  <li>'range' : where clause for selecting from the (time|date)_range_event</li>
 		 *  <li>'deadline' : where clause for selecting from the deadline_event table</li>
 		 * </ul>
-		 * @todo find a way to implement quoting elegantly
 		 */
 		private function get_where_clauses()
 		{
+			// get sql abstract function for quoting
+			$sql = SQLAbstract_PDO::buildByPDO(Database::get_instance()->get_handle());
+
 			// quote the date(time) string
-			$q_start = quote($this->start);
-			$q_end = $this->is_between() ? quote($this->end) : "";
+			$q_start = $sql->quote($this->start);
+			$q_end = $this->is_between() ? $sql->quote($this->end) : "";
 			
 			switch ($this->mode) 
 			{
@@ -133,7 +155,7 @@
 					return array("range" => "Start >= ".$q_start." OR End >= ".$q_start,
 								 "deadline" => "`Limit` >= ".$q_start);
 				case self::MODE_BETWEEN:
-					return array("range" => "(Start >= ".$q_start." AND Start <= ".$q_end") OR (End >= ".$q_start." AND End =< ".$q_end.")",
+					return array("range" => "(Start >= ".$q_start." AND Start <= ".$q_end.") OR (End >= ".$q_start." AND End <= ".$q_end.")",
 								 "deadline" => "`Limit` >= ".$q_start." AND `Limit` <= ".$q_end);
 			}
 		}

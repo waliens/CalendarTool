@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -26,17 +26,11 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#">Calendrier</a></li>
-          <li class="active"><a href="?page=profile">Profil</a></li>
-          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="?page=static_export">Export statique</a></li>
-              <li class="divider"></li>
-              <li><a href="?page=private_events">&Eacute;venements privés</a></li>
-              <li class="divider"></li>
-              <li><a href="?page=disonnect">Déconnexion</a></li>
-            </ul>
-          </li>
+          <li id="calendar_nav" class="active"><a href="index.php">Calendrier</a></li>
+          <li id="profile_nav"><a href="?page=profile">Profil</a></li>
+          <li id="static_export_page"><a href="?page=static_export">Export statique</a></li>
+          {if $is_student}<li id="private_events"><a href="?page=private_events">&Eacute;venements privés</a></li>{/if}
+          <li><a href="?page=disonnect">Déconnexion</a></li>
         </ul>
       </div>
       <!--/.nav-collapse --> 

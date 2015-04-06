@@ -85,6 +85,10 @@ width: 100%;
 .marg-bot-40{
 	margin-bottom:40px;
 	}
+
+.marg-bot-10{
+	margin-bottom:10px;
+	}
 	
 .marg-top-40{
 	margin-top:40px;
@@ -102,6 +106,10 @@ width: 100%;
 	margin-right:40px;
 	}
 	
+.float-right{
+	float:right;
+	}
+	
 .float-left:last-of-type{
 	margin-right:0;
 	}
@@ -116,6 +124,14 @@ width: 100%;
 	
 .min-width-90{
 	min-width:90px;
+	}
+
+.min-width-100{
+	min-width:100px;
+	}
+	
+.min-width-110{
+	min-width:110px;
 	}
 	
 .width-30{
@@ -156,14 +172,18 @@ font-weight:100;
 	background:url("../imgs/delete-icon.png") 0 0;
 	}
 
-.delete:hover{
+.delete:hover,.delete-disabled{
 	background:url("../imgs/delete-icon.png") -32px 0;
+	}
+	
+.delete-disabled,.edit-disabled{
+	cursor:not-allowed;
 	}	
 .edit{
 	background:url("../imgs/edit-icon.png") 0 0;
 	}
 	
-.edit:hover{
+.edit:hover,.edit-disabled{
 	background:url("../imgs/edit-icon.png") -32px 0;
 	}
 
@@ -185,6 +205,23 @@ padding: 5px;
 	padding-right:10px;
 	}
 	
-.hidden{
-	display:none;
+.border-radius-4{
+	border-radius:4px !important;
+	}
+	
+/*fix display issue of date picker*/
+.dhtmlxcalendar_dhx_skyblue * {
+    -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.date-picker{
+	width: 55%;
+  float: left;
+  margin-right: 10px;
+	}
+	
+.time{
+	width:40%;
 	}

@@ -10,11 +10,14 @@
          <tr><td class="width-30"><input type="checkbox" id="date_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par date</td></tr>
          <tr><td class="width-30"><input type="checkbox" id="course_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par course</td></tr>
          <tr><td class="width-30"><input type="checkbox" id="event_type_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par type d'événement</td></tr>
-         <tr><td class="width-30"><input type="checkbox" id="session_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par session</td></tr>
+         <tr><td class="width-30"><input type="checkbox" id="event_category_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par catégorie d'événement</td></tr>
+         {if !$is_student}
+         <tr><td class="width-30"><input type="checkbox" id="pathway_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par section</td></tr>
+         {/if}
          <tr><td class="width-30"><input type="checkbox" id="professor_filter" data-toggle="modal" data-target="#filter_alert"></td><td>Par professeur</td></tr>     
         </table>
         <div class="text-center">
-        <a href="#" class="btn btn-primary padding-6-55" role="button" id="static_export" data-toggle="popover" data-trigger="focus">Ok</a>
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="static_export" data-toggle="popover" data-trigger="focus" disabled="true">Ok</a>
         </div>
     </div>
   </div>

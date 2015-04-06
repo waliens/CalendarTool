@@ -10,15 +10,20 @@
         <!--ALERT CONTENT-->
       </div>
       <div class="modal-footer text-center">
-        <a role="button" tabindex="0" class="btn btn-primary padding-6-55" data-placement="top" data-toggle="popover" data-trigger="focus" data-title="Erreur" data-content="Sélectionner au moins une option" data-dismiss="modal">Ok</a>
+        <a role="button" tabindex="0" class="btn btn-primary padding-6-55" id="filter_alert_btn" data-placement="top" data-toggle="popover" data-trigger="focus" data-dismiss="modal" disabled=true>Ok</a>
       </div>
     </div>
   </div>
 </div>
 <!-- Download Panel -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-backdrop="static" aria-hidden="true" id="static_export_download_alert">
+
   <div class="modal-dialog modal-sm">
   <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_course_filter"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="myModalLabel">Exportation Statique</h4>
+      </div>
     <div class="modal-body">
        L'exportation statique est prêt à être téléchargé.
       </div>

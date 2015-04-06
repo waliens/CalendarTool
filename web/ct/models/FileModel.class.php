@@ -23,6 +23,9 @@
 		private $root; /**< @brief The root file path */
 		private $connection; /**< @brief The connection object */
 
+		const TYPE_GLOBAL = "global"; /**< @brief Type of file : global event file*/
+		const TYPE_ACAD = "acad"; /**< @brief Type of file : academic event file*/
+
 		/**
 		 * @brief Construct a FileModel object
 		 */
@@ -185,4 +188,65 @@
 				return false;
 			}
 		}
+
+		/**
+		 * @brief Check whether the given user has access to given file
+		 * @param[in] int $file_id   The file identifier
+		 * @param[in] int $acad_year The year starting the academic year for which the access must be checked (optionnal, default: current)
+		 * @param[in] int $user_id   The user identifier (optionnal, default: currently connected user)
+		 * @retval bool True if the user has access, false otherwise
+		 */
+		public function file_user_has_read_access($file_id, $acad_year=null, $user_id=null)
+		{
+			if($user_id == null) $user_id = Connection::get_instance()->user_id();
+
+			// check whether the user is a student 
+			$student = Connection::get_instance()->user_is_student();
+
+			$file = $this->get_file_type($file_id);
+
+			switch ($file['type']) 
+			{
+			case self::TYPE_GLOBAL:
+				$glob_mod = new GlobalEventModel();
+
+				return $glob_mod->global_event_user_has_read_access($file['id']);
+			/** @todo implement access check for academic events */
+			case self::TYPE_ACAD: return false;
+				break;
+			
+			default: return false;
+
+			}	
+		}
+
+		/**
+		 * @brief Create a link for downloading the file having the given identifier
+		 */
+		public static function make_file_link($file_id)
+		{
+			return "download.php?file=".$file_id;
+		}
+
+		/**
+		 * @brief Return the type of the given file
+		 * @param[in] int $file_id The file identifier
+		 * @retval array An array containing two items : 
+		 * <ul>
+		 *  <li>type : one of the class TYPE_* constant, empty string if the file does not exist </li>
+		 *  <li>id : the identifier of the global event if the file is a global event file, the identifier of the event if 
+		 *  the file is a global event file, 0 otherwise</li>
+		 * </ul>
+		 */
+		public function get_file_type($file_id)
+		{
+			$query  =  "SELECT 'global' AS type, Id_Global_Event AS id FROM global_event_file WHERE Id_File = ?
+						UNION ALL
+						SELECT 'acad' AS type, Id_Event AS id FROM academic_event_file WHERE Id_File = ?;";
+
+			$file_type = $this->sql->execute_query($query, array($file_id, $file_id));
+			
+			return empty($file_type) ? array("type" => "", "id" => 0) : $file_type[0];
+		}
+
 	}

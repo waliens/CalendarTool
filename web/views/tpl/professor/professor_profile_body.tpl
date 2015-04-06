@@ -4,7 +4,7 @@
       <h3 class="panel-title text-center">Profile</h3>
     </div>
     <div class="panel-body">
-      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Professeur</span></p>
+      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Membre de la faculté</span></p>
       <p><span class="text-info text-bold">Nom: </span><span id="user-name"><!--USERNAME--></span></p>
     </div>
   </div>
@@ -15,12 +15,19 @@
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <table class="table" id="global_events">
         <tr class="text-bold">
-          <td class="min-width-90">Course ID</td>
-          <td>Title</td>
-          <td class="width-30">Modifier</td>
+          <td class="min-width-100">Course Code</td>
+          <td>Titre</td>
           <td class="width-30">Supprimer</td>
         </tr>
         <!--FILLED BY AJAX WITH COURSES LIST-->
+        <tr>
+      
+      <td colspan="3">
+      <div class="text-center">
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-global-event" data-toggle="modal" data-target="#add_global_event_alert">Ajouter cours</a>
+      </div>
+      </td>
+      </tr>
       </table>
     </div>
   </div>
@@ -31,11 +38,19 @@
     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
       <table class="table" id="independent-events">
         <tr class="text-bold">
-          <td>Title</td>
-          <td class="width-30">Modifier</td>
-          <td class="width-30">Supprimer</td>
+          <td>Titre</td>
+          <td>Quand</td>
+          <td>Récurrence</td>
+          <td class="width-30">Modifier/Supprimer</td>
         </tr>
         <!--FILLED BY AJAX WITH LIST INDEPENDENT EVENTS-->
+        <tr>
+      <td colspan="4">
+      <div class="text-center">
+        <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event" data-toggle="modal" data-target="#new_indepevent">Ajouter événement indépendant</a>
+      </div>
+      </td>
+      </tr>
       </table>
     </div>
   </div>
