@@ -149,7 +149,7 @@
 		if(preg_match("#Smarty#", $class))
 			include_once("util/Smarty/libs/Smarty.class.php");
 		elseif(preg_match("#phpSec#", $class))
-			include_once("util/".preg_replace("#\\\\#", "/", $class).".class.php");
+			include_once("util/".preg_replace("#\\\\#", "/", $class).".php");
 		else
 			include_once(preg_replace("#\\\\#", "/", $class).".class.php");
 	}
