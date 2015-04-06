@@ -176,17 +176,12 @@ function addEvents(){
 									
 							}
 						else if(instance.timeType=="deadline"){
-							end=start;
-							var chunks=end.split("T");
-							end=chunks[0];
+							end="";
+							var chunks=start.split("T");
 							var time=chunks[1];
 							var hour=time.split(":")[0];
-							var minute=time.split(":")[1];
-							end=moment(end);
-							end.hour(hour);
-							end.minute(minute);
-							end=end.add(1,"minute");
-							end=end.format("YYYY-MM-DDTHH:mm:ss");
+							start=start.split("T")[0];
+							title=hour+" "+title;
 							}
 						var id;
 						if(instance.recursive!=1){//the event is recurrent
@@ -214,6 +209,7 @@ function addEvents(){
 					//then retrieve private events
 					for(var i=0;i<calendar_data.events.private.length;i++){
 						var instance=calendar_data.events.private[i];
+						var title=instance.name;
 						//strip off the T00:00:00 for date range events
 						var start=instance.start;
 						var end=instance.end;
@@ -227,17 +223,12 @@ function addEvents(){
 								}
 							}
 						else if(instance.timeType=="deadline"){
-							end=start;
-							var chunks=end.split("T");
-							end=chunks[0];
+							end="";
+							var chunks=start.split("T");
 							var time=chunks[1];
 							var hour=time.split(":")[0];
-							var minute=time.split(":")[1];
-							end=moment(end);
-							end.hour(hour);
-							end.minute(minute);
-							end=end.add(1,"minute");
-							end=end.format("YYYY-MM-DDTHH:mm:ss");
+							start=start.split("T")[0];
+							title=hour+" "+title;
 							}
 						var id;
 						if(instance.recursive!=1){//the event is recurrent
@@ -253,7 +244,7 @@ function addEvents(){
 							id: id,
 							private: true,
 							timeType:instance.timeType,
-							title: instance.name,
+							title: title,
 							start: start,
 							end: end,
 							recursive: recurrent,
@@ -325,59 +316,6 @@ $(document).ready(function() {
 				$("#event_info").modal("show");
 				modal_shown="#event_info";
 				populate_public_event(calEvent);
-				//check if it's an all day event
-				if(calEvent.allDay){
-					event_all_day=true;
-					$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY'));
-					//check if there's an end date
-					if(calEvent.end){
-						if(!calEvent.end.isSame(calEvent.start))
-							calEvent.end.subtract(1,"day");
-						$("#endDate").text(calEvent.end.format('dddd DD MMM YYYY'));
-						
-						$("#endDate").removeClass("hidden");
-						$("#endDate_label").removeClass("hidden");
-						$("#startDate_label").removeClass("hidden");
-					}
-					else {
-						$("#endDate").addClass("hidden");
-						$("#endDate_label").addClass("hidden");
-						$("#startDate_label").addClass("hidden");
-					}
-				}
-				else {
-					event_all_day=false;
-					$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.start.format("HH:mm"));
-					if(calEvent.timeType!="deadline"){
-						$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
-						$("#endDate").removeClass("hidden");
-						$("#endDate_label").removeClass("hidden");
-						$("#startDate_label").removeClass("hidden");
-						$("#deadline_public_event").addClass("hidden");
-					}
-					else{
-						$("#endDate_label").addClass("hidden");
-						$("#startDate_label").addClass("hidden");
-						$("#deadline_public_event").removeClass("hidden");
-						$("#deadline_public_event input").prop("checked","checked");
-						}
-					
-				}
-				//populate place,prof and details
-				$("#event_place").text(calEvent.place);
-				$("#event_owner").text(calEvent.owner);
-				$("#event_owner").parent().parent().removeClass("hidden");
-				$("#event_details").text(calEvent.details);
-				//check if the event has notes or not
-				if($("#notes_body")){
-					$("#add_notes").addClass("hidden");
-					$("#notes").removeClass("hidden");
-					$("#notes_body").text(calEvent.notes);
-				}
-				else{
-					$("#add_notes").removeClass('hidden');
-					$("#notes").addClass("hidden");
-					}
 				}
 			
 		},
@@ -1097,7 +1035,8 @@ function populate_private_event(event){
 			var event_type=data.type;
 			var title=data.name;
 			var type=data.type;
-			var start=event.start.format("dddd DD MMM YYYY");
+			var start=data.startDay;
+			var end=data.endDay;
 			var place=data.place;
 			var details=data.description;
 			var notes=data.annotation;
@@ -1105,16 +1044,16 @@ function populate_private_event(event){
 			//check if event has start hour
 			var startHour;
 			var endHour;
-			if(type!="date_range"){
+			if(data.type!="date_range"){
 				$("#private_event_startHour").removeClass("hidden");
-				startHour=event.start.format("HH:mm");
-				$("#private_event_startHour").val(startHour);
+				startHour=data.startTime.split(":");
+				$("#private_event_startHour").val(startHour[0]+":"+startHour[1]); 
 				$("#private_event_startHour").prop("disabled",true);
 				if(type!="deadline"){
 					$("#private_event_endHour").removeClass("hidden");
 					$("#private_event_endHour").prop("disabled",true);
-					endHour=event.end.format("HH:mm");
-					$("#private_event_endHour").val(endHour);
+					endHour=data.endTime.split(":");
+					$("#private_event_endHour").val(endHour[0]+":"+endHour[1]);
 				}
 				//else $("#new_event_startDate").prev().addClass("hidden");
 			}
@@ -1124,10 +1063,9 @@ function populate_private_event(event){
 				}
 
 			//check if the event as an end date (excluding case in which it's a deadline
-			if(event.end&&type!="deadline"){
-				if(type=="date_range"&&!event.end.isSame(start))
-					event.end.subtract(1,"day");
-				var end=event.end.format("dddd DD MMM YYYY");
+			if(end!=""&&type!="deadline"){
+				var end=new moment(end);
+				end=end.format("dddd DD MMM YYYY");
 				$("#private_event_endDate_datepicker").val(end);
 			}
 			else 	$("#private_event_endDate_datepicker").parent().parent().addClass("hidden"); 
@@ -1156,6 +1094,8 @@ function populate_private_event(event){
 			if(data.deadline=="true")
 				$("#deadline input").prop("checked",true);
 			$("#new_event_startDate").prev().removeClass("hidden");
+			start=new moment(start);
+			start=start.format("dddd DD MMM YYYY");
 			$("#private_event_startDate_datepicker").val(start);
 			$("#private_event_startDate_datepicker").prop("readonly",true);
 			$("#private_event_startDate_datepicker").prop("disabled",true);
@@ -1207,6 +1147,61 @@ function populate_public_event(event){
 			//check if place and details are filled otherwise hide them
 			isSet($("#event_place"));
 			isSet($("#event_details"));
+			//check if it's an all day event
+			if(calEvent.allDay){
+				event_all_day=true;
+				$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY'));
+				//check if there's an end date
+				if(calEvent.end){
+					if(!calEvent.end.isSame(calEvent.start))
+						calEvent.end.subtract(1,"day");
+					$("#endDate").text(calEvent.end.format('dddd DD MMM YYYY'));
+					
+					$("#endDate").removeClass("hidden");
+					$("#endDate_label").removeClass("hidden");
+					$("#startDate_label").removeClass("hidden");
+				}
+				else {
+					$("#endDate").addClass("hidden");
+					$("#endDate_label").addClass("hidden");
+					$("#startDate_label").addClass("hidden");
+				}
+			}
+			else {
+				event_all_day=false;
+				$("#startDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.start.format("HH:mm"));
+				if(calEvent.timeType!="deadline"){
+					$("#endDate").text(calEvent.start.format('dddd DD MMM YYYY')+" "+calEvent.end.format("HH:mm"));
+					$("#endDate").removeClass("hidden");
+					$("#endDate_label").removeClass("hidden");
+					$("#startDate_label").removeClass("hidden");
+					$("#deadline_public_event").addClass("hidden");
+				}
+				else{
+					$("#endDate_label").addClass("hidden");
+					$("#startDate_label").addClass("hidden");
+					$("#deadline_public_event").removeClass("hidden");
+					$("#deadline_public_event input").prop("checked","checked");
+					}
+				
+			}
+			//populate place,prof and details
+			$("#event_place").text(calEvent.place);
+			$("#event_owner").text(calEvent.owner);
+			$("#event_owner").parent().parent().removeClass("hidden");
+			$("#event_details").text(calEvent.details);
+			//check if the event has notes or not
+			if($("#notes_body")){
+				$("#add_notes").addClass("hidden");
+				$("#notes").removeClass("hidden");
+				$("#notes_body").text(calEvent.notes);
+			}
+			else{
+				$("#add_notes").removeClass('hidden');
+				$("#notes").addClass("hidden");
+				}
+				
+			
 		},
 		error : function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
