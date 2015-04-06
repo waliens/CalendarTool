@@ -555,7 +555,7 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 			$("#academic_event_recurrence").html(recurrence);
 
 			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
-			if(recurrence=="jamais")
+			if(recurrence=="Jamais")
 				$("#academic_event_recurrence_end").parent().addClass("hidden");
 			else{
 				$("#academic_event_recurrence_end").parent().removeClass("hidden");
@@ -658,10 +658,11 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			$("#edit_academic_event_recurrence").val(recurrence);
 
 			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
-			if(recurrence=="jamais"){
+			if(recurrence=="Jamais"){
 				$("#edit_academic_event_recurrence_end").parent().hide()
 				$("#edit_academic_event_recurrence").html(recurrence);
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
+				$('#edit_academic_event_creation_confirm').popover('destroy');
 				}
 			else{
 				$("#edit_academic_event_recurrence_end").parent().show();
@@ -669,6 +670,10 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
 				var end_recurrence=moment(data.end_recurrence);
 				$("#edit_academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
+				//add popup to confirm button
+				$("#edit_academic_event_creation_confirm").popover({
+					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_indep_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_indep_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
+					});	
 				}
 			var favourite=data.favourite;
 			var team=data.team;
@@ -716,7 +721,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 })
 
 //confirm academic event edit
-$("#edit_academic_event_creation_confirm").click(function(){
+function edit_indep_event(applyRecursive){
 	var event_id=$("#edit_academic_event_creation_confirm").attr("event-id");
 	var name=$("#edit_academic_event_title").val();
 	var details=$("#edit_academic_event_details").val();
@@ -758,7 +763,7 @@ $("#edit_academic_event_creation_confirm").click(function(){
 		dataType : "json",
 		type : 'POST',
 		url : "index.php?src=ajax&req=085",
-		data: {id:event_id,name:name,details:details,where:where,entireDay:entireDay,start:start,end:end,deadline:deadline,type:category,pract_details:pract_details,feedback:feedback,workload:workload, pathways:pathways_json,teachingTeam:team_json,applyRecursive:"false"},
+		data: {id:event_id,name:name,details:details,where:where,entireDay:entireDay,start:start,end:end,deadline:deadline,type:category,pract_details:pract_details,feedback:feedback,workload:workload, pathways:pathways_json,teachingTeam:team_json,applyRecursive:applyRecursive},
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
@@ -775,22 +780,22 @@ $("#edit_academic_event_creation_confirm").click(function(){
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
-	})
+}
 
 function get_recursion(recursion_id){
 	switch(recursion_id){
 		case "6":
-			return "jamais";
+			return "Jamais";
 		case "1":
-			return "tous les jours";
+			return "Tous les jours";
 		case "2":
-			return "toutes les semaines";
+			return "Toutes les semaines";
 		case "3":
-			return "toutes les deux semaines";
+			return "Toutes les deux semaines";
 		case "4":
-			return "tous les mois";
+			return "Tous les mois";
 		case "5":
-			return "tous les ans"
+			return "Tous les ans"
 		}
 	}
 
@@ -1415,9 +1420,9 @@ function deadline(tag){
 	
 //sets the new subevent recurrence
 function updateRecurrence(tag){
-	$("#"+tag+"_recurrence").html(event.target.innerHTML);
+	$("#"+tag+"_recurrence").html(event.target.innerText);
 	$("#"+tag+"_recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
-	if(event.target.innerHTML!="jamais"){
+	if(event.target.innerHTML!="Jamais"){
 		$("#"+tag+"_recurrence_end_td").removeClass("hidden");
 		//build date picker of the end recurrence input
 		buildDatePicker(tag+"_recurrence_end");
@@ -1510,7 +1515,17 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 	var end_recurrence;
 	if(recurrence!=6){
 		end_recurrence=convert_date($("#new_indepevent_recurrence_end").val(),"YYYY-MM-DD");
+		//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
+		if($("#recurrence_end").val()==""){
+			end_recurrence=new moment(start);
+			if(recurrence=="tous les ans")
+				end_recurrence.add(10,"year");
+			else end_recurrence.add(1,"year");
 		}
+		else end_recurrence=moment(convert_date($("#recurrence_end").val(),"YYYY-MM-DD"));
+		end_recurrence=end_recurrence.format("YYYY-MM-DD");
+		//recurrent=true;	
+	}
 	var place=$("#new_indepevent_place").val();
 	var category=$("#new_indepevent_type").attr("category-id");
 	var feedback=$("#new_indepevent_feedback_body").val();
@@ -1622,7 +1637,7 @@ $("#subevents_info_accordion").on("click",".delete",function(event){
 //clean data from the new indep event modal on show	
 $("#new_indepevent").on("show.bs.modal",function(event){
 	$("#new_indepevent_title").val("");
-	$("#new_indepevent_recurrence").html("jamais");
+	$("#new_indepevent_recurrence").html("Jamais");
 	$("#new_indepevent_recurrence").attr("recurrence-id",6);
 	$("#new_indepevent_recurrence_end_td").addClass("hidden");
 	$("#new_indepevent_type").html("Cours théorique");

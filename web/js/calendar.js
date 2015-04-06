@@ -999,7 +999,7 @@ function convert_date(date,formatDestination,formatOrigin){
 	
 //sets the event recurrence
 function updateRecurrence(){
-	$("#recurrence").text(event.target.innerHTML);
+	$("#recurrence").text(event.target.innerText);
 	$("#recurrence").attr("recurrence-id",event.target.getAttribute("recurrence-id"));
 	if(event.target.innerHTML!="jamais"){
 		$("#recurrence_end_td").removeClass("hidden");

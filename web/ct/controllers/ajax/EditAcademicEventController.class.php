@@ -76,12 +76,41 @@ class EditAcademicEventController extends AjaxController
 		$ret = false;
 		if($this->sg_post->value('applyRecursive') == "true")
 		{
-			$ret = $model->modifyEvent(array("recurrence" => $this->sg_post->value('recurrenceId')), $data, true);
+			$idRec = $model->getEvent(array("id_event" => $this->sg_post->value('id')), array("id_recurrence") );
+			if(!$idRec)
+				return;
+			$idRec = $idRec[0]["Id_Recurrence"];
+			$ret = $model->modifyEvent(array("id_recurrence" => $idRec), $data, true);
 		}
 		else
 			$ret = $model->modifyEvent(array("id_event" => $this->sg_post->value('id')), $data);
 
-		$this->add_output_data("sucess", $ret);
+		
+		//Pathway & team
+		$pathway = $this->json2array($this->sg_post->value('pathways'));
+		$team = $this->json2array($this->sg_post->value('teaching_team'));
+
+		if($this->sg_post->value('applyRecursive') == "true"){
+			$idRec = $model->getEvent(array("id_event" => $this->sg_post->value('id')), array("id_recurrence") );
+			if(!$idRec)
+				return;
+			$idRec = $idRec[0]["Id_Recurrence"];
+			$ids = $model->getEvent(array("id_recurrence" => $idRec), array("id_event") );
+			$ids = \ct\array_flatten($ids);
+			foreach($id_ret as $o => $id){
+				foreach($pathway as $key => $value){
+					$model->setPathway($id, $value);
+				}
+				$model->setTeam($id, $team);
+			}
+		}
+		
+		else {
+			foreach($pathway as $key => $value){
+				$model->setPathway($id, $value);
+			}
+			$model->setTeam($id, $team);
+		}
 	}
 }
 
