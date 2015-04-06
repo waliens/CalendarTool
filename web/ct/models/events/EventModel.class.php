@@ -273,7 +273,6 @@ use \DateInterval;
 				array_push($d, $key. " = ".$value."");
 			}
 			$query = "UPDATE ".$table." SET ". implode(", ", $d). " WHERE ".$imp.";";
-			
 			return $this->sql->execute_query($query);
 		}
 		/**

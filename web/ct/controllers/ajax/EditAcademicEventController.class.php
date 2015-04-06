@@ -70,7 +70,8 @@ class EditAcademicEventController extends AjaxController
 		}
 
 		// get owner id
-		$data['id_owner'] = $id;
+		if(!$sub)
+			$data['id_owner'] = $id;
 
 		// check for recurrence
 		$ret = false;
@@ -88,7 +89,7 @@ class EditAcademicEventController extends AjaxController
 		
 		//Pathway & team
 		$pathway = $this->json2array($this->sg_post->value('pathways'));
-		$team = $this->json2array($this->sg_post->value('teaching_team'));
+		$team = $this->json2array($this->sg_post->value('teachingTeam'));
 
 		if($this->sg_post->value('applyRecursive') == "true"){
 			$idRec = $model->getEvent(array("id_event" => $this->sg_post->value('id')), array("id_recurrence") );
@@ -97,19 +98,30 @@ class EditAcademicEventController extends AjaxController
 			$idRec = $idRec[0]["Id_Recurrence"];
 			$ids = $model->getEvent(array("id_recurrence" => $idRec), array("id_event") );
 			$ids = \ct\array_flatten($ids);
-			foreach($id_ret as $o => $id){
+			foreach($ids as $o => $id){
 				foreach($pathway as $key => $value){
-					$model->setPathway($id, $value);
+					if(!$sub)
+						$model->setPathway($id, $value);
+					else{
+						if(!$value["selected"])
+							$model->excludePathway($id, $value['id']);
+					}
 				}
-				$model->setTeam($id, $team);
+				//$model->setTeam($id, $team);
 			}
 		}
 		
 		else {
 			foreach($pathway as $key => $value){
-				$model->setPathway($id, $value);
+				if(!$sub)
+					$model->setPathway($id, $value);
+				else{
+					if(!$value["selected"])
+						$model->excludePathway($id, $value['id']);
+				}			
 			}
-			$model->setTeam($id, $team);
+					
+		//	$model->setTeam($id, $team);
 		}
 	}
 }
