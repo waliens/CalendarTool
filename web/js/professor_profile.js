@@ -200,6 +200,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			}	
 
 			var global_event_id=data.id;
+			var owner_id=data.owner_id;
 			var global_event_id_ulg=data.id_ulg;
 			var global_event_name=data.name;
 			var global_event_name_short=data.name_short
@@ -272,7 +273,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#event_team").html(team_table);	
 			for(var i=0;i<team.length;i++)
 				populateTeamMember(team[i]);
-			$("#team_table tr:first .delete").addClass("delete-disabled");
+			$("#team_table .delete[member-id="+owner_id+"]").addClass("delete-disabled");
 			//hide confirm/abort edit buttons
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
@@ -697,6 +698,8 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			
 			for(var i=0;i<team.length;i++)
 				$("#edit_academic_event_team_table").append("<tr><td team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></td><td><input type='checkbox' team-id="+team[i].id+" checked></td></tr>")
+			//disable owner checkbox
+			$("#edit_academic_event_team_table input[team-id="+data.owner_id+"]").prop("disabled",true);
 			$("#edit_academic_event_pathways_table").val("");
 			for(var i=0;i<pathways.length;i++)
 				$("#edit_academic_event_pathways_table").append("<tr><td pathway-id="+pathways[i].id+">"+pathways[i].name+"</td><td><input type='checkbox' pathway-id="+pathways[i].id+" checked></td></tr>")
