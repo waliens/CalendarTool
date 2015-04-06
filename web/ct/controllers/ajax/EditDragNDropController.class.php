@@ -14,7 +14,7 @@ use util\superglobals\Superglobal;
 
 
 
-class EditDaD extends AjaxController
+class EditDragNDropController extends AjaxController
 {
 	/**
 	 * @brief Construct the PrivateEventController object and process the request

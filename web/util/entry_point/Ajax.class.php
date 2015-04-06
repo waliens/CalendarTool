@@ -8,7 +8,7 @@
     namespace util\entry_point;
     
     use ct\controllers\ajax\UpdateTeamMember;
-    use ct\controllers\ajax\EditDaD;
+    use ct\controllers\ajax\EditDragNDropController;
     use ct\controllers\ajax\ViewEventCalendarController;
 	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
@@ -22,7 +22,6 @@
     use ct\controllers\ajax\GetEventTypeController;
     use ct\controllers\ajax\DeleteNoteController;
     use ct\controllers\ajax\AddNoteController;
-    use ct\controllers\ajax\AddNote;
     use ct\controllers\ajax\TestController;
     use ct\controllers\ajax\PrivateEventController;
     use ct\controllers\ajax\AllProfessorsController;
@@ -193,8 +192,8 @@
                 case "111":
                     return new GetPathwaysController();
                     
-                case "141":
-                	return new EditDaD();
+                case "131":
+                	return new EditDragNDropController();
 
                 default:
                     return null;
