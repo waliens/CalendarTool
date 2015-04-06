@@ -175,6 +175,24 @@ $("#event_info").on("show.bs.modal",function(event){
 			subevents_table.className="table";
 			subevents_table.id="subevents_table";
 			$("#subevents_info").html(subevents_table);
+			if(subevents.length>1){
+				var row=subevents_table.insertRow(0);
+				var cell1=row.insertCell(0);
+				var cell2=row.insertCell(1);
+				var cell3=row.insertCell(2);
+				var titleHeader=document.createElement('p');
+				titleHeader.className="text-bold";
+				var whenHeader=document.createElement('p');
+				whenHeader.className="text-bold";
+				var recurrenceHeader=document.createElement('p');
+				recurrenceHeader.className="text-bold";
+				titleHeader.innerHTML="Titre"
+				cell1.appendChild(titleHeader);
+				whenHeader.innerHTML="Quand";
+				cell2.appendChild(whenHeader);
+				recurrenceHeader.innerHTML="Récurrence";
+				cell3.appendChild(recurrenceHeader);
+				}
 			for(var i=0;i<subevents.length;i++)
 				addSubevent(subevents[i]);
 			var team_table=document.createElement("table");
@@ -203,7 +221,9 @@ function addPathway(pathway){
 function addSubevent(item){
 	table=$("#subevents_table");
 	var row=document.createElement("tr");
-	var cell=document.createElement("td");
+	var cell1=document.createElement("td");
+	var cell2=document.createElement("td");
+	var cell3=document.createElement("td");
 	var a=document.createElement("a");
 	a.setAttribute("data-dismiss","modal");
 	a.setAttribute("data-target","#subevent_info");
@@ -211,8 +231,14 @@ function addSubevent(item){
 	a.innerHTML=item.name;
 	a.id=item.id;
 	a.onclick=function(e){showSubeventModal=true; subevent=e.target}
-	cell.appendChild(a);
-	row.appendChild(cell);
+	cell1.appendChild(a);
+	cell2.innerHTML=item.start;
+	cell2.setAttribute("event-id",item.id);
+	cell2.id="start_time_subevent";
+	row.appendChild(cell1);
+	cell3.innerHTML=get_recursion(item.recurrence_type);
+	row.appendChild(cell2);
+	row.appendChild(cell3);
 	table.append(row);
 	}
 	
