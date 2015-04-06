@@ -263,9 +263,6 @@ use \DateInterval;
 			$whereClause = array();
 			$i = 0;
 			foreach($where as $key => $value){
-				 /*if($key == "Id_Event")
-					$whereClause[$i] = "event.". $key ." = '".$value."'"; //removing ambiguity
-				else */
 					$whereClause[$i] = $key ." = ".$value."";
 				$i++;
 			}
@@ -276,6 +273,7 @@ use \DateInterval;
 				array_push($d, $key. " = ".$value."");
 			}
 			$query = "UPDATE ".$table." SET ". implode(", ", $d). " WHERE ".$imp.";";
+			
 			return $this->sql->execute_query($query);
 		}
 		/**
