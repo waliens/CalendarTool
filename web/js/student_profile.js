@@ -351,20 +351,3 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 		}
 	});
 })
-
-function get_recursion(recursion_id){
-	switch(recursion_id){
-		case "6":
-			return "Jamais";
-		case "1":
-			return "Tous les jours";
-		case "2":
-			return "Toutes les semaines";
-		case "3":
-			return "Toutes les deux semaines";
-		case "4":
-			return "Tous les mois";
-		case "5":
-			return "Tous les ans"
-		}
-	}

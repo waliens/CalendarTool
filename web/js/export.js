@@ -633,41 +633,6 @@ $("#static_export").click(function(){
 			}
 		});
 });
-
-
-//converts date formats	
-//converts date formats	
-function convert_date(date,formatDestination,formatOrigin){
-		var dd;
-		var mm;
-		var yy;
-		var chunks=date.split(" ");
-		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
-		if(chunks.length>1){
-			dd=chunks[1];
-			if(chunks[2].length<2)
-				mm=convert_month(chunks[2]);
-			else mm=chunks[2];
-			yy=chunks[3];
-		}
-		else {
-			chunks=date.split("-");
-			if(chunks[0].length==4){
-				dd=chunks[2];
-				mm=chunks[1];
-				yy=chunks[0];
-			}
-			else{
-				dd=chunks[0];
-				mm=chunks[1];
-				yy=chunks[2];
-
-				}
-		}
-		date_standard=yy+"-"+mm+"-"+dd;
-		var d = moment(date_standard);
-		return d.format(formatDestination);
-	}
 	
 //enable filter ok button when at least one checkbox is selected
 $("#filter_alert").on("click", $("#filter_alert input"),function(){
