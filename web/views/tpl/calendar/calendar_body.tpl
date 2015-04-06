@@ -58,7 +58,7 @@
             </table>
             <div class="text-center">
               <button type="button" class="btn btn-primary" onclick="addEvents()" disabled="true" id="submit_filters">Ok</button>
-              <button type="button" class="btn btn-default" onclick="reset_filters()">Reset</button>
+              <button type="button" class="btn btn-default" onclick="reset_filters()">Réinitialiser</button>
             </div>
           </div>
         </div>
