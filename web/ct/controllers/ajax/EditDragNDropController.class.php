@@ -36,14 +36,12 @@ class EditDragNDropController extends AjaxController
 		// create private event
 		$model = new StudentEventModel();
 
-		
 		//Question : is it recursive
 		$a = $model->getEvent(array("id_event" => $this->sg_post->value("id")), array("id_recurrence"));
 		if(!$a)
 			return;
 		$recId = $a[0]["Id_Recurrence"];
 		$isRec = $recId != 1 ? true : false;
-		
 		
 		if(!$isRec){
 			// get event date
@@ -79,7 +77,7 @@ class EditDragNDropController extends AjaxController
 					$table = "date_range_event";
 			else
 					$table = "time_range_event";
-			$ret = $model->setDateRecur($idRec, $table, $shift);
+			$ret = $model->setDateRecur($recId, $table, $shift);
 			
 			if(!$ret){
 				$this->set_error_predefined(self::ERROR_ACTION_UPDATE_DATA);
