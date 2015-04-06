@@ -20,7 +20,7 @@ class IndependentEventModel extends AcademicEventModel{
 		parent::__construct();
 		$this->fields_ind = array("Id_Event" => "int", "Id_Owner" => "int", "Public" => "bool");
 
-		$this->table = $this->table[2]= "independent_event";
+		$this->table[2]= "independent_event";
 	
 	}
 	
