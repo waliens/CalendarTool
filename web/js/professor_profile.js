@@ -311,6 +311,8 @@ function populateSubevent(item){
 	cell1.appendChild(a);
 	row.appendChild(cell1);
 	cell2.innerHTML=item.start;
+	cell2.setAttribute("event-id",item.id);
+	cell2.id="start_time_subevent";
 	row.appendChild(cell2);
 	cell3.innerHTML=get_recursion(item.recurrence_type);
 	row.appendChild(cell3);
@@ -618,6 +620,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			//{name, details, pract_details, where, limit, start, end, type, recursiveID, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], softAdd}
 			var academic_event_id=data.id;
 			var academic_event_title=data.name;
+			$("#edit_academic_modal_header").html(academic_event_title);
 			var academic_event_description=data.description;
 			var academic_event_place=data.place;
 			var academic_event_type=data.type;
@@ -672,7 +675,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				$("#edit_academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
 				//add popup to confirm button
 				$("#edit_academic_event_creation_confirm").popover({
-					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_indep_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_indep_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
+					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_academic_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_academic_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
 					});	
 				}
 			var favourite=data.favourite;
@@ -721,8 +724,11 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 })
 
 //confirm academic event edit
-function edit_indep_event(applyRecursive){
+function edit_academic_event(applyRecursive){
 	var event_id=$("#edit_academic_event_creation_confirm").attr("event-id");
+	var req="054";//subevent by default
+	if($("#independent-events #"+event_id+"").length>0)
+		req="085";
 	var name=$("#edit_academic_event_title").val();
 	var details=$("#edit_academic_event_details").val();
 	var where=$("#edit_academic_event_place").val();
@@ -749,21 +755,31 @@ function edit_indep_event(applyRecursive){
 	var team=$("#edit_academic_event_team_table input");
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++){
-		if(pathways.get(i).checked)
-			pathways_json.push(pathways.get(i).getAttribute("pathway-id"));
+		if(pathways.get(i).checked){
+			if(req=="054")
+				pathways_json.push({id:pathways.get(i).getAttribute("pathway-id"),selected:true});
+			else pathways_json.push(pathways.get(i).getAttribute("pathway-id"));
 		}
+		else if (req=="054") pathways_json.push({id:pathways.get(i).getAttribute("pathway-id"),selected:false});
+	}
 	pathways_json=JSON.stringify(pathways_json);
 	for(var i=0;i<team.length;i++){
-		if(team.get(i).checked)
-			team_json.push(team.get(i).getAttribute("team-id"));
+		if(team.get(i).checked){
+			if(req=="054")
+				team_json.push({id:team.get(i).getAttribute("team-id"),selected:true});
+			else team_json.push(team.get(i).getAttribute("team-id"));	
+		}
+		else if(req=="054") team_json.push({id:team.get(i).getAttribute("team-id"),selected:false});
 	}
 	team_json=JSON.stringify(team_json);
-	//{id, name, details, where, entireDay, start, end, type, recursive, pathway[{id, selected}], teachingTeam: [{id,selected}], applyRecursive}
+	//SUBEVENT: {id, name, details, where, entireDay, start, end, deadline, type, pract_details, feedback, workload, pathways:[{id,selected}], teachingTeam:[{id,selected}], applyRecursive}
+	//INDEP EVENT: {id, name, details, where, entireDay, start, end, deadline, type, pract_details, feedback, workload, pathways:[], teachingTeam:[], applyRecursive}
+	var data={id:event_id,name:name,details:details,where:where,entireDay:entireDay,start:start,end:end,deadline:deadline,type:category,pract_details:pract_details,feedback:feedback,workload:workload, pathways:pathways_json,teachingTeam:team_json,applyRecursive:applyRecursive};
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
-		url : "index.php?src=ajax&req=085",
-		data: {id:event_id,name:name,details:details,where:where,entireDay:entireDay,start:start,end:end,deadline:deadline,type:category,pract_details:pract_details,feedback:feedback,workload:workload, pathways:pathways_json,teachingTeam:team_json,applyRecursive:applyRecursive},
+		url : "index.php?src=ajax&req="+req,
+		data: data,
 		success : function(data, status) {
 			/** error checking */
 			if(data.error.error_code > 0)
@@ -771,10 +787,16 @@ function edit_indep_event(applyRecursive){
 				launch_error_ajax(data.error);
 				return;
 			}	
-			//update the title in case it has changed
-			$("#independent-events #"+event_id).html(name);
 			$("#academic_event_edit_modal").modal("hide");
-			$("#start_time_independent_event [event-id="+event_id+"]").html(start.replace("T"," "));
+			//update the title in case it has changed
+			if(req=="085"){
+				$("#independent-events #"+event_id).html(name);
+				$("#start_time_independent_event [event-id="+event_id+"]").html(start.replace("T"," "));
+			}
+			else{
+				$("#subevents_table #"+event_id).html(name);
+				$("#start_time_subevent [event-id="+event_id+"]").html(start.replace("T"," "));
+				}
 		},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
