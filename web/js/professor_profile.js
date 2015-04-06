@@ -108,7 +108,9 @@ function addIndependentEvent(indep_event){
 	var cell3=row.insertCell(2);
 	var cell4=row.insertCell(3);
 	var when=document.createElement("p");
-	when.innerHTML=indep_event.start;
+	when.setAttribute("event-id",indep_event.id);
+	when.id="start_time_independent_event";
+	when.innerHTML=indep_event.start.replace("T"," ");
 	var recurrence=document.createElement("p");
 	recurrence.innerHTML=get_recursion(indep_event.recurrence_type);
 	cell1.appendChild(event_name);
@@ -766,6 +768,8 @@ $("#edit_academic_event_creation_confirm").click(function(){
 			}	
 			//update the title in case it has changed
 			$("#independent-events #"+event_id).html(name);
+			$("#academic_event_edit_modal").modal("hide");
+			$("#start_time_independent_event [event-id="+event_id+"]").html(start.replace("T"," "));
 		},
 		error: function(xhr, status, error) {
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
