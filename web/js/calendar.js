@@ -1497,7 +1497,7 @@ function guid() {
 
 //change the value of the dropdown stating the private event type
 function changePrivateEventType(){
-	$("#private_event_type").text(event.target.innerHTML);
+	$("#private_event_type").text(event.target.innerText);
 	$("#private_event_type").attr("category-id",event.target.getAttribute("category-id"))
 	}
 	
