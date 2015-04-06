@@ -55,7 +55,7 @@ class AcademicEventModel extends EventModel{
 	 * @copydoc EventModel::getEvent
 	 */
 	public function getEvent (array $infoData = null, array $requestedData = null)
-	{	
+	{
 		$event = parent::getEvent($infoData, $requestedData);
 
 		// check whether the getEvent has worked
@@ -68,7 +68,7 @@ class AcademicEventModel extends EventModel{
 		// get the academic event data
 		$acad_event = $this->sql->select_one("academic_event", "Id_Event = ".$this->sql->quote($infoData['id_event']));
 
-		return !!$acad_event ? array_merge($event, $acad_event) : $event;
+		return !!$acad_event ? array(array_merge($event[0], $acad_event)) : $event;
 	}
 
 	/**

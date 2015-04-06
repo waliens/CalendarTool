@@ -140,6 +140,9 @@ class ViewEventController extends AjaxController
 					}, $path);
 				
 				$ret['pathways'] = $path;
+				$ret['pract_details'] = $data['Practical_Details'];
+				$ret['workload'] = $data['Workload'];
+				$ret['feedback'] = $data['Feedback'];
 			}
 			
 			if($data['Id_Recurrence'] != intval(1)){
