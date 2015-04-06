@@ -363,7 +363,7 @@ $("#new_indepevent").on("show.bs.modal",function(){
 					//check if start and end day are the same and if so we set the minTime of endHour
 					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
 						$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
-					else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
+					else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
 					})
 				//populate time pickers
 				var currentTime=new Date();
@@ -1270,7 +1270,7 @@ function buildDatePicker(option,target) {
 		datepicker[option+"_dates"].attachEvent("onClick",function(date){
 			//if start day and end day are different we have to enable all 24hours range for time pickers
 			if($("#"+option+"_endDate_datepicker").val()!=$("#"+option+"_startDate_datepicker").val()){
-				$("#"+option+"_endHour").timepicker("option",{minTime:"00:00", maxTime:"24:00"});
+				$("#"+option+"_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
 				$("#"+option+"_startHour").timepicker("option",{maxTime:"24:00"});
 				}
 			})
@@ -1605,14 +1605,20 @@ $("#subevents_info_accordion").on("click",".delete",function(event){
 			}
 		});
 	})	
-	
+
+//clean data from the new indep event modal on show	
 $("#new_indepevent").on("show.bs.modal",function(event){
-	$("#new_indepevent_title").val();
+	$("#new_indepevent_title").val("");
 	$("#new_indepevent_recurrence").html("jamais");
 	$("#new_indepevent_recurrence").attr("recurrence-id",6);
-	$("#new_indepevent_recurrence_end").hide();
+	$("#new_indepevent_recurrence_end_td").addClass("hidden");
 	$("#new_indepevent_type").html("Cours théorique");
 	$("#new_indepevent_type").attr("category-id",1);
 	$("#new_indepevent_workload").val(30);
-	$("#new_indepevent_place").
+	$("#new_indepevent_place").val("");
+	$("#new_indepevent_details").val("");
+	$("#new_indepevent_feedback_body").val("");
+	$("#new_indepevent_pract_details_body").val("");
+	$("#new_indepevent_pathways_table").html("");
+	$("#new_indepevent_team_table").html("");
 	})
