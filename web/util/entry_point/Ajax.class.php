@@ -7,8 +7,9 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\UpdateTeamMember;
     use ct\controllers\ajax\EditDragNDropController;
+
+	use ct\controllers\ajax\UpdateTeamMember;
     use ct\controllers\ajax\ViewEventCalendarController;
 	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;

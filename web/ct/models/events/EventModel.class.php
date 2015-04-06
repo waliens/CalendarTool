@@ -946,4 +946,21 @@ use \DateInterval;
 			return empty($end_data) ? false : $end_data[0]['End'];
 		}
 		
+		/**
+		 * Shift all the event from the same recur of a certain amount of days
+		 * @param int $idRec
+		 * @param string $table
+		 * @param DateInterval $shift
+		 */
+		public function setDateRecur($idRec, $table, $shift){
+			$days = $shift->days;
+			$query ="";
+			if($table = "deadline_event")
+				$query = "UPDATE ".$this->sql->quote($table)." NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
+						 WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			else 
+				$query = "UPDATE ".$this->sql->quote($table)." NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAYS), 
+						End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			return $this->sql->execute_query($query);
+		}
 	}
