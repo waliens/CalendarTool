@@ -188,17 +188,10 @@ class IndependentEventModel extends AcademicEventModel{
 	 * @retval boolean
 	 */
 	public function setPathway($eventId, $pathwayId){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
-			//TODO SET ERROR
-			return false;
-		}
+		$data = array("Id_Pathway" => $this->sql->quote($pathwayId), "Id_Event" => $this->sql->quote($eventId));
+
+		$a =  $this->sql->insert("independent_event_pathway", $data);
 		
-		$pM = new PathwayModel();
-		if(!$pM->pathway_exists($pathwayId)){
-			return false;
-		}
-		$data = array("Id_Pathway" => $pathwayId, "Id_Event" => $eventId);
-		return $this->sql->insert("independent_event_pathway", $data);
 	}
 	
 	/**
@@ -208,18 +201,10 @@ class IndependentEventModel extends AcademicEventModel{
 	 * @retval boolean
 	 */
 	public function removePathway($eventId, $pathwayId){
-		if(!$this->event_exists($eventId, Model::LOCKMODE_LOCK) || !$this->is_independent_event($eventId)){
-			//TODO SET ERROR
-			return false;
-		}
+		$data = "Id_Pathway='".$pathwayId."' AND Id_Event='". $this->sql->quote($eventId);
 		
-		$pM = new PathwayModel();
-		if(!$pM->pathway_exists($pathwayId)){
-			return false;
-		}
-		$data = "Id_Pathway=".$pathwayId." AND Id_Event=". $eventId;
+		$a =  $this->sql->delete("independent_event_pathway", $data);
 		
-		return $this->sql->delete("independent_event_pathway", $data);
 	}
 }
 
