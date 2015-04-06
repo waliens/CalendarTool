@@ -24,7 +24,7 @@ class EditAcademicEventController extends AjaxController
 		parent::__construct();
 		
 		// check if the expected keys are in the array
-		$keys = array("id","name", "place", "type", "recurrenceId", "details","applyRecursive", "pathways", "teachingTeam");
+		$keys = array("id","name", "place", "type", "recurrenceId", "details","applyRecursive", "pathways", "teachingTeam", "pract_details", "feedback");
 
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
@@ -48,7 +48,10 @@ class EditAcademicEventController extends AjaxController
 				"description" => $this->sg_post->value('details'),
 				"place" => $this->sg_post->value('place'),
 				"id_category" => $this->sg_post->value('type'),
-				"recurrence" => $this->sg_post->value('recurrenceId'));
+				"recurrence" => $this->sg_post->value('recurrenceId'),
+				"practical_details" => $this->sg_post->value('prac_details'),
+				"workload" => $this->sg_post->value("workload"),
+				"feedback" => $this->sg_post->value("feedback"));
 
 		// get event date
 		if($this->sg_post->check("limit") > 0){
