@@ -482,7 +482,7 @@ $("#calendar").on("click",".fc-prev-button",function(){
 //populate event categories of private event modal when creating a new private event
 $("#private_event").on("show.bs.modal",function(){
 	//populate event categories
-	populate_private_event_categories_dropdown();
+	populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
 	})
 	
 //set time intervals of new private event
@@ -705,47 +705,9 @@ function edit_private_event(){
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
 		//populate event category list
-		populate_private_event_categories_dropdown();
+		populate_event_categories_dropdown("private_event_categories_dropdown");
 	}
 }
-
-function populate_private_event_categories_dropdown(){
-	$.ajax({
-				dataType : "json",
-				type : 'POST',
-				url : "index.php?src=ajax&req=047",
-				data: {lang:"FR"},
-				async : true,
-				success : function(data, status) {
-					/** error checking */
-					if(data.error.error_code > 0)
-					{	
-						launch_error_ajax(data.error);
-						return;
-					}
-
-					var student_categories=data.student;
-					var academic_categories=data.academic;
-					var dropdown=document.getElementById("private_event_categories_dropdown");
-					dropdown.innerHTML="";
-					for (i=0; i < academic_categories.length; i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+academic_categories[i].id+'">'+academic_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-					for(i=0;i<student_categories.length;i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+student_categories[i].id+'">'+student_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-				},
-				error : function(xhr, status, error) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-			});
-	}
 	
 //abort edit info
 function abort_edit_event(){
@@ -1394,12 +1356,6 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
-
-//change the value of the dropdown stating the private event type
-function changePrivateEventType(){
-	$("#private_event_type").text(event.target.innerText);
-	$("#private_event_type").attr("category-id",event.target.getAttribute("category-id"))
-	}
 	
 function deadline(){
 	if($("#deadline input").prop("checked")){

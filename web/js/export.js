@@ -248,7 +248,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								cell1.appendChild(acad_category_tag);
 								var input=document.createElement('input');
 								input.type='checkbox';
-								input.id=academic_categories[i].name;
+								input.id=academic_categories[i].id;
 								cell2.className="text-center";
 								cell2.appendChild(input);
 								if(student_categories[i]!=null){
@@ -259,7 +259,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 									cell3.appendChild(student_category_tag);
 									var input=document.createElement('input');
 									input.type='checkbox';
-									input.id=student_categories[i].name;
+									input.id=student_categories[i].id;
 									cell4.className="text-center";
 									cell4.appendChild(input);
 								}
@@ -277,7 +277,7 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 								cell3.appendChild(student_category_tag);
 								var input=document.createElement('input');
 								input.type='checkbox';
-								input.id=student_categories[j].name;
+								input.id=student_categories[j].id;
 								cell4.className="text-center";
 								cell4.appendChild(input);
 							}

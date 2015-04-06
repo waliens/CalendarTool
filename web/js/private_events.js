@@ -251,60 +251,26 @@ function edit_private_event(){
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
 		//populate event category list
-		$.ajax({
-				dataType : "json",
-				type : 'POST',
-				url : "index.php?src=ajax&req=047",
-				data: {lang:"FR"},
-				async : true,
-				success : function(data, status) {
-					/** error checking */
-					if(data.error.error_code > 0)
-					{	
-						launch_error_ajax(data.error);
-						return;
-					}
-
-					var student_categories=data.student;
-					var academic_categories=data.academic;
-					var dropdown=document.getElementById("private_event_categories_dropdown");
-					dropdown.innerHTML="";
-					for (i=0; i < academic_categories.length; i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+academic_categories[i].id+'">'+academic_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-					for(i=0;i<student_categories.length;i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+student_categories[i].id+'">'+student_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-					//setup timepickers of new event modal
-					$(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
-					$("#private_event_endHour").on("changeTime",function(){
-						//check if start and end day are the same and if so we set the maxTime of startHour
-						if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
-							$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
-						else $("#private_event_startHour").timepicker("option",{maxTime:"24:00"});
-						if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
-								$('#edit_event_btns .btn-primary').prop("disabled", false);
-						})
-						$("#private_event_startHour").on("changeTime",function(){
-						//check if start and end day are the same and if so we set the minTime of endHour
-						if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
-							$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
-						else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
-						//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-							if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
-								$('#edit_event_btns .btn-primary').prop("disabled", false);
-					})
-						},
-						error : function(xhr, status, error) {
-							launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-						}
-			});
+		populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
+		//setup timepickers of new event modal
+		$(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
+		$("#private_event_endHour").on("changeTime",function(){
+			//check if start and end day are the same and if so we set the maxTime of startHour
+			if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
+				$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+			else $("#private_event_startHour").timepicker("option",{maxTime:"24:00"});
+			if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+					$('#edit_event_btns .btn-primary').prop("disabled", false);
+			})
+			$("#private_event_startHour").on("changeTime",function(){
+			//check if start and end day are the same and if so we set the minTime of endHour
+			if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
+				$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+			else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
+			//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
+				if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+					$('#edit_event_btns .btn-primary').prop("disabled", false);
+		})
 	}
 }
 
@@ -474,12 +440,6 @@ function buildMoment(date){
 	else dateString=dateMoment.format("ddd DD MMM YYYY");
 	return dateString;
 }
-
-//change the value of the dropdown stating the private event type
-function changePrivateEventType(){
-	$("#private_event_category").text(event.target.innerHTML);
-	$("#private_event_category").attr("category-id",event.target.getAttribute("category-id"))
-	}
 
 //triggered when the deadline checkbox is selected
 function deadline(){
