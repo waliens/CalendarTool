@@ -87,7 +87,6 @@ class AddIndepEventController extends AjaxController
 		
 		foreach($id_ret as $o => $id){
 			foreach($pathway as $key => $value){
-				echo "a";				
 				$model->setPathway($id, $value);
 			}
 			$model->setTeam($id, $team);
