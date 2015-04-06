@@ -482,7 +482,7 @@ $("#calendar").on("click",".fc-prev-button",function(){
 //populate event categories of private event modal when creating a new private event
 $("#private_event").on("show.bs.modal",function(){
 	//populate event categories
-	populate_private_event_categories_dropdown();
+	populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
 	})
 	
 //set time intervals of new private event
@@ -705,47 +705,9 @@ function edit_private_event(){
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
 		//populate event category list
-		populate_private_event_categories_dropdown();
+		populate_event_categories_dropdown("private_event_categories_dropdown");
 	}
 }
-
-function populate_private_event_categories_dropdown(){
-	$.ajax({
-				dataType : "json",
-				type : 'POST',
-				url : "index.php?src=ajax&req=047",
-				data: {lang:"FR"},
-				async : true,
-				success : function(data, status) {
-					/** error checking */
-					if(data.error.error_code > 0)
-					{	
-						launch_error_ajax(data.error);
-						return;
-					}
-
-					var student_categories=data.student;
-					var academic_categories=data.academic;
-					var dropdown=document.getElementById("private_event_categories_dropdown");
-					dropdown.innerHTML="";
-					for (i=0; i < academic_categories.length; i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+academic_categories[i].id+'">'+academic_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-					for(i=0;i<student_categories.length;i++){
-						var a_tab='<a role="menuitem" tabindex="-1" href="#" onclick="changePrivateEventType()" category-id="'+student_categories[i].id+'">'+student_categories[i].name+'</a>'
-						var li=document.createElement("li");
-						li.innerHTML=a_tab;
-						dropdown.appendChild(li);
-					}
-				},
-				error : function(xhr, status, error) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-			});
-	}
 	
 //abort edit info
 function abort_edit_event(){
@@ -838,106 +800,6 @@ function setSens(id, k, datepicker_instance) {
 function byId(id) {
 	return document.getElementById(id);
 }
-
-function convert_month(month){
-	switch(month){
-		case "janv.":
-			return "01";
-			break;
-		case "janvier":
-			return "01";
-			break;
-		case "févr.":
-			return "02";
-			break;
-		case "février":
-			return "02";
-			break;
-		case "mars":
-			return "03";
-			break;
-		case "avr.":
-			return "04";
-			break;
-		case "avril":
-			return "04";
-			break;
-		case "mai":
-			return "05";
-			break;
-		case "juin":
-			return "06";
-			break;
-		case "juil.":
-			return "07";
-			break;
-		case "juillet":
-			return "07";
-			break;
-		case "août":
-			return "08";
-			break;
-		case "sept.":
-			return "09";
-			break;
-		case "septembre":
-			return "09";
-			break;
-		case "octo.":
-			return "10";
-			break;
-		case "octobre":
-			return "10";
-			break;
-		case "nove.":
-			return "11";
-			break;
-		case "novembre":
-			return "11";
-			break;
-		case "dece.":
-			return "12";
-			break;
-		case "decembre":
-			return "12";
-			break;
-		
-		}
-	}
-
-//converts date formats	
-function convert_date(date,formatDestination,formatOrigin){
-		var dd;
-		var mm;
-		var yy;
-		var chunks=date.split(" ");
-		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
-		if(chunks.length>1){
-			dd=chunks[1];
-
-			if(chunks[2].length>2)
-				mm=convert_month(chunks[2]);
-			else mm=chunks[2];
-			yy=chunks[3];
-		}
-		else {
-			chunks=date.split("-");
-			if(chunks[0].length==4){
-				dd=chunks[2];
-				mm=chunks[1];
-				yy=chunks[0];
-			}
-			else{
-				dd=chunks[0];
-				mm=chunks[1];
-				yy=chunks[2];
-
-				}
-		}
-		date_standard=yy+"-"+mm+"-"+dd;
-		var d = moment(date_standard);
-		return d.format(formatDestination);
-	}
 	
 //sets the event recurrence
 function updateRecurrence(){
@@ -1494,12 +1356,6 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
-
-//change the value of the dropdown stating the private event type
-function changePrivateEventType(){
-	$("#private_event_type").text(event.target.innerHTML);
-	$("#private_event_type").attr("category-id",event.target.getAttribute("category-id"))
-	}
 	
 function deadline(){
 	if($("#deadline input").prop("checked")){

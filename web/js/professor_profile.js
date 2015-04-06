@@ -341,53 +341,47 @@ function populateTeamMember(member){
 
 //populate add new indep event modal
 $("#new_indepevent").on("show.bs.modal",function(){
+	//clean data from the new indep event modal on show	
+	$("#new_indepevent_title").val("");
+	$("#new_indepevent_recurrence").html("Jamais");
+	$("#new_indepevent_recurrence").attr("recurrence-id",6);
+	$("#new_indepevent_recurrence_end_td").addClass("hidden");
+	$("#new_indepevent_type").html("Cours théorique");
+	$("#new_indepevent_type").attr("category-id",1);
+	$("#new_indepevent_workload").val(30);
+	$("#new_indepevent_place").val("");
+	$("#new_indepevent_details").val("");
+	$("#new_indepevent_feedback_body").val("");
+	$("#new_indepevent_pract_details_body").val("");
+	$("#new_indepevent_pathways_table").html("");
+	$("#new_indepevent_team_table").html("");
+	$("#new_indepevent_team_members_list").html("");
+	$("#new_indepevent_team_members_role_list").html("");
 	//populate categories dropdown
-	$.ajax({
-			dataType : "json",
-			type : 'POST',
-			url : "index.php?src=ajax&req=047",
-			data: {lang:"FR"},
-			async : true,
-			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}	
-				var categories=data.academic;
-				$("#new_indepevent_categories").html("");
-				for (var i=0; i < categories.length; i++)
-					$("#new_indepevent_categories").append("<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick=\"changeEventType(\'#new_indepevent_type\')\" category-id="+categories[i].id+">"+categories[i].name+"</a></li>");
-				buildDatePicker("new_indepevent");
-				//setup timepickers of new subevent modal
-				$("#new_indepevent .time").timepicker({ 'forceRoundTime': true,'step':1 });
-				$("#new_indepevent_endHour").on("changeTime",function(){
-					//check if start and end day are the same and if so we set the maxTime of startHour
-					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
-						$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
-					else $("#new_indepevent_startHour").timepicker("option",{maxTime:"24:00"});
-					})
-				$("#new_indepevent_startHour").on("changeTime",function(){
-					//check if start and end day are the same and if so we set the minTime of endHour
-					if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
-						$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
-					else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
-					})
-				//populate time pickers
-				var currentTime=new Date();
-				currentTime=moment(currentTime);
-				var	startHour=currentTime.hours();
-				var	endHour=currentTime.add(1,"hour").hours();
-				var	minutes="00";
-				$("#new_indepevent_startHour").val(startHour+":"+minutes);
-				$("#new_indepevent_endHour").val(endHour+":"+minutes)
-			},
-			error : function(xhr, status, error) {
-			  var err = eval("(" + xhr.responseText + ")");
-			  alert(err.Message);
-			}
-		});
+	populate_event_categories_dropdown("new_indepevent_categories","#new_indepevent_type",true);
+	buildDatePicker("new_indepevent");
+	//setup timepickers of new subevent modal
+	$("#new_indepevent .time").timepicker({ 'forceRoundTime': true,'step':1 });
+	$("#new_indepevent_endHour").on("changeTime",function(){
+		//check if start and end day are the same and if so we set the maxTime of startHour
+		if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
+			$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
+		else $("#new_indepevent_startHour").timepicker("option",{maxTime:"24:00"});
+		})
+	$("#new_indepevent_startHour").on("changeTime",function(){
+		//check if start and end day are the same and if so we set the minTime of endHour
+		if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
+			$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
+		else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
+		})
+	//populate time pickers
+	var currentTime=new Date();
+	currentTime=moment(currentTime);
+	var	startHour=currentTime.hours();
+	var	endHour=currentTime.add(1,"hour").hours();
+	var	minutes="00";
+	$("#new_indepevent_startHour").val(startHour+":"+minutes);
+	$("#new_indepevent_endHour").val(endHour+":"+minutes)
 		//retrieve list of team members, roles and pathways
 		$.ajax({
 			dataType : "json",
@@ -693,23 +687,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			$("#edit_academic_event_feedback_body").val(feedback);
 			$("#edit_academic_event_team_table").val("");
 			//populate event categories
-			$.ajax({
-					dataType : "json",
-					type : 'POST',
-					url : "index.php?src=ajax&req=047",
-					data: {lang:"FR"},
-					async : true,
-					success : function(data, status) {
-						var categories=data.academic;
-						$("#edit_academic_event_categories").html("");
-						for (var i=0; i < categories.length; i++)
-							$("#edit_academic_event_categories").append("<li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick=\"changeEventType(\'#edit_academic_event_type\')\" category-id="+categories[i].id+">"+categories[i].name+"</a></li>");
-					},
-					error : function(xhr, status, error) {
-					  var err = eval("(" + xhr.responseText + ")");
-					  alert(err.Message);
-					}
-				});
+			populate_event_categories_dropdown("edit_academic_event_categories","#edit_academic_event_type",true);
 			
 			for(var i=0;i<team.length;i++)
 				$("#edit_academic_event_team_table").append("<tr><td team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></td><td><input type='checkbox' team-id="+team[i].id+" checked></td></tr>")
@@ -1657,22 +1635,3 @@ $("#subevents_info_accordion").on("click",".delete",function(event){
 			}
 		});
 	})	
-
-//clean data from the new indep event modal on show	
-$("#new_indepevent").on("show.bs.modal",function(event){
-	$("#new_indepevent_title").val("");
-	$("#new_indepevent_recurrence").html("Jamais");
-	$("#new_indepevent_recurrence").attr("recurrence-id",6);
-	$("#new_indepevent_recurrence_end_td").addClass("hidden");
-	$("#new_indepevent_type").html("Cours théorique");
-	$("#new_indepevent_type").attr("category-id",1);
-	$("#new_indepevent_workload").val(30);
-	$("#new_indepevent_place").val("");
-	$("#new_indepevent_details").val("");
-	$("#new_indepevent_feedback_body").val("");
-	$("#new_indepevent_pract_details_body").val("");
-	$("#new_indepevent_pathways_table").html("");
-	$("#new_indepevent_team_table").html("");
-	$("#new_indepevent_team_members_list").html("");
-	$("#new_indepevent_team_members_role_list").html("");
-	})
