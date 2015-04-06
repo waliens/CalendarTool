@@ -604,7 +604,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 	var req="051";//subevent by default
 	if($("#independent-events #"+event_id+"").length>0)
 		req="084";
-	$("#edit_academic_event_creation_confirm").attr("event-id",event_id);
+	$("#edit_academic_event_btns").attr("event-id",event_id);
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
@@ -665,20 +665,19 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				$("#edit_academic_event_recurrence_end").parent().hide()
 				$("#edit_academic_event_recurrence").html(recurrence);
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
-				$('#edit_academic_event_creation_confirm').popover('destroy');
-				$('#edit_academic_event_creation_confirm').bind("click",function(){
-					edit_academic_event(false);
-					})
+				$('#edit_academic_event_creation_confirm_recursion').addClass('hidden');
+				$('#edit_academic_event_creation_confirm_norecursion').removeClass('hidden');
 				}
 			else{
-				$('#edit_academic_event_creation_confirm').unbind();
+				$('#edit_academic_event_creation_confirm_recursion').removeClass('hidden');
+				$('#edit_academic_event_creation_confirm_norecursion').addClass('hidden');
 				$("#edit_academic_event_recurrence_end").parent().show();
 				$("#edit_academic_event_recurrence").html(recurrence);
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
 				var end_recurrence=moment(data.end_recurrence);
 				$("#edit_academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
 				//add popup to confirm button
-				$("#edit_academic_event_creation_confirm").popover({
+				$("#edit_academic_event_creation_confirm_recursion").popover({
 					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_academic_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_academic_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
 					});	
 				}
@@ -729,7 +728,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 
 //confirm academic event edit
 function edit_academic_event(applyRecursive){
-	var event_id=$("#edit_academic_event_creation_confirm").attr("event-id");
+	var event_id=$("#edit_academic_event_btns").attr("event-id");
 	var req="054";//subevent by default
 	if($("#independent-events #"+event_id+"").length>0)
 		req="085";

@@ -693,7 +693,8 @@
         </div>
         <div class="modal-footer">
           <div class='text-center' id='edit_academic_event_btns'>
-            <button tabindex="0" type='button' class='btn btn-primary' type="submit" id="edit_academic_event_creation_confirm" data-placement="left" data-toggle="popover" data-trigger="focus" title="Mis à jour événement récurrent" data-content="Cet événement est récurrent.">
+            <button tabindex="0" type='button' class='btn btn-primary' type="submit" id="edit_academic_event_creation_confirm_recursion" data-placement="left" data-toggle="popover" data-trigger="focus" title="Mis à jour événement récurrent" data-content="Cet événement est récurrent.">Confrimer</button>
+            <button tabindex="0" type='button' class='btn btn-primary hidden' type="submit" id="edit_academic_event_creation_confirm_norecursion" onclick="edit_academic_event(false)">
             Confirmer
             </button>
             <button type='button' class='btn btn-default' data-dismiss="modal">Annuler</button>
