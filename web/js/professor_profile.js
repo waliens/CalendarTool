@@ -100,17 +100,21 @@ function addIndependentEvent(indep_event){
 	delete_icon.setAttribute("course-name",indep_event.name);
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
-	var div_container2=document.createElement("div");
-	div_container2.className="text-center";
 	div_container1.appendChild(edit_icon);
-	div_container2.appendChild(delete_icon);
+	div_container1.appendChild(delete_icon);
 	var row=all_indep_events.insertRow(1);
 	var cell1=row.insertCell(0);
 	var cell2=row.insertCell(1);
 	var cell3=row.insertCell(2);
+	var cell4=row.insertCell(3);
+	var when=document.createElement("p");
+	when.innerHTML=indep_event.start;
+	var recurrence=document.createElement("p");
+	recurrence.innerHTML=indep_event.recurrence_type;
 	cell1.appendChild(event_name);
-	cell2.appendChild(div_container1);
-	cell3.appendChild(div_container2);
+	cell2.appendChild(when);
+	cell3.appendChild(recurrence);
+	cell4.appendChild(div_container1);
 	}
 	
 //populate delete global event alert
@@ -555,7 +559,7 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 				var end_recurrence=moment(data.end_recurrence);
 				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd, MMMM Do YYYY"));
 				}
-			var pract_details=data.practical_details;
+			var pract_details=data.pract_details;
 			var feedback=data.feedback;
 			var workload=data.workload;
 			var favourite=data.favourite;
