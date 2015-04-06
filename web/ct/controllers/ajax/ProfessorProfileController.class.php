@@ -60,7 +60,7 @@
 			$filter_collection->add_access_filter(new AccessFilter());
 
 			$indep_events = $filter_collection->get_events();
-			$trans_indep = array("Id_Event" => "id", "Name" => "name");
+			$trans_indep = array("Id_Event" => "id", "Name" => "name", "Start" => "start", "Id_Recur_Category" => "recurrence_type");
 			$prof_data['indep_events'] = \ct\darray_transform($indep_events, $trans_indep);
 
 			$this->set_output_data($prof_data);
