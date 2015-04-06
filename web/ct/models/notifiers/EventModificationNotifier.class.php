@@ -150,8 +150,11 @@ class EventModificationNotifier extends Notifier {
 			$path = $this->model->getPathways($this->id);
 			foreach($path as $o => $value){
 				$students = $uM->get_student_by_pathway($value["Id_Pathway"]);
-				foreach($students as $b => $id)
-					array_push($studentsMails, $uM->get_user_email($id));
+				foreach($students as $b => $id){
+					$mail = $uM->get_user_email($value['id']);
+					if($mail != "")
+						array_push($studentsMails, $mail);
+				}
 			}
 		}
 		

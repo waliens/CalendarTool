@@ -4,10 +4,10 @@
  * @file
 * @brief Sub Event  AddingControllerClass
 */
+namespace ct\controllers\ajax;
 
 use ct\models\notifiers\EventModificationNotifier;
 
-namespace ct\controllers\ajax;
 
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;

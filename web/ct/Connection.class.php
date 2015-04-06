@@ -62,7 +62,7 @@
 			$this->remote_user = "u013317"; // Pascal Gribaumont
 		//	$this->remote_user = "u013316"; // TA nicolas lorent
 
-			// TMP
+			// TMP : to prevent double refresh when the user is changed
 			$this->connect($this->remote_user);
 			// TMP
 

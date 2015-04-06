@@ -28,11 +28,12 @@ class GlobalEventNotification extends Notifier {
 	public function __construct($const, $eventId){
 		parent::__construct();
 		$this->id = $eventId;
-		if($const <  0 || $const > 1)
+		if($const >= 0 && $const <= 1)
 			$this->mode = $const;
 		else
 			return;
 			
+		
 		$this->model = new GlobalEventModel(); 
 		
 		$this->notify();
@@ -42,7 +43,7 @@ class GlobalEventNotification extends Notifier {
 	 * @brief Return the text message for the email
 	 * @retval string The text message
 	 */
-	private function get_txt_message(){
+	protected function get_txt_message(){
 		$name = $this->model->get_global_event(array("id" => $this->id));
 		if(!$name)
 			return;
@@ -62,16 +63,18 @@ class GlobalEventNotification extends Notifier {
 	 * @brief Return the html message for the email
 	 * @retval string The html message
 	 */
-	 private function get_html_message();
+	 protected function get_html_message(){
+	 	return $this->get_txt_message();
+	 }
 	
 	/**
 	 * @brief Return the subject for the email
 	 * @retval string The subject
 	 */
-	 private function get_subject(){
-	 	if($this->const == self::CREATE)
-	 		return "[MyULg Calendar] Nouvelle cours !";
-	 	elseif($this->const == self::DELETE)
+	 protected function get_subject(){
+	 	if($this->mode == self::CREATE)
+	 		return "[MyULg Calendar] Nouveau cours !";
+	 	elseif($this->mode == self::DELETE)
 	 		return "[MyULg Calendar] Un cours a été supprimé!";	 	 
 	 }
 	
@@ -79,16 +82,18 @@ class GlobalEventNotification extends Notifier {
 	 * @brief Return the addressee's mail address for the email
 	 * @retval string The addressee's mail address
 	 */
-	private function get_addressee(){
+	protected function get_addressee(){
 		$uM = new UserModel();
 		$studentsMails = array();
 		$students = $this->model->get_list_student($this->id);
 
 		foreach($students as $o => $value){
-			array_push($studentsMails, $uM->get_user_email($value['id']));
+			$mail = $uM->get_user_email($value['id']);
+			if($mail != "")
+				array_push($studentsMails, $mail);
 		}
 		
 		$studentsMails = array_unique($studentsMails);
-		return implode(",",$studentsMailss);
+		return implode(",",$studentsMails);
 	}
 }

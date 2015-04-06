@@ -107,7 +107,7 @@ class Core extends Pimple {
     };
 
     $this['text/filter'] = function($psl) {
-      return new Http\Hsts($psl);
+      return new Text\Filter();
     };
 
 

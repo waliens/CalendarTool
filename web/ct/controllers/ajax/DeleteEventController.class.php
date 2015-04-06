@@ -77,7 +77,7 @@ class DeleteEventController extends AjaxController
 				$success = $model->deleteEventRecurrence($verif[0]['Id_Recurrence']);
 			}
 			else {
-			//	$success = $model->delete_event(intval($eventId));
+				$success = $model->delete_event(intval($eventId));
 			}
 			if(!$success){
 				$this->set_error_predefined(self::ERROR_ACTION_DELETE_DATA);

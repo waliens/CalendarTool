@@ -77,8 +77,12 @@
 			if($acad_year == null) $acad_year = \ct\get_academic_year();
 			if($lang == null) $lang = self::LANG_FR;
 
-			if(!checkdate(1, 1, $acad_year)) // check whether the year is valid
-				return 0;
+			// check input data
+			if(!checkdate(1, 1, $acad_year)) // year
+				return false;
+
+			if(!$this->valid_lang($lang)) // language
+				return false;
 
 			$success = true;
 
@@ -235,8 +239,8 @@
 			if($id_glob < 0)
 				return false;
 
-			$update_array = array("Description" => $data['desc'],
-								  "Feedback" => $data['feedback']);
+			$update_array = array("Description" => $this->filter->f($data['desc']),
+								  "Feedback" => $this->filter->f($data['feedback']));
 
 			// check if the language must be updated
 			if(isset($data['lang']))

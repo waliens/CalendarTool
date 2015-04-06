@@ -7,7 +7,9 @@
 
     namespace util\entry_point;
     
-    use ct\controllers\ajax\UpdateTeamMember;
+    use ct\controllers\ajax\EditDragNDropController;
+
+				use ct\controllers\ajax\UpdateTeamMember;
     use ct\controllers\ajax\EditDaD;
     use ct\controllers\ajax\ViewEventCalendarController;
 	use ct\controllers\ajax\EditAcademicEventController;
@@ -194,7 +196,7 @@
                     return new GetPathwaysController();
                     
                 case "141":
-                	return new EditDaD();
+                	return new EditDragNDropController();
 
                 default:
                     return null;
