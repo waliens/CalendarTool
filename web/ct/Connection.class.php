@@ -26,7 +26,6 @@
 		private static $instance = null; /**< @brief Singleton instance of the class */
 		private $sess; /**< @brief : a SG_Session object */
 		private $remote_user; /**< @brief The ULg id of the remote user (null, if it is not set) */
-		private $host; /**< @brief The address of server that has issued the request */
 		private $user_mod; /**< @brief The user model */
 
 		/**
@@ -57,39 +56,34 @@
 			// set the http headers variables
 			$this->extract_http_headers();
 
-
 		//	$this->remote_user = "s060934"; // 3e BAC 
 		//	$this->remote_user = "s114352"; // 2e BAC
 		//	$this->remote_user = "s023178";
-			$this->remote_user = "u013317"; // Pascal Gribaumont
-			$this->host = "";
+		//	$this->remote_user = "u013317"; // Pascal Gribaumont
+			$this->remote_user = "u013316"; // TA nicolas lorent
+
+			// TMP
 			$this->connect($this->remote_user);
-			// check host
-			// if(!$this->check_host()) // host different from the reverse proxy 
-			// {
-			// 	http_response_code(401);
-			// 	exit();
-			// }
+			// TMP
 
 			if(!$this->is_connected()) // no previous connection
 				$this->connect($this->remote_user);
-			else if($this->user_ulg_id() !== $this->remote_user || !$this->user_mod->user_exists($this->user_ulg_id())) 
-				$this->disconnect(); // previous ulg id doesn't match the current or user does not exists
+			else if($this->user_ulg_id() !== $this->remote_user) // the user sending the queryis not the same as the previous one
+				$this->disconnect(); 
 
 			// redirect the user if he hasn't given his credentials yet
-			if(isset($_GET['page']) && $_GET['page'] !== "ask_data" && !$this->user_mod->user_subscription_complete($this->user_id()))
+			if(!$this->user_mod->user_subscription_complete($this->user_id()) && (!isset($_GET['page']) || $_GET['page'] !== "ask_data"))
 				new Redirection("index.php?page=ask_data");
 		}
 
 		/**
 		 * @brief Extract the given headers from the http request headers and initialize the corresponding
 		 * class variables
-		 * @note The variables initialized are 'remote_user' and 'host'
+		 * @note The variables initialized are 'remote_user'
 		 */
 		private function extract_http_headers()
 		{
 			$this->remote_user = null;
-			$this->host = null;
 
 			foreach (getallheaders() as $key => $value) 
 				switch (strtolower($key)) 
@@ -97,20 +91,8 @@
 				case 'x-remote-user':
 					$this->remote_user = $value;
 					break;
-				case 'host':
-					$this->host = $value;
-					break;
 				}
- 		}
-
- 		/**
- 		 * @brief Check if the server issuing the request is the ULg sso
- 		 * @retval bool True if the host is valid, false otherwise
- 		 */
- 		private function check_host()
- 		{
- 			return true;// $this->host === "reverse_proxy_ip";
- 		}
+		}
 
  		/**
  		 * @brief Check for root identification data in the post array
@@ -178,6 +160,7 @@
 		/**
 		 * @brief Connects the user 
 		 * @param[in] string $ulg_id The login of the user to connect
+		 * @note If the user account does not exists the function tries to create him one
 		 * @note Disconnect the user on error (implies a redirection to the ulg logout page)
 		 * @note The ulg_id and the user_id are initialized in the session superglobal array 
 		 */
@@ -185,8 +168,14 @@
 		{
 			$_SESSION['ulg_id'] = $ulg_id;
 
-			// try to create an user if necessary
-			if(!$this->user_mod->user_exists($ulg_id) && !$this->user_mod->create_user($ulg_id))
+			// if the user does not exist, try to create his account
+			// first try to create the user from the database
+			// if it doesn't work and that the user is a faculty staff member his account is created anyway
+			// otherwise disconnect the user because his account couldn't be created
+			if(!$this->user_mod->user_exists($ulg_id)
+				 && !$this->user_mod->create_user($ulg_id) 
+				 && !UserModel::is_student_id($ulg_id) 
+				 && $this->user_mod->create_unkown_faculty_staff($this->user_ulg_id()))
 				$this->disconnect();
 
 			$_SESSION['user_id'] = $this->user_mod->get_user_id_by_ulg_id($ulg_id);
@@ -206,7 +195,7 @@
 
 			$_SESSION['root_id'] = $this->root_mod->get_root_id($root_login, $root_pass);
 
-			return true;
+			return session_regenerate_id(true); // renew session id to avoid session fixation attacks
 		}
 
 		/**
@@ -228,6 +217,7 @@
 		public function disconnect_root()
 		{
 			unset($_SESSION['root_id']);
+			session_regenerate_id(true); // regenerate id to avoid session fixation
 		}
 
 		/**

@@ -111,6 +111,32 @@
 		}
 
 		/**
+		 * @brief Create an accout for a faculty staff member that is not in the databas
+		 * @param[in] string $user_ulg_id The faculty staff member user_ulg_id
+		 * @retval bool True if the addition has succeeded, false otherwise
+		 */
+		public function create_unknown_faculty_staff($user_ulg_id)
+		{
+			if(self::is_student_id($user_ulg_id))
+				return false;
+
+			$this->sql->transaction();
+
+			$user_data = array("Id_ULg" => $this->sql->quote($user_ulg_id));
+			$success = $this->sql->insert("user", $user_data);
+
+			$fac_staff_data = array("Id_Faculty_Member" => $this->sql->last_insert_id());
+			$success &= $this->sql->insert("faculty_staff_member", $fac_staff_data);
+
+			if($success)
+				$this->sql->commit();
+			else
+				$this->sql->rollback();
+
+			return $success;
+		}
+
+		/**
 		 * @brief Return the user id associated with the given ulg id
 		 * @param[in] string $ulg_id The ulg id
 		 * @retval int The user id, -1 on error

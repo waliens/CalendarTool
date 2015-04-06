@@ -87,16 +87,16 @@
                   <tr>
                     <td class="width-80 text-underline">Commence</td>
                     <td id="new_event_startDate"><label for="new_event_startDate_datepicker" class="sr-only">Commence</label>
-                      <input id="private_event_startDate_datepicker" onclick="setSens('private_event_endDate_datepicker', 'max', 'private_event');">
+                      <input class="form-control date-picker" id="private_event_startDate_datepicker" onclick="setSens('private_event_endDate_datepicker', 'max', 'private_event');">
                       <label for="private_event_startHour" class="sr-only">Commence Heure</label>
-                      <input class="marging-10-0 time" id="private_event_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                      <input class="time form-control" id="private_event_startHour" placeholder="HH:MM" data-time-format="H:i"></td>
                   </tr>
                   <tr>
                     <td class="width-80 text-underline">Se termine</td>
                     <td id="private_event_endDate"><label for="private_event_endDate_datepicker" class="sr-only">Se termine</label>
-                      <input class="marging-10-0" id="private_event_endDate_datepicker" onclick="setSens('private_event_startDate_datepicker', 'min','private_event');">
+                      <input class="marging-10-0 form-control date-picker" id="private_event_endDate_datepicker" onclick="setSens('private_event_startDate_datepicker', 'min','private_event');">
                       <label for="private_event_endHour" class="sr-only">Se termine Heure</label>
-                      <input class="marging-10-0 time" id="private_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
+                      <input class="marging-10-0 time form-control" id="private_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
                   </tr>
                   <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline();"></td></tr>
                 </table></td>

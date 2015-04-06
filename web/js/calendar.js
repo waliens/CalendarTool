@@ -391,9 +391,9 @@ $(document).ready(function() {
 			$("#private_event_modal_header").removeClass("float-left-10padright");
 			$("#private_event_title").prop("readonly",false);
 			$("#private_event_startDate_datepicker").prop("disabled",false);
-			$("#private_event_startDate_datepicker").prop("readonly",true);
+			$("#private_event_startDate_datepicker").prop("readonly",false);
 			$("#private_event_endDate_datepicker").prop("disabled",false);
-			$("#private_event_endDate_datepicker").prop("readonly",true);
+			$("#private_event_endDate_datepicker").prop("readonly",false);
 			$("#private_event_startHour").prop("disabled",false);
 			$("#private_event_endHour").prop("disabled",false);
 			$("#private_event_place").prop("readonly",false);
@@ -840,24 +840,24 @@ function buildDatePicker(option,target) {
 			datepicker[option] = new dhtmlXCalendarObject([elements[0].attr("id"),elements[1].attr("id")]);
 		else datepicker[option] = new dhtmlXCalendarObject(elements[0].attr("id"))
 		//set date format
-		datepicker[option].setDateFormat("%d-%m-%Y");
-		byId("startDate_datepicker").value = convert_date(event_date_start,"dddd DD MMM YYYY");
+		datepicker[option].setDateFormat("%l %d %F %Y");
+		$("#startDate_datepicker").val(convert_date(event_date_start,"dddd DD MMMM YYYY"));
 		if($("#endDate_datepicker").length>0)
-			byId("endDate_datepicker").value = convert_date(event_date_end,"dddd DD MMM YYYY");
+			$("#endDate_datepicker").val(convert_date(event_date_end,"dddd DD MMMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
+			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
 		});
 	}
 	//datepicker to be built for the end recursion
 	else if(option=="recurrence_end"){
 		datepicker[option] = new dhtmlXCalendarObject("recurrence_end");
-		datepicker[option].setDateFormat("%d-%m-%Y");
+		datepicker[option].setDateFormat("%l %d %F %Y");
 		setSens("private_event_endDate_datepicker","min","recurrence_end");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMM YYYY"));
+			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMMM YYYY"));
 		});
 		}
 	
@@ -868,12 +868,12 @@ function buildDatePicker(option,target) {
 		//set date format
 		datepicker[option].setDateFormat("%d-%m-%Y");
 		datepicker[option].setDate(target);	
-		elements[0].val(convert_date(target,"dddd DD MMM YYYY"));
-		elements[1].val(convert_date(target,"dddd DD MMM YYYY"));
+		elements[0].val(convert_date(target,"dddd DD MMMM YYYY"));
+		elements[1].val(convert_date(target,"dddd DD MMMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
+			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
 		});
 	}
 	//hide the time in the datepicker tool
@@ -902,13 +902,22 @@ function convert_month(month){
 		case "janv.":
 			return "01";
 			break;
+		case "janvier":
+			return "01";
+			break;
 		case "févr.":
+			return "02";
+			break;
+		case "février":
 			return "02";
 			break;
 		case "mars":
 			return "03";
 			break;
 		case "avr.":
+			return "04";
+			break;
+		case "avril":
 			return "04";
 			break;
 		case "mai":
@@ -920,19 +929,34 @@ function convert_month(month){
 		case "juil.":
 			return "07";
 			break;
+		case "juillet":
+			return "07";
+			break;
 		case "août":
 			return "08";
 			break;
 		case "sept.":
 			return "09";
 			break;
-		case "oct.":
+		case "septembre":
+			return "09";
+			break;
+		case "octo.":
 			return "10";
 			break;
-		case "nov.":
+		case "octobre":
+			return "10";
+			break;
+		case "nove.":
 			return "11";
 			break;
-		case "déc.":
+		case "novembre":
+			return "11";
+			break;
+		case "dece.":
+			return "12";
+			break;
+		case "decembre":
 			return "12";
 			break;
 		
@@ -1027,22 +1051,22 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 //setup timepickers of new event modal
 $(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
 $("#private_event_endHour").on("changeTime",function(){
-	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
-	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
-	if(startDate.isSame(endDate))
+	//check if start and end day are the same and if so we set the maxTime of startHour
+	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
 		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	else $("#private_event_startHour").timepicker("option",{maxTime:"24:00"});
 	if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
-		$('#edit_event_btns .btn-primary').prop("disabled", false);
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
-$("#private_event_startHour").on("changeTime",function(){
-	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
-	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
-	if(startDate.isSame(endDate))
+	$("#private_event_startHour").on("changeTime",function(){
+	//check if start and end day are the same and if so we set the minTime of endHour
+	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
 		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+	else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
 	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-	if($("#private_event_title").val().length>0&&$("#private_event_endHour").val().length>0)
-		$('#edit_event_btns .btn-primary').prop("disabled", false);
-	})
+		if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
+})
 
 //populate private event modal
 function populate_private_event(event){
@@ -1831,8 +1855,8 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
+	$("#endDateFilter").val(td.format("dddd DD MMM YYYY"));
+	$("#startDateFilter").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
 		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
