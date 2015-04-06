@@ -175,10 +175,9 @@ class IndependentEventModel extends AcademicEventModel{
 	 * @retval array|boolean if error
 	 */
 	public function getPathways($eventId){
-
 		return $this->sql->select("independent_event_pathway NATURAL JOIN pathway", 
 								  "Id_Event=".$this->sql->quote($eventId), 
-								  array("Id_Pathway AS id", "Name_Long AS name_long", "Name_Short AS name_short"));
+								  array("Id_Event", "Id_Pathway AS id", "Name_Long AS name_long", "Name_Short AS name_short"));
 	}
 	
 	/**
