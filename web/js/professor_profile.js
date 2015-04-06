@@ -200,6 +200,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			}	
 
 			var global_event_id=data.id;
+			var owner_id=data.owner_id;
 			var global_event_id_ulg=data.id_ulg;
 			var global_event_name=data.name;
 			var global_event_name_short=data.name_short
@@ -272,7 +273,7 @@ $("#event_info").on("show.bs.modal",function(event){
 			$("#event_team").html(team_table);	
 			for(var i=0;i<team.length;i++)
 				populateTeamMember(team[i]);
-			$("#team_table tr:first .delete").addClass("delete-disabled");
+			$("#team_table .delete[member-id="+owner_id+"]").addClass("delete-disabled");
 			//hide confirm/abort edit buttons
 			$("#edit-global-event-buttons").addClass("hidden");
 		},
@@ -636,7 +637,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			//build datepicker
 			buildDatePicker("edit_academic_event");
 			//setup timepickers of new subevent modal
-			$(".time").timepicker({ 'forceRoundTime': true });
+			$(".time").timepicker({ 'forceRoundTime': true,'step':1  });
 			$("#edit_academic_event_endHour").on("changeTime",function(){
 				$("#edit_academic_event_startHour").timepicker("option",{maxTime:$("#edit_academic_event_endHour").val()});
 				})
@@ -650,7 +651,8 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			var category_id=data.category_id;
 			var category_name=data.category_name;
 			var recurrence=get_recursion(data.recurrence);
-			//var academic_event_pract_details=data.pract_details;
+			var academic_event_pract_details=data.pract_details;
+			var feedback=data.feedback;
 			$("#edit_academic_event_recurrence").val(recurrence);
 
 			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
@@ -674,7 +676,8 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			$("#edit_academic_event_details").val(academic_event_description);
 			$("#edit_academic_event_category").val(category_name);
 			$("#edit_academic_event_place").val(academic_event_place);
-			//$("#academic_event_pract_details_body").val(academic_event_pract_details);
+			$("#edit_academic_event_pract_details_body").val(academic_event_pract_details);
+			$("#edit_academic_event_feedback_body").val(feedback);
 			$("#edit_academic_event_team_table").val("");
 			//populate event categories
 			$.ajax({
@@ -697,6 +700,8 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 			
 			for(var i=0;i<team.length;i++)
 				$("#edit_academic_event_team_table").append("<tr><td team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></td><td><input type='checkbox' team-id="+team[i].id+" checked></td></tr>")
+			//disable owner checkbox
+			$("#edit_academic_event_team_table input[team-id="+data.owner_id+"]").prop("disabled",true);
 			$("#edit_academic_event_pathways_table").val("");
 			for(var i=0;i<pathways.length;i++)
 				$("#edit_academic_event_pathways_table").append("<tr><td pathway-id="+pathways[i].id+">"+pathways[i].name+"</td><td><input type='checkbox' pathway-id="+pathways[i].id+" checked></td></tr>")
@@ -738,12 +743,12 @@ $("#edit_academic_event_creation_confirm").click(function(){
 	var team_json=[];
 	for(var i=0;i<pathways.length;i++){
 		if(pathways.get(i).checked)
-			pathways_json.push(pathways[i].id);
+			pathways_json.push(pathways.get(i).getAttribute("pathway-id"));
 		}
 	pathways_json=JSON.stringify(pathways_json);
 	for(var i=0;i<team.length;i++){
 		if(team.get(i).checked)
-			team_json.push(team[i].id);
+			team_json.push(team.get(i).getAttribute("team-id"));
 	}
 	team_json=JSON.stringify(team_json);
 	//{id, name, details, where, entireDay, start, end, type, recursive, pathway[{id, selected}], teachingTeam: [{id,selected}], applyRecursive}
@@ -1176,7 +1181,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	//build datepicker
 	buildDatePicker("new_subevent");
 	//setup timepickers of new subevent modal
-	$(".time").timepicker({ 'forceRoundTime': true });
+	$(".time").timepicker({ 'forceRoundTime': true,'step':1  });
 	$("#new_subevent_endHour").on("changeTime",function(){
 		$("#new_subevent_startHour").timepicker("option",{maxTime:$("#new_subevent_endHour").val()});
 		})
@@ -1532,7 +1537,7 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 			async : true,
 			success : function(data, status) {
 				$('#new_indepevent').modal('hide');
-				var indep_event={id:data.id, name:title}
+				var indep_event={id:data.id, name:title, start:start, recurrence_type:recurrence};
 				addIndependentEvent(indep_event);
 			},
 			error : function(xhr, status, error) {
@@ -1625,4 +1630,6 @@ $("#new_indepevent").on("show.bs.modal",function(event){
 	$("#new_indepevent_pract_details_body").val("");
 	$("#new_indepevent_pathways_table").html("");
 	$("#new_indepevent_team_table").html("");
+	$("#new_indepevent_team_members_list").html("");
+	$("#new_indepevent_team_members_role_list").html("");
 	})
