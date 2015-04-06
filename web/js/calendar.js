@@ -293,6 +293,7 @@ $(document).ready(function() {
 				buttonText: 'Semestre',
 			}
 		},
+		height: 550,
 		editable: true,
 		viewRender: function(view,element){
 			var current_view=getCurrentView(view.name);
@@ -390,10 +391,11 @@ $(document).ready(function() {
 			$("#private_event_modal_header").removeClass("float-left-10padright");
 			$("#private_event_title").prop("readonly",false);
 			$("#private_event_startDate_datepicker").prop("disabled",false);
-			$("#private_event_startDate_datepicker").prop("readonly",true);
+			$("#private_event_startDate_datepicker").prop("readonly",false);
 			$("#private_event_endDate_datepicker").prop("disabled",false);
-			$("#private_event_endDate_datepicker").prop("readonly",true);
+			$("#private_event_endDate_datepicker").prop("readonly",false);
 			$("#private_event_startHour").prop("disabled",false);
+			$("#private_event_endHour").prop("disabled",false);
 			$("#private_event_place").prop("readonly",false);
 			$("#recurrence_btn").prop("disabled",false);
 			$("#private_event_type_btn").prop("disabled",false);
@@ -420,17 +422,18 @@ $(document).ready(function() {
 					}
 				}
 				if(!revert){
+					var start=event.start.format("YYYY-MM-DD")+"T"+event.start.format("HH:mm:ss");
 					var end;
 					var limit=false;
 					if(event.end)
-						end=event.end.format("YYYY-MM-DDTHH:mm:ss");
+						end=event.end.format("YYYY-MM-DD")+"T"+event.end.format("HH:mm:ss");
 					if(event.timeType=="deadline")
 						limit=true;
 					$.ajax({
 						dataType : "json",
 						type : 'POST',
-						url : "index.php?src=ajax&req=141",
-						data : {id:event.id_server,start:event.start.format("YYYY-MM-DDTHH:mm:ss"),end:end,allDay:event.allDay,limit:limit},
+						url : "index.php?src=ajax&req=131",
+						data : {id:event.id_server,start:start,end:end,allDay:event.allDay,limit:limit},
 						success : function(data, status) {
 							/** error checking */
 							if(data.error.error_code > 0)
@@ -748,7 +751,7 @@ function edit_private_event(){
 			$("#private_event_endDate_datepicker").prop("disabled",false);
 			$("#private_event_endDate_datepicker").removeClass("hidden");
 			$("#private_event_endHour").removeClass("hidden");
-			$("#private_event_startHour").prop("disabled",false);
+			$("#private_event_endHour").prop("disabled",false);
 		}
 		$("#private_event_place").prop("readonly",false);
 		$("#private_event_place").removeClass("hidden");
@@ -837,24 +840,24 @@ function buildDatePicker(option,target) {
 			datepicker[option] = new dhtmlXCalendarObject([elements[0].attr("id"),elements[1].attr("id")]);
 		else datepicker[option] = new dhtmlXCalendarObject(elements[0].attr("id"))
 		//set date format
-		datepicker[option].setDateFormat("%d-%m-%Y");
-		byId("startDate_datepicker").value = convert_date(event_date_start,"dddd DD MMM YYYY");
+		datepicker[option].setDateFormat("%l %d %F %Y");
+		$("#startDate_datepicker").val(convert_date(event_date_start,"dddd DD MMMM YYYY"));
 		if($("#endDate_datepicker").length>0)
-			byId("endDate_datepicker").value = convert_date(event_date_end,"dddd DD MMM YYYY");
+			$("#endDate_datepicker").val(convert_date(event_date_end,"dddd DD MMMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
+			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
 		});
 	}
 	//datepicker to be built for the end recursion
 	else if(option=="recurrence_end"){
 		datepicker[option] = new dhtmlXCalendarObject("recurrence_end");
-		datepicker[option].setDateFormat("%d-%m-%Y");
+		datepicker[option].setDateFormat("%l %d %F %Y");
 		setSens("private_event_endDate_datepicker","min","recurrence_end");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMM YYYY"));
+			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMMM YYYY"));
 		});
 		}
 	
@@ -865,12 +868,12 @@ function buildDatePicker(option,target) {
 		//set date format
 		datepicker[option].setDateFormat("%d-%m-%Y");
 		datepicker[option].setDate(target);	
-		elements[0].val(convert_date(target,"dddd DD MMM YYYY"));
-		elements[1].val(convert_date(target,"dddd DD MMM YYYY"));
+		elements[0].val(convert_date(target,"dddd DD MMMM YYYY"));
+		elements[1].val(convert_date(target,"dddd DD MMMM YYYY"));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
+			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
 		});
 	}
 	//hide the time in the datepicker tool
@@ -899,13 +902,22 @@ function convert_month(month){
 		case "janv.":
 			return "01";
 			break;
+		case "janvier":
+			return "01";
+			break;
 		case "févr.":
+			return "02";
+			break;
+		case "février":
 			return "02";
 			break;
 		case "mars":
 			return "03";
 			break;
 		case "avr.":
+			return "04";
+			break;
+		case "avril":
 			return "04";
 			break;
 		case "mai":
@@ -917,19 +929,34 @@ function convert_month(month){
 		case "juil.":
 			return "07";
 			break;
+		case "juillet":
+			return "07";
+			break;
 		case "août":
 			return "08";
 			break;
 		case "sept.":
 			return "09";
 			break;
-		case "oct.":
+		case "septembre":
+			return "09";
+			break;
+		case "octo.":
 			return "10";
 			break;
-		case "nov.":
+		case "octobre":
+			return "10";
+			break;
+		case "nove.":
 			return "11";
 			break;
-		case "déc.":
+		case "novembre":
+			return "11";
+			break;
+		case "dece.":
+			return "12";
+			break;
+		case "decembre":
 			return "12";
 			break;
 		
@@ -1024,25 +1051,29 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 //setup timepickers of new event modal
 $(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
 $("#private_event_endHour").on("changeTime",function(){
-	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
-	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
-	if(startDate.isSame(endDate))
+	//check if start and end day are the same and if so we set the maxTime of startHour
+	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
 		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
+	else $("#private_event_startHour").timepicker("option",{maxTime:"24:00"});
+	if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
 	})
-$("#private_event_startHour").on("changeTime",function(){
-	var startDate=moment(convert_date($("#private_event_startDate_datepicker").val(),"YYYY-MM-DD"));
-	var endDate=moment(convert_date($("#private_event_endDate_datepicker").val(),"YYYY-MM-DD"));
-	if(startDate.isSame(endDate))
+	$("#private_event_startHour").on("changeTime",function(){
+	//check if start and end day are the same and if so we set the minTime of endHour
+	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
 		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
+	else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
 	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-	if($("#private_event_title").val().length>0)
-		$('#edit_event_btns .btn-primary').prop("disabled", false);
-	})
+		if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
+			$('#edit_event_btns .btn-primary').prop("disabled", false);
+})
 
 //populate private event modal
 function populate_private_event(event){
 	var event_id=event.id_server;
+	var event_id_fc=event.id
 	$("#delete_private_event .delete").attr("event-id",event_id);
+	$("#delete_private_event .delete").attr("event-id-fc",event_id_fc);
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
@@ -1182,29 +1213,6 @@ function populate_public_event(event){
 		}
 	});
 	}
-	
-
-//update event after drag and drop
-function confirm_drag_drop(event){
-	var new_data={"id":id,"start":start, "end":end};
-	$.ajax({
-			dataType : "json",
-			type : 'POST',
-			url : "index.php?src=ajax&req=61",
-			data : new_event,
-			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}
-			},
-				error : function(xhr, status, error) {
-					launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
-				}
-		});
-	}
 
 //update the calendar with the new event or confirm the edit of an existing event
 function create_private_event(){
@@ -1247,6 +1255,7 @@ function create_private_event(){
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=$("#recurrence").attr("recurrence-id");
 	var end_recurrence;
+	var end_recurrence_json;
 	var lastday=$('#calendar').fullCalendar('getView').end;
 	var place=$("#private_event_place").val();
 	var type=$("#private_event_type").attr("category-id")
@@ -1270,15 +1279,23 @@ function create_private_event(){
 		endjson=endstring;
 		startjson=startstring;
 		if(recurrence_id!=6){
-			end_recurrence=convert_date($("#recurrence_end").val(),"YYYY-MM-DD");
+			//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
+			if($("#recurrence_end").val()==""){
+				end_recurrence=new moment(start);
+				if(recurrence=="tous les ans")
+					end_recurrence.add(10,"year");
+				else end_recurrence.add(1,"year");
+			}
+			else end_recurrence=moment(convert_date($("#recurrence_end").val(),"YYYY-MM-DD"));
+			end_recurrence_json=end_recurrence.format("YYYY-MM-DD");
 			recurrent=true;	
 		}
 		else {
-			end_recurrence=""
+			end_recurrence_json=""
 			recurrent=false;
 		}
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence, "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1294,9 +1311,6 @@ function create_private_event(){
 					var id=guid();
 					//check if the event is recursive
 					if(recurrence!="jamais"){
-						end_recurrence=$("#recurrence_end").val();
-						if(end_recurrence!="")
-							end_recurrence=moment(convert_date(end_recurrence, "YYYY-MM-DD"));
 						var offset;
 						var offset_type;
 						switch(recurrence){
@@ -1325,13 +1339,6 @@ function create_private_event(){
 								offset_type="year";
 								recurrence_id=5;
 								break;
-						}
-						//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
-						if(end_recurrence==""){
-							end_recurrence=new moment(start);
-							if(recurrence=="tous les ans")
-								end_recurrence.add(10,"year");
-							else end_recurrence.add(1,"year");
 						}
 						var id_event=guid();
 						var i=0;
@@ -1435,6 +1442,7 @@ function create_private_event(){
 //delete private event
 function delete_private_event(applyRecursive){
 	var event_id=$("#delete_private_event .delete").attr("event-id");
+	var event_id_fc=$("#delete_private_event .delete").attr("event-id-fc");
 	$.ajax({
 		dataType : "json",
 		type : 'POST',
@@ -1447,7 +1455,7 @@ function delete_private_event(applyRecursive){
 				launch_error_ajax(data.error);
 				return;
 			}
-			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id_server==event_id)return true});
+			$('#calendar').fullCalendar('removeEvents', function(element){if(element.id==event_id_fc)return true});
 			//hide the modal
 			$("#private_event").modal("hide");
 		},
@@ -1480,7 +1488,10 @@ function deadline(){
 		datepicker["private_event"].setSensitiveRange(null, null);
 		if($("#private_event_startHour").val().length==0)
 			$('#edit_event_btns .btn-primary').prop("disabled", true);
-		else $('#edit_event_btns .btn-primary').prop("disabled", false);
+		else {
+			if($("#private_event_title").val().length>0)
+				$('#edit_event_btns .btn-primary').prop("disabled", false);
+			}
 	}
 	else{ 
 		$("#private_event_endDate").prop("disabled",false);
@@ -1844,8 +1855,8 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
+	$("#endDateFilter").val(td.format("dddd DD MMM YYYY"));
+	$("#startDateFilter").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
 		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));

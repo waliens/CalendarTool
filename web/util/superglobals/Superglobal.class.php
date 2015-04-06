@@ -34,6 +34,20 @@
 		// data members
 		protected $superglobal; /**< @brief A reference to the superglobal array */
 
+		//debug member
+		private $debug_mode;
+		
+		public function __construct(){
+			$debug_mode = false;
+		}
+		
+		/**
+		 * @brief enable debug mode, the name of the failed to check key will be print 
+		 * on the stanart output
+		 */
+		public function set_debug_mode(){
+			$debug_mode = true;
+		}
 		/**
 		 * @brief Perform a check on the given key in the superglobal
 		 * @param[in] string   $key 	 The superglobal array key
@@ -87,6 +101,7 @@
 		 * true if this value is valid, false otherwise (default: null => callback not evaluated)
 		 * @retval int The negative error code specifying which check has failed (see ERR_* class negative constants) if it has failed, ERR_OK otherwise
 		 * 
+		 * @note if debug mode is enabled the key that make the check failed will be print on the output
 		 * @note The function return ERR_OK if none of the keys returned an error, otherwise it returns the error code of the first error encountered
 		 */
 		public function check_keys(array $keys, $chk = null, $callback = null)
@@ -94,8 +109,11 @@
 			foreach ($keys as $key) 
 			{
 				$code = $this->check($key, $chk, $callback);
-				if($code < 0)
+				if($code < 0){
+					if($this->debug_mode)
+						echo "Check failed for key : ".$key."<br>";
 					return $code;
+				}
 			}
 
 			return self::ERR_OK;

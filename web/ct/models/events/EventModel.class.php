@@ -6,6 +6,7 @@
 	 */
 
 namespace ct\models\events;
+
 use util\mvc\Model;
 use util\database\Database;
 
@@ -39,11 +40,11 @@ use \DateInterval;
 		function __construct() {
 			parent::__construct();
 			
-			$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurrence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date", "feedback" => "text", "workload" => "int", "practical_details" => "text", "id_owner" => "int", "public" => "bool","id_owner" => "int", "id_GlobalEvent" => "int", "categ_name_FR" => "text", "categ_name_EN" => "text");
+			$this->fields = array("id_event" => "int", "name" => "text","DateType" => "text", "description" => "text", "id_recurrence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date", "feedback" => "text", "workload" => "int", "practical_details" => "text", "id_owner" => "int", "public" => "bool","id_owner" => "int", "id_GlobalEvent" => "int", "categ_name_FR" => "text", "categ_name_EN" => "text");
 			$this->fields_event = array("Id_Event" => "int", "Name" => "text", "Description" => "text", "Id_Recurrence" => "int", "Place" => "text", "Id_Category" => "int");
 			$this->table = array();
 			$this->table[0] = "event";
-			$this->translate = array("id_event" => "event.Id_Event", "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End", "feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details", "id_GlobalEvent" => "Id_Global_Event","id_owner" => "Id_Owner", "id_owner" => "Id_Owner", "public" => "Public", "categ_name_FR" => "Name_FR", "categ_name_EN" => "Name_EN");
+			$this->translate = array("id_event" => "event.Id_Event", "DateType" => "DateType",  "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End", "feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details", "id_GlobalEvent" => "Id_Global_Event","id_owner" => "Id_Owner", "id_owner" => "Id_Owner", "public" => "Public", "categ_name_FR" => "Name_FR", "categ_name_EN" => "Name_EN");
 		}
 		
 		/**
@@ -111,7 +112,6 @@ use \DateInterval;
 						 	FROM event_category 
 					) AS categ NATURAL JOIN recurrence NATURAL JOIN recurrence_category ".$whereClause." ORDER BY Start ;";
 
-						
 			return   $this->sql->execute_query($query);
 
 	
@@ -119,7 +119,6 @@ use \DateInterval;
 		
 		/**
 		 * @brief Get an event from the bdd (this function check the args)
-		 * @param $type type of event
 		 * @param $requestedData what we want to obtain (nothing for *)
 		 * @param $infoData what we know about the event
 		 * @retval mixed an array containing the data false otherwise
@@ -127,13 +126,13 @@ use \DateInterval;
 		public function getEvent (array $infoData = null,  array $requestedData = null){	
 			if($infoData == null)
 				$infoData = array();
-						
+
+			
 			$info = $this->checkParams($infoData, true);
 			if($requestedData ==  null)
 				return $this->getData($info);
 		
 			$request = $this->checkParams($requestedData, false);		
-			
 			return $this->getData($info, $request);
 		}
 		
@@ -145,10 +144,7 @@ use \DateInterval;
 		 * @retval mixed return the array without invalids params (-1 if prooblem during cintegrity)
 		 */
 		protected function checkParams($ar, $ckey, $cintegrity = false){
-			if($ckey)
-				$arr = array_intersect_key($ar, $this->fields);
-			else
-				$arr = $this->array_intersect_key_val($ar, $this->fields);
+			$arr = $ar;
 			
 			
 			if($cintegrity){
@@ -788,15 +784,15 @@ use \DateInterval;
 			if(isset($data['limit'])){
 				$start = new DateTime($data['limit']);
 				$end = NULL;
-				$typeOfDate = "Deadline";
+				$typeOfDate = "deadline_event";
 			}
 			elseif(isset($data['start'])){
 				$start = new DateTime($data['start']);
 				$end = new DateTime($data['end']);
 				if($start->format("H:i:s") == "00:00:00")
-					$typeOfDate =  "Date";
+					$typeOfDate =  "date_range_event";
 				else 
-					$typeOfDate = "TimeRange";
+					$typeOfDate = "time_range_event";
 			}
 			else{
 				$this->error .= "\n Error in the Date field";
@@ -815,21 +811,92 @@ use \DateInterval;
 			}
 			
 			$data["id_recurrence"] = $recId;
-				
+			$nOfEvent = 0;
+			$dateDatas = array();
 			$retval = array();
-			while($start < $endrecurence){
-				$id = $this->createEvent($data);
-				if(is_int($id) && $id >= 0){
-					$this->setDate($id, $typeOfDate, $start, $end);
-					array_push($retval, $id);
-				}
+			while($start <= $endrecurence){
+				$nOfEvent++;
+				
+				if($typeOfDate == "date_range_event")
+					$date = array("Start" => $start->format("Y-m-d"));
+				else
+					$date = array("Start" => $start->format("Y-m-d H:i:s"));
+						
+							
 				$start->add($interval);
-				if($end)
+				if($end){
+					if($typeOfDate == "date_range_event")
+						$date["End"] = $end->format("Y-m-d");
+					else
+						$date["End"] = $end->format("Y-m-d H:i:s");
+						
 					$end->add($interval);
+				}
+				array_push($dateDatas, $date);
 			}
+			$retval = $this->createBatchEvent($data, $nOfEvent);
+
+			if(!$retval)
+				return false;
+			else{
+				foreach($retval as $a => $id){
+					$dateDatas[$a]["Id_Event"] = $id;  
+					$dateDatas[$a] = array_values($dateDatas[$a]);
+				}
+			}
+			
+			
+			if($end)
+				$this->sql->insert_batch($typeOfDate, $dateDatas, array("Start", "End", "Id_Event"));
+			else
+				$this->sql->insert_batch($typeOfDate, $dateDatas, array("Limit", "Id_Event"));
+				
 			
 			return $retval;
 		}
+		
+		/**
+		 * @brief create a range of identical events with the same recur number 
+		 * @param array $data the data (as you will insert if you only insert one) (erxept the date)
+		 * @param int $n le nombre de fois que l'on veut inserer un event
+		 * @return boolean|array false if error if ok an array containings ids newly inserted
+		 */
+		public function createBatchEvent($data, $n){
+			$datas = $this->checkParams($data, true, true);
+			if($datas == -1)
+				return false;
+				
+			if(isset($datas['Id_Event'])){
+				return false;
+			}
+				
+				
+			$datas = array_intersect_key($datas, $this->fields_event);
+			//Unquote stuff
+			$datas = array_map("\ct\unquote", $datas);
+			$datas['Id_Recurrence'] = \ct\get_numeric($datas['Id_Recurrence']);
+			$datas['Id_Category'] = \ct\get_numeric($datas['Id_Category']);
+			$d = \ct\array_flatten($datas);
+			$key = array_keys($datas);
+			$values = array();
+			for($i = 0; $i < $n; ++$i) //C'est moooooooooooooooooooooche 
+				array_push($values, $d);
+			
+
+				
+			$a = $this->sql->insert_batch("event", $values, $key);
+			if($a){
+				$b = $this->sql->select("event", "Id_Recurrence = ".$datas['Id_Recurrence'], array("Id_Event"));
+				if($b)
+					return \ct\array_flatten($b);
+				else 
+					return false;
+			}
+			else
+				return false;
+
+		}
+		
 		
 		public function get_error(){
 			return $this->error;

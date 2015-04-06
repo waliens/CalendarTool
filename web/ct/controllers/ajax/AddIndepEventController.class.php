@@ -83,6 +83,7 @@ class AddIndepEventController extends AjaxController
 		
 		$this->add_output_data("id", $id_ret);
 
+		
 		$pathway = $this->json2array($this->sg_post->value('pathways'));
 		$team = $this->json2array($this->sg_post->value('teaching_team'));
 
@@ -90,8 +91,9 @@ class AddIndepEventController extends AjaxController
 		array_push($team, $you);
 		
 		foreach($id_ret as $o => $id){
-			foreach($pathway as $key => $value)
+			foreach($pathway as $key => $value){
 				$model->setPathway($id, $value);
+			}
 			$model->setTeam($id, $team);
 		}
 		

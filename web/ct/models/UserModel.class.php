@@ -113,6 +113,32 @@
 		}
 
 		/**
+		 * @brief Create an accout for a faculty staff member that is not in the databas
+		 * @param[in] string $user_ulg_id The faculty staff member user_ulg_id
+		 * @retval bool True if the addition has succeeded, false otherwise
+		 */
+		public function create_unknown_faculty_staff($user_ulg_id)
+		{
+			if(self::is_student_id($user_ulg_id))
+				return false;
+
+			$this->sql->transaction();
+
+			$user_data = array("Id_ULg" => $this->sql->quote($user_ulg_id));
+			$success = $this->sql->insert("user", $user_data);
+
+			$fac_staff_data = array("Id_Faculty_Member" => $this->sql->last_insert_id());
+			$success &= $this->sql->insert("faculty_staff_member", $fac_staff_data);
+
+			if($success)
+				$this->sql->commit();
+			else
+				$this->sql->rollback();
+
+			return $success;
+		}
+
+		/**
 		 * @brief Return the user id associated with the given ulg id
 		 * @param[in] string $ulg_id The ulg id
 		 * @retval int The user id, -1 on error
@@ -182,6 +208,7 @@
 		 * 	<li> Id_ULg : user ulg id </li>
 		 * 	<li> Name : user name </li>
 		 * 	<li> Surname : user surname </li>
+		 *  <li> Email : user email </li>
 		 * </ul>
 		 */
 		public function get_user($user_id=null)
@@ -199,6 +226,7 @@
 		 * 	<li> Id_ULg : user ulg id </li>
 		 * 	<li> Name : user name </li>
 		 * 	<li> Surname : user surname </li>
+		 *  <li> Email : user email </li>
 		 * </ul>
 		 */
 		public function get_users()
@@ -228,5 +256,58 @@
 				return false;
 			else 
 				return array_flatten($ret);
+
 		}
+		
+		/**
+		 * @brief Update the user data
+		 * @param[in] array $data The array containing the new data : ('name', 'surname', 'email')
+		 * @param[in] int $user_id The user id (optionnal, default: the currently connected user data)
+		 * @retval bool True on success, false on error
+		 */
+		public function update_user(array $data, $user_id = null)
+		{
+			if($user_id == null) $user_id = Connection::get_instance()->user_id();
+
+			$update_data = array("Name" => $data['name'],
+								 "Surname" => $data['surname'],
+								 "Email" => $data['email']);
+
+			return $this->sql->update("user", $this->sql->quote_all($update_data), "Id_User = ".$this->sql->quote($user_id));
+		}	
+
+		/**
+		 * @brief Return true whether the user has completed its subscription on the platform 
+		 * @param[in] string $user_id The user identifier (ptionnal, default: currently connected user)
+		 * @retval bool True if the user is subscribed, false otherwise
+		 * @note The subscription is complete when the user has registered his name, surname and email
+		 */
+		public function user_subscription_complete($user_id)
+		{
+			return $this->sql->count("user", 
+									 "Id_User = ".$this->sql->quote($user_id)." AND ". 
+									 "LENGTH(Name) > 0 AND LENGTH(Surname) AND LENGTH(Email) > 0") > 0;
+		}
+		
+		/**
+		* @brief Checks whether the user having the given id exists in the user table
+		* @param[in] string $user_id the id of the user
+		* @retval bool True if the user exists, false otherwise
+		*/
+		public function user_id_exists($user_id)
+		{
+			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
+		}
+		
+		/**
+		 * @brief simply return the mail of an user
+		 * @param int $user_id User id(in the db)
+		 */
+		public function get_user_email($user_id){
+			$a = $this->sql->select("user", "Id_User = ".$this->sql->quote($user_id), array("Email"));
+			if(!$a)
+				return false;
+			return $a[0]["Email"];
+		}
+		
 	}

@@ -7,7 +7,10 @@
 	 */
 
 	namespace util;
-
+	
+	
+	use \Smarty;
+	
 	/**
 	 * @class Mail
 	 * @brief A class for sending emails

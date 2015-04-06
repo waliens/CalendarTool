@@ -39,12 +39,13 @@
       <table class="table" id="independent-events">
         <tr class="text-bold">
           <td>Titre</td>
-          <td class="width-30">Modifier</td>
-          <td class="width-30">Supprimer</td>
+          <td>Quand</td>
+          <td>Récurrence</td>
+          <td class="width-30">Modifier/Supprimer</td>
         </tr>
         <!--FILLED BY AJAX WITH LIST INDEPENDENT EVENTS-->
         <tr>
-      <td colspan="3">
+      <td colspan="4">
       <div class="text-center">
         <a href="#" class="btn btn-primary padding-6-55" role="button" id="add-indep-event" data-toggle="modal" data-target="#new_indepevent">Ajouter événement indépendant</a>
       </div>

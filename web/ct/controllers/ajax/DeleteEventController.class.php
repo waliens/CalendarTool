@@ -69,13 +69,15 @@ class DeleteEventController extends AjaxController
 		elseif(($sub || $indep) && !$model->isInTeam($eventId, $id))
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);		
 		else{  
-			new EventModificationNotifier(EventModificationNotifier::
+			
+			if($sub || $indep)
+				new EventModificationNotifier(EventModificationNotifier::
 					DELETE, $eventId);
 			if($recur == "true"){
 				$success = $model->deleteEventRecurrence($verif[0]['Id_Recurrence']);
 			}
 			else {
-				$success = $model->delete_event(intval($eventId));
+			//	$success = $model->delete_event(intval($eventId));
 			}
 			if(!$success){
 				$this->set_error_predefined(self::ERROR_ACTION_DELETE_DATA);

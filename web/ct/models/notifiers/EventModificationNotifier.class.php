@@ -1,12 +1,15 @@
 <?php
 namespace  ct\models\notifiers;
 
+use ct\models\events\EventModel;
+
 use ct\models\events\IndependentEventModel;
 use ct\models\events\SubEventModel;
 use ct\models\events\GlobalEventModel;
 use ct\models\UserModel;
 use ct\models\events\AcademicEventModel;
 use ct\models\notifiers\Notifier;
+use \DateTime;
 
 /**
  * @class EventModificationNotifier
@@ -32,19 +35,21 @@ class EventModificationNotifier extends Notifier {
 	public function __construct($const, $eventId){
 		parent::__construct();
 		$this->id = $eventId;
-		if($const <  0 || $const > 2)
+		if($const >= 0 && $const <= 2)
 			$this->mode = $const;
+		else 
+			return;
 
-		if($this->model->is_sub_event()){
-			$model = new SubEventModel();
-			$type = "sub";
+		$this->model = new EventModel();
+		if($this->model->is_sub_event($eventId)){
+			$this->model = new SubEventModel();
+			$this->type = "sub";
 		}
 		else{
-			$model = new IndependentEventModel();
-			$type = "indep";
+			$this->model = new IndependentEventModel();
+			$this->type = "indep";
 		}
 			
-		
 		$this->notify();
 	}
 	
@@ -52,42 +57,48 @@ class EventModificationNotifier extends Notifier {
 	 * @brief Return the text message for the email
 	 * @retval string The text message
 	 */
-	private function get_txt_message(){
+	protected function get_txt_message(){
 		if($this->mode == self::ADD_DL){
 			$event = $this->model->getEvent(array("id_event" => $this->id), array("name", "start"));
 			if(!$event)
 				return;
+			$event = $event[0];
 			$start = new DateTime($event["Start"]);
 			return "Une nouvelle deadline a étée ajoutée a votre planning 
-					\n\t ".$event['Name']." pour le ".$start->format("D/M/Y H:i:s")."\n\n Ce message a été envoyé automatiquement merci de ne pas répondre";
+					\n\t ".$event['Name']." pour le ".$start->format("d/m/Y H:i:s")."\n\n Ce message a été envoyé automatiquement merci de ne pas répondre";
 		}
 		elseif($this->mode == self::DELETE){
-			$event = $this->model->getEvent(array("id_event" => $this->id), array("name", "start","end", "date_type"));
+			$event = $this->model->getEvent(array("id_event" => $this->id), array("name", "start","end", "DateType"));
+			
+				
 			if(!$event)
 				return;
+			
+			$event = $event[0];
 			$start = new DateTime($event["Start"]);
-			if($event["date_type"] != "deadline"){
+			if($event["DateType"] != "deadline"){
 				$end = new DateTime($event["End"]);
-				return "L'évenement que vous suiviez : ".$event["Name"]." du ".$start->format("D/M/Y H:i:s")." au ".$end->format("D/M/Y H:i:s"). " a été supprimé.
+			return "L'évenement que vous suiviez : ".$event["Name"]." du ".$start->format("d/m/Y H:i:s")." au ".$end->format("d/m/Y H:i:s"). " a été supprimé.
 						\n\n Ce message a été envoyé automatiquement merci de ne pas répondre";
 			}
 			else 
-				return "La deadline que vous suiviez : ".$event["Name"]." pour le ".$start->format("D/M/Y H:i:s"). " a été supprimée.
+				return "La deadline que vous suiviez : ".$event["Name"]." pour le ".$start->format("d/m/Y H:i:s"). " a été supprimée.
 				\n\n Ce message a été envoyé automatiquement merci de ne pas répondre";
 			
 		}
 		elseif($this->mode == self::UPDATE_TIME){
-			$event = $this->model->getEvent(array("id_event" => $this->id), array("name", "start","end", "date_type"));
+			$event = $this->model->getEvent(array("id_event" => $this->id), array("name", "start","end", "DateType"));
 			if(!$event)
 				return;
+			$event = $event[0];
 			$start = new DateTime($event["Start"]);
-			if($event["date_type"] != "deadline"){
+			if($event["DateType"] != "deadline"){
 				$end = new DateTime($event["End"]);
-				return "L'évenement que vous suivez : ".$event["Name"]." a une nouvelle date : du ".$start->format("D/M/Y H:i:s")." au ".$end->format("D/M/Y H:i:s")." 
+				return "L'évenement que vous suivez : ".$event["Name"]." a une nouvelle date : du ".$start->format("d/m/Y H:i:s")." au ".$end->format("D/M/Y H:i:s")." 
 				\n\n Ce message a été envoyé automatiquement merci de ne pas répondre";
 			}
 			else
-				return "La deadline que vous suivez : ".$event["Name"]." est maintenant pour le ".$start->format("D/M/Y H:i:s"). " .
+				return "La deadline que vous suivez : ".$event["Name"]." est maintenant pour le ".$start->format("d/m/Y H:i:s"). " .
 				\n\n Ce message a été envoyé automatiquement merci de ne pas répondre";
 		}
 	}
@@ -96,18 +107,20 @@ class EventModificationNotifier extends Notifier {
 	 * @brief Return the html message for the email
 	 * @retval string The html message
 	 */
-	 private function get_html_message();
+	 protected function get_html_message(){
+	 	return $this->get_txt_message();
+	 }
 	
 	/**
 	 * @brief Return the subject for the email
 	 * @retval string The subject
 	 */
-	 private function get_subject(){
-	 	if($this->const == self::ADD_DL)
+	 protected function get_subject(){
+	 	if($this->mode == self::ADD_DL)
 	 		return "[MyULg Calendar] Nouvelle Deadline !";
-	 	elseif($this->const == self::DELETE)
+	 	elseif($this->mode == self::DELETE)
 	 		return "[MyULg Calendar] Un évènement a été supprimé!";
-	 	elseif($this->const == self::UPDATE_TIME)
+	 	elseif($this->mode == self::UPDATE_TIME)
 	 		return "[MyULg Calendar] Modification horaire !";
 	 	 
 	 	 
@@ -117,14 +130,14 @@ class EventModificationNotifier extends Notifier {
 	 * @brief Return the addressee's mail address for the email
 	 * @retval string The addressee's mail address
 	 */
-	private function get_addressee(){
+	protected function get_addressee(){
 		$uM = new UserModel();
 		$studentsMails = array();
 		
 		if($this->type == "sub"){
 			$gM = new GlobalEventModel();
 			$idG = $this->model->getIdGlobal($this->id);
-			$students = $gM->get_list_student($idGlob);
+			$students = $gM->get_list_student($idG);
 			$path = $this->model->getPathways($this->id);
 			foreach($path as $o => $value){
 				foreach($students as $a => $stu){
@@ -143,6 +156,6 @@ class EventModificationNotifier extends Notifier {
 		}
 		
 		$studentsMails = array_unique($studentsMails);
-		return implode(",",$studentsMailss);
+		return implode(",",$studentsMails);
 	}
 }

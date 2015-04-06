@@ -15,6 +15,7 @@
 	use ct\models\FilterCollectionModel;
 	use ct\models\filters\EventTypeFilter;
 	use ct\models\filters\AccessFilter;
+	use ct\models\filters\RecurrenceFilter;
 
 	/**
 	 * @class ProfessorProfileController 
@@ -46,7 +47,7 @@
 
 			// the prof data
 			$prof_data = $user_mod->get_user();
-			$prof_data = \ct\array_keys_transform($prof_data, array("Name" => "firstName", "Surname" => "lastName"));
+			$prof_data = \ct\array_keys_transform($prof_data, array("Name" => "firstName", "Surname" => "lastName", "Email" => "email"));
 
 			// get courses data
 			$glob_events = $glob_mod->get_global_events_by_user_role();
@@ -55,10 +56,11 @@
 			// get independent events
 			$filter_collection = new FilterCollectionModel();
 			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_INDEPENDENT));
+			$filter_collection->add_filter(new RecurrenceFilter(false, true));
 			$filter_collection->add_access_filter(new AccessFilter());
 
 			$indep_events = $filter_collection->get_events();
-			$trans_indep = array("Id_Event" => "id", "Name" => "name");
+			$trans_indep = array("Id_Event" => "id", "Name" => "name", "Start" => "start", "Id_Recur_Category" => "recurrence_type");
 			$prof_data['indep_events'] = \ct\darray_transform($indep_events, $trans_indep);
 
 			$this->set_output_data($prof_data);

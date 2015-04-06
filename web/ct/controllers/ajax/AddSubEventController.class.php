@@ -5,12 +5,14 @@
 * @brief Sub Event  AddingControllerClass
 */
 
+use ct\models\notifiers\EventModificationNotifier;
+
 namespace ct\controllers\ajax;
 
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use ct\models\events\SubEventModel;
-use ct\models\notifiers\EventModificationNotifier;
+
 use \DateTime;
 
 
@@ -28,7 +30,7 @@ class AddSubEventController extends AjaxController
 		parent::__construct();
 
 		// check if the expected keys are in the array
-		$keys = array("name", "details","limit", "start", "id_global_event", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teaching_team");
+		$keys = array("name", "details","limit", "start", "id_global_event", "where", "workload", "feedback", "practical_details", "type", "recurrence", "pathway", "teachingTeam");
 		if($this->sg_post->check_keys($keys, Superglobal::CHK_ISSET) < 0)
 		{
 			$this->set_error_predefined(AjaxController::ERROR_MISSING_DATA);
@@ -50,6 +52,7 @@ class AddSubEventController extends AjaxController
 		// get event date
 		if($this->sg_post->value('limit') == "true")
 			$data['limit'] = $this->sg_post->value('start');
+			
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');
@@ -73,10 +76,10 @@ class AddSubEventController extends AjaxController
 		}
 		else
 			$id_ret[0] = $model->createEvent($data);
-
-		if($this->sg_post->value("limit") == "true")
-			new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
 		
+		if($this->sg_post->value('limit') == "true")
+			new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
+
 		$this->add_output_data("id", $id_ret);
 	
 		$pathway = $this->json2array($this->sg_post->value('pathway'));
@@ -106,6 +109,3 @@ class AddSubEventController extends AjaxController
 		
 	}
 }
-
-
-

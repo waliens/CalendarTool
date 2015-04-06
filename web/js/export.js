@@ -6,7 +6,7 @@ var day=today.getDay();
 	
 //update the navbar
 $("#navbar li").removeClass("active");
-$("#menu_nav").addClass("active");
+$("#static_export_page").addClass("active");
 //datepickers
 var startDate;
 var endDate;
@@ -413,26 +413,19 @@ function buildDatepickerFilter() {
 	td = moment(today);
 	filterDates= new dhtmlXCalendarObject(["startDateFilter","endDateFilter"]);
 	filterDates.hideTime();
-	filterDates.setDateFormat("%Y-%m-%d");
-	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
+	filterDates.setDateFormat("%l %d %F %Y");
+	filterDates.setDate(td.format("dddd DD MMMM YYYY"),td.format("dddd DD MMMM YYYY"));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MMM YYYY");
-	byId("startDateFilter").value = td.subtract(1,"day").format("dddd DD MMM YYYY");
-	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
-	filterDates.attachEvent("onClick", function(date){
-		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
-		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
-	});
+	byId("endDateFilter").value = td.format("dddd DD MMMM YYYY");
+	byId("startDateFilter").value = td.format("dddd DD MMMM YYYY");
 }
 
 
 function setSens(id, k) {
 // update range
-	if (k == "min") {
-		filterDates.setSensitiveRange(convert_date(byId(id).value,"YYYY-MM-DD"), null);
-	} else {
-		filterDates.setSensitiveRange(null, convert_date(byId(id).value,"YYYY-MM-DD"));
-	}
+	if (k == "min")
+		filterDates.setSensitiveRange(byId(id).value, null);
+	else filterDates.setSensitiveRange(null, byId(id).value);
 }
 function byId(id) {
 	return document.getElementById(id);
@@ -615,7 +608,7 @@ $("input").click(function(){
 	else $("#static_export").attr("disabled",true);
 	});
 
-//send data to server after filters comple
+//send data to server after filters completion
 $("#static_export").click(function(){
 	//UNCOMMENT FOLLOWING LINE FOR TESTING WITHOUT SERVER
 	//$("#dynamic_export_download_alert").modal("show");

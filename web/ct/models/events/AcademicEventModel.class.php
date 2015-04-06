@@ -50,6 +50,73 @@ class AcademicEventModel extends EventModel{
 		else
 			return false;
 	}
+
+	/**
+	 * @copydoc EventModel::getEvent
+	 */
+	public function getEvent (array $infoData = null, array $requestedData = null)
+	{
+		$event = parent::getEvent($infoData, $requestedData);
+
+		// check whether the getEvent has worked
+		if(!$event)
+			return false;
+					
+		if($requestedData != null || !isset($infoData['id_event']))
+			return $event;
+		
+		// get the academic event data
+		$acad_event = $this->sql->select_one("academic_event", "Id_Event = ".$this->sql->quote($infoData['id_event']));
+
+		return !!$acad_event ? array(array_merge($event[0], $acad_event)) : $event;
+	}
+
+	/**
+	 * @brief create a range of identical events with the same recur number
+	 * @param array $data the data (as you will insert if you only insert one) (erxept the date)
+	 * @param int $n le nombre de fois que l'on veut inserer un event
+	 * @return boolean|array false if error if ok an array containings ids newly inserted
+	 */
+	public function createBatchEvent($data, $n){
+		$datas = $data;
+		$ret = parent::createBatchEvent($data, $n);
+		
+		if(!$ret)
+			return false;
+		
+		$datas = $this->checkParams($data, true, true);
+		if($datas == -1)
+			return false;
+	
+		if(isset($datas['Id_Event'])){
+			return false;
+		}
+	
+	
+		$datas = array_intersect_key($datas, $this->fields_ac);
+		//Unquote stuff
+		$datas = array_map("\ct\unquote", $datas);
+		$datas["Id_Event"] = "";
+		$key = array_keys($datas);
+		$values = array();
+		
+		for($i = 0; $i < $n; ++$i) {	
+			$datas["Id_Event"] = $ret[$i];
+			$d = \ct\array_flatten($datas);
+			array_push($values, $d);
+		}
+			
+	
+	
+		$a = $this->sql->insert_batch("academic_event", $values, $key);
+		if($a){
+			return $ret;
+		}
+		else
+			return false;
+	
+	}
+	
 	
 	/**
 	 * @brief upload a file to the server and link it to the envent
@@ -151,12 +218,16 @@ class AcademicEventModel extends EventModel{
 		$ids = $col->get_filtered_events_ids();
 		$ret = array();
 		foreach($ids as $key => $value){
-			$event = array("id" => $value);
-			$event['name'] = $this->getEvent(array("name"), array("Id_event" => $value))[0]['Name'];
+			$event = $this->getEvent(array("id_event" => $value), array("name", "start", "end"));
+			$eventRet['name'] = $event['Name'];
+			$eventRet['start'] = $event['Start'];
+			$eventRet['end'] = $event['End'];
+			
 			$pathEvent = $this->getPathways($value);
 			foreach($pathEvent as $o => $path){
 				if(in_array($path['id'], $pathways)){
-					$event["pathway_name"] = $path['name_short'];
+					$eventRet["pathway"] = $path['name_short'];
+					
 					array_push($ret, $event);
 				}
 			}

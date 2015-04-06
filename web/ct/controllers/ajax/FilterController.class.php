@@ -203,7 +203,8 @@
 		protected function only_authorized_filters()
 		{
 			// user cannot use the pathway filters
-			return !($this->connection->user_is_student() && $this->sg_post->value("pathways")['isSet'] === "true");
+			$pathway_filter = $this->sg_post->value("pathways");
+			return !($this->connection->user_is_student() && $pathway_filter['isSet'] === "true");
 		}
 
 

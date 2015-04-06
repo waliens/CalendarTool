@@ -24,7 +24,7 @@ class EditAcademicEventController extends AjaxController
 	public function __construct($sub)
 	{
 		parent::__construct();
-
+		
 		// check if the expected keys are in the array
 		$keys = array("id","name", "place", "type", "recurrenceId", "details","applyRecursive", "pathways", "teachingTeam");
 

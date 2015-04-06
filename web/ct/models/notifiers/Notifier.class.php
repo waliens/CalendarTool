@@ -8,8 +8,10 @@
 
 	namespace ct\models\notifiers;
 
-	use ct\models\Model;
-
+	use util\mvc\Model;
+	use util\Mail;
+	use \Smarty;
+	
 	/**
 	 * @class Notifier
 	 * @brief A base class for all notifiers objects
@@ -35,25 +37,25 @@
 		 * @brief Return the text message for the email
 		 * @retval string The text message 
 		 */		
-		abstract private function get_txt_message();
+		abstract protected function get_txt_message();
 
 		/**
 		 * @brief Return the html message for the email
 		 * @retval string The html message 
 		 */		
-		abstract private function get_html_message();
+		abstract protected function get_html_message();
 
 		/**
 		 * @brief Return the subject for the email
 		 * @retval string The subject 
 		 */		
-		abstract private function get_subject();
+		abstract protected function get_subject();
 
 		/**
 		 * @brief Return the addressee's mail address for the email
 		 * @retval string The addressee's mail address
 		 */
-		abstract private function get_addressee();
+		abstract protected function get_addressee();
 
 		/**
 		 * @brief Send a notification to the user (an email)
