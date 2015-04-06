@@ -666,8 +666,12 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				$("#edit_academic_event_recurrence").html(recurrence);
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
 				$('#edit_academic_event_creation_confirm').popover('destroy');
+				$('#edit_academic_event_creation_confirm').bind("click",function(){
+					edit_academic_event(false);
+					})
 				}
 			else{
+				$('#edit_academic_event_creation_confirm').unbind();
 				$("#edit_academic_event_recurrence_end").parent().show();
 				$("#edit_academic_event_recurrence").html(recurrence);
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
@@ -1538,14 +1542,13 @@ $("#new_indepevent_creation_confirm").on("click",function(){
 	if(recurrence!=6){
 		end_recurrence=convert_date($("#new_indepevent_recurrence_end").val(),"YYYY-MM-DD");
 		//if user doesn't specify end of the recursion we set it to one year for all cases, 10 years for "tous les ans" recurrence
-		if($("#recurrence_end").val()==""){
+		if(end_recurrence==""){
 			end_recurrence=new moment(start);
 			if(recurrence=="tous les ans")
 				end_recurrence.add(10,"year");
 			else end_recurrence.add(1,"year");
-		}
-		else end_recurrence=moment(convert_date($("#recurrence_end").val(),"YYYY-MM-DD"));
 		end_recurrence=end_recurrence.format("YYYY-MM-DD");
+		}
 		//recurrent=true;	
 	}
 	var place=$("#new_indepevent_place").val();
