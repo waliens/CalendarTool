@@ -52,22 +52,7 @@ class EditAcademicEventController extends AjaxController
 				"workload" => $this->sg_post->value("workload"),
 				"feedback" => $this->sg_post->value("feedback"));
 
-		// get event date
-		if($this->sg_post->check("limit") > 0){
-			$limit = new DateTime($this->sg_post->value("limit"));
-			$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
-		}
-		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
-		{
-				
-			$start = new DateTime($this->sg_post->value('start'));
-			$end = new DateTime($this->sg_post->value('end'));
-			if($start->format("H:i:s") == "0:0:0")
-				$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
-			else
-				$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
-				
-		}
+
 
 		// get owner id
 		if(!$sub)
@@ -112,6 +97,24 @@ class EditAcademicEventController extends AjaxController
 		}
 		
 		else {
+			
+			// get event date
+			if($this->sg_post->check("limit") > 0){
+				$limit = new DateTime($this->sg_post->value("limit"));
+				$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
+			}
+			elseif($this->sg_post->check_keys(array("start", "end")) > 0)
+			{
+			
+				$start = new DateTime($this->sg_post->value('start'));
+				$end = new DateTime($this->sg_post->value('end'));
+				if($start->format("H:i:s") == "0:0:0")
+					$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
+				else
+					$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
+			
+			}
+			
 			foreach($pathway as $key => $value){
 				if(!$sub)
 					$model->setPathway($id, $value);
