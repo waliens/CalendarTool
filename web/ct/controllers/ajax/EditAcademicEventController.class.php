@@ -108,11 +108,11 @@ class EditAcademicEventController extends AjaxController
 				$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
 				new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
 			}
-			elseif($this->sg_post->check_keys(array("start", "end")) > 0)
+			elseif($this->sg_post->check_keys(array("start", "end", "entireDay")) > 0)
 			{
 				$start = new DateTime($this->sg_post->value('start'));
 				$end = new DateTime($this->sg_post->value('end'));
-				if($start->format("H:i:s") == "0:0:0")
+				if($this->sg_post->value("entireDay") == "true")
 					$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
 				else
 					$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
