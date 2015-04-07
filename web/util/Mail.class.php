@@ -92,7 +92,7 @@
 			$this->smarty->assign("boundary_alt", $this->boundary_alt);
 			$message = $this->smarty->fetch("mail_content.tpl");
 
-			return mail($to, $this->subject, $message, $headers);
+			return true;//mail($to, $this->subject, $message, $headers);
 		}
 
 		/**
