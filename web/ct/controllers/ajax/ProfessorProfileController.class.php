@@ -57,7 +57,7 @@
 			$filter_collection = new FilterCollectionModel();
 			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_INDEPENDENT));
 			$filter_collection->add_filter(new RecurrenceFilter(false, true));
-			$filter_collection->add_access_filter(new AccessFilter());
+			$filter_collection->add_access_filter(new AccessFilter(AccessFilter::POLICY_AS_FACULTY_MEMBER_OWN));
 
 			$indep_events = $filter_collection->get_events();
 			$trans_indep = array("Id_Event" => "id", "Name" => "name", "Start" => "start", "Id_Recur_Category" => "recurrence_type");

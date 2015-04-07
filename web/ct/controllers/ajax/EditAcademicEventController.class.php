@@ -52,36 +52,66 @@ class EditAcademicEventController extends AjaxController
 				"workload" => $this->sg_post->value("workload"),
 				"feedback" => $this->sg_post->value("feedback"));
 
-		// get event date
-		if($this->sg_post->check("limit") > 0){
-			$limit = new DateTime($this->sg_post->value("limit"));
-			$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
-		}
-		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
-		{
-				
-			$start = new DateTime($this->sg_post->value('start'));
-			$end = new DateTime($this->sg_post->value('end'));
-			if($start->format("H:i:s") == "0:0:0")
-				$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
-			else
-				$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
-				
-		}
+
 
 		// get owner id
-		$data['id_owner'] = $id;
+		if(!$sub)
+			$data['id_owner'] = $id;
 
 		// check for recurrence
 		$ret = false;
 		if($this->sg_post->value('applyRecursive') == "true")
 		{
-			$ret = $model->modifyEvent(array("recurrence" => $this->sg_post->value('recurrenceId')), $data, true);
+			$idRec = $model->getEvent(array("id_event" => $this->sg_post->value('id')), array("id_recurrence") );
+			if(!$idRec)
+				return;
+			$idRec = $idRec[0]["Id_Recurrence"];
+		
+			$ret = $model->modifyEvent(array("id_recurrence" => $idRec), $data, true);
 		}
 		else
 			$ret = $model->modifyEvent(array("id_event" => $this->sg_post->value('id')), $data);
 
-		$this->add_output_data("sucess", $ret);
+		
+		//Pathway & team
+		$pathway = $this->json2array($this->sg_post->value('pathways'));
+		$team = $this->json2array($this->sg_post->value('teachingTeam'));
+
+		if($this->sg_post->value('applyRecursive') == "true"){
+			$idRec = $model->getEvent(array("id_event" => $this->sg_post->value('id')), array("id_recurrence") );
+			if(!$idRec)
+				return;
+			$idRec = $idRec[0]["Id_Recurrence"];
+			$ids = $model->getEvent(array("id_recurrence" => $idRec), array("id_event") );
+			$ids = \ct\array_flatten($ids);
+			foreach($ids as $o => $id){
+				foreach($pathway as $key => $value){
+					if(!$sub)
+						$model->setPathway($id, $value);
+					else{
+						if(!$value["selected"])
+							$model->excludePathway($id, $value['id']);
+					}
+				}
+				//$model->setTeam($id, $team);
+			}
+		}
+		
+		else {
+			
+			
+			
+			foreach($pathway as $key => $value){
+				if(!$sub)
+					$model->setPathway($id, $value);
+				else{
+					if(!$value["selected"])
+						$model->excludePathway($id, $value['id']);
+				}			
+			}
+					
+		//	$model->setTeam($id, $team);
+		}
 	}
 }
 

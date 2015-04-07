@@ -24,6 +24,9 @@
 		public function __construct(array $ids)
 		{
 			$this->ids = array_unique(array_filter($ids, "\ct\is_valid_id"), SORT_NUMERIC);
+
+			if(empty($this->ids))
+				trigger_error("The filter shouldn't be used if it holds 0 category.", E_USER_WARNING);
 		}
 
 		/**

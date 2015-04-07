@@ -175,6 +175,24 @@ $("#event_info").on("show.bs.modal",function(event){
 			subevents_table.className="table";
 			subevents_table.id="subevents_table";
 			$("#subevents_info").html(subevents_table);
+			if(subevents.length>0){
+				var row=subevents_table.insertRow(0);
+				var cell1=row.insertCell(0);
+				var cell2=row.insertCell(1);
+				var cell3=row.insertCell(2);
+				var titleHeader=document.createElement('p');
+				titleHeader.className="text-bold";
+				var whenHeader=document.createElement('p');
+				whenHeader.className="text-bold";
+				var recurrenceHeader=document.createElement('p');
+				recurrenceHeader.className="text-bold";
+				titleHeader.innerHTML="Titre"
+				cell1.appendChild(titleHeader);
+				whenHeader.innerHTML="Quand";
+				cell2.appendChild(whenHeader);
+				recurrenceHeader.innerHTML="Récurrence";
+				cell3.appendChild(recurrenceHeader);
+				}
 			for(var i=0;i<subevents.length;i++)
 				addSubevent(subevents[i]);
 			var team_table=document.createElement("table");
@@ -203,16 +221,24 @@ function addPathway(pathway){
 function addSubevent(item){
 	table=$("#subevents_table");
 	var row=document.createElement("tr");
-	var cell=document.createElement("td");
+	var cell1=document.createElement("td");
+	var cell2=document.createElement("td");
+	var cell3=document.createElement("td");
 	var a=document.createElement("a");
 	a.setAttribute("data-dismiss","modal");
-	a.setAttribute("data-target","#subevent_info");
+	a.setAttribute("data-target","#academic_event_info_modal");
 	a.setAttribute("data-toggle","modal");
 	a.innerHTML=item.name;
 	a.id=item.id;
 	a.onclick=function(e){showSubeventModal=true; subevent=e.target}
-	cell.appendChild(a);
-	row.appendChild(cell);
+	cell1.appendChild(a);
+	cell2.innerHTML=item.start;
+	cell2.setAttribute("event-id",item.id);
+	cell2.id="start_time_subevent";
+	row.appendChild(cell1);
+	cell3.innerHTML=get_recursion(item.recurrence_type);
+	row.appendChild(cell2);
+	row.appendChild(cell3);
 	table.append(row);
 	}
 	
@@ -229,91 +255,99 @@ function addTeamMember(member){
 	table.append(row);
 	}
 //get subevent info	
-$("#subevent_info").on("show.bs.modal",function(){
+$("#academic_event_info_modal").on("show.bs.modal",function(){
 	var subevent_id=subevent.getAttribute('id');
+	var req="051";//subevent by default
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
-		//url : "json/subevent-info.json",
-		url : "index.php?src=ajax&req=051&event="+subevent_id,
+		url : "index.php?src=ajax&req="+req+"&event="+subevent_id,
+		async: true,
 		success : function(data, status) {
-			var subevent_id=data.id;
-			var subevent_title=data.name;
-			var subevent_description=data.description;
-			var subevent_place=data.place;
-			if(subevent_place==null)
-				$("#subevent-place").parent().hide();
-			else $("#subevent-place").parent().show();
-			var subevent_type=data.type;
-			var subevent_start=moment(data.startDay);
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+			//{name, details, pract_details, where, limit, start, end, type, recursiveID, pathways[{}], teachingTeam: [{id, role}], attachments:[{id, url,name}], softAdd}
+			var academic_event_id=data.id;
+			var academic_event_title=data.name;
+			var academic_event_description=data.description;
+			var academic_event_place=data.place;
+			if(academic_event_place==null)
+				$("#academic_event_place").parent().hide();
+			else $("#academic_event_place").parent().show();
+			var academic_event_type=data.type;
+			var academic_event_start=moment(data.startDay);
 			if(data.startTime!=""){
 				var chunks=data.startTime.split(":");
-				subevent_start.set("hour",chunks[0]);
-				subevent_start.set("minute",chunks[1]);
-				$("#subevent_startDate").text(subevent_start.format("dddd, MMMM Do YYYY, h:mm a"));
+				academic_event_start.set("hour",chunks[0]);
+				academic_event_start.set("minute",chunks[1]);
+				$("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY, h:mm a"));
 			}
-			else $("#subevent_startDate").text(subevent_start.format("dddd, MMMM Do YYYY"));
-			var subevent_end;
+			else $("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY"));
+			var academic_event_end;
 			if(data.endDay!=""){
-				$("#subevent_endDate").parent().removeClass("hidden");
-				$("#subevent_startDate").prev().removeClass("hidden");
-				subevent_end=moment(data.endDay);
+				$("#academic_event_end").parent().removeClass("hidden");
+				academic_event_end=moment(data.endDay);
 				if(data.endTime!=""){
 					var chunks=data.endTime.split(":");
-					subevent_end.set("hour",chunks[0]);
-					subevent_end.set("minute",chunks[1]);
-					$("#subevent_endDate").text(subevent_end.format("dddd, MMMM Do YYYY, h:mm a"));
+					academic_event_end.set("hour",chunks[0]);
+					academic_event_end.set("minute",chunks[1]);
+					$("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY, h:mm a"));
 				}
-				else $("#subevent_endDate").text(subevent_end.format("dddd, MMMM Do YYYY"));
+				else $("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY"));
 			}
 			else {
-				$("#subevent_endDate").parent().addClass("hidden");
-				$("#subevent_startDate").prev().addClass("hidden");
+				$("#academic_event_end").parent().addClass("hidden");
 			}
 			var deadline=data.deadline;
+			if(deadline=="false")
+				$("#academic_event_deadline").hide();
+			else {
+				$("#academic_event_deadline").show();
+				$("#academic_event_deadline input").prop("checked",true);
+			}
 			var category_id=data.category_id;
 			var category_name=data.category_name;
 			var recurrence=get_recursion(data.recurrence);
-			$("#recurrence").text(recurrence);
-			if(recurrence=="jamais"){
-				$("#start-recurrence").parent().addClass("hidden");
-				$("#end-recurrence").parent().addClass("hidden");
-			}
+			//var academic_event_pract_details=data.pract_details;
+			$("#academic_event_recurrence").html(recurrence);
+
+			//recurrence=1 means the event is not recursive, otherwise is the instance of a recursion
+			if(recurrence=="Jamais")
+				$("#academic_event_recurrence_end").parent().addClass("hidden");
 			else{
-				$("#start-recurrence").parent().removeClass("hidden");
-				$("#end-recurrence").parent().removeClass("hidden");
-				var start_recurrence=moment(data.start_recurrence);
+				$("#academic_event_recurrence_end").parent().removeClass("hidden");
 				var end_recurrence=moment(data.end_recurrence);
-				$("#start-recurrence").text(start_recurrence.format("dddd, MMMM Do YYYY"));
-				$("#end-recurrence").text(end_recurrence.format("dddd, MMMM Do YYYY"));
+				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
 				}
+			var pract_details=data.pract_details;
+			var feedback=data.feedback;
+			var workload=data.workload;
 			var favourite=data.favourite;
+			var team=data.team;
+			var pathways=data.pathways;
 			//populate alert with global event data
-			$("#subevent-title").text(subevent_title);
-			$("#subevent-details").text(subevent_description);
-			$("#subevent-category").text(category_name);
-			$("#subevent-place").text(subevent_place);
+			$("#academic_event_title").html(academic_event_title);
+			$("#academic_event_details").html(academic_event_description);
+			$("#academic_event_category").html(category_name);
+			$("#academic_event_place").html(academic_event_place);
+			$("#academic_event_pract_details_body").html(pract_details);
+			$("#academic_event_feedback_body").html(feedback);
+			$("#academic_event_workload").html(workload);
+			$("#academic_event_team_table").html("");
+			for(var i=0;i<team.length;i++)
+				$("#academic_event_team_table").append("<p team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></p>")
+			$("#academic_event_pathways_table").html("");
+			for(var i=0;i<pathways.length;i++)
+				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>");
+			//check if the event has notes or not
+			$("#notes_body").text(data.annotation);
 		},
 		error: function(xhr, status, error) {
-		  var err = eval("(" + xhr.responseText + ")");
-		  alert(err.Message);
+			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
 })
-
-function get_recursion(recursion_id){
-	switch(recursion_id){
-		case "6":
-			return "jamais";
-		case "1":
-			return "tous les jours";
-		case "2":
-			return "toutes les semaines";
-		case "3":
-			return "toutes les deux semaines";
-		case "4":
-			return "tous les mois";
-		case "5":
-			return "tous les ans"
-		}
-	}

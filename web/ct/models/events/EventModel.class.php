@@ -263,9 +263,6 @@ use \DateInterval;
 			$whereClause = array();
 			$i = 0;
 			foreach($where as $key => $value){
-				 /*if($key == "Id_Event")
-					$whereClause[$i] = "event.". $key ." = '".$value."'"; //removing ambiguity
-				else */
 					$whereClause[$i] = $key ." = ".$value."";
 				$i++;
 			}
@@ -949,4 +946,23 @@ use \DateInterval;
 			return empty($end_data) ? false : $end_data[0]['End'];
 		}
 		
+		/**
+		 * Shift all the event from the same recur of a certain amount of days
+		 * @param int $idRec
+		 * @param int $shift
+		 */
+		public function setDateRecur($idRec, $shift){
+			$days = $shift;
+			$query ="";
+			$query = "UPDATE deadline_event NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
+						 WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			$ret = $this->sql->execute_query($query);
+			$query = "UPDATE time_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY), 
+						End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			$ret |= $this->sql->execute_query($query);
+			$query = "UPDATE date_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY),
+			End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			$ret |= $this->sql->execute_query($query);
+			return $ret;
+		}
 	}

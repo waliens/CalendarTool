@@ -58,8 +58,7 @@
 
 				$ics_event['location'] = self::get_ics_txt($event['Place']);
 				$ics_event['description'] = self::get_ics_txt($event['Description']);
-				$ics_event['categories'] = self::get_ics_txt($event['Categ_Name_FR']).", ".
-											self::get_ics_txt($event['Categ_Name_EN']);
+				$ics_event['categories'] = self::get_ics_txt($event['Categ_Name_FR']);
 
 				$formatted_events[] = $ics_event;
 			}

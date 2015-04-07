@@ -618,7 +618,7 @@
 		private function get_global_ids($method, $identifier)
 		{
 			$quoted_id = $this->sql->quote($identifier);
-			$column = array("Id_Global_Event");
+			$column = array("DISTINCT Id_Global_Event");
 
 			switch($method)
 			{
@@ -641,7 +641,7 @@
 				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, $column);
 				break;
 			case self::GET_BY_ACAD_YEAR:
-				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id);
+				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id, $column);
 				break;
 			}
 

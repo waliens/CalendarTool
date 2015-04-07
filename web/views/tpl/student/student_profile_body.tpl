@@ -1,7 +1,7 @@
 <div class="container marg-top-40">
   <div class="panel panel-primary width-70 center marg-bot-40">
     <div class="panel-heading">
-      <h3 class="panel-title text-center">Profile</h3>
+      <h3 class="panel-title text-center">Profil</h3>
     </div>
     <div class="panel-body">
       <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Student</span></p>
@@ -16,7 +16,7 @@
       </div>
       <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
         <table class="table" id="user-mandatory-courses">
-        <tr><td class="min-width-100">Course Code</td><td>Titre</td></tr>
+        <tr><td class="min-width-100">Code</td><td>Titre</td></tr>
           <!--FILLED BY AJAX WITH LIST MANDATORY COURSES-->
         </table>
       </div>
@@ -27,7 +27,7 @@
       </div>
       <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
         <table class="table" id="user-optional-courses">
-        <tr><td class="min-width-100">Course Code</td><td>Titre</td><td class="text-center">Sélectionner</td></tr>
+        <tr><td class="min-width-100">Code</td><td>Titre</td><td class="text-center">Sélectionner</td></tr>
           <!--FILLED BY AJAX WITH LIST OPTIONAL COURSES-->
         </table>
       </div>
