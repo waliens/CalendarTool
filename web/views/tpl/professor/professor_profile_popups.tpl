@@ -18,6 +18,32 @@
     </div>
   </div>
 </div>
+<!-- Delete SUBEVENT Alert -->
+
+<div class="modal fade" id="delete_academic_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Supprimer l'événement</h4>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir supprimer l'événement <span name="academic_event_deleted" class="text-bold"></span>? Le texte suivant sera envoyé à tous les étudiants actuellement inscrits à l'événement.</p>
+        <div contenteditable="true" class="box"> L'événement <span name="academic_event_deleted"></span> a été supprimé. </div>
+      </div>
+      <div class="modal-footer" id="delete_academic_event_norecurr_btns">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirm_delete_academic_event('false')">Confirmer</button>
+      </div>
+      <div class="modal-footer" id="delete_academic_event_recurr_btns">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirm_delete_academic_event('false')">Seulement cet événement</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirm_delete_academic_event('true')">Tous les événements</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Add Global Event Alert -->
 <div class="modal fade" id="add_global_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -68,25 +94,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_add_confirm" disabled="disabled">Confirmer</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Delete Independent Event Alert -->
-<div class="modal fade" id="delete_indep_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Supprimer l'événement indépendant</h4>
-      </div>
-      <div class="modal-body">
-        <p>Êtes-vous sûr de vouloir supprimer l'événement <span name="indep_event_deleted" class="text-bold"></span>? Le texte suivant sera envoyé à tous les étudiants actuellement inscrits à l'événement.</p>
-        <div contenteditable="true" class="box"> L'événement <span name="indep_event_deleted"></span> a été supprimé. </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="indep_event_delete_confirm">Confirmer</button>
       </div>
     </div>
   </div>
@@ -576,7 +583,7 @@
 </div>
 
 <!---EDIT ACADEMIC EVENT-->
-<div class="modal fade" id="academic_event_edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit_academic_event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

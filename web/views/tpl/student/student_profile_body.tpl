@@ -4,7 +4,7 @@
       <h3 class="panel-title text-center">Profil</h3>
     </div>
     <div class="panel-body">
-      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">Student</span></p>
+      <p><span class="text-info text-bold">Catégorie: </span><span id="user-category">&Eacute;tudiant</span></p>
       <p><span class="text-info text-bold">Nom: </span><span id="user-name"><!--USERNAME--></span></p>
       <p><span class="text-info text-bold">Pathway: </span><span id="user-pathway"><!--PATHWAY--></span></p>
     </div>

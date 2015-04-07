@@ -348,6 +348,7 @@ $(document).ready(function() {
 				$("#edit_private_event").addClass('hidden');
 				$("#delete_private_event").addClass('hidden');
 				setTimeInterval(date,view);
+				setTimePickersValidInterval("#private_event");
 			}
 		},
 		//function to be called when private event is dragged and dropped
@@ -483,6 +484,8 @@ $("#calendar").on("click",".fc-prev-button",function(){
 $("#private_event").on("show.bs.modal",function(){
 	//populate event categories
 	populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
+	//setup timepickers of new event modal
+	setUpTimePickers("#private_event","#edit_event_btns");
 	})
 	
 //set time intervals of new private event
@@ -497,6 +500,8 @@ function setTimeInterval(date,view){
 	if(current_view=="day"||current_view=="week"){
 		startHour=date.hours();
 		minutes=date.minutes();
+		if(minutes=="0")
+			minutes="00";
 		endHour=date.add(1,"hour").hours();
 		}
 	else{
@@ -852,26 +857,6 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 	$("#edit_private_event .edit").attr("disabled",false);
 })
 
-//setup timepickers of new event modal
-$(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
-$("#private_event_endHour").on("changeTime",function(){
-	//check if start and end day are the same and if so we set the maxTime of startHour
-	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
-		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
-	else $("#private_event_startHour").timepicker("option",{maxTime:"24:00"});
-	if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
-			$('#edit_event_btns .btn-primary').prop("disabled", false);
-	})
-	$("#private_event_startHour").on("changeTime",function(){
-	//check if start and end day are the same and if so we set the minTime of endHour
-	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
-		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
-	else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
-	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-		if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
-			$('#edit_event_btns .btn-primary').prop("disabled", false);
-})
-
 //populate private event modal
 function populate_private_event(event){
 	var event_id=event.id_server;
@@ -940,7 +925,7 @@ function populate_private_event(event){
 			//adds edit/delete icons next to title
 			$("#edit_private_event").removeClass("hidden");
 			$("#delete_private_event").removeClass("hidden");
-			//define delete popup alert based on whether the event is private or not
+			//define delete popup alert based on whether the event is recurrent or not
 			if(data.recurrence_type!="6"){//the event is recurrent
 				$("#delete_private_event .delete").popover({
 					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Supprimer événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="delete_private_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="delete_private_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
@@ -1043,7 +1028,7 @@ function populate_public_event(event){
 			}
 			var category_id=data.category_id;
 			var category_name=data.category_name;
-			var recurrence=get_recursion(data.recurrence);
+			var recurrence=get_recursion(data.recurrence_type);
 			//var academic_event_pract_details=data.pract_details;
 			$("#academic_event_recurrence").html(recurrence);
 
@@ -1371,6 +1356,7 @@ function deadline(){
 	else{ 
 		$("#private_event_endDate").prop("disabled",false);
 		$("#private_event_endDate_datepicker").prop("disabled",false);
+		$("#private_event_endDate_datepicker").prop("readonly",false);
 		$("#private_event_endDate_datepicker").removeClass("hidden");	
 		$("#private_event_endDate").parent().removeClass("hidden");
 		}
@@ -2011,24 +1997,6 @@ function reset_filters(){
 	addEvents();
 	}
 	
-//translates recursion id
-function get_recursion(recursion_id){
-	switch(recursion_id){
-		case "6":
-			return "jamais";
-		case "1":
-			return "tous les jours";
-		case "2":
-			return "toutes les semaines";
-		case "3":
-			return "toutes les deux semaines";
-		case "4":
-			return "tous les mois";
-		case "5":
-			return "tous les ans"
-		}
-	}
-	
 //returns category color
 function getColor(category){
 	switch(parseInt(category)){
@@ -2057,7 +2025,7 @@ function getColor(category){
 			return "#0064b5";
 			break;
 		case 9:
-			return "#ffff00";
+			return "#00AAFF";
 			break;
 		case 10:
 			return "#ab699b";
