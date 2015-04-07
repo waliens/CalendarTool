@@ -11,10 +11,14 @@ use ct\models\events\EventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
-/**
- * @class Event
- * @brief Class for handling the control of event
- */
+
+	/**
+	 * @class DeleteFavController
+	 * @brief Request Nr : 46
+	 * 		INPUT :	{id_event}
+  	 * 		OUTPUT : 
+ 	 * 		Method : POST
+	 */
 
 class DeleteFavController extends AjaxController
 {

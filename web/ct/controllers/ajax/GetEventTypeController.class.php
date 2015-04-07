@@ -13,11 +13,14 @@ use ct\models\filters\EventTypeFilter;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
-/**
- * @class Event
- * @brief Class for handling the control of event
- */
 
+/**
+ * @class GetEventTypeController
+ * @brief Request Nr : 041
+ * 		INPUT :
+ * 		OUTPUT : {event_type:[{id, name}], time_type:[{id,name}]}
+ * 		Method : POST
+ */
 class GetEventTypeController extends AjaxController
 {
 	public function __construct()

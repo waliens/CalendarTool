@@ -13,10 +13,12 @@ use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
 /**
- * @class Event
- * @brief Class for handling the control of event
+ * @class AddNoteController
+ * @brief Request Nr : 042
+ * 		INPUT : {id_event, note}
+ * 		OUTPUT : none
+ * 		Method : POST
  */
-
 class AddNoteController extends AjaxController
 {
 

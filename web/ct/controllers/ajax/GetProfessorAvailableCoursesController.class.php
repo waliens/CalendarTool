@@ -12,11 +12,12 @@
 
 	use ct\models\events\GlobalEventModel;
 
-	/** 
+	/**
 	 * @class GetProfessorAvailableCoursesController
-	 * @brief A class for handling the get professor available courses request
-	 *
-	 * @todo Improve the documentation of the controllers
+	 * @brief Request Nr : 036
+	 * 		INPUT : {year}
+	 * 		OUTPUT : {courses:[{id_ulg, nameLong, nameShort}]}
+	 * 		Method : POST
 	 */
 	class GetProfessorAvailableCoursesController extends AjaxController	
 	{

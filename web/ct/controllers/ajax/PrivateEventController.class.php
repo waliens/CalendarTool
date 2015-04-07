@@ -13,9 +13,12 @@ use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
- */
+	 * @class PrivateEventController
+	 * @brief Request Nr : 061
+	 * 		INPUT : {name, start, end , limit , recurrence, end-recurrence, place, details, note, type}
+	 * 		OUTPUT : {id}
+	 * 		Method : POST
+	 */
 class PrivateEventController extends AjaxController
 {
 	/** 

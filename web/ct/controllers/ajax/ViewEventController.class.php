@@ -20,10 +20,14 @@ use \DateTime;
 
 
 /**
- * @class Event
- * @brief Class for handling the control of event
+ * @class ViewEventController
+ * @brief Request Nr : 051,064,084
+ * 		INPUT :
+ * 		OUTPUT : 051 : {id, name, description, pract_details, workload, feedback, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, start_recurrence, end_recurrence, team:[{name,surname,role,id_role,owner}],pathways, favourite, annotation}
+ * 				 064 : {id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, start_recurrence, end_recurrence, annotation, favourite}
+ * 				 084 : {id, name, owner_id, description, feedback, workload, practical_details, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, start_recurrence, end_recurrence, annotation, favourite, team:[{id, name, surname, role, role_id}], pathways:[{id, name}] annotation}
+ * 		Method : POST
  */
-
 class ViewEventController extends AjaxController
 {
 

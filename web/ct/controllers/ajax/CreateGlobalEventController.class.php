@@ -14,8 +14,12 @@
 
 	/**
 	 * @class CreateGlobalEventController
-	 * @brief A class for handling the creation of global events ajax request
+	 * @brief Request Nr : 035
+	 * 		INPUT :	{ulgId, description, feedback, language}
+  	 * 		OUTPUT : {id}
+ 	 * 		Method : POST
 	 */
+	
 	class CreateGlobalEventController extends AjaxController
 	{
 		/**

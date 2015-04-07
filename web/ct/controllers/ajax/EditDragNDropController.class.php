@@ -14,12 +14,16 @@ use util\superglobals\SG_Post;
 use util\superglobals\Superglobal;
 
 
-
+/**
+ * @class EditDragNDropController
+ * @brief Request Nr : 131
+ * 		INPUT : {id,start,end,allDay, limit}
+ * 		OUTPUT :
+ * 		Method : POST
+ */
 class EditDragNDropController extends AjaxController
 {
-	/**
-	 * @brief Construct the PrivateEventController object and process the request
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();

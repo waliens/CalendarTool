@@ -12,9 +12,13 @@
 	use ct\models\events\GlobalEventModel;
 
 	/**
-	 * @class DeleteTeachingTeamMemberController 
-	 * @brief A class for handling the delete teaching 
+	 * @class DeleteTeachingTeamMemberController
+	 * @brief Request Nr : 073
+	 * 		INPUT : {id_user, id_global_event}
+  	 * 		OUTPUT : 
+ 	 * 		Method : POST
 	 */
+	
 	class DeleteTeachingTeamMemberController extends AjaxController
 	{
 		private $glob_mod; /**< @brief A GlobalEventModel object */

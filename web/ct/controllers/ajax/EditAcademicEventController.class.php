@@ -11,10 +11,12 @@ use util\superglobals\Superglobal;
 use \DateTime;
 use ct\models\events\SubEventModel;
 use ct\models\events\IndependentEventModel;
-
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class EditAcademicEventController
+ * @brief Request Nr : 054, 085
+ * 		INPUT : {id, name, details, where, entireDay, start, end, deadline, type, pract_details, feedback, workload, pathways:[{id,selected}], teachingTeam:[{id,selected}], applyRecursive}
+ * 		OUTPUT :
+ * 		Method : POST
  */
 class EditAcademicEventController extends AjaxController
 {

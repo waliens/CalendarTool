@@ -11,8 +11,11 @@
 	use ct\models\UserModel;
 
 	/**
-	 * @class AllProfessorsController
-	 * @brief Class for handling the getAllProfessors request
+	 * @class AllProfessorController
+	 * @brief Request Nr : 021
+	 * 		INPUT :	None
+  	* 		OUTPUT : {professors:[{id, name, surname}]}
+	 * 		Method : GET
 	 */
 	class AllProfessorsController extends AjaxController
 	{

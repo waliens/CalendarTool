@@ -11,10 +11,15 @@
 	use util\superglobals\Superglobal;
 	use ct\models\events\GlobalEventModel;
 
-	/** 
+	/**
 	 * @class DeleteGlobalEventController
-	 * @brief A class for handling the global event deletion request
+	 * @brief Request Nr : 33
+	 * 		INPUT :	{id}
+  	 * 		OUTPUT : 
+ 	 * 		Method : POST
 	 */
+	
+	
 	class DeleteGlobalEventController extends AjaxController
 	{
 		/** 
