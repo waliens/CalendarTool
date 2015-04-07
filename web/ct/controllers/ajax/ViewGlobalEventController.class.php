@@ -102,8 +102,8 @@
 				$f_event['name'] = $subevent['Name'];
 				$f_event['recurrence'] = $subevent['Id_Recurrence'] > 1;
 				$f_event['recurrence_type'] = $subevent['Id_Recur_Category'];
-				$f_event['start'] = $subevent['Start'];
-				$f_event['end'] = $subevent['End'];
+				$f_event['start'] = \ct\date_sql2fullcalendar($subevent['Start']);
+				$f_event['end'] = \ct\date_sql2fullcalendar($subevent['End']);
 
 				$formatted_glob['subevents'][] = $f_event; 
 			}
