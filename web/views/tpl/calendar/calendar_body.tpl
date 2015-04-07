@@ -3,7 +3,7 @@
     <div class="panel-group" id="accordion-upcoming-deadlines" role="tablist" aria-multiselectable="true">
       <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="heading-upcoming-deadlines">
-          <h4 class="panel-title"> <img  src="imgs\warning_red.png"/><a data-toggle="collapse" data-parent="#accordion-upcoming-deadlines" href="#collapseDeadlines" aria-expanded="false" aria-controls="collapseOne" class="collapsed">Deadlines à venir</a> </h4>
+          <h4 class="panel-title"> <img  src="imgs/warning_red.png"/><a data-toggle="collapse" data-parent="#accordion-upcoming-deadlines" href="#collapseDeadlines" aria-expanded="false" aria-controls="collapseOne" class="collapsed">Deadlines à venir</a> </h4>
         </div>
         <div id="collapseDeadlines" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-upcoming-deadlines" aria-expanded="false" style="height: 0px;">
           <div class="panel-body">
