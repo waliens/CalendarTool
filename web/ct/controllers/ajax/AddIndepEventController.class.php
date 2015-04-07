@@ -7,6 +7,8 @@
 
 namespace ct\controllers\ajax;
 
+use ct\models\notifiers\EventModificationNotifier;
+
 use ct\models\events\IndependentEventModel;
 
 use util\mvc\AjaxController;
@@ -50,8 +52,9 @@ class AddIndepEventController extends AjaxController
 				"practical_details" => $this->sg_post->value('practical_details'));
 			
 		// get event date
-		if($this->sg_post->value("limit") == "true")
+		if($this->sg_post->value("limit") == "true"){
 			$data['limit'] = $this->sg_post->value('start');
+		}	
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');
@@ -78,7 +81,9 @@ class AddIndepEventController extends AjaxController
 		else
 			$id_ret[0] = $model->createEvent($data);
 
-
+		if($this->sg_post->value("limit") == "true")
+			new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
+		
 		$this->add_output_data("id", $id_ret);
 
 		

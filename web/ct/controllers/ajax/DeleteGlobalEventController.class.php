@@ -7,6 +7,8 @@
 
 	namespace ct\controllers\ajax;
 
+	use ct\models\notifiers\GlobalEventNotification;
+
 	use util\mvc\AjaxController;
 	use util\superglobals\Superglobal;
 	use ct\models\events\GlobalEventModel;
@@ -39,8 +41,10 @@
 			// instantiate model
 			$glob_mod = new GlobalEventModel();
 
+			new GlobalEventNotification(GlobalEventNotification::DELETE, $this->sg_post->value("id"));
 			// delete the global event model
 			if(!$glob_mod->delete_global_event(array("id" => $this->sg_post->value("id"))))
 				$this->set_error_predefined(AjaxController::ERROR_ACTION_DELETE_DATA);
+			
 		}
 	}
