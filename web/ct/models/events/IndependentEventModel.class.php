@@ -125,9 +125,10 @@ class IndependentEventModel extends AcademicEventModel{
 						$value['role']);
 			array_push($toinsert, $arr);
 		}
+		
 		$collumn = array("Id_Event", "Id_User", "Id_Role");
-		$this->sql->insert_batch("independent_event_manager", $toinsert, $collumn);
-		return true;
+		$a = $this->sql->insert_batch("independent_event_manager", $toinsert, $collumn);
+		return $a;
 	}
 	/**
 	 * @brief return the team of an idep event
@@ -146,7 +147,8 @@ class IndependentEventModel extends AcademicEventModel{
 			( SELECT * FROM independent_event_manager WHERE  Id_Event = ? )
 				AS ttm
 		NATURAL JOIN
-			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles";
+			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles
+ ";
 		
 		$a = $this->sql->execute_query($query, array($eventId));
 		return $a;
