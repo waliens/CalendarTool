@@ -11,7 +11,7 @@
 	use ct\models\UserModel;
 
 	/**
-	 * @class AllProfessorController
+	 * @class AllProfessorsController
 	 * @brief Request Nr : 021
 	 * 		INPUT :	None
   	* 		OUTPUT : {professors:[{id, name, surname}]}

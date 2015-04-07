@@ -12,7 +12,7 @@
 	use ct\models\events\GlobalEventModel;
 
 /**
-	 * @class GetTeamAddableUser
+	 * @class GetTeamAddableUsers
 	 * @brief Request Nr : 075
 	 * 		INPUT : {id_global_event}
 	 * 		OUTPUT : {users:[{name, surname, id_user}]}

@@ -13,7 +13,7 @@ use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
 	/**
-	 * @class DeleteFavController
+	 * @class DeletePrivateEventController
 	 * @brief Request Nr : 062
 	 * 		INPUT :	{id, applyrecursive}
   	 * 		OUTPUT : 

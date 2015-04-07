@@ -9,7 +9,7 @@ namespace ct\models\events;
  */
 
 /**
- * @class StudentEventMode
+ * @class StudentEventModel
  * @brief Class for making  operation on a student event
  */
 class StudentEventModel extends EventModel{
