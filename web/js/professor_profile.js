@@ -98,7 +98,7 @@ function addIndependentEvent(indep_event){
 	//delete_icon.setAttribute("course-code",indep_event.code);
 	delete_icon.setAttribute("event-id",indep_event.id);
 	delete_icon.setAttribute("event-name",indep_event.name);
-	delete_icon.setAttribute("recurrence-type",get_recursion(indep_event.recurrence_type));
+	delete_icon.setAttribute("recurrence-type",indep_event.recurrence_type);
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
 	div_container1.appendChild(edit_icon);
