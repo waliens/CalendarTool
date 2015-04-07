@@ -915,7 +915,7 @@ function populate_private_event(event){
 			//check if the event as an end date (excluding case in which it's a deadline
 			if(end!=""&&type!="deadline"){
 				var end=new moment(end);
-				end=end.format("dddd DD MMM YYYY");
+				end=end.format(fullcalendarDateFormat);
 				$("#private_event_endDate_datepicker").val(end);
 			}
 			else 	$("#private_event_endDate_datepicker").parent().parent().addClass("hidden"); 
@@ -945,7 +945,7 @@ function populate_private_event(event){
 				$("#deadline input").prop("checked",true);
 			$("#new_event_startDate").prev().removeClass("hidden");
 			start=new moment(start);
-			start=start.format("dddd DD MMM YYYY");
+			start=start.format(fullcalendarDateFormat);
 			$("#private_event_startDate_datepicker").val(start);
 			$("#private_event_startDate_datepicker").prop("readonly",true);
 			$("#private_event_startDate_datepicker").prop("disabled",true);
@@ -1719,12 +1719,12 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	$("#endDateFilter").val(td.format("dddd DD MMM YYYY"));
-	$("#startDateFilter").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
+	$("#endDateFilter").val(td.format(fullcalendarDateFormat));
+	$("#startDateFilter").val(td.subtract(1,"day").format(fullcalendarDateFormat));
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
-		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
-		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
+		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),fullcalendarDateFormat));
+		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),fullcalendarDateFormat));
 	});
 }
 
