@@ -668,15 +668,14 @@ $("#edit_academic_event").on("show.bs.modal",function(){
 			$("#edit_academic_event_place").val(academic_event_place);
 			$("#edit_academic_event_pract_details_body").val(academic_event_pract_details);
 			$("#edit_academic_event_feedback_body").val(feedback);
-			$("#edit_academic_event_team_table").val("");
 			//populate event categories
 			populate_event_categories_dropdown("edit_academic_event_categories","#edit_academic_event_type",true);
-			
+			$("#edit_academic_event_team_table").html("");
 			for(var i=0;i<team.length;i++)
 				$("#edit_academic_event_team_table").append("<tr><td team-id="+team[i].id+">"+team[i].surname+" "+team[i].name+"\t - <span role-id="+team[i].role_id+">"+team[i].role+"</span></td><td><input type='checkbox' team-id="+team[i].id+" checked></td></tr>")
 			//disable owner checkbox
 			$("#edit_academic_event_team_table input[team-id="+data.owner_id+"]").prop("disabled",true);
-			$("#edit_academic_event_pathways_table").val("");
+			$("#edit_academic_event_pathways_table").html("");
 			for(var i=0;i<pathways.length;i++)
 				$("#edit_academic_event_pathways_table").append("<tr><td pathway-id="+pathways[i].id+">"+pathways[i].name+"</td><td><input type='checkbox' pathway-id="+pathways[i].id+" checked></td></tr>")
 			
