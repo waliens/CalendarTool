@@ -425,24 +425,6 @@ function buildMoment(date){
 	return dateString;
 }
 
-//triggered when the deadline checkbox is selected
-function deadline(){
-	if($("#deadline input").prop("checked")){
-		$("#private_event_endDate").parent().addClass("hidden");
-		datepicker["private_event"].setSensitiveRange(null, null);
-		if($("#private_event_startHour").val().length==0)
-			$('#edit_event_btns .btn-primary').prop("disabled", true);
-		else $('#edit_event_btns .btn-primary').prop("disabled", false);
-	}
-	else{ 
-		$("#private_event_endDate").prop("disabled",false);
-		$("#private_event_endDate_datepicker").prop("disabled",false);
-		$("#private_event_endDate_datepicker").prop("readonly",false);
-		$("#private_event_endDate_datepicker").removeClass("hidden");	
-		$("#private_event_endDate").parent().removeClass("hidden");
-		}
-}
-
 //enable new/edit event confirm button only when requierd fields are inserted
 $('#private_event_title, #private_event_startHour').keyup(function () {
 	//when the title has been defined
