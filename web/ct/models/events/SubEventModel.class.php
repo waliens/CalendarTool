@@ -160,7 +160,11 @@ class SubEventModel extends AcademicEventModel{
 		$idGlob = $this->getIdGlobal($eventId);
 
 		
-		return $this->sql->insert("sub_event_excluded_member", array("Id_Event" => $eventId, "Id_User" => $userId, "Id_Global_Event" => $idGlob));
+	return  $this->sql->insert("sub_event_excluded_team_member", array("Id_Event" => $eventId, "Id_User" => $userId, "Id_Global_Event" => $idGlob));
+	}
+	
+	public function reset_team($eventId){
+		return $this->sql->delete("sub_event_excluded_team_member", "Id_Event=".$eventId);
 	}
 	
 	/**

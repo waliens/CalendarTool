@@ -68,6 +68,8 @@ class AddIndepEventController extends AjaxController
 		
 		$data['id_owner'] = $this->connection->user_id();
 
+		if(empty($pathway))
+			$data['public'] = 1;
 
 		// check for recurrence
 		$id_ret = array(); // new private event id
@@ -81,8 +83,8 @@ class AddIndepEventController extends AjaxController
 		else
 			$id_ret[0] = $model->createEvent($data);
 
-		if($this->sg_post->value("limit") == "true")
-			new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
+		//if($this->sg_post->value("limit") == "true")
+		//	new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
 		
 		$this->add_output_data("id", $id_ret);
 
@@ -97,6 +99,7 @@ class AddIndepEventController extends AjaxController
 			foreach($pathway as $key => $value){
 				$model->setPathway($id, $value);
 			}
+				
 			$model->setTeam($id, $team);
 		}
 		

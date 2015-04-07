@@ -58,9 +58,9 @@
 
 		//	$this->remote_user = "s060934"; // 3e BAC 
 		//	$this->remote_user = "s114352"; // 2e BAC
-			$this->remote_user = "s023178";
+		//	$this->remote_user = "s023178";
 		//	$this->remote_user = "u013317"; // Pascal Gribomont
-		//	$this->remote_user = "u216357"; // Benoit Donnet
+			$this->remote_user = "u216357"; // Benoit Donnet
 		//	$this->remote_user = "u013316"; // TA nicolas lorent
 
 			// TMP : to prevent double refresh when the user is changed

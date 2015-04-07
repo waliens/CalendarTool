@@ -995,19 +995,20 @@ use \DateInterval;
 		/**
 		 * Shift all the event from the same recur of a certain amount of days
 		 * @param int $idRec
-		 * @param int $shift
+		 * @param int $shift number of days of shift
+		 * @param int $minutes number of minutes  o shift (default = 0)
 		 */
-		public function setDateRecur($idRec, $shift){
+		public function setDateRecur($idRec, $shift, $minutes = 0){
 			$days = $shift;
 			$query ="";
-			$query = "UPDATE deadline_event NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
+			$query = "UPDATE deadline_event NATURAL JOIN event SET `Limit` = DATE_ADD(DATE_ADD(`Limit`, INTERVAL ".$days." DAY),INTERVAL ".$minutes." MINUTE) 
 						 WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
 			$ret = $this->sql->execute_query($query);
-			$query = "UPDATE time_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY), 
-						End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			$query = "UPDATE time_range_event NATURAL JOIN event SET Start = DATE_ADD(DATE_ADD(`Start`, INTERVAL ".$days." DAY),INTERVAL ".$minutes." MINUTE) ,
+						End = DATE_ADD(DATE_ADD(`End`, INTERVAL ".$days." DAY),INTERVAL ".$minutes." MINUTE)  WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
 			$ret |= $this->sql->execute_query($query);
-			$query = "UPDATE date_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY),
-			End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			$query = "UPDATE date_range_event NATURAL JOIN event SET Start = DATE_ADD(`Start`, INTERVAL ".$days." DAY),
+			End = DATE_ADD(`End`, INTERVAL ".$days." DAY)  WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
 			$ret |= $this->sql->execute_query($query);
 			return $ret;
 		}

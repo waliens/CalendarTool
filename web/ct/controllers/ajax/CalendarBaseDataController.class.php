@@ -169,7 +169,7 @@
 				$curr['id'] = $event['Id_Event'];
 				$curr['recurrence_id'] = $event['Id_Recur_Category'];
 				$curr['name'] = $event['Name'];
-				$curr['academic_event'] = $event['EventType'] !== "student_event" ? "true" : "false";
+				$curr['event_type'] = $event['EventType'];
 
 				if($deadline)
 					$curr['limit'] = \ct\date_sql2fullcalendar($event['Start']);

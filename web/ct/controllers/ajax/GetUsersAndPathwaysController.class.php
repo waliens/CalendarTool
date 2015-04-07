@@ -56,6 +56,11 @@
 				// get the all users
 				$user_mod = new UserModel();
 				$users = $user_mod->get_users();
+				
+				// remove the currently connected user
+				$connected_id = $this->connection->user_id();
+				$users = array_filter($users, function(array& $row) use ($connected_id) { return intval($row['Id_User']) != intval($connected_id); });
+				$users = array_values($users);
 			}
 			
 			$users = \ct\darray_transform($users, array("Name" => "name", "Surname" => "surname", "Id_User" => "id"));

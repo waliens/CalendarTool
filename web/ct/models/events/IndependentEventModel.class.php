@@ -239,6 +239,10 @@ class IndependentEventModel extends AcademicEventModel{
 
 		return $this->sql->execute_query($query, array($eventId, Connection::get_instance()->user_id()));
 	}
+	
+	public function reset_team($eventId){
+		return $this->sql->delete("independent_event_manager", "Id_Event=".$this->sql->quote($eventId));
+	}
 }
 
 
