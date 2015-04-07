@@ -16,8 +16,13 @@
 
 	/**
 	 * @class CalendarViewController
-	 * @brief A class for handling the selection of events for any calendar view
+	 * @brief Request Nr : 102
+	 * 		INPUT :	{view:'viewId' ,allEvent:{isSet:'false'},dateRange: {start: datetime, end: datetime},courses: {isSet: 'false', id:[]},eventTypes: {isSet: 'false', timeType:[], eventType:[]},eventCategories:{isSet:'false', id:[]}pathways: {isSet: 'false', id:[]},professors:{isSet: 'false', id:[]}}
+  	* 		OUTPUT : {{events:{public:[{id, name, timeType, start, end, recursive}], private:[{id, name, timeType, start, end, recursive}]}, upperView:{id, name, timeType, start, end, recursive}}
+	 * 		Method : POST
 	 */
+	
+	
 	class CalendarViewController extends FilterController
 	{
 		/**
@@ -129,12 +134,12 @@
 			{
 			case 'day': // uper view is week
 				$year_week = $date->format("Y")."W".$date->format("W");
-				$start = date("d-m-Y 00:00:00", strtotime($year_week));
-				$end   = date("d-m-Y 23:59:59", strtotime("+6 days", strtotime($year_week)));
+				$start = date("Y-m-dT00:00:00", strtotime($year_week));
+				$end   = date("Y-m-dT23:59:59", strtotime("+6 days", strtotime($year_week)));
 				break;
 			case 'week': // upper view is month
-				$start = date("01-m-Y 00:00:00", $actual_time);
-				$end   = date("t-m-Y 23:59:59", $actual_time);
+				$start = date("Y-m-01T00:00:00", $actual_time);
+				$end   = date("Y-m-tT23:59:59", $actual_time);
 				break;
 			case 'month': // upper view is semester
 				$month = $date->format("m");
@@ -150,19 +155,19 @@
 
 				if($semester == 1)
 				{
-					$start = "15-09-".$start_year." 00:00:00";
-					$end   = "31-01-".$end_year." 23:59:59";
+					$start = $start_year."-09-15T00:00:00";
+					$end   = $end_year."-01-31T23:59:59";
 				}
 				else
 				{
-					$start = "01-02-".$start_year." 00:00:00";
-					$end   = "14-09-".$end_year." 23:59:59";
+					$start = $start_year."-02-01T00:00:00";
+					$end   = $end_year."-09-14T23:59:59";
 				}
 
 				break; 
 			case 'semester': // upper view is year
-				$start = date("01-01-Y 00:00:00", $actual_time);
-				$end   = date("31-12-Y 23:59:59", $actual_time);
+				$start = date("Y-01-01T00:00:00", $actual_time);
+				$end   = date("Y-12-31T23:59:59", $actual_time);
 				break;
 			default:
 				trigger_error("Bad view", E_USER_ERROR);

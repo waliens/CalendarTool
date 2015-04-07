@@ -6,10 +6,10 @@
      */
 
     namespace util\entry_point;
-    
-    use ct\controllers\ajax\EditDragNDropController;
 
-	use ct\controllers\ajax\UpdateTeamMember;
+    // controllers inclusions
+    use ct\controllers\ajax\UpdateTeamMember;
+    use ct\controllers\ajax\EditDragNDropController;
     use ct\controllers\ajax\ViewEventCalendarController;
 	use ct\controllers\ajax\EditAcademicEventController;
     use ct\controllers\ajax\AddIndepEventController;
@@ -52,11 +52,13 @@
 
     /**
      * @class Ajax
-     * @brief This class must be implemented by any request handler
+     * @brief This class is the entry point for any ajax (or mobile) request received by the application 
+     * Its role is to instantiate the correct controller based on the request parameters 
      */
     class Ajax implements EntryPoint
     {
         protected $sg_get; /**< @brief Superglobal object for $_GET */
+
         /**
          * @copydoc EntryPoint::get_controller
          */
@@ -192,12 +194,13 @@
                 /* Pathways */
                 case "111":
                     return new GetPathwaysController();
-                    
+                
+                /* DragNDrop */
                 case "131":
                 	return new EditDragNDropController();
 
                 default:
-                    return null;
+                    trigger_error("Unknown request in Ajax entry point class : '".$this->sg_get->value("req")."'");
             }
         }
     };

@@ -618,7 +618,7 @@
 		private function get_global_ids($method, $identifier)
 		{
 			$quoted_id = $this->sql->quote($identifier);
-			$column = array("Id_Global_Event");
+			$column = array("DISTINCT Id_Global_Event");
 
 			switch($method)
 			{
@@ -641,7 +641,7 @@
 				$ids = $this->sql->select("teaching_team_member", "Id_User =".$quoted_id, $column);
 				break;
 			case self::GET_BY_ACAD_YEAR:
-				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id);
+				$ids = $this->sql->select("global_event", "Acad_Start_Year = ".$quoted_id, $column);
 				break;
 			}
 
@@ -1148,5 +1148,18 @@
 
 			return $this->sql->count("global_event", "Id_Owner = ".$this->sql->quote($user_id)." 
 														AND Id_Global_Event = ".$this->sql->quote($id_glob)) > 0;
+		}
+		
+		/**
+		 * @brief get a list of student that follow a particular global event
+		 * @param int $idGlob
+		 * @retval array containing pair ("id", "pathway")
+		 * 
+		 */
+		public function get_list_student($idGlob){
+			$query = "SELECT Id_Student AS id, Id_Pathway as pathway FROM global_event_subscription 
+			NATURAL JOIN student_pathway
+						WHERE Id_Global_Event = ? ";
+			return $this->sql->execute_query($query, array($idGlob));
 		}
 	}

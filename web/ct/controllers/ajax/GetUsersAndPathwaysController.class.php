@@ -15,9 +15,12 @@
 	use ct\models\TeachingRoleModel;
 	use ct\models\events\IndependentEventModel;
 
-	/**
+/**
 	 * @class GetUsersAndPathwaysController
-	 * @brief A class for handling the request 087 -> getting all the pathways and all the users 
+	 * @brief Request Nr : 087
+	 * 		INPUT : {id_event}
+	 * 		OUTPUT : {pathways:[{id, name}], team:[{id, name, surname}, roles:{id, role}]}
+	 * 		Method : POST
 	 */
 	class GetUsersAndPathwaysController extends AjaxController
 	{

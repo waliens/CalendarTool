@@ -9,10 +9,12 @@
 
 	use util\mvc\AjaxController;
 	use ct\models\events\GlobalEventModel;
-
 	/**
 	 * @class GetGlobalEventsByUserController
-	 * @brief A class for handling the get global event by user controller 
+	 * @brief Request Nr : 031
+	 * 		INPUT :
+	 * 		OUTPUT : {courses:[{id, code, name}]}
+	 * 		Method : POST
 	 */
 	class GetGlobalEventsByUserController extends AjaxController
 	{

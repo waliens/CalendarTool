@@ -16,10 +16,12 @@
 	use ct\models\filters\EventTypeFilter;
 	use ct\models\filters\AccessFilter;
 	use ct\models\filters\RecurrenceFilter;
-
 	/**
-	 * @class ProfessorProfileController 
-	 * @brief A class for handling the getProfessorProfile ajax request
+	 * @class ProfessorProfileController
+	 * @brief Request Nr : 022
+	 * 		INPUT : 
+	 * 		OUTPUT : {firstName, lastName, email, courses:[{id, code, lib_cours_complet}], indep_events:[{id, name, start, recurrence_type}]}
+	 * 		Method : GET
 	 */
 	class ProfessorProfileController extends AjaxController
 	{
@@ -57,7 +59,7 @@
 			$filter_collection = new FilterCollectionModel();
 			$filter_collection->add_filter(new EventTypeFilter(EventTypeFilter::TYPE_INDEPENDENT));
 			$filter_collection->add_filter(new RecurrenceFilter(false, true));
-			$filter_collection->add_access_filter(new AccessFilter());
+			$filter_collection->add_access_filter(new AccessFilter(AccessFilter::POLICY_AS_FACULTY_MEMBER_OWN));
 
 			$indep_events = $filter_collection->get_events();
 			$trans_indep = array("Id_Event" => "id", "Name" => "name", "Start" => "start", "Id_Recur_Category" => "recurrence_type");

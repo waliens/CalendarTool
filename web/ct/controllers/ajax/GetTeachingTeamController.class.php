@@ -13,8 +13,12 @@
 
 	/**
 	 * @class GetTeachingTeamController
-	 * @brief A class for handling the getTeachingTeam request
+	 * @brief Request Nr : 071
+	 * 		INPUT : {id_global_event}
+	 * 		OUTPUT : {team:[{user_id, name, surname, role}]}
+	 * 		Method : POST
 	 */
+	
 	class GetTeachingTeamController extends AjaxController
 	{
 		private $glob_mod; /**< @brief Global event model */

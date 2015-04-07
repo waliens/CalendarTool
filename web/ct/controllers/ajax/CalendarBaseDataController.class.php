@@ -21,8 +21,13 @@
 
 	/**
 	 * @class CalendarBaseDataController
-	 * @brief A class for handling the calendar base data request
+	 * @brief Request Nr : 101
+	 * 		INPUT :	None
+  	* 		OUTPUT : {upcomingDeadlines:[{id, limit, name, recurrence_id}], upcomingEvents:[{id, start, end, name, recurrence_id}],favorites:[{id,start,end,name,recurrence_id}]}
+	 * 		Method : GET
 	 */
+	
+	
 	class CalendarBaseDataController extends AjaxController
 	{
 		const SQL_DATETIME = "Y-m-d H:i:s"; /**< @brief The datetime french format */

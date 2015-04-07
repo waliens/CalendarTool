@@ -12,10 +12,13 @@
 
 	use ct\models\events\GlobalEventModel;
 
-	/**
-	 * @class EditGlobalEventController
-	 * @brief A class for handling the Edit global event request
-	 */
+/**
+ * @class EditGlobalEventController
+ * @brief Request Nr : 034
+ * 		INPUT : {id, description, feedback, language}
+ * 		OUTPUT :
+ * 		Method : POST
+ */
 	class EditGlobalEventController extends AjaxController
 	{
 		/**

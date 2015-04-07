@@ -2,7 +2,7 @@
 
 	/**
 	 * @file
-	 * @brief Event ControllerClass
+	 * @brief Event Model CLass
 	 */
 
 namespace ct\models\events;
@@ -14,8 +14,8 @@ use \DateTime;
 use \DateInterval;
 
 	/**
-	 * @class Event
-	 * @brief Class for getting event from D
+	 * @class EventModel
+	 * @brief Class for making generic operation on an event
 	 */
 
 
@@ -40,11 +40,11 @@ use \DateInterval;
 		function __construct() {
 			parent::__construct();
 			
-			$this->fields = array("id_event" => "int", "name" => "text", "description" => "text", "id_recurrence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date", "feedback" => "text", "workload" => "int", "practical_details" => "text", "id_owner" => "int", "public" => "bool","id_owner" => "int", "id_GlobalEvent" => "int", "categ_name_FR" => "text", "categ_name_EN" => "text");
+			$this->fields = array("id_event" => "int", "name" => "text","DateType" => "text", "description" => "text", "id_recurrence" => "int", "place" => "text", "id_category" => "int", "limit" => "date", "start" => "date", "end" => "date", "feedback" => "text", "workload" => "int", "practical_details" => "text", "id_owner" => "int", "public" => "bool","id_owner" => "int", "id_GlobalEvent" => "int", "categ_name_FR" => "text", "categ_name_EN" => "text");
 			$this->fields_event = array("Id_Event" => "int", "Name" => "text", "Description" => "text", "Id_Recurrence" => "int", "Place" => "text", "Id_Category" => "int");
 			$this->table = array();
 			$this->table[0] = "event";
-			$this->translate = array("id_event" => "event.Id_Event", "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End", "feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details", "id_GlobalEvent" => "Id_Global_Event","id_owner" => "Id_Owner", "id_owner" => "Id_Owner", "public" => "Public", "categ_name_FR" => "Name_FR", "categ_name_EN" => "Name_EN");
+			$this->translate = array("id_event" => "event.Id_Event", "DateType" => "DateType",  "name" => "Name", "description" => "Description", "id_recurrence" => "Id_Recurrence", "place" => "Place", "id_category" => "Id_Category", "limit" => "Limit", "start" =>"Start", "end" => "End", "feedback" => "Feedback", "workload" => "Workload", "practical_details" => "Practical_Details", "id_GlobalEvent" => "Id_Global_Event","id_owner" => "Id_Owner", "id_owner" => "Id_Owner", "public" => "Public", "categ_name_FR" => "Name_FR", "categ_name_EN" => "Name_EN");
 		}
 		
 		/**
@@ -112,7 +112,6 @@ use \DateInterval;
 						 	FROM event_category 
 					) AS categ NATURAL JOIN recurrence NATURAL JOIN recurrence_category ".$whereClause." ORDER BY Start ;";
 
-						
 			return   $this->sql->execute_query($query);
 
 	
@@ -127,13 +126,13 @@ use \DateInterval;
 		public function getEvent (array $infoData = null,  array $requestedData = null){	
 			if($infoData == null)
 				$infoData = array();
-						
+
+			
 			$info = $this->checkParams($infoData, true);
 			if($requestedData ==  null)
 				return $this->getData($info);
 		
 			$request = $this->checkParams($requestedData, false);		
-			
 			return $this->getData($info, $request);
 		}
 		
@@ -145,10 +144,7 @@ use \DateInterval;
 		 * @retval mixed return the array without invalids params (-1 if prooblem during cintegrity)
 		 */
 		protected function checkParams($ar, $ckey, $cintegrity = false){
-			if($ckey)
-				$arr = array_intersect_key($ar, $this->fields);
-			else
-				$arr = $this->array_intersect_key_val($ar, $this->fields);
+			$arr = $ar;
 			
 			
 			if($cintegrity){
@@ -413,7 +409,14 @@ use \DateInterval;
 		 */
 		public function is_academic_event($event_id)
 		{
-			$ret = $this->sql->execute_query("SELECT event_is_academic(?) AS ret;", array($event_id));
+			$ret = $this->sql->execute_query("SELECT 
+									EXISTS (
+									
+									SELECT * 
+									FROM  `academic_event` 
+									WHERE  `Id_Event` = ?
+									)
+									AS ret;", array($event_id));
 			return !!$ret[0]['ret'];
 		}
 
@@ -424,8 +427,14 @@ use \DateInterval;
 		 */
 		public function is_private_event($event_id)
 		{
-			$ret = $this->sql->execute_query("SELECT event_is_student(?) AS ret;", array($event_id));
-			return !!$ret[0]['ret'];
+			$ret = $this->sql->execute_query("SELECT 
+									EXISTS (
+									
+									SELECT * 
+									FROM  `student_event` 
+									WHERE  `Id_Event` = ?
+									)
+									AS ret;", array($event_id));			return !!$ret[0]['ret'];
 		}
 
 		/**
@@ -435,8 +444,14 @@ use \DateInterval;
 		 */
 		public function is_sub_event($event_id)
 		{
-			$ret = $this->sql->execute_query("SELECT event_is_sub_event(?) AS ret;", array($event_id));
-			return !!$ret[0]['ret'];
+			$ret = $this->sql->execute_query("SELECT 
+									EXISTS (
+									
+									SELECT * 
+									FROM  `sub_event` 
+									WHERE  `Id_Event` = ?
+									)
+									AS ret;", array($event_id));			return !!$ret[0]['ret'];
 		}
 
 		/**
@@ -446,7 +461,14 @@ use \DateInterval;
 		 */
 		public function is_independent_event($event_id)
 		{
-			$ret = $this->sql->execute_query("SELECT event_is_independent(?) AS ret;", array($event_id));
+			$ret = $this->sql->execute_query("SELECT 
+									EXISTS (
+									
+									SELECT * 
+									FROM  `independent_event` 
+									WHERE  `Id_Event` = ?
+									)
+									AS ret;", array($event_id));			
 			return !!$ret[0]['ret'];
 		}
 
@@ -457,7 +479,14 @@ use \DateInterval;
 		 */
 		public function is_deadline_event($event_id)
 		{
-			$ret = $this->sql->execute_query("SELECT event_is_deadline(?) AS ret;", array($event_id));
+			$ret = $this->sql->execute_query("SELECT 
+									EXISTS (
+									
+									SELECT * 
+									FROM  `deadline_event` 
+									WHERE  `Id_Event` = ?
+									)
+									AS ret;", array($event_id));	
 			return !!$ret[0]['ret'];
 		}
 
@@ -468,7 +497,14 @@ use \DateInterval;
 		 */
 		public function is_time_range_event($event_id)
 		{
-			$ret = $this->sql->execute_query("SELECT event_is_time_range(?) AS ret;", array($event_id));
+			$ret = $this->sql->execute_query("SELECT 
+									EXISTS (
+									
+									SELECT * 
+									FROM  `time_range_event` 
+									WHERE  `Id_Event` = ?
+									)
+									AS ret;", array($event_id));	
 			return !!$ret[0]['ret'];
 		}
 
@@ -479,7 +515,14 @@ use \DateInterval;
 		 */
 		public function is_date_range_event($event_id)
 		{
-			$ret = $this->sql->execute_query("SELECT event_is_date_range(?) AS ret;", array($event_id));
+			$ret = $this->sql->execute_query("SELECT 
+									EXISTS (
+									
+									SELECT * 
+									FROM  `date_range_event` 
+									WHERE  `Id_Event` = ?
+									)
+									AS ret;", array($event_id));	
 			return !!$ret[0]['ret'];
 		}
 
@@ -949,18 +992,20 @@ use \DateInterval;
 		/**
 		 * Shift all the event from the same recur of a certain amount of days
 		 * @param int $idRec
-		 * @param string $table
-		 * @param DateInterval $shift
+		 * @param int $shift
 		 */
-		public function setDateRecur($idRec, $table, $shift){
-			$days = $shift->days;
+		public function setDateRecur($idRec, $shift){
+			$days = $shift;
 			$query ="";
-			if($table = "deadline_event")
-				$query = "UPDATE ".$this->sql->quote($table)." NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
+			$query = "UPDATE deadline_event NATURAL JOIN event SET `Limit` = DATE_ADD(`Limit`, INTERVAL ".$days." DAY) 
 						 WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
-			else 
-				$query = "UPDATE ".$this->sql->quote($table)." NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAYS), 
+			$ret = $this->sql->execute_query($query);
+			$query = "UPDATE time_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY), 
 						End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
-			return $this->sql->execute_query($query);
+			$ret |= $this->sql->execute_query($query);
+			$query = "UPDATE date_range_event NATURAL JOIN event SET Start = DATE_ADD(Start, INTERVAL ".$days." DAY),
+			End = DATE_ADD(End, INTERVAL ".$days." DAY) WHERE Id_Recurrence=".$this->sql->quote($idRec).";";
+			$ret |= $this->sql->execute_query($query);
+			return $ret;
 		}
 	}

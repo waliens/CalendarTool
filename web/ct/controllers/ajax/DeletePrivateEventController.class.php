@@ -12,10 +12,13 @@ use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
-/**
- * @class Event
- * @brief Class for handling the control of event
- */
+	/**
+	 * @class DeletePrivateEventController
+	 * @brief Request Nr : 062
+	 * 		INPUT :	{id, applyrecursive}
+  	 * 		OUTPUT : 
+ 	 * 		Method : POST
+	 */
 
 class DeletePrivateEventController extends AjaxController
 {

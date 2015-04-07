@@ -13,11 +13,14 @@ use ct\models\filters\EventTypeFilter;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
-/**
- * @class Event
- * @brief Class for handling the control of event
- */
 
+/**
+ * @class GetEventTypeController
+ * @brief Request Nr : 041
+ * 		INPUT :
+ * 		OUTPUT : {event_type:[{id, name}], time_type:[{id,name}]}
+ * 		Method : POST
+ */
 class GetEventTypeController extends AjaxController
 {
 	public function __construct()
@@ -34,8 +37,8 @@ class GetEventTypeController extends AjaxController
 		// add student and favorite filters for student only
 		if($this->connection->user_is_student()) 
 		{	
-			array_push($event_types, array("id" => EventTypeFilter::TYPE_STUDENT, "name" => "Evénements favoris"));
-			array_push($event_types, array("id" => EventTypeFilter::TYPE_FAVORITE, "name" => "Evénements privés"));
+			array_push($event_types, array("id" => EventTypeFilter::TYPE_FAVORITE, "name" => "Evénements favoris"));
+			array_push($event_types, array("id" => EventTypeFilter::TYPE_STUDENT, "name" => "Evénements privés"));
 		}
 
 		$this->add_output_data('event_type', $event_types);

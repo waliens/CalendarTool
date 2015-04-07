@@ -2,14 +2,14 @@
 
 	/**
 	 * @file 
-	 * @brief Contain the Redirection class
+	 * @brief Contains the Redirection class
 	 */
 
 	namespace util;
 
 	/**
 	 * @class Redirection 
-	 * @brief A class for executing redirections
+	 * @brief A class for executing redirections to an URL
 	 */
 	class Redirection
 	{

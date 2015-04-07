@@ -6,15 +6,19 @@
 
 namespace ct\controllers\ajax;
 
+use ct\models\notifiers\EventModificationNotifier;
+
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use \DateTime;
 use ct\models\events\SubEventModel;
 use ct\models\events\IndependentEventModel;
-
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class EditAcademicEventController
+ * @brief Request Nr : 054, 085
+ * 		INPUT : {id, name, details, where, entireDay, start, end, deadline, type, pract_details, feedback, workload, pathways:[{id,selected}], teachingTeam:[{id,selected}], applyRecursive}
+ * 		OUTPUT :
+ * 		Method : POST
  */
 class EditAcademicEventController extends AjaxController
 {
@@ -51,7 +55,6 @@ class EditAcademicEventController extends AjaxController
 				"practical_details" => $this->sg_post->value('pract_details'),
 				"workload" => $this->sg_post->value("workload"),
 				"feedback" => $this->sg_post->value("feedback"));
-
 
 
 		// get owner id
@@ -99,7 +102,24 @@ class EditAcademicEventController extends AjaxController
 		
 		else {
 			
+			// get event date
+			if($this->sg_post->check_keys(array("limit", "start")) > 0){
+				$limit = new DateTime($this->sg_post->value("start"));
+				$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
+				new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
+			}
+			elseif($this->sg_post->check_keys(array("start", "end")) > 0)
+			{
 			
+				$start = new DateTime($this->sg_post->value('start'));
+				$end = new DateTime($this->sg_post->value('end'));
+				if($start->format("H:i:s") == "0:0:0")
+					$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
+				else
+					$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
+				new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
+			
+			}
 			
 			foreach($pathway as $key => $value){
 				if(!$sub)

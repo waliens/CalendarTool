@@ -4,6 +4,7 @@ namespace ct\models\events;
 
 
 /**
+ * @file
  * @brief Describe the SubEvents
  * @author charybde
  *
@@ -13,6 +14,11 @@ use ct\models\PathwayModel;
 use util\mvc\Model;
 use ct\models\UserModel;
 
+
+/**
+ * @class SubEventModel
+ * @brief Class for making  operation on a sub event
+ */
 class SubEventModel extends AcademicEventModel{
 	
 	private $fields_sb;
@@ -26,7 +32,7 @@ class SubEventModel extends AcademicEventModel{
 	
 	}
 	
-	private function getIdGlobal($eventId){
+	public function getIdGlobal($eventId){
 		$mod = new GlobalEventModel();
 		$idGlob = $this->getEvent(array("id_event" => $eventId, array("id_globalEvent")));
 		if(!empty($idGlob) && isset($idGlob[0]['Id_Global_Event'])){

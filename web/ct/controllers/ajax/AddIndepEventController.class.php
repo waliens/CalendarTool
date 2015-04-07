@@ -7,6 +7,8 @@
 
 namespace ct\controllers\ajax;
 
+use ct\models\notifiers\EventModificationNotifier;
+
 use ct\models\events\IndependentEventModel;
 
 use util\mvc\AjaxController;
@@ -15,14 +17,17 @@ use \DateTime;
 
 
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class AddIndepEventController
+ * @brief Request Nr : 081
+ * 		INPUT : {name, feedback, workload, practical_details, details, where, entireDay, limit, start, end, type, recurrence, end-recurrence, pathways:[], teaching_team: [{id, role}], attachments:[{id, url, name}], softAdd}
+ * 		OUTPUT : {id, error{.... conflict[{pathway, name, start, end}]}
+ * 		Method : POST
  */
+
+
 class AddIndepEventController extends AjaxController
 {
-	/**
-	 * @brief Construct the PrivateEventController object and process the request
-	 */
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -47,8 +52,9 @@ class AddIndepEventController extends AjaxController
 				"practical_details" => $this->sg_post->value('practical_details'));
 			
 		// get event date
-		if($this->sg_post->value("limit") == "true")
+		if($this->sg_post->value("limit") == "true"){
 			$data['limit'] = $this->sg_post->value('start');
+		}	
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');
@@ -75,7 +81,9 @@ class AddIndepEventController extends AjaxController
 		else
 			$id_ret[0] = $model->createEvent($data);
 
-
+		if($this->sg_post->value("limit") == "true")
+			new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
+		
 		$this->add_output_data("id", $id_ret);
 
 		

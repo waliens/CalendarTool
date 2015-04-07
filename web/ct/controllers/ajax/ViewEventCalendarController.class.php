@@ -19,10 +19,15 @@ use util\superglobals\Superglobal;
 use \DateTime;
 
 
-/**
- * @class Event
- * @brief Class for handling the control of event
- */
+	/**
+	 * @class ViewEventCalendarController
+	 * @brief Request Nr : 056,066,086
+	 * 		INPUT : 
+	 * 		OUTPUT : 056 : {id, name, description, place, professor, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence_type, favourite, annotation}
+	 * 				 066 : {id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, recurrence_type, annotation, favourite, recurrence_type}
+	 * 				 086 : {id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, annotation, favourite, recurrence_type} 
+	 * 		Method : POST
+	 */
 class ViewEventCalendarController extends AjaxController
 {
 

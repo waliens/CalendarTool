@@ -6,10 +6,13 @@ use util\superglobals\Superglobal;
 use ct\models\events\IndependentEventModel;
 
 
-/**
- * @class UpdateTeamMember
- * @brief Class for handling the team in an event
- */
+	/**
+	 * @class UpdateTeamMember
+	 * @brief Request Nr : 088, 089
+	 * 		INPUT :{id_event, id_user, id_role}
+	 * 		OUTPUT : 
+	 * 		Method : POST
+	 */
 class UpdateTeamMember extends AjaxController
 {
 

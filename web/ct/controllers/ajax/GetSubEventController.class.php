@@ -16,10 +16,13 @@ use ct\models\events\StudentEventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
-/**
- * @class Event
- * @brief Class for handling the control of event
- */
+	/**
+	 * @class GetSubEventController
+	 * @brief Request Nr : 052
+	 * 		INPUT : {id}
+	 * 		OUTPUT : {subEvents:[{id, name}]}
+	 * 		Method : POST
+	 */
 
 class GetSubEventController extends AjaxController
 {
