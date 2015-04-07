@@ -17,9 +17,13 @@ use \DateTime;
 
 
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class AddSubEventController
+ * @brief Request Nr : 053
+ * 		INPUT :{name, id_global_event, feedback, workload, practical_details, details, where, entireDay, limit, start, end, type, recurrence, end-recurrence, pathway, teachingTeam: [{id, name, selected}], attachments:[{id, url, name}], softAdd}
+ * 		OUTPUT : {id, error{.... conflict[{pathway, name, start, end}]}
+ * 		Method : POST
  */
+
 class AddSubEventController extends AjaxController
 {
 	/**

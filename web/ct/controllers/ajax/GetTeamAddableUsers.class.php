@@ -11,10 +11,14 @@
 	use util\superglobals\Superglobal;
 	use ct\models\events\GlobalEventModel;
 
-	/**
+/**
 	 * @class GetTeamAddableUsers
-	 * @brief A class for handling the get team addable users
+	 * @brief Request Nr : 075
+	 * 		INPUT : {id_global_event}
+	 * 		OUTPUT : {users:[{name, surname, id_user}]}
+	 * 		Method : POST
 	 */
+	
 	class GetTeamAddableUsers extends AjaxController
 	{
 		/**

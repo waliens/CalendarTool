@@ -3,7 +3,8 @@
 namespace ct\models\events;
 
 /**
- * @brief Describe the SubEvents
+ * @file
+ * @brief Describe the Independant events
  * @author charybde
  *
  */
@@ -12,6 +13,10 @@ use ct\models\PathwayModel;
 use ct\models\UserModel;
 use util\mvc\Model;
 
+/**
+ * @class IndependentEventModel
+ * @brief Class for making  operation on an independent event
+ */
 class IndependentEventModel extends AcademicEventModel{
 	
 	private $fields_ind;

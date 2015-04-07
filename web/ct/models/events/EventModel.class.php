@@ -2,7 +2,7 @@
 
 	/**
 	 * @file
-	 * @brief Event ControllerClass
+	 * @brief Event Model CLass
 	 */
 
 namespace ct\models\events;
@@ -14,8 +14,8 @@ use \DateTime;
 use \DateInterval;
 
 	/**
-	 * @class Event
-	 * @brief Class for getting event from D
+	 * @class EventModel
+	 * @brief Class for making generic operation on an event
 	 */
 
 

@@ -17,14 +17,17 @@ use \DateTime;
 
 
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class AddIndepEventController
+ * @brief Request Nr : 081
+ * 		INPUT : {name, feedback, workload, practical_details, details, where, entireDay, limit, start, end, type, recurrence, end-recurrence, pathways:[], teaching_team: [{id, role}], attachments:[{id, url, name}], softAdd}
+ * 		OUTPUT : {id, error{.... conflict[{pathway, name, start, end}]}
+ * 		Method : POST
  */
+
+
 class AddIndepEventController extends AjaxController
 {
-	/**
-	 * @brief Construct the PrivateEventController object and process the request
-	 */
+	
 	public function __construct()
 	{
 		parent::__construct();

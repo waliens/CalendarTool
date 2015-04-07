@@ -14,7 +14,10 @@
 
 	/**
 	 * @class GetTeachingRolesController
-	 * @brief A class for handling the get teaching roles request
+	 * @brief Request Nr : 074
+	 * 		INPUT : {lang}
+	 * 		OUTPUT : {roles:[{id, role}]}
+	 * 		Method : POST
 	 */
 	class GetTeachingRolesController extends AjaxController
 	{

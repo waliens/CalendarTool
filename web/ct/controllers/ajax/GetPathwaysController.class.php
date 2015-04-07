@@ -9,10 +9,12 @@
 
 	use util\mvc\AjaxController;
 	use ct\models\PathwayModel;
-
 	/**
 	 * @class GetPathwaysController
-	 * @brief A class for handling the get pathways request
+	 * @brief Request Nr : 111
+	 * 		INPUT :
+	 * 		OUTPUT : {pathways:[{id, name}]}
+	 * 		Method : POST
 	 */
 	class GetPathwaysController extends AjaxController
 	{

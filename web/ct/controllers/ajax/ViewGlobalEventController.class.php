@@ -16,10 +16,12 @@
 	use ct\models\filters\AccessFilter;
 	use ct\models\filters\RecurrenceFilter;
 	use ct\models\FilterCollectionModel;
-
-	/** 
+	/**
 	 * @class ViewGlobalEventController
-	 * @brief A class for handling the view global event request
+	 * @brief Request Nr : 032
+	 * 		INPUT :{event_id}
+	 * 		OUTPUT :{id, id_ulg, owner_id, name, name_short, description, feedback, period, language, acad_year, workload={th:, pr:, au:, st:}, pathways:[{id, name}], subevents:[{id, name,recurrence,recurrence_type,start,end}], team:[{id, name, surname, role}]}
+	 * 		Method : GET
 	 */
 	class ViewGlobalEventController extends AjaxController
 	{
