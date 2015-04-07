@@ -307,7 +307,6 @@ use \DateInterval;
 					return false;
 					break;	
 			}
-			echo $table;
 			$a = true;
 			if($update){
 				$a = $this->delete_time_type($id);
