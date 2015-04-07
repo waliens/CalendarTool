@@ -6,6 +6,8 @@
 
 namespace ct\controllers\ajax;
 
+use ct\models\notifiers\EventModificationNotifier;
+
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use \DateTime;
@@ -53,7 +55,6 @@ class EditAcademicEventController extends AjaxController
 				"feedback" => $this->sg_post->value("feedback"));
 
 
-
 		// get owner id
 		if(!$sub)
 			$data['id_owner'] = $id;
@@ -99,7 +100,24 @@ class EditAcademicEventController extends AjaxController
 		
 		else {
 			
+			// get event date
+			if($this->sg_post->check_keys(array("limit", "start")) > 0){
+				$limit = new DateTime($this->sg_post->value("start"));
+				$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
+				new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
+			}
+			elseif($this->sg_post->check_keys(array("start", "end")) > 0)
+			{
 			
+				$start = new DateTime($this->sg_post->value('start'));
+				$end = new DateTime($this->sg_post->value('end'));
+				if($start->format("H:i:s") == "0:0:0")
+					$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
+				else
+					$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
+				new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
+			
+			}
 			
 			foreach($pathway as $key => $value){
 				if(!$sub)

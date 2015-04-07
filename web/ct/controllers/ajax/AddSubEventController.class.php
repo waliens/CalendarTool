@@ -4,8 +4,10 @@
  * @file
 * @brief Sub Event  AddingControllerClass
 */
-
 namespace ct\controllers\ajax;
+
+use ct\models\notifiers\EventModificationNotifier;
+
 
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
@@ -50,6 +52,7 @@ class AddSubEventController extends AjaxController
 		// get event date
 		if($this->sg_post->value('limit') == "true")
 			$data['limit'] = $this->sg_post->value('start');
+			
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');
@@ -73,6 +76,9 @@ class AddSubEventController extends AjaxController
 		}
 		else
 			$id_ret[0] = $model->createEvent($data);
+		
+		if($this->sg_post->value('limit') == "true")
+			new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
 
 		$this->add_output_data("id", $id_ret);
 	
@@ -103,6 +109,3 @@ class AddSubEventController extends AjaxController
 		
 	}
 }
-
-
-

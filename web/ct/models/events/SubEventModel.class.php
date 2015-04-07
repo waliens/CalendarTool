@@ -26,7 +26,7 @@ class SubEventModel extends AcademicEventModel{
 	
 	}
 	
-	private function getIdGlobal($eventId){
+	public function getIdGlobal($eventId){
 		$mod = new GlobalEventModel();
 		$idGlob = $this->getEvent(array("id_event" => $eventId, array("id_globalEvent")));
 		if(!empty($idGlob) && isset($idGlob[0]['Id_Global_Event'])){

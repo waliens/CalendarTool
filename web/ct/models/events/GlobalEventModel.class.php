@@ -1149,4 +1149,17 @@
 			return $this->sql->count("global_event", "Id_Owner = ".$this->sql->quote($user_id)." 
 														AND Id_Global_Event = ".$this->sql->quote($id_glob)) > 0;
 		}
+		
+		/**
+		 * @brief get a list of student that follow a particular global event
+		 * @param int $idGlob
+		 * @retval array containing pair ("id", "pathway")
+		 * 
+		 */
+		public function get_list_student($idGlob){
+			$query = "SELECT Id_Student AS id, Id_Pathway as pathway FROM global_event_subscription 
+			NATURAL JOIN student_pathway
+						WHERE Id_Global_Event = ? ";
+			return $this->sql->execute_query($query, array($idGlob));
+		}
 	}

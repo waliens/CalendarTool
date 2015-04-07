@@ -7,6 +7,8 @@
 namespace ct\controllers\ajax;
 
 
+use ct\models\notifiers\EventModificationNotifier;
+
 use ct\models\events\IndependentEventModel;
 
 use ct\models\events\SubEventModel;
@@ -67,6 +69,10 @@ class DeleteEventController extends AjaxController
 		elseif(($sub || $indep) && !$model->isInTeam($eventId, $id))
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);		
 		else{  
+			
+			if($sub || $indep)
+				new EventModificationNotifier(EventModificationNotifier::
+					DELETE, $eventId);
 			if($recur == "true"){
 				$success = $model->deleteEventRecurrence($verif[0]['Id_Recurrence']);
 			}

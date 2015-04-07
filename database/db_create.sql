@@ -595,6 +595,8 @@ CREATE TABLE IF NOT EXISTS `ulg_has_course`
 	FOREIGN KEY(`Id_ULg_Student`) REFERENCES `ulg_student`(`Id_ULg_Student`) ON DELETE CASCADE,
 	FOREIGN KEY(`Id_Course`) REFERENCES `ulg_course`(`Id_Course`) ON DELETE CASCADE,
 	PRIMARY KEY(`Id_ULg_Student`, `Id_Course`)
+
 ) ENGINE=InnoDB
  CHARACTER SET utf8 
  COLLATE utf8_general_ci;
+
