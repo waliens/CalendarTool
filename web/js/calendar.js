@@ -996,7 +996,7 @@ function populate_public_event(event){
 			else $("#academic_event_place").parent().show();
 			var academic_event_type=data.type;
 			var academic_event_start=moment(data.startDay);
-			if(data.startTime!=""){
+			if(data.type!="date_range"){//date range events don't have a start time
 				var chunks=data.startTime.split(":");
 				academic_event_start.set("hour",chunks[0]);
 				academic_event_start.set("minute",chunks[1]);
@@ -1007,7 +1007,7 @@ function populate_public_event(event){
 			if(data.endDay!=""){
 				$("#academic_event_end").parent().removeClass("hidden");
 				academic_event_end=moment(data.endDay);
-				if(data.endTime!=""){
+				if(data.type=="time_range"){//time range events have an end hour
 					var chunks=data.endTime.split(":");
 					academic_event_end.set("hour",chunks[0]);
 					academic_event_end.set("minute",chunks[1]);
@@ -1171,6 +1171,9 @@ function create_private_event(){
 						return;
 					}
 					var id=guid();
+					//fix small bug which displays allDay events with end day exclusive instead of inclusive;
+					if(!end.isSame(start)&&allDay)
+							end.add(1,"day");
 					//check if the event is recursive
 					if(recurrence!="jamais"){
 						var offset;
