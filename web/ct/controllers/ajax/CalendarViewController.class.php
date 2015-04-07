@@ -90,6 +90,7 @@
 			$f_event['recursive'] = $event['Id_Recurrence'];
 			$f_event['timeType'] = $event['DateType'];
 			$f_event['color'] = $event['Color'];
+			$f_event['independent'] = $event['EventType'] == "indep_event" ? "true" : "false";
 			return $f_event;
 		}
 
