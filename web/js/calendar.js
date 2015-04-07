@@ -987,7 +987,7 @@ function populate_private_event(event){
 function populate_public_event(event){
 	var event_id=event.id_server;
 	var req="056";//subevent by default
-	if(event.independent)
+	if(event.independent=="true")
 		req="086";
 	$.ajax({
 		dataType : "json",
