@@ -957,9 +957,13 @@ function populate_private_event(event){
 			$("#private_event_details").prop("readonly",true);
 			$("#recurrence_btn").prop("disabled",true);
 			$("#private_event_type_btn").prop("disabled",true);
-			if(notes!=""){
-				$("#private_notes_body").val(notes);
-				$("#private_notes_body").prop("readonly",true);
+			//notes are only for students
+			if(student){
+				if(notes!=""){
+					$("#private_notes_body").val(notes);
+					$("#private_notes_body").prop("readonly",true);
+				}
+				else $("#private_notes_body").parent().parent().addClass("hidden");
 			}
 			else $("#private_notes_body").parent().parent().addClass("hidden");
 			//hides button used when creating a new event
@@ -1060,14 +1064,20 @@ function populate_public_event(event){
 			for(var i=0;i<pathways.length;i++)
 				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>");
 			//check if the event has notes or not
-			$("#notes_body").text(data.annotation);
-			if($("#notes_body").text()!=""){
-				$("#add_notes").addClass("hidden");
-				$("#notes").removeClass("hidden");
-				$("#notes_body").text(data.notes);
+			if(student){
+				$("#notes_body").text(data.annotation);
+				if($("#notes_body").text()!=""){
+					$("#add_notes").addClass("hidden");
+					$("#notes").removeClass("hidden");
+					$("#notes_body").text(data.notes);
+				}
+				else{
+					$("#add_notes").removeClass('hidden');
+					$("#notes").addClass("hidden");
+					}
 			}
 			else{
-				$("#add_notes").removeClass('hidden');
+				$("#add_notes").addClass('hidden');
 				$("#notes").addClass("hidden");
 				}
 		},
@@ -1284,7 +1294,7 @@ function create_private_event(){
 				end=end.format("YYYY-MM-DDTHH:mm:ss");
 			else end=end.format("YYYY-MM-DD");
 			}
-		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start, end:end, entireDay:allDay, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+		var edit_event={id:private_event.id_server, name:title, details:details, "note":notes, where:place, limit:$("#deadline input").prop("checked"), start:start, end:end, entireDay:allDay, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
