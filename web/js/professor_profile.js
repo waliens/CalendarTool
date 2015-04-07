@@ -94,10 +94,11 @@ function addIndependentEvent(indep_event){
 	delete_icon.className="delete";
 	//link the delete icon to the delete alert
 	delete_icon.setAttribute("data-toggle","modal");
-	delete_icon.setAttribute("data-target","#delete_indep_event_alert");
+	delete_icon.setAttribute("data-target","#delete_academic_event_alert");
 	//delete_icon.setAttribute("course-code",indep_event.code);
-	delete_icon.setAttribute("course-id",indep_event.id);
-	delete_icon.setAttribute("course-name",indep_event.name);
+	delete_icon.setAttribute("event-id",indep_event.id);
+	delete_icon.setAttribute("event-name",indep_event.name);
+	delete_icon.setAttribute("recurrence-type",get_recursion(indep_event.recurrence_type));
 	var div_container1=document.createElement("div");
 	div_container1.className="text-center";
 	div_container1.appendChild(edit_icon);
@@ -124,13 +125,6 @@ $('#delete_global_event_alert').on('show.bs.modal', function (event) {
 	var event = $(event.relatedTarget);
 	$("span[name=global_course_deleted]").html(event.attr("course-name"));
 	$("#global_event_delete_confirm").attr("event-id",event.attr("course-id"));
-});
-
-//populate delete independent event alert
-$('#delete_indep_event_alert').on('show.bs.modal', function (event) {
-	var event = $(event.relatedTarget);
-	$("span[name=indep_event_deleted]").html(event.attr("course-name"));
-	$("#indep_event_delete_confirm").attr("event-id",event.attr("course-id"));
 });
 
 //confirm global event deletion
@@ -317,7 +311,7 @@ function populateSubevent(item){
 	cell3.innerHTML=get_recursion(item.recurrence_type);
 	row.appendChild(cell3);
 	var cell4=document.createElement("td");
-	cell4.innerHTML='<div class="text-center"><a class="edit" event-id="'+item.id+'"></a><a class="delete" data-toggle="modal" data-dismiss="modal" data-target="#delete_subevent_alert" global-event-id="'+$("#add-subevent").attr("event-id")+'" event-id="'+item.id+'" recurrence-type='+item.recurrence_type+' event-name="'+item.name+'"></a></div>';
+	cell4.innerHTML='<div class="text-center"><a class="edit" event-id="'+item.id+'"></a><a class="delete" data-toggle="modal" data-dismiss="modal" data-target="#delete_academic_event_alert" global-event-id="'+$("#add-subevent").attr("event-id")+'" event-id="'+item.id+'" recurrence-type='+item.recurrence_type+' event-name="'+item.name+'"></a></div>';
 	row.appendChild(cell4);
 	table.append(row);
 }
@@ -672,7 +666,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				$("#edit_academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
 				//add popup to confirm button
 				$("#edit_academic_event_creation_confirm_recursion").popover({
-					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_academic_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_academic_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
+					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_academic_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_academic_event(true)">Tous les événements</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
 					});	
 				}
 			var favourite=data.favourite;
@@ -1501,40 +1495,48 @@ function addTeamWithCheckbox(team){
 	cell2.appendChild(input);
 	}
 
-$("#delete_subevent_alert").on("show.bs.modal",function(event){
+$("#delete_academic_event_alert").on("show.bs.modal",function(event){
 	var trigger=$(event.relatedTarget);
 	var event_id=trigger.attr("event-id");
-	var global_event_id=trigger.attr("global-event-id");
+	var global_event_id=trigger.attr("global-event-id");//this is empty if we are deleting an indep event
 	var event_name=trigger.attr("event-name");
 	if(trigger.attr("recurrence-type")==6){//deleting non recurrent subevent
-		$("#delete_subevent_norecurr_btns").show();
-		$("#delete_subevent_recurr_btns").hide();
+		$("#delete_academic_event_norecurr_btns").show();
+		$("#delete_academic_event_recurr_btns").hide();
 		$("#delete_subevent_alert .modal-title").text("Supprimer l'événement")
 		}
 	else{//deleting recurrent subevent
-		$("#delete_subevent_norecurr_btns").hide();
-		$("#delete_subevent_recurr_btns").show();
-		$("#delete_subevent_alert .modal-title").text("Supprimer l'événement récurrent");
+		$("#delete_academic_event_norecurr_btns").hide();
+		$("#delete_academic_event_recurr_btns").show();
+		$("#delete_academic_event_alert .modal-title").text("Supprimer l'événement récurrent");
 		}
-	$("span[name='subevent_deleted']").text(event_name);
-	$("#delete_subevent_alert .btn-primary").attr("event-id",event_id);
-	$("#delete_subevent_alert .btn-primary").attr("global-event-id",global_event_id);
+	$("span[name='academic_event_deleted']").text(event_name);
+	$("#delete_academic_event_alert .btn-primary").attr("event-id",event_id);
+	$("#delete_academic_event_alert .btn-primary").attr("global-event-id",global_event_id);
 		
 	})
 	
 //delete subevent function	
-function confirm_delete_subevent(applyRecursive){
+function confirm_delete_academic_event(applyRecursive){
 	var event_id=event.currentTarget.getAttribute("event-id");
 	var global_event_id=event.currentTarget.getAttribute("global-event-id");
+	var req="055"//delete subevent;
+	if(global_event_id==null)
+		req="083";
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
-			url : "index.php?src=ajax&req=055",
+			url : "index.php?src=ajax&req="+req,
 			data: {id:event_id,applyRecursive:applyRecursive},
 			async : true,
 			success : function(data, status) {
-				$("#subevents_table #"+event_id).parent().parent().remove();
-				$("#global_events [event-id="+global_event_id+"]").click();
+				if(global_event_id!=null){
+					$("#subevents_table #"+event_id).parent().parent().remove();
+					$("#global_events [event-id="+global_event_id+"]").click();
+				}
+				else {
+					$("#independent-events #"+event_id).parent().parent().remove();
+					}
 			},
 			error : function(xhr, status, error) {
 			  var err = eval("(" + xhr.responseText + ")");
