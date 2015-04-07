@@ -193,9 +193,12 @@
 									   FROM sub_event_excluded_team_member )
 						)
 						UNION ALL
-						( SELECT Id_Event -- independent event the user for which the user has the given roles
-						  FROM independent_event_manager
-						  WHERE Id_Role IN $q_role_ids AND Id_User = $q_user_id
+						( SELECT Id_Event
+                          FROM independent_event
+                          WHERE Public = 1 OR Id_Event IN
+                          ( SELECT Id_Event -- independent event the user for which the user has the given roles
+                            FROM independent_event_manager
+                            WHERE Id_Role IN $q_role_ids AND Id_User = $q_user_id )
 						)
 					) AS ts_events";
 		}
