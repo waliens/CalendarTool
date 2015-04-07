@@ -195,11 +195,6 @@
               <td><label for="private_event_details" class="sr-only">Plus info</label>
                 <input class="form-control" id="private_event_details" placeholder="Détails de l'événement"></td>
             </tr>
-            <tr id="notes">
-              <td class="text-bold width-80">Note</td>
-              <td><label for="private_notes_body" class="sr-only">Note</label>
-                <input class="form-control" id="private_notes_body" placeholder="Notes de l'événement"></td>
-            </tr>
             <tr>
               <td colspan="2"><div class='text-center' id='edit_event_btns'>
                   <button type='button' class='btn btn-primary' type="submit" disabled="disabled" onclick="create_private_event();">
