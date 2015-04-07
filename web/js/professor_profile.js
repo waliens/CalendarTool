@@ -732,7 +732,7 @@ function edit_academic_event(applyRecursive){
 		if(team.get(i).checked){
 			if(req=="054")
 				team_json.push({id:team.get(i).getAttribute("team-id"),selected:true});
-			else team_json.push({id:team.get(i).getAttribute("team-id"),role:team.get(i).getAttribute("role-id")});	
+			else team_json.push({id:team.get(i).getAttribute("team-id"),role:$("#edit_academic_event_team_table td[team-id='"+team.get(i).getAttribute("team-id")+"'] span").attr("role-id")});	
 		}
 		else if(req=="054") team_json.push({id:team.get(i).getAttribute("team-id"),selected:false});
 	}
