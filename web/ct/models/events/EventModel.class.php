@@ -149,7 +149,10 @@ use \DateInterval;
 			
 			if($cintegrity){
 				foreach($arr as $key => $value){
-					if($this->fields[$key] == "int"){
+					if(!isset($this->fields[$key])){
+						
+					}
+					elseif($this->fields[$key] == "int"){
 							$arr[$key] = $this->sql->quote($value);
 					}
 					elseif($this->fields[$key] == "bool"){
