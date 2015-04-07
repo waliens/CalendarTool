@@ -23,7 +23,7 @@
 	 * @class CalendarBaseDataController
 	 * @brief Request Nr : 101
 	 * 		INPUT :	None
-  	* 		OUTPUT : {upcomingDeadlines:[{id, limit, name, recurrence_id}], upcomingEvents:[{id, start, end, name, recurrence_id}],favorites:[{id,start,end,name,recurrence_id}]}
+  	* 		OUTPUT : {upcomingDeadlines:[{id, limit, name, recurrence_id, academic_event}], upcomingEvents:[{id, start, end, name, recurrence_id, academic_event}],favorites:[{id,start,end,name,recurrence_id, academic_event}]}
 	 * 		Method : GET
 	 */
 	
@@ -167,8 +167,9 @@
 			{
 				$curr = array();
 				$curr['id'] = $event['Id_Event'];
-				$curr['recurrence_id'] = $event['Id_Recurrence'];
+				$curr['recurrence_id'] = $event['Id_Recur_Category'];
 				$curr['name'] = $event['Name'];
+				$curr['academic_event'] = $event['EventType'] !== "student_event" ? "true" : "false";
 
 				if($deadline)
 					$curr['limit'] = \ct\date_sql2fullcalendar($event['Start']);
