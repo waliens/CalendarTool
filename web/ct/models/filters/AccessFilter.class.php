@@ -124,11 +124,14 @@
 					( 
 						( SELECT Id_Event FROM student_event WHERE Id_Owner = $q_user_id) 
 						UNION ALL
-						( SELECT Id_Event -- independent event to which the user is associated
-						  FROM independent_event_pathway NATURAL JOIN
-						  ( SELECT Id_Pathway 
-						  	FROM student_pathway 
-						  	WHERE Id_Student = $q_user_id AND Acad_Start_Year = $q_acad) AS user_path
+						( SELECT Id_Event FROM independent_event 
+						  WHERE Public = 1 OR Id_Event IN 
+						  ( SELECT Id_Event -- independent event to which the user is associated
+						  	FROM independent_event_pathway NATURAL JOIN
+						    ( SELECT Id_Pathway 
+						  	  FROM student_pathway 
+						  	 WHERE Id_Student = $q_user_id AND Acad_Start_Year = $q_acad ) AS studpath 
+						  )
 						) 
 						UNION ALL
 						( SELECT Id_Event FROM sub_event 
