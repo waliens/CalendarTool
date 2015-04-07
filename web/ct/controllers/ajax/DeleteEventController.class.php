@@ -73,9 +73,9 @@ class DeleteEventController extends AjaxController
 			$this->set_error_predefined(self::ERROR_ACCESS_DENIED);		
 		else{  
 			
-			if($sub || $indep)
-				new EventModificationNotifier(EventModificationNotifier::
-					DELETE, $eventId);
+			//if($sub || $indep)
+			//	new EventModificationNotifier(EventModificationNotifier::
+			//		DELETE, $eventId);
 			if($recur == "true"){
 				$success = $model->deleteEventRecurrence($verif[0]['Id_Recurrence']);
 			}

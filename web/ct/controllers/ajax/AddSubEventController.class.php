@@ -81,8 +81,8 @@ class AddSubEventController extends AjaxController
 		else
 			$id_ret[0] = $model->createEvent($data);
 		
-		if($this->sg_post->value('limit') == "true")
-			new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
+		//if($this->sg_post->value('limit') == "true")
+		//	new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
 
 		$this->add_output_data("id", $id_ret);
 	

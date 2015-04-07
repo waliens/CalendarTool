@@ -96,6 +96,7 @@ class EditAcademicEventController extends AjaxController
 							$model->excludePathway($id, $value['id']);
 					}
 				}
+
 				$model->reset_team($id);
 				if(!$sub)
 					$model->setTeam($id, $team);
@@ -126,6 +127,8 @@ class EditAcademicEventController extends AjaxController
 			}
 			
 		}
+
+
 		
 		else {
 			
@@ -133,7 +136,7 @@ class EditAcademicEventController extends AjaxController
 			if($this->sg_post->check_keys(array("deadline", "start")) > 0 && $this->sg_post->value("deadline") == "true"){
 				$limit = new DateTime($this->sg_post->value("start"));
 				$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
-				new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
+				//new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
 			}
 			elseif($this->sg_post->check_keys(array("start", "end", "entireDay")) > 0)
 			{
@@ -143,7 +146,7 @@ class EditAcademicEventController extends AjaxController
 					$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
 				else
 					$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
-				new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
+				//new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
 			
 			}
 			
@@ -155,6 +158,7 @@ class EditAcademicEventController extends AjaxController
 						$model->excludePathway($this->sg_post->value("id"), $value['id']);
 				}			
 			}
+
 			$model->reset_team($this->sg_post->value("id"));
 			if(!$sub)
 				$model->setTeam($this->sg_post->value("id"), $team);
@@ -165,6 +169,7 @@ class EditAcademicEventController extends AjaxController
 					}
 				}
 			}
+
 		}
 	}
 }
