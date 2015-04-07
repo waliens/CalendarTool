@@ -1112,9 +1112,8 @@ function create_private_event(){
 	}
 	//check if the event is an allDay event
 	var allDay=false;
-	if(!startHour && !endHour)
+	if(startHour=="" && endHour=="")
 		allDay=true;
-	
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=$("#recurrence").attr("recurrence-id");
 	var end_recurrence;
@@ -1158,7 +1157,7 @@ function create_private_event(){
 			recurrent=false;
 		}
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":startjson, "end":endjson, entireDay:allDay, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
