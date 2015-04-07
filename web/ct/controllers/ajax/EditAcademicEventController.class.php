@@ -96,8 +96,35 @@ class EditAcademicEventController extends AjaxController
 							$model->excludePathway($id, $value['id']);
 					}
 				}
-				//$model->setTeam($id, $team);
+				$model->reset_team($id);
+				if(!$sub)
+					$model->setTeam($id, $team);
+				else{
+					foreach($team as $key => $value){
+						if(!$value["selected"])
+							$model->excludeMember($id, $value['id']);
+					}
+				}
 			}
+			//date recurrent
+			$previous_date = $model->getEvent(array("id_event" => $this->sg_post->value("id")), array("start"))[0]["Start"];
+			$oldStart = new DateTime($previous_date);
+			$start = new DateTime($this->sg_post->value('start'));
+			
+			$shift = $oldStart->diff($start, false);
+			$shift2 = $shift->days;
+			if($oldStart > $start){
+				$shift2 *= -1;
+			}
+			$mins = $shift->h * 60 + $shift->i;
+			$ret = $model->setDateRecur($idRec, $shift2, $mins);
+			
+				
+			if(!$ret){
+				$this->set_error_predefined(self::ERROR_ACTION_UPDATE_DATA);
+				return;
+			}
+			
 		}
 		
 		else {
@@ -122,14 +149,22 @@ class EditAcademicEventController extends AjaxController
 			
 			foreach($pathway as $key => $value){
 				if(!$sub)
-					$model->setPathway($id, $value);
+					$model->setPathway($this->sg_post->value("id"), $value);
 				else{
 					if(!$value["selected"])
-						$model->excludePathway($id, $value['id']);
+						$model->excludePathway($this->sg_post->value("id"), $value['id']);
 				}			
 			}
-					
-		//	$model->setTeam($id, $team);
+			$model->reset_team($this->sg_post->value("id"));
+			if(!$sub)
+				$model->setTeam($this->sg_post->value("id"), $team);
+			else{
+				foreach($team as $key => $value){
+					if(!$value["selected"]){
+						$model->excludeMember($this->sg_post->value("id"), $value['id']);
+					}
+				}
+			}
 		}
 	}
 }
