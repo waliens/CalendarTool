@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file 
+ *
+ */
 namespace  ct\models\notifiers;
 
 use ct\models\events\EventModel;

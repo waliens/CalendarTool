@@ -1,4 +1,10 @@
 <?php
+/**
+ * @file
+ * @brief Contains the GlobalEventNotification class
+ * @author charybde
+ *
+ */
 namespace  ct\models\notifiers;
 
 use ct\models\events\GlobalEventModel;
