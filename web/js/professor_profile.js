@@ -1279,15 +1279,6 @@ function setSens(id, k, datepicker_instance) {
 		datepicker[datepicker_instance].setSensitiveRange($("#"+id).val(), null);
 	else datepicker[datepicker_instance].setSensitiveRange(null, $("#"+id).val());
 }
-
-//hide/show the end date and hour based on whether the checkbox deadline is selected or not
-function deadline(tag){
-	$(tag+"_endDate").parent().toggleClass("hidden");
-	if(!$(tag+"_endDate").parent().hasClass("hidden")){
-		$(tag+"_endHour").val($(tag+"_startHour").val())
-		$(tag+"_endDate").val($(tag+"_startDate").val())
-	}
-}
 	
 //sets the new subevent recurrence
 function updateRecurrence(tag){

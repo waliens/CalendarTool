@@ -139,7 +139,7 @@
                       <label for="private_event_endHour" class="sr-only">Se termine Heure</label>
                       <input class="marging-10-0 time form-control" id="private_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
                   </tr>
-                  <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline();"></td></tr>
+                  <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline('#private_event','#edit_event_btns');"></td></tr>
                 </table></td>
                 </tr>
             <tr>

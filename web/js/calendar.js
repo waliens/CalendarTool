@@ -1359,25 +1359,7 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 	
-function deadline(){
-	if($("#deadline input").prop("checked")){
-		$("#private_event_endDate").parent().addClass("hidden");
-		datepicker["private_event"].setSensitiveRange(null, null);
-		if($("#private_event_startHour").val().length==0)
-			$('#edit_event_btns .btn-primary').prop("disabled", true);
-		else {
-			if($("#private_event_title").val().length>0)
-				$('#edit_event_btns .btn-primary').prop("disabled", false);
-			}
-	}
-	else{ 
-		$("#private_event_endDate").prop("disabled",false);
-		$("#private_event_endDate_datepicker").prop("disabled",false);
-		$("#private_event_endDate_datepicker").prop("readonly",false);
-		$("#private_event_endDate_datepicker").removeClass("hidden");	
-		$("#private_event_endDate").parent().removeClass("hidden");
-		}
-}
+
 	
 /*-----------------------------------------------------*/	
 /*--------------------FILTERS--------------------------*/
