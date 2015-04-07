@@ -510,7 +510,11 @@ function addDeadline(item){
 	event_tag.setAttribute("event-id",item.id);
 	event_tag.innerHTML = item.name;
 	event_tag.setAttribute("data-toggle","modal");
-	event_tag.setAttribute("data-target","#private_event");
+	var modal;
+	if(item.academic_event=="true")
+		modal="#academic_event_info_modal";
+	else modal="#private_event";
+	event_tag.setAttribute("data-target",modal);
 	var recurrence=get_recursion(item.recurrence_id);
 	var event_recurrence=document.createElement("p");
 	event_recurrence.innerText=recurrence;
@@ -526,7 +530,14 @@ function addDeadline(item){
 	cell3.appendChild(event_recurrence);
 	}
 
-
+//populate modal when a deadline is clicked from the deadline panel of the calendar view
+$("#deadlines").on("click","a",function(){
+	var modal=event.target.getAttribute("data-target");
+	var event_id=event.target.getAttribute("event-id");
+	if(modal=="#private_event")
+		populate_private_event({id_server:event_id,id:""});
+	else populate_public_event({id_server:event_id});
+	})
 
 /*--------------------------------------------------------------------------*/
 /*--------------------------- MANAGE NOTE ----------------------------------*/

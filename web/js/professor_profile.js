@@ -622,9 +622,14 @@ $("#edit_academic_event").on("show.bs.modal",function(){
 			setUpTimePickers("#edit_academic_event","#edit_academic_event_btns");
 			setTimePickersValidInterval("#edit_academic_event");
 			var deadline=data.deadline;
-			if(deadline=="false")
+			if(deadline=="true"){
+				$("#edit_academic_event_deadline input").prop("checked",true);
+				$("#edit_academic_event_endDate").parent().addClass("hidden");
+				}
+			else {
 				$("#edit_academic_event_deadline input").prop("checked",false);
-			else $("#edit_academic_event_deadline input").prop("checked",true);
+				$("#edit_academic_event_endDate").parent().removeClass("hidden");	
+			}
 			var category_id=data.category_id;
 			var category_name=data.category_name;
 			var recurrence=get_recursion(data.recurrence);
