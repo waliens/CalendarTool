@@ -1,0 +1,68 @@
+<!-- Contains the information of a specific GlobalEvent. Used in GlobalEventDetailFragment -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/title"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="be.ac.ulg.myulgcalendar.GlobalEventDetailFragment" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="?android:attr/textAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/id_ulg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/descriptionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            style="?android:attr/textAppearance"
+            android:text="Description:"
+            />
+
+        <TextView
+            android:id="@+id/descriptionContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            />
+
+        <TextView
+            android:id="@+id/eventListTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            style="?android:attr/textAppearance"
+            android:visibility="invisible"
+            android:text="Liste des événements"
+            />
+
+    </LinearLayout>
+</ScrollView>
