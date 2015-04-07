@@ -155,7 +155,9 @@
 					return array("range" => "Start >= ".$q_start." OR End >= ".$q_start,
 								 "deadline" => "`Limit` >= ".$q_start);
 				case self::MODE_BETWEEN:
-					return array("range" => "(Start >= ".$q_start." AND Start <= ".$q_end.") OR (End >= ".$q_start." AND End <= ".$q_end.")",
+					return array("range" => "(Start >= ".$q_start." AND Start <= ".$q_end.") OR 
+											 (End >= ".$q_start." AND End <= ".$q_end.") OR 
+											 (Start <= ".$q_start." AND End >= ".$q_end.")",
 								 "deadline" => "`Limit` >= ".$q_start." AND `Limit` <= ".$q_end);
 			}
 		}
