@@ -1,0 +1,109 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+
+        android:id="@+id/layout"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/avatar" />
+
+            <TextView
+                android:id="@+id/nameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_marginTop="15dp"
+                android:text="Nom:  "
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/nameContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/nameTitle"
+                android:layout_marginTop="15dp"
+                style="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:id="@+id/ulgIdTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_below="@id/nameTitle"
+                android:text="Matricule:  "
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/ulgIdContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameTitle"
+                android:layout_toRightOf="@id/ulgIdTitle"
+                style="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:id="@+id/categoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ulgIdTitle"
+                android:layout_toRightOf="@id/avatar"
+                android:text="Catégorie:  "
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/categoryContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ulgIdTitle"
+                android:layout_toRightOf="@id/categoryTitle"
+                style="?android:attr/textAppearanceMedium"/>
+        </RelativeLayout>
+
+            <TextView
+                android:text="Liste des cours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/textAppearance"/>
+
+            <fragment
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/globalevent_list"
+                android:name="be.ac.ulg.myulgcalendar.GlobalEventList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="be.ac.ulg.myulgcalendar.ProfileActivity"
+                tools:layout="@android:layout/list_content"/>
+
+            <TextView
+                android:text="Autres événements"
+                android:id="@+id/other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/textAppearance"/>
+
+    </LinearLayout>
+    </ScrollView>
