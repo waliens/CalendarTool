@@ -180,6 +180,7 @@ function addEvents(){
 							id_server: instance.id,
 							id: id,
 							private: false,
+							independent: instance.independent,
 							timeType:instance.timeType,
 							title: title,
 							start: start,
@@ -511,9 +512,12 @@ function addDeadline(item){
 	event_tag.innerHTML = item.name;
 	event_tag.setAttribute("data-toggle","modal");
 	var modal;
-	if(item.academic_event=="true")
+	if(item.event_type=="student_event")
+		modal="#private_event";
+	else {
 		modal="#academic_event_info_modal";
-	else modal="#private_event";
+		event_tag.setAttribute("event-type",item.event_type);
+		}
 	event_tag.setAttribute("data-target",modal);
 	var recurrence=get_recursion(item.recurrence_id);
 	var event_recurrence=document.createElement("p");
@@ -536,7 +540,12 @@ $("#deadlines").on("click","a",function(){
 	var event_id=event.target.getAttribute("event-id");
 	if(modal=="#private_event")
 		populate_private_event({id_server:event_id,id:""});
-	else populate_public_event({id_server:event_id});
+	else {
+		var independent=false;
+		if(event.target.getAttribute("event-type")=="indep_event")
+			independent=true;
+		populate_public_event({id_server:event_id,independent:independent});
+	}
 	})
 
 /*--------------------------------------------------------------------------*/
@@ -978,6 +987,8 @@ function populate_private_event(event){
 function populate_public_event(event){
 	var event_id=event.id_server;
 	var req="056";//subevent by default
+	if(event.independent)
+		req="086";
 	$.ajax({
 		dataType : "json",
 		type : 'GET',
