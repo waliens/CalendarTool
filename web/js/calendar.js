@@ -749,13 +749,13 @@ function buildDatePicker(option,target) {
 		else datepicker[option] = new dhtmlXCalendarObject(elements[0].attr("id"))
 		//set date format
 		datepicker[option].setDateFormat("%l %d %F %Y");
-		$("#startDate_datepicker").val(convert_date(event_date_start,"dddd DD MMMM YYYY"));
+		$("#startDate_datepicker").val(convert_date(event_date_start,fullcalendarDateFormat));
 		if($("#endDate_datepicker").length>0)
-			$("#endDate_datepicker").val(convert_date(event_date_end,"dddd DD MMMM YYYY"));
+			$("#endDate_datepicker").val(convert_date(event_date_end,fullcalendarDateFormat));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),fullcalendarDateFormat));
+			elements[1].val(convert_date(elements[1].val(),fullcalendarDateFormat));
 		});
 	}
 	//datepicker to be built for the end recursion
@@ -765,7 +765,7 @@ function buildDatePicker(option,target) {
 		setSens("private_event_endDate_datepicker","min","recurrence_end");
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),"dddd DD MMMM YYYY"));
+			$("#recurrence_end").val(convert_date($("#recurrence_end").val(),fullcalendarDateFormat));
 		});
 		}
 	
@@ -776,12 +776,12 @@ function buildDatePicker(option,target) {
 		//set date format
 		datepicker[option].setDateFormat("%d-%m-%Y");
 		datepicker[option].setDate(target);	
-		elements[0].val(convert_date(target,"dddd DD MMMM YYYY"));
-		elements[1].val(convert_date(target,"dddd DD MMMM YYYY"));
+		elements[0].val(convert_date(target,fullcalendarDateFormat));
+		elements[1].val(convert_date(target,fullcalendarDateFormat));
 		//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"	
 		datepicker[option].attachEvent("onClick", function(date){
-			elements[0].val(convert_date(elements[0].val(),"dddd DD MMMM YYYY"));
-			elements[1].val(convert_date(elements[1].val(),"dddd DD MMMM YYYY"));
+			elements[0].val(convert_date(elements[0].val(),fullcalendarDateFormat));
+			elements[1].val(convert_date(elements[1].val(),fullcalendarDateFormat));
 		});
 	}
 	//hide the time in the datepicker tool
@@ -1000,9 +1000,9 @@ function populate_public_event(event){
 				var chunks=data.startTime.split(":");
 				academic_event_start.set("hour",chunks[0]);
 				academic_event_start.set("minute",chunks[1]);
-				$("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY, h:mm a"));
+				$("#academic_event_start").html(academic_event_start.format(fullcalendarDateFormat+" , h:mm a"));
 			}
-			else $("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY"));
+			else $("#academic_event_start").html(academic_event_start.format(fullcalendarDateFormat));
 			var academic_event_end;
 			if(data.endDay!=""){
 				$("#academic_event_end").parent().removeClass("hidden");
@@ -1011,9 +1011,9 @@ function populate_public_event(event){
 					var chunks=data.endTime.split(":");
 					academic_event_end.set("hour",chunks[0]);
 					academic_event_end.set("minute",chunks[1]);
-					$("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY, h:mm a"));
+					$("#academic_event_end").html(academic_event_end.format(fullcalendarDateFormat+" , h:mm a"));
 				}
-				else $("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY"));
+				else $("#academic_event_end").html(academic_event_end.format(fullcalendarDateFormat));
 			}
 			else {
 				$("#academic_event_end").parent().addClass("hidden");
@@ -1037,7 +1037,7 @@ function populate_public_event(event){
 			else{
 				$("#academic_event_recurrence_end").parent().removeClass("hidden");
 				var end_recurrence=moment(data.end_recurrence);
-				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
+				$("#academic_event_recurrence_end").html(end_recurrence.format(fullcalendarDateFormat));
 				}
 			var pract_details=data.pract_details;
 			var feedback=data.feedback;

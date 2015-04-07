@@ -414,10 +414,10 @@ function buildDatepickerFilter() {
 	filterDates= new dhtmlXCalendarObject(["startDateFilter","endDateFilter"]);
 	filterDates.hideTime();
 	filterDates.setDateFormat("%l %d %F %Y");
-	filterDates.setDate(td.format("dddd DD MMMM YYYY"),td.format("dddd DD MMMM YYYY"));
+	filterDates.setDate(td.format(fullcalendarDateFormat),td.format(fullcalendarDateFormat));
 	var t = new Date();
-	byId("endDateFilter").value = td.format("dddd DD MMMM YYYY");
-	byId("startDateFilter").value = td.format("dddd DD MMMM YYYY");
+	byId("endDateFilter").value = td.format(fullcalendarDateFormat);
+	byId("startDateFilter").value = td.format(fullcalendarDateFormat);
 }
 
 
