@@ -331,7 +331,6 @@ $(document).ready(function() {
 				$("#deadline input").prop("disabled",false);
 				//$("#private_event_startHour").prop("readonly",false);
 				//$("#private_event_endHour").prop("readonly",false);
-				$("#private_notes_body").prop("readonly",false);
 				$("#edit_event_btns").removeClass("hidden");
 				$("#private_event").modal("show");
 				$("#edit_private_event").addClass('hidden');
@@ -713,8 +712,6 @@ function edit_private_event(){
 		$("#private_event_details").prop("readonly",false);
 		$("#private_event_details").removeClass("hidden");
 		$("#private_event_type_btn").prop("disabled",false);
-		$("#private_notes_body").prop("readonly",false);
-		$("#private_notes_body").parent().parent().removeClass("hidden");
 		$("#edit_event_btns").removeClass("hidden");
 		$("#edit_event_btns .btn-primary").prop("disabled",false);
 		//populate event category list
@@ -858,8 +855,6 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 	$("#private_event_place").parent().parent().removeClass("hidden");
 	$("#private_event_details").val("");
 	$("#private_event_details").parent().parent().removeClass("hidden");
-	$("#private_notes_body").parent().parent().removeClass("hidden");
-	$("#private_notes_body").val("");
 	$("#edit_event_btns").addClass("hidden");
 	$('#edit_event_btns .btn-primary').prop("disabled", true);
 	$("#edit_private_event .edit").attr("disabled",false);
@@ -890,7 +885,6 @@ function populate_private_event(event){
 			$("#private_event_type").text(data.category_name);
 			$("#private_event_type").attr("category-id",data.category_id);
 			$("#private_event_details").val(data.description);
-			$("#private_notes_body").val(data.annotation);
 			var event_type=data.type;
 			var title=data.name;
 			var type=data.type;
@@ -898,7 +892,6 @@ function populate_private_event(event){
 			var end=data.endDay;
 			var place=data.place;
 			var details=data.description;
-			var notes=data.annotation;
 			buildDatePicker("private_event",start);
 			//check if event has start hour
 			var startHour;
@@ -966,15 +959,6 @@ function populate_private_event(event){
 			$("#private_event_details").prop("readonly",true);
 			$("#recurrence_btn").prop("disabled",true);
 			$("#private_event_type_btn").prop("disabled",true);
-			//notes are only for students
-			if(student){
-				if(notes!=""){
-					$("#private_notes_body").val(notes);
-					$("#private_notes_body").prop("readonly",true);
-				}
-				else $("#private_notes_body").parent().parent().addClass("hidden");
-			}
-			else $("#private_notes_body").parent().parent().addClass("hidden");
 			//hides button used when creating a new event
 			$("#edit_event_btns").addClass("hidden");
 				},
@@ -1143,7 +1127,6 @@ function create_private_event(){
 	var place=$("#private_event_place").val();
 	var type=$("#private_event_type").attr("category-id")
 	var details=$("#private_event_details").val();
-	var notes=$("#private_notes_body").val();
 	//check if we are adding a new private event
 	if(!edit_existing_event){
 		if(startHourSet)
@@ -1178,7 +1161,7 @@ function create_private_event(){
 			recurrent=false;
 		}
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":startjson, "end":endjson, entireDay:allDay, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":startjson, "end":endjson, entireDay:allDay, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1291,7 +1274,6 @@ function create_private_event(){
 		else private_event.end=end;
 		private_event.place=place;
 		private_event.details=details;
-		private_event.notes=notes;
 		private_event.allDay=allDay;
 		private_event.recurrence=recurrence;
 		private_event.color=getColor($("#private_event_type").attr("category-id"));
@@ -1305,7 +1287,7 @@ function create_private_event(){
 				end=end.format("YYYY-MM-DDTHH:mm:ss");
 			else end=end.format("YYYY-MM-DD");
 			}
-		var edit_event={id:private_event.id_server, name:title, details:details, "note":notes, where:place, limit:$("#deadline input").prop("checked"), start:start, end:end, entireDay:allDay, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start, end:end, entireDay:allDay, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
