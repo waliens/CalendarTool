@@ -1112,9 +1112,8 @@ function create_private_event(){
 	}
 	//check if the event is an allDay event
 	var allDay=false;
-	if(!startHour && !endHour)
+	if(startHour=="" && endHour=="")
 		allDay=true;
-	
 	var recurrence=$("#recurrence").text();
 	var recurrence_id=$("#recurrence").attr("recurrence-id");
 	var end_recurrence;
@@ -1158,7 +1157,7 @@ function create_private_event(){
 			recurrent=false;
 		}
 		//send data to server event with no recursion
-		var new_event={"name":title, "start":startjson, "end":endjson, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
+		var new_event={"name":title, "start":startjson, "end":endjson, entireDay:allDay, "limit":limit, "recurrence":recurrence_id, "end-recurrence":end_recurrence_json, "place":place, "details":details, "note":notes, "type":type}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1274,9 +1273,15 @@ function create_private_event(){
 		private_event.color=getColor($("#private_event_type").attr("category-id"));
 		$('#calendar').fullCalendar('updateEvent', private_event);
 		//send update to server
-		if(end!="")
-			end=end.format("YYYY-MM-DDTHH:mm:ss");
-		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start.format("YYYY-MM-DDTHH:mm:ss"), end:end, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+		if(startHourSet)
+			start=start.format("YYYY-MM-DDTHH:mm:ss");
+		else start=start.format("YYYY-MM-DD");
+		if(end!=""){
+			if(endHourSet)
+				end=end.format("YYYY-MM-DDTHH:mm:ss");
+			else end=end.format("YYYY-MM-DD");
+			}
+		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start, end:end, entireDay:allDay, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
