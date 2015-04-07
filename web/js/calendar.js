@@ -105,23 +105,6 @@ function addEvents(){
 	else{
 		var current_view=$("#calendar").fullCalendar( 'getView' ).name;
 		if(current_view=="agendaSixMonth"){
-			/*if(semester){
-				if(startSemester.month()==1){//1 is february - we are in the second semester and we clicked next
-							startSemester.month(8);//next semester starts in september
-							startSemester.day(15)
-							endSemester.month(1);//and finishes the 31 of january - but we set the 1st of Feb because it's exclusive
-							endSemester.day(1);
-							endSemester.add(1,"year");
-						}
-				else {//we are in the second semester and we clicked next
-					startSemester.month(1);//next semester starts in february
-					startSemester.day(1);
-					startSemester.add(1,"year");
-					endSemester.month(8);//and finishes it the 14th of September - we set it to 15th since it's exclusive 
-					endSemester.day(15);
-					endSemester.add(1,"year");
-					}
-			}*/
 			var date=$("#calendar").fullCalendar( 'getView' ).start;
 			//hide dates that do not belong to the semester
 			while(date.isBefore(moment(startSemester))){
@@ -166,6 +149,7 @@ function addEvents(){
 						var start=instance.start;
 						var end=instance.end;
 						var recurrent=false;
+						var title=instance.name;
 						if(instance.timeType=="date_range"){
 							start=instance.start.replace("T00:00:00","");
 							end=instance.end.replace("T00:00:00","");
@@ -197,7 +181,7 @@ function addEvents(){
 							id: id,
 							private: false,
 							timeType:instance.timeType,
-							title: instance.name,
+							title: title,
 							start: start,
 							end: end,
 							recursive: recurrent,
@@ -262,6 +246,10 @@ function addEvents(){
 
 //load calendar on document ready with events of the current month
 $(document).ready(function() {
+	//if the logged in user is a prof we hide the upcoming deadlines field
+	if(!student){
+		$("#upcoming_deadlines").hide();
+		}
 	//set moment locale to french
 	moment.locale('fr');
 	var start=moment(filters.dateRange.start);
@@ -1654,7 +1642,6 @@ $('#filter_alert').on('show.bs.modal', function (event) {
 				$.ajax({
 						dataType : "json",
 						type : 'GET',
-						//url : "json/all_professors.json",
 						url : "index.php?src=ajax&req=021",
 						async : true,
 						success : function(data, status) {
