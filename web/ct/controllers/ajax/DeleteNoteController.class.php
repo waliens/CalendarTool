@@ -14,7 +14,7 @@ use util\superglobals\Superglobal;
 
 	/**
 	 * @class DeleteNoteController
-	 * @brief Request Nr : 44
+	 * @brief Request Nr : 044
 	 * 		INPUT :	{id_event}
   	 * 		OUTPUT : 
  	 * 		Method : POST

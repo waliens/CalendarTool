@@ -15,7 +15,7 @@
 
 	/**
 	 * @class DeleteGlobalEventController
-	 * @brief Request Nr : 33
+	 * @brief Request Nr : 033
 	 * 		INPUT :	{id}
   	 * 		OUTPUT : 
  	 * 		Method : POST

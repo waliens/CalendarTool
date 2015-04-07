@@ -14,7 +14,7 @@ use util\superglobals\Superglobal;
 
 	/**
 	 * @class DeleteFavController
-	 * @brief Request Nr : 46
+	 * @brief Request Nr : 046
 	 * 		INPUT :	{id_event}
   	 * 		OUTPUT : 
  	 * 		Method : POST

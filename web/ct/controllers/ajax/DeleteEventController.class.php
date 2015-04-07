@@ -19,7 +19,7 @@ use util\superglobals\Superglobal;
 
 	/**
 	 * @class DeleteEventController
-	 * @brief Request Nr : 55,63,83
+	 * @brief Request Nr : 055,063,083
 	 * 		INPUT :	{id, applyRecursive}
   	 * 		OUTPUT : 
  	 * 		Method : POST
