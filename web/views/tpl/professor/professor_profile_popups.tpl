@@ -221,7 +221,7 @@
                         </tr>
                         <tr id="new_subevent_deadline">
                           <td>Deadline</td>
-                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_subevent');"></td>
+                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_subevent','#new_subevent_btns');"></td>
                         </tr>
                       </table></td>
                   </tr>
@@ -373,7 +373,7 @@
                         </tr>
                         <tr id="new_indepevent_deadline">
                           <td>Deadline</td>
-                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_indepevent');"></td>
+                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_indepevent','#new_indepevent_btns');"></td>
                         </tr>
                       </table></td>
                   </tr>
@@ -625,7 +625,7 @@
                         </tr>
                         <tr id="edit_academic_event_deadline">
                           <td>Deadline</td>
-                          <td><input type="checkbox" aria-label="" onclick="deadline('#edit_academic_event');"></td>
+                          <td><input type="checkbox" aria-label="" onclick="deadline('#edit_academic_event','#edit_academic_event_btns');"></td>
                         </tr>
                       </table></td>
                   </tr>
@@ -700,7 +700,7 @@
         </div>
         <div class="modal-footer">
           <div class='text-center' id='edit_academic_event_btns'>
-            <button tabindex="0" type='button' class='btn btn-primary' type="submit" id="edit_academic_event_creation_confirm_recursion" data-placement="left" data-toggle="popover" data-trigger="focus" title="Mis à jour événement récurrent" data-content="Cet événement est récurrent.">Confrimer</button>
+            <button tabindex="0" type='button' class='btn btn-primary' type="submit" id="edit_academic_event_creation_confirm_recursion" data-placement="left" data-toggle="popover" data-trigger="focus" title="Mis à jour événement récurrent" data-content="Cet événement est récurrent.">Confirmer</button>
             <button tabindex="0" type='button' class='btn btn-primary hidden' type="submit" id="edit_academic_event_creation_confirm_norecursion" onclick="edit_academic_event(false)">
             Confirmer
             </button>

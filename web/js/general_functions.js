@@ -230,6 +230,28 @@ function setTimePickersValidInterval(tag){
 	}
 }
 
+/**
+*@brief Hide/Show the end date and hour based on whether the checkbox deadline is selected or not
+*@param String tag identifying the tags to be displayed or hidden
+*@btns String tag identifying the button to enable/disable based on the form provided data
+*/
+function deadline(tag,btns){
+	$(tag+"_endDate").parent().toggleClass("hidden");
+	if(!$(tag+"_endDate").parent().hasClass("hidden")){
+		$(tag+"_endHour").val($(tag+"_startHour").val())
+		$(tag+"_endDate_datepicker").val($(tag+"_startDate_datepicker").val())
+		$(tag+"_endDate_datepicker").prop("disabled",false);
+		$(tag+"_endDate_datepicker").prop("readonly",false);
+		var tag2=tag.replace("#","");
+		datepicker[tag2].setSensitiveRange(null, null);
+		if($(tag+"_startHour").val().length==0)
+			$(btns+' .btn-primary').prop("disabled", true);
+		else $(btns+' .btn-primary').prop("disabled", false);
+		
+	}
+}
+
+
 // error management 
 /** 
  * @brief Launch the error popup based on the error data from an ajax call

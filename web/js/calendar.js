@@ -915,7 +915,7 @@ function populate_private_event(event){
 			//check if the event as an end date (excluding case in which it's a deadline
 			if(end!=""&&type!="deadline"){
 				var end=new moment(end);
-				end=end.format("dddd DD MMM YYYY");
+				end=end.format(fullcalendarDateFormat);
 				$("#private_event_endDate_datepicker").val(end);
 			}
 			else 	$("#private_event_endDate_datepicker").parent().parent().addClass("hidden"); 
@@ -945,7 +945,7 @@ function populate_private_event(event){
 				$("#deadline input").prop("checked",true);
 			$("#new_event_startDate").prev().removeClass("hidden");
 			start=new moment(start);
-			start=start.format("dddd DD MMM YYYY");
+			start=start.format(fullcalendarDateFormat);
 			$("#private_event_startDate_datepicker").val(start);
 			$("#private_event_startDate_datepicker").prop("readonly",true);
 			$("#private_event_startDate_datepicker").prop("disabled",true);
@@ -957,9 +957,13 @@ function populate_private_event(event){
 			$("#private_event_details").prop("readonly",true);
 			$("#recurrence_btn").prop("disabled",true);
 			$("#private_event_type_btn").prop("disabled",true);
-			if(notes!=""){
-				$("#private_notes_body").val(notes);
-				$("#private_notes_body").prop("readonly",true);
+			//notes are only for students
+			if(student){
+				if(notes!=""){
+					$("#private_notes_body").val(notes);
+					$("#private_notes_body").prop("readonly",true);
+				}
+				else $("#private_notes_body").parent().parent().addClass("hidden");
 			}
 			else $("#private_notes_body").parent().parent().addClass("hidden");
 			//hides button used when creating a new event
@@ -996,7 +1000,7 @@ function populate_public_event(event){
 			else $("#academic_event_place").parent().show();
 			var academic_event_type=data.type;
 			var academic_event_start=moment(data.startDay);
-			if(data.startTime!=""){
+			if(data.type!="date_range"){//date range events don't have a start time
 				var chunks=data.startTime.split(":");
 				academic_event_start.set("hour",chunks[0]);
 				academic_event_start.set("minute",chunks[1]);
@@ -1007,7 +1011,7 @@ function populate_public_event(event){
 			if(data.endDay!=""){
 				$("#academic_event_end").parent().removeClass("hidden");
 				academic_event_end=moment(data.endDay);
-				if(data.endTime!=""){
+				if(data.type=="time_range"){//time range events have an end hour
 					var chunks=data.endTime.split(":");
 					academic_event_end.set("hour",chunks[0]);
 					academic_event_end.set("minute",chunks[1]);
@@ -1060,14 +1064,20 @@ function populate_public_event(event){
 			for(var i=0;i<pathways.length;i++)
 				$("#academic_event_pathways_table").append("<p pathway-id="+pathways[i].id+">"+pathways[i].name+"</p>");
 			//check if the event has notes or not
-			$("#notes_body").text(data.annotation);
-			if($("#notes_body").text()!=""){
-				$("#add_notes").addClass("hidden");
-				$("#notes").removeClass("hidden");
-				$("#notes_body").text(data.notes);
+			if(student){
+				$("#notes_body").text(data.annotation);
+				if($("#notes_body").text()!=""){
+					$("#add_notes").addClass("hidden");
+					$("#notes").removeClass("hidden");
+					$("#notes_body").text(data.notes);
+				}
+				else{
+					$("#add_notes").removeClass('hidden');
+					$("#notes").addClass("hidden");
+					}
 			}
 			else{
-				$("#add_notes").removeClass('hidden');
+				$("#add_notes").addClass('hidden');
 				$("#notes").addClass("hidden");
 				}
 		},
@@ -1171,6 +1181,9 @@ function create_private_event(){
 						return;
 					}
 					var id=guid();
+					//fix small bug which displays allDay events with end day exclusive instead of inclusive;
+					if(!end.isSame(start)&&allDay)
+							end.add(1,"day");
 					//check if the event is recursive
 					if(recurrence!="jamais"){
 						var offset;
@@ -1281,7 +1294,7 @@ function create_private_event(){
 				end=end.format("YYYY-MM-DDTHH:mm:ss");
 			else end=end.format("YYYY-MM-DD");
 			}
-		var edit_event={id:private_event.id_server, name:title, details:details, where:place, limit:$("#deadline input").prop("checked"), start:start, end:end, entireDay:allDay, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
+		var edit_event={id:private_event.id_server, name:title, details:details, "note":notes, where:place, limit:$("#deadline input").prop("checked"), start:start, end:end, entireDay:allDay, type:$("#private_event_type").attr("category-id"), recursiveID:recurrence_id, applyRecursive:false}
 		$.ajax({
 				dataType : "json",
 				type : 'POST',
@@ -1346,25 +1359,7 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 	
-function deadline(){
-	if($("#deadline input").prop("checked")){
-		$("#private_event_endDate").parent().addClass("hidden");
-		datepicker["private_event"].setSensitiveRange(null, null);
-		if($("#private_event_startHour").val().length==0)
-			$('#edit_event_btns .btn-primary').prop("disabled", true);
-		else {
-			if($("#private_event_title").val().length>0)
-				$('#edit_event_btns .btn-primary').prop("disabled", false);
-			}
-	}
-	else{ 
-		$("#private_event_endDate").prop("disabled",false);
-		$("#private_event_endDate_datepicker").prop("disabled",false);
-		$("#private_event_endDate_datepicker").prop("readonly",false);
-		$("#private_event_endDate_datepicker").removeClass("hidden");	
-		$("#private_event_endDate").parent().removeClass("hidden");
-		}
-}
+
 	
 /*-----------------------------------------------------*/	
 /*--------------------FILTERS--------------------------*/
@@ -1719,12 +1714,12 @@ function buildDatepickerFilter() {
 	filterDates.setDateFormat("%Y-%m-%d");
 	filterDates.setDate(td.format("YYYY-MM-DD"),td.add(1,"day").format("YYYY-MM-DD"));
 	var t = new Date();
-	$("#endDateFilter").val(td.format("dddd DD MMM YYYY"));
-	$("#startDateFilter").val(td.subtract(1,"day").format("dddd DD MMM YYYY"));
+	$("#endDateFilter").val(td.format(fullcalendarDateFormat));
+	$("#startDateFilter").val(td.subtract(1,"day").format(fullcalendarDateFormat));
 	//convert the date returned from the datepicker to the format "dddd DD MMM YYYY"
 	filterDates.attachEvent("onClick", function(date){
-		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),"dddd DD MMM YYYY"));
-		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),"dddd DD MMM YYYY"));
+		$("#startDateFilter").val(convert_date($("#startDateFilter").val(),fullcalendarDateFormat));
+		$("#endDateFilter").val(convert_date($("#endDateFilter").val(),fullcalendarDateFormat));
 	});
 }
 
