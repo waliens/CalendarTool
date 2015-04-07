@@ -1,6 +1,11 @@
 // JavaScript Document
 
-//converts date formats	
+/**
+*@brief Converts date formats	
+*@param date string representing the date to be converted
+*@param formatDestination string representing the output format
+*@return String date in formatDestination format
+*/
 function convert_date(date,formatDestination){
 		var dd;
 		var mm;
@@ -34,7 +39,11 @@ function convert_date(date,formatDestination){
 		return d.format(formatDestination);
 	}
 
-//convert month from abbreviated or full name notation to two digits notation
+/**
+*@brief Convert month from abbreviated or full name notation to two digits notation
+*@param month string of full/abbreviated month
+*@retunr two digits month representation
+*/
 function convert_month(month){
 	switch(month){
 		case "janv.":
@@ -101,7 +110,11 @@ function convert_month(month){
 		}
 	}
 	
-//converts recursion from number code to string
+/**
+*@brief converts recursion from number code to string
+*@param recursion_id a code from 1 to 6
+*@return type of recursion
+*/
 function get_recursion(recursion_id){
 	switch(recursion_id){
 		case "6":
@@ -119,13 +132,22 @@ function get_recursion(recursion_id){
 		}
 	}
 	
-//change the value of the dropdown stating the event type
+/**
+*@brief Change the value of the dropdown stating the event type
+*@param tag the html element holding the category type
+*/
 function changeEventType(tag){
 	$(tag).text(event.target.innerHTML);
 	$(tag).attr("category-id",event.target.getAttribute("category-id"))
 	}
 	
-//populate event categories dropdown
+
+/**
+*@brief Populate event categories dropdown
+*@param tag the dropdown to which we want to attach the categories 
+*@param changeTypeTarget the dropdown entry from which we copy category name and id on click
+*@param onlyAcademic a boolean stating wheather we want to populate the dropdown with both academic and student categories or not *
+*/
 function populate_event_categories_dropdown(tag,changeTypeTarget,onlyAcademic){
 	$.ajax({
 		dataType : "json",
@@ -164,4 +186,45 @@ function populate_event_categories_dropdown(tag,changeTypeTarget,onlyAcademic){
 			launch_error("Impossible de joindre le serveur (resp: '" + xhr.responseText + "')");
 		}
 	});
+}
+
+
+// error management 
+/** 
+ * @brief Launch the error popup based on the error data from an ajax call
+ * @param Object The error object : {error_code:int, error_msg:({"EN":string, "FR":string}|string)}
+ * @param lang   The language in which the message must be displayed among "EN" or "FR" (optionnal, default : 'FR')
+ */
+function launch_error_ajax (error,lang) 
+{
+	// get proper language
+	lang = (lang === "undefined" || (lang !== "FR" && lang !== "EN") ? "FR" : lang);
+	
+	// make title
+	var title = (lang == "FR" ? "Une erreur s'est produite..." : "An error occurred...");
+
+	// make content
+	var body = "";
+
+	if(typeof error.error_msg === "string") // msg is a string
+		body = error.error_msg;
+	else
+	{
+		var body_suffix = (lang == "FR" ? " (code d'erreur : " : " (error code : ") + error.error_code + ")";
+		body = error.error_msg[lang] + body_suffix;
+	}
+
+	$("#error-ajax-modal-title").text(title);
+	$("#error-ajax-modal-body").text(body);
+	$("#error-ajax-modal").modal("show");
+}
+
+/**
+ * @brief Launch an error with the given message
+ * @param string The error message
+ * @param lang  The language in which the message must be displayed among "EN" or "FR" (optionnal, default : 'FR')
+ */
+function launch_error (msg, lang)
+{
+	launch_error_ajax({error_code:-1, error_msg: msg}, lang);
 }

@@ -307,7 +307,7 @@ function populateSubevent(item){
 	a.setAttribute("data-toggle","modal");
 	a.innerHTML=item.name;
 	a.id=item.id;
-	a.onclick=function(e){showSubeventModal=true; subevent=e.target}
+	a.onclick=function(e){showSubeventModal=true; subevent=e.target};
 	cell1.appendChild(a);
 	row.appendChild(cell1);
 	cell2.innerHTML=item.start;
@@ -317,10 +317,10 @@ function populateSubevent(item){
 	cell3.innerHTML=get_recursion(item.recurrence_type);
 	row.appendChild(cell3);
 	var cell4=document.createElement("td");
-	cell4.innerHTML='<div class="text-center"><a class="edit" event-id="'+item.id+'"></a><a class="delete" event-id="'+item.id+'"></a></div>';
+	cell4.innerHTML='<div class="text-center"><a class="edit" event-id="'+item.id+'"></a><a class="delete" data-toggle="modal" data-dismiss="modal" data-target="#delete_subevent_alert" global-event-id="'+$("#add-subevent").attr("event-id")+'" event-id="'+item.id+'" recurrence-type='+item.recurrence_type+' event-name="'+item.name+'"></a></div>';
 	row.appendChild(cell4);
 	table.append(row);
-	}
+}
 
 //populate team members to the table of team members of a global event
 function populateTeamMember(member){
@@ -785,23 +785,6 @@ function edit_academic_event(applyRecursive){
 	});
 }
 
-function get_recursion(recursion_id){
-	switch(recursion_id){
-		case "6":
-			return "Jamais";
-		case "1":
-			return "Tous les jours";
-		case "2":
-			return "Toutes les semaines";
-		case "3":
-			return "Toutes les deux semaines";
-		case "4":
-			return "Tous les mois";
-		case "5":
-			return "Tous les ans"
-		}
-	}
-
 function edit_global_event(){
 	if(!$("#edit_global_event .edit").hasClass("edit-disabled")){
 		//disable edit button
@@ -937,19 +920,20 @@ $("#global_course_list").on("click","a",function(event){
 	
 //update the selected cours language
 $("#languages_list").on("click","a",function(event){
-	var language=event.currentTarget.innerHTML;
-	var language_code=event.currentTarget.getAttribute("language");
-	$("#cours_language").html(language+' <span class="caret"></span>');
-	$("#cours_language").attr("language",language_code);
+	updateCourseLan("#cours_language");
 	})
 	
 //update the selected cours language for edit global event
 $("#event_info").on("click","#edit_languages_list a",function(event){
+	updateCourseLan("#edit_cours_language");
+	})
+	
+function updateCourseLan(tag){
 	var language=event.currentTarget.innerHTML;
 	var language_code=event.currentTarget.getAttribute("language");
-	$("#edit_cours_language").html(language+' <span class="caret"></span>');
-	$("#edit_cours_language").attr("language",language_code);
-	})
+	$(tag).html(language+' <span class="caret"></span>');
+	$(tag).attr("language",language_code);
+	}
 	
 $("#global_event_add_confirm").click(function(event){
 	var cours_id=$("#cours_to_add").attr("cours-id");
@@ -1308,105 +1292,6 @@ function buildDatePicker(option,target) {
 		setSens(tag+"_endDate_datepicker","min",tag+"_recurrence_end");
 		}
 }
-
-//converts date formats	
-function convert_date(date,formatDestination,formatOrigin){
-		var dd;
-		var mm;
-		var yy;
-		var chunks=date.split(" ");
-		//date can be in the format "dd-mm-yyy", "dddd DD MM YYY" or yyyy-mm-dd
-		if(chunks.length>1){
-			dd=chunks[1];
-			if(chunks[2].length>2)//it's a 4 letters string of the month to be translated into two digits string
-				mm=convert_month(chunks[2]);
-			else mm=chunks[2];
-			yy=chunks[3];
-		}
-		else {
-			chunks=date.split("-");
-			if(chunks[0].length==4){
-				dd=chunks[2];
-				mm=chunks[1];
-				yy=chunks[0];
-			}
-			else{
-				dd=chunks[0];
-				mm=chunks[1];
-				yy=chunks[2];
-
-				}
-		}
-		date_standard=yy+"-"+mm+"-"+dd;
-		var d = moment(date_standard);
-		return d.format(formatDestination);
-	}
-	
-function convert_month(month){
-	switch(month){
-		case "janv.":
-			return "01";
-			break;
-		case "janvier":
-			return "01";
-			break;
-		case "févr.":
-			return "02";
-			break;
-		case "février":
-			return "02";
-			break;
-		case "mars":
-			return "03";
-			break;
-		case "avr.":
-			return "04";
-			break;
-		case "avril":
-			return "04";
-			break;
-		case "mai":
-			return "05";
-			break;
-		case "juin":
-			return "06";
-			break;
-		case "juil.":
-			return "07";
-			break;
-		case "juillet":
-			return "07";
-			break;
-		case "août":
-			return "08";
-			break;
-		case "sept.":
-			return "09";
-			break;
-		case "septembre":
-			return "09";
-			break;
-		case "octo.":
-			return "10";
-			break;
-		case "octobre":
-			return "10";
-			break;
-		case "nove.":
-			return "11";
-			break;
-		case "novembre":
-			return "11";
-			break;
-		case "dece.":
-			return "12";
-			break;
-		case "decembre":
-			return "12";
-			break;
-		
-		}
-	}
 	
 //defines valid interval of dates for the date picker
 function setSens(id, k, datepicker_instance) {
@@ -1615,23 +1500,45 @@ function addTeamWithCheckbox(team){
 	cell2.className="text-center";
 	cell2.appendChild(input);
 	}
-	
+
+$("#delete_subevent_alert").on("show.bs.modal",function(event){
+	var trigger=$(event.relatedTarget);
+	var event_id=trigger.attr("event-id");
+	var global_event_id=trigger.attr("global-event-id");
+	var event_name=trigger.attr("event-name");
+	if(trigger.attr("recurrence-type")==6){//deleting non recurrent subevent
+		$("#delete_subevent_norecurr_btns").show();
+		$("#delete_subevent_recurr_btns").hide();
+		$("#delete_subevent_alert .modal-title").text("Supprimer l'événement")
+		}
+	else{//deleting recurrent subevent
+		$("#delete_subevent_norecurr_btns").hide();
+		$("#delete_subevent_recurr_btns").show();
+		$("#delete_subevent_alert .modal-title").text("Supprimer l'événement récurrent");
+		}
+	$("span[name='subevent_deleted']").text(event_name);
+	$("#delete_subevent_alert .btn-primary").attr("event-id",event_id);
+	$("#delete_subevent_alert .btn-primary").attr("global-event-id",global_event_id);
+		
+	})
 	
 //delete subevent function	
-$("#subevents_info_accordion").on("click",".delete",function(event){
+function confirm_delete_subevent(applyRecursive){
 	var event_id=event.currentTarget.getAttribute("event-id");
+	var global_event_id=event.currentTarget.getAttribute("global-event-id");
 	$.ajax({
 			dataType : "json",
 			type : 'POST',
 			url : "index.php?src=ajax&req=055",
-			data: {id:event_id,applyRecursive:false},
+			data: {id:event_id,applyRecursive:applyRecursive},
 			async : true,
 			success : function(data, status) {
 				$("#subevents_table #"+event_id).parent().parent().remove();
+				$("#global_events [event-id="+global_event_id+"]").click();
 			},
 			error : function(xhr, status, error) {
 			  var err = eval("(" + xhr.responseText + ")");
 			  alert(err.Message);
 			}
 		});
-	})	
+	}

@@ -940,7 +940,7 @@ function populate_private_event(event){
 			//adds edit/delete icons next to title
 			$("#edit_private_event").removeClass("hidden");
 			$("#delete_private_event").removeClass("hidden");
-			//define delete popup alert based on whether the event is private or not
+			//define delete popup alert based on whether the event is recurrent or not
 			if(data.recurrence_type!="6"){//the event is recurrent
 				$("#delete_private_event .delete").popover({
 					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Supprimer événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="delete_private_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="delete_private_event(true)">&Eacute;vénements à venir</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
@@ -2011,24 +2011,6 @@ function reset_filters(){
 	addEvents();
 	}
 	
-//translates recursion id
-function get_recursion(recursion_id){
-	switch(recursion_id){
-		case "6":
-			return "jamais";
-		case "1":
-			return "tous les jours";
-		case "2":
-			return "toutes les semaines";
-		case "3":
-			return "toutes les deux semaines";
-		case "4":
-			return "tous les mois";
-		case "5":
-			return "tous les ans"
-		}
-	}
-	
 //returns category color
 function getColor(category){
 	switch(parseInt(category)){
@@ -2057,7 +2039,7 @@ function getColor(category){
 			return "#0064b5";
 			break;
 		case 9:
-			return "#ffff00";
+			return "#00AAFF";
 			break;
 		case 10:
 			return "#ab699b";
