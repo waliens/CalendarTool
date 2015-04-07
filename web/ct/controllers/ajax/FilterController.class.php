@@ -24,7 +24,7 @@
 	 * @class FilterController
 	 * @brief A class for handling the event selection with filters
 	 * @note This class perform a basic preprocessing on a query containing event filters in the following form
-	 * {all:'true', 
+	 * {allEvent:'true', 
 	 *  dateRange: {start: datetime, end: datetime},
 	 *  courses: {isSet: 'false', id:[]},
 	 *  eventTypes: {isSet: 'false', id:[]},
