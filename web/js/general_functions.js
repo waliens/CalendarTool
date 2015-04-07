@@ -1,5 +1,7 @@
 // JavaScript Document
 
+var fullcalendarDateFormat="dddd DD MMMM YYYY";
+
 /**
 *@brief Converts date formats	
 *@param date string representing the date to be converted

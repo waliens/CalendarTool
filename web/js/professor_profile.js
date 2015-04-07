@@ -304,7 +304,7 @@ function populateSubevent(item){
 	a.onclick=function(e){showSubeventModal=true; subevent=e.target};
 	cell1.appendChild(a);
 	row.appendChild(cell1);
-	cell2.innerHTML=item.start;
+	cell2.innerHTML=item.start.replace("T"," ");
 	cell2.setAttribute("event-id",item.id);
 	cell2.id="start_time_subevent";
 	row.appendChild(cell2);
@@ -502,9 +502,9 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 				var chunks=data.startTime.split(":");
 				academic_event_start.set("hour",chunks[0]);
 				academic_event_start.set("minute",chunks[1]);
-				$("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY, h:mm a"));
+				$("#academic_event_start").html(academic_event_start.format("dddd DD MMMM YYYY, h:mm a"));
 			}
-			else $("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY"));
+			else $("#academic_event_start").html(academic_event_start.format(fullcalendarDateFormat));
 			var academic_event_end;
 			if(data.endDay!=""){
 				$("#academic_event_end").parent().removeClass("hidden");
@@ -513,9 +513,9 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 					var chunks=data.endTime.split(":");
 					academic_event_end.set("hour",chunks[0]);
 					academic_event_end.set("minute",chunks[1]);
-					$("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY, h:mm a"));
+					$("#academic_event_end").html(academic_event_end.format("dddd DD MMMM YYYY, h:mm a"));
 				}
-				else $("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY"));
+				else $("#academic_event_end").html(academic_event_end.format(fullcalendarDateFormat));
 			}
 			else {
 				$("#academic_event_end").parent().addClass("hidden");
@@ -539,7 +539,7 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 			else{
 				$("#academic_event_recurrence_end").parent().removeClass("hidden");
 				var end_recurrence=moment(data.end_recurrence);
-				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
+				$("#academic_event_recurrence_end").html(end_recurrence.format(fullcalendarDateFormat));
 				}
 			var pract_details=data.pract_details;
 			var feedback=data.feedback;
@@ -604,7 +604,7 @@ $("#edit_academic_event").on("show.bs.modal",function(){
 			var academic_event_start=moment(data.startDay);
 			//build datepicker
 			buildDatePicker("edit_academic_event");
-			$("#edit_academic_event_startDate_datepicker").val(academic_event_start.format("dddd Do MMMM YYYY"));
+			$("#edit_academic_event_startDate_datepicker").val(academic_event_start.format(fullcalendarDateFormat));
 			if(data.startTime!=""){
 				var chunks=data.startTime.split(":");
 				$("#edit_academic_event_startHour").val(chunks[0]+":"+chunks[1]);
@@ -612,7 +612,7 @@ $("#edit_academic_event").on("show.bs.modal",function(){
 			var academic_event_end;
 			if(data.endDay!=""){
 				academic_event_end=moment(data.endDay);
-				$("#edit_academic_event_endDate_datepicker").val(academic_event_end.format("dddd Do MMMM YYYY"))
+				$("#edit_academic_event_endDate_datepicker").val(academic_event_end.format(fullcalendarDateFormat))
 				if(data.endTime!=""){
 					var chunks=data.endTime.split(":");
 					$("#edit_academic_event_endHour").val(chunks[0]+":"+chunks[1]);
@@ -652,7 +652,7 @@ $("#edit_academic_event").on("show.bs.modal",function(){
 				$("#edit_academic_event_recurrence").html(recurrence);
 				$("#edit_academic_event_recurrence").attr("recurrence-id",data.recurrence);
 				var end_recurrence=moment(data.end_recurrence);
-				$("#edit_academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
+				$("#edit_academic_event_recurrence_end").html(end_recurrence.format(fullcalendarDateFormat));
 				//add popup to confirm button
 				$("#edit_academic_event_creation_confirm_recursion").popover({
 					template: '<div class="popover" role="tooltip"><div class="arrow" style="top: 50%;"></div><h3 class="popover-title">Mis à jour événement récurrent</h3><div class="popover-content">Cet événement est récurrent.</div><div class="modal-footer text-center"><div style="margin-bottom:5px;"><button type="button" class="btn btn-primary" onclick="edit_academic_event(false)">Seulement cet événement</button></div><div style="margin-bottom:5px;"><button type="button" class="btn btn-default" onclick="edit_academic_event(true)">Tous les événements</button></div><div><button type="button" class="btn btn-default">Annuler</button></div></div></div>',
@@ -704,12 +704,14 @@ function edit_academic_event(applyRecursive){
 	var start=moment(convert_date($("#edit_academic_event_startDate_datepicker").val(),"YYYY-MM-DD")).format("YYYY-MM-DD");
 	var end;
 	if(startHour!="")
-		start=start+"T"+startHour;
+		start=start+"T"+startHour+":00";
 	if($("#edit_academic_event_endDate_datepicker").val()!="")
 		end=moment(convert_date($("#edit_academic_event_endDate_datepicker").val(),"YYYY-MM-DD")).format("YYYY-MM-DD");
 	if(endHour!="")
-		end=end+"T"+endHour;
+		end=end+"T"+endHour+":00";
 	var deadline=$("#edit_academic_event_deadline input").prop("checked");
+	if(deadline)
+		end="";
 	var category=$("#edit_academic_event_type").attr("category-id");
 	var pract_details=$("#edit_academic_event_pract_details_body").val();
 	var feedback=$("#edit_academic_event_feedback_body").val();
@@ -1240,10 +1242,10 @@ function buildDatePicker(option,target) {
 		datepicker[option+"_dates"]= new dhtmlXCalendarObject([option+"_startDate_datepicker",option+"_endDate_datepicker"]);
 		datepicker[option+"_dates"].hideTime();
 		datepicker[option+"_dates"].setDateFormat("%l %d %F %Y");
-		datepicker[option+"_dates"].setDate(td.format("dddd DD MMMM YYYY"),td.format("dddd DD MMMM YYYY"));
+		datepicker[option+"_dates"].setDate(td.format(fullcalendarDateFormat),td.format(fullcalendarDateFormat));
 
-		$("#"+option+"_endDate_datepicker").val(td.format("dddd DD MMMM YYYY"));
-		$("#"+option+"_startDate_datepicker").val(td.format("dddd DD MMMM YYYY"));
+		$("#"+option+"_endDate_datepicker").val(td.format(fullcalendarDateFormat));
+		$("#"+option+"_startDate_datepicker").val(td.format(fullcalendarDateFormat));
 		
 		datepicker[option+"_dates"].attachEvent("onShow",function(date){
 			var checked=$("#"+option+"_deadline input").prop('checked');
