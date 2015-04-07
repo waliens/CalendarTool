@@ -25,7 +25,7 @@ use \DateTime;
 	 * 		INPUT : 
 	 * 		OUTPUT : 056 : {id, name, description, place, professor, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence_type, favourite, annotation}
 	 * 				 066 : {id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, recurrence_type, annotation, favourite, recurrence_type}
-	 * 				 086 : {id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, annotation, favourite, recurrence_type} 
+	 * 				 086 : {id, name, description, place, type, startDay, endDay, startTime, endTime, deadline, category_id, category_name, recurrence, annotation, favourite, recurrence_type}
 	 * 		Method : POST
 	 */
 class ViewEventCalendarController extends AjaxController
@@ -56,7 +56,6 @@ class ViewEventCalendarController extends AjaxController
 			$this->set_error_predefined(self::ERROR_MISSING_INPUT_DATA);
 			return;
 		}
-		
 		$req = $model->getEvent(array("id_event" => $eventId));
 
 		if($priv && (!isset($req[0]) || intval($req[0]['Id_Owner']) != intval($id))){
