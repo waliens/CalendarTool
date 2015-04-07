@@ -146,9 +146,12 @@ class IndependentEventModel extends AcademicEventModel{
 			( SELECT * FROM independent_event_manager WHERE  Id_Event = ? )
 				AS ttm
 		NATURAL JOIN
-			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles";
+			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles
+		UNION 
+			(SELECT Id_Owner AS user, Name AS name, Surname AS surname, 'Owner' AS role, '1' As id_role
+		FROM user  NATURAL JOIN independent_event WHERE user.Id_User = independent_event.Id_Owner AND Id_Event = ?) ";
 		
-		$a = $this->sql->execute_query($query, array($eventId));
+		$a = $this->sql->execute_query($query, array($eventId, $eventId));
 		return $a;
 	}
 	
@@ -240,7 +243,7 @@ class IndependentEventModel extends AcademicEventModel{
 		return $this->sql->execute_query($query, array($eventId, Connection::get_instance()->user_id()));
 	}
 	
-	public function resetTeam($eventId){
+	public function reset_team($eventId){
 		return $this->sql->delete("independent_event_manager", "Id_Event=".$this->sql->quote($eventId));
 	}
 }

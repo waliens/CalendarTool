@@ -158,11 +158,11 @@ class EditAcademicEventController extends AjaxController
 						$model->excludePathway($this->sg_post->value("id"), $value['id']);
 				}			
 			}
-
-			$model->reset_team($this->sg_post->value("id"));
+			
 			if(!$sub)
 				$model->setTeam($this->sg_post->value("id"), $team);
-			else{
+			else{		
+				$model->reset_team($this->sg_post->value("id"));
 				foreach($team as $key => $value){
 					if(!$value["selected"]){
 						$model->excludeMember($this->sg_post->value("id"), $value['id']);

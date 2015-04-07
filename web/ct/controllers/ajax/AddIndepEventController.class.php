@@ -93,14 +93,14 @@ class AddIndepEventController extends AjaxController
 		$team = $this->json2array($this->sg_post->value('teaching_team'));
 
 		$you = array("id" =>  $this->connection->user_id(), "role" => 1);
-		array_push($team, $you);
+
 		
 		foreach($id_ret as $o => $id){
 			foreach($pathway as $key => $value){
 				$model->setPathway($id, $value);
 			}
-				
-			$model->setTeam($id, $team);
+			if(!empty($team))
+				$model->setTeam($id, $team);
 		}
 		
 		

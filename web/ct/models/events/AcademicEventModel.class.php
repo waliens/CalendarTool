@@ -196,6 +196,8 @@ class AcademicEventModel extends EventModel{
 	 */
 	public function isInTeam($eventId, $userId){
 		$team = $this->getTeam($eventId);
+		if(!$team)
+			return false;
 		foreach($team as $key => $value){
 			if($value['user'] == $userId)
 				return true;
