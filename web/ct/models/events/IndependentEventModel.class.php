@@ -147,9 +147,7 @@ class IndependentEventModel extends AcademicEventModel{
 				AS ttm
 		NATURAL JOIN
 			( SELECT Id_Role, Role_FR AS role FROM teaching_role ) AS roles
-		UNION 
-			(SELECT Id_Owner AS user, Name AS name, Surname AS surname, 'Owner' AS role, '1' As id_role
-		FROM user  NATURAL JOIN independent_event WHERE user.Id_User = independent_event.Id_Owner AND Id_Event = ?) ";
+		 ";
 		
 		$a = $this->sql->execute_query($query, array($eventId, $eventId));
 		return $a;
