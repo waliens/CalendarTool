@@ -159,16 +159,22 @@ class EditAcademicEventController extends AjaxController
 				}			
 			}
 			
-			if(!$sub)
-				$model->setTeam($this->sg_post->value("id"), $team);
+			
+			$model->reset_team($this->sg_post->value("id"));
+			$ret = true;
+			if(!$sub){
+				$ret &= $model->setTeam($this->sg_post->value("id"), $team);
+			}
 			else{		
-				$model->reset_team($this->sg_post->value("id"));
 				foreach($team as $key => $value){
 					if(!$value["selected"]){
-						$model->excludeMember($this->sg_post->value("id"), $value['id']);
+						$ret &= $model->excludeMember($this->sg_post->value("id"), $value['id']);
 					}
 				}
 			}
+			
+			if(!$ret)
+				$this->set_error_predefined(self::ERROR_ACTION_ADD_DATA);
 
 		}
 	}
