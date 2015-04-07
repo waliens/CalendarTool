@@ -27,6 +27,10 @@
 	 * - A student can see the independent event he his a teaching student for
 	 * The AS_TEACHING_STUDENT | AS_STUDENT is the combination of the two previous policies
 	 * The AS_FACULTY_MEMBER policy is the following :
+	 * - A faculty member can see all the academic events
+	 * - A faculty member cannot see the private events
+	 * The AS_FACULTY_MEMBER_OWN policy is the following :
+	 * - The faculty member only sees the events he is involved in
 	 */
 	class AccessFilter implements EventFilter
 	{
@@ -37,7 +41,7 @@
 		const POLICY_AS_STUDENT = 1; /**< @brief Events followed by the user as a student only */
 		const POLICY_AS_TEACHING_STUDENT = 2; /**< @brief Events followed by the user as a teaching student only */
 		const POLICY_AS_FACULTY_MEMBER = 4; /**< @brief All events except the private events */
-		const POLICY_AS_FACULTY_MEMBER_OWN = 8; /**< @brief Events followed by the user as a faculty member only ¨/
+		const POLICY_AS_FACULTY_MEMBER_OWN = 8; /**< @brief Events followed by the user as a faculty member only */
 
 		/**
 		 * @brief Construct the AccessFilter 
