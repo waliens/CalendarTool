@@ -355,19 +355,7 @@ $("#new_indepevent").on("show.bs.modal",function(){
 	populate_event_categories_dropdown("new_indepevent_categories","#new_indepevent_type",true);
 	buildDatePicker("new_indepevent");
 	//setup timepickers of new subevent modal
-	$("#new_indepevent .time").timepicker({ 'forceRoundTime': true,'step':1 });
-	$("#new_indepevent_endHour").on("changeTime",function(){
-		//check if start and end day are the same and if so we set the maxTime of startHour
-		if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
-			$("#new_indepevent_startHour").timepicker("option",{maxTime:$("#new_indepevent_endHour").val()});
-		else $("#new_indepevent_startHour").timepicker("option",{maxTime:"24:00"});
-		})
-	$("#new_indepevent_startHour").on("changeTime",function(){
-		//check if start and end day are the same and if so we set the minTime of endHour
-		if($("#new_indepevent_startDate_datepicker").val()==$("#new_indepevent_endDate_datepicker").val())
-			$("#new_indepevent_endHour").timepicker("option",{minTime:$("#new_indepevent_startHour").val(), maxTime:"24:00"});
-		else $("#new_indepevent_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
-		})
+	setUpTimePickers("#new_indepevent","#new_indepevent_btns");
 	//populate time pickers
 	var currentTime=new Date();
 	currentTime=moment(currentTime);
@@ -630,13 +618,7 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				}
 			}
 			//setup timepickers of new subevent modal
-			$(".time").timepicker({ 'forceRoundTime': true,'step':1  });
-			$("#edit_academic_event_endHour").on("changeTime",function(){
-				$("#edit_academic_event_startHour").timepicker("option",{maxTime:$("#edit_academic_event_endHour").val()});
-				})
-			$("#edit_academic_event_startHour").on("changeTime",function(){
-				$("#edit_academic_event_endHour").timepicker("option",{minTime:$("#edit_academic_event_startHour").val(), maxTime:"24:00"});
-				})
+			setUpTimePickers("#edit_academic_event");
 			var deadline=data.deadline;
 			if(deadline=="false")
 				$("#edit_academic_event_deadline input").prop("checked",false);
@@ -1171,13 +1153,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	//build datepicker
 	buildDatePicker("new_subevent");
 	//setup timepickers of new subevent modal
-	$(".time").timepicker({ 'forceRoundTime': true,'step':1  });
-	$("#new_subevent_endHour").on("changeTime",function(){
-		$("#new_subevent_startHour").timepicker("option",{maxTime:$("#new_subevent_endHour").val()});
-		})
-	$("#new_subevent_startHour").on("changeTime",function(){
-		$("#new_subevent_endHour").timepicker("option",{minTime:$("#new_subevent_startHour").val(), maxTime:"24:00"});
-		})
+	setUpTimePickers("#new_subevent","#new_subevent_btns");
 	//populate time pickers
 	var currentTime=new Date();
 	currentTime=moment(currentTime);

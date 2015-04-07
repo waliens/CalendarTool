@@ -483,6 +483,8 @@ $("#calendar").on("click",".fc-prev-button",function(){
 $("#private_event").on("show.bs.modal",function(){
 	//populate event categories
 	populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
+	//setup timepickers of new event modal
+	setUpTimePickers("#private_event","#edit_event_btns");
 	})
 	
 //set time intervals of new private event
@@ -852,26 +854,6 @@ $('#private_event').on('hidden.bs.modal', function (e) {
 	$("#edit_private_event .edit").attr("disabled",false);
 })
 
-//setup timepickers of new event modal
-$(".time").timepicker({ 'forceRoundTime': true, 'step':1 });
-$("#private_event_endHour").on("changeTime",function(){
-	//check if start and end day are the same and if so we set the maxTime of startHour
-	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
-		$("#private_event_startHour").timepicker("option",{maxTime:$("#private_event_endHour").val()});
-	else $("#private_event_startHour").timepicker("option",{maxTime:"24:00"});
-	if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
-			$('#edit_event_btns .btn-primary').prop("disabled", false);
-	})
-	$("#private_event_startHour").on("changeTime",function(){
-	//check if start and end day are the same and if so we set the minTime of endHour
-	if($("#private_event_startDate_datepicker").val()==$("#private_event_endDate_datepicker").val())
-		$("#private_event_endHour").timepicker("option",{minTime:$("#private_event_startHour").val(), maxTime:"24:00"});
-	else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
-	//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
-		if($("#private_event_title").val().length>0&&$("#private_event_startHour").val().length>0)
-			$('#edit_event_btns .btn-primary').prop("disabled", false);
-})
-
 //populate private event modal
 function populate_private_event(event){
 	var event_id=event.id_server;
@@ -1043,7 +1025,7 @@ function populate_public_event(event){
 			}
 			var category_id=data.category_id;
 			var category_name=data.category_name;
-			var recurrence=get_recursion(data.recurrence);
+			var recurrence=get_recursion(data.recurrence_type);
 			//var academic_event_pract_details=data.pract_details;
 			$("#academic_event_recurrence").html(recurrence);
 

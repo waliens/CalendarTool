@@ -189,6 +189,34 @@ function populate_event_categories_dropdown(tag,changeTypeTarget,onlyAcademic){
 }
 
 
+//setup timepickers of new event modal (CALENDAR.JS)
+/*
+*@briev Setup timepickers based on a given tag
+*@param String tag used to build up the names of two HTML tags on which the time picker will be attached
+*@param String tag of the btns to be enabled when the required fields are set in the form
+*/
+function setUpTimePickers(tag,btns){
+	$(tag+" .time").timepicker({ 'forceRoundTime': true, 'step':1 });
+	$(tag+"_endHour").on("changeTime",function(){
+		//check if start and end day are the same and if so we set the maxTime of startHour
+		if($(tag+"_startDate_datepicker").val()==$(tag+"_endDate_datepicker").val())
+			$(tag+"_startHour").timepicker("option",{maxTime:$(tag+"_endHour").val()});
+		else $(tag+"_startHour").timepicker("option",{maxTime:"24:00"});
+		if($(tag+"_title").val().length>0&&$(tag+"_startHour").val().length>0)
+				$('#edit_event_btns .btn-primary').prop("disabled", false);
+		})
+		$(tag+"_startHour").on("changeTime",function(){
+		//check if start and end day are the same and if so we set the minTime of endHour
+		if($(tag+"_startDate_datepicker").val()==$(tag+"_endDate_datepicker").val())
+			$(tag+"_endHour").timepicker("option",{minTime:$(tag+"_startHour").val(), maxTime:"24:00"});
+		else $("#private_event_endHour").timepicker("option",{minTime:"00:00", maxTime:"23:59"});
+		//if it's a deadline we have to check if the required fields have been provided and if so enable the button to create the event
+			if($(tag+"_title").val().length>0&&$(tag+"_startHour").val().length>0)
+				$(btns+' .btn-primary').prop("disabled", false);
+	})
+}
+
+
 // error management 
 /** 
  * @brief Launch the error popup based on the error data from an ajax call
