@@ -348,6 +348,7 @@ $(document).ready(function() {
 				$("#edit_private_event").addClass('hidden');
 				$("#delete_private_event").addClass('hidden');
 				setTimeInterval(date,view);
+				setTimePickersValidInterval("#private_event");
 			}
 		},
 		//function to be called when private event is dragged and dropped
@@ -499,6 +500,8 @@ function setTimeInterval(date,view){
 	if(current_view=="day"||current_view=="week"){
 		startHour=date.hours();
 		minutes=date.minutes();
+		if(minutes=="0")
+			minutes="00";
 		endHour=date.add(1,"hour").hours();
 		}
 	else{
@@ -1353,6 +1356,7 @@ function deadline(){
 	else{ 
 		$("#private_event_endDate").prop("disabled",false);
 		$("#private_event_endDate_datepicker").prop("disabled",false);
+		$("#private_event_endDate_datepicker").prop("readonly",false);
 		$("#private_event_endDate_datepicker").removeClass("hidden");	
 		$("#private_event_endDate").parent().removeClass("hidden");
 		}

@@ -216,6 +216,17 @@ function setUpTimePickers(tag,btns){
 	})
 }
 
+/**
+*@brief Set initial valid intervals for the time pickers
+*@param String tag identifying the two time pickers
+*/
+function setTimePickersValidInterval(tag){
+	//check if start and end day are the same and if so we set the minTime of endHour
+	if($(tag+"_startDate_datepicker").val()==$(tag+"_endDate_datepicker").val()){
+		$(tag+"_endHour").timepicker("option",{minTime:$(tag+"_startHour").val(), maxTime:"23:59"});
+		$(tag+"_startHour").timepicker("option",{maxTime:$(tag+"_endHour").val()});
+	}
+}
 
 // error management 
 /** 

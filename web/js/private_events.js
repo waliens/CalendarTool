@@ -254,6 +254,7 @@ function edit_private_event(){
 		populate_event_categories_dropdown("private_event_categories_dropdown","#private_event_type");
 		//setup timepickers of new event modal
 		setUpTimePickers("#private_event","#edit_event_btns");
+		setTimePickersValidInterval("#private_event");
 	}
 }
 

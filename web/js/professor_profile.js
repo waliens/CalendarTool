@@ -89,7 +89,7 @@ function addIndependentEvent(indep_event){
 	var edit_icon=document.createElement('a');
 	edit_icon.className="edit";
 	edit_icon.setAttribute("data-toggle","modal");
-	edit_icon.setAttribute("data-target","#academic_event_edit_modal");
+	edit_icon.setAttribute("data-target","#edit_academic_event");
 	edit_icon.setAttribute("event-id",indep_event.id);
 	delete_icon.className="delete";
 	//link the delete icon to the delete alert
@@ -363,46 +363,47 @@ $("#new_indepevent").on("show.bs.modal",function(){
 	var	endHour=currentTime.add(1,"hour").hours();
 	var	minutes="00";
 	$("#new_indepevent_startHour").val(startHour+":"+minutes);
-	$("#new_indepevent_endHour").val(endHour+":"+minutes)
-		//retrieve list of team members, roles and pathways
-		$.ajax({
-			dataType : "json",
-			type : 'GET',
-			url : "index.php?src=ajax&req=087",
-			success : function(data, status) {
-				/** error checking */
-				if(data.error.error_code > 0)
-				{	
-					launch_error_ajax(data.error);
-					return;
-				}	
-				
-				//{pathways:[{id, name}], users:[{id, name, surname}, roles:{id, role}]}
-				var team_members=data.users;
-				var roles=data.roles;
-				var pathways=data.pathways;
-				
-				//populate team members dropdown
-				$("#new_indepevent_team_table").html("");			
-				for(var i=0;i<team_members.length;i++)
-					$("#new_indepevent_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+team_members[i].id+'">'+team_members[i].name+"\t"+team_members[i].surname+'</a></li>');
-				
-				for(var i=0;i<roles.length;i++)
-					$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+roles[i].id+'">'+roles[i].role+'</a></li>');
-				
-				//populate pathways dropdown
-				$("#new_indepevent_pathways_list").html("");
-				for(var i=0;i<pathways.length;i++)
-					$("#new_indepevent_pathways_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" pathway-id="'+pathways[i].id+'">'+pathways[i].name+'</a></li>');
-			}
-			,
-			error : function(xhr, status, error) {
-			  var err = eval("(" + xhr.responseText + ")");
-			  alert(err.Message);
-			}
-		});
+	$("#new_indepevent_endHour").val(endHour+":"+minutes);
+	setTimePickersValidInterval("#new_indepevent");
+	//retrieve list of team members, roles and pathways
+	$.ajax({
+		dataType : "json",
+		type : 'GET',
+		url : "index.php?src=ajax&req=087",
+		success : function(data, status) {
+			/** error checking */
+			if(data.error.error_code > 0)
+			{	
+				launch_error_ajax(data.error);
+				return;
+			}	
+			
+			//{pathways:[{id, name}], users:[{id, name, surname}, roles:{id, role}]}
+			var team_members=data.users;
+			var roles=data.roles;
+			var pathways=data.pathways;
+			
+			//populate team members dropdown
+			$("#new_indepevent_team_table").html("");			
+			for(var i=0;i<team_members.length;i++)
+				$("#new_indepevent_team_members_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-id="'+team_members[i].id+'">'+team_members[i].name+"\t"+team_members[i].surname+'</a></li>');
+			
+			for(var i=0;i<roles.length;i++)
+				$("#new_indepevent_team_members_role_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" member-role-id="'+roles[i].id+'">'+roles[i].role+'</a></li>');
+			
+			//populate pathways dropdown
+			$("#new_indepevent_pathways_list").html("");
+			for(var i=0;i<pathways.length;i++)
+				$("#new_indepevent_pathways_list").append('<li role="presentation"><a role="menuitem" tabindex="-1" href="#" pathway-id="'+pathways[i].id+'">'+pathways[i].name+'</a></li>');
+		}
+		,
+		error : function(xhr, status, error) {
+		  var err = eval("(" + xhr.responseText + ")");
+		  alert(err.Message);
+		}
+	});
 		
-	})
+})
 	
 //add pathway to indep event
 $("#new_indepevents_pathways").on("click","#new_indepevent_pathways_list a",function(event){
@@ -570,11 +571,11 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 
 $("#subevents_info_accordion").on("click",".edit",function(){
 	$("#event_info").modal("hide");
-	$("#academic_event_edit_modal").modal("show");
+	$("#edit_academic_event").modal("show");
 	})
 
 //edit academic event
-$("#academic_event_edit_modal").on("show.bs.modal",function(){
+$("#edit_academic_event").on("show.bs.modal",function(){
 	//get subevent info
 	var event_id=event.target.getAttribute("event-id");
 	var req="051";//subevent by default
@@ -618,7 +619,8 @@ $("#academic_event_edit_modal").on("show.bs.modal",function(){
 				}
 			}
 			//setup timepickers of new subevent modal
-			setUpTimePickers("#edit_academic_event");
+			setUpTimePickers("#edit_academic_event","#edit_academic_event_btns");
+			setTimePickersValidInterval("#edit_academic_event");
 			var deadline=data.deadline;
 			if(deadline=="false")
 				$("#edit_academic_event_deadline input").prop("checked",false);
@@ -744,7 +746,7 @@ function edit_academic_event(applyRecursive){
 				launch_error_ajax(data.error);
 				return;
 			}	
-			$("#academic_event_edit_modal").modal("hide");
+			$("#edit_academic_event").modal("hide");
 			//update the title in case it has changed
 			if(req=="085"){
 				$("#independent-events #"+event_id).html(name);
@@ -1154,6 +1156,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	buildDatePicker("new_subevent");
 	//setup timepickers of new subevent modal
 	setUpTimePickers("#new_subevent","#new_subevent_btns");
+	setTimePickersValidInterval("#new_subevent");
 	//populate time pickers
 	var currentTime=new Date();
 	currentTime=moment(currentTime);
@@ -1162,7 +1165,7 @@ $("#new_subevent").on('show.bs.modal', function (event) {
 	var	minutes="00";
 	$("#new_subevent_startHour").val(startHour+":"+minutes);
 	$("#new_subevent_endHour").val(endHour+":"+minutes)
-	
+	setTimePickersValidInterval("#new_subevent");
 	//populate event categories
 	$.ajax({
 			dataType : "json",
