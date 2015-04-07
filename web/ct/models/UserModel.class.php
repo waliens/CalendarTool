@@ -14,7 +14,7 @@
 
 	/**
 	 * @class UserModel
-	 * @brief A class for handling all user related database queries
+	 * @brief A class for handling user related database queries
 	 */
 	class UserModel extends Model
 	{

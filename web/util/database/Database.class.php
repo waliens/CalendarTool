@@ -11,7 +11,7 @@
 
 	/**
 	 * @class Database
-	 * @brief Singleton class encapsulating the initialization of the database
+	 * @brief Singleton class encapsulating the initialization of the database handle
 	 */
 	class Database
 	{
@@ -19,7 +19,7 @@
 		private $pdo;
 
 		/** 
-		 * @brief Construct a Database object
+		 * @brief Construct a Database object with predefined credentials
 		 */
 		private function __construct()
 		{
@@ -47,7 +47,7 @@
 		}
 
 		/**
-		 * @brief Return the initialized database object (PDO)
+		 * @brief Return an initialized database object (PDO)
 		 * @retval PDO PDO database object
 		 */
 		public function get_handle()

@@ -3,7 +3,6 @@
  * @file
  * @brief Contains the GlobalEventNotification class
  * @author charybde
- *
  */
 namespace  ct\models\notifiers;
 
@@ -15,7 +14,6 @@ use ct\models\notifiers\Notifier;
  * @class GlobalEventNotification
  * @author charybde
  * @brief a class to send email when a global event is created/deleted
- *
  */
 class GlobalEventNotification extends Notifier {
 	const CREATE = 0;/**<@brief CONSTANT for creating a global event*/

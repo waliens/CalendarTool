@@ -19,18 +19,18 @@ use \DateTime;
  * @class EventModificationNotifier
  * @author charybde
  * @brief a class to send email when a event is modified/deleted 
- *
  */
-class EventModificationNotifier extends Notifier {
+class EventModificationNotifier extends Notifier 
+{
 	const ADD_DL =  0;/**<@brief constante add deadline*/
 	const UPDATE_TIME = 1;/**<@brief constant update time of academic event*/
 	const DELETE = 2;/**<@brief constant for deletion of an event*/
 	
-	
-	private $id;
-	private $mode;
-	private $model;
-	private $type;
+	private $id; /**< @brief id field */
+	private $mode; /**< @brief mode field */
+	private $model; /**< @brief model field */
+	private $type; /**< @brief type field */
+
 	/**
 	 * @brief construct a Notification, then send it
 	 * @param EventModificationNotifier::CONST $const one of the const describing why there is a notif

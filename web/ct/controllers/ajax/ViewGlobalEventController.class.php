@@ -16,6 +16,7 @@
 	use ct\models\filters\AccessFilter;
 	use ct\models\filters\RecurrenceFilter;
 	use ct\models\FilterCollectionModel;
+	
 	/**
 	 * @class ViewGlobalEventController
 	 * @brief Request Nr : 032

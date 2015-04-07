@@ -13,7 +13,7 @@
 	
 	/**
 	 * @class Mail
-	 * @brief A class for sending emails
+	 * @brief A class providing useful methods for sending emails
 	 */
 	class Mail
 	{
@@ -68,7 +68,7 @@
 		}
 
 		/**
-		 * @brief Send the email to the give address
+		 * @brief Send the email to the given address
 		 * @param[in] string $to The email of the addressee
 		 * @retval bool True on success, false on error
 		 */

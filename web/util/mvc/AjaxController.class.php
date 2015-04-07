@@ -9,7 +9,7 @@
 
 	/**
 	 * @class AjaxController
-	 * @brief A base class for any controller which is supposed to handle ajax request
+	 * @brief A base class for any controller which is meant to handle ajax (or mobile) request
 	 */
 	abstract class AjaxController extends Controller
 	{

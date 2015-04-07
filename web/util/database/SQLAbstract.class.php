@@ -4,8 +4,6 @@
 	 * @file
 	 * @brief File containing the SQL abstraction classes. The purpose of these tools is to write less code to send SQL queries to the sql server.
 	 * See SQLAbstract abstract class and SQLAbstract_PDO class for interfaces of the classes.
-	 * 
-	 * \@todo Possibly move select, insert, count, delete and update to the abstract class as it doesn't require the usage of any database access API
 	 */
 
 	namespace util\database;
@@ -16,8 +14,8 @@
 	 *	@class SQLAbstract
 	 *	@brief A class that abstracts the querying of a database by providing a set of methods for usual database operations
 	 *
-	 *	@authors Romain Mormont
-	 *	@date 09/08/2014
+	 *	@author Romain Mormont
+	 *	@date 01/02/2015
 	 *  @version 0.2
 	 */
 	abstract class SQLAbstract
@@ -316,70 +314,6 @@
 			return $this->execute_query($query);
 		}
 
-		/**
-		 * @brief Method for sending a user-defined query to the database
-		 * @param[in] string $query      The query to send to the database (parameters must be marked by '?')
-		 * @param[in] array  $parameters The parameters to insert into the query. An empty array means no parameters.
-		 *
-		 * @retval array|bool An array containing the result of the query if some data must be returned. If the query is such that it won't return any data,
-		 *		then the method returns true if the query was successfully executed. In both case, if an error occurs then the method returns false.
-		 * 
-		 * Examples :
-		 * @code
-		 * // query without parameter
-		 * $query = "SELECT * FROM batiment;";
-		 * $foo->execute_query($query);
-		 *
-		 * // query with parameters
-		 * $query = "SELECT nom, prenom FROM personne WHERE taille > ? AND age > ?;";
-		 * $param = array(150, 18);
-		 * $foo->execute_query($query, $param);
-		 * 
-		 * // query with string parameters
-		 * $query = "INSERT INTO personne VALUES nom = ?, prenom = ?, ville = ?, age = ?;";
-		 * $param = array("Doe", "John", "Cape Town", 18);
-		 * $foo->execute_query($query, $param);
-		 * @endcode
-		 *
-		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
-		 */
-		abstract public function execute_query($query, array $parameters = array());
-
-		/**
-		 * @brief Returns the last error's code
-		 * @retval int Error code of the last error
-		 */
-		abstract public function error_code();
-
-		/**
-		 * @brief Returns the last error's description
-		 * @retval array Error description of the last error
-		 */
-		abstract public function error_info();
-
-		/** 
-		 * @brief Prepare a query
-		 * @param[in] string $query The query
-		 * @retval mixed An object allowing the query execution
-		 *
-		 * @note This method should be prefered to SQLAbstract::execute_query when the same query has to be repeated several times because, in this situation, the query
-		 *    preparation speeds up the multiple querying
-		 */
-		abstract public function prepare_query($query);
-
-		/**
-		 * @brief Return the id of the last inserted line
-		 * @retval string|int The last inserted row's id, -1 on error
-		 */
-		abstract public function last_insert_id();
-
-		/**
-		 * @brief Same behavior as the method PDO::quote()
-		 * @param[in] string $string         The string to escape
-		 * @return The quoted and escaped string
-		 */
-		abstract public function quote($string);
-
 		/** 
 		 * @brief Return an anonymous function that quotes its string argument
 		 * @retval function Function that takes a string argument and returns it quoted
@@ -529,4 +463,68 @@
 		{
 			return $this->execute_query("ROLLBACK;");
 		}
+
+		/**
+		 * @brief Method for sending a user-defined query to the database
+		 * @param[in] string $query      The query to send to the database (parameters must be marked by '?')
+		 * @param[in] array  $parameters The parameters to insert into the query. An empty array means no parameters.
+		 *
+		 * @retval array|bool An array containing the result of the query if some data must be returned. If the query is such that it won't return any data,
+		 *		then the method returns true if the query was successfully executed. In both case, if an error occurs then the method returns false.
+		 * 
+		 * Examples :
+		 * @code
+		 * // query without parameter
+		 * $query = "SELECT * FROM batiment;";
+		 * $foo->execute_query($query);
+		 *
+		 * // query with parameters
+		 * $query = "SELECT nom, prenom FROM personne WHERE taille > ? AND age > ?;";
+		 * $param = array(150, 18);
+		 * $foo->execute_query($query, $param);
+		 * 
+		 * // query with string parameters
+		 * $query = "INSERT INTO personne VALUES nom = ?, prenom = ?, ville = ?, age = ?;";
+		 * $param = array("Doe", "John", "Cape Town", 18);
+		 * $foo->execute_query($query, $param);
+		 * @endcode
+		 *
+		 * @note If an error occurs, the error code and description can be obtained from the error_code() and error_info() methods
+		 */
+		abstract public function execute_query($query, array $parameters = array());
+
+		/**
+		 * @brief Returns the last error's code
+		 * @retval int Error code of the last error
+		 */
+		abstract public function error_code();
+
+		/**
+		 * @brief Returns the last error's description
+		 * @retval array Error description of the last error
+		 */
+		abstract public function error_info();
+
+		/** 
+		 * @brief Prepare a query
+		 * @param[in] string $query The query
+		 * @retval mixed An object allowing the query execution
+		 *
+		 * @note This method should be prefered to SQLAbstract::execute_query when the same query has to be repeated several times because, in this situation, the query
+		 *    preparation speeds up the multiple querying
+		 */
+		abstract public function prepare_query($query);
+
+		/**
+		 * @brief Return the id of the last inserted line
+		 * @retval string|int The last inserted row's id, -1 on error
+		 */
+		abstract public function last_insert_id();
+
+		/**
+		 * @brief Same behavior as the method PDO::quote()
+		 * @param[in] string $string         The string to escape
+		 * @return The quoted and escaped string
+		 */
+		abstract public function quote($string);
 	}

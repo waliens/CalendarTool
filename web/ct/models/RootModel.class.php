@@ -11,7 +11,7 @@
 
 	/**
 	 * @class RootModel
-	 * @brief Class for handling root user related database queries or data processing
+	 * @brief Class for handling root user related database queries
 	 */
 	class RootModel extends Model
 	{
@@ -88,4 +88,4 @@
 						&& preg_match("#[0-9]#", $pass) && preg_match("#\W#", $pass);
 
 		}
-	};
+	}

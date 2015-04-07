@@ -12,7 +12,7 @@
 
 	/**
 	 * @class ICSGenerator
-	 * @brief A class for generating ICS calendars for a set of events
+	 * @brief A class for generating ICS calendar files with a collection of filters
 	 */
 	class ICSGenerator
 	{
@@ -73,7 +73,7 @@
 		/**
 		 * @brief Return the given date in the ICS format (YYYYMMDD "T" HHMMSS)
 		 * @param[in] string $date The date in SQL datetime/date format
-		 * @retval string The date in the ics format 
+		 * @retval string The date in the ics format
 		 */
 		private static function get_ics_date($date)
 		{

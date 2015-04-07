@@ -12,8 +12,8 @@
 	 * @brief Base class for category model. 
 	 *
 	 * A set of categories is a list of items contained in a table
-	 * of the database that can be given to the user in a drop down list for instance (can be colors, jobs,...). 
-	 * A category is identified by its key and defined by its name and possible some other attributes.
+	 * of the database that can be given to the user for instance in a drop down list (can be colors, jobs, event categories,...). 
+	 * A category is identified by its key and defined by its name and possibly some other attributes.
 	 * This class provides methods for accessing, editing and interacting with these items. 
 	 */ 
 	abstract class CategoryModel extends Model
