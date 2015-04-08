@@ -7,6 +7,8 @@
 
 	namespace ct\controllers\ajax;
 
+	use ct\models\notifiers\GlobalEventNotification;
+
 	use util\mvc\AjaxController;
 	use util\superglobals\Superglobal;
 
@@ -14,8 +16,12 @@
 
 	/**
 	 * @class CreateGlobalEventController
-	 * @brief A class for handling the creation of global events ajax request
+	 * @brief Request Nr : 035
+	 * 		INPUT :	{ulgId, description, feedback, language}
+  	 * 		OUTPUT : {id}
+ 	 * 		Method : POST
 	 */
+	
 	class CreateGlobalEventController extends AjaxController
 	{
 		/**
@@ -71,6 +77,8 @@
 			$insert_data = $this->sg_post->values($insert_data_keys, true);
 			$id_data = array("id" => $glob_id);
 
+			new GlobalEventNotification(GlobalEventNotification::CREATE, $glob_id);
+			
 			if(!$glob_mod->update_global_event_non_ulg_data($id_data, $insert_data))
 				$this->set_error_predefined(AjaxController::ERROR_ACTION_ADD_DATA);
 

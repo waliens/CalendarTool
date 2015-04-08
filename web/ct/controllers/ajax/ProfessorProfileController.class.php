@@ -16,10 +16,12 @@
 	use ct\models\filters\EventTypeFilter;
 	use ct\models\filters\AccessFilter;
 	use ct\models\filters\RecurrenceFilter;
-
 	/**
-	 * @class ProfessorProfileController 
-	 * @brief A class for handling the getProfessorProfile ajax request
+	 * @class ProfessorProfileController
+	 * @brief Request Nr : 022
+	 * 		INPUT : 
+	 * 		OUTPUT : {firstName, lastName, email, courses:[{id, code, lib_cours_complet}], indep_events:[{id, name, start, recurrence_type}]}
+	 * 		Method : GET
 	 */
 	class ProfessorProfileController extends AjaxController
 	{

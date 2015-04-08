@@ -284,9 +284,9 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 				var chunks=data.startTime.split(":");
 				academic_event_start.set("hour",chunks[0]);
 				academic_event_start.set("minute",chunks[1]);
-				$("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY, h:mm a"));
+				$("#academic_event_start").html(academic_event_start.format(fullcalendarDateFormat+" , h:mm a"));
 			}
-			else $("#academic_event_start").html(academic_event_start.format("dddd Do MMMM YYYY"));
+			else $("#academic_event_start").html(academic_event_start.format(fullcalendarDateFormat));
 			var academic_event_end;
 			if(data.endDay!=""){
 				$("#academic_event_end").parent().removeClass("hidden");
@@ -295,9 +295,9 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 					var chunks=data.endTime.split(":");
 					academic_event_end.set("hour",chunks[0]);
 					academic_event_end.set("minute",chunks[1]);
-					$("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY, h:mm a"));
+					$("#academic_event_end").html(academic_event_end.format(fullcalendarDateFormat+" , h:mm a"));
 				}
-				else $("#academic_event_end").html(academic_event_end.format("dddd Do MMMM YYYY"));
+				else $("#academic_event_end").html(academic_event_end.format(fullcalendarDateFormat));
 			}
 			else {
 				$("#academic_event_end").parent().addClass("hidden");
@@ -321,7 +321,7 @@ $("#academic_event_info_modal").on("show.bs.modal",function(){
 			else{
 				$("#academic_event_recurrence_end").parent().removeClass("hidden");
 				var end_recurrence=moment(data.end_recurrence);
-				$("#academic_event_recurrence_end").html(end_recurrence.format("dddd Do MMMM YYYY"));
+				$("#academic_event_recurrence_end").html(end_recurrence.format(fullcalendarDateFormat));
 				}
 			var pract_details=data.pract_details;
 			var feedback=data.feedback;

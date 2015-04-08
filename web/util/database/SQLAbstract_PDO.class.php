@@ -11,7 +11,7 @@
 
 	/**
 	 *	@class SQLAbstract_PDO
-	 *	@brief A class using pdo for implementing methods of the SQLAbstract class
+	 *	@brief A class using PDO for implementing methods of the SQLAbstract class
 	 *	@authors Romain Mormont
 	 *	@date 09/08/2014
 	 *  @version 0.2
@@ -161,4 +161,4 @@
 	
 			$stmt->closeCursor();
 		}
-	};
+	}

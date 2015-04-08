@@ -4,6 +4,7 @@ namespace ct\models\events;
 
 
 /**
+ * @file
  * @brief Describe the AcademicEvent
  * @author charybde
  *
@@ -12,7 +13,10 @@ use ct\models\FileModel;
 use ct\models\filters\PathwayFilter;
 use ct\models\filters\DateTimeFilter;
 use ct\models\FilterCollectionModel;
-
+/**
+ * @class AcademicEventModel
+ * @brief Class for making generic operation on an  academic event
+ */
 class AcademicEventModel extends EventModel{
 
 	private $fields_ac;
@@ -192,6 +196,8 @@ class AcademicEventModel extends EventModel{
 	 */
 	public function isInTeam($eventId, $userId){
 		$team = $this->getTeam($eventId);
+		if(!$team)
+			return false;
 		foreach($team as $key => $value){
 			if($value['user'] == $userId)
 				return true;

@@ -21,8 +21,13 @@
 
 	/**
 	 * @class CalendarBaseDataController
-	 * @brief A class for handling the calendar base data request
+	 * @brief Request Nr : 101
+	 * 		INPUT :	None
+  	* 		OUTPUT : {upcomingDeadlines:[{id, limit, name, recurrence_id, academic_event}], upcomingEvents:[{id, start, end, name, recurrence_id, academic_event}],favorites:[{id,start,end,name,recurrence_id, academic_event}]}
+	 * 		Method : GET
 	 */
+	
+	
 	class CalendarBaseDataController extends AjaxController
 	{
 		const SQL_DATETIME = "Y-m-d H:i:s"; /**< @brief The datetime french format */
@@ -162,8 +167,9 @@
 			{
 				$curr = array();
 				$curr['id'] = $event['Id_Event'];
-				$curr['recurrence_id'] = $event['Id_Recurrence'];
+				$curr['recurrence_id'] = $event['Id_Recur_Category'];
 				$curr['name'] = $event['Name'];
+				$curr['event_type'] = $event['EventType'];
 
 				if($deadline)
 					$curr['limit'] = \ct\date_sql2fullcalendar($event['Start']);

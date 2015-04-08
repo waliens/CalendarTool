@@ -2,9 +2,15 @@
 namespace ct\models\events;
 
 /**
- * @brief Describe the AcademicEvent
+ * @file
+ * @brief Describe the Students Event
  * @author charybde
  *
+ */
+
+/**
+ * @class StudentEventModel
+ * @brief Class for making  operation on a student event
  */
 class StudentEventModel extends EventModel{
 

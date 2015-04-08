@@ -14,10 +14,13 @@ use ct\models\filters\RecurrenceFilter;
 use ct\models\filters\AccessFilter;
 use ct\models\FilterCollectionModel;
 
-/**
- * @class GetPrivateEventController
- * @brief Class for handling the 062 request (get private events)
- */
+	/**
+	 * @class GetPrivateEventController
+	 * @brief Request Nr : 062
+	 * 		INPUT :
+	 * 		OUTPUT : {events:[{id, name, start, end, recurrence, recurrence_type}]}
+	 * 		Method : POST
+	 */
 class GetPrivateEventController extends AjaxController
 {
 	/**

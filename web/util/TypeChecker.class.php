@@ -9,7 +9,7 @@
 
 	/** 
 	 * @class TypeChecker
-	 * @brief Class for checking if a string match a type
+	 * @brief Class for checking if a string matches a SQL-like type
 	 */
 	class TypeChecker
 	{

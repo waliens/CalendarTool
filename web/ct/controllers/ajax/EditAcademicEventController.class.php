@@ -6,15 +6,19 @@
 
 namespace ct\controllers\ajax;
 
+use ct\models\notifiers\EventModificationNotifier;
+
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 use \DateTime;
 use ct\models\events\SubEventModel;
 use ct\models\events\IndependentEventModel;
-
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class EditAcademicEventController
+ * @brief Request Nr : 054, 085
+ * 		INPUT : {id, name, details, where, entireDay, start, end, deadline, type, pract_details, feedback, workload, pathways:[{id,selected}], teachingTeam:[{id,selected}], applyRecursive}
+ * 		OUTPUT :
+ * 		Method : POST
  */
 class EditAcademicEventController extends AjaxController
 {
@@ -51,7 +55,6 @@ class EditAcademicEventController extends AjaxController
 				"practical_details" => $this->sg_post->value('pract_details'),
 				"workload" => $this->sg_post->value("workload"),
 				"feedback" => $this->sg_post->value("feedback"));
-
 
 
 		// get owner id
@@ -93,24 +96,86 @@ class EditAcademicEventController extends AjaxController
 							$model->excludePathway($id, $value['id']);
 					}
 				}
-				//$model->setTeam($id, $team);
+
+				$model->reset_team($id);
+				if(!$sub)
+					$model->setTeam($id, $team);
+				else{
+					foreach($team as $key => $value){
+						if(!$value["selected"])
+							$model->excludeMember($id, $value['id']);
+					}
+				}
 			}
+			//date recurrent
+			$previous_date = $model->getEvent(array("id_event" => $this->sg_post->value("id")), array("start"))[0]["Start"];
+			$oldStart = new DateTime($previous_date);
+			$start = new DateTime($this->sg_post->value('start'));
+			
+			$shift = $oldStart->diff($start, false);
+			$shift2 = $shift->days;
+			if($oldStart > $start){
+				$shift2 *= -1;
+			}
+			$mins = $shift->h * 60 + $shift->i;
+			$ret = $model->setDateRecur($idRec, $shift2, $mins);
+			
+				
+			if(!$ret){
+				$this->set_error_predefined(self::ERROR_ACTION_UPDATE_DATA);
+				return;
+			}
+			
 		}
+
+
 		
 		else {
 			
+			// get event date
+			if($this->sg_post->check_keys(array("deadline", "start")) > 0 && $this->sg_post->value("deadline") == "true"){
+				$limit = new DateTime($this->sg_post->value("start"));
+				$model->setDate($this->sg_post->value("id"), "Deadline", $limit, null, true);
+				//new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
+			}
+			elseif($this->sg_post->check_keys(array("start", "end", "entireDay")) > 0)
+			{
+				$start = new DateTime($this->sg_post->value('start'));
+				$end = new DateTime($this->sg_post->value('end'));
+				if($this->sg_post->value("entireDay") == "true")
+					$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
+				else
+					$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);
+				//new EventModificationNotifier(EventModificationNotifier::UPDATE_TIME, $this->sg_post->value("id"));
 			
+			}
 			
 			foreach($pathway as $key => $value){
 				if(!$sub)
-					$model->setPathway($id, $value);
+					$model->setPathway($this->sg_post->value("id"), $value);
 				else{
 					if(!$value["selected"])
-						$model->excludePathway($id, $value['id']);
+						$model->excludePathway($this->sg_post->value("id"), $value['id']);
 				}			
 			}
-					
-		//	$model->setTeam($id, $team);
+			
+			
+			$model->reset_team($this->sg_post->value("id"));
+			$ret = true;
+			if(!$sub){
+				$ret &= $model->setTeam($this->sg_post->value("id"), $team);
+			}
+			else{		
+				foreach($team as $key => $value){
+					if(!$value["selected"]){
+						$ret &= $model->excludeMember($this->sg_post->value("id"), $value['id']);
+					}
+				}
+			}
+			
+			if(!$ret)
+				$this->set_error_predefined(self::ERROR_ACTION_ADD_DATA);
+
 		}
 	}
 }

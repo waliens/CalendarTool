@@ -13,10 +13,13 @@
 	use ct\models\events\GlobalEventModel;
 	use ct\models\events\EventCategoryModel;
 
-	/**
-	 * @class EventCategoriesController
-	 * @brief A class for handling the get event category request
-	 */
+/**
+ * @class EventCategoriesController
+ * @brief Request Nr : 047
+ * 		INPUT : {lang}
+ * 		OUTPUT : {academic:[{id,name,desc, color}], student:[{id,name,desc,color}]}
+ * 		Method : POST
+ */
 	class EventCategoriesController extends AjaxController
 	{
 		/**

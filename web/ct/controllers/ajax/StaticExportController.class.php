@@ -9,10 +9,12 @@
 
 	use ct\models\ExportModel;
 	use util\mvc\AjaxController;
-
 	/**
 	 * @class StaticExportController
-	 * @brief A class for handling the settings for the static export
+	 * @brief Request Nr : 091
+	 * 		INPUT :{view:'viewId' ,allEvent:{isSet:'false'},dateRange: {start: datetime, end: datetime},courses: {isSet: 'false', id:[]},eventTypes: {isSet: 'false', timeType:[], eventType:[]},eventCategories:{isSet:'false', id:[]}pathways: {isSet: 'false', id:[]},professors:{isSet: 'false', id:[]}}
+	 * 		OUTPUT : {url}
+	 * 		Method : POST
 	 */
 	class StaticExportController extends FilterController
 	{

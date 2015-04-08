@@ -24,7 +24,7 @@
 
 	/**
 	 * @class ExportModel 
-	 * @brief A class for hanlind export related database queries
+	 * @brief A class for hanling calendar export related database queries
 	 */
 	class ExportModel extends Model
 	{

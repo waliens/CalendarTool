@@ -4,8 +4,10 @@
  * @file
 * @brief Sub Event  AddingControllerClass
 */
-
 namespace ct\controllers\ajax;
+
+use ct\models\notifiers\EventModificationNotifier;
+
 
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
@@ -15,9 +17,13 @@ use \DateTime;
 
 
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class AddSubEventController
+ * @brief Request Nr : 053
+ * 		INPUT :{name, id_global_event, feedback, workload, practical_details, details, where, entireDay, limit, start, end, type, recurrence, end-recurrence, pathway, teachingTeam: [{id, name, selected}], attachments:[{id, url, name}], softAdd}
+ * 		OUTPUT : {id, error{.... conflict[{pathway, name, start, end}]}
+ * 		Method : POST
  */
+
 class AddSubEventController extends AjaxController
 {
 	/**
@@ -50,6 +56,7 @@ class AddSubEventController extends AjaxController
 		// get event date
 		if($this->sg_post->value('limit') == "true")
 			$data['limit'] = $this->sg_post->value('start');
+			
 		elseif($this->sg_post->check_keys(array("start", "end")) > 0)
 		{
 			$data['start'] = $this->sg_post->value('start');
@@ -73,6 +80,9 @@ class AddSubEventController extends AjaxController
 		}
 		else
 			$id_ret[0] = $model->createEvent($data);
+		
+		//if($this->sg_post->value('limit') == "true")
+		//	new EventModificationNotifier(EventModificationNotifier::ADD_DL, $id_ret[0]);
 
 		$this->add_output_data("id", $id_ret);
 	
@@ -103,6 +113,3 @@ class AddSubEventController extends AjaxController
 		
 	}
 }
-
-
-

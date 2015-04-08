@@ -27,6 +27,10 @@
 	 * - A student can see the independent event he his a teaching student for
 	 * The AS_TEACHING_STUDENT | AS_STUDENT is the combination of the two previous policies
 	 * The AS_FACULTY_MEMBER policy is the following :
+	 * - A faculty member can see all the academic events
+	 * - A faculty member cannot see the private events
+	 * The AS_FACULTY_MEMBER_OWN policy is the following :
+	 * - The faculty member only sees the events he is involved in
 	 */
 	class AccessFilter implements EventFilter
 	{
@@ -37,7 +41,7 @@
 		const POLICY_AS_STUDENT = 1; /**< @brief Events followed by the user as a student only */
 		const POLICY_AS_TEACHING_STUDENT = 2; /**< @brief Events followed by the user as a teaching student only */
 		const POLICY_AS_FACULTY_MEMBER = 4; /**< @brief All events except the private events */
-		const POLICY_AS_FACULTY_MEMBER_OWN = 8; /**< @brief Events followed by the user as a faculty member only ¨/
+		const POLICY_AS_FACULTY_MEMBER_OWN = 8; /**< @brief Events followed by the user as a faculty member only */
 
 		/**
 		 * @brief Construct the AccessFilter 
@@ -120,11 +124,14 @@
 					( 
 						( SELECT Id_Event FROM student_event WHERE Id_Owner = $q_user_id) 
 						UNION ALL
-						( SELECT Id_Event -- independent event to which the user is associated
-						  FROM independent_event_pathway NATURAL JOIN
-						  ( SELECT Id_Pathway 
-						  	FROM student_pathway 
-						  	WHERE Id_Student = $q_user_id AND Acad_Start_Year = $q_acad) AS user_path
+						( SELECT Id_Event FROM independent_event 
+						  WHERE Public = 1 OR Id_Event IN 
+						  ( SELECT Id_Event -- independent event to which the user is associated
+						  	FROM independent_event_pathway NATURAL JOIN
+						    ( SELECT Id_Pathway 
+						  	  FROM student_pathway 
+						  	 WHERE Id_Student = $q_user_id AND Acad_Start_Year = $q_acad ) AS studpath 
+						  )
 						) 
 						UNION ALL
 						( SELECT Id_Event FROM sub_event 
@@ -186,9 +193,12 @@
 									   FROM sub_event_excluded_team_member )
 						)
 						UNION ALL
-						( SELECT Id_Event -- independent event the user for which the user has the given roles
-						  FROM independent_event_manager
-						  WHERE Id_Role IN $q_role_ids AND Id_User = $q_user_id
+						( SELECT Id_Event
+                          FROM independent_event
+                          WHERE Public = 1 OR Id_Event IN
+                          ( SELECT Id_Event -- independent event the user for which the user has the given roles
+                            FROM independent_event_manager
+                            WHERE Id_Role IN $q_role_ids AND Id_User = $q_user_id )
 						)
 					) AS ts_events";
 		}

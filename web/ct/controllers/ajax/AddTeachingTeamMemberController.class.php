@@ -11,10 +11,12 @@
 	use util\superglobals\Superglobal;
 	use ct\models\events\GlobalEventModel;
 	use ct\models\UserModel;
-
 	/**
 	 * @class AddTeachingTeamMemberController
-	 * @brief A class for handling the add teaching team member request
+	 * @brief Request Nr : 072
+	 * 		INPUT :	{id_user, id_global_event, id_role}
+  	* 		OUTPUT : 
+	 * 		Method : POST
 	 */
 	class AddTeachingTeamMemberController extends AjaxController
 	{

@@ -7,12 +7,14 @@
 
 	namespace ct\models;
 
+	use ct\array_flatten;
+
 	use util\mvc\Model;
 	use ct\Connection;
 
 	/**
 	 * @class UserModel
-	 * @brief A class for handling all user related database queries
+	 * @brief A class for handling user related database queries
 	 */
 	class UserModel extends Model
 	{
@@ -241,7 +243,22 @@
 		{
 			return $this->sql->count("student", "Id_Student = ".$this->sql->quote($user_id)) > 0;
 		}
+		
+		/**
+		 * @brief Get a list of all student following a same pathway
+		 * @param[in] string $path the pathwayt
+		 * @return array with a list of id or false if error
+		 */
+		public function get_student_by_pathway($path){
+			$query = "SELECT Id_Student as id FROM student_pathway WHERE Id_Pathway = ?";
+			$ret = $this->sql->execute_query($query, array($path));
+			if(!$ret)
+				return false;
+			else 
+				return array_flatten($ret);
 
+		}
+		
 		/**
 		 * @brief Update the user data
 		 * @param[in] array $data The array containing the new data : ('name', 'surname', 'email')
@@ -281,4 +298,16 @@
 		{
 			return $this->sql->count("user", "Id_User = ".$this->sql->quote($user_id)) > 0;
 		}
+		
+		/**
+		 * @brief simply return the mail of an user
+		 * @param int $user_id User id(in the db)
+		 */
+		public function get_user_email($user_id){
+			$a = $this->sql->select("user", "Id_User = ".$this->sql->quote($user_id), array("Email"));
+			if(!$a)
+				return false;
+			return $a[0]["Email"];
+		}
+		
 	}

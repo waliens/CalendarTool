@@ -18,6 +18,32 @@
     </div>
   </div>
 </div>
+<!-- Delete SUBEVENT Alert -->
+
+<div class="modal fade" id="delete_academic_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Supprimer l'événement</h4>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir supprimer l'événement <span name="academic_event_deleted" class="text-bold"></span>? Le texte suivant sera envoyé à tous les étudiants actuellement inscrits à l'événement.</p>
+        <div contenteditable="true" class="box"> L'événement <span name="academic_event_deleted"></span> a été supprimé. </div>
+      </div>
+      <div class="modal-footer" id="delete_academic_event_norecurr_btns">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirm_delete_academic_event('false')">Confirmer</button>
+      </div>
+      <div class="modal-footer" id="delete_academic_event_recurr_btns">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirm_delete_academic_event('false')">Seulement cet événement</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirm_delete_academic_event('true')">Tous les événements</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Add Global Event Alert -->
 <div class="modal fade" id="add_global_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -68,25 +94,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" id="global_event_add_confirm" disabled="disabled">Confirmer</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Delete Independent Event Alert -->
-<div class="modal fade" id="delete_indep_event_alert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Supprimer l'événement indépendant</h4>
-      </div>
-      <div class="modal-body">
-        <p>Êtes-vous sûr de vouloir supprimer l'événement <span name="indep_event_deleted" class="text-bold"></span>? Le texte suivant sera envoyé à tous les étudiants actuellement inscrits à l'événement.</p>
-        <div contenteditable="true" class="box"> L'événement <span name="indep_event_deleted"></span> a été supprimé. </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="indep_event_delete_confirm">Confirmer</button>
       </div>
     </div>
   </div>
@@ -214,7 +221,7 @@
                         </tr>
                         <tr id="new_subevent_deadline">
                           <td>Deadline</td>
-                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_subevent');"></td>
+                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_subevent','#new_subevent_btns');"></td>
                         </tr>
                       </table></td>
                   </tr>
@@ -366,7 +373,7 @@
                         </tr>
                         <tr id="new_indepevent_deadline">
                           <td>Deadline</td>
-                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_indepevent');"></td>
+                          <td><input type="checkbox" aria-label="" onclick="deadline('#new_indepevent','#new_indepevent_btns');"></td>
                         </tr>
                       </table></td>
                   </tr>
@@ -576,7 +583,7 @@
 </div>
 
 <!---EDIT ACADEMIC EVENT-->
-<div class="modal fade" id="academic_event_edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit_academic_event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -618,7 +625,7 @@
                         </tr>
                         <tr id="edit_academic_event_deadline">
                           <td>Deadline</td>
-                          <td><input type="checkbox" aria-label="" onclick="deadline('#edit_academic_event');"></td>
+                          <td><input type="checkbox" aria-label="" onclick="deadline('#edit_academic_event','#edit_academic_event_btns');"></td>
                         </tr>
                       </table></td>
                   </tr>
@@ -693,7 +700,7 @@
         </div>
         <div class="modal-footer">
           <div class='text-center' id='edit_academic_event_btns'>
-            <button tabindex="0" type='button' class='btn btn-primary' type="submit" id="edit_academic_event_creation_confirm_recursion" data-placement="left" data-toggle="popover" data-trigger="focus" title="Mis à jour événement récurrent" data-content="Cet événement est récurrent.">Confrimer</button>
+            <button tabindex="0" type='button' class='btn btn-primary' type="submit" id="edit_academic_event_creation_confirm_recursion" data-placement="left" data-toggle="popover" data-trigger="focus" title="Mis à jour événement récurrent" data-content="Cet événement est récurrent.">Confirmer</button>
             <button tabindex="0" type='button' class='btn btn-primary hidden' type="submit" id="edit_academic_event_creation_confirm_norecursion" onclick="edit_academic_event(false)">
             Confirmer
             </button>

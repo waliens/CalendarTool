@@ -139,7 +139,7 @@
                       <label for="private_event_endHour" class="sr-only">Se termine Heure</label>
                       <input class="marging-10-0 time form-control" id="private_event_endHour" placeholder="HH:MM" data-time-format="H:i"></td>
                   </tr>
-                  <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline();"></td></tr>
+                  <tr id="deadline"><td>Deadline</td><td><input type="checkbox" aria-label="" onclick="deadline('#private_event','#edit_event_btns');"></td></tr>
                 </table></td>
                 </tr>
             <tr>
@@ -194,11 +194,6 @@
               <td class="text-bold width-80 vertical-middle">Plus info</td>
               <td><label for="private_event_details" class="sr-only">Plus info</label>
                 <input class="form-control" id="private_event_details" placeholder="Détails de l'événement"></td>
-            </tr>
-            <tr id="notes">
-              <td class="text-bold width-80">Note</td>
-              <td><label for="private_notes_body" class="sr-only">Note</label>
-                <input class="form-control" id="private_notes_body" placeholder="Notes de l'événement"></td>
             </tr>
             <tr>
               <td colspan="2"><div class='text-center' id='edit_event_btns'>

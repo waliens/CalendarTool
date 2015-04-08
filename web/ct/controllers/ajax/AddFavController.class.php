@@ -12,8 +12,11 @@ use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
 /**
- * @class Event
- * @brief Class for handling the control of event
+ * @class AddFavController
+ * @brief Request Nr : 045
+ * 		INPUT : {id_event}
+ * 		OUTPUT : none
+ * 		Method : POST
  */
 
 class AddFavController extends AjaxController

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Main layout containing the 4 view modes -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/lightgray">
+
+    <!-- Orange bar -->
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/orangeBar"
+            android:layout_width="fill_parent"
+            android:layout_height="60sp"
+            android:background="@drawable/topbar"
+            android:gravity="left|top"
+            android:height="60sp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/previous"
+                android:layout_width="20sp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10sp"
+                android:src="@drawable/calendar_left_arrow_selector" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/currentDate"
+                android:layout_width="fill_parent"
+                android:layout_height="60sp"
+                android:layout_weight="0.6"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/next"
+                android:src="@drawable/calendar_right_arrow_selector"
+                android:layout_width="20sp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="10sp">
+            </ImageView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Day view -->
+    <ScrollView
+        android:id="@+id/dayScrollLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topLayout">
+
+        <RelativeLayout
+            android:id="@+id/dayRelativeLayout"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <LinearLayout
+                android:id="@+id/dayLinearLayout"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="-8dp"
+                android:layout_marginRight="-8dp">
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- Week view -->
+<ScrollView
+    android:id="@+id/weekScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/topLayout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/weekHours"
+            android:layout_below="@id/orangeBar"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="3dp"
+            >
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_below="@id/orangeBar"
+            android:layout_toRightOf="@id/weekHours"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/weekEvents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/weekLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                 </LinearLayout>
+            </RelativeLayout>
+
+        </HorizontalScrollView>
+    </LinearLayout>
+</ScrollView>
+
+    <!-- Month view -->
+    <GridView
+        android:id="@+id/calendarMonth"
+        android:layout_below="@id/topLayout"
+        android:numColumns="7"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+    />
+
+    <!-- Agenda view -->
+    <ScrollView
+        android:id="@+id/agendaLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/agendaList"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
+            />
+    </ScrollView>
+
+</RelativeLayout>

@@ -16,8 +16,13 @@
 
 	/**
 	 * @class CalendarViewController
-	 * @brief A class for handling the selection of events for any calendar view
+	 * @brief Request Nr : 102
+	 * 		INPUT :	{view:'viewId' ,allEvent:{isSet:'false'},dateRange: {start: datetime, end: datetime},courses: {isSet: 'false', id:[]},eventTypes: {isSet: 'false', timeType:[], eventType:[]},eventCategories:{isSet:'false', id:[]}pathways: {isSet: 'false', id:[]},professors:{isSet: 'false', id:[]}}
+  	* 		OUTPUT : {{events:{public:[{id, name, timeType, start, end, recursive}], private:[{id, name, timeType, start, end, recursive}]}, upperView:{id, name, timeType, start, end, recursive}}
+	 * 		Method : POST
 	 */
+	
+	
 	class CalendarViewController extends FilterController
 	{
 		/**
@@ -85,6 +90,7 @@
 			$f_event['recursive'] = $event['Id_Recurrence'];
 			$f_event['timeType'] = $event['DateType'];
 			$f_event['color'] = $event['Color'];
+			$f_event['independent'] = $event['EventType'] == "indep_event" ? "true" : "false";
 			return $f_event;
 		}
 

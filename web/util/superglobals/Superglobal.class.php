@@ -13,7 +13,7 @@
 	 * It provides methods for checking :
 	 * <ul>
 	 *   <li>the presence or absence of a key</li>
-	 *	 <li>the validity of a value associated with a key</li>
+	 *	 <li>the validity of a value associated with a key with some callback</li>
 	 * </ul>
 	 */
 	abstract class Superglobal
@@ -33,16 +33,19 @@
 
 		// data members
 		protected $superglobal; /**< @brief A reference to the superglobal array */
-
-		//debug member
-		private $debug_mode;
+		private $debug_mode; /**< @brief Boolean value : true if the object is in debug mode, false otherwise (in debug mode, the 
+									 function check_keys dumps a message for each key that causes an error) */
 		
-		public function __construct(){
-			$debug_mode = false;
+		/**
+		 * @brief Constructor
+		 */
+		public function __construct()
+		{
+			$debug_mode = true;
 		}
 		
 		/**
-		 * @brief enable debug mode, the name of the failed to check key will be print 
+		 * @brief Enable debug mode, the name of the failed to check key will be print 
 		 * on the stanart output
 		 */
 		public function set_debug_mode(){
@@ -109,7 +112,8 @@
 			foreach ($keys as $key) 
 			{
 				$code = $this->check($key, $chk, $callback);
-				if($code < 0){
+				if($code < 0)
+				{
 					if($this->debug_mode)
 						echo "Check failed for key : ".$key."<br>";
 					return $code;

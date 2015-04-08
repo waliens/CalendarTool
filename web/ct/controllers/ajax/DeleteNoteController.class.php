@@ -12,10 +12,13 @@ use ct\models\events\EventModel;
 use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
-/**
- * @class Event
- * @brief Class for handling the control of event
- */
+	/**
+	 * @class DeleteNoteController
+	 * @brief Request Nr : 044
+	 * 		INPUT :	{id_event}
+  	 * 		OUTPUT : 
+ 	 * 		Method : POST
+	 */
 
 class DeleteNoteController extends AjaxController
 {

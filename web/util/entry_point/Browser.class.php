@@ -20,7 +20,8 @@
 
     /**
      * @class Browser
-     * @brief This class must be implemented by any request handler
+     * @brief This class is the entry point for any browser request received by the application 
+     * Its role is to instantiate the correct controller based on the request parameters 
      */
     class Browser implements EntryPoint
     {
@@ -62,7 +63,7 @@
             case "ask_data":
                 return new AskUserDataController();
             default:
-                return new CalendarPageController();
+                return new CalendarPageController(); // default page is the calendar one
             }
         }
     };

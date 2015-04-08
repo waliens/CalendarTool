@@ -16,9 +16,9 @@
 	 */
 	abstract class Model
 	{
-		protected $pdo; /**< @brief pdo object */
-		protected $sql; /**< @brief sql abstract object */
-		protected $filter; /**< @brief phpSec Filter object */
+		protected $pdo; /**< @brief A PDO object */
+		protected $sql; /**< @brief A SQL abstract object */
+		protected $filter; /**< @brief A phpSec Filter object */
 
 		const LOCKMODE_NO_LOCK = 1; /**< @brief Lock behaviour : no lock must be acquired */
 		const LOCKMODE_LOCK    = 2; /**< @brief Lock behaviour : only acquire the lock (no unlock) */

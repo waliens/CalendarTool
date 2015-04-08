@@ -15,7 +15,7 @@
 
 	/**
 	 * @class FileModel
-	 * @brief A class for handling files that are store
+	 * @brief A class for handling uploaded files and related database queries
 	 */
 	class FileModel extends Model
 	{

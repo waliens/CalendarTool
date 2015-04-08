@@ -13,8 +13,11 @@ use util\mvc\AjaxController;
 use util\superglobals\Superglobal;
 
 /**
- * @class PrivateEventController
- * @brief Class for handling the create private event request
+ * @class EditPrivateEventController
+ * @brief Request Nr : 065
+ * 		INPUT : {id, name, details, where, limit, start, end, type, recursiveID, applyRecursive}
+ * 		OUTPUT :
+ * 		Method : POST
  */
 class EditPrivateEventController extends AjaxController
 {
@@ -52,7 +55,7 @@ class EditPrivateEventController extends AjaxController
 			
 			$start = new DateTime($this->sg_post->value('start'));
 			$end = new DateTime($this->sg_post->value('end'));
-			if($start->format("H:i:s") == "0:0:0" && $end->format("H:i:s") == "0:0:0")
+			if($this->sg_post->value("entireDay") == "true")
 				$model->setDate($this->sg_post->value("id"), "Date", $start, $end,true);
 			else 
 				$model->setDate($this->sg_post->value("id"), "TimeRange", $start, $end,true);				
@@ -70,7 +73,7 @@ class EditPrivateEventController extends AjaxController
 		$ret = false;
 		if($this->sg_post->value('applyRecursive') == "true")
 		{
-				$ret = $model->modifyEvent(array("recurrence" => $this->sg_post->value('recurrenceId')), $data, true);
+				$ret = $model->modifyEvent(array("id_recurrence" => $this->sg_post->value('recursiveID')), $data, true);
 		}
 		else
 			$ret = $model->modifyEvent(array("id_event" => $this->sg_post->value('id')), $data);

@@ -16,10 +16,13 @@
 	use ct\models\filters\AccessFilter;
 	use ct\models\filters\RecurrenceFilter;
 	use ct\models\FilterCollectionModel;
-
-	/** 
+	
+	/**
 	 * @class ViewGlobalEventController
-	 * @brief A class for handling the view global event request
+	 * @brief Request Nr : 032
+	 * 		INPUT :{event_id}
+	 * 		OUTPUT :{id, id_ulg, owner_id, name, name_short, description, feedback, period, language, acad_year, workload={th:, pr:, au:, st:}, pathways:[{id, name}], subevents:[{id, name,recurrence,recurrence_type,start,end}], team:[{id, name, surname, role}]}
+	 * 		Method : GET
 	 */
 	class ViewGlobalEventController extends AjaxController
 	{
@@ -99,8 +102,8 @@
 				$f_event['name'] = $subevent['Name'];
 				$f_event['recurrence'] = $subevent['Id_Recurrence'] > 1;
 				$f_event['recurrence_type'] = $subevent['Id_Recur_Category'];
-				$f_event['start'] = $subevent['Start'];
-				$f_event['end'] = $subevent['End'];
+				$f_event['start'] = \ct\date_sql2fullcalendar($subevent['Start']);
+				$f_event['end'] = \ct\date_sql2fullcalendar($subevent['End']);
 
 				$formatted_glob['subevents'][] = $f_event; 
 			}

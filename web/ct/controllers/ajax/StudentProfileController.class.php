@@ -12,9 +12,12 @@
 	use ct\models\PathwayModel;
 	use ct\models\UserModel;
 
-	/** 
+		/**
 	 * @class StudentProfileController
-	 * @brief A class for handling the get student profile request
+	 * @brief Request Nr : 011
+	 * 		INPUT : 
+	 * 		OUTPUT : {firstName, lastName, email, pathway:{ id, nameLong, nameShort}, courses:{mandatory:[{id,code, lib_cours_complet}], optional:[{id,code, lib_cours_complet, selected}]}}
+	 * 		Method : POST
 	 */
 	class StudentProfileController extends AjaxController
 	{

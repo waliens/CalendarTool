@@ -15,9 +15,12 @@
 	use ct\models\TeachingRoleModel;
 	use ct\models\events\IndependentEventModel;
 
-	/**
+/**
 	 * @class GetUsersAndPathwaysController
-	 * @brief A class for handling the request 087 -> getting all the pathways and all the users 
+	 * @brief Request Nr : 087
+	 * 		INPUT : {id_event}
+	 * 		OUTPUT : {pathways:[{id, name}], team:[{id, name, surname}, roles:{id, role}]}
+	 * 		Method : POST
 	 */
 	class GetUsersAndPathwaysController extends AjaxController
 	{
@@ -53,6 +56,11 @@
 				// get the all users
 				$user_mod = new UserModel();
 				$users = $user_mod->get_users();
+				
+				// remove the currently connected user
+				$connected_id = $this->connection->user_id();
+				$users = array_filter($users, function(array& $row) use ($connected_id) { return intval($row['Id_User']) != intval($connected_id); });
+				$users = array_values($users);
 			}
 			
 			$users = \ct\darray_transform($users, array("Name" => "name", "Surname" => "surname", "Id_User" => "id"));

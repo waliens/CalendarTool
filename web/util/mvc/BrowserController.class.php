@@ -9,7 +9,7 @@
 
 	/**
 	 * @class BrowserController
-	 * @brief A base class for any controller that is made for handling requests from the browser
+	 * @brief A base class for any controller that is made for handling requests from a browser
 	 */
 	abstract class BrowserController extends Controller
 	{
