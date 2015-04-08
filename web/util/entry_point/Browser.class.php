@@ -49,6 +49,8 @@
 
             switch($page)
             {
+            case "disconnect":
+                $this->connection->disconnect();
             case "profile":
 
                 if($connection->user_is_student())

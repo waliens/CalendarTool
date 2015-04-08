@@ -7,7 +7,6 @@
 
 	namespace ct;
 
-
 	use util\superglobals\Superglobal;
 	use util\superglobals\SG_Session;
 	use util\superglobals\SG_Post;
@@ -45,8 +44,8 @@
 		 * @brief Construct a Connection objects
 		 * @note Trigger a 401 HTTP error if the server issuing the request is not the ULg SSO
 		 * @note Redirect the user to the ulg logout page if the authentication fails
-		 * 
-		 * @todo enable proper server checking and authentication 
+		 *
+		 * @todo enable proper server checking and authentication
 		 */
 		private function __construct()
 		{
@@ -56,21 +55,10 @@
 			// set the http headers variables
 			$this->extract_http_headers();
 
-		//	$this->remote_user = "s060934"; // 3e BAC 
-		//	$this->remote_user = "s114352"; // 2e BAC
-		//	$this->remote_user = "s023178";
-		//	$this->remote_user = "u013317"; // Pascal Gribomont
-			$this->remote_user = "u216357"; // Benoit Donnet
-		//	$this->remote_user = "u013316"; // TA nicolas lorent
-
-			// TMP : to prevent double refresh when the user is changed
-			$this->connect($this->remote_user);
-			// TMP
-
 			if(!$this->is_connected()) // no previous connection
 				$this->connect($this->remote_user);
 			else if($this->user_ulg_id() !== $this->remote_user) // the user sending the queryis not the same as the previous one
-				$this->disconnect(); 
+				$this->disconnect();
 
 			// redirect the user if he hasn't given his credentials yet
 			if(!$this->user_mod->user_subscription_complete($this->user_id()) && (!isset($_GET['page']) || $_GET['page'] !== "ask_data"))
@@ -86,8 +74,8 @@
 		{
 			$this->remote_user = null;
 
-			foreach (getallheaders() as $key => $value) 
-				switch (strtolower($key)) 
+			foreach (getallheaders() as $key => $value)
+				switch (strtolower($key))
 				{
 				case 'x-remote-user':
 					$this->remote_user = $value;
@@ -112,8 +100,9 @@
 		 */
 		public function is_connected()
 		{
-			return $this->sess->check("ulg_id") == Superglobal::ERR_OK 
-					&& $this->sess->check("user_id") == Superglobal::ERR_OK;
+			return $this->sess->check("ulg_id") == Superglobal::ERR_OK
+					&& $this->sess->check("user_id") == Superglobal::ERR_OK
+					&& intval($this->sess->value("user_id")) > 0;
 		}
 
 		/**
@@ -136,13 +125,13 @@
 
  		/**
  		 * @brief Return the ulg id of the currently connected user
- 		 * @retval string the ulg id 
+ 		 * @retval string the ulg id
  		 */
 		public function user_ulg_id()
 		{
-			if(!$this->is_connected())
+			if($this->sess->check("ulg_id") < 0)
 				throw new \Exception("User not connected");
-		
+
 			return $this->sess->value("ulg_id");
 		}
 
@@ -152,9 +141,9 @@
  		 */
 		public function user_id()
 		{
-			if(!$this->is_connected())
+			if($this->sess->check("user_id") < 0)
 				throw new \Exception("User not connected");
-		
+
 			return $this->sess->value("user_id");
 		}
 
@@ -174,9 +163,9 @@
 			// if it doesn't work and that the user is a faculty staff member his account is created anyway
 			// otherwise disconnect the user because his account couldn't be created
 			if(!$this->user_mod->user_exists($ulg_id)
-				 && !$this->user_mod->create_user($ulg_id) 
-				 && !UserModel::is_student_id($ulg_id) 
-				 && $this->user_mod->create_unkown_faculty_staff($this->user_ulg_id()))
+				 && !$this->user_mod->create_user($ulg_id)
+				 && (UserModel::is_student_id($ulg_id)
+				 		|| !$this->user_mod->create_unknown_faculty_staff($ulg_id)))
 				$this->disconnect();
 
 			$_SESSION['user_id'] = $this->user_mod->get_user_id_by_ulg_id($ulg_id);
@@ -208,7 +197,7 @@
 
 			session_destroy();
 
-			//new Redirection("http://www.intranet.ulg.ac.be/logout");
+			new Redirection("http://www.intranet.ulg.ac.be/logout");
 			exit();
 		}
 
